@@ -1,0 +1,22 @@
+server:
+  port: 8222
+
+spring:
+    cloud:
+        gateway:
+            discovery:
+                locator:
+                    enabled: true
+                    lower-case-service-id: true  # important
+
+            routes:
+                # AUTH SERVICE
+                - id: auth-identity-service
+                  uri: lb://auth-identity-service
+                  predicates:
+                      - Path=/api/auth/**, /api/users/**, /api/menu/**,
+                # TENANT SERVICE
+                - id: tenant-service
+                  uri: lb://tenant-service
+                  predicates:
+                      - Path=/api/tenants/**

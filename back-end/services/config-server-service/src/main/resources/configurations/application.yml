@@ -1,0 +1,8 @@
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+spring:
+  config:
+    import:
+      - "classpath:common-properties.yml"

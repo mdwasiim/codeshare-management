@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: gateway-service
+  config:
+      import: "optional:configserver:http://localhost:8888"
+
+
+swagger:
+  services:
+    - name: AUTH  AND INENDITY SERVICE
+      serviceId: auth-identity-service
+      docsPath: /v3/api-docs
+      path:
+        - auth
+        - users
+
+    - name: TENANT SERVICE
+      serviceId: tenant-service
+      docsPath: /v3/api-docs
+      path:
+        - tenant
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    urls:
+      - name: AUTH SERVICE
+        url: /api-docs/auth
+      - name: TENANT SERVICE
+        url: /api-docs/tenant
