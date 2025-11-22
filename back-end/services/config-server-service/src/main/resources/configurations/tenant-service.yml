@@ -1,0 +1,4 @@
+server:
+  port: 8103
+  servlet:
+    context-path: /api/tenant

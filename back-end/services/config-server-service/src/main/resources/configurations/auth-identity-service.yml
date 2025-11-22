@@ -1,0 +1,15 @@
+server:
+  port: 8101
+  servlet:
+    context-path: /api/auth
+
+jwt:
+  secret: MySuperSecretKey12345678901234567890
+  access-expiration: 86400000
+  refresh-expiration: 172800000
+
+logging:
+  level:
+    com.codeshare.airline.auth: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
