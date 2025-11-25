@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        prefer-ip-address: true
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes:
+        # AUTH SERVICE
+        - id: auth-identity-service
+          uri: lb://auth-identity-service
+          predicates:
+            - Path=/auth/**
+
+        # TENANT SERVICE
+        - id: tenant-service
+          uri: lb://tenant-service
+          predicates:
+            - Path=/tenant/**
+
+# Swagger Aggregation (Custom)
+swagger:
+  services:
+    - name: AUTH AND IDENTITY SERVICE
+      serviceId: auth-identity-service
+      docsPath: /v3/api-docs
+      paths:
+        - auth
+        - users
+
+    - name: TENANT SERVICE
+      serviceId: tenant-service
+      docsPath: /v3/api-docs
+      paths:
+        - tenant
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    urls:
+      - name: AUTH SERVICE
+        url: /auth/v3/api-docs
+      - name: TENANT SERVICE
+        url: /tenant/v3/api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
