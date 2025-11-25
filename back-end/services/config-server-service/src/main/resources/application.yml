@@ -1,16 +1,31 @@
-server:
-  port: 8888
-
 spring:
   application:
     name: config-server-service
-
-  profiles:
-    active: native
 
   cloud:
     config:
       server:
         native:
-          search-locations: classpath:/configurations
+          search-locations: classpath:/configurations/{profile}
 
+  profiles:
+    active: dev       # DEFAULT profile ALWAYS
+    group:
+      dev: native, dev
+      stg: native, stg
+      prd: native, prd      # change this to stg or prd when needed
+
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+
+server:
+  port: 8888
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh

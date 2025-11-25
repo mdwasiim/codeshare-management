@@ -1,21 +1,24 @@
 spring:
   application:
-    name: auth-identity-service
-
-  config:
-    import: "optional:configserver:http://localhost:8888"
+    name: tenant-service
 
   cloud:
     consul:
       host: localhost
       port: 8500
       discovery:
-        service-name: auth-identity-service
         register: true
         prefer-ip-address: true
 
 server:
-  port: 8101
+  port: 8103
+  servlet:
+    context-path: /api/tenant
+
+# tenant-specific properties
+app:
+  tenant:
+    default-schema: public
 
 management:
   endpoints:
