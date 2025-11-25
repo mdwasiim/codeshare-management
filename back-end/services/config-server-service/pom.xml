@@ -1,7 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -15,22 +14,38 @@
 	<artifactId>config-server-service</artifactId>
 	<packaging>jar</packaging>
 	<name>Config Server Service</name>
-	<description>config server microservices</description>
+	<description>Centralized configuration service for microservices</description>
 
 	<dependencies>
+
+		<!-- Spring Boot Web (required for serving config) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- Config Server Core -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-server</artifactId>
 		</dependency>
+
+		<!-- Register config server into Consul -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
+		</dependency>
+
+		<!-- Actuator for health/refresh endpoints -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
-			<!-- Compiler Plugin (Java 21) -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
 
 			<!-- Spring Boot Plugin -->
 			<plugin>
@@ -40,6 +55,7 @@
 					<mainClass>com.codeshare.airline.config.ConfigServerServiceApplication</mainClass>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 

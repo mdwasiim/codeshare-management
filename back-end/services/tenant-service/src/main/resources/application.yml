@@ -1,5 +1,24 @@
 spring:
   application:
     name: tenant-service
+
   config:
     import: "optional:configserver:http://localhost:8888"
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: tenant-service
+        register: true
+        prefer-ip-address: true
+
+server:
+  port: 8103
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

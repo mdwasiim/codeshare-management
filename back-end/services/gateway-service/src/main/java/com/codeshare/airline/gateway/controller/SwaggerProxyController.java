@@ -1,13 +1,16 @@
 package com.codeshare.airline.gateway.controller;
 
 import com.codeshare.airline.gateway.config.SwaggerServicesConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -16,12 +19,13 @@ public class SwaggerProxyController {
 
     private final SwaggerServicesConfig swaggerConfig;
     private final RouteLocator routeLocator;
-    private final RestTemplate restTemplate;
+    private final WebClient webClient   ;
 
-    public SwaggerProxyController(SwaggerServicesConfig swaggerConfig, RouteLocator routeLocator, RestTemplate restTemplate) {
+    @Autowired
+    public SwaggerProxyController(SwaggerServicesConfig swaggerConfig, RouteLocator routeLocator, WebClient webClient) {
         this.swaggerConfig = swaggerConfig;
         this.routeLocator = routeLocator;
-        this.restTemplate = restTemplate;
+        this.webClient = webClient;
     }
 
     @GetMapping("/{service}")
@@ -41,20 +45,21 @@ public class SwaggerProxyController {
         return routeLocator.getRoutes()
                 .filter(r -> r.getId().equals(config.getServiceId()))
                 .next()
-                .map(route -> {
+                .flatMap(route -> {
 
-                    String targetUri = route.getUri().toString();
-                    if (targetUri.endsWith("/")) targetUri = targetUri.substring(0, targetUri.length() - 1);
-
+                    String targetUri = route.getUri().toString().replaceAll("/$", "");
                     String fullUrl = targetUri + config.getDocsPath();
 
-                    try {
-                        String json = restTemplate.getForObject(fullUrl, String.class);
-                        return ResponseEntity.ok(json);
-                    } catch (Exception e) {
-                        return ResponseEntity.status(503)
-                                .body("{\"error\":\"Unable to reach: " + fullUrl + "\"}");
-                    }
+                    return webClient.get()
+                            .uri(fullUrl)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .retrieve()
+                            .bodyToMono(String.class)
+                            .map(ResponseEntity::ok)
+                            .onErrorReturn(ResponseEntity
+                                    .status(503)
+                                    .body("{\"error\": \"Unable to reach: " + fullUrl + "\"}")
+                            );
                 });
     }
 }
