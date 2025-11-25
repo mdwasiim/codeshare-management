@@ -8,13 +8,13 @@
 		<groupId>com.codeshare.airline</groupId>
 		<artifactId>codeshare-management</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-			<relativePath>../../pom.xml</relativePath>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>auth-identity-service</artifactId>
 	<packaging>jar</packaging>
 	<name>Auth Identity Service</name>
-	<description>Authentication  and RBAC microservice</description>
+	<description>Authentication and RBAC microservice</description>
 
 	<dependencies>
 
@@ -22,6 +22,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- Validation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
 		<!-- JPA -->
@@ -36,15 +42,22 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-		<!-- Swagger (WebMVC UI + Common) -->
+		<!-- Actuator (Recommended) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Consul Discovery -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
+		</dependency>
+
+		<!-- Swagger / OpenAPI -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-common</artifactId>
 		</dependency>
 
 		<!-- JWT -->
@@ -81,21 +94,17 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Internal shared module -->
+		<!-- Shared Module -->
 		<dependency>
 			<groupId>com.codeshare.airline</groupId>
 			<artifactId>common-service</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
-			<!-- Compiler Plugin (Java 21) -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
 
 			<!-- Spring Boot Plugin -->
 			<plugin>
@@ -105,6 +114,7 @@
 					<mainClass>com.codeshare.airline.auth.AuthServiceApplication</mainClass>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
