@@ -4,6 +4,7 @@ import com.codeshare.airline.auth.entities.identity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,10 +25,11 @@ import java.util.UUID;
 public class RefreshToken {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name="uuid2", strategy="org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "uuid", nullable = false, updatable = false)
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+
 
     @Column(nullable = false, unique = true, length = 500)
     private String token;

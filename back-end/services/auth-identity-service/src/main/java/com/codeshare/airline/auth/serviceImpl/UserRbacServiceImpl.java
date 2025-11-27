@@ -12,21 +12,15 @@ import com.codeshare.airline.common.auth.model.MenuDTO;
 import com.codeshare.airline.common.auth.model.PermissionDTO;
 import com.codeshare.airline.common.auth.model.RoleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.codeshare.airline.common.constant.RedisCacheConstant.USER_RBAC;
-import static com.codeshare.airline.common.constant.RedisCacheConstant.USER_RBAC_KEY;
-
 @Service
 @Transactional(readOnly = true)
-@CacheConfig(cacheNames = USER_RBAC)   // ✅ Applied at class level
+//@CacheConfig(cacheNames = USER_RBAC)   // ✅ Applied at class level
 public class UserRbacServiceImpl implements UserRbacService {
 
     private final UserRepository userRepository;
@@ -48,13 +42,13 @@ public class UserRbacServiceImpl implements UserRbacService {
     // ---------------------------------------------
 
     @Override
-    @Cacheable(key = USER_RBAC_KEY)
+    //@Cacheable(key = USER_RBAC_KEY)
     public UserRbacResponse resolveUserRbac(UUID userId) {
         return computeRbac(userId); // Spring caches the output automatically
     }
 
     @Override
-    @CacheEvict(key = USER_RBAC_KEY)
+    //@CacheEvict(key = USER_RBAC_KEY)
     public void invalidateUserRbacCache(UUID userId) {
         // Nothing else needed — cache entry is removed automatically
     }

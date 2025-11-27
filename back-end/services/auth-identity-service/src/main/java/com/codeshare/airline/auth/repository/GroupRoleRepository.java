@@ -8,13 +8,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GroupRoleRepository extends JpaRepository<GroupRole, UUID> {
-    Optional<GroupRole> findByName(String adminGroup);
+    Optional<GroupRole> findByGroup_Name(String adminGroup);
 
-    List<GroupRole> findByGroupId(UUID groupId);
+    List<GroupRole> findByGroup_Id(UUID groupId);
 
-    List<GroupRole> findByRoleId(UUID roleId);
+    List<GroupRole> findByRole_Id(UUID roleId);
 
-    boolean existsByGroupIdAndRoleId(UUID groupId, UUID roleId);
+    boolean existsByGroup_IdAndRole_Id(UUID groupId, UUID roleId);
 
 
 }
