@@ -1,0 +1,35 @@
+logging:
+  level:
+    com:
+      codeshare:
+        airline: TRACE
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh
+  tracing:
+    sampling:
+      probability: 1
+spring:
+  cloud:
+    consul:
+      discovery:
+        health-check-interval: 15s
+        health-check-path: /actuator/health
+        prefer-ip-address: true
+        register: true
+      host: localhost
+      port: 8500
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true

@@ -5,13 +5,14 @@ import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "groups")  // 'group' is reserved
+@Table(name = "`groups`")  // 'group' is reserved
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,10 +21,11 @@ import java.util.UUID;
 public class Group {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "uuid", nullable = false, updatable = false)
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+
 
     @Column(nullable = false, length = 200)
     private String code;
@@ -35,7 +37,7 @@ public class Group {
     private String description;
 
     // Correct — just store tenantId
-    @Column(name = "tenant_id", nullable = false, columnDefinition = "uuid")
+    @Column(name = "tenant_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID tenantId;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
