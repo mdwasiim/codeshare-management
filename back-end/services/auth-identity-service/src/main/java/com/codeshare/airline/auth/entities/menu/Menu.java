@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.*;
 
@@ -23,10 +24,11 @@ import java.util.*;
 public class Menu {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "uuid", nullable = false, updatable = false)
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+
 
     @Column(nullable = false, length = 200)
     private String name;
@@ -62,11 +64,11 @@ public class Menu {
     private List<Menu> children = new ArrayList<>();
 
     // FIXED → store only tenantId
-    @Column(name = "tenant_id", nullable = false, columnDefinition = "uuid")
+    @Column(name = "tenant_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID tenantId;
 
     // FIXED → store organizationId as UUID only (optional)
-    @Column(name = "organization_id", columnDefinition = "uuid")
+    @Column(name = "organization_id", columnDefinition = "BINARY(16)")
     private UUID organizationId;
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -16,7 +16,7 @@ public class TenantDataSource  {
 
     @Id
     @GeneratedValue
-    @Column(columnDefinition = "uuid")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(nullable = false, length = 50)

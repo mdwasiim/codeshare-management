@@ -39,7 +39,7 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
     @Override
     public GroupRoleDTO assignRoleToGroup(UUID groupId, UUID roleId) {
 
-        if (repo.existsByGroupIdAndRoleId(groupId, roleId)) {
+        if (repo.existsByGroup_IdAndRole_Id(groupId, roleId)) {
             throw new RuntimeException("Role already assigned to this group");
         }
 
@@ -59,7 +59,7 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
 
     @Override
     public void removeRoleFromGroup(UUID groupId, UUID roleId) {
-        repo.findByGroupId(groupId).stream()
+        repo.findByGroup_Id(groupId).stream()
                 .filter(x -> x.getRole().getId().equals(roleId))
                 .findFirst()
                 .ifPresent(repo::delete);
@@ -67,11 +67,11 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
 
     @Override
     public List<GroupRoleDTO> getRolesByGroup(UUID groupId) {
-        return mapper.toDTOList(repo.findByGroupId(groupId));
+        return mapper.toDTOList(repo.findByGroup_Id(groupId));
     }
 
     @Override
     public List<GroupRoleDTO> getGroupsByRole(UUID roleId) {
-        return mapper.toDTOList(repo.findByRoleId(roleId));
+        return mapper.toDTOList(repo.findByGroup_Id(roleId));
     }
 }

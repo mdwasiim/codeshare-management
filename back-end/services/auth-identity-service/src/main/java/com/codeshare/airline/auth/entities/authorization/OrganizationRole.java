@@ -4,6 +4,7 @@ import com.codeshare.airline.auth.entities.identity.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
@@ -20,13 +21,14 @@ import java.util.UUID;
 public class OrganizationRole {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name="uuid2", strategy="org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "uuid", nullable = false, updatable = false)
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
+
     // NOTE: No JPA relation to Organization (tenant-service)
-    @Column(name = "organization_id", nullable = false, columnDefinition = "uuid")
+    @Column(name = "organization_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID organizationId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -2,30 +2,22 @@ spring:
   application:
     name: config-server-service
 
+  profiles:
+    active: dev       # <--- AUTO-ACTIVATE DEV PROFILE
+    group:
+      dev: native
+      stg: native
+      prd: native
+
   cloud:
     config:
       server:
+        git:
+          enabled: false
         native:
-          search-locations: classpath:/configurations/{profile}
-
-  profiles:
-    active: dev       # DEFAULT profile ALWAYS
-    group:
-      dev: native, dev
-      stg: native, stg
-      prd: native, prd      # change this to stg or prd when needed
-
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        register: true
+          search-locations:
+            - classpath:/configurations/{profile}
+            - file:./configurations/{profile}
 
 server:
   port: 8888
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,refresh

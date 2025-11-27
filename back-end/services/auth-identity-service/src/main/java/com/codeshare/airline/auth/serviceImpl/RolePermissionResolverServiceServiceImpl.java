@@ -73,7 +73,7 @@ public class RolePermissionResolverServiceServiceImpl implements RolePermissionR
             UUID groupId = ugr.getGroup().getId();
 
             List<GroupRole> groupRoles =
-                    groupRoleRepository.findByGroupId(groupId);
+                    groupRoleRepository.findByGroup_Id(groupId);
 
             roles.addAll(groupRoles.stream()
                     .map(gr -> gr.getRole())

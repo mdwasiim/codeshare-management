@@ -1,3 +1,4 @@
+/*
 package com.codeshare.airline.auth.utils.data;
 
 
@@ -19,14 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-/**
- * Auth RBAC DataLoader (tenantCode / organizationCode based)
- *
- * Reference tenant loader: /mnt/data/4a995fc6-05c3-4209-904b-294691c6406d.java
- *
- * NOTE: This loader does NOT use TenantRepository or OrganizationRepository
- * (auth-service must remain independent from tenant-service).
- */
+
 @Component
 @RequiredArgsConstructor
 public class IdentityDataLoader {
@@ -80,7 +74,8 @@ public class IdentityDataLoader {
         // ---------------------------
         // Menus
         // ---------------------------
- /*       List<Menu> menus = Arrays.asList(
+ */
+/*       List<Menu> menus = Arrays.asList(
                 Menu.builder().code("DASHBOARD").title("Dashboard").url("/dashboard").orderIndex(10).build(),
                 Menu.builder().code("USER_MGMT").title("User Management").url("/users").orderIndex(20).build(),
                 Menu.builder().code("ROLE_MGMT").title("Roles").url("/roles").orderIndex(30).build(),
@@ -93,7 +88,8 @@ public class IdentityDataLoader {
         );
         menuRepo.saveAll(menus);
         Map<String, Menu> menuMap = new HashMap<>();
-        menus.forEach(m -> menuMap.put(m.getCode(), m));*/
+        menus.forEach(m -> menuMap.put(m.getCode(), m));*//*
+
 
 
         // ----- MENUS -----
@@ -276,3 +272,4 @@ public class IdentityDataLoader {
         System.out.println("RBAC initial data load complete (auth-service) for all tenants.");
     }
 }
+*/
