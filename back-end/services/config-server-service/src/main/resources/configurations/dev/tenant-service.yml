@@ -1,27 +1,11 @@
 spring:
   application:
     name: tenant-service
-
-  cloud:
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        register: true
-        prefer-ip-address: true
-
+  config:
+    import:
+      - classpath:/configurations/dev/common-properties.yml
+      - classpath:/configurations/dev/common-db.yml
 server:
-  port: 8103
+  port: 8082
   servlet:
     context-path: /api/tenant
-
-# tenant-specific properties
-app:
-  tenant:
-    default-schema: public
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info

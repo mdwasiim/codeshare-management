@@ -4,7 +4,7 @@ import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
 import com.codeshare.airline.auth.entities.authorization.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -21,10 +21,11 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "uuid", nullable = false, updatable = false)
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+
 
     @Column(nullable = false, unique = true, length = 150)
     private String username;
@@ -55,15 +56,15 @@ public class User {
     private LocalDateTime updatedAt;
 
     // Correct: store only tenantId, not Tenant entity
-    @Column(name = "tenant_id", nullable = false, columnDefinition = "uuid")
+    @Column(name = "tenant_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID tenantId;
 
     // Optional: keep track of user's organization (but store only ID)
-    @Column(name = "organization_id", columnDefinition = "uuid")
+    @Column(name = "organization_id", columnDefinition = "BINARY(16)")
     private UUID organizationId;
 
     // Optional: primary business user group (department)
-    @Column(name = "user_group_id", columnDefinition = "uuid")
+    @Column(name = "user_group_id", columnDefinition = "BINARY(16)")
     private UUID userGroupId;
 
     // Identity relationships (allowed)
