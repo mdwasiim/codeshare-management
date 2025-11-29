@@ -15,4 +15,6 @@ public interface MenuRepository extends JpaRepository<Menu, UUID> {
     List<Menu> findByTenantIdAndParentMenuIsNull(UUID tenantId);
 
     boolean existsByNameAndTenantId(String name, UUID tenantId);
+
+    Optional<Menu> findByCode(String dashboard);
 }

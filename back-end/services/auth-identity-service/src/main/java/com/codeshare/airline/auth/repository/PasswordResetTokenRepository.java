@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.repository;
 
 
-import com.codeshare.airline.auth.entities.auth.PasswordResetToken;
+import com.codeshare.airline.auth.entities.authToken.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

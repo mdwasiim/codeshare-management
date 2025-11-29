@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "`groups`")  // 'group' is reserved
+@Table(name = "auth_groups")  // 'group' is reserved
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,8 +21,8 @@ import java.util.UUID;
 public class Group {
 
     @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
+   // @GeneratedValue
+    //@UuidGenerator(style = UuidGenerator.Style.TIME)
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
