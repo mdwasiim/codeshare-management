@@ -15,12 +15,18 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditEntityListener.class)
 public abstract class AuditFields implements Auditable {
 
-    @Column(updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "created_by", length = 100, updatable = false)
     private String createdBy;
 
+    @Column(name = "updated_by", length = 100)
     private String updatedBy;
+
+    @Column(name = "transaction_id", length = 50, updatable = false)
+    private String transactionId;
 }
