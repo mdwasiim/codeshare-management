@@ -1,3 +1,4 @@
+/*
 package com.codeshare.airline.common.utils.config.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -54,3 +55,4 @@ public class RedisConfig {
         return template;
     }
 }
+*/

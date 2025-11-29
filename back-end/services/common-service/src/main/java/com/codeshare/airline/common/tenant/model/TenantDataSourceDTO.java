@@ -1,6 +1,7 @@
 package com.codeshare.airline.common.tenant.model;
 
 
+import com.codeshare.airline.common.audit.AuditBaseDto;
 import lombok.*;
 
 import java.util.UUID;
@@ -10,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TenantDataSourceDTO {
+public class TenantDataSourceDTO extends AuditBaseDto {
 
     private UUID id;
 
@@ -26,4 +27,5 @@ public class TenantDataSourceDTO {
     private Boolean active;
 
     private UUID tenantId;        // Foreign key reference to Tenant
+
 }

@@ -2,6 +2,7 @@ package com.codeshare.airline.auth.entities.authToken;
 
 
 import com.codeshare.airline.auth.entities.identity.User;
+import com.codeshare.airline.common.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -13,13 +14,7 @@ import java.util.UUID;
 @Table(name = "password_reset_tokens")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
-public class PasswordResetToken {
-
-    @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+public class PasswordResetToken extends AbstractEntity {
 
 
     @Column(nullable = false, unique = true)

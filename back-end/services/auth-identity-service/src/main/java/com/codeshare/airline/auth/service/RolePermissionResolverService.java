@@ -9,7 +9,11 @@ import java.util.UUID;
 
 public interface RolePermissionResolverService {
 
-    Set<RoleDTO> resolveRoleNames(UUID userId, UUID tenantId);
+    Set<String> resolveRoleNames(UUID userId, UUID tenantId);
 
-    Set<PermissionDTO> resolvePermissionsNames(UUID userId, UUID tenantId);
+    Set<String> resolvePermissionsNames(UUID userId, UUID tenantId);
+
+    Set<RoleDTO> resolveRoles(UUID userId, UUID tenantId);
+
+    Set<PermissionDTO> resolvePermissions(UUID userId, UUID tenantId);
 }
