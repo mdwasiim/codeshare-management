@@ -8,4 +8,7 @@ public interface Auditable {
 
     void setCreatedBy(String user);
     void setUpdatedBy(String user);
+
+    void setTransactionId(String txnId);
+
 }
