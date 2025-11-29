@@ -8,31 +8,29 @@ spring:
       - common-db-dev.yml
 
   cloud:
-    consul:
-      discovery:
-        watch:
-          enabled: false
-
     gateway:
-      server:
-        routes:
-          - id: auth-identity-service
-            uri: lb://auth-identity-service
-            predicates:
-              - Path=/auth/**
-          - id: tenant-service
-            uri: lb://tenant-service
-            predicates:
-              - Path=/tenant/**
+      routes:
 
-        webflux:
-          filter:
-            weight:
-              enabled: false
+        # AUTH SERVICE
+        - id: auth-identity-service
+          uri: lb://auth-identity-service
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            - RewritePath=/(?<segment>.*), /api/auth/${segment}
+
+        # TENANT SERVICE
+        - id: tenant-service
+          uri: lb://tenant-service
+          predicates:
+            - Path=/tenant/**
+          filters:
+            - StripPrefix=1
+            - RewritePath=/(?<segment>.*), /api/tenant/${segment}
 
 server:
   port: 8080
-
 
 swagger:
   services:

@@ -1,5 +1,6 @@
 package com.codeshare.airline.common.tenant.model;
 
+import com.codeshare.airline.common.audit.AuditBaseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TenantDTO {
+public class TenantDTO extends AuditBaseDto {
 
     private UUID id;
     private String name;
@@ -41,4 +42,5 @@ public class TenantDTO {
     private String contactPhone;
     private String logoUrl;
     private String region;
+
 }

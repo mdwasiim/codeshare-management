@@ -6,6 +6,10 @@ spring:
     import:
       - common-properties-dev.yml
       - common-db-dev.yml
+  cloud:
+    consul:
+      discovery:
+        health-check-path: /api/tenant/actuator/health
 
 server:
   port: 8082
