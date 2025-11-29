@@ -1,12 +1,9 @@
 package com.codeshare.airline.tenant.entities;
 
 
+import com.codeshare.airline.common.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UuidGenerator;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "user_groups")
@@ -15,13 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserGroup {
-
-    @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+public class UserGroup extends AbstractEntity {
 
 
     @Column(nullable = false, length = 200)

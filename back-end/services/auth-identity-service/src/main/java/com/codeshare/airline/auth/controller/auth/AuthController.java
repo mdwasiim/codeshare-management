@@ -6,9 +6,12 @@ import com.codeshare.airline.common.auth.model.AuthRequest;
 import com.codeshare.airline.common.auth.model.AuthResponse;
 import com.codeshare.airline.common.auth.model.RefreshTokenRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,9 +38,28 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request){
-        authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()) );
-        return  ResponseEntity.ok(authservice.getLoginToken(request.getUsername()));
+    public ResponseEntity<?> login(@RequestBody AuthRequest request){
+        try {
+            // Authenticate user
+            Authentication authentication = authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+
+            // If authentication is successful -> Generate JWT
+            AuthResponse response = authservice.getLoginToken(authentication.getName());
+
+            return ResponseEntity.ok(response);
+
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "error", "Invalid username or password",
+                            "status", 401
+                    ));
+        }
     }
 
     @PostMapping("/refresh")

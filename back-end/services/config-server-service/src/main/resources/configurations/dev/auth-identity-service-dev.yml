@@ -5,11 +5,16 @@ spring:
     import:
       - common-properties-dev.yml
       - common-db-dev.yml
+  cloud:
+    consul:
+      discovery:
+        health-check-path: /api/auth/actuator/health
 server:
   port: 8081
   servlet:
     context-path: /api/auth
 jwt:
-  secret: MySuperSecretKey12345678901234567890
+  secret: ZU8sFYybNJiAZ7N8e+uX/TsoRMA6C3G4cGNcObG4zC2P8hP6lvczGBpQZlM+BRmN0f/wKt9lx3l7lMVOWhEneQ==
   access-expiration: 86400000
   refresh-expiration: 172800000
+

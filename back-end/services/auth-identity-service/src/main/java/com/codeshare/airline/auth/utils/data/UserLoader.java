@@ -6,6 +6,8 @@ import com.codeshare.airline.common.utils.UuidUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.UUID;
 public class UserLoader {
 
     private final UserRepository repo;
+
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
 
     private static final List<String> TENANTS = List.of(
             "CSM","QAIR","EMIR","LUFTH","DELTA","AIND","SPJET","INDGO","UNITD","BAIR"
@@ -44,9 +49,12 @@ public class UserLoader {
                         .firstName(fn)
                         .lastName(ln)
                         .email(username + "@example.com")
-                        .password("pass123")
+                        .password(passwordEncoder.encode("admin"))
                         .tenantId(tenantId)
                         .organizationId(orgId)
+                        .enabled(true)
+                        .accountNonLocked(true)
+                        .accountNonLocked(false)
                         .build()
         );
     }

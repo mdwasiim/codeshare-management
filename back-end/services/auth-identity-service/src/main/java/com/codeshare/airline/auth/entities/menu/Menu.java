@@ -1,5 +1,6 @@
 package com.codeshare.airline.auth.entities.menu;
 
+import com.codeshare.airline.common.audit.AbstractEntity;
 import com.codeshare.airline.common.utils.json.JsonConverter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -20,13 +21,7 @@ import java.util.*;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Menu {
-
-    @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+public class Menu extends AbstractEntity {
 
 
     @Column(nullable = false, length = 200)

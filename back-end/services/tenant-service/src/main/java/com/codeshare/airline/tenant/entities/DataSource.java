@@ -1,5 +1,6 @@
 package com.codeshare.airline.tenant.entities;
 
+import com.codeshare.airline.common.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,13 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DataSource {
-
-    @Id
-    // @GeneratedValue
-    //@UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+public class DataSource extends AbstractEntity {
 
     /* -------------------------------
        Core DB Definition

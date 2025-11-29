@@ -2,6 +2,7 @@ package com.codeshare.airline.auth.entities.identity;
 
 import com.codeshare.airline.auth.entities.authorization.GroupRole;
 import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
+import com.codeshare.airline.common.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -18,13 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Group {
-
-    @Id
-   // @GeneratedValue
-    //@UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+public class Group extends AbstractEntity {
 
 
     @Column(nullable = false, length = 200)

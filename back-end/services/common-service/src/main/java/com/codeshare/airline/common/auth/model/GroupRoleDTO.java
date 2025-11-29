@@ -1,12 +1,14 @@
 package com.codeshare.airline.common.auth.model;
 
+import com.codeshare.airline.common.audit.AuditBaseDto;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
-public class GroupRoleDTO {
+public class GroupRoleDTO extends AuditBaseDto {
     private UUID id;
     private UUID groupId;
     private UUID roleId;
+
 }

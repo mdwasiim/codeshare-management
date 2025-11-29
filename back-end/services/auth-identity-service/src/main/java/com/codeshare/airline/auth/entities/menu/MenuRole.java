@@ -1,6 +1,7 @@
 package com.codeshare.airline.auth.entities.menu;
 
 import com.codeshare.airline.auth.entities.identity.Role;
+import com.codeshare.airline.common.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -18,13 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MenuRole {
-
-    @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+public class MenuRole extends AbstractEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

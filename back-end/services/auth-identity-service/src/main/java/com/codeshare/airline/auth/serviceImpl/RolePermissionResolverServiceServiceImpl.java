@@ -50,8 +50,7 @@ public class RolePermissionResolverServiceServiceImpl implements RolePermissionR
     }
 
 
-    @Override
-    public Set<RoleDTO> resolveRoleNames(UUID userId, UUID tenantId) {
+    public Set<RoleDTO> getRoles(UUID userId, UUID tenantId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found: " + userId));
@@ -73,7 +72,7 @@ public class RolePermissionResolverServiceServiceImpl implements RolePermissionR
                     groupRoleRepository.findByGroup_Id(groupId);
 
             roles.addAll(groupRoles.stream()
-                    .map(gr -> gr.getRole())
+                    .map(GroupRole::getRole)
                     .collect(Collectors.toSet()));
         }
 
@@ -81,11 +80,10 @@ public class RolePermissionResolverServiceServiceImpl implements RolePermissionR
         return roleMapper.toDTOSet(roles);
     }
 
-    @Override
-    public Set<PermissionDTO> resolvePermissionsNames(UUID userId, UUID tenantId) {
+    public Set<PermissionDTO> getPermissions(UUID userId, UUID tenantId) {
         Set<UUID> roleIds = new HashSet<>();
 
-        Set<RoleDTO> roleDTOS = resolveRoleNames(userId, tenantId);
+        Set<RoleDTO> roleDTOS = getRoles(userId, tenantId);
 
         if(!CollectionUtils.isEmpty(roleDTOS)){
             roleIds = roleDTOS.stream().map(RoleDTO::getId).collect(Collectors.toSet());
@@ -93,6 +91,28 @@ public class RolePermissionResolverServiceServiceImpl implements RolePermissionR
 
         Set<Permission> permissionByIds = new HashSet<>(permissionRepository.findAllById(roleIds));
         return permissionMapper.toDTOSet(permissionByIds);
+    }
+
+    @Override
+    public Set<String> resolveRoleNames(UUID userId, UUID tenantId) {
+        Set<RoleDTO> roleDTOS = getRoles(userId, tenantId);
+        return roleDTOS.stream().map(RoleDTO::getName).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<String> resolvePermissionsNames(UUID userId, UUID tenantId) {
+        Set<PermissionDTO> permissions = getPermissions(userId, tenantId);
+        return permissions.stream().map(PermissionDTO::getName).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<RoleDTO> resolveRoles(UUID userId, UUID tenantId) {
+        return getRoles(userId, tenantId);
+    }
+
+    @Override
+    public Set<PermissionDTO> resolvePermissions(UUID userId, UUID tenantId) {
+        return getPermissions(userId, tenantId);
     }
 }
 

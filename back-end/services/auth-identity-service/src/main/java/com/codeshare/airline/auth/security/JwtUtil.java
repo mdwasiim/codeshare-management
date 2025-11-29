@@ -58,7 +58,8 @@
         @PostConstruct
         public void init() {
             // Convert string secret to a proper SecretKey (HS512 needs 64 bytes minimum)
-            secretKey = Keys.hmacShaKeyFor(secretString.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            byte[] keyBytes = io.jsonwebtoken.io.Decoders.BASE64.decode(secretString);
+            secretKey = Keys.hmacShaKeyFor(keyBytes);
         }
 
         public String generateAccessToken(User user) {

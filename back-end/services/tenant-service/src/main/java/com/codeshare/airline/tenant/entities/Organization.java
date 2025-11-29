@@ -1,5 +1,6 @@
     package com.codeshare.airline.tenant.entities;
 
+    import com.codeshare.airline.common.audit.AbstractEntity;
     import jakarta.persistence.*;
     import lombok.*;
 
@@ -14,13 +15,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public class Organization {
-
-        @Id
-        //@GeneratedValue
-        //@UuidGenerator(style = UuidGenerator.Style.TIME)
-        @Column(columnDefinition = "BINARY(16)")
-        private UUID id;
+    public class Organization extends AbstractEntity {
 
 
         @Column(name = "name", nullable = false, length = 200)

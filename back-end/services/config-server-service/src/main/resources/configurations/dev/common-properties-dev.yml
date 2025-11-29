@@ -12,12 +12,20 @@ logging:
               BasicBinder: TRACE
 
 management:
-  server:
-    base-path: /actuator
+  endpoint:
+    gateway:
+      enabled: true
+    health:
+      show-details: always
+
   endpoints:
     web:
       exposure:
-        include: health,info,refresh
+        include: "*"
+
+  server:
+    base-path: /actuator
+
   tracing:
     sampling:
       probability: 1
@@ -25,10 +33,18 @@ management:
 spring:
   cloud:
     consul:
-      discovery:
-        health-check-path: /actuator/health
-        health-check-interval: 15s
-        prefer-ip-address: true
-        register: true
       host: localhost
       port: 8500
+      discovery:
+        prefer-ip-address: true
+        register: true
+        health-check-interval: 15s
+
+        # 🔥 These four are now COMMON across ALL microservices
+        service-name: ${spring.application.name}
+        instance-id: ${spring.application.name}-${server.port}
+        health-check-path: ${server.servlet.context-path}/actuator/health
+        metadata:
+          contextPath: ${server.servlet.context-path}
+        tags:
+          - contextPath=${server.servlet.context-path}

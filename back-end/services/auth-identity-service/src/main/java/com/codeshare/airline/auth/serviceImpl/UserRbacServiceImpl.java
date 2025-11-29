@@ -65,10 +65,10 @@ public class UserRbacServiceImpl implements UserRbacService {
         UUID tenantId = user.getTenantId();
 
         // 1) Collect Roles (direct + group)
-        Set<RoleDTO> roleDTOs = rolePermissionResolverService.resolveRoleNames(userId, tenantId);
+        Set<RoleDTO> roleDTOs = rolePermissionResolverService.resolveRoles(userId, tenantId);
 
         // 2) Collect Permissions
-        Set<PermissionDTO> permissionDTOs = rolePermissionResolverService.resolvePermissionsNames(userId, tenantId);
+        Set<PermissionDTO> permissionDTOs = rolePermissionResolverService.resolvePermissions(userId, tenantId);
 
         // 3) Collect Menus allowed by roles
         Set<UUID> allowedMenuIds = new LinkedHashSet<>();

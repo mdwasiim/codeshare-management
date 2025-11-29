@@ -42,6 +42,7 @@ public class AuthserviceImpl implements Authservice {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("User not found"));
 
         String accessToken = jwtUtil.generateAccessToken(user);
+
         String refreshTokenStr = UUID.randomUUID().toString();
 
         PasswordRefreshToken refreshToken = PasswordRefreshToken.builder()
@@ -51,9 +52,9 @@ public class AuthserviceImpl implements Authservice {
                 .build();
         refreshTokenRepository.save(refreshToken);
 
-        Set<RoleDTO> roles = rolePermissionResolverService.resolveRoleNames(user.getId(), user.getTenantId());
+        Set<String> roles = rolePermissionResolverService.resolveRoleNames(user.getId(), user.getTenantId());
 
-        Set<PermissionDTO> permissions = jwtUtil.getAllUserPermissions(user);
+        Set<String> permissions = rolePermissionResolverService.resolvePermissionsNames(user.getId(), user.getTenantId());
 
         return new AuthResponse(accessToken, refreshTokenStr, userMapper.toDTO(user),  roles, permissions);
     }
