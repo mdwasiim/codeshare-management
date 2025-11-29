@@ -27,6 +27,9 @@ public class UserGroup {
     @Column(nullable = false, length = 200)
     private String name;
 
+    @Column(nullable = false, length = 200)
+    private String code;
+
     @Column(length = 500)
     private String description;
 

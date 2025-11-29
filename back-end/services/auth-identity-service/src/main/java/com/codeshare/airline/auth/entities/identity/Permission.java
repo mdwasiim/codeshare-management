@@ -20,8 +20,8 @@ import java.util.UUID;
 public class Permission {
 
     @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    //@GeneratedValue
+    //@UuidGenerator(style = UuidGenerator.Style.TIME)
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 

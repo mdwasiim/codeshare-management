@@ -2,7 +2,6 @@ package com.codeshare.airline.tenant.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
@@ -20,8 +19,8 @@ import java.util.UUID;
 public class Tenant {
 
     @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    //@GeneratedValue
+    //@UuidGenerator(style = UuidGenerator.Style.TIME)
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
@@ -89,9 +88,10 @@ public class Tenant {
     /// Database Details
     /// ---------------------------------
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_data_source_id")
-    private TenantDataSource dbConfig;
+    @ManyToOne
+    @JoinColumn(name = "data_source_id")
+    private DataSource dbConfig;
+
 
     // -------------------------------
     // Organization Structure (Allowed)
