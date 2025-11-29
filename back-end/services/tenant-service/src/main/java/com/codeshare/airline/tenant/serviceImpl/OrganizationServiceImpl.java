@@ -1,7 +1,7 @@
 package com.codeshare.airline.tenant.serviceImpl;
 
 
-import com.codeshare.airline.common.exception.ResourceNotFoundException;
+import com.codeshare.airline.common.exceptions.ResourceNotFoundException;
 import com.codeshare.airline.common.tenant.model.OrganizationDTO;
 import com.codeshare.airline.tenant.entities.Organization;
 import com.codeshare.airline.tenant.entities.Tenant;

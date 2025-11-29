@@ -1,5 +1,6 @@
 package com.codeshare.airline.tenant.entities;
 
+import com.codeshare.airline.common.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -16,13 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Tenant {
-
-    @Id
-    //@GeneratedValue
-    //@UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+public class Tenant extends AbstractEntity {
 
     // -------------------------------
     // Tenant Basic Info

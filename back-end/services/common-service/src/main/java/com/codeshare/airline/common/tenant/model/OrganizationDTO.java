@@ -1,6 +1,7 @@
 package com.codeshare.airline.common.tenant.model;
 
 
+import com.codeshare.airline.common.audit.AuditBaseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrganizationDTO {
+public class OrganizationDTO extends AuditBaseDto {
 
     private UUID id;
     private String name;
@@ -23,4 +24,5 @@ public class OrganizationDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID tenantId;  // reference to tenant
+
 }
