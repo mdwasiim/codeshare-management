@@ -12,6 +12,7 @@ public interface AuditMapper {
     @Mapping(target = "updatedAt", source = "updatedAt")
     @Mapping(target = "createdBy", source = "createdBy")
     @Mapping(target = "updatedBy", source = "updatedBy")
+    @Mapping(target = "transactionId", source = "transactionId")
     AuditInfo toAuditInfo(AbstractEntity entity);
 
 }
