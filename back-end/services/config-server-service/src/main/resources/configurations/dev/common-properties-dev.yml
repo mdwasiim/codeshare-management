@@ -10,7 +10,10 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
 management:
+  server:
+    base-path: /actuator
   endpoints:
     web:
       exposure:
@@ -18,18 +21,14 @@ management:
   tracing:
     sampling:
       probability: 1
+
 spring:
   cloud:
     consul:
       discovery:
-        health-check-interval: 15s
         health-check-path: /actuator/health
+        health-check-interval: 15s
         prefer-ip-address: true
         register: true
       host: localhost
       port: 8500
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true

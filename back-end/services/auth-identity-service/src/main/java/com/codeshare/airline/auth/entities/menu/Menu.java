@@ -4,7 +4,6 @@ import com.codeshare.airline.common.utils.json.JsonConverter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.*;
@@ -33,7 +32,7 @@ public class Menu {
     @Column(nullable = false, length = 200)
     private String name;
 
-    @Column(nullable = false, length = 200)
+    @Column( length = 200)
     private String code;
 
 
@@ -43,7 +42,7 @@ public class Menu {
     @Column(length = 200)
     private String icon;
 
-    @Column(nullable = false)
+    @Column()
     private String title;
 
     // JSON fields
@@ -55,6 +54,10 @@ public class Menu {
     @Column(columnDefinition = "json")
     private Map<String, String> badge;
 
+    @Convert(converter = JsonConverter.class)
+    @Column(columnDefinition = "json")
+    private Map<String, String> attributes;
+
     // Hierarchical menu structure
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
@@ -64,7 +67,7 @@ public class Menu {
     private List<Menu> children = new ArrayList<>();
 
     // FIXED → store only tenantId
-    @Column(name = "tenant_id", nullable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "tenant_id",  columnDefinition = "BINARY(16)")
     private UUID tenantId;
 
     // FIXED → store organizationId as UUID only (optional)

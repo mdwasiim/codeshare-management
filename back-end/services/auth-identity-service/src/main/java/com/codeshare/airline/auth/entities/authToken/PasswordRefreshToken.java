@@ -1,9 +1,8 @@
-package com.codeshare.airline.auth.entities.auth;
+package com.codeshare.airline.auth.entities.authToken;
 
 import com.codeshare.airline.auth.entities.identity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
@@ -22,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RefreshToken {
+public class PasswordRefreshToken {
 
     @Id
     @GeneratedValue

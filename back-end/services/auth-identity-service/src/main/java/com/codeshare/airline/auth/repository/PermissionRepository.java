@@ -12,4 +12,5 @@ public interface PermissionRepository extends JpaRepository<Permission, UUID> {
     List<Permission> findByTenantId(UUID tenantId);
 
     boolean existsByNameAndTenantId(String name, UUID tenantId);
+
 }

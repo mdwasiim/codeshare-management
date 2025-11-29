@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.serviceImpl;
 
-import com.codeshare.airline.auth.entities.auth.RefreshToken;
+import com.codeshare.airline.auth.entities.authToken.PasswordRefreshToken;
 import com.codeshare.airline.auth.entities.identity.User;
 import com.codeshare.airline.auth.utils.mappers.UserMapper;
 import com.codeshare.airline.auth.repository.RefreshTokenRepository;
@@ -44,7 +44,7 @@ public class AuthserviceImpl implements Authservice {
         String accessToken = jwtUtil.generateAccessToken(user);
         String refreshTokenStr = UUID.randomUUID().toString();
 
-        RefreshToken refreshToken = RefreshToken.builder()
+        PasswordRefreshToken refreshToken = PasswordRefreshToken.builder()
                 .token(refreshTokenStr)
                 .user(user)
                 .expiryDate(LocalDateTime.now().plusDays(7))
@@ -61,7 +61,7 @@ public class AuthserviceImpl implements Authservice {
     @Override
     public AuthResponse getTokenFromRefreshToken(String requestRefreshToken){
 
-        RefreshToken refreshToken = refreshTokenRepository.findByToken(requestRefreshToken)
+        PasswordRefreshToken refreshToken = refreshTokenRepository.findByToken(requestRefreshToken)
                 .orElseThrow(() -> new RuntimeException("Refresh token not found"));
 
         if(refreshToken.getExpiryDate().isBefore(LocalDateTime.now())){
@@ -73,7 +73,7 @@ public class AuthserviceImpl implements Authservice {
 
     @Override
     public void logout(String refreshTokenstr) {
-        RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenstr)
+        PasswordRefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenstr)
                 .orElseThrow(() -> new RuntimeException("Refresh token not found"));
         refreshTokenRepository.delete(refreshToken);
     }

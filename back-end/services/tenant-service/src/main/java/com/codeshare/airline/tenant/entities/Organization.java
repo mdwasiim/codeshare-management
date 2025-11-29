@@ -2,8 +2,6 @@
 
     import jakarta.persistence.*;
     import lombok.*;
-    import org.hibernate.annotations.GenericGenerator;
-    import org.hibernate.annotations.UuidGenerator;
 
     import java.util.HashSet;
     import java.util.Set;
@@ -19,8 +17,8 @@
     public class Organization {
 
         @Id
-        @GeneratedValue
-        @UuidGenerator(style = UuidGenerator.Style.TIME)
+        //@GeneratedValue
+        //@UuidGenerator(style = UuidGenerator.Style.TIME)
         @Column(columnDefinition = "BINARY(16)")
         private UUID id;
 
@@ -38,7 +36,7 @@
         private boolean active = true;
 
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
-        @JoinColumn(name = "tenant_id", nullable = false)
+        @JoinColumn(name = "tenant_id", nullable = true)
         private Tenant tenant;
 
         @ManyToOne(fetch = FetchType.LAZY)

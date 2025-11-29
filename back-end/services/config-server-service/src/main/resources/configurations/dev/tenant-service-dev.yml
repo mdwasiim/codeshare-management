@@ -1,10 +1,12 @@
 spring:
   application:
     name: tenant-service
+
   config:
     import:
-      - classpath:/configurations/dev/common-properties.yml
-      - classpath:/configurations/dev/common-db.yml
+      - common-properties-dev.yml
+      - common-db-dev.yml
+
 server:
   port: 8082
   servlet:
