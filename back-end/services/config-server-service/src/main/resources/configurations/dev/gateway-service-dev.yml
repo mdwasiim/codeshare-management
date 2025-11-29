@@ -1,23 +1,39 @@
 spring:
   application:
     name: gateway-service
+
   config:
     import:
-      - classpath:/configurations/${spring.profiles.active}/common-properties.yml
-      - classpath:/configurations/${spring.profiles.active}/common-db.yml
-      - classpath:/configurations/${spring.profiles.active}/common-env.yml
+      - common-properties-dev.yml
+      - common-db-dev.yml
+
+  cloud:
+    consul:
+      discovery:
+        watch:
+          enabled: false
+
     gateway:
-      routes:
-        - id: auth-identity-service
-          uri: lb://auth-identity-service
-          predicates:
-            - Path=/auth/**
-        - id: tenant-service
-          uri: lb://tenant-service
-          predicates:
-            - Path=/tenant/**
+      server:
+        routes:
+          - id: auth-identity-service
+            uri: lb://auth-identity-service
+            predicates:
+              - Path=/auth/**
+          - id: tenant-service
+            uri: lb://tenant-service
+            predicates:
+              - Path=/tenant/**
+
+        webflux:
+          filter:
+            weight:
+              enabled: false
+
 server:
-  port: 8081
+  port: 8080
+
+
 swagger:
   services:
     - name: AUTH AND IDENTITY SERVICE
@@ -26,11 +42,13 @@ swagger:
       paths:
         - auth
         - users
+
     - name: TENANT SERVICE
       serviceId: tenant-service
       docsPath: /v3/api-docs
       paths:
         - tenant
+
 springdoc:
   swagger-ui:
     enabled: true

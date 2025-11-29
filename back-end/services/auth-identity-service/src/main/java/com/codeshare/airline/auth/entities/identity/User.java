@@ -21,8 +21,8 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
+   // @GeneratedValue
+    //@UuidGenerator(style = UuidGenerator.Style.TIME)
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 

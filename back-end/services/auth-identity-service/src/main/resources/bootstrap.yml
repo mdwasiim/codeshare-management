@@ -2,8 +2,9 @@ spring:
   application:
     name: auth-identity-service
 
+  profiles:
+    active: dev
+
   config:
     import: "configserver:http://localhost:8888"
 
-  profiles:
-    active: dev

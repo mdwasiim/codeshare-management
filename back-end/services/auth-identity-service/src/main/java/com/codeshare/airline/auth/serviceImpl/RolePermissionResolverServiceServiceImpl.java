@@ -2,16 +2,15 @@ package com.codeshare.airline.auth.serviceImpl;
 
 
 import com.codeshare.airline.auth.entities.authorization.GroupRole;
-import com.codeshare.airline.auth.entities.authorization.OrganizationRole;
 import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
 import com.codeshare.airline.auth.entities.authorization.UserRole;
 import com.codeshare.airline.auth.entities.identity.Permission;
 import com.codeshare.airline.auth.entities.identity.Role;
 import com.codeshare.airline.auth.entities.identity.User;
-import com.codeshare.airline.auth.utils.mappers.PermissionMapper;
-import com.codeshare.airline.auth.utils.mappers.RoleMapper;
 import com.codeshare.airline.auth.repository.*;
 import com.codeshare.airline.auth.service.RolePermissionResolverService;
+import com.codeshare.airline.auth.utils.mappers.PermissionMapper;
+import com.codeshare.airline.auth.utils.mappers.RoleMapper;
 import com.codeshare.airline.common.auth.model.PermissionDTO;
 import com.codeshare.airline.common.auth.model.RoleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,6 @@ public class RolePermissionResolverServiceServiceImpl implements RolePermissionR
 
 
     private final GroupRoleRepository groupRoleRepository;
-    private final OrganizationRoleRepository organizationRoleRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
@@ -40,9 +38,8 @@ public class RolePermissionResolverServiceServiceImpl implements RolePermissionR
     private final PermissionMapper permissionMapper;
 
     @Autowired
-    public RolePermissionResolverServiceServiceImpl(GroupRoleRepository groupRoleRepository, OrganizationRoleRepository organizationRoleRepository, RoleRepository roleRepository, UserRepository userRepository, UserRoleRepository userRoleRepository, UserGroupRoleRepository userGroupRoleRepository, PermissionRepository permissionRepository, RoleMapper roleMapper, PermissionMapper permissionMapper) {
+    public RolePermissionResolverServiceServiceImpl(GroupRoleRepository groupRoleRepository, RoleRepository roleRepository, UserRepository userRepository, UserRoleRepository userRoleRepository, UserGroupRoleRepository userGroupRoleRepository, PermissionRepository permissionRepository, RoleMapper roleMapper, PermissionMapper permissionMapper) {
         this.groupRoleRepository = groupRoleRepository;
-        this.organizationRoleRepository = organizationRoleRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
@@ -79,18 +76,6 @@ public class RolePermissionResolverServiceServiceImpl implements RolePermissionR
                     .map(gr -> gr.getRole())
                     .collect(Collectors.toSet()));
         }
-
-        // 3️⃣ OrganizationRole mapping (organization-level default roles)
-        if (user.getOrganizationId() != null) {
-            List<OrganizationRole> orgRoles =
-                    organizationRoleRepository.findByOrganizationId(user.getOrganizationId());
-
-            roles.addAll(orgRoles.stream()
-                    .map(or -> or.getRole())
-                    .collect(Collectors.toSet()));
-        }
-
-
 
         // 4️⃣ Return role names
         return roleMapper.toDTOSet(roles);

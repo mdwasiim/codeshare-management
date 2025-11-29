@@ -1,13 +1,11 @@
 package com.codeshare.airline.auth.entities.identity;
 
 import com.codeshare.airline.auth.entities.authorization.GroupRole;
-import com.codeshare.airline.auth.entities.authorization.OrganizationRole;
 import com.codeshare.airline.auth.entities.authorization.PermissionRole;
 import com.codeshare.airline.auth.entities.authorization.UserRole;
 import com.codeshare.airline.auth.entities.menu.MenuRole;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
@@ -24,8 +22,8 @@ import java.util.UUID;
 public class Role {
 
     @Id
-    @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    //@GeneratedValue
+    //@UuidGenerator(style = UuidGenerator.Style.TIME)
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
@@ -56,6 +54,4 @@ public class Role {
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PermissionRole> permissionRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<OrganizationRole> organizationRoles = new HashSet<>();
 }
