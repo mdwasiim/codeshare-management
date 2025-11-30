@@ -1,9 +1,9 @@
 package com.codeshare.airline.common.utils.mapper;
 
-import com.codeshare.airline.common.audit.AbstractEntity;
-import com.codeshare.airline.common.audit.AuditBaseDto;
-import com.codeshare.airline.common.audit.AuditInfo;
-import com.codeshare.airline.common.audit.AuditMapper;
+import com.codeshare.airline.common.jpa.AbstractEntity;
+import com.codeshare.airline.common.utils.mapper.audit.AuditBaseDto;
+import com.codeshare.airline.common.utils.mapper.audit.AuditInfo;
+import com.codeshare.airline.common.utils.mapper.audit.AuditMapper;
 import org.mapstruct.*;
 
 import java.util.List;

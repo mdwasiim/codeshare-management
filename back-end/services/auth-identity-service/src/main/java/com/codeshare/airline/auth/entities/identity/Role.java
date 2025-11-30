@@ -4,10 +4,9 @@ import com.codeshare.airline.auth.entities.authorization.GroupRole;
 import com.codeshare.airline.auth.entities.authorization.PermissionRole;
 import com.codeshare.airline.auth.entities.authorization.UserRole;
 import com.codeshare.airline.auth.entities.menu.MenuRole;
-import com.codeshare.airline.common.audit.AbstractEntity;
+import com.codeshare.airline.common.jpa.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;

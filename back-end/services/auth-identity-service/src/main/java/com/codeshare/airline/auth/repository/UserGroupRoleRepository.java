@@ -1,12 +1,12 @@
 package com.codeshare.airline.auth.repository;
 
 import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.codeshare.airline.common.jpa.BaseRepository;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface UserGroupRoleRepository extends JpaRepository<UserGroupRole, UUID> {
+public interface UserGroupRoleRepository extends BaseRepository<UserGroupRole, UUID> {
 
     List<UserGroupRole> findByUserId(UUID userId);
 
