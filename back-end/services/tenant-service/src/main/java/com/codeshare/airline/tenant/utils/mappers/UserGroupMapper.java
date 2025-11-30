@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.utils.mappers;
 
-import com.codeshare.airline.common.audit.AuditMapper;
+import com.codeshare.airline.common.utils.mapper.audit.AuditMapper;
 import com.codeshare.airline.common.tenant.model.UserGroupDTO;
 import com.codeshare.airline.common.utils.mapper.GenericMapper;
 import com.codeshare.airline.tenant.entities.UserGroup;

@@ -1,13 +1,13 @@
 package com.codeshare.airline.tenant.repository;
 
+import com.codeshare.airline.common.jpa.BaseRepository;
 import com.codeshare.airline.tenant.entities.Organization;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
+public interface OrganizationRepository extends BaseRepository<Organization, UUID> {
 
     Optional<Organization> findByName(String name);
 

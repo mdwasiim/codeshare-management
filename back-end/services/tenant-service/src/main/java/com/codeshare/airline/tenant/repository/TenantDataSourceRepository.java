@@ -1,9 +1,9 @@
 package com.codeshare.airline.tenant.repository;
 
+import com.codeshare.airline.common.jpa.BaseRepository;
 import com.codeshare.airline.tenant.entities.DataSource;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface TenantDataSourceRepository extends JpaRepository<DataSource, UUID> {
+public interface TenantDataSourceRepository extends BaseRepository<DataSource, UUID> {
 }

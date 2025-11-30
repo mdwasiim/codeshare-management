@@ -1,13 +1,13 @@
 package com.codeshare.airline.auth.repository;
 
 import com.codeshare.airline.auth.entities.menu.Menu;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.codeshare.airline.common.jpa.BaseRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface MenuRepository extends JpaRepository<Menu, UUID> {
+public interface MenuRepository extends BaseRepository<Menu, UUID> {
     Optional findByName(String dashboard);
 
     List<Menu> findByTenantId(UUID tenantId);

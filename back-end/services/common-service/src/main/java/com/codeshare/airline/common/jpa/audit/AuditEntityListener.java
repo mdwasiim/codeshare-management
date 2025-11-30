@@ -1,5 +1,6 @@
-package com.codeshare.airline.common.audit;
+package com.codeshare.airline.common.jpa;
 
+import com.codeshare.airline.common.utils.mapper.audit.Auditable;
 import com.codeshare.airline.common.httpTransaction.AuditUserProvider;
 import com.codeshare.airline.common.httpTransaction.TransactionIdProvider;
 import org.springframework.security.core.context.SecurityContextHolder;

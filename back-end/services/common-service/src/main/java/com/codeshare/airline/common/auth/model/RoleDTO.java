@@ -1,8 +1,7 @@
 package com.codeshare.airline.common.auth.model;
 
 
-import com.codeshare.airline.common.audit.AuditBaseDto;
-import com.codeshare.airline.common.audit.AuditInfo;
+import com.codeshare.airline.common.utils.mapper.audit.AuditBaseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

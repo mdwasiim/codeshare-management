@@ -1,6 +1,7 @@
-package com.codeshare.airline.common.audit;
+package com.codeshare.airline.common.jpa;
 
 
+import com.codeshare.airline.common.utils.mapper.audit.Auditable;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -29,4 +30,6 @@ public abstract class AuditFields implements Auditable {
 
     @Column(name = "transaction_id", length = 50, updatable = false)
     private String transactionId;
+
+
 }

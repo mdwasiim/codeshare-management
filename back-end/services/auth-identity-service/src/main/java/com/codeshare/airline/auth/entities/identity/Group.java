@@ -2,11 +2,9 @@ package com.codeshare.airline.auth.entities.identity;
 
 import com.codeshare.airline.auth.entities.authorization.GroupRole;
 import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
-import com.codeshare.airline.common.audit.AbstractEntity;
+import com.codeshare.airline.common.jpa.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;

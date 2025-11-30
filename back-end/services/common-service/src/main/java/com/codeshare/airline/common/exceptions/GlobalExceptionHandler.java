@@ -1,7 +1,7 @@
 package com.codeshare.airline.common.exceptions;
 
-import com.codeshare.airline.common.response.ServiceError;
-import com.codeshare.airline.common.response.ServiceResponse;
+import com.codeshare.airline.common.response.common.ServiceError;
+import com.codeshare.airline.common.response.common.ServiceResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -232,6 +232,24 @@ public class GlobalExceptionHandler {
                 ex,
                 req,
                 true
+        );
+    }
+    // -------------------------------------------------------
+    // Resource Not Found Exception
+    // -------------------------------------------------------
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ServiceResponse<?>> handleResourceNotFound(
+            ResourceNotFoundException ex,
+            HttpServletRequest req
+    ) {
+        return build(
+                HttpStatus.NOT_FOUND,
+                ErrorCodes.DATA_NOT_FOUND,   // or your custom code
+                ex.getMessage(),
+                null,
+                ex,
+                req,
+                false
         );
     }
 

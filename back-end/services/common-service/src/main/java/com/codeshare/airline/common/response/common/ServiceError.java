@@ -1,4 +1,4 @@
-package com.codeshare.airline.common.response;
+package com.codeshare.airline.common.response.common;
 
 import lombok.*;
 

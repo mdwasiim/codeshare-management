@@ -1,4 +1,4 @@
-package com.codeshare.airline.common.audit;
+package com.codeshare.airline.common.utils.mapper.audit;
 
 
 public interface Auditable {

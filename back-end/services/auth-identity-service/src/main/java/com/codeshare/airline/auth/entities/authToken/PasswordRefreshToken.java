@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.entities.authToken;
 
 import com.codeshare.airline.auth.entities.identity.User;
-import com.codeshare.airline.common.audit.AbstractEntity;
+import com.codeshare.airline.common.jpa.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

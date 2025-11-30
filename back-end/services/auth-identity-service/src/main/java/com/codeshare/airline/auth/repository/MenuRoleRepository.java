@@ -1,12 +1,12 @@
 package com.codeshare.airline.auth.repository;
 
 import com.codeshare.airline.auth.entities.menu.MenuRole;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.codeshare.airline.common.jpa.BaseRepository;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface MenuRoleRepository extends JpaRepository<MenuRole, UUID> {
+public interface MenuRoleRepository extends BaseRepository<MenuRole, UUID> {
 
     List<MenuRole> findByRoleId(UUID roleId);
 
