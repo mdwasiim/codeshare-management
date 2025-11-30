@@ -1,11 +1,10 @@
 package com.codeshare.airline.auth.entities.menu;
 
-import com.codeshare.airline.common.audit.AbstractEntity;
+import com.codeshare.airline.common.jpa.AbstractEntity;
 import com.codeshare.airline.common.utils.json.JsonConverter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.*;
 

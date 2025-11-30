@@ -1,12 +1,11 @@
     package com.codeshare.airline.tenant.entities;
 
-    import com.codeshare.airline.common.audit.AbstractEntity;
+    import com.codeshare.airline.common.jpa.AbstractEntity;
     import jakarta.persistence.*;
     import lombok.*;
 
     import java.util.HashSet;
     import java.util.Set;
-    import java.util.UUID;
 
     @Entity
     @Table(name = "organizations")

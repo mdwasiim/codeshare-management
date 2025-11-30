@@ -2,13 +2,11 @@ package com.codeshare.airline.auth.entities.authToken;
 
 
 import com.codeshare.airline.auth.entities.identity.User;
-import com.codeshare.airline.common.audit.AbstractEntity;
+import com.codeshare.airline.common.jpa.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "password_reset_tokens")
