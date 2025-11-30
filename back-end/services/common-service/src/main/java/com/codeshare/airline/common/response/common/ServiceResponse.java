@@ -1,4 +1,4 @@
-package com.codeshare.airline.common.response;
+package com.codeshare.airline.common.response.common;
 
 import com.codeshare.airline.common.httpTransaction.TransactionIdProvider;
 import lombok.*;
@@ -18,12 +18,15 @@ public class ServiceResponse<T> {
     private String transactionId;
     private LocalDateTime timestamp;
 
+    private long timeTakenMs;   // ⬅ NEW FIELD
+
     public static <T> ServiceResponse<T> success(T data) {
         return ServiceResponse.<T>builder()
                 .success(true)
                 .data(data)
                 .transactionId(TransactionIdProvider.get())
                 .timestamp(LocalDateTime.now())
+                .timeTakenMs(RequestTimeProvider.getTimeTaken())
                 .build();
     }
 
@@ -33,6 +36,8 @@ public class ServiceResponse<T> {
                 .error(error)
                 .transactionId(TransactionIdProvider.get())
                 .timestamp(LocalDateTime.now())
+                .timeTakenMs(RequestTimeProvider.getTimeTaken())
                 .build();
     }
 }
+

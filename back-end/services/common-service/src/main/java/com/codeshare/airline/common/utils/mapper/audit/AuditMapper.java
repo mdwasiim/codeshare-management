@@ -1,6 +1,7 @@
-package com.codeshare.airline.common.audit;
+package com.codeshare.airline.common.utils.mapper.audit;
 
 
+import com.codeshare.airline.common.jpa.AbstractEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

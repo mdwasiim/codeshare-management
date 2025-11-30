@@ -1,13 +1,9 @@
 package com.codeshare.airline.auth.entities.menu;
 
 import com.codeshare.airline.auth.entities.identity.Role;
-import com.codeshare.airline.common.audit.AbstractEntity;
+import com.codeshare.airline.common.jpa.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UuidGenerator;
-
-import java.util.UUID;
 
 @Entity
 @Table(
