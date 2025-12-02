@@ -2,7 +2,7 @@ package com.codeshare.airline.auth.repository;
 
 import com.codeshare.airline.auth.entities.authToken.PasswordRefreshToken;
 import com.codeshare.airline.auth.entities.identity.User;
-import com.codeshare.airline.common.jpa.BaseRepository;
+import com.codeshare.airline.common.jpa.audit.BaseRepository;
 
 import java.util.Optional;
 

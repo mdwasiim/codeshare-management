@@ -7,8 +7,6 @@ import com.codeshare.airline.auth.repository.RoleRepository;
 import com.codeshare.airline.auth.repository.UserRepository;
 import com.codeshare.airline.auth.repository.UserRoleRepository;
 import com.codeshare.airline.common.utils.UuidUtil;
-import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

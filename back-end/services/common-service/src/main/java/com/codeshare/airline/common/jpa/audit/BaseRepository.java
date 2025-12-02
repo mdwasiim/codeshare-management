@@ -1,4 +1,4 @@
-package com.codeshare.airline.common.jpa;
+package com.codeshare.airline.common.jpa.audit;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,10 +11,10 @@ public interface BaseRepository<T extends AbstractEntity, ID> extends JpaReposit
 
     @Modifying
     @Query("UPDATE #{#entityName} e SET e.deleted = true, e.deletedAt = CURRENT_TIMESTAMP, e.deletedBy = :deletedBy WHERE e.id = :id")
-    void softDelete(@Param("id") Long id, @Param("deletedBy") String deletedBy);
+    void softDelete(@Param("id") ID id, @Param("deletedBy") String deletedBy);
 
     @Modifying
     @Query("UPDATE #{#entityName} e SET e.deleted = false, e.deletedAt = null, e.deletedBy = null WHERE e.id = :id")
-    void restore(@Param("id") Long id);
-
+    void restore(@Param("id") ID id);
 }
+

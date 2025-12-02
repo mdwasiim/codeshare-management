@@ -48,7 +48,7 @@ public class AuthserviceImpl implements Authservice {
         PasswordRefreshToken refreshToken = PasswordRefreshToken.builder()
                 .token(refreshTokenStr)
                 .user(user)
-                .expiryDate(LocalDateTime.now().plusDays(7))
+                .expiresAt(LocalDateTime.now().plusDays(7))
                 .build();
         refreshTokenRepository.save(refreshToken);
 
@@ -65,7 +65,7 @@ public class AuthserviceImpl implements Authservice {
         PasswordRefreshToken refreshToken = refreshTokenRepository.findByToken(requestRefreshToken)
                 .orElseThrow(() -> new RuntimeException("Refresh token not found"));
 
-        if(refreshToken.getExpiryDate().isBefore(LocalDateTime.now())){
+        if(refreshToken.getExpiresAt().isBefore(LocalDateTime.now())){
             refreshTokenRepository.delete(refreshToken);
             throw new RuntimeException("Refresh token expired. Please login again.");
         }

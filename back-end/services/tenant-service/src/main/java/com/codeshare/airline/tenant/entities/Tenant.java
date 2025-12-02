@@ -1,8 +1,9 @@
 package com.codeshare.airline.tenant.entities;
 
-import com.codeshare.airline.common.jpa.AbstractEntity;
+import com.codeshare.airline.common.jpa.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Tenant extends AbstractEntity {
 
     // -------------------------------
@@ -48,21 +49,6 @@ public class Tenant extends AbstractEntity {
     private boolean trial = false;
 
     // -------------------------------
-    // Metadata
-    // -------------------------------
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @Column(name = "created_by", length = 100)
-    private String createdBy;
-
-    @Column(name = "updated_by", length = 100)
-    private String updatedBy;
-
-    // -------------------------------
     // Contact & Branding Info
     // -------------------------------
     @Column(name = "contact_email", length = 200)
@@ -77,20 +63,17 @@ public class Tenant extends AbstractEntity {
     @Column(name = "region", length = 100)
     private String region;
 
-    //--------------------------------
-    /// Database Details
-    /// ---------------------------------
-
-    @ManyToOne
+    // -------------------------------
+    // Associated Database Source
+    // -------------------------------
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "data_source_id")
-    private DataSource dbConfig;
-
+    private DataSource dataSource;
 
     // -------------------------------
-    // Organization Structure (Allowed)
+    // Tenant Organizations
     // -------------------------------
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Organization> organizations = new HashSet<>();
-
 
 }
