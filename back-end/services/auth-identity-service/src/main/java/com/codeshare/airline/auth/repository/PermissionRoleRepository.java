@@ -1,8 +1,7 @@
 package com.codeshare.airline.auth.repository;
 
 import com.codeshare.airline.auth.entities.authorization.PermissionRole;
-import com.codeshare.airline.common.jpa.BaseRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.codeshare.airline.common.jpa.audit.BaseRepository;
 
 import java.util.List;
 import java.util.UUID;

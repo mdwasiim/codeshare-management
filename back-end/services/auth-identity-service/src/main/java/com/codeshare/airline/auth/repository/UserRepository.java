@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.repository;
 
 import com.codeshare.airline.auth.entities.identity.User;
-import com.codeshare.airline.common.jpa.BaseRepository;
+import com.codeshare.airline.common.jpa.audit.BaseRepository;
 
 import java.util.List;
 import java.util.Optional;
