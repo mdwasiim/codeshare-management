@@ -9,5 +9,4 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring", uses = AuditMapper.class)
 public interface MenuMapper extends GenericMapper<Menu, MenuDTO> {
 
-
 }

@@ -1,38 +1,48 @@
 package com.codeshare.airline.tenant.entities;
 
-
-import com.codeshare.airline.common.jpa.AbstractEntity;
+import com.codeshare.airline.common.jpa.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "user_groups")
+@Table(
+        name = "user_groups",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_user_group_code_tenant", columnNames = {"tenant_id", "code"})
+        }
+)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class UserGroup extends AbstractEntity {
 
-
-    @Column(nullable = false, length = 200)
+    @Column(name = "name", nullable = false, length = 200)
     private String name;
 
-    @Column(nullable = false, length = 200)
+    @Column(name = "code", nullable = false, length = 200)
     private String code;
 
-    @Column(length = 500)
+    @Column(name = "description", length = 500)
     private String description;
 
+    /* -------------------------------
+       Tenant (Required)
+    ------------------------------- */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tenant_id", nullable = false)
     private Tenant tenant;
 
+    /* -------------------------------
+       Organization (Optional)
+    ------------------------------- */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    @Column(nullable = false)
+    @Column(name = "active", nullable = false)
     private Boolean active = true;
 
 }
