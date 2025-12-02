@@ -1,8 +1,8 @@
 package com.codeshare.airline.common.httpTransaction;
 
-
 public final class TransactionIdProvider {
-    private static final ThreadLocal<String> TXN = new ThreadLocal<>();
+
+    private static final ThreadLocal<String> TXN = new InheritableThreadLocal<>();
 
     private TransactionIdProvider() {}
 

@@ -9,6 +9,7 @@
     import com.codeshare.airline.auth.utils.mappers.RoleMapper;
     import com.codeshare.airline.auth.utils.mappers.UserMapper;
     import com.codeshare.airline.common.auth.model.PermissionDTO;
+    import com.codeshare.airline.common.utils.mapper.audit.AuditMapper;
     import io.jsonwebtoken.Claims;
     import io.jsonwebtoken.Jwts;
     import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,15 +45,19 @@
         private final UserMapper userMapper;
         private final RolePermissionResolverService rolePermissionResolverService;
 
+        private final AuditMapper auditMapper;
+
+
         @Autowired
         public JwtUtil(RoleMapper roleMapper,
                        PermissionMapper permissionMapper,
                        UserMapper userMapper,
-                       RolePermissionResolverService rolePermissionResolverService) {
+                       RolePermissionResolverService rolePermissionResolverService, AuditMapper auditMapper) {
             this.roleMapper = roleMapper;
             this.permissionMapper = permissionMapper;
             this.userMapper = userMapper;
             this.rolePermissionResolverService = rolePermissionResolverService;
+            this.auditMapper = auditMapper;
         }
 
         @PostConstruct
@@ -118,6 +123,6 @@
 
             directPermissions.addAll(groupPermissions); // merge
 
-            return permissionMapper.toDTOSet(directPermissions);
+            return permissionMapper.toDTOSet(directPermissions, auditMapper);
         }
     }

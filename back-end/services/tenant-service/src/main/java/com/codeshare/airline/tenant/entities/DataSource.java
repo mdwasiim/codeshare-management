@@ -1,8 +1,9 @@
 package com.codeshare.airline.tenant.entities;
 
-import com.codeshare.airline.common.jpa.AbstractEntity;
+import com.codeshare.airline.common.jpa.audit.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "mst_data_source")
@@ -10,63 +11,89 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class DataSource extends AbstractEntity {
 
     /* -------------------------------
        Core DB Definition
     ------------------------------- */
-    @Column(nullable = false)
-    private String dbVendor;          // MYSQL, POSTGRES, ORACLE, MARIADB, MSSQL, H2, DB2, SQLITE
+    @Column(name = "db_vendor", nullable = false)
+    private String dbVendor;
 
-    @Column(nullable = false)
-    private String dbType;            // PRIMARY, SECONDARY, ANALYTICS
+    @Column(name = "db_type", nullable = false)
+    private String dbType;
 
+    @Column(name = "driver_class")
     private String driverClass;
+
+    @Column(name = "dialect")
     private String dialect;
 
     /* -------------------------------
        Connection Details
     ------------------------------- */
-    @Column(nullable = false, length = 500)
+    @Column(name = "db_url", nullable = false, length = 500)
     private String dbUrl;
 
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
     private String password;
 
-    /* Extracted / useful connection metadata */
-    private String host;              // e.g. localhost
-    private Integer port;             // e.g. 5432
-    private String databaseName;      // e.g. qr_db
+    @Column(name = "host")
+    private String host;
+
+    @Column(name = "port")
+    private Integer port;
+
+    @Column(name = "database_name")
+    private String databaseName;
+
+    @Column(name = "connection_params")
     private String connectionParams;
 
-
     /* -------------------------------
-       Pooling Settings (Optional)
+       Pooling Settings
     ------------------------------- */
+    @Column(name = "pool_name")
     private String poolName;
+
+    @Column(name = "max_pool_size")
     private Integer maxPoolSize;
+
+    @Column(name = "min_idle")
     private Integer minIdle;
+
+    @Column(name = "connection_timeout")
     private Integer connectionTimeout;
+
+    @Column(name = "idle_timeout")
     private Integer idleTimeout;
+
+    @Column(name = "max_lifetime")
     private Integer maxLifetime;
 
     /* -------------------------------
        Security / SSL
     ------------------------------- */
+    @Column(name = "ssl_enabled")
     private Boolean sslEnabled;
+
+    @Column(name = "ssl_cert_path")
     private String sslCertPath;
 
     /* -------------------------------
        Metadata
     ------------------------------- */
-    private String environment;       // dev, stg, prod
+    @Column(name = "environment")
+    private String environment;
+
+    @Column(name = "description")
     private String description;
 
     @Builder.Default
+    @Column(name = "active")
     private boolean active = true;
 
-
 }
-
-

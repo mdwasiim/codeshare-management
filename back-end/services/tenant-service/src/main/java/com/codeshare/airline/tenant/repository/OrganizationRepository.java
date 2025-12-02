@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.repository;
 
-import com.codeshare.airline.common.jpa.BaseRepository;
+import com.codeshare.airline.common.jpa.audit.BaseRepository;
 import com.codeshare.airline.tenant.entities.Organization;
 
 import java.util.List;

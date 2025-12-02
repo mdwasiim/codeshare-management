@@ -17,38 +17,51 @@ public class TransactionIdFilter implements Filter {
     public static final String MDC_USER_KEY = "user";
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+        // Start a per-request timer
+        RequestTimeProvider.start();
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        // START TIMER
-        RequestTimeProvider.start();
-
+        // Read Txn ID from incoming header
         String incoming = req.getHeader(HEADER);
-        // Use numeric transaction ID
-        String txnId = (incoming == null || incoming.isBlank()) ? TransactionIdGenerator.nextId("TXN") : incoming;
+        String txnId = (incoming == null || incoming.isBlank())
+                ? TransactionIdGenerator.nextId("TXN")
+                : incoming;
 
-        // set thread-local and MDC for logs
+        // ThreadLocal + MDC
         TransactionIdProvider.set(txnId);
         MDC.put(MDC_TXN_KEY, txnId);
 
-        // If a security filter populated username into AuditUserProvider, expose to MDC
+        // Add authenticated user (if already set)
         String user = AuditUserProvider.get();
         if (user != null) {
             MDC.put(MDC_USER_KEY, user);
         }
 
-        // also set header in response for client visibility
+        // Return txnId to client
         resp.setHeader(HEADER, txnId);
 
         try {
             chain.doFilter(request, response);
         } finally {
+            // **** IMPORTANT: clear all ThreadLocal data ****
             RequestTimeProvider.clear();
             TransactionIdProvider.clear();
+            AuditUserProvider.clear();  // <-- REQUIRED FIX
+
+            // clean logs
             MDC.remove(MDC_TXN_KEY);
             MDC.remove(MDC_USER_KEY);
         }
     }
+
+    @Override
+    public void init(FilterConfig filterConfig) {}
+
+    @Override
+    public void destroy() {}
 }

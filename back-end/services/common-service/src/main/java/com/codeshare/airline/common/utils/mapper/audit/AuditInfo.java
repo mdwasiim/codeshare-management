@@ -2,6 +2,8 @@ package com.codeshare.airline.common.utils.mapper.audit;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,13 +11,16 @@ import lombok.*;
 @Builder
 public class AuditInfo {
 
-    private Long id;                // Only if you want ID in DTO
-
     private String createdBy;
     private String updatedBy;
 
-    private java.time.LocalDateTime createdAt;
-    private java.time.LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     private String transactionId;
 
+    // Soft Delete Info
+    private Boolean deleted;
+    private LocalDateTime deletedAt;
+    private String deletedBy;
 }

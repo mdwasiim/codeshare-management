@@ -1,31 +1,51 @@
 package com.codeshare.airline.common.tenant.model;
 
-
 import com.codeshare.airline.common.utils.mapper.audit.AuditBaseDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class TenantDataSourceDTO extends AuditBaseDto {
 
     private UUID id;
 
-    private String dbVendor;      // POSTGRES, MYSQL, ORACLE, MSSQL
-    private String dbType;        // PRIMARY, REPLICA, ANALYTICS, ARCHIVE
-    private String driverClass;   // org.postgresql.Driver
-    private String dialect;       // org.hibernate.dialect.PostgreSQLDialect
+    // Basic DB Info
+    private String dbVendor;
+    private String dbType;
+    private String driverClass;
+    private String dialect;
+
+    // Connection Details
     private String dbUrl;
     private String username;
     private String password;
-    private String defaultPort;
+    private String host;
+    private Integer port;
+    private String databaseName;
+    private String connectionParams;
+
+    // Pooling Settings
+    private String poolName;
+    private Integer maxPoolSize;
+    private Integer minIdle;
+    private Integer connectionTimeout;
+    private Integer idleTimeout;
+    private Integer maxLifetime;
+
+    // Security / SSL
+    private Boolean sslEnabled;
+    private String sslCertPath;
+
+    // Metadata
     private String description;
     private Boolean active;
 
-    private UUID tenantId;        // Foreign key reference to Tenant
-
+    private UUID tenantId;
 }
