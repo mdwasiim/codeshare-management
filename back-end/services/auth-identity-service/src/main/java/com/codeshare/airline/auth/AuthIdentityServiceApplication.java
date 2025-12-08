@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth;
 
-import com.codeshare.airline.common.utils.config.CommonServiceConfig;
+import com.codeshare.airline.common.services.config.common.CommonServiceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;

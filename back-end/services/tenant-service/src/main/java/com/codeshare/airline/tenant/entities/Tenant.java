@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.entities;
 
-import com.codeshare.airline.common.jpa.audit.AbstractEntity;
+import com.codeshare.airline.common.services.jpa.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -68,12 +68,12 @@ public class Tenant extends AbstractEntity {
     // -------------------------------
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "data_source_id")
-    private DataSource dataSource;
+    private TenantDataSource tenantDataSource;
 
     // -------------------------------
     // Tenant Organizations
     // -------------------------------
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Organization> organizations = new HashSet<>();
+    private Set<TenantOrganization> tenantOrganizations = new HashSet<>();
 
 }

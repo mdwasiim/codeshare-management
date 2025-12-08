@@ -1,32 +1,53 @@
 package com.codeshare.airline.tenant.conbtroller;
 
+import com.codeshare.airline.common.services.constant.AppConstan;
+import com.codeshare.airline.common.services.response.ServiceResponse;
 import com.codeshare.airline.common.tenant.model.TenantDTO;
 import com.codeshare.airline.tenant.service.TenantService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/tenant")
+@RequestMapping("/api/tenants")
+@RequiredArgsConstructor
 public class TenantController {
 
+    private final TenantService tenantService;
 
-    private TenantService tenantService;
-
-    @Autowired
-    public TenantController(TenantService tenantService) {
-        this.tenantService = tenantService;
+    @PostMapping
+    public ResponseEntity<ServiceResponse> create(@RequestBody TenantDTO dto) {
+        return ResponseEntity.ok(ServiceResponse.success(tenantService.create(dto)));
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<TenantDTO> login(@RequestBody TenantDTO tenantDTO){
-
-        TenantDTO reponse =  tenantService.createTenant(tenantDTO);
-
-        return  ResponseEntity.ok(reponse);
+    @PutMapping("/{id}")
+    public ResponseEntity<ServiceResponse> update(
+            @PathVariable UUID id,
+            @RequestBody TenantDTO dto
+    ) {
+        return ResponseEntity.ok(ServiceResponse.success(tenantService.update(id, dto)));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ServiceResponse> getById(@PathVariable UUID id) {
+        return ResponseEntity.ok(ServiceResponse.success(tenantService.getById(id)));
+    }
+
+    @GetMapping("/code/{code}")
+    public ResponseEntity<ServiceResponse> getByCode(@PathVariable String code) {
+        return ResponseEntity.ok(ServiceResponse.success(tenantService.getByCode(code)));
+    }
+
+    @GetMapping
+    public ResponseEntity<ServiceResponse> getAllTenants() {
+        return ResponseEntity.ok(ServiceResponse.success(tenantService.getAll()));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ServiceResponse> delete(@PathVariable UUID id) {
+        tenantService.delete(id);
+        return ResponseEntity.ok(ServiceResponse.success(AppConstan.NO_DATA));
+    }
 }

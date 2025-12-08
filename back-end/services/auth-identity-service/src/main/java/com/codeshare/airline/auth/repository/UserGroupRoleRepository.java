@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
-import com.codeshare.airline.common.jpa.audit.BaseRepository;
+import com.codeshare.airline.auth.entities.rbac.UserGroupRole;
+import com.codeshare.airline.common.services.jpa.BaseRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,4 +15,6 @@ public interface UserGroupRoleRepository extends BaseRepository<UserGroupRole, U
     List<UserGroupRole> findByRoleId(UUID roleId);
 
     boolean existsByUserIdAndGroupIdAndRoleId(UUID userId, UUID groupId, UUID roleId);
+
+    List<UserGroupRole> findByUserIdAndTenantId(UUID userId, UUID tenantId);
 }

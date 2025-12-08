@@ -1,10 +1,13 @@
 package com.codeshare.airline.auth.entities.identity;
 
-import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
-import com.codeshare.airline.auth.entities.authorization.UserRole;
-import com.codeshare.airline.common.jpa.audit.AbstractEntity;
+import com.codeshare.airline.auth.entities.rbac.UserGroupRole;
+import com.codeshare.airline.auth.entities.rbac.UserRole;
+import com.codeshare.airline.common.services.jpa.AbstractEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -16,8 +19,8 @@ import java.util.UUID;
 @Table(
         name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_user_username_tenant", columnNames = {"tenant_id", "username"}),
-                @UniqueConstraint(name = "uk_user_email_tenant", columnNames = {"tenant_id", "email"})
+                @UniqueConstraint(name = "uk_user_username", columnNames = {"username"}),
+                @UniqueConstraint(name = "uk_user_email", columnNames = {"email"})
         }
 )
 @Getter
@@ -51,8 +54,6 @@ public class User extends AbstractEntity {
     @Column(name = "account_non_locked", nullable = false)
     private boolean accountNonLocked = true;
 
-    @Column(name = "active", nullable = false)
-    private boolean active = true;
 
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
@@ -63,11 +64,9 @@ public class User extends AbstractEntity {
     @Column(name = "tenant_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID tenantId;
 
-    @Column(name = "organization_id", columnDefinition = "BINARY(16)")
-    private UUID organizationId;
-
-    @Column(name = "user_group_id", columnDefinition = "BINARY(16)")
-    private UUID userGroupId;
+    // User Organization
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserOrganization> organizations = new HashSet<>();
 
     // -------------------------------
     // RBAC (User-Role, User-Group)
@@ -77,4 +76,5 @@ public class User extends AbstractEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
+
 }

@@ -33,6 +33,8 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jjwt.version>0.11.5</jjwt.version>
 
+        <github.openfeign.version>13.2</github.openfeign.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -45,6 +47,14 @@
         <module>services/tenant-service</module>
         <module>services/gateway-service</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
 
     <!-- Dependency Management (BOMs + Shared Versions) -->
     <dependencyManagement>
@@ -118,6 +128,16 @@
                 <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
+
+            <!-- OpenFeign BOM (LATEST 2024.x / Java 21 compatible) -->
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-bom</artifactId>
+                <version>${github.openfeign.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -1,18 +1,23 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.entities.authorization.UserGroupRole;
+import com.codeshare.airline.auth.entities.identity.User;
+import com.codeshare.airline.auth.entities.rbac.Group;
+import com.codeshare.airline.auth.entities.rbac.GroupRole;
+import com.codeshare.airline.auth.entities.rbac.UserGroupRole;
 import com.codeshare.airline.auth.repository.GroupRepository;
 import com.codeshare.airline.auth.repository.UserGroupRoleRepository;
 import com.codeshare.airline.auth.repository.UserRepository;
-import com.codeshare.airline.common.utils.UuidUtil;
-import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class UserGroupRoleLoader {
@@ -21,40 +26,66 @@ public class UserGroupRoleLoader {
     private final GroupRepository groupRepo;
     private final UserGroupRoleRepository repo;
 
-    public void load() {
+    @Transactional
+    public void load(List<String> tenantIds) {
 
-        List<String> tenants = List.of(
-                "CSM","QAIR","EMIR","LUFTH","DELTA",
-                "AIND","SPJET","INDGO","UNITD","BAIR"
-        );
+        if (repo.count() > 0) {
+            log.info("✔ UserGroupRoleLoader already present — skipping load.");
+            return;
+        }
 
-        for (String t : tenants) {
-
-            assign(t+"_admin",   t,"ADMIN");
-            assign(t+"_manager", t,"IT");
-            assign(t+"_staff",   t,"OPS");
+        for (String t : tenantIds) {
+            UUID tenantId = safeUUID(t);
+            if (tenantId == null) continue;
+            loadForTenant(tenantId);
         }
     }
 
-    private void assign(String username, String t, String gname) {
+    private void loadForTenant(UUID tenantId) {
 
-        UUID userId = UuidUtil.fixed("USER-" + username);
-        UUID groupId = UuidUtil.fixed("GROUP-" + t + "-" + gname);
+        List<User> users = userRepo.findByTenantId(tenantId);
+        List<Group> groups = groupRepo.findByTenantId(tenantId);
 
-        userRepo.findById(userId).ifPresent(u -> {
-            groupRepo.findById(groupId).ifPresent(g -> {
+        if (users.isEmpty() || groups.isEmpty()) {
+            log.warn("⚠ Tenant {}: No users or groups found — skipping", tenantId);
+            return;
+        }
 
-                UUID id = UuidUtil.fixed("UGR-" + userId + "-" + groupId);
+        List<UserGroupRole> userGroupRoles = new ArrayList<>();
 
-                if (!repo.existsById(id)) {
-                    repo.save(UserGroupRole.builder()
-                            .id(id)
-                            .user(u)
-                            .group(g)
-                            .build());
+        for (User user : users) {
+            for (Group group : groups) {
+
+                Set<GroupRole> groupRoles = group.getGroupRoles();
+                if (groupRoles == null || groupRoles.isEmpty()) continue;
+
+                for (GroupRole groupRole : groupRoles) {
+
+                    userGroupRoles.add(
+                            UserGroupRole.builder()
+                                    .tenantId(tenantId)
+                                    .user(user)
+                                    .group(group)
+                                    .role(groupRole.getRole())
+                                    .build()
+                    );
                 }
-            });
-        });
+            }
+        }
+
+        if (!userGroupRoles.isEmpty()) {
+            repo.saveAll(userGroupRoles);
+            log.info("✔ Tenant {}: {} user-group-role mappings created.",
+                    tenantId, userGroupRoles.size());
+        }
+    }
+
+    private UUID safeUUID(String id) {
+        try {
+            return UUID.fromString(id);
+        } catch (Exception e) {
+            log.warn("Invalid tenant UUID: {}", id);
+            return null;
+        }
     }
 }
-

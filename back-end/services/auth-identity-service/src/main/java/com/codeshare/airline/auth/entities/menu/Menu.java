@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.entities.menu;
 
-import com.codeshare.airline.common.jpa.audit.AbstractEntity;
-import com.codeshare.airline.common.utils.json.JsonConverter;
+import com.codeshare.airline.common.services.jpa.AbstractEntity;
+import com.codeshare.airline.common.services.utils.json.JsonConverter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;

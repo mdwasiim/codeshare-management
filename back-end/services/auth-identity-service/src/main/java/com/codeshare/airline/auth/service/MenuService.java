@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.service;
 
 
-import com.codeshare.airline.common.auth.model.MenuDTO;
+import com.codeshare.airline.common.auth.identity.model.MenuDTO;
 
 import java.util.List;
 import java.util.UUID;

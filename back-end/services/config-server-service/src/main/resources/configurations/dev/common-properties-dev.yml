@@ -48,3 +48,51 @@ spring:
           contextPath: ${server.servlet.context-path}
         tags:
           - contextPath=${server.servlet.context-path}
+
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+feign:
+  httpclient:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      authService:
+        register-health-indicator: true
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 2000ms
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+  retry:
+    instances:
+      authService:
+        max-attempts: 3
+        wait-duration: 200ms
+        retry-exceptions:
+          - feign.RetryableException
+          - java.io.IOException
+
+  timelimiter:
+    instances:
+      authService:
+        timeout-duration: 5s
+
+  bulkhead:
+    instances:
+      authService:
+        max-concurrent-calls: 50
+        max-wait-duration: 100ms

@@ -1,29 +1,28 @@
 package com.codeshare.airline.auth.serviceImpl;
 
 import com.codeshare.airline.auth.entities.menu.Menu;
-import com.codeshare.airline.auth.utils.mappers.MenuMapper;
 import com.codeshare.airline.auth.repository.MenuRepository;
 import com.codeshare.airline.auth.service.MenuService;
-import com.codeshare.airline.common.auth.model.MenuDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codeshare.airline.auth.utils.mappers.MenuMapper;
+import com.codeshare.airline.common.auth.identity.model.MenuDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
 
     private final MenuRepository repository;
     private final MenuMapper mapper;
 
-    @Autowired
-    public MenuServiceImpl(MenuRepository repository, MenuMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
-
+    // ---------------------------------------------------------
+    // CREATE NEW MENU FOR TENANT
+    // ---------------------------------------------------------
     @Override
     public MenuDTO create(MenuDTO dto) {
 
@@ -31,36 +30,15 @@ public class MenuServiceImpl implements MenuService {
             throw new IllegalArgumentException("tenantId is required");
 
         if (dto.getName() == null || dto.getName().isBlank())
-            throw new IllegalArgumentException("name is required");
+            throw new IllegalArgumentException("Menu name is required");
 
+        // Check duplicate name in same tenant
         if (repository.existsByNameAndTenantId(dto.getName(), dto.getTenantId()))
             throw new RuntimeException("Menu already exists for tenant");
 
         Menu entity = mapper.toEntity(dto);
 
-        if (dto.getParentId() != null) {
-            Menu parent = repository.findById(dto.getParentId())
-                    .orElseThrow(() -> new RuntimeException("Parent menu not found"));
-            entity.setParentMenu(parent);
-        }
-
-        Menu saved = repository.save(entity);
-        return mapper.toDTO(saved);
-    }
-
-    @Override
-    public MenuDTO update(UUID id, MenuDTO dto) {
-
-        Menu entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
-
-        if (dto.getName() != null) entity.setName(dto.getName());
-        if (dto.getUrl() != null) entity.setUrl(dto.getUrl());
-        if (dto.getIcon() != null) entity.setIcon(dto.getIcon());
-        if (dto.getBadge() != null) entity.setBadge(dto.getBadge());
-        if (dto.getIconComponent() != null) entity.setIconComponent(dto.getIconComponent());
-        entity.setTitle(dto.getTitle());
-
+        // Assign parent if exists
         if (dto.getParentId() != null) {
             Menu parent = repository.findById(dto.getParentId())
                     .orElseThrow(() -> new RuntimeException("Parent menu not found"));
@@ -70,6 +48,38 @@ public class MenuServiceImpl implements MenuService {
         return mapper.toDTO(repository.save(entity));
     }
 
+
+    // ---------------------------------------------------------
+    // UPDATE MENU DETAILS
+    // ---------------------------------------------------------
+    @Override
+    public MenuDTO update(UUID id, MenuDTO dto) {
+
+        Menu entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
+
+        // Update fields only if provided
+        if (dto.getName() != null) entity.setName(dto.getName());
+        if (dto.getUrl() != null) entity.setUrl(dto.getUrl());
+        if (dto.getIcon() != null) entity.setIcon(dto.getIcon());
+        if (dto.getBadge() != null) entity.setBadge(dto.getBadge());
+        if (dto.getIconComponent() != null) entity.setIconComponent(dto.getIconComponent());
+        if (dto.getTitle() != null) entity.setTitle(dto.getTitle());
+
+        // Assign parent menu
+        if (dto.getParentId() != null) {
+            Menu parent = repository.findById(dto.getParentId())
+                    .orElseThrow(() -> new RuntimeException("Parent menu not found"));
+            entity.setParentMenu(parent);
+        }
+
+        return mapper.toDTO(repository.save(entity));
+    }
+
+
+    // ---------------------------------------------------------
+    // GET MENU BY ID
+    // ---------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
     public MenuDTO getById(UUID id) {
@@ -78,23 +88,35 @@ public class MenuServiceImpl implements MenuService {
                 .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
     }
 
+
+    // ---------------------------------------------------------
+    // GET TOP-LEVEL (ROOT) MENUS FOR TENANT
+    // ---------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
     public List<MenuDTO> getRootMenus(UUID tenantId) {
-        List<Menu> menus = repository.findByTenantIdAndParentMenuIsNull(tenantId);
-        return mapper.toDTOList(menus);
+        return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNull(tenantId));
     }
 
+
+    // ---------------------------------------------------------
+    // GET ALL MENUS FOR TENANT
+    // ---------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
     public List<MenuDTO> getAllByTenant(UUID tenantId) {
         return mapper.toDTOList(repository.findByTenantId(tenantId));
     }
 
+
+    // ---------------------------------------------------------
+    // DELETE MENU BY ID
+    // ---------------------------------------------------------
     @Override
     public void delete(UUID id) {
-        Menu entity = repository.findById(id)
+        Menu menu = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
-        repository.delete(entity);
+
+        repository.delete(menu);
     }
 }
