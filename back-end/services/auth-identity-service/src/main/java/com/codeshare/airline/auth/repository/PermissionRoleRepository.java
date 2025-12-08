@@ -1,18 +1,19 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.entities.authorization.PermissionRole;
-import com.codeshare.airline.common.jpa.audit.BaseRepository;
+import com.codeshare.airline.auth.entities.rbac.RolePermission;
+import com.codeshare.airline.common.services.jpa.BaseRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-public interface PermissionRoleRepository extends BaseRepository<PermissionRole, UUID> {
+public interface PermissionRoleRepository extends BaseRepository<RolePermission, UUID> {
 
-    List<PermissionRole> findByPermissionId(UUID permissionId);
+    List<RolePermission> findByPermissionId(UUID permissionId);
 
-    List<PermissionRole> findByRoleId(UUID roleId);
+    List<RolePermission> findByRoleId(UUID roleId);
 
-    boolean existsByPermissionIdAndRoleId(UUID permissionId, UUID roleId);
+    Optional<RolePermission> findByRoleIdAndPermissionId(UUID permissionId, UUID roleId);
 
 
 }

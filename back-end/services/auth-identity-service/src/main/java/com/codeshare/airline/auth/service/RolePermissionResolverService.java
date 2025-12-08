@@ -1,8 +1,8 @@
 package com.codeshare.airline.auth.service;
 
 
-import com.codeshare.airline.common.auth.model.PermissionDTO;
-import com.codeshare.airline.common.auth.model.RoleDTO;
+import com.codeshare.airline.common.auth.identity.model.PermissionDTO;
+import com.codeshare.airline.common.auth.identity.model.RoleDTO;
 
 import java.util.Set;
 import java.util.UUID;

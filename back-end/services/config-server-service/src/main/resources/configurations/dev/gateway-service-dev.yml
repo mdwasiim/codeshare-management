@@ -9,6 +9,10 @@ spring:
 
   cloud:
     gateway:
+      default-filters:
+        - AddRequestHeader=X-Transaction-Id, #{T(java.util.UUID).randomUUID()}
+        - AddRequestHeader=X-Request-Start-Time, #{T(java.lang.System).currentTimeMillis()}
+
       routes:
 
         # AUTH SERVICE
@@ -18,7 +22,7 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
-            - RewritePath=/(?<segment>.*), /api/auth/${segment}
+            - RewritePath=/(?<segment>.*),/api/auth/${segment}
 
         # TENANT SERVICE
         - id: tenant-service
@@ -27,7 +31,12 @@ spring:
             - Path=/tenant/**
           filters:
             - StripPrefix=1
-            - RewritePath=/(?<segment>.*), /api/tenant/${segment}
+            - RewritePath=/(?<segment>.*),/api/tenant/${segment}
+
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
 
 server:
   port: 8080

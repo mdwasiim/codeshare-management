@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,6 +48,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             token = authHeader.substring(7);
             username = jwtUtil.extractClaims(token).getSubject();
         }
+        // ------------------------------
+        // 1️⃣ Capture User-Agent + IP + Device-ID
+        // ------------------------------
+        String userAgent = request.getHeader("User-Agent");
+        String deviceId = request.getHeader("X-Device-ID");
+        String ip = extractClientIp(request);
+
+        request.setAttribute("X_DEVICE_ID", deviceId);
+        request.setAttribute("X_USER_AGENT", userAgent);
+        request.setAttribute("X_IP_ADDRESS", ip);
+
+        // Add to Logging context
+        MDC.put("ip", ip);
+        MDC.put("device", deviceId);
+        MDC.put("agent", userAgent);
+
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -59,6 +76,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         chain.doFilter(request, response);
+    }
+
+    private String extractClientIp(HttpServletRequest request) {
+        String xff = request.getHeader("X-Forwarded-For");
+        if (xff != null && !xff.isBlank()) {
+            return xff.split(",")[0].trim();
+        }
+        return request.getRemoteAddr();
     }
 
 }

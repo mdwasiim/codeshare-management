@@ -1,8 +1,8 @@
 package com.codeshare.airline.auth.repository;
 
 
-import com.codeshare.airline.auth.entities.authToken.PasswordResetToken;
-import com.codeshare.airline.common.jpa.audit.BaseRepository;
+import com.codeshare.airline.auth.entities.authentication.PasswordResetToken;
+import com.codeshare.airline.common.services.jpa.BaseRepository;
 
 import java.util.Optional;
 import java.util.UUID;
