@@ -1,17 +1,18 @@
 package com.codeshare.airline.tenant.utils.data;
 
-import com.codeshare.airline.common.utils.UuidUtil;
+import com.codeshare.airline.common.services.utils.helper.UuidUtil;
 import com.codeshare.airline.tenant.entities.Tenant;
+import com.codeshare.airline.tenant.entities.TenantDataSource;
 import com.codeshare.airline.tenant.repository.TenantDataSourceRepository;
 import com.codeshare.airline.tenant.repository.TenantRepository;
-import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TenantLoader {
@@ -19,32 +20,54 @@ public class TenantLoader {
     private final TenantRepository repo;
     private final TenantDataSourceRepository dsRepo;
 
-    private static final List<String> TENANTS = List.of(
-            "CSM","QAIR","EMIR","LUFTH","DELTA","AIND","SPJET","INDGO","UNITD","BAIR"
+    public static final List<String> TENANTS = List.of(
+            "CODESHARE_MANAGEMENT",
+            "QATAR_AIRLINES"
     );
 
-    public void teanantLoader() {
+    public void tenantLoader() {
+
+        if (repo.count() > 0) {
+            log.info("✔ Tenants already present — skipping load.");
+            return;
+        }
+
+        log.info("⏳ Loading global master tenants...");
+
+        TenantDataSource primaryDs = dsRepo.findById(
+                UuidUtil.fixed("DS-MYSQL_PRIMARY")
+        ).orElseThrow(() ->
+                new RuntimeException("Primary datasource DS-MYSQL_PRIMARY not found")
+        );
+
+        List<Tenant> tenants = new ArrayList<>();
 
         for (String code : TENANTS) {
 
-            UUID id = UuidUtil.fixed("TENANT-" + code);
+            String email = code.toLowerCase().replace("_", ".") + "@example.com";
 
-            repo.findById(id).orElseGet(() -> repo.save(
-                    Tenant.builder()
-                            .id(id)
-                            .code(code)
-                            .name(code + " Tenant")
-                            .description("Default tenant " + code)
-                            .plan("PRO")
-                            .trial(false)
-                            .enabled(true)
-                            .dbConfig(dsRepo.findById(UuidUtil.fixed("DS-MYSQL_PRIMARY")).orElse(null))
-                            .contactEmail(code.toLowerCase() + "@example.com")
-                            .region("GLOBAL")
-                            .createdBy("SYSTEM")
-                            .build()
-            ));
+            Tenant tenant = Tenant.builder()
+                    .code(code)
+                    .name(toReadableName(code))
+                    .description("Auto-loaded tenant: " + code)
+                    .plan("PRO")
+                    .trial(false)
+                    .enabled(true)
+                    .tenantDataSource(primaryDs)
+                    .contactEmail(email)
+                    .region("GLOBAL")
+                    .createdBy("SYSTEM")
+                    .build();
+
+            tenants.add(tenant);
         }
+
+        repo.saveAll(tenants);
+
+        log.info("✔ {} Tenants loaded successfully.", tenants.size());
+    }
+
+    private String toReadableName(String code) {
+        return code.replace("_", " ");
     }
 }
-

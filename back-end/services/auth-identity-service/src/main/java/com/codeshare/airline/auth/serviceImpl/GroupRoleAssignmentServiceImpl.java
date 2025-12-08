@@ -1,14 +1,15 @@
 package com.codeshare.airline.auth.serviceImpl;
 
-import com.codeshare.airline.auth.entities.authorization.GroupRole;
-import com.codeshare.airline.auth.entities.identity.Group;
-import com.codeshare.airline.auth.entities.identity.Role;
-import com.codeshare.airline.auth.utils.mappers.GroupRoleMapper;
+import com.codeshare.airline.auth.entities.rbac.Group;
+import com.codeshare.airline.auth.entities.rbac.GroupRole;
+import com.codeshare.airline.auth.entities.rbac.Role;
 import com.codeshare.airline.auth.repository.GroupRepository;
 import com.codeshare.airline.auth.repository.GroupRoleRepository;
 import com.codeshare.airline.auth.repository.RoleRepository;
 import com.codeshare.airline.auth.service.GroupRoleAssignmentService;
-import com.codeshare.airline.common.auth.model.GroupRoleDTO;
+import com.codeshare.airline.auth.utils.mappers.GroupRoleMapper;
+import com.codeshare.airline.common.auth.identity.model.GroupRoleDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,24 +18,13 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentService {
 
     private final GroupRoleRepository repo;
     private final GroupRepository groupRepo;
     private final RoleRepository roleRepo;
     private final GroupRoleMapper mapper;
-
-    public GroupRoleAssignmentServiceImpl(
-            GroupRoleRepository repo,
-            GroupRepository groupRepo,
-            RoleRepository roleRepo,
-            GroupRoleMapper mapper
-    ) {
-        this.repo = repo;
-        this.groupRepo = groupRepo;
-        this.roleRepo = roleRepo;
-        this.mapper = mapper;
-    }
 
     @Override
     public GroupRoleDTO assignRoleToGroup(UUID groupId, UUID roleId) {

@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.service;
 
 
-import com.codeshare.airline.common.auth.model.UserDTO;
+import com.codeshare.airline.common.auth.identity.model.UserDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,4 +20,5 @@ public interface UserService {
 
     void delete(UUID id);
 
+    UserDTO getByUsername(String name);
 }

@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.entities.identity.Role;
-import com.codeshare.airline.common.jpa.audit.BaseRepository;
+import com.codeshare.airline.auth.entities.rbac.Role;
+import com.codeshare.airline.common.services.jpa.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,5 +21,7 @@ public interface RoleRepository extends BaseRepository<Role, UUID> {
     List<Role> findByTenantId(UUID tenantId);
 
     boolean existsByNameAndTenantId(String name, UUID tenantId);
+
+    Role findByNameAndTenantId(String roleCode, UUID uuid);
 
 }
