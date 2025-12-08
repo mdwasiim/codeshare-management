@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.serviceImpl;
 
-import com.codeshare.airline.auth.entities.identity.Role;
+import com.codeshare.airline.auth.entities.rbac.Role;
 import com.codeshare.airline.auth.entities.menu.Menu;
 import com.codeshare.airline.auth.entities.menu.MenuRole;
 import com.codeshare.airline.auth.utils.mappers.MenuRoleMapper;
@@ -8,7 +8,7 @@ import com.codeshare.airline.auth.repository.MenuRepository;
 import com.codeshare.airline.auth.repository.MenuRoleRepository;
 import com.codeshare.airline.auth.repository.RoleRepository;
 import com.codeshare.airline.auth.service.MenuRoleAssignmentService;
-import com.codeshare.airline.common.auth.model.MenuRoleDTO;
+import com.codeshare.airline.common.auth.identity.model.MenuRoleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

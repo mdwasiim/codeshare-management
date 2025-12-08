@@ -1,9 +1,9 @@
 package com.codeshare.airline.auth.model;
 
 
-import com.codeshare.airline.common.auth.model.MenuDTO;
-import com.codeshare.airline.common.auth.model.PermissionDTO;
-import com.codeshare.airline.common.auth.model.RoleDTO;
+import com.codeshare.airline.common.auth.identity.model.MenuDTO;
+import com.codeshare.airline.common.auth.identity.model.PermissionDTO;
+import com.codeshare.airline.common.auth.identity.model.RoleDTO;
 import lombok.Data;
 
 import java.util.List;

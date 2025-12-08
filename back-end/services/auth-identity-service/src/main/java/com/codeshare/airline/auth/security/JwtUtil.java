@@ -1,15 +1,12 @@
     package com.codeshare.airline.auth.security;
 
 
-    import com.codeshare.airline.auth.entities.authorization.PermissionRole;
-    import com.codeshare.airline.auth.entities.identity.Permission;
     import com.codeshare.airline.auth.entities.identity.User;
     import com.codeshare.airline.auth.service.RolePermissionResolverService;
     import com.codeshare.airline.auth.utils.mappers.PermissionMapper;
     import com.codeshare.airline.auth.utils.mappers.RoleMapper;
     import com.codeshare.airline.auth.utils.mappers.UserMapper;
-    import com.codeshare.airline.common.auth.model.PermissionDTO;
-    import com.codeshare.airline.common.utils.mapper.audit.AuditMapper;
+    import com.codeshare.airline.common.auth.identity.model.PermissionDTO;
     import io.jsonwebtoken.Claims;
     import io.jsonwebtoken.Jwts;
     import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,7 +21,6 @@
     import java.util.HashMap;
     import java.util.Map;
     import java.util.Set;
-    import java.util.stream.Collectors;
 
     @Component
     public class JwtUtil {
@@ -45,19 +41,16 @@
         private final UserMapper userMapper;
         private final RolePermissionResolverService rolePermissionResolverService;
 
-        private final AuditMapper auditMapper;
-
 
         @Autowired
         public JwtUtil(RoleMapper roleMapper,
                        PermissionMapper permissionMapper,
                        UserMapper userMapper,
-                       RolePermissionResolverService rolePermissionResolverService, AuditMapper auditMapper) {
+                       RolePermissionResolverService rolePermissionResolverService) {
             this.roleMapper = roleMapper;
             this.permissionMapper = permissionMapper;
             this.userMapper = userMapper;
             this.rolePermissionResolverService = rolePermissionResolverService;
-            this.auditMapper = auditMapper;
         }
 
         @PostConstruct
@@ -67,7 +60,7 @@
             secretKey = Keys.hmacShaKeyFor(keyBytes);
         }
 
-        public String generateAccessToken(User user) {
+        public String generateAccessToken(User user, String deviceId, String userAgent, String ip) {
             Map<String, Object> claims = new HashMap<>();
 
             claims.put("roles", rolePermissionResolverService
@@ -77,7 +70,7 @@
                     .resolvePermissionsNames(user.getId(), user.getTenantId()));
 
             claims.put("tenantId", user.getTenantId());
-            claims.put("organizationId", user.getOrganizationId());
+            //claims.put("organizationId", user.getOrganizationId());
 
             return buildToken(claims, user.getUsername(), accessExpiration);
         }
@@ -111,18 +104,19 @@
                     && claims.getExpiration().after(new Date());
         }
         public Set<PermissionDTO> getAllUserPermissions(User user) {
-            Set<Permission> directPermissions = user.getUserRoles().stream()
-                    .flatMap(ur -> ur.getRole().getPermissionRoles().stream())
-                    .map(PermissionRole::getPermission)
+          /*  Set<Permission> directPermissions = user.getUserRoles().stream()
+                    .flatMap(ur -> ur.getRole().getRolePermissions().stream())
+                    .map(RolePermission::getPermission)
                     .collect(Collectors.toSet());
 
             Set<Permission> groupPermissions = user.getUserGroupRoles().stream()
-                    .flatMap(ugr -> ugr.getRole().getPermissionRoles().stream())
-                    .map(PermissionRole::getPermission)
+                    .flatMap(ugr -> ugr.getRole().getRolePermissions().stream())
+                    .map(RolePermission::getPermission)
                     .collect(Collectors.toSet());
 
-            directPermissions.addAll(groupPermissions); // merge
+            directPermissions.addAll(groupPermissions);*/ // merge
 
-            return permissionMapper.toDTOSet(directPermissions, auditMapper);
+            return permissionMapper.toDTOSet(null);
         }
+
     }
