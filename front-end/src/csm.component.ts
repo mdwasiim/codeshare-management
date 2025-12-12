@@ -7,4 +7,4 @@ import { RouterModule } from '@angular/router';
     imports: [RouterModule],
     template: `<router-outlet></router-outlet>`
 })
-export class CsmComponent {}
+export class CSMComponent {}

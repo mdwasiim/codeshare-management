@@ -1,4 +1,4 @@
-import { CsmLayoutService } from '@/core/services/csm.layout.service';
+import { CSMLayoutService } from '@/core/services/csm.layout.service';
 import { Component } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { debounceTime, Subscription } from 'rxjs';
@@ -12,14 +12,14 @@ import { debounceTime, Subscription } from 'rxjs';
         <p-chart type="bar" [data]="chartData" [options]="chartOptions" class="h-100" />
     </div>`
 })
-export class CsmRevenueStreamWidget {
+export class CSMRevenueStreamWidget {
     chartData: any;
 
     chartOptions: any;
 
     subscription!: Subscription;
 
-    constructor(public csmLayoutService: CsmLayoutService) {
+    constructor(public csmLayoutService: CSMLayoutService) {
         this.subscription = this.csmLayoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
             this.initChart();
         });

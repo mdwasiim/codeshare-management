@@ -6,7 +6,7 @@ import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 import { MenuItem } from 'primeng/api';
-import { CsmLayoutService } from '@/core/services/csm.layout.service';
+import { CSMLayoutService } from '@/core/services/csm.layout.service';
 
 
 @Component({
@@ -32,9 +32,9 @@ import { CsmLayoutService } from '@/core/services/csm.layout.service';
             transition('collapsed <=> expanded', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
         ])
     ],
-    providers: [CsmLayoutService]
+    providers: [CSMLayoutService]
 })
-export class CsmMenuitem {
+export class CSMMenuitem {
     @Input() item!: MenuItem;
     @Input() index!: number;
 
@@ -53,7 +53,7 @@ export class CsmMenuitem {
 
     constructor(
         public router: Router,
-        private csmLayoutService: CsmLayoutService
+        private csmLayoutService: CSMLayoutService
     ) {
         this.menuSourceSubscription = this.csmLayoutService.menuSource$.subscribe((value) => {
             Promise.resolve(null).then(() => {

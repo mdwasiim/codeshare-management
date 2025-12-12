@@ -1,4 +1,4 @@
-import { CsmFloatingConfigurator } from '@/layout/floating-configurator/csm.floating-configurator';
+import { CSMFloatingConfigurator } from '@/layout/floating-configurator/csm.floating-configurator';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -11,7 +11,7 @@ import { RippleModule } from 'primeng/ripple';
 @Component({
     selector: 'csm-login',
     standalone: true,
-    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, CsmFloatingConfigurator, CsmFloatingConfigurator],
+    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, CSMFloatingConfigurator, CSMFloatingConfigurator],
     template: `
         <csm-floating-configurator />
         <div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-screen overflow-hidden">
@@ -62,7 +62,7 @@ import { RippleModule } from 'primeng/ripple';
         </div>
     `
 })
-export class CsmLogin {
+export class CSMLogin {
     email: string = '';
 
     password: string = '';

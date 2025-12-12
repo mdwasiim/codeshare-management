@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { NotificationsWidget } from './components/notificationswidget';
 import { StatsWidget } from './components/statswidget';
-import { CsmCsmRecentSalesWidget } from './components/recentsaleswidget';
+import { CSMRecentSalesWidget } from './components/recentsaleswidget';
 import { BestSellingWidget } from './components/bestsellingwidget';
-import { CsmRevenueStreamWidget } from './components/revenuestreamwidget';
+import { CSMRevenueStreamWidget } from './components/revenuestreamwidget';
 
 @Component({
     selector: 'csm-dashboard',
-    imports: [StatsWidget, CsmCsmRecentSalesWidget, BestSellingWidget, CsmRevenueStreamWidget, NotificationsWidget],
+    imports: [StatsWidget, CSMRecentSalesWidget, BestSellingWidget, CSMRevenueStreamWidget, NotificationsWidget],
     template: `
         <div class="grid grid-cols-12 gap-8">
             <csm-stats-widget class="contents" />
@@ -22,4 +22,4 @@ import { CsmRevenueStreamWidget } from './components/revenuestreamwidget';
         </div>
     `
 })
-export class CsmDashboard {}
+export class CSMDashboard {}

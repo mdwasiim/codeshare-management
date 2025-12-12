@@ -1,7 +1,7 @@
 import { Injectable, effect, signal, computed } from '@angular/core';
 import { Subject } from 'rxjs';
 
-export interface CsmLayoutConfig {
+export interface CSMLayoutConfig {
     preset?: string;
     primary?: string;
     surface?: string | undefined | null;
@@ -9,7 +9,7 @@ export interface CsmLayoutConfig {
     menuMode?: string;
 }
 
-interface CsmLayoutState {
+interface CSMLayoutState {
     staticMenuDesktopInactive?: boolean;
     overlayMenuActive?: boolean;
     configSidebarVisible?: boolean;
@@ -17,7 +17,7 @@ interface CsmLayoutState {
     menuHoverActive?: boolean;
 }
 
-interface CsmMenuChangeEvent {
+interface CSMMenuChangeEvent {
     key: string;
     routeEvent?: boolean;
 }
@@ -25,8 +25,8 @@ interface CsmMenuChangeEvent {
 @Injectable({
     providedIn: 'root'
 })
-export class CsmLayoutService {
-    _config: CsmLayoutConfig = {
+export class CSMLayoutService {
+    _config: CSMLayoutConfig = {
         preset: 'Aura',
         primary: 'emerald',
         surface: null,
@@ -34,7 +34,7 @@ export class CsmLayoutService {
         menuMode: 'static'
     };
 
-    _state: CsmLayoutState = {
+    _state: CSMLayoutState = {
         staticMenuDesktopInactive: false,
         overlayMenuActive: false,
         configSidebarVisible: false,
@@ -42,12 +42,12 @@ export class CsmLayoutService {
         menuHoverActive: false
     };
 
-    layoutConfig = signal<CsmLayoutConfig>(this._config);
-    layoutState = signal<CsmLayoutState>(this._state);
+    layoutConfig = signal<CSMLayoutConfig>(this._config);
+    layoutState = signal<CSMLayoutState>(this._state);
 
-    private configUpdate = new Subject<CsmLayoutConfig>();
+    private configUpdate = new Subject<CSMLayoutConfig>();
     private overlayOpen = new Subject<any>();
-    private menuSource = new Subject<CsmMenuChangeEvent>();
+    private menuSource = new Subject<CSMMenuChangeEvent>();
     private resetSource = new Subject();
 
     menuSource$ = this.menuSource.asObservable();
@@ -86,7 +86,7 @@ export class CsmLayoutService {
         });
     }
 
-    private handleDarkModeTransition(config: CsmLayoutConfig): void {
+    private handleDarkModeTransition(config: CSMLayoutConfig): void {
         if ((document as any).startViewTransition) {
             this.startViewTransition(config);
         } else {
@@ -95,7 +95,7 @@ export class CsmLayoutService {
         }
     }
 
-    private startViewTransition(config: CsmLayoutConfig): void {
+    private startViewTransition(config: CSMLayoutConfig): void {
         const transition = (document as any).startViewTransition(() => {
             this.toggleDarkMode(config);
         });
@@ -105,7 +105,7 @@ export class CsmLayoutService {
         });
     }
 
-    toggleDarkMode(config?: CsmLayoutConfig): void {
+    toggleDarkMode(config?: CSMLayoutConfig): void {
         const _config = config || this.layoutConfig();
         if (_config.darkTheme) {
             document.documentElement.classList.add('csm-dark');
@@ -163,7 +163,7 @@ export class CsmLayoutService {
         this.configUpdate.next(this.layoutConfig());
     }
 
-    onMenuStateChange(event: CsmMenuChangeEvent) {
+    onMenuStateChange(event: CSMMenuChangeEvent) {
         this.menuSource.next(event);
     }
 
