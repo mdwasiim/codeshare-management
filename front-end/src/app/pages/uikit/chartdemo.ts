@@ -1,5 +1,5 @@
 
-import { CsmLayoutService } from '@/core/services/csm.layout.service';
+import { CSMLayoutService } from '@/core/services/csm.layout.service';
 import { Component } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { FluidModule } from 'primeng/fluid';
@@ -72,7 +72,7 @@ export class ChartDemo {
     radarOptions: any;
 
     subscription: Subscription;
-    constructor(private csmlayoutService: CsmLayoutService) {
+    constructor(private csmlayoutService: CSMLayoutService) {
         this.subscription = this.csmlayoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
             this.initCharts();
         });

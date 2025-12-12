@@ -1,23 +1,33 @@
 import { Routes } from '@angular/router';
-import { CsmLayout } from '@/layout/csm.layout';
-import { CsmDashboard } from '@/pages/dashboard/csm.dashboard';
-import { Documentation } from '@/pages/documentation/documentation';
-import { CsmLanding } from '@/pages/landing/landing';
-import { CsmNotfound } from '@/pages/notfound/notfound';
+import { CSMLayout } from '@layout/csm.layout';
+import { CSMDashboard } from '@pages/dashboard/csm.dashboard';
+import { Documentation } from '@pages/documentation/documentation';
+import { CSMLanding } from '@pages/landing/landing';
+import { CSMNotfound } from '@pages/notfound/notfound';
 
 export const csmRoutes: Routes = [
     {
         path: '',
-        component: CsmLayout,
+        component: CSMLayout,
         children: [
-            { path: '', component: CsmDashboard },
-            { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
+            { path: '', component: CSMDashboard },
+
+            // Lazy-loaded UI Kit
+            { path: 'uikit', loadChildren: () => import('@pages/uikit/uikit.routes') },
+
             { path: 'documentation', component: Documentation },
-            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
+
+            // Lazy-loaded Pages Module
+            { path: 'pages', loadChildren: () => import('@pages/pages.routes') }
         ]
     },
-    { path: 'landing', component: CsmLanding },
-    { path: 'notfound', component: CsmNotfound },
-    { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
-    { path: '**', redirectTo: '/notfound' }
+
+    { path: 'landing', component: CSMLanding },
+    { path: 'notfound', component: CSMNotfound },
+
+    // Lazy-loaded Auth Module
+    { path: 'auth', loadChildren: () => import('@pages/auth/auth.routes') },
+
+    // Global Wildcard
+    { path: '**', redirectTo: 'notfound' }
 ];

@@ -1,10 +1,10 @@
 import { provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { CsmComponent } from './csm.component';
+import { CSMComponent } from './csm.component';
 import { csmConfig } from './csm.config';
 
 
-bootstrapApplication(CsmComponent, {
+bootstrapApplication(CSMComponent, {
     ...csmConfig,
     providers: [
         provideZoneChangeDetection(),
