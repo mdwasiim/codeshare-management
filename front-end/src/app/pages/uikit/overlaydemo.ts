@@ -10,10 +10,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
-import { Product, ProductService } from '../service/product.service';
+import { Product, ProductService } from '../../core/services/product.service';
 
 @Component({
-    selector: 'app-overlay-demo',
+    selector: 'csm-overlay-demo',
     standalone: true,
     imports: [ToastModule, DialogModule, ButtonModule, DrawerModule, PopoverModule, ConfirmPopupModule, InputTextModule, FormsModule, TooltipModule, TableModule, ToastModule],
     template: ` <div class="flex flex-col md:flex-row gap-8">
@@ -25,7 +25,7 @@ import { Product, ProductService } from '../service/product.service';
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
-                    <ng-template #footer>
+                    <ng-template #overlayFooter>
                         <p-button label="Save" (click)="close()" />
                     </ng-template>
                 </p-dialog>
@@ -125,7 +125,7 @@ import { Product, ProductService } from '../service/product.service';
                         <i class="pi pi-exclamation-triangle mr-4" style="font-size: 2rem"> </i>
                         <span>Are you sure you want to proceed?</span>
                     </div>
-                    <ng-template #footer>
+                    <ng-template #overlayFooter>
                         <p-button label="No" icon="pi pi-times" (click)="closeConfirmation()" text severity="secondary" />
                         <p-button label="Yes" icon="pi pi-check" (click)="closeConfirmation()" severity="danger" outlined autofocus />
                     </ng-template>

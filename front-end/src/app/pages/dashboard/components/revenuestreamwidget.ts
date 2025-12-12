@@ -1,26 +1,26 @@
+import { CsmLayoutService } from '@/core/services/csm.layout.service';
 import { Component } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { debounceTime, Subscription } from 'rxjs';
-import { LayoutService } from '../../../layout/service/layout.service';
 
 @Component({
     standalone: true,
-    selector: 'app-revenue-stream-widget',
+    selector: 'csm-revenue-stream-widget',
     imports: [ChartModule],
     template: `<div class="card mb-8!">
         <div class="font-semibold text-xl mb-4">Revenue Stream</div>
         <p-chart type="bar" [data]="chartData" [options]="chartOptions" class="h-100" />
     </div>`
 })
-export class RevenueStreamWidget {
+export class CsmRevenueStreamWidget {
     chartData: any;
 
     chartOptions: any;
 
     subscription!: Subscription;
 
-    constructor(public layoutService: LayoutService) {
-        this.subscription = this.layoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
+    constructor(public csmLayoutService: CsmLayoutService) {
+        this.subscription = this.csmLayoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
             this.initChart();
         });
     }
