@@ -5,7 +5,7 @@ import { ButtonGroupModule } from 'primeng/buttongroup';
 import { SplitButtonModule } from 'primeng/splitbutton';
 
 @Component({
-    selector: 'app-button-demo',
+    selector: 'csm-button-demo',
     standalone: true,
     imports: [ButtonModule, ButtonGroupModule, SplitButtonModule],
     template: `<div class="flex flex-col md:flex-row gap-8">
@@ -176,7 +176,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
         </div>
     </div> `
 })
-export class ButtonDemo implements OnInit {
+export class CsmButtonDemo implements OnInit {
     items: MenuItem[] = [];
 
     loading = [false, false, false, false];

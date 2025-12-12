@@ -7,10 +7,10 @@ import { OrderListModule } from 'primeng/orderlist';
 import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
-import { Product, ProductService } from '../service/product.service';
+import { Product, ProductService } from '../../core/services/product.service';
 
 @Component({
-    selector: 'app-list-demo',
+    selector: 'csm-list-demo',
     standalone: true,
     imports: [CommonModule, DataViewModule, FormsModule, SelectButtonModule, PickListModule, OrderListModule, TagModule, ButtonModule],
     template: ` <div class="flex flex-col">
@@ -20,7 +20,7 @@ import { Product, ProductService } from '../service/product.service';
                 <ng-template #header>
                     <div class="flex justify-end">
                         <p-select-button [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
-                            <ng-template #item let-option>
+                            <ng-template #listItem let-option>
                                 <i class="pi " [ngClass]="{ 'pi-bars': option === 'list', 'pi-table': option === 'grid' }"></i>
                             </ng-template>
                         </p-select-button>
@@ -130,7 +130,7 @@ import { Product, ProductService } from '../service/product.service';
                 <div class="card">
                     <div class="font-semibold text-xl mb-4">PickList</div>
                     <p-pick-list [source]="sourceCities" [target]="targetCities" breakpoint="1400px">
-                        <ng-template #item let-item>
+                        <ng-template #listItem let-item>
                             {{ item.name }}
                         </ng-template>
                     </p-pick-list>

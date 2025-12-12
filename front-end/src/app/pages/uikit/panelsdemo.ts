@@ -18,7 +18,7 @@ import { TabsModule } from 'primeng/tabs';
 import { ToolbarModule } from 'primeng/toolbar';
 
 @Component({
-    selector: 'app-panels-demo',
+    selector: 'csm-panels-demo',
     standalone: true,
     imports: [
         CommonModule,
@@ -188,20 +188,20 @@ import { ToolbarModule } from 'primeng/toolbar';
             <div class="card">
                 <div class="font-semibold text-xl mb-4">Splitter</div>
                 <p-splitter [style]="{ height: '300px' }" [panelSizes]="[20, 80]" [minSizes]="[10, 0]" styleClass="mb-8">
-                    <ng-template #panel>
+                    <ng-template #panelTmpl>
                         <div class="col flex items-center justify-center">Panel 1</div>
                     </ng-template>
-                    <ng-template #panel>
+                    <ng-template #panelTmpl>
                         <p-splitter layout="vertical" [panelSizes]="[50, 50]">
-                            <ng-template #panel>
+                            <ng-template #panelTmpl>
                                 <div style="grow: 1;" class="flex items-center justify-center">Panel 2</div>
                             </ng-template>
-                            <ng-template #panel>
+                            <ng-template #panelTmpl>
                                 <p-splitter [panelSizes]="[20, 80]">
-                                    <ng-template #panel>
+                                    <ng-template #panelTmpl>
                                         <div class="col flex items-center justify-center">Panel 3</div>
                                     </ng-template>
-                                    <ng-template #panel>
+                                    <ng-template #panelTmpl>
                                         <div class="col flex items-center justify-center">Panel 4</div>
                                     </ng-template>
                                 </p-splitter>

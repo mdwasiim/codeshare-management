@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {ButtonModule} from 'primeng/button';
 
 @Component({
-    selector: 'app-timeline-demo',
+    selector: 'csm-timeline-demo',
     standalone: true,
     imports: [CommonModule, TimelineModule, ButtonModule, CardModule],
     template: `<div class="grid grid-cols-12 gap-8">
@@ -13,7 +13,7 @@ import {ButtonModule} from 'primeng/button';
             <div class="card">
                 <div class="font-semibold text-xl mb-4">Left Align</div>
                 <p-timeline [value]="events1">
-                    <ng-template #content let-event>
+                    <ng-template #timelineContent let-event>
                         {{ event.status }}
                     </ng-template>
                 </p-timeline>
@@ -23,7 +23,7 @@ import {ButtonModule} from 'primeng/button';
             <div class="card">
                 <div class="font-semibold text-xl mb-4">Right Align</div>
                 <p-timeline [value]="events1" align="right">
-                    <ng-template #content let-event>
+                    <ng-template #timelineContent let-event>
                         {{ event.status }}
                     </ng-template>
                 </p-timeline>
@@ -33,7 +33,7 @@ import {ButtonModule} from 'primeng/button';
             <div class="card">
                 <div class="font-semibold text-xl mb-4">Alternate Align</div>
                 <p-timeline [value]="events1" align="alternate">
-                    <ng-template #content let-event>
+                    <ng-template #timelineContent let-event>
                         {{ event.status }}
                     </ng-template>
                 </p-timeline>
@@ -43,7 +43,7 @@ import {ButtonModule} from 'primeng/button';
             <div class="card">
                 <div class="font-semibold text-xl mb-4">Opposite Content</div>
                 <p-timeline [value]="events1">
-                    <ng-template #content let-event>
+                    <ng-template #timelineContent let-event>
                         <small class="p-text-secondary">{{ event.date }}</small>
                     </ng-template>
                     <ng-template #opposite let-event>
@@ -61,7 +61,7 @@ import {ButtonModule} from 'primeng/button';
                             <i [class]="event.icon"></i>
                         </span>
                     </ng-template>
-                    <ng-template #content let-event>
+                    <ng-template #timelineContent let-event>
                         <p-card [header]="event.status" [subheader]="event.date">
                             <img *ngIf="event.image" [src]="'/images/product/' + event.image" [alt]="event.name" width="200" class="shadow" />
                             <p>
@@ -79,21 +79,21 @@ import {ButtonModule} from 'primeng/button';
                 <div class="font-semibold text-xl mb-4">Horizontal</div>
                 <div class="font-semibold mb-2">Top Align</div>
                 <p-timeline [value]="events2" layout="horizontal" align="top">
-                    <ng-template #content let-event>
+                    <ng-template #timelineContent let-event>
                         {{ event }}
                     </ng-template>
                 </p-timeline>
 
                 <div class="font-semibold mt-4 mb-2">Bottom Align</div>
                 <p-timeline [value]="events2" layout="horizontal" align="bottom">
-                    <ng-template #content let-event>
+                    <ng-template #timelineContent let-event>
                         {{ event }}
                     </ng-template>
                 </p-timeline>
 
                 <div class="font-semibold mt-4 mb-2">Alternate Align</div>
                 <p-timeline [value]="events2" layout="horizontal" align="alternate">
-                    <ng-template #content let-event>
+                    <ng-template #timelineContent let-event>
                         {{ event }}
                     </ng-template>
                     <ng-template #opposite let-event> &nbsp; </ng-template>

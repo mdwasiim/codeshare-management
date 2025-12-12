@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-documentation',
+    selector: 'csm-documentation',
     standalone: true,
-    imports: [CommonModule],
+    imports: [],
     template: `
         <div class="card">
             <div class="font-semibold text-2xl mb-4">Documentation</div>
@@ -39,7 +39,7 @@ ng serve</code></pre>
 
             <div class="font-semibold text-xl mb-4">Layout Service</div>
             <p class="text-lg mb-4">
-                <span class="bg-highlight px-2 py-1 rounded-border not-italic text-base">src/app/layout/service/layout.service.ts</span> is a service that manages layout state changes, including dark mode, PrimeNG theme, menu modes, and states.
+                <span class="bg-highlight px-2 py-1 rounded-border not-italic text-base">src/app/layout/service/csm.layout.service.ts</span> is a service that manages layout state changes, including dark mode, PrimeNG theme, menu modes, and states.
             </p>
 
             <div class="font-semibold text-xl mb-4">Tailwind CSS</div>
