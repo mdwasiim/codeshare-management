@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -26,43 +26,42 @@ import { ListboxModule } from 'primeng/listbox';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TextareaModule } from 'primeng/textarea';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { CountryService } from '../service/country.service';
-import { NodeService } from '../service/node.service';
+import { CountryService } from '../../core/services/country.service';
+import { NodeService } from '../../core/services/node.service';
 import { TreeNode } from 'primeng/api';
-import { Country } from '../service/customer.service';
+import { Country } from '../../core/services/customer.service';
 
 @Component({
-    selector: 'app-input-demo',
+    selector: 'csm-input-demo',
     standalone: true,
     imports: [
-        CommonModule,
-        FormsModule,
-        InputTextModule,
-        ButtonModule,
-        CheckboxModule,
-        RadioButtonModule,
-        SelectButtonModule,
-        InputGroupModule,
-        FluidModule,
-        IconFieldModule,
-        InputIconModule,
-        FloatLabelModule,
-        AutoCompleteModule,
-        InputNumberModule,
-        SliderModule,
-        RatingModule,
-        ColorPickerModule,
-        KnobModule,
-        SelectModule,
-        DatePickerModule,
-        ToggleButtonModule,
-        ToggleSwitchModule,
-        TreeSelectModule,
-        MultiSelectModule,
-        ListboxModule,
-        InputGroupAddonModule,
-        TextareaModule
-    ],
+    FormsModule,
+    InputTextModule,
+    ButtonModule,
+    CheckboxModule,
+    RadioButtonModule,
+    SelectButtonModule,
+    InputGroupModule,
+    FluidModule,
+    IconFieldModule,
+    InputIconModule,
+    FloatLabelModule,
+    AutoCompleteModule,
+    InputNumberModule,
+    SliderModule,
+    RatingModule,
+    ColorPickerModule,
+    KnobModule,
+    SelectModule,
+    DatePickerModule,
+    ToggleButtonModule,
+    ToggleSwitchModule,
+    TreeSelectModule,
+    MultiSelectModule,
+    ListboxModule,
+    InputGroupAddonModule,
+    TextareaModule
+],
     template: ` <p-fluid class="flex flex-col md:flex-row gap-8">
             <div class="md:w-1/2">
                 <div class="card flex flex-col gap-4">

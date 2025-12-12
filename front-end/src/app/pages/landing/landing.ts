@@ -12,7 +12,7 @@ import { PricingWidget } from './components/pricingwidget';
 import { FooterWidget } from './components/footerwidget';
 
 @Component({
-    selector: 'app-landing',
+    selector: 'csm-landing',
     standalone: true,
     imports: [RouterModule, TopbarWidget, HeroWidget, FeaturesWidget, HighlightsWidget, PricingWidget, FooterWidget, RippleModule, StyleClassModule, ButtonModule, DividerModule],
     template: `
@@ -28,4 +28,4 @@ import { FooterWidget } from './components/footerwidget';
         </div>
     `
 })
-export class Landing {}
+export class CsmLanding {}

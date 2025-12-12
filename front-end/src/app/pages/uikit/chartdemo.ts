@@ -1,14 +1,14 @@
-import { CommonModule } from '@angular/common';
+
+import { CsmLayoutService } from '@/core/services/csm.layout.service';
 import { Component } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { FluidModule } from 'primeng/fluid';
 import { debounceTime, Subscription } from 'rxjs';
-import { LayoutService } from '../../layout/service/layout.service';
 
 @Component({
-    selector: 'app-chart-demo',
+    selector: 'csm-chart-demo',
     standalone: true,
-    imports: [CommonModule, ChartModule, FluidModule],
+    imports: [ChartModule, FluidModule],
     template: `
         <p-fluid class="grid grid-cols-12 gap-8">
             <div class="col-span-12 xl:col-span-6">
@@ -72,8 +72,8 @@ export class ChartDemo {
     radarOptions: any;
 
     subscription: Subscription;
-    constructor(private layoutService: LayoutService) {
-        this.subscription = this.layoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
+    constructor(private csmlayoutService: CsmLayoutService) {
+        this.subscription = this.csmlayoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
             this.initCharts();
         });
     }

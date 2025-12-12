@@ -3,11 +3,11 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { Product, ProductService } from '../../service/product.service';
+import { Product, ProductService } from '../../../core/services/product.service';
 
 @Component({
     standalone: true,
-    selector: 'app-recent-sales-widget',
+    selector: 'csm-recent-sales-widget',
     imports: [CommonModule, TableModule, ButtonModule, RippleModule],
     template: `<div class="card mb-8!">
         <div class="font-semibold text-xl mb-4">Recent Sales</div>
@@ -36,7 +36,7 @@ import { Product, ProductService } from '../../service/product.service';
     </div>`,
     providers: [ProductService]
 })
-export class RecentSalesWidget {
+export class CsmCsmRecentSalesWidget {
     products!: Product[];
 
     constructor(private productService: ProductService) {}

@@ -16,8 +16,8 @@ import { RippleModule } from 'primeng/ripple';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TagModule } from 'primeng/tag';
-import { Customer, CustomerService, Representative } from '../service/customer.service';
-import { Product, ProductService } from '../service/product.service';
+import { Customer, CustomerService, Representative } from '../../core/services/customer.service';
+import { Product, ProductService } from '../../core/services/product.service';
 import {ObjectUtils} from "primeng/utils";
 
 interface expandedRows {
@@ -25,7 +25,7 @@ interface expandedRows {
 }
 
 @Component({
-    selector: 'app-table-demo',
+    selector: 'csm-table-demo',
     standalone: true,
     imports: [
         TableModule,
@@ -70,7 +70,7 @@ interface expandedRows {
                         </p-iconfield>
                     </div>
                 </ng-template>
-                <ng-template #header>
+                <ng-template #theadTmpl>
                     <tr>
                         <th style="min-width: 12rem">
                             <div class="flex justify-between items-center">
@@ -88,7 +88,7 @@ interface expandedRows {
                             <div class="flex justify-between items-center">
                                 Agent
                                 <p-columnFilter field="representative" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
-                                    <ng-template #header>
+                                    <ng-template #theadTmpl>
                                         <div class="px-3 pt-3 pb-0">
                                             <span class="font-bold">Agent Picker</span>
                                         </div>
@@ -206,7 +206,7 @@ interface expandedRows {
             <p-togglebutton [(ngModel)]="balanceFrozen" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Balance'" offLabel="Balance" />
 
             <p-table [value]="customers2" [scrollable]="true" scrollHeight="400px" styleClass="mt-4">
-                <ng-template #header>
+                <ng-template #theadTmpl>
                     <tr>
                         <th style="min-width:200px" pFrozenColumn class="font-bold">Name</th>
                         <th style="min-width:100px">Id</th>
@@ -244,7 +244,7 @@ interface expandedRows {
                     <button pButton icon="pi pi-fw {{ isExpanded ? 'pi-minus' : 'pi-plus' }}" label="{{ isExpanded ? 'Collapse All' : 'Expand All' }}" (click)="expandAll()"></button>
                     <div class="flex table-header"></div>
                 </ng-template>
-                <ng-template #header>
+                <ng-template #theadTmpl>
                     <tr>
                         <th style="width: 5rem"></th>
                         <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
@@ -280,7 +280,7 @@ interface expandedRows {
                             <div class="p-4">
                                 <h5>Orders for {{ product.name }}</h5>
                                 <p-table [value]="product.orders" dataKey="id">
-                                    <ng-template #header>
+                                    <ng-template #theadTmpl>
                                         <tr>
                                             <th pSortableColumn="id">Id <p-sortIcon field="price" /></th>
                                             <th pSortableColumn="customer">
@@ -331,7 +331,7 @@ interface expandedRows {
         <div class="card">
             <div class="font-semibold text-xl mb-4">Grouping</div>
             <p-table [value]="customers3" sortField="representative.name" sortMode="single" [scrollable]="true" scrollHeight="400px" rowGroupMode="subheader" groupRowsBy="representative.name" [tableStyle]="{ 'min-width': '60rem' }">
-                <ng-template #header>
+                <ng-template #theadTmpl>
                     <tr>
                         <th>Name</th>
                         <th>Country</th>
