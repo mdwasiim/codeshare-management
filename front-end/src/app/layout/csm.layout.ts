@@ -2,29 +2,29 @@ import { Component, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { CsmLayoutService } from '@/core/services/csm.layout.service';
-import { CsmTopbar } from './topbar/csm.topbar';
-import { CsmSidebar } from './sidebar/csm.sidebar';
-import { CsmFooter } from './footer/csm.footer';
+import { CSMLayoutService } from '@/core/services/csm.layout.service';
+import { CSMTopbar } from './topbar/csm.topbar';
+import { CSMSidebar } from './sidebar/csm.sidebar';
+import { CSMFooter } from './footer/csm.footer';
 
 
 
 @Component({
     selector: 'csm-layout',
     standalone: true,
-    imports: [CommonModule, CsmTopbar, CsmSidebar, RouterModule, CsmFooter],
+    imports: [CommonModule, CSMTopbar, CSMSidebar, RouterModule, CSMFooter],
     templateUrl: './csm.layout.html',
     styleUrls: ['./csm.layout.scss']
 })
-export class CsmLayout {
+export class CSMLayout {
     overlayMenuOpenSubscription: Subscription;
     menuOutsideClickListener: any;
 
-    @ViewChild(CsmSidebar) csmSidebar!: CsmSidebar;
-    @ViewChild(CsmTopbar) csmTopBar!: CsmTopbar;
+    @ViewChild(CSMSidebar) csmSidebar!: CSMSidebar;
+    @ViewChild(CSMTopbar) csmTopBar!: CSMTopbar;
 
     constructor(
-        public csmLayoutService: CsmLayoutService,
+        public csmLayoutService: CSMLayoutService,
         public renderer: Renderer2,
         public router: Router
     ) {

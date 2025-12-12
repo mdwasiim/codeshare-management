@@ -1,13 +1,13 @@
 import { Component, ElementRef } from '@angular/core';
-import { CsmMenu } from '../menu/csm.menu';
+import { CSMMenu } from '../menu/csm.menu';
 
 @Component({
     selector: 'csm-sidebar',
     standalone: true,
-    imports: [CsmMenu],
+    imports: [CSMMenu],
     templateUrl: './csm.sidebar.html',
     styleUrls: ['./csm.sidebar.scss']
 })
-export class CsmSidebar {
+export class CSMSidebar {
     constructor(public el: ElementRef) {}
 }

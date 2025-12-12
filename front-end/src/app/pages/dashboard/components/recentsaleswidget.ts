@@ -36,7 +36,7 @@ import { Product, ProductService } from '../../../core/services/product.service'
     </div>`,
     providers: [ProductService]
 })
-export class CsmCsmRecentSalesWidget {
+export class CSMRecentSalesWidget {
     products!: Product[];
 
     constructor(private productService: ProductService) {}

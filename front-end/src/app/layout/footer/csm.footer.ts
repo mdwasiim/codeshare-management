@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
     templateUrl: './csm.footer.html',
     styleUrls: ['./csm.footer.scss']
 })
-export class CsmFooter {}
+export class CSMFooter {}
