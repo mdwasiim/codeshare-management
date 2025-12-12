@@ -5,11 +5,11 @@ import { CarouselModule } from 'primeng/carousel';
 import { GalleriaModule } from 'primeng/galleria';
 import { ImageModule } from 'primeng/image';
 import { TagModule } from 'primeng/tag';
-import { PhotoService } from '../service/photo.service';
-import { Product, ProductService } from '../service/product.service';
+import { PhotoService } from '../../core/services/photo.service';
+import { Product, ProductService } from '../../core/services/product.service';
 
 @Component({
-    selector: 'app-media-demo',
+    selector: 'csm-media-demo',
     standalone: true,
     imports: [CommonModule, CarouselModule, ButtonModule, GalleriaModule, ImageModule, TagModule],
     template: `<div class="card">
@@ -46,7 +46,7 @@ import { Product, ProductService } from '../service/product.service';
         <div class="card">
             <div class="font-semibold text-xl mb-4">Galleria</div>
             <p-galleria [value]="images" [responsiveOptions]="galleriaResponsiveOptions" [containerStyle]="{ 'max-width': '640px' }" [numVisible]="5">
-                <ng-template #item let-item>
+                <ng-template #mediaItem let-item>
                     <img [src]="item.itemImageSrc" style="width:100%" />
                 </ng-template>
                 <ng-template #thumbnail let-item>

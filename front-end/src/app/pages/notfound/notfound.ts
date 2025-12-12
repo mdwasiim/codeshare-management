@@ -1,13 +1,13 @@
+import { CsmFloatingConfigurator } from '@/layout/floating-configurator/csm.floating-configurator';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
 
 @Component({
-    selector: 'app-notfound',
+    selector: 'csm-notfound',
     standalone: true,
-    imports: [RouterModule, AppFloatingConfigurator, ButtonModule],
-    template: ` <app-floating-configurator />
+    imports: [RouterModule, CsmFloatingConfigurator, ButtonModule],
+    template: ` <csm-floating-configurator />
         <div class="flex items-center justify-center min-h-screen overflow-hidden">
             <div class="flex flex-col items-center justify-center">
                 <svg width="54" height="40" viewBox="0 0 54 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-8 w-32 shrink-0">
@@ -65,4 +65,4 @@ import { AppFloatingConfigurator } from '../../layout/component/app.floatingconf
             </div>
         </div>`
 })
-export class Notfound {}
+export class CsmNotfound {}
