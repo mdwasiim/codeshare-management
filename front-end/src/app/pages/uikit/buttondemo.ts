@@ -176,7 +176,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
         </div>
     </div> `
 })
-export class CsmButtonDemo implements OnInit {
+export class CSMButtonDemo implements OnInit {
     items: MenuItem[] = [];
 
     loading = [false, false, false, false];

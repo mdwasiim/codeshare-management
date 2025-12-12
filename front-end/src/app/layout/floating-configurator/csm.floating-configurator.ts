@@ -1,19 +1,19 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
-import { CsmConfigurator } from '../configurator/csm.configurator';  // UPDATED IMPORT
+import { CSMConfigurator } from '../configurator/csm.configurator';  // UPDATED IMPORT
 import { CommonModule } from '@angular/common';
-import { CsmLayoutService } from '@/core/services/csm.layout.service';
+import { CSMLayoutService } from '@/core/services/csm.layout.service';
 
 @Component({
     selector: 'csm-floating-configurator',
     standalone: true,
-    imports: [CommonModule, ButtonModule, StyleClassModule, CsmConfigurator],
+    imports: [CommonModule, ButtonModule, StyleClassModule, CSMConfigurator],
     templateUrl: './csm.floating-configurator.html',
     styleUrls: ['./csm.floating-configurator.scss']
 })
-export class CsmFloatingConfigurator {
-    csmLayoutService = inject(CsmLayoutService);
+export class CSMFloatingConfigurator {
+    csmLayoutService = inject(CSMLayoutService);
 
     float = input<boolean>(true);
 

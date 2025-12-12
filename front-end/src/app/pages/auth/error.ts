@@ -1,4 +1,4 @@
-import { CsmFloatingConfigurator } from '@/layout/floating-configurator/csm.floating-configurator';
+import { CSMFloatingConfigurator } from '@/layout/floating-configurator/csm.floating-configurator';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -6,7 +6,7 @@ import { RippleModule } from 'primeng/ripple';
 
 @Component({
     selector: 'csm-error',
-    imports: [ButtonModule, RippleModule, RouterModule, CsmFloatingConfigurator, ButtonModule],
+    imports: [ButtonModule, RippleModule, RouterModule, CSMFloatingConfigurator, ButtonModule],
     standalone: true,
     template: ` <csm-floating-configurator />
         <div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-screen overflow-hidden">
@@ -29,4 +29,4 @@ import { RippleModule } from 'primeng/ripple';
             </div>
         </div>`
 })
-export class CsmError {}
+export class CSMError {}

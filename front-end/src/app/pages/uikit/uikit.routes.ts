@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { CsmButtonDemo } from './buttondemo';
+import { CSMButtonDemo } from './buttondemo';
 import { ChartDemo } from './chartdemo';
 import { FileDemo } from './filedemo';
 import { FormLayoutDemo } from './formlayoutdemo';
@@ -16,7 +16,7 @@ import { TreeDemo } from './treedemo';
 import { MenuDemo } from './menudemo';
 
 export default [
-    { path: 'button', data: { breadcrumb: 'Button' }, component: CsmButtonDemo },
+    { path: 'button', data: { breadcrumb: 'Button' }, component: CSMButtonDemo },
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: ChartDemo },
     { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
     { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, component: FormLayoutDemo },

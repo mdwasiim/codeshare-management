@@ -8,4 +8,4 @@ import { Component } from '@angular/core';
         <p>Use this page to start from scratch and place your custom content.</p>
     </div>`
 })
-export class CsmEmpty {}
+export class CSMEmpty {}
