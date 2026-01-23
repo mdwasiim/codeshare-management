@@ -1,0 +1,83 @@
+# =====================================================
+# SPRING
+# =====================================================
+spring:
+
+  datasource:
+    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:10}
+      minimum-idle: ${DB_POOL_MIN:2}
+
+  jpa:
+    open-in-view: false
+    show-sql: ${SHOW_SQL:false}
+    hibernate:
+      ddl-auto: ${HIBERNATE_DDL:none}
+    properties:
+      hibernate:
+        format_sql: ${FORMAT_SQL:false}
+
+  flyway:
+    enabled: ${FLYWAY_ENABLED:true}
+    baseline-on-migrate: ${FLYWAY_BASELINE:true}
+
+# =====================================================
+# EUREKA CLIENT (COMMON FOR ALL SERVICES EXCEPT REGISTRY)
+# =====================================================
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URI}
+    fetch-registry: true
+    registry-fetch-interval-seconds: ${EUREKA_FETCH_INTERVAL:5}
+
+  instance:
+    prefer-ip-address: ${EUREKA_PREFER_IP:true}
+
+# =====================================================
+# MANAGEMENT / ACTUATOR
+# =====================================================
+management:
+  endpoints:
+    web:
+      base-path: ${ACTUATOR_BASE_PATH:/actuator}
+      exposure:
+        include: ${ACTUATOR_EXPOSED_DEFAULT:health,info}
+
+# =====================================================
+# LOGGING (COMMON)
+# =====================================================
+logging:
+  level:
+    root: INFO
+    com.codeshare.airline: ${LOG_LEVEL_APP:INFO}
+    com.codeshare.airline.security.client: ${LOG_LEVEL_APP:INFO}
+    feign: ${LOG_LEVEL_APP:INFO}
+    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:WARN}
+    org.hibernate.type.descriptor.sql: ${LOG_LEVEL_HIBERNATE_BINDER:INFO}
+    org.springframework.security.oauth2: ${LOG_LEVEL_OAUTH2:INFO}
+
+
+
+# =====================================================
+# RESILIENCE4J (COMMON DEFAULTS)
+# =====================================================
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: ${CB_SLIDING_WINDOW:10}
+        minimum-number-of-calls: ${CB_MIN_CALLS:5}
+        failure-rate-threshold: ${CB_FAILURE_RATE:50}
+        wait-duration-in-open-state: ${CB_WAIT_DURATION:30s}
+
+  retry:
+    configs:
+      default:
+        max-attempts: ${RETRY_MAX_ATTEMPTS:3}
+        wait-duration: ${RETRY_WAIT_DURATION:2s}
+

@@ -1,7 +1,25 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { CSM_API_CONFIG } from './csm-api.config';
 import { environment } from 'src/environments/environment';
+
+export interface CSMApiConfig {
+  BASE_URL: string;
+  endpoints: {
+    menu: string;
+    login: string;
+    dashboardStats: string;
+  };
+}
+
+export const CSM_API_CONFIG: CSMApiConfig = {
+  BASE_URL: '',
+  endpoints: {
+    menu: 'menu',
+    login: 'auth/login',
+    dashboardStats: 'dashboard/stats'
+  }
+};
+
 
 @Injectable({
   providedIn: 'root'

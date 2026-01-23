@@ -1,3 +1,5 @@
+import { Product } from '@/core/models/product.model';
+import { ProductService } from '@/core/services/product/product.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +9,6 @@ import { OrderListModule } from 'primeng/orderlist';
 import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
-import { Product, ProductService } from '../../core/services/product.service';
 
 @Component({
     selector: 'csm-list-demo',

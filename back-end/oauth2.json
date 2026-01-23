@@ -1,0 +1,175 @@
+{
+  "info": {
+    "name": "Auth Identity Service",
+    "description": "Authentication & Identity APIs (INTERNAL, AZURE, LDAP)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "INTERNAL Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": ["{{base_url}}"],
+          "path": ["api", "auth", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenantCode\": \"{{tenant_code}}\",\n  \"username\": \"admin\",\n  \"password\": \"Admin@123\",\n  \"authSource\": \"INTERNAL\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "  const json = pm.response.json();",
+              "  pm.environment.set('access_token', json.accessToken);",
+              "  pm.environment.set('refresh_token', json.refreshToken);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Refresh Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/refresh",
+          "host": ["{{base_url}}"],
+          "path": ["api", "auth", "refresh"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"{{refresh_token}}\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "  const json = pm.response.json();",
+              "  pm.environment.set('access_token', json.accessToken);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "LDAP Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": ["{{base_url}}"],
+          "path": ["api", "auth", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenantCode\": \"{{tenant_code}}\",\n  \"username\": \"ldap.user\",\n  \"password\": \"Password@123\",\n  \"authSource\": \"LDAP\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Azure - Get Authorization URL",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/auth/oidc/authorize?tenantCode={{tenant_code}}&provider=AZURE",
+          "host": ["{{base_url}}"],
+          "path": ["api", "auth", "oidc", "authorize"],
+          "query": [
+            {
+              "key": "tenantCode",
+              "value": "{{tenant_code}}"
+            },
+            {
+              "key": "provider",
+              "value": "AZURE"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Azure - OIDC Callback",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/oidc/callback",
+          "host": ["{{base_url}}"],
+          "path": ["api", "auth", "oidc", "callback"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"AUTH_CODE_FROM_AZURE\",\n  \"state\": \"STATE_FROM_AZURE\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Logged-in User (Me)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/me",
+          "host": ["{{base_url}}"],
+          "path": ["api", "auth", "me"]
+        }
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/logout",
+          "host": ["{{base_url}}"],
+          "path": ["api", "auth", "logout"]
+        }
+      }
+    }
+  ]
+}

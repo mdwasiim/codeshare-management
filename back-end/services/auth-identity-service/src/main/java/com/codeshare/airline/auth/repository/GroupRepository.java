@@ -1,20 +1,24 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.entities.rbac.Group;
-import com.codeshare.airline.common.services.jpa.BaseRepository;
+import com.codeshare.airline.auth.model.entities.Group;
+import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface GroupRepository extends BaseRepository<Group, UUID> {
-
-    List<Group> findByTenantId(UUID tenantId);
+public interface GroupRepository extends CSMDataBaseRepository<Group, UUID> {
 
     boolean existsByNameAndTenantId(String name, UUID tenantId);
 
-    Group findByCodeAndTenantId(String code, UUID tenantId);
+    List<Group> findByTenant(Tenant tenant);
 
+    boolean existsByTenantAndCode(Tenant tenant, String code);
 
-    Optional<Group>  findByTenantGroupId(UUID tenantGroupId);
+    List<Group> findByTenantId(UUID tenantId);
+
+    Optional<Group> findByNameAndTenant_Id(String groupName, UUID tenantId);
+
+    List<Group> findAllByTenant_Id(UUID tenantId);
 }

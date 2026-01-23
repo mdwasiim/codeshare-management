@@ -1,7 +1,7 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 
@@ -11,16 +11,19 @@ export const csmConfig: ApplicationConfig = {
     providers: [
         provideRouter(
             csmRoutes,
-            withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
+            withInMemoryScrolling({
+                anchorScrolling: 'enabled',
+                scrollPositionRestoration: 'enabled'
+            }),
             withEnabledBlockingInitialNavigation()
         ),
         provideHttpClient(withFetch()),
-        provideAnimationsAsync(),
+        provideAnimations(),   // ✅ FIXED
         providePrimeNG({
             theme: {
                 preset: Aura,
                 options: {
-                    darkModeSelector: '.csm-dark'   // ← rename if you changed dark class
+                    darkModeSelector: '.csm-dark'
                 }
             }
         })

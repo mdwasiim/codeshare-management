@@ -10,7 +10,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
-import { Product, ProductService } from '../../core/services/product.service';
+import { ProductService } from '@/core/services/product/product.service';
+import { Product } from '@/core/models/product.model';
 
 @Component({
     selector: 'csm-overlay-demo',
