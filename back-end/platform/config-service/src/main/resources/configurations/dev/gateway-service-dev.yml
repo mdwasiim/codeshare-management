@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: gateway-service
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_IDENTITY_ISSUER_URI}
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes:
+        - id: authentication-service
+          uri: lb://${AUTH_SERVICE_NAME}
+          predicates:
+            - Path=/authentication/**,/.well-known/**
+
+        - id: tenant-service
+          uri: lb://${TENANT_SERVICE_NAME}
+          predicates:
+            - Path=/tenant/**
+          filters:
+            - RewritePath=/tenant/(?<path>.*), /${path}
+
+
+server:
+  port: ${GATEWAY_SERVICE_PORT:8080}
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${ACTUATOR_EXPOSED_GATEWAY:health,info,env}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: INFO
+
+
+gateway:
+  security:
+    auth:
+      public-paths:
+        - /authentication/login
+        - /authentication/refresh
+        - /authentication/logout
+        - /authentication/azure/**
+        - /.well-known/**
+    api:
+      public-paths:
+        - /actuator/**
+        - /swagger-ui/**
+        - /v3/api-docs/**
+        - /v3/api-docs.yaml
+        - /health
+        - /info

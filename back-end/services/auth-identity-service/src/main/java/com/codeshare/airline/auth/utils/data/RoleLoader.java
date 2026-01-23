@@ -1,7 +1,9 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.entities.rbac.Role;
+import com.codeshare.airline.auth.model.entities.Role;
+import com.codeshare.airline.auth.model.entities.Tenant;
 import com.codeshare.airline.auth.repository.RoleRepository;
+import com.codeshare.airline.auth.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,7 +17,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RoleLoader {
 
-    private final RoleRepository repo;
+    private final RoleRepository roleRepository;
+    private final TenantRepository tenantRepository;
 
     private static final List<String> BASE_ROLES = List.of(
             "ADMIN",
@@ -25,48 +28,63 @@ public class RoleLoader {
             "STAFF"
     );
 
-    /**
-     * Load roles for all tenants (called by DataLoader)
-     */
-    public void load(List<String> tenantIds) {
+    public void load(List<UUID> tenantIds) {
 
-        if (repo.count() > 0) {
-            log.info("✔ RoleLoader: roles already present — skipping load.");
-            return;
-        }
+        log.info("⏳ RoleLoader: ensuring base roles for {} tenants...", tenantIds.size());
 
-        log.info("⏳ RoleLoader: inserting base roles for {} tenants...", tenantIds.size());
+        List<Role> rolesToSave = new ArrayList<>();
 
-        List<Role> roles = new ArrayList<>();
+        for (UUID tenantId : tenantIds) {
 
-        for (String tenantId : tenantIds) {
+            if (tenantId == null) continue;
 
-            UUID tid;
-            try {
-                tid = UUID.fromString(tenantId);
-            } catch (Exception ex) {
-                log.warn("⚠ Invalid tenant UUID '{}', skipping...", tenantId);
-                continue;
-            }
+            Tenant tenant = tenantRepository.findById(tenantId)
+                    .orElseThrow(() ->
+                            new IllegalStateException("Tenant not found: " + tenantId));
 
-            for (String baseRole : BASE_ROLES) {
-                Role role = Role.builder()
-                        .tenantId(tid)
-                        .code(baseRole)
-                        .name(toReadableName(baseRole))
-                        .active(true)
-                        .build();
+            for (String code : BASE_ROLES) {
 
-                roles.add(role);
+                boolean exists =
+                        roleRepository.existsByTenantAndCode(tenant, code);
+
+                if (exists) {
+                    continue;
+                }
+
+                rolesToSave.add(
+                        Role.builder()
+                                .tenant(tenant)
+                                .code(code)
+                                .name(toReadableName(code))
+                                .description(code + " role for tenant " + tenant.getTenantCode())
+                                .build()
+                );
             }
         }
 
-        repo.saveAll(roles);
+        if (!rolesToSave.isEmpty()) {
+            roleRepository.saveAll(rolesToSave);
+            log.info("✔ RoleLoader: {} roles created.", rolesToSave.size());
+        } else {
+            log.info("✔ RoleLoader: all roles already exist.");
+        }
+    }
 
-        log.info("✔ RoleLoader: {} roles inserted.", roles.size());
+    public boolean isLoaded() {
+        return roleRepository.count()>0;
+    }
+
+    private UUID safeUUID(String id) {
+        try {
+            return UUID.fromString(id);
+        } catch (Exception e) {
+            log.warn("⚠ Invalid tenant UUID '{}'", id);
+            return null;
+        }
     }
 
     private String toReadableName(String code) {
         return code.replace("_", " ");
     }
 }
+

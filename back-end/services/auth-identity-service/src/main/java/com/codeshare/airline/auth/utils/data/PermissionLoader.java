@@ -1,7 +1,9 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.entities.rbac.Permission;
+import com.codeshare.airline.auth.model.entities.Permission;
+import com.codeshare.airline.auth.model.entities.Tenant;
 import com.codeshare.airline.auth.repository.PermissionRepository;
+import com.codeshare.airline.auth.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,19 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class PermissionLoader {
 
-    private final PermissionRepository repo;
+    private final PermissionRepository permissionRepository;
+    private final TenantRepository tenantRepository;
 
     /**
-     * Modular RBAC: Domain → Actions
-     *
-     * Each domain can have multiple actions.
-     * The final permission code becomes: "domain:action"
+     * Domain → actions
+     * Final permission code = domain:action
      */
     private static final Map<String, List<String>> PERMISSION_DEFS = Map.of(
             "user", List.of("create", "update", "delete"),
@@ -35,69 +35,75 @@ public class PermissionLoader {
             "audit", List.of("view")
     );
 
-    /**
-     * Loads permissions for all tenants
-     */
-    public void load(List<String> tenantIds) {
+    public void load(List<UUID> tenantIds) {
 
-        if (repo.count() > 0) {
-            log.info("✔ PermissionLoader: Permissions already exist — skipping load.");
-            return;
-        }
+        log.info("⏳ PermissionLoader: ensuring permissions for {} tenants...", tenantIds.size());
 
-        log.info("⏳ PermissionLoader: Initializing permissions for {} tenants…", tenantIds.size());
+        List<Permission> toSave = new ArrayList<>();
 
-        List<Permission> permissionsToInsert = new ArrayList<>();
+        for (UUID tenantId : tenantIds) {
 
-        for (String tenantIdStr : tenantIds) {
-
-            UUID tenantId = safeUUID(tenantIdStr);
             if (tenantId == null) continue;
 
-            log.info("→ Creating permissions for tenant {}", tenantId);
+            Tenant tenant = tenantRepository.findById(tenantId)
+                    .orElseThrow(() ->
+                            new IllegalStateException("Tenant not found: " + tenantId));
 
             PERMISSION_DEFS.forEach((domain, actions) -> {
                 for (String action : actions) {
 
                     String code = domain + ":" + action;
 
-                    Permission permission = Permission.builder()
-                            .tenantId(tenantId)
-                            .code(code)
-                            .domain(domain)
-                            .action(action)
-                            .name(buildName(domain, action))                     // e.g. "User Create"
-                            .description("Allows " + action + " operation on " + domain)
-                            .active(true)
-                            .build();
+                    boolean exists =
+                            permissionRepository.existsByTenantAndCode(tenant, code);
 
-                    permissionsToInsert.add(permission);
+                    if (exists) {
+                        continue;
+                    }
+
+                    toSave.add(
+                            Permission.builder()
+                                    .tenant(tenant)
+                                    .code(code)
+                                    .domain(domain)
+                                    .action(action)
+                                    .name(buildName(domain, action))
+                                    .description("Allows " + action + " operation on " + domain)
+                                    .build()
+                    );
                 }
             });
         }
 
-        repo.saveAll(permissionsToInsert);
-
-        log.info("✔ PermissionLoader: {} permissions inserted successfully.", permissionsToInsert.size());
+        if (!toSave.isEmpty()) {
+            permissionRepository.saveAll(toSave);
+            log.info("✔ PermissionLoader: {} permissions created.", toSave.size());
+        } else {
+            log.info("✔ PermissionLoader: all permissions already exist.");
+        }
     }
 
-    /** Helper: Converts "user", "create" → "User Create" */
+    /**
+     * Tenant-aware initialization check
+     */
+    public boolean isLoaded() {
+        return permissionRepository.count()>0;
+    }
+
     private String buildName(String domain, String action) {
         return capitalize(domain) + " " + capitalize(action);
     }
 
-    /** Capitalize first letter */
     private String capitalize(String s) {
         if (s == null || s.isEmpty()) return s;
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
-    /** UUID safety */
     private UUID safeUUID(String id) {
         try {
             return UUID.fromString(id);
         } catch (Exception ex) {
-            log.warn("⚠ Invalid tenant UUID '{}' — skipping...", id);
+            log.warn("⚠ Invalid tenant UUID '{}'", id);
             return null;
         }
     }

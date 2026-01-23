@@ -1,15 +1,15 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.entities.identity.UserDevice;
-import com.codeshare.airline.common.services.jpa.BaseRepository;
+import com.codeshare.airline.auth.model.entities.UserDeviceEntity;
+import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserDeviceRepository extends BaseRepository<UserDevice, UUID> {
+public interface UserDeviceRepository extends CSMDataBaseRepository<UserDeviceEntity, UUID> {
 
-    List<UserDevice> findByUserId(UUID userId);
+    List<UserDeviceEntity> findByUser_Id(UUID userId);
 
-    Optional<UserDevice> findByUserIdAndDeviceId(UUID id, String deviceId);
+    Optional<UserDeviceEntity> findByUser_IdAndDeviceId(UUID id, String deviceId);
 }

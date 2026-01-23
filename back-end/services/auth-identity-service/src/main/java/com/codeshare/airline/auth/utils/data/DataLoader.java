@@ -1,88 +1,101 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.feign.client.TenantFeignClient;
-import com.codeshare.airline.common.tenant.model.TenantDTO;
+import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DataLoader implements ApplicationRunner {
+public class DataLoader {
 
-    private final TenantFeignClient tenantFeignClient;
+    private final TenantLoader tenantLoader;
 
-    private final GroupLoader groupLoader;
-    private final GroupRoleLoader groupRoleLoader;
-    private final MenuLoader menuLoader;
-    private final MenuRoleLoader menuRoleLoader;
-    private final PermissionLoader permissionLoader;
-    private final PermissionRoleLoader permissionRoleLoader;
     private final RoleLoader roleLoader;
-    private final UserGroupRoleLoader userGroupRoleLoader;
+    private final PermissionLoader permissionLoader;
+    private final GroupLoader groupLoader;
+    private final MenuLoader menuLoader;
+
+    private final GroupRoleLoader groupRoleLoader;
+    private final RolePermissionLoader rolePermissionLoader;
+    private final GroupMenuLoader groupMenuLoader;
+
     private final UserLoader userLoader;
-    private final UserRoleLoader userRoleLoader;
+    private final UserGroupDataLoader userGroupDataLoader;
 
-    @Override
-    public void run(ApplicationArguments args) {
+    private final OidcIdentityProviderDataLoader oidcIdentityProviderDataLoader;
 
-        log.info("⏳ AUTH-SERVICE: Fetching tenants from tenant-service...");
-
-        List<String> tenantIds = fetchTenantIds();
-
-        log.info("✔ Loaded {} tenants from tenant-service.", tenantIds.size());
-        log.info("⏳ Starting AUTH-SERVICE RBAC data initialization...");
-
-        tryLoad("Roles", () -> roleLoader.load(tenantIds));
-        tryLoad("Permissions", () -> permissionLoader.load(tenantIds));
-        tryLoad("Groups", () -> groupLoader.load(tenantIds));
-        tryLoad("Menus", () -> menuLoader.load(tenantIds));
-        tryLoad("Users", () -> userLoader.load(tenantIds));
-
-        tryLoad("Group-Role Mapping", () -> groupRoleLoader.load(tenantIds));
-        tryLoad("Menu-Role Mapping", () -> menuRoleLoader.load(tenantIds));
-        tryLoad("Permission-Role Mapping", () -> permissionRoleLoader.load(tenantIds));
-        tryLoad("User-Role Mapping", () -> userRoleLoader.load(tenantIds));
-        tryLoad("User-Group Mapping", () -> userGroupRoleLoader.load(tenantIds));
-
-        log.info("✔ AUTH-SERVICE initialization completed successfully.");
+    @EventListener(ApplicationReadyEvent.class)
+    public void onApplicationReady() {
+        log.info("✅ Tenant-service started. Initializing data...");
+        init();
     }
 
-    /**
-     * Load tenant list from tenant-service via Feign.
-     */
-    private List<String> fetchTenantIds() {
+    @Scheduled(fixedDelay = 30000, initialDelay = 60000)
+    public void retryIfNeeded() {
+        if (!isInitialized()) {
+            log.warn("🔁 Tenant initialization incomplete. Retrying...");
+            init();
+        }
+    }
+
+    private synchronized void init() {
+        if (isInitialized()) {
+            return;
+        }
+
         try {
-            List<TenantDTO> tenants = tenantFeignClient.getAllTenants();
-            return tenants.stream()
-                    .map(t -> t.getId().toString())
-                    .toList();
+            log.info("⏳ Starting Tenant Data Initialization");
+
+            List<Tenant> tenants = tenantLoader.loadTenants();
+
+            if (!tenants.isEmpty()) {
+
+                List<UUID> tenantIds = tenants.stream().map(CSMDataAbstractEntity::getId).toList();
+
+                oidcIdentityProviderDataLoader.load(tenantIds);
+                roleLoader.load(tenantIds);
+                permissionLoader.load(tenantIds);
+                groupLoader.load(tenantIds);
+                menuLoader.load(tenantIds);
+
+                groupRoleLoader.load(tenantIds);
+                rolePermissionLoader.load(tenantIds);
+                groupMenuLoader.load(tenantIds);
+
+                userLoader.loadUser(tenants);
+
+                userGroupDataLoader.load(tenantIds);
+
+            } else {
+                log.info("✔ Tenants already present — skipping load.");
+            }
+            log.info("🎉 Tenant Data Initialization COMPLETED");
+
         } catch (Exception ex) {
-            log.error("❌ Failed to load tenants from tenant-service: {}", ex.getMessage(), ex);
-            throw new IllegalStateException("AUTH-SERVICE cannot start without tenants", ex);
+            log.error("❌ Tenant initialization failed. Will retry.", ex);
         }
     }
 
     /**
-     * Wrapper to isolate failures for each loader.
+     * Derive initialization state from DB, NOT memory.
      */
-    private void tryLoad(String name, LoaderOp op) {
-        try {
-            log.info("→ Loading {}...", name);
-            op.run();
-            log.info("✔ {} loaded.", name);
-        } catch (Exception ex) {
-            log.error("❌ Failed to load {}: {}", name, ex.getMessage(), ex);
-        }
-    }
-
-    @FunctionalInterface
-    interface LoaderOp {
-        void run() throws Exception;
+    private boolean isInitialized() {
+        return roleLoader.isLoaded()
+                && permissionLoader.isLoaded()
+                && groupLoader.isLoaded()
+                && menuLoader.isLoaded()
+                && groupRoleLoader.isLoaded()
+                && rolePermissionLoader.isLoaded()
+                && groupMenuLoader.isLoaded();
     }
 }
+

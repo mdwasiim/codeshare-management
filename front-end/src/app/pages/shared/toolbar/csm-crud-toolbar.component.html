@@ -1,0 +1,49 @@
+@if (hasAnyPermission) {
+<p-toolbar class="mb-6" >
+
+    <!-- LEFT SIDE BUTTONS -->
+    <ng-template pTemplate="left">
+    @if (permissions.canCreate) {
+            <!-- CREATE -->
+            <p-button
+                *ngIf="permissions.canCreate"
+                label="New"
+                icon="pi pi-plus"
+                severity="secondary"
+                class="mr-2"
+                (click)="create.emit()">
+            </p-button>
+    }
+
+    @if (permissions.canDelete) {
+        <!-- DELETE SELECTED -->
+        <p-button
+            *ngIf="permissions.canDelete"
+            label="Delete"
+            icon="pi pi-trash"
+            severity="secondary"
+            outlined
+            class="mr-2"
+            [disabled]="disableDelete"
+            (click)="deleteSelected.emit()">
+        </p-button>
+    }
+    </ng-template>
+
+    <!-- RIGHT SIDE BUTTONS -->
+    <ng-template pTemplate="right">
+    @if (permissions.canExport) {
+        <!-- EXPORT -->
+        <p-button
+            *ngIf="permissions.canExport"
+            label="Export"
+            icon="pi pi-upload"
+            severity="secondary"
+            (click)="export.emit()">
+        </p-button>
+    }
+    </ng-template>
+
+</p-toolbar>
+
+}

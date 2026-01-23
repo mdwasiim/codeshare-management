@@ -1,8 +1,8 @@
 package com.codeshare.airline.auth.service;
 
 
-import com.codeshare.airline.common.auth.identity.model.GroupDTO;
-import com.codeshare.airline.common.auth.identity.model.TenantGroupSyncDTO;
+
+import com.codeshare.airline.core.dto.tenant.GroupDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,8 +18,6 @@ public interface GroupService {
     List<GroupDTO> getByTenant(UUID tenantId);
 
     void delete(UUID id);
-
-    GroupDTO  syncTenantGroup(TenantGroupSyncDTO dto);
 
     void deleteByTenantGroupId(UUID tenantGroupId);
 }

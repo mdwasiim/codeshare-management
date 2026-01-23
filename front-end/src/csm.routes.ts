@@ -10,24 +10,26 @@ export const csmRoutes: Routes = [
         path: '',
         component: CSMLayout,
         children: [
-            { path: '', component: CSMDashboard },
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
-            // Lazy-loaded UI Kit
+            { path: 'dashboard', component: CSMDashboard },
+
+            {
+                path: 'settings',
+                loadChildren: () =>
+                    import('@pages/settings/organizations/organizations.routes')
+                        .then(m => m.ORGANIZATION_ROUTES)
+            },
+
             { path: 'uikit', loadChildren: () => import('@pages/uikit/uikit.routes') },
-
             { path: 'documentation', component: Documentation },
-
-            // Lazy-loaded Pages Module
             { path: 'pages', loadChildren: () => import('@pages/pages.routes') }
         ]
     },
 
     { path: 'landing', component: CSMLanding },
-    { path: 'notfound', component: CSMNotfound },
-
-    // Lazy-loaded Auth Module
     { path: 'auth', loadChildren: () => import('@pages/auth/auth.routes') },
-
-    // Global Wildcard
+    { path: 'notfound', component: CSMNotfound },
     { path: '**', redirectTo: 'notfound' }
 ];
+

@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: authentication-identity-service
+
+  profiles:
+    active: dev
+
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+    org.springframework.web: DEBUG

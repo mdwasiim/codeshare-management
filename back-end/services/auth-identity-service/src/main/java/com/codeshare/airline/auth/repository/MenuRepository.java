@@ -1,14 +1,14 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.entities.menu.Menu;
-import com.codeshare.airline.common.services.jpa.BaseRepository;
+import com.codeshare.airline.auth.model.entities.Menu;
+import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface MenuRepository extends BaseRepository<Menu, UUID> {
-    Optional findByName(String dashboard);
+public interface MenuRepository extends CSMDataBaseRepository<Menu, UUID> {
 
     List<Menu> findByTenantId(UUID tenantId);
 
@@ -16,5 +16,12 @@ public interface MenuRepository extends BaseRepository<Menu, UUID> {
 
     boolean existsByNameAndTenantId(String name, UUID tenantId);
 
-    Optional<Menu> findByCode(String dashboard);
+    List<Menu> findByTenant(Tenant tenant);
+
+    boolean existsByTenant(Tenant tenant);
+
+    boolean existsByTenantAndCode(Tenant tenant, String code);
+
+    Optional<Menu> findByTenantAndCode(Tenant tenant, String code);
+
 }
