@@ -23,6 +23,28 @@ export class CSMMenuService {
         ]
       },
       {
+        label: 'Settings',
+        icon: 'pi pi-fw pi-briefcase',
+        items: [
+          {
+            label: 'Organization',
+            icon: 'pi pi-fw pi-globe',
+            items: [
+              {
+                label: 'All Organizations',
+                icon: 'pi pi-fw pi-list',
+                routerLink: ['/organizations']
+              },
+              {
+                label: 'Create Organization',
+                icon: 'pi pi-fw pi-plus',
+                routerLink: ['/organizations/create']
+              }
+            ]
+          }
+        ]
+      },
+      {
         label: 'UI Components',
         items: [
           { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },

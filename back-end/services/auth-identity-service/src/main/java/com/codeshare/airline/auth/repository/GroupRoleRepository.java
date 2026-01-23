@@ -1,22 +1,21 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.entities.rbac.GroupRole;
-import com.codeshare.airline.common.services.jpa.BaseRepository;
+import com.codeshare.airline.auth.model.entities.GroupRole;
+import com.codeshare.airline.auth.model.entities.Group;
+import com.codeshare.airline.auth.model.entities.Role;
+import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-public interface GroupRoleRepository extends BaseRepository<GroupRole, UUID> {
-
-    Optional<GroupRole> findByGroup_Name(String adminGroup);
+public interface GroupRoleRepository extends CSMDataBaseRepository<GroupRole, UUID> {
 
     List<GroupRole> findByGroup_Id(UUID groupId);
 
-    List<GroupRole> findByRole_Id(UUID roleId);
+    List<GroupRole> findByRole_Id(UUID groupId);
 
     boolean existsByGroup_IdAndRole_Id(UUID groupId, UUID roleId);
 
-
-    List<GroupRole> findByGroup_IdAndTenantId(UUID groupId, UUID tenantId);
+    boolean existsByTenantAndGroupAndRole(Tenant tenant, Group group, Role role);
 }

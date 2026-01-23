@@ -1,7 +1,9 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.entities.rbac.Group;
+import com.codeshare.airline.auth.model.entities.Group;
+import com.codeshare.airline.auth.model.entities.Tenant;
 import com.codeshare.airline.auth.repository.GroupRepository;
+import com.codeshare.airline.auth.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,12 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class GroupLoader {
 
-    private final GroupRepository repo;
+    private final GroupRepository groupRepository;
+    private final TenantRepository tenantRepository;
 
     private static final List<String> BASE_GROUPS = List.of(
             "ADMIN",
@@ -23,43 +27,63 @@ public class GroupLoader {
             "OPS"
     );
 
-    public void load(List<String> tenantIds) {
+    public void load(List<UUID> tenantIds) {
 
-        if (repo.count() > 0) {
-            log.info("✔ GroupLoader: groups already present — skipping load.");
-            return;
-        }
+        log.info("⏳ GroupLoader: ensuring base groups for {} tenants...", tenantIds.size());
 
-        log.info("⏳ GroupLoader: creating default groups for {} tenants...", tenantIds.size());
+        List<Group> groupsToSave = new ArrayList<>();
 
-        List<Group> groups = new ArrayList<>();
+        for (UUID tenantId : tenantIds) {
 
-        for (String tenantIdString : tenantIds) {
+            if (tenantId == null) continue;
 
-            UUID tenantId;
-            try {
-                tenantId = UUID.fromString(tenantIdString);
-            } catch (Exception ex) {
-                log.warn("⚠ Invalid tenant UUID '{}', skipping...", tenantIdString);
-                continue;
+            Tenant tenant = tenantRepository.findById(tenantId)
+                    .orElseThrow(() ->
+                            new IllegalStateException("Tenant not found: " + tenantId));
+
+            for (String code : BASE_GROUPS) {
+
+                boolean exists =
+                        groupRepository.existsByTenantAndCode(tenant, code);
+
+                if (exists) {
+                    continue;
+                }
+
+                groupsToSave.add(
+                        Group.builder()
+                                .tenant(tenant)
+                                .code(code)
+                                .name(code + " Group")
+                                .description(code + " Group for tenant " + tenant.getTenantCode())
+                                .build()
+                );
             }
-
-            groups.add(createGroup(tenantId, "ADMIN", "Admin Group for tenant " + tenantId));
-            groups.add(createGroup(tenantId, "IT", "IT Group for tenant " + tenantId));
-            groups.add(createGroup(tenantId, "OPS", "Operations Group for tenant " + tenantId));
         }
 
-        repo.saveAll(groups);
-
-        log.info("✔ GroupLoader: {} groups inserted.", groups.size());
+        if (!groupsToSave.isEmpty()) {
+            groupRepository.saveAll(groupsToSave);
+            log.info("✔ GroupLoader: {} groups created.", groupsToSave.size());
+        } else {
+            log.info("✔ GroupLoader: all groups already exist.");
+        }
     }
 
-    private Group createGroup(UUID tenantId, String code, String description) {
-        return Group.builder()
-                .tenantId(tenantId)
-                .code(code)
-                .name(description)
-                .active(true)
-                .build();
+    /**
+     * Tenant-aware initialization check
+     */
+    public boolean isLoaded() {
+        return groupRepository.count()>0;
+    }
+
+    private UUID safeUUID(String id) {
+        try {
+            return UUID.fromString(id);
+        } catch (Exception e) {
+            log.warn("⚠ Invalid tenant UUID '{}'", id);
+            return null;
+        }
     }
 }
+
+

@@ -6,7 +6,8 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ImageModule } from 'primeng/image';
 import { TagModule } from 'primeng/tag';
 import { PhotoService } from '../../core/services/photo.service';
-import { Product, ProductService } from '../../core/services/product.service';
+import { ProductService } from '@/core/services/product/product.service';
+import { Product } from '@/core/models/product.model';
 
 @Component({
     selector: 'csm-media-demo',

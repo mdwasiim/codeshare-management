@@ -1,120 +1,81 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.entities.identity.User;
-import com.codeshare.airline.auth.entities.identity.UserOrganization;
-import com.codeshare.airline.auth.feign.client.TenantOrganizationclient;
-import com.codeshare.airline.auth.repository.UserOrganizationRepository;
+import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.auth.model.entities.User;
 import com.codeshare.airline.auth.repository.UserRepository;
-import com.codeshare.airline.common.tenant.model.TenantOrganizationDTO;
+import com.codeshare.airline.auth.utils.UserIdGenerator;
+import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.UserStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class UserLoader {
 
-    private final UserRepository repo;
-    private final UserOrganizationRepository userOrgRepo;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TenantOrganizationclient tenantOrganizationclient;
 
-    private static final List<String> DEFAULT_USERS = List.of("admin", "manager", "staff");
+    public void loadUser(List<Tenant> tenants) {
 
-    public void load(List<String> tenantIds) {
+        log.info("⏳ Bootstrapping internal admin users...");
 
-        if (repo.count() > 0) {
-            log.info("✔ UserLoader: Users already exist — skipping load.");
+        for (Tenant tenant : tenants) {
+            createAdminIfMissing(tenant);
+        }
+    }
+
+    private void createAdminIfMissing(Tenant tenant) {
+
+        String username = tenant.getTenantCode();
+        String email = tenant.getTenantCode()+ "@codeshare.com";
+
+        boolean exists =
+                userRepository.existsByUsername(
+                        username
+                );
+
+        if (exists) {
+            log.info(
+                    "✔ Admin user '{}' already exists for tenant '{}'. Skipping.",
+                    username,
+                    tenant.getTenantCode()
+            );
             return;
         }
 
-        log.info("⏳ Creating users for {} tenants...", tenantIds.size());
+        // ⚠️ Ideally inject from config or generate randomly
+        String rawPassword = "admin";
 
-        List<User> toSaveUsers = new ArrayList<>();
-        Map<UUID, List<UUID>> tenantOrgMap = new HashMap<>();
-
-        // --- Load organizations & create users ---
-        for (String tenantIdStr : tenantIds) {
-
-            UUID tenantId = safeUUID(tenantIdStr);
-            if (tenantId == null) continue;
-
-            // Fetch organizations dynamically from tenant-service
-            List<UUID> orgIds = fetchOrgIds(tenantId);
-            if (orgIds.isEmpty()) {
-                log.warn("⚠ No organizations found for tenant {} — skipping user creation", tenantId);
-                continue;
-            }
-            tenantOrgMap.put(tenantId, orgIds);
-
-            // Create users per tenant
-            for (String username : DEFAULT_USERS) {
-                toSaveUsers.add(createUser(username, tenantId));
-            }
-        }
-
-        // Save users
-        List<User> savedUsers = repo.saveAll(toSaveUsers);
-
-        // --- Create User → Organization mapping ---
-        List<UserOrganization> mappings = new ArrayList<>();
-
-        for (User user : savedUsers) {
-            List<UUID> orgIds = tenantOrgMap.get(user.getTenantId());
-            if (orgIds == null) continue;
-
-            for (UUID orgId : orgIds) {
-                mappings.add(UserOrganization.builder()
-                        .user(user)
-                        .organizationId(orgId)
-                        .build());
-            }
-        }
-
-        userOrgRepo.saveAll(mappings);
-
-        log.info("✔ UserLoader: {} users created and {} user-org links added.",
-                savedUsers.size(), mappings.size());
-    }
-
-    // Create user object
-    private User createUser(String username, UUID tenantId) {
-        return User.builder()
-                .username(username)
-                .firstName(cap(username))
-                .lastName("User")
-                .email(username + "@example.com")
-                .password(passwordEncoder.encode("admin"))
-                .tenantId(tenantId)
+        User user = User.builder()
+                .username(username.toLowerCase())
+                .email(email)
+                .firstName("Admin")
+                .lastName(tenant.getName())
+                .password(passwordEncoder.encode(rawPassword))
                 .enabled(true)
+                .active(true)
+                .accountNonExpired(true)
                 .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .authSource(AuthSource.INTERNAL)
+                .externalId("internal:" + username)
+                .status(UserStatus.ACTIVE)
+                .tenant(tenant)
                 .build();
-    }
 
-    // Fetch organizations for a tenant using Feign
-    private List<UUID> fetchOrgIds(UUID tenantId) {
-        try {
-            List<TenantOrganizationDTO> orgs = tenantOrganizationclient.getOrganizations(tenantId);
-            return orgs.stream().map(TenantOrganizationDTO::getId).toList();
-        } catch (Exception ex) {
-            log.error("❌ Failed to fetch organizations for tenant {}: {}", tenantId, ex.getMessage(), ex);
-            return List.of();
-        }
-    }
+        userRepository.save(user);
 
-    private UUID safeUUID(String id) {
-        try { return UUID.fromString(id); }
-        catch (Exception e) {
-            log.warn("⚠ Invalid tenant UUID '{}'", id);
-            return null;
-        }
-    }
-
-    private String cap(String s) {
-        return s.substring(0, 1).toUpperCase() + s.substring(1);
+        log.warn(
+                "⚠️ Admin user '{}' created for tenant '{}'. Password must be changed immediately.",
+                username,
+                tenant.getTenantCode()
+        );
     }
 }
+

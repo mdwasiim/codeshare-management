@@ -1,96 +1,110 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.entities.rbac.Group;
-import com.codeshare.airline.auth.entities.rbac.GroupRole;
-import com.codeshare.airline.auth.entities.rbac.Role;
+
+import com.codeshare.airline.auth.model.entities.Group;
+import com.codeshare.airline.auth.model.entities.GroupRole;
+import com.codeshare.airline.auth.model.entities.Role;
+import com.codeshare.airline.auth.model.entities.Tenant;
 import com.codeshare.airline.auth.repository.GroupRepository;
 import com.codeshare.airline.auth.repository.GroupRoleRepository;
 import com.codeshare.airline.auth.repository.RoleRepository;
+import com.codeshare.airline.auth.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class GroupRoleLoader {
 
-    private final GroupRepository groupRepo;
-    private final RoleRepository roleRepo;
-    private final GroupRoleRepository repo;
+    private final GroupRepository groupRepository;
+    private final RoleRepository roleRepository;
+    private final GroupRoleRepository groupRoleRepository;
+    private final TenantRepository tenantRepository;
 
     /**
-     * Loads GroupRole mappings for all tenants provided by DataLoader.
+     * Default role assignments per group
      */
-    public void load(List<String> tenantIds) {
+    private static final Map<String, List<String>> GROUP_ROLE_MAP = Map.of(
+            "ADMIN", List.of("ADMIN", "TENANT_ADMIN"),
+            "IT", List.of("MANAGER"),
+            "OPS", List.of("STAFF")
+    );
 
-        if (repo.count() > 0) {
-            log.info("✔ GroupRoleLoader: Mappings already exist — skipping load.");
-            return;
-        }
+    public void load(List<UUID> tenantIds) {
 
-        log.info("⏳ GroupRoleLoader: Assigning roles to groups for {} tenants...", tenantIds.size());
+        log.info("⏳ GroupRoleLoader: ensuring group-role mappings...");
 
-        int totalCount = 0;
+        List<GroupRole> toSave = new ArrayList<>();
 
-        for (String tenantIdStr : tenantIds) {
-            UUID tenantId = safeUUID(tenantIdStr);
-            if (tenantId != null) {
-                totalCount += assignRolesToGroups(tenantId);
+        for (UUID tenantId : tenantIds) {
+
+            if (tenantId == null) continue;
+
+            Tenant tenant = tenantRepository.findById(tenantId)
+                    .orElseThrow(() ->
+                            new IllegalStateException("Tenant not found: " + tenantId));
+
+            List<Group> groups = groupRepository.findByTenant(tenant);
+            List<Role> roles = roleRepository.findByTenant(tenant);
+
+            if (groups.isEmpty() || roles.isEmpty()) {
+                log.warn("⚠ Tenant {} missing groups or roles — skipping", tenant.getTenantCode());
+                continue;
+            }
+
+            Map<String, Role> roleByCode = new HashMap<>();
+            for (Role role : roles) {
+                roleByCode.put(role.getCode(), role);
+            }
+
+            for (Group group : groups) {
+
+                List<String> allowedRoles =
+                        GROUP_ROLE_MAP.getOrDefault(group.getCode(), List.of());
+
+                for (String roleCode : allowedRoles) {
+
+                    Role role = roleByCode.get(roleCode);
+                    if (role == null) continue;
+
+                    boolean exists =
+                            groupRoleRepository.existsByTenantAndGroupAndRole(
+                                    tenant, group, role);
+
+                    if (exists) continue;
+
+                    toSave.add(
+                            GroupRole.builder()
+                                    .tenant(tenant)
+                                    .group(group)
+                                    .role(role)
+                                    .build()
+                    );
+                }
             }
         }
 
-        log.info("✔ GroupRoleLoader: Completed. Total GroupRole records inserted: {}", totalCount);
+        if (!toSave.isEmpty()) {
+            groupRoleRepository.saveAll(toSave);
+            log.info("✔ GroupRoleLoader: {} mappings created.", toSave.size());
+        } else {
+            log.info("✔ GroupRoleLoader: mappings already exist.");
+        }
     }
 
-    /**
-     * Assigns ALL roles of a tenant to ALL groups of that tenant.
-     */
-    private int assignRolesToGroups(UUID tenantId) {
-
-        List<Group> groups = groupRepo.findByTenantId(tenantId);
-        List<Role> roles = roleRepo.findByTenantId(tenantId);
-
-        if (groups.isEmpty()) {
-            log.warn("⚠ No groups found for tenant {} — skipping group-role mapping", tenantId);
-            return 0;
-        }
-
-        if (roles.isEmpty()) {
-            log.warn("⚠ No roles found for tenant {} — skipping group-role mapping", tenantId);
-            return 0;
-        }
-
-        List<GroupRole> assignments = new ArrayList<>();
-
-        for (Group group : groups) {
-            for (Role role : roles) {
-                assignments.add(
-                        GroupRole.builder()
-                                .tenantId(tenantId)
-                                .group(group)
-                                .role(role)
-                                .build()
-                );
-            }
-        }
-
-        repo.saveAll(assignments);
-
-        log.info("✔ Tenant {}: {} GroupRole mappings created.", tenantId, assignments.size());
-
-        return assignments.size();
+    public boolean isLoaded() {
+        return groupRoleRepository.count()>0;
     }
 
     private UUID safeUUID(String id) {
         try {
             return UUID.fromString(id);
         } catch (Exception ex) {
-            log.warn("⚠ Invalid tenant ID '{}', skipping...", id);
+            log.warn("⚠ Invalid tenant ID '{}'", id);
             return null;
         }
     }

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NotificationsWidget } from './components/notificationswidget';
-import { StatsWidget } from './components/statswidget';
-import { CSMRecentSalesWidget } from './components/recentsaleswidget';
-import { BestSellingWidget } from './components/bestsellingwidget';
-import { CSMRevenueStreamWidget } from './components/revenuestreamwidget';
+import { NotificationsWidget } from './notificationswidget';
+import { StatsWidget } from './statswidget';
+import { CSMRecentSalesWidget } from './recentsaleswidget';
+import { BestSellingWidget } from './bestsellingwidget';
+import { CSMRevenueStreamWidget } from './revenuestreamwidget';
 
 @Component({
     selector: 'csm-dashboard',
