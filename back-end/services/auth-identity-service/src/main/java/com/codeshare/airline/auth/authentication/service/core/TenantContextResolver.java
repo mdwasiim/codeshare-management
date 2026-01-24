@@ -2,12 +2,13 @@ package com.codeshare.airline.auth.authentication.service.core;
 
 import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
 import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.model.TenantContextHolder;
 import com.codeshare.airline.auth.authentication.exception.TenantResolutionException;
 import com.codeshare.airline.auth.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.auth.service.TenantService;
-import com.codeshare.airline.core.enums.AuthSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
@@ -23,18 +24,20 @@ public class TenantContextResolver {
         if (tenant == null) {
             throw new TenantResolutionException("Invalid or inactive tenant: " + tenantCode);
         }
+
+        TenantContextHolder.setTenant(tenant); // 🔥 STORE IT
         return tenant;
+    }
+
+    public TenantContext getCurrentTenant() {
+        return TenantContextHolder.getTenant();
     }
 
     public IdentityProviderConfig resolveAuthType(TenantContext tenant) {
         return tenantIdentityProviderSelector.select(tenant, null);
     }
 
-    /**
-     * Used by JWT filter to validate tenant from token
-     */
     public void validateTenant(String tenantCode) {
         resolveTenant(tenantCode);
     }
-
 }

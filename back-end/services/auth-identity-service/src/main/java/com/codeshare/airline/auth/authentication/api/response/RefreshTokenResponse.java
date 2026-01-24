@@ -13,6 +13,9 @@ public class RefreshTokenResponse {
     @JsonProperty("access_token")
     private final String accessToken;
 
+    @JsonProperty("refresh_token")
+    private final String refreshToken;
+
     @JsonProperty("expires_in")
     private long expiresIn;
 }

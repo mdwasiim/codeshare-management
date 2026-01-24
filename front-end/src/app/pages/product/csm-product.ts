@@ -36,7 +36,7 @@ interface ExportColumn {
 }
 
 @Component({
-    selector: 'csm-crud',
+    selector: 'csm-product',
     standalone: true,
     imports: [
         CommonModule,

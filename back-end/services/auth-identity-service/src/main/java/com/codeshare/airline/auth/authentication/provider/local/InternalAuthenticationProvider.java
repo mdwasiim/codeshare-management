@@ -24,8 +24,9 @@ public class InternalAuthenticationProvider implements AuthenticationProvider {
     private final AuthUserService authUserService;
     private final RolePermissionAssignmentService rolePermissionAssignmentService;
 
+
     @Override
-    public AuthSource supports() {
+    public AuthSource getAuthSource() {
         return AuthSource.INTERNAL;
     }
 

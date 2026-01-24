@@ -1,11 +1,13 @@
 package com.codeshare.airline.auth.authentication.security.jwt;
 
+import com.codeshare.airline.auth.authentication.config.SecurityProperties;
 import com.codeshare.airline.auth.authentication.exception.TokenValidationException;
 import com.codeshare.airline.auth.authentication.security.key.SigningKeyProvider;
 import com.codeshare.airline.core.enums.AuthSource;
 import com.nimbusds.jose.JOSEException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 
@@ -14,23 +16,28 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class JwtValidator {
 
-    private static final String ISSUER = "https://auth.codeshare.io";
-    private static final String AUDIENCE = "codeshare-api"; // optional but recommended
-
-    private final PublicKey publicKey;
-
-    public JwtValidator(SigningKeyProvider signingKeyProvider) throws JOSEException {
-        this.publicKey = signingKeyProvider.getKeyPair().getPublic();
-    }
+    private final SigningKeyProvider signingKeyProvider;
+    private final SecurityProperties securityProperties;
 
     public JwtAuthenticationClaims validate(String token) {
         try {
-            Claims claims = Jwts.parserBuilder()
-                    .requireIssuer(ISSUER)
-                    .requireAudience(AUDIENCE)
-                    .setSigningKey(publicKey)
+            PublicKey publicKey = signingKeyProvider.getKeyPair().getPublic();
+
+            SecurityProperties.Jwt jwt = securityProperties.getJwt();
+
+            var parser = Jwts.parserBuilder()
+                    .requireIssuer(jwt.getIssuer())
+                    .setSigningKey(publicKey);
+
+            // Optional but recommended
+            if (jwt.getAudience() != null) {
+                parser.requireAudience(jwt.getAudience());
+            }
+
+            Claims claims = parser
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
@@ -54,8 +61,11 @@ public class JwtValidator {
                     .authSource(AuthSource.valueOf(authSource))
                     .build();
 
-        } catch (JwtException e) {
-            throw new TokenValidationException("Invalid or expired token "+ e);
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new TokenValidationException("Invalid or expired token"+ e);
+        } catch (JOSEException e) {
+            throw new RuntimeException(e);
         }
     }
 }
+

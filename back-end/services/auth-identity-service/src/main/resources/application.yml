@@ -1,6 +1,6 @@
 spring:
   application:
-    name: authentication-identity-service
+    name: auth-identity-service
 
   profiles:
     active: dev
