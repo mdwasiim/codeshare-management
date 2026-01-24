@@ -29,8 +29,8 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
     private final TenantIdentityProviderSelector tenantIdentityProviderSelector;
 
     @Override
-    public AuthSource supports() {
-        return AuthSource.LDAP;
+    public AuthSource getAuthSource() {
+         return AuthSource.LDAP;
     }
 
     @Override

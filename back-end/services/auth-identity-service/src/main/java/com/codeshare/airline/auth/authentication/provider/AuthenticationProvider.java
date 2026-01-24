@@ -7,6 +7,11 @@ import com.codeshare.airline.core.enums.AuthSource;
 public interface AuthenticationProvider {
 
     /**
+     * Get supported AuthSource
+     */
+    AuthSource getAuthSource();
+
+    /**
      * Perform authentication
      */
     AuthenticationResult authenticate(LoginRequest request);

@@ -14,19 +14,27 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = false)
 public class OidcStatePayload {
 
+    // 🔐 CSRF / replay protection
     private String stateId;
+
+    // 🏢 Multi-tenant binding
     private String tenantCode;
 
-    // 🔐 OIDC replay protection
+    // 🔐 OIDC replay protection (ID Token)
     private String nonce;
 
     // 🔐 PKCE binding
     private String codeChallenge;
 
+    // 🔒 Context binding (IMPORTANT)
+    private String providerId;     // issuer / IdP key
+    private String redirectUri;    // callback URL
+
+    // ⏱ Lifetime control
     private Instant issuedAt;
     private Instant expiresAt;
 
     public boolean isExpired() {
-        return expiresAt.isBefore(Instant.now());
+        return expiresAt == null || expiresAt.isBefore(Instant.now());
     }
 }

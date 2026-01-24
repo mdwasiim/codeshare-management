@@ -1,6 +1,6 @@
 spring:
   application:
-    name: authentication-identity-service
+    name: auth-identity-service
 
 server:
   port: ${AUTH_IDENTITY_SERVICE_PORT:8081}
@@ -32,11 +32,17 @@ csm:
 security:
   jwt:
     issuer: ${AUTH_IDENTITY_ISSUER_URI}
+    audience: codeshare-api
+
+    access-token-ttl: ${ACCESS_TOKEN_TTL:900}
+    refresh-token-ttl: ${REFRESH_TOKEN_TTL:2592000}
+
     keystore:
       location: ${KEYSTORE_LOCATION:classpath:authentication-keystore.p12}
       store-password: ${KEYSTORE_PASSWORD}
       key-alias: ${KEY_ALIAS:authentication-server}
       key-password: ${KEY_PASSWORD}
+
   oidc:
     state:
       secret: ${OIDC_STATE_SECRET:changeit}

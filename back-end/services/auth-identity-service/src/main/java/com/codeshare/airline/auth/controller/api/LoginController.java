@@ -5,6 +5,7 @@ import com.codeshare.airline.auth.authentication.api.request.OidcTokenExchangeRe
 import com.codeshare.airline.auth.authentication.api.response.LoginResponse;
 import com.codeshare.airline.auth.authentication.api.response.RefreshTokenResponse;
 import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
+import com.codeshare.airline.auth.authentication.domain.model.OidcConfig;
 import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
 import com.codeshare.airline.auth.authentication.domain.model.TokenPair;
 import com.codeshare.airline.auth.authentication.exception.AuthenticationFailedException;
@@ -15,23 +16,19 @@ import com.codeshare.airline.auth.authentication.provider.oidc.base.OidcStateMan
 import com.codeshare.airline.auth.authentication.service.core.*;
 import com.codeshare.airline.auth.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.auth.authentication.state.OidcStatePayload;
-import com.codeshare.airline.auth.model.entities.OidcStateEntity;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+@Slf4j
 @RestController
-@RequestMapping("/api/auth/")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class LoginController {
-
-
-    @Value("${app.frontend.base-url}")
-    private String frontendBaseUrl;
 
     private final AuthenticationService authenticationService;
     private final TenantContextResolver tenantContextResolver;
@@ -40,18 +37,17 @@ public class LoginController {
     private final AuthenticationProviderResolver authenticationProviderResolver;
     private final OidcStateManager oidcStateManager;
 
-
+    // -------------------------------------------------
+    // LOGIN
+    // -------------------------------------------------
     @PostMapping("/login")
-    public LoginResponse login(
-            @RequestBody LoginRequest request,
-            @RequestHeader("tenant_code") String tenantCode
-    ) {
+    public LoginResponse login(@RequestBody LoginRequest request) {
 
-        if (!StringUtils.hasText(tenantCode)) {
-            throw new AuthenticationFailedException("Tenant code missing");
-        }
-
-        TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
+        TenantContext tenant = tenantContextResolver.getCurrentTenant();
+        log.info("Login request received | tenant={} authSource={}",
+                tenant.getTenantCode(),
+                request.getRequestedAuthSource()
+        );
 
         IdentityProviderConfig idpConfig =
                 tenantIdentityProviderSelector.select(
@@ -59,12 +55,28 @@ public class LoginController {
                         request.getRequestedAuthSource()
                 );
 
+        log.debug("Selected IdentityProvider | tenant={} providerId={} authSource={}",
+                tenant.getTenantCode(),
+                idpConfig.getProviderId(),
+                idpConfig.getAuthSource()
+        );
+
         AuthenticationResult authResult =
                 authenticationService.authenticate(
                         request.withTenantAndProvider(tenant, idpConfig)
                 );
 
+        log.info("Authentication successful | user={} tenant={}",
+                authResult.getUsername(),
+                authResult.getTenantCode()
+        );
+
         TokenPair tokens = tokenService.issueTokens(authResult);
+
+        log.debug("Tokens issued successfully | user={} tenant={}",
+                authResult.getUsername(),
+                authResult.getTenantCode()
+        );
 
         return LoginResponse.builder()
                 .username(authResult.getUsername())
@@ -77,37 +89,50 @@ public class LoginController {
                 .build();
     }
 
-
-
+    // -------------------------------------------------
+    // REFRESH TOKEN
+    // -------------------------------------------------
     @PostMapping("/refresh")
     public RefreshTokenResponse refresh(
             @RequestHeader("X-Refresh-Token") String refreshToken
     ) {
 
+        log.debug("Refresh token request received");
+
         if (!StringUtils.hasText(refreshToken)) {
+            log.warn("Refresh token missing in request");
             throw new AuthenticationFailedException("Refresh token missing");
         }
 
         TokenPair tokens = tokenService.refreshTokens(refreshToken);
 
+        log.info("Access token refreshed successfully");
+
         return RefreshTokenResponse.builder()
                 .accessToken(tokens.getAccessToken())
+                .refreshToken(tokens.getRefreshToken())
                 .expiresIn(tokenService.getAccessTokenTtl())
                 .build();
     }
 
-
-
+    // -------------------------------------------------
+    // LOGOUT
+    // -------------------------------------------------
     @PostMapping("/logout")
     public void logout(
             @RequestHeader(value = "X-Refresh-Token", required = false) String refreshToken
     ) {
         if (StringUtils.hasText(refreshToken)) {
+            log.info("Logout request received – revoking session");
             tokenService.revokeSession(refreshToken);
+        } else {
+            log.debug("Logout request without refresh token");
         }
     }
 
-
+    // -------------------------------------------------
+    // OIDC AUTHORIZE
+    // -------------------------------------------------
     @GetMapping("/oidc/authorize")
     public void authorize(
             @RequestParam("tenant") String tenantCode,
@@ -115,8 +140,14 @@ public class LoginController {
             HttpServletResponse response
     ) throws IOException {
 
-        TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
+        log.info("OIDC authorize request | tenant={}", tenantCode);
 
+        if (!StringUtils.hasText(codeChallenge)) {
+            log.warn("OIDC authorize failed – missing code_challenge | tenant={}", tenantCode);
+            throw new IllegalArgumentException("code_challenge is required");
+        }
+
+        TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
         IdentityProviderConfig idpConfig =
                 tenantIdentityProviderSelector.select(tenant, null);
 
@@ -124,16 +155,21 @@ public class LoginController {
                 authenticationProviderResolver.resolve(idpConfig.getAuthSource());
 
         if (!(provider instanceof AuthorizationRedirectCapable redirectCapable)) {
-            throw new UnsupportedAuthenticationFlowException("Provider is not OIDC");
+            log.error("OIDC authorize failed – provider not redirect-capable | provider={}",
+                    idpConfig.getAuthSource()
+            );
+            throw new UnsupportedAuthenticationFlowException("Provider is not OIDC-capable");
         }
 
-        String state = tokenService.createOidcState(tenantCode,codeChallenge);
-
+        OidcConfig oidc = idpConfig.getOidcConfig();
 
         OidcStateManager.OidcAuthorizationRequest req =
-                oidcStateManager.createAuthorizationRequest(tenantCode,codeChallenge );
-
-
+                oidcStateManager.createAuthorizationRequest(
+                        tenantCode,
+                        idpConfig.getProviderId(),
+                        oidc.getRedirectUri(),
+                        codeChallenge
+                );
 
         String redirectUrl = redirectCapable.buildAuthorizeUrl(
                 tenant,
@@ -143,11 +179,17 @@ public class LoginController {
                 req.nonce()
         );
 
+        log.info("Redirecting to OIDC provider | tenant={} provider={}",
+                tenantCode,
+                idpConfig.getProviderId()
+        );
+
         response.sendRedirect(redirectUrl);
     }
 
-
-
+    // -------------------------------------------------
+    // OIDC CALLBACK
+    // -------------------------------------------------
     @GetMapping("/oidc/callback")
     public void callback(
             @RequestParam("code") String code,
@@ -157,50 +199,57 @@ public class LoginController {
             HttpServletResponse response
     ) throws IOException {
 
-        // 1️⃣ Verify & consume OIDC state (CSRF protection)
+        log.info("OIDC callback received | tenant={}", tenantCode);
+
         OidcStatePayload statePayload =
                 oidcStateManager.verifyAndConsumeState(state);
 
-        // 2️⃣ Verify PKCE (authorization code binding)
-        tokenService.verifyPkce(codeVerifier,statePayload.getCodeChallenge());
+        tokenService.verifyPkce(codeVerifier, statePayload.getCodeChallenge());
 
-        // 3️⃣ Resolve tenant & provider
         TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
-
-        IdentityProviderConfig idpConfig = tenantIdentityProviderSelector.select(tenant, null);
+        IdentityProviderConfig idpConfig =
+                tenantIdentityProviderSelector.select(tenant, null);
 
         AuthenticationProvider provider =
                 authenticationProviderResolver.resolve(idpConfig.getAuthSource());
 
-        // 4️⃣ Exchange authorization code WITH PKCE
         AuthenticationResult authResult =
                 provider.authenticate(
                         LoginRequest.builder()
                                 .authorizationCode(code)
-                                .codeVerifier(codeVerifier) // 🔐 REQUIRED
+                                .codeVerifier(codeVerifier)
                                 .tenant(tenant)
                                 .identityProviderConfig(idpConfig)
                                 .build()
                 );
 
-        // 5️⃣ Validate & consume nonce (ID token replay protection)
         oidcStateManager.consumeNonce(statePayload.getNonce());
 
-        // 6️⃣ Issue INTERNAL tokens
         TokenPair tokens = tokenService.issueTokens(authResult);
-
-        // 7️⃣ Create one-time exchange code
         String exchangeCode = tokenService.createExchangeCode(tokens, authResult);
 
-        // 8️⃣ Redirect frontend (NO TOKENS IN URL)
-        response.sendRedirect(frontendBaseUrl + "/oidc/callback?code=" + exchangeCode);
+        log.info("OIDC authentication successful | user={} tenant={}",
+                authResult.getUsername(),
+                tenantCode
+        );
+
+        response.sendRedirect(
+                idpConfig.getOidcConfig().getRedirectUri()
+                        + "/oidc/callback?code=" + exchangeCode
+        );
     }
 
-
+    // -------------------------------------------------
+    // OIDC TOKEN EXCHANGE
+    // -------------------------------------------------
     @PostMapping("/oidc/token")
     public LoginResponse exchange(@RequestBody OidcTokenExchangeRequest request) {
 
+        log.debug("OIDC token exchange request received");
+
         TokenPair tokens = tokenService.exchangeTokens(request.getCode());
+
+        log.info("OIDC token exchange successful");
 
         return LoginResponse.builder()
                 .accessToken(tokens.getAccessToken())
@@ -208,6 +257,4 @@ public class LoginController {
                 .expiresIn(tokenService.getAccessTokenTtl())
                 .build();
     }
-
-
 }

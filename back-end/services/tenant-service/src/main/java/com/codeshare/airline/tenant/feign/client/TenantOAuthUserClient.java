@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @FeignClient(
-        name = "authentication-identity-service",
+        name = "auth-identity-service",
         configuration = TenantFeignWebContextConfiguration.class
 )
 public interface TenantOAuthUserClient {

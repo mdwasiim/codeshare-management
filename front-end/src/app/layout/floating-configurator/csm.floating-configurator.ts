@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
-import { CSMConfigurator } from '../configurator/csm.configurator';  // UPDATED IMPORT
+import { CSMConfigurator } from '@layout/configurator/csm.configurator';  // UPDATED IMPORT
 import { CommonModule } from '@angular/common';
 import { CSMLayoutService } from '@/core/services/csm.layout.service';
 

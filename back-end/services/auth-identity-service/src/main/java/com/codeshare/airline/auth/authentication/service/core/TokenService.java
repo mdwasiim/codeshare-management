@@ -1,5 +1,6 @@
 package com.codeshare.airline.auth.authentication.service.core;
 
+import com.codeshare.airline.auth.authentication.config.SecurityProperties;
 import com.codeshare.airline.auth.authentication.domain.model.TokenPair;
 import com.codeshare.airline.auth.authentication.exception.AuthenticationFailedException;
 import com.codeshare.airline.auth.authentication.exception.RefreshTokenInvalidException;
@@ -12,7 +13,6 @@ import com.codeshare.airline.auth.service.AuthUserService;
 import com.codeshare.airline.auth.service.RolePermissionAssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
@@ -40,11 +40,9 @@ public class TokenService {
     private final AuthUserService authUserService;
     private final RolePermissionAssignmentService rolePermissionAssignmentService;
 
-    @Value("${security.jwt.access-token-ttl}")
-    private long accessTokenTtl;
 
-    @Value("${security.jwt.refresh-token-ttl}")
-    private long refreshTokenTtl;
+    private final SecurityProperties securityProperties;
+
 
     /* =========================================================
        TOKEN ISSUANCE
@@ -124,7 +122,7 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("codeshare-authentication")
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(accessTokenTtl))
+                .expiresAt(now.plusSeconds(securityProperties.getJwt().getAccessTokenTtl()))
                 .subject(auth.getUsername())
                 .claim("tenant_id", auth.getTenantId())
                 .claim("tenant_code", auth.getTenantCode())
@@ -147,7 +145,7 @@ public class TokenService {
                 .issuer("codeshare-authentication")
                 .id(jti)
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(refreshTokenTtl))
+                .expiresAt(now.plusSeconds(securityProperties.getJwt().getRefreshTokenTtl()))
                 .subject(auth.getUsername())
                 .claim("tenant_id", auth.getTenantId())
                 .claim("tenant_code", auth.getTenantCode())
@@ -177,7 +175,7 @@ public class TokenService {
                         .authSource(auth.getAuthSource())
                         .active(true)
                         .createdAt(LocalDateTime.now())
-                        .expiresAt(LocalDateTime.now().plusSeconds(refreshTokenTtl))
+                        .expiresAt(LocalDateTime.now().plusSeconds(securityProperties.getJwt().getRefreshTokenTtl()))
                         .build();
 
         refreshTokenRepository.save(session);
@@ -312,6 +310,6 @@ public class TokenService {
     }
 
     public long getAccessTokenTtl() {
-        return accessTokenTtl;
+        return securityProperties.getJwt().getAccessTokenTtl();
     }
 }

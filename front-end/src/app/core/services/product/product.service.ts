@@ -1,5 +1,5 @@
 
-import { CSMApiService } from '@/core/config/csm-api.service';
+import { CSMApiService } from '@/core/services/auth/csm-api.service';
 import { Product } from '@/core/models/product.model';
 import { Injectable } from '@angular/core';
 

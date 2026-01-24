@@ -25,8 +25,8 @@ public class AzureOidcAuthenticationProvider extends AbstractOidcAuthenticationP
         super(oidcClientAdapter, rolePermissionAssignmentService);
     }
 
-
-    public AuthSource supports() {
+    @Override
+    public AuthSource getAuthSource() {
         return AuthSource.AZURE;
     }
 
@@ -86,9 +86,6 @@ public class AzureOidcAuthenticationProvider extends AbstractOidcAuthenticationP
                 .build(true)
                 .toUriString();
     }
-
-
-
 
 }
 

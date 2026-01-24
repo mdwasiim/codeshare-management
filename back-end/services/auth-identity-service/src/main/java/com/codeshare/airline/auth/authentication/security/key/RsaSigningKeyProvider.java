@@ -1,11 +1,11 @@
 package com.codeshare.airline.auth.authentication.security.key;
 
+import com.codeshare.airline.auth.authentication.config.SecurityProperties;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -16,46 +16,46 @@ import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class RsaSigningKeyProvider implements SigningKeyProvider {
 
-    @Value("${security.jwt.keystore.location}")
-    private Resource keystore;
-
-    @Value("${security.jwt.keystore.store-password}")
-    private String storePassword;
-
-    @Value("${security.jwt.keystore.key-alias}")
-    private String keyAlias;
-
-    @Value("${security.jwt.keystore.key-password}")
-    private String keyPassword;
+    private final SecurityProperties securityProperties;
 
     private RSAKey rsaKey;
 
     @PostConstruct
     void init() {
         try {
-            KeyStore keyStore = KeyStore.getInstance("JKS");
+            SecurityProperties.Jwt jwt = securityProperties.getJwt();
+            SecurityProperties.Keystore ks = jwt.getKeystore();
 
-            try (InputStream is = keystore.getInputStream()) {
-                keyStore.load(is, storePassword.toCharArray());
+            Resource keystoreResource = ks.getLocation();
+
+            // ✅ PKCS12 for .p12 files
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+
+            try (InputStream is = keystoreResource.getInputStream()) {
+                keyStore.load(is, ks.getStorePassword().toCharArray());
             }
 
-            Key key = keyStore.getKey(keyAlias, keyPassword.toCharArray());
-            if (!(key instanceof RSAPrivateKey)) {
+            Key key = keyStore.getKey(
+                    ks.getKeyAlias(),
+                    ks.getKeyPassword().toCharArray()
+            );
+
+            if (!(key instanceof RSAPrivateKey privateKey)) {
                 throw new IllegalStateException("Key is not an RSA private key");
             }
 
-            Certificate cert = keyStore.getCertificate(keyAlias);
+            Certificate cert = keyStore.getCertificate(ks.getKeyAlias());
             RSAPublicKey publicKey = (RSAPublicKey) cert.getPublicKey();
 
+            // ✅ Stable KID (issuer-based)
             this.rsaKey = new RSAKey.Builder(publicKey)
-                    .privateKey((RSAPrivateKey) key)
-                    .keyID(UUID.randomUUID().toString())
+                    .privateKey(privateKey)
+                    .keyID(jwt.getIssuer())
                     .build();
 
         } catch (Exception ex) {
@@ -73,11 +73,13 @@ public class RsaSigningKeyProvider implements SigningKeyProvider {
 
     @Override
     public JWKSet getPrivateJwkSet() {
-        return new JWKSet(rsaKey); // 🔐 contains private key
+        // 🔐 INTERNAL USE ONLY
+        return new JWKSet(rsaKey);
     }
 
     @Override
     public JWKSet getPublicJwkSet() {
-        return new JWKSet(rsaKey.toPublicJWK()); // 🔓 safe to expose
+        // 🔓 SAFE TO EXPOSE
+        return new JWKSet(rsaKey.toPublicJWK());
     }
 }
