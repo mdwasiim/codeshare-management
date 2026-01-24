@@ -25,8 +25,7 @@ public class OidcStateEntity extends CSMDataAbstractEntity {
     /**
      * OAuth2 / OIDC state value (CSRF protection)
      */
-    @Id
-    @Column(name = "state", length = 64, nullable = false)
+    @Column(name = "state", length = 64, nullable = false, unique = true)
     private String state;
 
     /**

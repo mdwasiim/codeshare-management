@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 
 @Service
 public class AuthenticationProviderResolver {
@@ -20,12 +22,14 @@ public class AuthenticationProviderResolver {
     ) {
         this.providerMap = providers.stream()
                 .collect(Collectors.toUnmodifiableMap(
-                        AuthenticationProvider::supports,
+                        AuthenticationProvider::getAuthSource,
                         Function.identity(),
                         (p1, p2) -> {
                             throw new IllegalStateException(
-                                    "Duplicate AuthenticationProvider for auth source: "
-                                            + p1.supports()
+                                    "Duplicate AuthenticationProvider for auth source "
+                                            + p1.getAuthSource()
+                                            + ": " + p1.getClass().getName()
+                                            + " vs " + p2.getClass().getName()
                             );
                         }
                 ));
@@ -49,6 +53,12 @@ public class AuthenticationProviderResolver {
 
         return provider;
     }
+
+    // Optional but useful
+    public Set<AuthSource> supportedAuthSources() {
+        return providerMap.keySet();
+    }
 }
+
 
 

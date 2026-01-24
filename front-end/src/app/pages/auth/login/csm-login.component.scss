@@ -1,0 +1,93 @@
+.login-wrapper {
+    background: var(--surface-50);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-gradient {
+        padding: 0.3rem;
+        border-radius: 56px;
+        background: linear-gradient(
+            180deg,
+            var(--primary-color) 10%,
+            rgba(33, 150, 243, 0) 30%
+        );
+    }
+
+    .login-card {
+        background: var(--surface-0);
+        border-radius: 53px;
+        padding: 5rem 2rem;
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .logo {
+        width: 4rem;
+        margin: 0 auto 2rem;
+        display: block;
+    }
+
+    .title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--surface-900);
+        margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+        color: var(--text-color-secondary);
+        font-weight: 500;
+    }
+
+    .form {
+        margin-top: 2rem;
+
+        .label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--surface-900);
+        }
+
+        .input {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .password {
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.5rem 0;
+
+            .remember {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .forgot {
+                color: var(--primary-color);
+                cursor: pointer;
+                font-weight: 500;
+            }
+        }
+
+        .login-btn {
+            width: 100%;
+        }
+    }
+}

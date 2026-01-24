@@ -32,7 +32,7 @@ public class UserLoader {
 
     private void createAdminIfMissing(Tenant tenant) {
 
-        String username = tenant.getTenantCode();
+        String username = "admin";
         String email = tenant.getTenantCode()+ "@codeshare.com";
 
         boolean exists =
