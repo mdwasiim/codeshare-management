@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.utils.mappers;
 
-import com.codeshare.airline.auth.model.entities.Role;
+import com.codeshare.airline.auth.entities.Role;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import org.mapstruct.Mapper;

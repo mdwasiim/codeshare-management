@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
-import com.codeshare.airline.auth.model.entities.Permission;
+import com.codeshare.airline.auth.entities.Permission;
 import com.codeshare.airline.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.core.exceptions.CSMBusinessException;
 import com.codeshare.airline.core.exceptions.CSMErrorCodes;

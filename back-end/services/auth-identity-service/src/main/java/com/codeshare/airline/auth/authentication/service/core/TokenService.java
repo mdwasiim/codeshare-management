@@ -1,12 +1,12 @@
 package com.codeshare.airline.auth.authentication.service.core;
 
 import com.codeshare.airline.auth.authentication.config.SecurityProperties;
-import com.codeshare.airline.auth.authentication.domain.model.TokenPair;
+import com.codeshare.airline.auth.authentication.domain.TokenPair;
 import com.codeshare.airline.auth.authentication.exception.AuthenticationFailedException;
 import com.codeshare.airline.auth.authentication.exception.RefreshTokenInvalidException;
 import com.codeshare.airline.auth.authentication.security.adapter.UserDetailsAdapter;
-import com.codeshare.airline.auth.model.entities.AuthTokenExchangeEntity;
-import com.codeshare.airline.auth.model.entities.RefreshToken;
+import com.codeshare.airline.auth.entities.AuthTokenExchangeEntity;
+import com.codeshare.airline.auth.entities.RefreshToken;
 import com.codeshare.airline.auth.repository.AuthTokenExchangeRepository;
 import com.codeshare.airline.auth.repository.RefreshTokenRepository;
 import com.codeshare.airline.auth.service.AuthUserService;
@@ -24,6 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -120,7 +121,8 @@ public class TokenService {
         Instant now = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("codeshare-authentication")
+                .issuer(securityProperties.getJwt().getIssuer())
+                .audience(List.of(securityProperties.getJwt().getAudience()))
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(securityProperties.getJwt().getAccessTokenTtl()))
                 .subject(auth.getUsername())
@@ -128,12 +130,13 @@ public class TokenService {
                 .claim("tenant_code", auth.getTenantCode())
                 .claim("roles", auth.getRoles())
                 .claim("permissions", auth.getPermissions())
-                .claim("auth_source", auth.getAuthSource())
+                .claim("auth_source", auth.getAuthSource().name()) // ✅ FIX
+                .claim("type", "access")                            // ✅ FIX
                 .build();
 
-        return jwtEncoder.encode(
-                JwtEncoderParameters.from(claims)
-        ).getTokenValue();
+        return jwtEncoder
+                .encode(JwtEncoderParameters.from(claims))
+                .getTokenValue();
     }
 
     private String issueRefreshToken(AuthenticationResult auth) {
@@ -142,20 +145,23 @@ public class TokenService {
         String jti = UUID.randomUUID().toString();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("codeshare-authentication")
+                .issuer(securityProperties.getJwt().getIssuer())
+                .audience(List.of(securityProperties.getJwt().getAudience()))
                 .id(jti)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(securityProperties.getJwt().getRefreshTokenTtl()))
                 .subject(auth.getUsername())
                 .claim("tenant_id", auth.getTenantId())
                 .claim("tenant_code", auth.getTenantCode())
+                .claim("auth_source", auth.getAuthSource().name()) // optional but good
                 .claim("type", "refresh")
                 .build();
 
-        return jwtEncoder.encode(
-                JwtEncoderParameters.from(claims)
-        ).getTokenValue();
+        return jwtEncoder
+                .encode(JwtEncoderParameters.from(claims))
+                .getTokenValue();
     }
+
 
     /* =========================================================
        REFRESH SESSION PERSISTENCE

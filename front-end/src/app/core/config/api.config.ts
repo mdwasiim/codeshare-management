@@ -12,7 +12,7 @@ export interface ApiConfig {
 
 export const API_CONFIG = {
   endpoints: {
-    menu: 'menu',
+    menu: 'api/menus',
     login: 'api/auth/login',
     refresh: 'api/auth/refresh',
     dashboardStats: 'dashboard/stats'

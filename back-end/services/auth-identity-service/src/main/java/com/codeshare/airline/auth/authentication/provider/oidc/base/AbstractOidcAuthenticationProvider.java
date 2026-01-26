@@ -1,9 +1,9 @@
 package com.codeshare.airline.auth.authentication.provider.oidc.base;
 
 import com.codeshare.airline.auth.authentication.api.request.LoginRequest;
-import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
-import com.codeshare.airline.auth.authentication.domain.model.OidcAuthenticatedUser;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.IdentityProviderConfig;
+import com.codeshare.airline.auth.authentication.domain.OidcAuthenticatedUser;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
 import com.codeshare.airline.auth.authentication.exception.AuthenticationFailedException;
 import com.codeshare.airline.auth.authentication.exception.UnsupportedAuthenticationFlowException;
 import com.codeshare.airline.auth.authentication.provider.AuthenticationProvider;

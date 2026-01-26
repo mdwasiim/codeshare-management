@@ -1,12 +1,12 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
-import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
-import com.codeshare.airline.auth.authentication.domain.model.OidcConfig;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.IdentityProviderConfig;
+import com.codeshare.airline.auth.authentication.domain.OidcConfig;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
 import com.codeshare.airline.auth.authentication.exception.AuthenticationFailedException;
-import com.codeshare.airline.auth.model.entities.OidcIdentityProviderEntity;
-import com.codeshare.airline.auth.model.entities.OidcConfigEntity;
-import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.auth.entities.OidcIdentityProviderEntity;
+import com.codeshare.airline.auth.entities.OidcConfigEntity;
+import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.auth.repository.TenantRepository;
 import com.codeshare.airline.auth.service.TenantService;
 import com.codeshare.airline.auth.utils.mappers.TenantMapper;

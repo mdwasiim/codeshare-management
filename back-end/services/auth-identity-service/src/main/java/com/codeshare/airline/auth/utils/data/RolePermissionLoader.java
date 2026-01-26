@@ -1,9 +1,9 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.model.entities.Permission;
-import com.codeshare.airline.auth.model.entities.Role;
-import com.codeshare.airline.auth.model.entities.RolePermission;
-import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.auth.entities.Permission;
+import com.codeshare.airline.auth.entities.Role;
+import com.codeshare.airline.auth.entities.RolePermission;
+import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.auth.repository.PermissionRepository;
 import com.codeshare.airline.auth.repository.RolePermissionRepository;
 import com.codeshare.airline.auth.repository.RoleRepository;

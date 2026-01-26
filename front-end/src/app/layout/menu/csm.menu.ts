@@ -17,7 +17,7 @@ export class CSMMenu {
   constructor(private csmMenuservice: CSMMenuService) {}
 
   ngOnInit() {
-    this.csmMenuservice.getMenu().subscribe({
+    this.csmMenuservice.loadMenus().subscribe({
       next: (menu) => (this.model = menu),
       error: (err) => console.error('Menu load failed', err)
     });

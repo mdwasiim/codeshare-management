@@ -1,4 +1,4 @@
-package com.codeshare.airline.auth.model.entities;
+package com.codeshare.airline.auth.entities;
 
 import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
 import jakarta.persistence.Column;

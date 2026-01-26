@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
-import com.codeshare.airline.auth.model.entities.Menu;
+import com.codeshare.airline.auth.entities.Menu;
 import com.codeshare.airline.auth.repository.MenuRepository;
 import com.codeshare.airline.auth.service.MenuService;
 import com.codeshare.airline.auth.utils.mappers.MenuMapper;
@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,13 +29,6 @@ public class MenuServiceImpl implements MenuService {
 
         if (dto.getTenantId() == null)
             throw new IllegalArgumentException("tenantId is required");
-
-        if (dto.getName() == null || dto.getName().isBlank())
-            throw new IllegalArgumentException("Menu name is required");
-
-        // Check duplicate name in same tenant
-        if (repository.existsByNameAndTenantId(dto.getName(), dto.getTenantId()))
-            throw new RuntimeException("Menu already exists for tenant");
 
         Menu entity = mapper.toEntity(dto);
 
@@ -58,15 +52,7 @@ public class MenuServiceImpl implements MenuService {
         Menu entity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
 
-        // Update fields only if provided
-        if (dto.getName() != null) entity.setName(dto.getName());
-        if (dto.getUrl() != null) entity.setUrl(dto.getUrl());
-        if (dto.getIcon() != null) entity.setIcon(dto.getIcon());
-        if (dto.getBadge() != null) entity.setBadge(dto.getBadge());
-        if (dto.getIconComponent() != null) entity.setIconComponent(dto.getIconComponent());
-        if (dto.getTitle() != null) entity.setTitle(dto.getTitle());
-
-        // Assign parent menu
+            // Assign parent menu
         if (dto.getParentId() != null) {
             Menu parent = repository.findById(dto.getParentId())
                     .orElseThrow(() -> new RuntimeException("Parent menu not found"));
@@ -104,9 +90,20 @@ public class MenuServiceImpl implements MenuService {
     // ---------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
-    public List<MenuDTO> getAllByTenant(UUID tenantId) {
-        return mapper.toDTOList(repository.findByTenantId(tenantId));
+    public List<MenuDTO> getAllByTenant(String tenantCode) {
+
+        List<Menu> allMenus = repository.findByTenant_TenantCode(tenantCode);
+
+        List<Menu> rootMenus = allMenus.stream()
+                .filter(m -> m.getParentMenu() == null)
+                .sorted(Comparator.comparing(Menu::getDisplayOrder,
+                        Comparator.nullsLast(Integer::compareTo)))
+                .toList();
+
+        return mapper.toDTOList(rootMenus);
     }
+
+
 
 
     // ---------------------------------------------------------

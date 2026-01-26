@@ -48,7 +48,7 @@ public class JwtValidator {
             }
 
             String subject = claims.getSubject();
-            String tenant = claims.get("tenant", String.class);
+            String tenant = claims.get("tenant_code", String.class);
             String authSource = claims.get("auth_source", String.class);
 
             List<String> rolesList = claims.get("roles", List.class);

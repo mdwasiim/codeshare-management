@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit,inject } from '@angular/core';
 import { NotificationsWidget } from './notificationswidget';
 import { StatsWidget } from './statswidget';
 import { CSMRecentSalesWidget } from './recentsaleswidget';
 import { BestSellingWidget } from './bestsellingwidget';
 import { CSMRevenueStreamWidget } from './revenuestreamwidget';
+import { CSMMenuService } from '@/core/services/csm-menu.service';
+
 
 @Component({
     selector: 'csm-dashboard',
@@ -22,4 +24,15 @@ import { CSMRevenueStreamWidget } from './revenuestreamwidget';
         </div>
     `
 })
-export class CSMDashboard {}
+export class CSMDashboard implements OnInit{
+
+ private menuService = inject(CSMMenuService);
+
+   ngOnInit(): void {
+    // ✅ Load protected data AFTER login & navigation
+    this.menuService.loadMenus().subscribe({
+      error: err => console.error('Failed to load menus', err)
+    });
+  }
+
+}

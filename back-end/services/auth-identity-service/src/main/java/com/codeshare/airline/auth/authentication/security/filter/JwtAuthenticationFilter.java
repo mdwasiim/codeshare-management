@@ -37,9 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
 
-        boolean skip = path.equals("/api/auth/login")
-                || path.equals("/api/auth/refresh")
-                || path.startsWith("/.well-known/");
+        boolean skip = path.startsWith("/api/auth/") || path.startsWith("/.well-known/");
 
         if (skip) {
             log.debug("Skipping JwtAuthenticationFilter for path: {}", path);
@@ -49,102 +47,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal( HttpServletRequest request, HttpServletResponse response, FilterChain filterChain ) throws ServletException, IOException {
 
-        String path = request.getRequestURI();
-        log.debug("JwtAuthenticationFilter invoked for path: {}", path);
-
-        // -----------------------------------------
-        // 1️⃣ LOGIN / REFRESH → Tenant from HEADER
-        // -----------------------------------------
-        if (path.equals("/api/auth/login") || path.equals("/api/auth/refresh")) {
-
-            String tenantCode = request.getHeader("tenant-code");
-
-            if (tenantCode == null || tenantCode.isBlank()) {
-                log.warn(
-                        "Missing tenant-code header | method={} path={} remoteAddr={}",
-                        request.getMethod(),
-                        path,
-                        request.getRemoteAddr()
-                );
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing tenant-code header");
-                return;
-            }
-
-            log.debug("Validating tenant from header for login/refresh: {}", tenantCode);
-            tenantContextResolver.validateTenant(tenantCode);
-
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        // -----------------------------------------
-        // 2️⃣ OTHER REQUESTS → JWT REQUIRED
-        // -----------------------------------------
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            log.debug(
-                    "No Bearer token found | method={} path={}",
-                    request.getMethod(),
-                    path
-            );
-            filterChain.doFilter(request, response);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing Authorization header");
             return;
         }
 
-        String token = authHeader.substring(7);
-
         try {
-            log.debug("Validating JWT token for path: {}", path);
-
+            String token = authHeader.substring(7);
             JwtAuthenticationClaims claims = jwtValidator.validate(token);
 
-            if (claims.getRoles() == null || claims.getRoles().isEmpty()) {
-                log.warn("JWT token has no roles | userId={}", claims.getUserId());
-                throw new TokenValidationException("Token has no roles");
-            }
-
-            // ✅ Tenant validation from token
-            log.debug(
-                    "Validating tenant from token | tenantCode={} userId={}",
-                    claims.getTenantCode(),
-                    claims.getUserId()
-            );
             tenantContextResolver.validateTenant(claims.getTenantCode());
 
             Authentication authentication = buildAuthentication(claims);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.info(
-                    "JWT authentication successful | userId={} username={} tenantCode={}",
-                    claims.getUserId(),
-                    claims.getUsername(),
-                    claims.getTenantCode()
-            );
+            filterChain.doFilter(request, response);
 
         } catch (TokenValidationException ex) {
             SecurityContextHolder.clearContext();
-            log.warn(
-                    "JWT validation failed | path={} reason={}",
-                    path,
-                    ex.getMessage()
-            );
-        } catch (Exception ex) {
-            SecurityContextHolder.clearContext();
-            log.error(
-                    "Unexpected error during JWT authentication | path={}",
-                    path,
-                    ex
-            );
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
         }
-
-        filterChain.doFilter(request, response);
     }
 
     private Authentication buildAuthentication(JwtAuthenticationClaims claims) {

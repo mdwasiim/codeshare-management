@@ -1,11 +1,11 @@
 package com.codeshare.airline.auth.authentication.provider;
 
-import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.IdentityProviderConfig;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
 
 public interface AuthorizationRedirectCapable {
 
-    public String buildAuthorizeUrl(
+    String buildAuthorizeUrl(
             TenantContext tenant,
             IdentityProviderConfig config,
             String state,

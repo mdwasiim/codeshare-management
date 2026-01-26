@@ -1,8 +1,8 @@
 package com.codeshare.airline.auth.authentication.service.core;
 
-import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContextHolder;
+import com.codeshare.airline.auth.authentication.domain.IdentityProviderConfig;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.auth.authentication.exception.TenantResolutionException;
 import com.codeshare.airline.auth.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.auth.service.TenantService;
@@ -27,10 +27,6 @@ public class TenantContextResolver {
 
         TenantContextHolder.setTenant(tenant); // 🔥 STORE IT
         return tenant;
-    }
-
-    public TenantContext getCurrentTenant() {
-        return TenantContextHolder.getTenant();
     }
 
     public IdentityProviderConfig resolveAuthType(TenantContext tenant) {

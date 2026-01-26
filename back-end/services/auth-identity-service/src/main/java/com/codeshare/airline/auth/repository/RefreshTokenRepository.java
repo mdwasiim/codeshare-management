@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.model.entities.RefreshToken;
+import com.codeshare.airline.auth.entities.RefreshToken;
 import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
 
 import java.util.Optional;

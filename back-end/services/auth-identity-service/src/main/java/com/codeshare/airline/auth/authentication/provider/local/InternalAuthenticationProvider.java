@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.authentication.provider.local;
 
 import com.codeshare.airline.auth.authentication.api.request.LoginRequest;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
 import com.codeshare.airline.auth.authentication.exception.AuthenticationFailedException;
 import com.codeshare.airline.auth.authentication.provider.AuthenticationProvider;
 import com.codeshare.airline.auth.authentication.security.adapter.UserDetailsAdapter;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.UUID;
 
 @Component("LOCAL")
 @RequiredArgsConstructor

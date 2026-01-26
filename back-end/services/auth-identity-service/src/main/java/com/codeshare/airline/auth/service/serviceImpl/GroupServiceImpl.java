@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
-import com.codeshare.airline.auth.model.entities.Group;
+import com.codeshare.airline.auth.entities.Group;
 import com.codeshare.airline.auth.utils.mappers.GroupMapper;
 import com.codeshare.airline.core.dto.tenant.GroupDTO;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;

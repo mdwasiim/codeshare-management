@@ -12,6 +12,7 @@ import { CSMFloatingConfigurator } from '@/layout/floating-configurator/csm.floa
 
 import { AuthService } from '@services/auth/auth.service';
 import { TokenService } from '@services/auth/token.service';
+import { CSMMenuService } from '@/core/services/csm-menu.service';
 
 @Component({
   selector: 'csm-login',
@@ -55,14 +56,14 @@ login() {
   this.authService.login(this.username, this.password).subscribe({
     next: (response) => {
 
-      // ✅ CORRECT field names (snake_case)
+      // 1️⃣ Store tokens
       this.tokenService.setTokens(
         response.access_token,
         response.refresh_token,
         response.expires_in
       );
 
-      // ✅ Navigate AFTER token is stored
+      // 2️⃣ Navigate ONCE
       this.router.navigateByUrl(this.returnUrl);
     },
     error: (err) => {
@@ -70,5 +71,6 @@ login() {
     }
   });
 }
+
 
 }

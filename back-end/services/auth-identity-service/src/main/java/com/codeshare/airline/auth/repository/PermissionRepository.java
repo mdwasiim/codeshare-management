@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.repository;
 
-import com.codeshare.airline.auth.model.entities.Permission;
-import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.auth.entities.Permission;
+import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

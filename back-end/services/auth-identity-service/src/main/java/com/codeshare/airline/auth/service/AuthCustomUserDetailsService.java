@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.service;
 
-import com.codeshare.airline.auth.model.entities.User;
+import com.codeshare.airline.auth.entities.User;
 import com.codeshare.airline.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

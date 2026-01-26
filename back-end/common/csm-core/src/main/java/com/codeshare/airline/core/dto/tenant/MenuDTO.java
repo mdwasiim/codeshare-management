@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -18,21 +17,18 @@ import java.util.UUID;
 public class MenuDTO extends CSMAuditableDTO {
     private UUID id;
 
-    private String name;
-    private String code;
-    private String url;
-    private String icon;
-    private String title;
+    private String label;
 
-    private Map<String, String> iconComponent;
-    private Map<String, String> badge;
-    private Map<String, String> attributes;
+    private String icon;
+
+    private List<String> routerLink;
+
+    private Integer displayOrder;
 
     private UUID tenantId;
-    private UUID organizationId;
 
     private UUID parentId;
 
-    private List<MenuDTO> children;
+    private List<MenuDTO> items;
 
 }

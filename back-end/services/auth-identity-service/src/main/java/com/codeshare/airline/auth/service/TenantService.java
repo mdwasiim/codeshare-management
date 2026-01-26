@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.service;
 
 
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
 import com.codeshare.airline.core.dto.tenant.TenantDTO;
 
 import java.util.List;

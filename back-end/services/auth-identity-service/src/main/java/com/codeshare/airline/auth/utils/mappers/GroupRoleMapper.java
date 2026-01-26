@@ -2,7 +2,7 @@ package com.codeshare.airline.auth.utils.mappers;
 
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
-import com.codeshare.airline.auth.model.entities.GroupRole;
+import com.codeshare.airline.auth.entities.GroupRole;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
