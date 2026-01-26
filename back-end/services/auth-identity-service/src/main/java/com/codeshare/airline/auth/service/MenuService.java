@@ -15,7 +15,7 @@ public interface MenuService {
 
     List<MenuDTO> getRootMenus(UUID tenantId);
 
-    List<MenuDTO> getAllByTenant(UUID tenantId);
+    List<MenuDTO> getAllByTenant(String tenantCode);
 
     void delete(UUID id);
 }

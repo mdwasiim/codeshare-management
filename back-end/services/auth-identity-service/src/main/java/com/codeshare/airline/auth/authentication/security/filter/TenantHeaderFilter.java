@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.authentication.security.filter;
 
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContextHolder;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.auth.authentication.service.core.TenantContextResolver;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,7 +27,7 @@ public class TenantHeaderFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
 
-        boolean skip = path.startsWith("/.well-known/");
+        boolean skip = path.startsWith("/.well-known/") ||  path.startsWith("/api/auth/");
         if (skip) {
             log.debug("Skipping TenantHeaderFilter for path: {}", path);
         }
@@ -36,11 +36,7 @@ public class TenantHeaderFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
-    ) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,FilterChain filterChain ) throws IOException, ServletException {
 
         String path = request.getRequestURI();
         String tenantCode = request.getHeader("tenant-code");
@@ -48,17 +44,9 @@ public class TenantHeaderFilter extends OncePerRequestFilter {
         log.debug("TenantHeaderFilter invoked for path: {}", path);
 
         if (tenantCode == null || tenantCode.isBlank()) {
-            log.warn(
-                    "Missing tenant-code header | method={} path={} remoteAddr={}",
-                    request.getMethod(),
-                    path,
-                    request.getRemoteAddr()
-            );
+            log.warn( "Missing tenant-code header | method={} path={} remoteAddr={}", request.getMethod(), path,request.getRemoteAddr());
 
-            response.sendError(
-                    HttpServletResponse.SC_BAD_REQUEST,
-                    "Missing tenant-code"
-            );
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing tenant-code");
             return;
         }
 
@@ -69,12 +57,7 @@ public class TenantHeaderFilter extends OncePerRequestFilter {
             TenantContextHolder.setTenant(tenant);
             log.info("Tenant context resolved successfully for tenant-code: {}", tenantCode);
         } catch (Exception ex) {
-            log.error(
-                    "Failed to resolve tenant context for tenant-code: {} | path={}",
-                    tenantCode,
-                    path,
-                    ex
-            );
+            log.error("Failed to resolve tenant context for tenant-code: {} | path={}",tenantCode,path,ex);
             throw ex;
         }
 

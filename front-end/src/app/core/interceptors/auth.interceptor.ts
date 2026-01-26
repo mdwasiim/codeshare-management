@@ -31,9 +31,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     console.warn('Tenant code missing on frontend');
   }
 
-  const isAuthEndpoint =
-    req.url.includes('/auth/login') ||
-    req.url.includes('/auth/refresh');
+  const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh');
 
   // =========================
   // Build headers ONCE
@@ -56,9 +54,16 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
 
-      if (error.status !== 401) {
-        return throwError(() => error);
+      if (error.status === 401) {
+
+        // 🚫 NO refresh token = initial login / unauthenticated
+        if (!tokenService.refreshToken) {
+          return throwError(() => error);
+        }
+
+        // otherwise → refresh flow
       }
+
 
       // =========================
       // Refresh already running

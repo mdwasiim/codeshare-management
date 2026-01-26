@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
-import com.codeshare.airline.auth.model.entities.Role;
+import com.codeshare.airline.auth.entities.Role;
 import com.codeshare.airline.auth.repository.RoleRepository;
 import com.codeshare.airline.auth.service.RoleService;
 import com.codeshare.airline.auth.utils.mappers.RoleMapper;

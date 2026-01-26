@@ -55,8 +55,7 @@ public class WebSecurityConfig {
                 // ----------------------------------
                 // Authorization rules
                 // ----------------------------------
-                .authorizeHttpRequests(auth -> {
-                    log.debug("Configuring authorization rules");
+                .authorizeHttpRequests(auth -> {log.debug("Configuring authorization rules");
 
                     auth.requestMatchers(
                             "/api/auth/login",
@@ -67,8 +66,7 @@ public class WebSecurityConfig {
 
                     log.info("Public endpoints: /api/auth/login, /api/auth/refresh, /api/auth/logout, /.well-known/**");
 
-                    auth.requestMatchers("/actuator/health", "/actuator/info")
-                            .permitAll();
+                    auth.requestMatchers("/actuator/health", "/actuator/info").permitAll();
 
                     log.info("Public actuator endpoints: /actuator/health, /actuator/info");
 
@@ -79,39 +77,22 @@ public class WebSecurityConfig {
                 // ----------------------------------
                 // Custom filters (ORDER MATTERS)
                 // ----------------------------------
-                .addFilterBefore(
-                        tenantHeaderFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                )
-                .addFilterAfter(
-                        jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
+                .addFilterBefore(tenantHeaderFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
 
 
-        log.info(
-                "Security filters registered: TenantHeaderFilter BEFORE UsernamePasswordAuthenticationFilter, " +
-                        "JwtAuthenticationFilter AFTER UsernamePasswordAuthenticationFilter"
-        );
+        log.info("Security filters registered: TenantHeaderFilter BEFORE UsernamePasswordAuthenticationFilter, " +"JwtAuthenticationFilter AFTER UsernamePasswordAuthenticationFilter");
 
         // ----------------------------------
         // Exception handling
         // ----------------------------------
         http.exceptionHandling(ex -> ex
                 .authenticationEntryPoint((req, res, e) -> {
-                    log.warn(
-                            "Unauthorized access | path={} method={}",
-                            req.getRequestURI(),
-                            req.getMethod()
-                    );
+                    log.warn("Unauthorized access | path={} method={}",req.getRequestURI(),req.getMethod());
                     res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 })
                 .accessDeniedHandler((req, res, e) -> {
-                    log.warn(
-                            "Access denied | path={} method={}",
-                            req.getRequestURI(),
-                            req.getMethod()
-                    );
+                    log.warn("Access denied | path={} method={}",req.getRequestURI(),req.getMethod());
                     res.sendError(HttpServletResponse.SC_FORBIDDEN);
                 })
         );

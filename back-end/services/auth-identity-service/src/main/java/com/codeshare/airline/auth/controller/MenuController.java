@@ -1,5 +1,7 @@
 package com.codeshare.airline.auth.controller;
 
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.auth.service.MenuService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
@@ -58,11 +60,15 @@ public class MenuController {
     // GET ALL MENUS FOR TENANT
     // -----------------------------------------------------------
     @GetMapping
-    public ResponseEntity<CSMServiceResponse> getAllByTenant(
-            @RequestParam UUID tenantId
-    ) {
-        return ResponseEntity.ok(CSMServiceResponse.success(service.getAllByTenant(tenantId)));
+    public ResponseEntity<CSMServiceResponse> getAllMenuByTenant() {
+        TenantContext tenant = TenantContextHolder.getTenant();
+        return ResponseEntity.ok(
+                CSMServiceResponse.success(
+                        service.getAllByTenant(tenant.getTenantCode())
+                )
+        );
     }
+
 
     // -----------------------------------------------------------
     // DELETE MENU (Soft delete recommended)

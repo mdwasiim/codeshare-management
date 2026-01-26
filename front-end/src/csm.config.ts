@@ -7,13 +7,14 @@ import Aura from '@primeuix/themes/aura';
 
 import { csmRoutes } from './csm.routes';
 import { AuthInterceptor } from '@/core/interceptors/auth.interceptor';
+import { CSMResponseInterceptor } from '@/core/resolver/csm-response.interceptor';
 
 
 export const csmConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
          withFetch(),
-        withInterceptors([AuthInterceptor])
+        withInterceptors([AuthInterceptor, CSMResponseInterceptor])
     ),
 
     provideRouter(

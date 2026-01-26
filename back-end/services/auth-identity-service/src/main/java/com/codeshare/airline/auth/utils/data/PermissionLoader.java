@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.model.entities.Permission;
-import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.auth.entities.Permission;
+import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.auth.repository.PermissionRepository;
 import com.codeshare.airline.auth.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;

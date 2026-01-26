@@ -1,8 +1,8 @@
 package com.codeshare.airline.auth.authentication.provider.oidc.azure;
 
 import com.codeshare.airline.auth.authentication.api.response.TokenPairResponse;
-import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
-import com.codeshare.airline.auth.authentication.domain.model.OidcAuthenticatedUser;
+import com.codeshare.airline.auth.authentication.domain.IdentityProviderConfig;
+import com.codeshare.airline.auth.authentication.domain.OidcAuthenticatedUser;
 import com.codeshare.airline.auth.authentication.exception.AuthenticationFailedException;
 import com.codeshare.airline.auth.authentication.provider.oidc.base.OidcClientAdapter;
 import lombok.RequiredArgsConstructor;

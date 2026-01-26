@@ -1,11 +1,11 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
-import com.codeshare.airline.auth.model.entities.Group;
-import com.codeshare.airline.auth.model.entities.Role;
+import com.codeshare.airline.auth.entities.Group;
+import com.codeshare.airline.auth.entities.Role;
 import com.codeshare.airline.auth.repository.GroupRepository;
 import com.codeshare.airline.auth.repository.GroupRoleRepository;
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
-import com.codeshare.airline.auth.model.entities.GroupRole;
+import com.codeshare.airline.auth.entities.GroupRole;
 import com.codeshare.airline.auth.repository.RoleRepository;
 import com.codeshare.airline.auth.service.GroupRoleAssignmentService;
 import com.codeshare.airline.auth.utils.mappers.GroupRoleMapper;

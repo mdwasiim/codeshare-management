@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.service;
 
 
-import com.codeshare.airline.auth.model.entities.User;
+import com.codeshare.airline.auth.entities.User;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.core.dto.auth.AuthUserDeviceDTO;
 

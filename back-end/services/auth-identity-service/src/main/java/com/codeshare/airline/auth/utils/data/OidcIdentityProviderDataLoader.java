@@ -1,8 +1,8 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.model.entities.OidcConfigEntity;
-import com.codeshare.airline.auth.model.entities.OidcIdentityProviderEntity;
-import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.auth.entities.OidcConfigEntity;
+import com.codeshare.airline.auth.entities.OidcIdentityProviderEntity;
+import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.auth.repository.OidcIdentityProviderRepository;
 import com.codeshare.airline.auth.repository.TenantRepository;
 import com.codeshare.airline.core.enums.AuthSource;

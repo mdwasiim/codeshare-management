@@ -1,9 +1,9 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.model.entities.Group;
-import com.codeshare.airline.auth.model.entities.Tenant;
-import com.codeshare.airline.auth.model.entities.User;
-import com.codeshare.airline.auth.model.entities.UserGroup;
+import com.codeshare.airline.auth.entities.Group;
+import com.codeshare.airline.auth.entities.Tenant;
+import com.codeshare.airline.auth.entities.User;
+import com.codeshare.airline.auth.entities.UserGroup;
 import com.codeshare.airline.auth.repository.GroupRepository;
 import com.codeshare.airline.auth.repository.TenantRepository;
 import com.codeshare.airline.auth.repository.UserGroupRepository;

@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.utils.mappers;
 
-import com.codeshare.airline.auth.model.entities.Permission;
+import com.codeshare.airline.auth.entities.Permission;
 import com.codeshare.airline.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import org.mapstruct.Mapper;

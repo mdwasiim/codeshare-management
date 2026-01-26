@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
 import com.codeshare.airline.auth.authentication.security.adapter.UserDetailsAdapter;
-import com.codeshare.airline.auth.model.entities.User;
+import com.codeshare.airline.auth.entities.User;
 import com.codeshare.airline.auth.repository.UserRepository;
 import com.codeshare.airline.auth.service.AuthUserService;
 import com.codeshare.airline.auth.utils.mappers.AuthUserMapper;
@@ -9,7 +9,6 @@ import com.codeshare.airline.auth.utils.mappers.UserMapper;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

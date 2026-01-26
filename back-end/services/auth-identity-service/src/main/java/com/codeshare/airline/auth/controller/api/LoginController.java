@@ -4,10 +4,10 @@ import com.codeshare.airline.auth.authentication.api.request.LoginRequest;
 import com.codeshare.airline.auth.authentication.api.request.OidcTokenExchangeRequest;
 import com.codeshare.airline.auth.authentication.api.response.LoginResponse;
 import com.codeshare.airline.auth.authentication.api.response.RefreshTokenResponse;
-import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
-import com.codeshare.airline.auth.authentication.domain.model.OidcConfig;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
-import com.codeshare.airline.auth.authentication.domain.model.TokenPair;
+import com.codeshare.airline.auth.authentication.domain.IdentityProviderConfig;
+import com.codeshare.airline.auth.authentication.domain.OidcConfig;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.TokenPair;
 import com.codeshare.airline.auth.authentication.exception.AuthenticationFailedException;
 import com.codeshare.airline.auth.authentication.exception.UnsupportedAuthenticationFlowException;
 import com.codeshare.airline.auth.authentication.provider.AuthenticationProvider;
@@ -16,9 +16,11 @@ import com.codeshare.airline.auth.authentication.provider.oidc.base.OidcStateMan
 import com.codeshare.airline.auth.authentication.service.core.*;
 import com.codeshare.airline.auth.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.auth.authentication.state.OidcStatePayload;
+import com.codeshare.airline.core.response.CSMServiceResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,44 +43,25 @@ public class LoginController {
     // LOGIN
     // -------------------------------------------------
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request) {
+    public ResponseEntity<CSMServiceResponse>login(@RequestHeader("tenant-code") String tenantCode,@RequestBody LoginRequest request) {
 
-        TenantContext tenant = tenantContextResolver.getCurrentTenant();
-        log.info("Login request received | tenant={} authSource={}",
-                tenant.getTenantCode(),
-                request.getRequestedAuthSource()
-        );
+        TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
 
-        IdentityProviderConfig idpConfig =
-                tenantIdentityProviderSelector.select(
-                        tenant,
-                        request.getRequestedAuthSource()
-                );
+        log.info("Login request received | tenant={} authSource={}",tenant.getTenantCode(),request.getRequestedAuthSource());
 
-        log.debug("Selected IdentityProvider | tenant={} providerId={} authSource={}",
-                tenant.getTenantCode(),
-                idpConfig.getProviderId(),
-                idpConfig.getAuthSource()
-        );
+        IdentityProviderConfig idpConfig = tenantIdentityProviderSelector.select(tenant, request.getRequestedAuthSource());
 
-        AuthenticationResult authResult =
-                authenticationService.authenticate(
-                        request.withTenantAndProvider(tenant, idpConfig)
-                );
+        log.debug("Selected IdentityProvider | tenant={} providerId={} authSource={}",tenant.getTenantCode(),idpConfig.getProviderId(),idpConfig.getAuthSource());
 
-        log.info("Authentication successful | user={} tenant={}",
-                authResult.getUsername(),
-                authResult.getTenantCode()
-        );
+        AuthenticationResult authResult = authenticationService.authenticate(request.withTenantAndProvider(tenant, idpConfig));
+
+        log.info("Authentication successful | user={} tenant={}",authResult.getUsername(),authResult.getTenantCode());
 
         TokenPair tokens = tokenService.issueTokens(authResult);
 
-        log.debug("Tokens issued successfully | user={} tenant={}",
-                authResult.getUsername(),
-                authResult.getTenantCode()
-        );
+        log.debug("Tokens issued successfully | user={} tenant={}",authResult.getUsername(),authResult.getTenantCode());
 
-        return LoginResponse.builder()
+        LoginResponse loginResponse = LoginResponse.builder()
                 .username(authResult.getUsername())
                 .tenantCode(authResult.getTenantCode())
                 .roles(authResult.getRoles())
@@ -87,15 +70,14 @@ public class LoginController {
                 .refreshToken(tokens.getRefreshToken())
                 .expiresIn(tokenService.getAccessTokenTtl())
                 .build();
+        return ResponseEntity.ok(CSMServiceResponse.success(loginResponse));
     }
 
     // -------------------------------------------------
     // REFRESH TOKEN
     // -------------------------------------------------
     @PostMapping("/refresh")
-    public RefreshTokenResponse refresh(
-            @RequestHeader("X-Refresh-Token") String refreshToken
-    ) {
+    public RefreshTokenResponse refresh( @RequestHeader("tenant-code") String tenantCode,@RequestHeader(value = "refresh-token", required = false) String refreshToken) {
 
         log.debug("Refresh token request received");
 
@@ -103,6 +85,8 @@ public class LoginController {
             log.warn("Refresh token missing in request");
             throw new AuthenticationFailedException("Refresh token missing");
         }
+        // ✅ Explicit tenant validation
+        tenantContextResolver.validateTenant(tenantCode);
 
         TokenPair tokens = tokenService.refreshTokens(refreshToken);
 

@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
-import com.codeshare.airline.auth.model.entities.User;
-import com.codeshare.airline.auth.model.entities.UserDeviceEntity;
+import com.codeshare.airline.auth.entities.User;
+import com.codeshare.airline.auth.entities.UserDeviceEntity;
 import com.codeshare.airline.auth.repository.UserDeviceRepository;
 import com.codeshare.airline.auth.repository.UserRepository;
 import com.codeshare.airline.auth.service.AuthUserDeviceService;

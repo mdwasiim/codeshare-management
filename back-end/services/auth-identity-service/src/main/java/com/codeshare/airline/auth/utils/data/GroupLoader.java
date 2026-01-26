@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.utils.data;
 
-import com.codeshare.airline.auth.model.entities.Group;
-import com.codeshare.airline.auth.model.entities.Tenant;
+import com.codeshare.airline.auth.entities.Group;
+import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.auth.repository.GroupRepository;
 import com.codeshare.airline.auth.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,7 @@ public class GroupLoader {
 
     private static final List<String> BASE_GROUPS = List.of(
             "ADMIN",
-            "IT",
-            "OPS"
+            "IT"
     );
 
     public void load(List<UUID> tenantIds) {

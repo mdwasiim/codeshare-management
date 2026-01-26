@@ -1,4 +1,4 @@
-package com.codeshare.airline.auth.authentication.domain.model;
+package com.codeshare.airline.auth.authentication.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

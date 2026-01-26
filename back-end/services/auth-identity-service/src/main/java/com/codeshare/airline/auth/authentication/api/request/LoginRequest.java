@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.authentication.api.request;
 
-import com.codeshare.airline.auth.authentication.domain.model.IdentityProviderConfig;
-import com.codeshare.airline.auth.authentication.domain.model.TenantContext;
+import com.codeshare.airline.auth.authentication.domain.IdentityProviderConfig;
+import com.codeshare.airline.auth.authentication.domain.TenantContext;
 import com.codeshare.airline.core.enums.AuthSource;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

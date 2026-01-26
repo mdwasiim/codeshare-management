@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.service.serviceImpl;
 
 
-import com.codeshare.airline.auth.model.entities.*;
+import com.codeshare.airline.auth.entities.*;
 import com.codeshare.airline.auth.repository.*;
 import com.codeshare.airline.auth.service.RolePermissionAssignmentService;
 import com.codeshare.airline.auth.utils.mappers.PermissionMapper;

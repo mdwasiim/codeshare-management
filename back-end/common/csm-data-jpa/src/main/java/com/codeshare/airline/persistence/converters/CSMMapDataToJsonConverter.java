@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Component
 @Converter(autoApply = true)
-public class CSMDataJsonConverter implements AttributeConverter<Map<String, Object>, String> {
+public class CSMMapDataToJsonConverter implements AttributeConverter<Map<String, Object>, String> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
