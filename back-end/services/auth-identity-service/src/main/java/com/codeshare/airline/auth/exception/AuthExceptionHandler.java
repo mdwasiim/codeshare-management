@@ -160,16 +160,36 @@ public class AuthExceptionHandler {
             Exception ex,
             HttpServletRequest req
     ) {
+        String message = switch (ex) {
+            case MethodArgumentNotValidException e ->
+                    e.getBindingResult()
+                            .getFieldErrors()
+                            .stream()
+                            .map(f -> f.getField() + ": " + f.getDefaultMessage())
+                            .findFirst()
+                            .orElse("Validation failed");
+
+            case ConstraintViolationException e ->
+                    e.getConstraintViolations()
+                            .stream()
+                            .findFirst()
+                            .map(v -> v.getPropertyPath() + ": " + v.getMessage())
+                            .orElse("Validation failed");
+
+            default -> "Invalid request";
+        };
+
         return build(
                 HttpStatus.BAD_REQUEST,
                 CSMErrorCodes.VALIDATION_ERROR,
-                ex.getMessage(),
+                message,
                 null,
                 ex,
                 req,
                 false
         );
     }
+
 
     @ExceptionHandler(CSMBusinessException.class)
     public ResponseEntity<CSMServiceResponse<?>> handleBusiness(
@@ -180,7 +200,7 @@ public class AuthExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 ex.getErrorCode(),
                 ex.getMessage(),
-                null,
+                ex.getDetails(),
                 ex,
                 req,
                 false
@@ -202,6 +222,7 @@ public class AuthExceptionHandler {
                 false
         );
     }
+
 
     /* ============================
        LAST RESORT

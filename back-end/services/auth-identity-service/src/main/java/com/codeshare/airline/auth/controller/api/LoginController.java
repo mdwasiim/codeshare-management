@@ -16,6 +16,7 @@ import com.codeshare.airline.auth.authentication.provider.oidc.base.OidcStateMan
 import com.codeshare.airline.auth.authentication.service.core.*;
 import com.codeshare.airline.auth.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.auth.authentication.state.OidcStatePayload;
+import com.codeshare.airline.auth.common.CSMResponse;
 import com.codeshare.airline.core.response.CSMServiceResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @Slf4j
+@CSMResponse
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -43,7 +45,7 @@ public class LoginController {
     // LOGIN
     // -------------------------------------------------
     @PostMapping("/login")
-    public ResponseEntity<CSMServiceResponse>login(@RequestHeader("tenant-code") String tenantCode,@RequestBody LoginRequest request) {
+    public LoginResponse login(@RequestHeader("tenant-code") String tenantCode,@RequestBody LoginRequest request) {
 
         TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
 
@@ -70,7 +72,7 @@ public class LoginController {
                 .refreshToken(tokens.getRefreshToken())
                 .expiresIn(tokenService.getAccessTokenTtl())
                 .build();
-        return ResponseEntity.ok(CSMServiceResponse.success(loginResponse));
+        return loginResponse;
     }
 
     // -------------------------------------------------
