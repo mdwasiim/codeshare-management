@@ -22,7 +22,7 @@ public class TenantContextResolver {
         TenantContext tenant = tenantService.getByTenantCode(tenantCode);
 
         if (tenant == null) {
-            throw new TenantResolutionException("Invalid or inactive tenant: " + tenantCode);
+            throw new TenantResolutionException("Invalid or inactive ssim: " + tenantCode);
         }
 
         TenantContextHolder.setTenant(tenant); // 🔥 STORE IT

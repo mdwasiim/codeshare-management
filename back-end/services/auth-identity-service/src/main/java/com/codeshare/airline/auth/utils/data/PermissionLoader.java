@@ -103,7 +103,7 @@ public class PermissionLoader {
         try {
             return UUID.fromString(id);
         } catch (Exception ex) {
-            log.warn("⚠ Invalid tenant UUID '{}'", id);
+            log.warn("⚠ Invalid ssim UUID '{}'", id);
             return null;
         }
     }

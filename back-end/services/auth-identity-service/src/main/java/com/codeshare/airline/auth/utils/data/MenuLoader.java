@@ -41,14 +41,14 @@ public class MenuLoader {
                             new IllegalStateException("Tenant not found: " + tenantId));
 
             if (menuRepository.existsByTenant(tenant)) {
-                log.info("✔ Menus already exist for tenant {}", tenant.getTenantCode());
+                log.info("✔ Menus already exist for ssim {}", tenant.getTenantCode());
                 continue;
             }
 
             List<Menu> menus = buildMenusForTenant(tenant);
             menuRepository.saveAll(menus);
 
-            log.info("✔ MenuLoader: {} menus created for tenant {}", menus.size(), tenant.getTenantCode());
+            log.info("✔ MenuLoader: {} menus created for ssim {}", menus.size(), tenant.getTenantCode());
         }
     }
 

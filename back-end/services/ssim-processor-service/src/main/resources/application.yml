@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ssim-ingestion-service
+
+  profiles:
+    active: dev
+
+  config:
+    import: "optional:configserver:http://localhost:8888"

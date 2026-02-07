@@ -1,5 +1,5 @@
 /*
-package com.codeshare.airline.tenant;
+package com.codeshare.airline.ssim;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

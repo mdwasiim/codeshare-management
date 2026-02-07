@@ -45,23 +45,23 @@ public class LoginController {
     // LOGIN
     // -------------------------------------------------
     @PostMapping("/login")
-    public LoginResponse login(@RequestHeader("tenant-code") String tenantCode,@RequestBody LoginRequest request) {
+    public LoginResponse login(@RequestHeader("ssim-code") String tenantCode,@RequestBody LoginRequest request) {
 
         TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
 
-        log.info("Login request received | tenant={} authSource={}",tenant.getTenantCode(),request.getRequestedAuthSource());
+        log.info("Login request received | ssim={} authSource={}",tenant.getTenantCode(),request.getRequestedAuthSource());
 
         IdentityProviderConfig idpConfig = tenantIdentityProviderSelector.select(tenant, request.getRequestedAuthSource());
 
-        log.debug("Selected IdentityProvider | tenant={} providerId={} authSource={}",tenant.getTenantCode(),idpConfig.getProviderId(),idpConfig.getAuthSource());
+        log.debug("Selected IdentityProvider | ssim={} providerId={} authSource={}",tenant.getTenantCode(),idpConfig.getProviderId(),idpConfig.getAuthSource());
 
         AuthenticationResult authResult = authenticationService.authenticate(request.withTenantAndProvider(tenant, idpConfig));
 
-        log.info("Authentication successful | user={} tenant={}",authResult.getUsername(),authResult.getTenantCode());
+        log.info("Authentication successful | user={} ssim={}",authResult.getUsername(),authResult.getTenantCode());
 
         TokenPair tokens = tokenService.issueTokens(authResult);
 
-        log.debug("Tokens issued successfully | user={} tenant={}",authResult.getUsername(),authResult.getTenantCode());
+        log.debug("Tokens issued successfully | user={} ssim={}",authResult.getUsername(),authResult.getTenantCode());
 
         LoginResponse loginResponse = LoginResponse.builder()
                 .username(authResult.getUsername())
@@ -79,7 +79,7 @@ public class LoginController {
     // REFRESH TOKEN
     // -------------------------------------------------
     @PostMapping("/refresh")
-    public RefreshTokenResponse refresh( @RequestHeader("tenant-code") String tenantCode,@RequestHeader(value = "refresh-token", required = false) String refreshToken) {
+    public RefreshTokenResponse refresh( @RequestHeader("ssim-code") String tenantCode,@RequestHeader(value = "refresh-token", required = false) String refreshToken) {
 
         log.debug("Refresh token request received");
 
@@ -87,7 +87,7 @@ public class LoginController {
             log.warn("Refresh token missing in request");
             throw new AuthenticationFailedException("Refresh token missing");
         }
-        // ✅ Explicit tenant validation
+        // ✅ Explicit ssim validation
         tenantContextResolver.validateTenant(tenantCode);
 
         TokenPair tokens = tokenService.refreshTokens(refreshToken);
@@ -121,15 +121,15 @@ public class LoginController {
     // -------------------------------------------------
     @GetMapping("/oidc/authorize")
     public void authorize(
-            @RequestParam("tenant") String tenantCode,
+            @RequestParam("ssim") String tenantCode,
             @RequestParam("code_challenge") String codeChallenge,
             HttpServletResponse response
     ) throws IOException {
 
-        log.info("OIDC authorize request | tenant={}", tenantCode);
+        log.info("OIDC authorize request | ssim={}", tenantCode);
 
         if (!StringUtils.hasText(codeChallenge)) {
-            log.warn("OIDC authorize failed – missing code_challenge | tenant={}", tenantCode);
+            log.warn("OIDC authorize failed – missing code_challenge | ssim={}", tenantCode);
             throw new IllegalArgumentException("code_challenge is required");
         }
 
@@ -165,7 +165,7 @@ public class LoginController {
                 req.nonce()
         );
 
-        log.info("Redirecting to OIDC provider | tenant={} provider={}",
+        log.info("Redirecting to OIDC provider | ssim={} provider={}",
                 tenantCode,
                 idpConfig.getProviderId()
         );
@@ -180,12 +180,12 @@ public class LoginController {
     public void callback(
             @RequestParam("code") String code,
             @RequestParam("state") String state,
-            @RequestParam("tenant") String tenantCode,
+            @RequestParam("ssim") String tenantCode,
             @RequestHeader("X-Code-Verifier") String codeVerifier,
             HttpServletResponse response
     ) throws IOException {
 
-        log.info("OIDC callback received | tenant={}", tenantCode);
+        log.info("OIDC callback received | ssim={}", tenantCode);
 
         OidcStatePayload statePayload =
                 oidcStateManager.verifyAndConsumeState(state);
@@ -214,7 +214,7 @@ public class LoginController {
         TokenPair tokens = tokenService.issueTokens(authResult);
         String exchangeCode = tokenService.createExchangeCode(tokens, authResult);
 
-        log.info("OIDC authentication successful | user={} tenant={}",
+        log.info("OIDC authentication successful | user={} ssim={}",
                 authResult.getUsername(),
                 tenantCode
         );

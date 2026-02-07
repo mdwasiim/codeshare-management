@@ -39,25 +39,25 @@ public class TenantHeaderFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,FilterChain filterChain ) throws IOException, ServletException {
 
         String path = request.getRequestURI();
-        String tenantCode = request.getHeader("tenant-code");
+        String tenantCode = request.getHeader("ssim-code");
 
         log.debug("TenantHeaderFilter invoked for path: {}", path);
 
         if (tenantCode == null || tenantCode.isBlank()) {
-            log.warn( "Missing tenant-code header | method={} path={} remoteAddr={}", request.getMethod(), path,request.getRemoteAddr());
+            log.warn( "Missing ssim-code header | method={} path={} remoteAddr={}", request.getMethod(), path,request.getRemoteAddr());
 
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing tenant-code");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing ssim-code");
             return;
         }
 
         try {
-            log.debug("Resolving tenant context for tenant-code: {}", tenantCode);
+            log.debug("Resolving ssim context for ssim-code: {}", tenantCode);
 
             TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
             TenantContextHolder.setTenant(tenant);
-            log.info("Tenant context resolved successfully for tenant-code: {}", tenantCode);
+            log.info("Tenant context resolved successfully for ssim-code: {}", tenantCode);
         } catch (Exception ex) {
-            log.error("Failed to resolve tenant context for tenant-code: {} | path={}",tenantCode,path,ex);
+            log.error("Failed to resolve ssim context for ssim-code: {} | path={}",tenantCode,path,ex);
             throw ex;
         }
 

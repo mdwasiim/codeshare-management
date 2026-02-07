@@ -59,12 +59,12 @@ public class RolePermissionLoader {
 
 
         if (permissions.isEmpty()) {
-            log.warn("⚠ No permissions found for tenant {} — skipping mapping", tenantId);
+            log.warn("⚠ No permissions found for ssim {} — skipping mapping", tenantId);
             return 0;
         }
 
         if (roles.isEmpty()) {
-            log.warn("⚠ No roles found for tenant {} — skipping mapping", tenantId);
+            log.warn("⚠ No roles found for ssim {} — skipping mapping", tenantId);
             return 0;
         }
 
@@ -91,7 +91,7 @@ public class RolePermissionLoader {
         try {
             return UUID.fromString(id);
         } catch (Exception ex) {
-            log.warn("⚠ Invalid tenant ID '{}' — skipping...", id);
+            log.warn("⚠ Invalid ssim ID '{}' — skipping...", id);
             return null;
         }
     }

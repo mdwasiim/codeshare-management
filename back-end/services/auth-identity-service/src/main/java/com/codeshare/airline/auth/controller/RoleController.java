@@ -56,7 +56,7 @@ public class RoleController {
     // ---------------------------------------------------------
     // GET ROLES BY TENANT
     // ---------------------------------------------------------
-    @GetMapping("/tenant/{tenantId}")
+    @GetMapping("/ssim/{tenantId}")
     public ResponseEntity<CSMServiceResponse> getByTenant(@PathVariable UUID tenantId) {
         return ResponseEntity.ok(CSMServiceResponse.success(service.getAllByTenant(tenantId)));
     }

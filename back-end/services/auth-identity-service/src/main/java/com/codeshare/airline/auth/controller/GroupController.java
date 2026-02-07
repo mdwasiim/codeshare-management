@@ -25,7 +25,7 @@ public class GroupController {
     @PostMapping
     public ResponseEntity<CSMServiceResponse<?>> create(@RequestBody GroupDTO dto) {
 
-        log.info("→ Creating group for tenant {}", dto.getTenantId());
+        log.info("→ Creating group for ssim {}", dto.getTenantId());
 
         return ResponseEntity.ok(
                 CSMServiceResponse.success(groupService.create(dto))
@@ -40,7 +40,7 @@ public class GroupController {
             @PathVariable UUID id,
             @RequestBody GroupDTO dto
     ) {
-        log.info("→ Updating group {} for tenant {}", id, dto.getTenantId());
+        log.info("→ Updating group {} for ssim {}", id, dto.getTenantId());
 
         return ResponseEntity.ok(
                 CSMServiceResponse.success(groupService.update(id, dto))
@@ -66,7 +66,7 @@ public class GroupController {
     @GetMapping
     public ResponseEntity<CSMServiceResponse<?>> getByTenant(@RequestParam UUID tenantId) {
 
-        log.debug("→ Fetching groups for tenant {}", tenantId);
+        log.debug("→ Fetching groups for ssim {}", tenantId);
 
         return ResponseEntity.ok(
                 CSMServiceResponse.success(groupService.getByTenant(tenantId))
