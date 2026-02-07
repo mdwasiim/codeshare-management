@@ -104,7 +104,7 @@ public class GroupRoleLoader {
         try {
             return UUID.fromString(id);
         } catch (Exception ex) {
-            log.warn("⚠ Invalid tenant ID '{}'", id);
+            log.warn("⚠ Invalid ssim ID '{}'", id);
             return null;
         }
     }

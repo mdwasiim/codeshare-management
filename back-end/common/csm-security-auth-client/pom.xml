@@ -12,9 +12,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>csm-security-oauth2-client</artifactId>
+    <artifactId>csm-security-auth-client</artifactId>
     <packaging>jar</packaging>
-    <name>common security client</name>
     <description>Shared security client library</description>
 
     <dependencies>

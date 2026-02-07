@@ -17,7 +17,7 @@ public class TenantIdentityProviderSelector  {
         List<IdentityProviderConfig> providers = tenant.getIdentityProviders();
 
         if (providers == null || providers.isEmpty()) {
-            throw new UnsupportedAuthenticationFlowException( "No identity providers configured for tenant: " + tenant.getTenantCode());
+            throw new UnsupportedAuthenticationFlowException( "No identity providers configured for ssim: " + tenant.getTenantCode());
         }
         // 1️⃣ If client explicitly requested a provider
         if (requestedAuthSource != null) {
@@ -25,7 +25,7 @@ public class TenantIdentityProviderSelector  {
                     .filter(IdentityProviderConfig::isEnabled)
                     .filter(p -> p.getAuthSource() == requestedAuthSource)
                     .findFirst()
-                    .orElseThrow(() -> new UnsupportedAuthenticationFlowException("Auth provider " + requestedAuthSource +" not enabled for tenant " + tenant.getTenantCode() ));
+                    .orElseThrow(() -> new UnsupportedAuthenticationFlowException("Auth provider " + requestedAuthSource +" not enabled for ssim " + tenant.getTenantCode() ));
         }
 
         // 2️⃣ Otherwise select highest-priority enabled provider
@@ -35,7 +35,7 @@ public class TenantIdentityProviderSelector  {
                         IdentityProviderConfig::getPriority
                 ))
                 .findFirst()
-                .orElseThrow(() -> new UnsupportedAuthenticationFlowException("No enabled identity providers for tenant: "+ tenant.getTenantCode()));
+                .orElseThrow(() -> new UnsupportedAuthenticationFlowException("No enabled identity providers for ssim: "+ tenant.getTenantCode()));
     }
 }
 

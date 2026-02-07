@@ -41,7 +41,7 @@ public class WebSecurityConfig {
                             "Authorization",
                             "Content-Type",
                             "Accept",
-                            "tenant-code"
+                            "ssim-code"
                     ));
                     config.setAllowCredentials(true);
                     return config;

@@ -56,7 +56,7 @@ public class RoleLoader {
                                 .tenant(tenant)
                                 .code(code)
                                 .name(toReadableName(code))
-                                .description(code + " role for tenant " + tenant.getTenantCode())
+                                .description(code + " role for ssim " + tenant.getTenantCode())
                                 .build()
                 );
             }
@@ -78,7 +78,7 @@ public class RoleLoader {
         try {
             return UUID.fromString(id);
         } catch (Exception e) {
-            log.warn("⚠ Invalid tenant UUID '{}'", id);
+            log.warn("⚠ Invalid ssim UUID '{}'", id);
             return null;
         }
     }

@@ -55,7 +55,7 @@ public class OidcIdentityProviderDataLoader {
         if (authSource == AuthSource.INTERNAL || authSource == AuthSource.AZURE) {
             ensureOidcConfig(provider, authSource);
         } else {
-            log.info("ℹ️ LDAP provider ready for tenant [{}]", tenant.getTenantCode());
+            log.info("ℹ️ LDAP provider ready for ssim [{}]", tenant.getTenantCode());
         }
     }
 
@@ -75,7 +75,7 @@ public class OidcIdentityProviderDataLoader {
 
         identityProviderRepository.save(provider);
 
-        log.info("➕ Created {} provider for tenant [{}]", authSource, tenant.getTenantCode());
+        log.info("➕ Created {} provider for ssim [{}]", authSource, tenant.getTenantCode());
         return provider;
     }
 
@@ -97,7 +97,7 @@ public class OidcIdentityProviderDataLoader {
         identityProviderRepository.save(provider);
 
         log.info(
-                "➕ Created {} OIDC config for tenant [{}]",
+                "➕ Created {} OIDC config for ssim [{}]",
                 authSource,
                 provider.getTenant().getTenantCode()
         );
@@ -127,9 +127,9 @@ public class OidcIdentityProviderDataLoader {
 
         return OidcConfigEntity.builder()
                 .identityProvider(provider)
-                .issuerUri("https://login.microsoftonline.com/{tenant-id}/v2.0")
-                .authorizationUri("https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/authorize")
-                .tokenUri("https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/token")
+                .issuerUri("https://login.microsoftonline.com/{ssim-id}/v2.0")
+                .authorizationUri("https://login.microsoftonline.com/{ssim-id}/oauth2/v2.0/authorize")
+                .tokenUri("https://login.microsoftonline.com/{ssim-id}/oauth2/v2.0/token")
                 .jwkSetUri("https://login.microsoftonline.com/common/discovery/v2.0/keys")
                 .clientId("azure-client-id")
                 .clientSecretRef("vault:azure-client-secret")

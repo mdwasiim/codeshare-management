@@ -49,7 +49,7 @@ public class GroupMenuLoader {
             List<Menu> menus = menuRepository.findByTenant(tenant);
 
             if (groups.isEmpty() || menus.isEmpty()) {
-                log.warn("⚠ Skipping tenant {} — groups or menus missing", tenant.getTenantCode());
+                log.warn("⚠ Skipping ssim {} — groups or menus missing", tenant.getTenantCode());
                 continue;
             }
 

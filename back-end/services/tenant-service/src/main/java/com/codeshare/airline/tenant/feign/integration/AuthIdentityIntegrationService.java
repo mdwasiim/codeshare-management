@@ -1,8 +1,8 @@
 /*
-package com.codeshare.airline.tenant.feign.integration;
+package com.codeshare.airline.ssim.feign.integration;
 
 import com.codeshare.airline.common.response.CSMServiceResponse;
-import com.codeshare.airline.tenant.feign.client.AuthGroupSyncClient;
+import com.codeshare.airline.ssim.feign.client.AuthGroupSyncClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

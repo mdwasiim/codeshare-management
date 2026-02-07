@@ -16,7 +16,7 @@ public class AuthenticationService {
 
     public AuthenticationResult authenticate(LoginRequest request) {
 
-        //IdentityProviderConfig identityProviderConfig = tenantContextResolver.resolveAuthType(tenant);
+        //IdentityProviderConfig identityProviderConfig = tenantContextResolver.resolveAuthType(ssim);
         AuthSource authSource = request.getRequestedAuthSource();
         if(authSource==null){
             IdentityProviderConfig identityProviderConfig = request.getIdentityProviderConfig();

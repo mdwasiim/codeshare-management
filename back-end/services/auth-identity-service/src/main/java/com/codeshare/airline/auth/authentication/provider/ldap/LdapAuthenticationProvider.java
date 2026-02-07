@@ -44,7 +44,7 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
         IdentityProviderConfig idpConfig = tenantIdentityProviderSelector.select(tenant, AuthSource.LDAP);
 
         if (!idpConfig.isEnabled() || idpConfig.getAuthSource() != AuthSource.LDAP) {
-            throw new AuthenticationFailedException("LDAP authentication not enabled for tenant");
+            throw new AuthenticationFailedException("LDAP authentication not enabled for ssim");
         }
 
         // 🔐 LDAP CONFIG (provider-specific)

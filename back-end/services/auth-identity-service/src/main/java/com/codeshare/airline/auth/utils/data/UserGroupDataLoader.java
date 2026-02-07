@@ -52,7 +52,7 @@ public class UserGroupDataLoader {
 
         if (users.isEmpty() || groups.isEmpty()) {
             log.warn(
-                    "⚠️ Skipping UserGroup creation for tenant [{}] (users={}, groups={})",
+                    "⚠️ Skipping UserGroup creation for ssim [{}] (users={}, groups={})",
                     tenant.getTenantCode(),
                     users.size(),
                     groups.size()
@@ -89,7 +89,7 @@ public class UserGroupDataLoader {
         userGroupRepository.save(userGroup);
 
         log.debug(
-                "➕ Assigned group [{}] to user [{}] for tenant [{}]",
+                "➕ Assigned group [{}] to user [{}] for ssim [{}]",
                 group.getName(),
                 user.getUsername(),
                 tenant.getTenantCode()
