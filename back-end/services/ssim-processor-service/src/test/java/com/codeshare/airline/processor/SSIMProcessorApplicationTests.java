@@ -1,4 +1,4 @@
-package com.codeshare.airline.tenant;/*
+package com.codeshare.airline.processor;/*
 package com.codeshare.airline.ingestion;
 
 import org.junit.jupiter.api.Test;

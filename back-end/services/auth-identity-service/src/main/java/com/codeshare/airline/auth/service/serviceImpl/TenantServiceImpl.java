@@ -34,7 +34,7 @@ public class TenantServiceImpl implements TenantService {
     @Override
     public TenantDTO create(TenantDTO dto) {
 
-        // Unique ssim code validation
+        // Unique ingestion code validation
         if (repository.existsByTenantCode(dto.getCode())) {
             throw new IllegalStateException("Tenant code already exists: " + dto.getCode());
         }
@@ -115,9 +115,9 @@ public class TenantServiceImpl implements TenantService {
             throw new CSMResourceNotFoundException("Tenant not found: " + id);
         }
 
-        // ⚠️ Optional: block deletion if ssim has organizations (recommended)
+        // ⚠️ Optional: block deletion if ingestion has organizations (recommended)
         // if (organizationRepository.existsByTenantId(id)) {
-        //     throw new IllegalStateException("Cannot delete ssim with organizations. Delete child entities first.");
+        //     throw new IllegalStateException("Cannot delete ingestion with organizations. Delete child model first.");
         // }
 
         repository.deleteById(id);
@@ -131,7 +131,7 @@ public class TenantServiceImpl implements TenantService {
             throw new IllegalArgumentException("Tenant code must be provided");
         }
         Tenant tenant = repository.findByTenantCode(tenantCode).orElseThrow(() ->
-                        new AuthenticationFailedException("Invalid ssim code: " + tenantCode));
+                        new AuthenticationFailedException("Invalid ingestion code: " + tenantCode));
 
         TenantContext tenantContext = TenantContext.builder()
                 .id(tenant.getId())

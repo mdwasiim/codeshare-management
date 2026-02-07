@@ -13,7 +13,6 @@
 
     <artifactId>config-service</artifactId>
     <packaging>jar</packaging>
-    <name>Config Service</name>
     <description>Centralized configuration service for microservices</description>
 
     <dependencies>

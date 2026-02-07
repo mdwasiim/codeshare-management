@@ -1,8 +1,8 @@
 /*
-package com.codeshare.airline.ssim.feign.integration;
+package com.codeshare.airline.ingestion.feign.integration;
 
 import com.codeshare.airline.common.response.CSMServiceResponse;
-import com.codeshare.airline.ssim.feign.client.AuthGroupSyncClient;
+import com.codeshare.airline.ingestion.feign.gateway.AuthGroupSyncClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthIdentityIntegrationService {
 
-    private final AuthGroupSyncClient client;
+    private final AuthGroupSyncClient gateway;
 
     public CSMServiceResponse syncGroup(TenantGroupSyncDTO dto) {
 
-        return client.syncGroup(dto);
+        return gateway.syncGroup(dto);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.parsing;
+package com.codeshare.airline.processor.processing.parsing;
 
 
 import com.codeshare.airline.processor.pipeline.dto.SsimR4DateVariationRecordDTO;

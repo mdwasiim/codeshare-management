@@ -36,7 +36,7 @@ public class CSMOAuth2FeignClientConfig {
         ClientRegistration registration = clientRegistrationRepository.findByRegistrationId(properties.getRegistrationId());
 
         if (registration == null) {
-            throw new IllegalStateException("❌ OAuth2 client registration not found: " + properties.getRegistrationId());
+            throw new IllegalStateException("❌ OAuth2 gateway registration not found: " + properties.getRegistrationId());
         }
         log.info("✅ OAuth2 Feign S2S enabled (registrationId={}, clientId={}, principal={})", properties.getRegistrationId(),  registration.getClientId(),
                 properties.getPrincipal());

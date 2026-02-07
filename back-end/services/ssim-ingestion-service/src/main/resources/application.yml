@@ -1,9 +1,40 @@
 spring:
   application:
-    name: tenant-service
+    name: ssim-ingestion-service
+  cloud:
+    config:
+      enabled: false
 
-  profiles:
-    active: dev
+server:
+  port: ${SSIM_INGESTION_SERVICE_PORT:8083}
 
-  config:
-    import: "optional:configserver:http://localhost:8888"
+
+
+ssim:
+  poll:
+    interval: 60000
+
+  sources:
+    local:
+      enabled: true
+      path: /data/ssim/inbound
+
+    sftp:
+      enabled: true
+      host: sftp.airline.com
+      port: 22
+      user: ssim
+      password: ***
+      inbound-path: /inbound
+      archive-path: /archive
+      error-path: /error
+
+    email:
+      enabled: false
+      host: imap.gmail.com
+      user: ssim@airline.com
+      password: ****
+
+kafka:
+  topic:
+    ssim-parsed: ssim.parsed.batch

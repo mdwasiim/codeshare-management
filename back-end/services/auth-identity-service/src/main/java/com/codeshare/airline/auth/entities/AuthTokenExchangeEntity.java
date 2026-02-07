@@ -34,14 +34,14 @@ public class AuthTokenExchangeEntity extends CSMDataAbstractEntity {
 
     /**
      * Short-lived access token.
-     * Stored temporarily (≤ 60s) for exchange flow only.
+     * Stored temporarily (≤ 60s) for exchange coordination only.
      */
     @Column(name = "access_token", nullable = false, length = 4000)
     private String accessToken;
 
     /**
      * Short-lived refresh token.
-     * Stored temporarily (≤ 60s) for exchange flow only.
+     * Stored temporarily (≤ 60s) for exchange coordination only.
      */
     @Column(name = "refresh_token", nullable = false, length = 4000)
     private String refreshToken;

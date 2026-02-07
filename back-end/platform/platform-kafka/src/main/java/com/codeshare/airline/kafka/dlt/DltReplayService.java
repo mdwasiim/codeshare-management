@@ -1,4 +1,4 @@
-package com.codeshare.airline.kafka.service;
+package com.codeshare.airline.kafka.dlt;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,11 +34,15 @@ public class DltReplayService {
 
         log.warn("♻️ Replaying DLT message to original topic: {}", originalTopic);
 
-        kafkaTemplate.send(
-                originalTopic,
-                record.key(),
-                record.value()
-        );
+        kafkaTemplate.send(originalTopic, record.key(), record.value())
+                .whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        log.info("✅ Replay successful to {}", originalTopic);
+                    } else {
+                        log.error("❌ Replay failed to {}", originalTopic, ex);
+                    }
+                });
+
     }
 
     /**
@@ -50,11 +54,15 @@ public class DltReplayService {
 
         log.warn("♻️ Replaying DLT message to topic: {}", targetTopic);
 
-        kafkaTemplate.send(
-                targetTopic,
-                record.key(),
-                record.value()
-        );
+        kafkaTemplate.send(targetTopic, record.key(), record.value())
+                .whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        log.info("✅ Replay successful to {}", targetTopic);
+                    } else {
+                        log.error("❌ Replay failed to {}", targetTopic, ex);
+                    }
+                });
+
     }
 
     private String getHeader(

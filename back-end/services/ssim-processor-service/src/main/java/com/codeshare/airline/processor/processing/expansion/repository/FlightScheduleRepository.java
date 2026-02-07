@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.expansion.repository;
+package com.codeshare.airline.processor.processing.expansion.repository;
 
 import com.codeshare.airline.processor.model.domain.FlightSchedule;
 import com.codeshare.airline.processor.model.raw.SsimR3FlightLegRecord;

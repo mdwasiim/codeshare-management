@@ -89,7 +89,7 @@ public class Tenant extends CSMDataAbstractEntity {
     // Identity Providers (CRITICAL)
     // -------------------------------
     @OneToMany(
-            mappedBy = "ssim",
+            mappedBy = "ingestion",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true

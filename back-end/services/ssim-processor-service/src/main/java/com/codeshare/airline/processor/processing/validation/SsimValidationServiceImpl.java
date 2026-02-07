@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.validation;
+package com.codeshare.airline.processor.processing.validation;
 
 
 import com.codeshare.airline.processor.model.raw.SsimR1HeaderRecord;

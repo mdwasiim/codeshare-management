@@ -25,7 +25,7 @@ public abstract class AbstractOidcAuthenticationProvider implements Authenticati
 
         if (!request.isAuthorizationCodeFlow()) {
             throw new UnsupportedAuthenticationFlowException(
-                    "OIDC authentication requires authorization code flow"
+                    "OIDC authentication requires authorization code coordination"
             );
         }
 

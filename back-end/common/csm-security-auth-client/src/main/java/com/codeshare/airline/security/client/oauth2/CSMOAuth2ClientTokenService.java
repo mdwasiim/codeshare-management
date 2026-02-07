@@ -31,7 +31,7 @@ public class CSMOAuth2ClientTokenService {
     private final OAuth2AuthorizedClientManager clientManager;
 
     /**
-     * Default token (single client setup)
+     * Default token (single gateway setup)
      */
     public String getAccessToken() {
         log.debug("getAccessToken() called using default registrationId");
@@ -39,7 +39,7 @@ public class CSMOAuth2ClientTokenService {
     }
 
     /**
-     * Token per client registration
+     * Token per gateway registration
      */
     public String getAccessToken(String registrationId) {
 
@@ -70,7 +70,7 @@ public class CSMOAuth2ClientTokenService {
                     registrationId
             );
             throw new IllegalStateException(
-                    "Failed to acquire OAuth2 token for client: " + registrationId
+                    "Failed to acquire OAuth2 token for gateway: " + registrationId
             );
         }
 
@@ -82,7 +82,7 @@ public class CSMOAuth2ClientTokenService {
                     registrationId
             );
             throw new IllegalStateException(
-                    "Failed to acquire OAuth2 token for client: " + registrationId
+                    "Failed to acquire OAuth2 token for gateway: " + registrationId
             );
         }
 

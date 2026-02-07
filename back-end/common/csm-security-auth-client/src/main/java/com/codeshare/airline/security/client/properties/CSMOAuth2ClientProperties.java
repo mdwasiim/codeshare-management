@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class CSMOAuth2ClientProperties {
 
     /**
-     * Client registration id (must match spring.security.oauth2.client.registration.*)
+     * Client registration id (must match spring.security.oauth2.gateway.registration.*)
      */
     private String registrationId;
 

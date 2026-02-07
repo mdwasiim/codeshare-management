@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.entities.domain;
+package com.codeshare.airline.processor.model.domain;
 
 import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;

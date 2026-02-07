@@ -55,7 +55,7 @@ public class OidcIdentityProviderDataLoader {
         if (authSource == AuthSource.INTERNAL || authSource == AuthSource.AZURE) {
             ensureOidcConfig(provider, authSource);
         } else {
-            log.info("ℹ️ LDAP provider ready for ssim [{}]", tenant.getTenantCode());
+            log.info("ℹ️ LDAP provider ready for ingestion [{}]", tenant.getTenantCode());
         }
     }
 
@@ -75,7 +75,7 @@ public class OidcIdentityProviderDataLoader {
 
         identityProviderRepository.save(provider);
 
-        log.info("➕ Created {} provider for ssim [{}]", authSource, tenant.getTenantCode());
+        log.info("➕ Created {} provider for ingestion [{}]", authSource, tenant.getTenantCode());
         return provider;
     }
 
@@ -97,7 +97,7 @@ public class OidcIdentityProviderDataLoader {
         identityProviderRepository.save(provider);
 
         log.info(
-                "➕ Created {} OIDC config for ssim [{}]",
+                "➕ Created {} OIDC config for ingestion [{}]",
                 authSource,
                 provider.getTenant().getTenantCode()
         );
@@ -113,8 +113,8 @@ public class OidcIdentityProviderDataLoader {
                 .authorizationUri("https://auth.codeshare.local/oauth2/authorize")
                 .tokenUri("https://auth.codeshare.local/oauth2/token")
                 .jwkSetUri("https://auth.codeshare.local/.well-known/jwks.json")
-                .clientId("codeshare-internal-client")
-                .clientSecretRef("vault:internal-oidc-client-secret")
+                .clientId("codeshare-internal-gateway")
+                .clientSecretRef("vault:internal-oidc-gateway-secret")
                 .redirectUri("https://app.codeshare.com/auth/oidc/callback")
                 .grantType("authorization_code")
                 .clientAuthMethod("client_secret_basic")
@@ -127,12 +127,12 @@ public class OidcIdentityProviderDataLoader {
 
         return OidcConfigEntity.builder()
                 .identityProvider(provider)
-                .issuerUri("https://login.microsoftonline.com/{ssim-id}/v2.0")
-                .authorizationUri("https://login.microsoftonline.com/{ssim-id}/oauth2/v2.0/authorize")
-                .tokenUri("https://login.microsoftonline.com/{ssim-id}/oauth2/v2.0/token")
+                .issuerUri("https://login.microsoftonline.com/{ingestion-id}/v2.0")
+                .authorizationUri("https://login.microsoftonline.com/{ingestion-id}/oauth2/v2.0/authorize")
+                .tokenUri("https://login.microsoftonline.com/{ingestion-id}/oauth2/v2.0/token")
                 .jwkSetUri("https://login.microsoftonline.com/common/discovery/v2.0/keys")
-                .clientId("azure-client-id")
-                .clientSecretRef("vault:azure-client-secret")
+                .clientId("azure-gateway-id")
+                .clientSecretRef("vault:azure-gateway-secret")
                 .redirectUri("https://app.codeshare.com/auth/oidc/callback")
                 .grantType("authorization_code")
                 .clientAuthMethod("client_secret_post")

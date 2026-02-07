@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.resolution;
+package com.codeshare.airline.processor.processing.resolution;
 
 public class CodeshareResolutionPolicy {
 }

@@ -1,9 +1,31 @@
 spring:
   application:
-    name: ssim-ingestion-service
+    name: ssim-processor-service
+  cloud:
+    config:
+      enabled: false
 
-  profiles:
-    active: dev
 
-  config:
-    import: "optional:configserver:http://localhost:8888"
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ssim-processor
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+
+# application.yml
+ssim:
+  kafka:
+    topics:
+      file-flight: ssim.flight.block
+      processing-failed: ssim.processing.failed
+      schedule-ready: ssim.schedule.ready
+
+
+server:
+  port: ${SSIM_INGESTION_SERVICE_PORT:8084}

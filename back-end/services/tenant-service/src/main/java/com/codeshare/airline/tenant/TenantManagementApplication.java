@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(scanBasePackages = "com.codeshare.airline")
-@EnableFeignClients(basePackages = "com.codeshare.airline.ssim.feign")
+@EnableFeignClients(basePackages = "com.codeshare.airline.ingestion.feign")
 public class TenantManagementApplication {
 
     public static void main(String[] args) {

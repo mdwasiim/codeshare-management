@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.resolution;
+package com.codeshare.airline.processor.processing.resolution;
 
 import com.codeshare.airline.processor.model.domain.FlightSchedule;
 import org.springframework.stereotype.Component;

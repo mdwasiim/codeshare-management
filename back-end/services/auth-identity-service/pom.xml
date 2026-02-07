@@ -13,7 +13,6 @@
 
     <artifactId>auth-identity-service</artifactId>
     <packaging>jar</packaging>
-    <name>Auth Service</name>
     <description>OAuth2 Authorization Server and Identity Service</description>
 
     <dependencies>

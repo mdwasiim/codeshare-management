@@ -15,20 +15,18 @@ public class JpaIdempotencyStore implements IdempotencyStore {
     private final ProcessedEventRepository repository;
 
     /**
-     * ⚠️ Do NOT check first.
-     * Insert-only approach is race-condition safe.
+     * Simple existence check.
+     * Safe because DB enforces uniqueness.
      */
     @Override
     public boolean isProcessed(String key) {
-        try {
-            return repository.existsById(key);
-            // process event
-        } catch (DataIntegrityViolationException ex) {
-            // skip duplicate
-        }
         return repository.existsById(key);
     }
 
+    /**
+     * Insert-only.
+     * Duplicate insert = already processed.
+     */
     @Override
     public void markProcessed(String key) {
         try {
@@ -39,7 +37,7 @@ public class JpaIdempotencyStore implements IdempotencyStore {
                             .build()
             );
         } catch (DataIntegrityViolationException ex) {
-            // Duplicate key → already processed (retry / replay)
+            // Duplicate key → retry / replay / parallel consumer
             log.warn("🔁 Idempotency key already processed: {}", key);
         }
     }

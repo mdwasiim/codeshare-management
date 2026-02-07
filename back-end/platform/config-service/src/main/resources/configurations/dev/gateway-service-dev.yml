@@ -21,12 +21,12 @@ spring:
           predicates:
             - Path=/authentication/**,/.well-known/**
 
-        - id: tenant-service
+        - id: ingestion-service
           uri: lb://${TENANT_SERVICE_NAME}
           predicates:
-            - Path=/tenant/**
+            - Path=/ingestion/**
           filters:
-            - RewritePath=/tenant/(?<path>.*), /${path}
+            - RewritePath=/ingestion/(?<path>.*), /${path}
 
 
 server:
