@@ -1,177 +1,209 @@
-    <project xmlns="http://maven.apache.org/POM/4.0.0"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                                 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-        <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-        <!-- Spring Boot Parent -->
-        <parent>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-parent</artifactId>
-            <version>3.4.4</version>
-            <relativePath/>
-        </parent>
+    <!-- Spring Boot Parent -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.4</version>
+        <relativePath/>
+    </parent>
 
-        <groupId>com.codeshare.airline</groupId>
-        <artifactId>codeshare-management</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <packaging>pom</packaging>
+    <groupId>com.codeshare.airline</groupId>
+    <artifactId>codeshare-management</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-        <properties>
-            <java.version>21</java.version>
-            <spring.cloud.version>2024.0.2</spring.cloud.version>
+    <!-- ===================================================== -->
+    <!-- PROPERTIES -->
+    <!-- ===================================================== -->
+    <properties>
+        <java.version>21</java.version>
+        <spring.cloud.version>2024.0.2</spring.cloud.version>
 
-            <mapstruct.version>1.5.5.Final</mapstruct.version>
-            <authorization-server-version>1.4.2</authorization-server-version>
-            <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
-            <lombok.version>1.18.42</lombok.version>
-            <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <authorization-server.version>1.4.2</authorization-server.version>
+        <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
+        <lombok.version>1.18.42</lombok.version>
+        <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
+        <sshd.version>2.14.0</sshd.version>
 
-            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-            <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        </properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 
+    <!-- ===================================================== -->
+    <!-- MODULES -->
+    <!-- ===================================================== -->
+    <modules>
+        <module>common/csm-core</module>
+        <module>common/csm-data-jpa</module>
+        <module>common/csm-security-auth-client</module>
 
-        <modules>
-            <module>common/csm-core</module>
-            <module>common/csm-data-jpa</module>
-            <module>common/csm-security-oauth2-client</module>
+        <module>platform/gateway-service</module>
+        <module>platform/config-service</module>
+        <module>platform/registry-service</module>
+        <module>platform/platform-kafka</module>
 
-            <module>platform/gateway-service</module>
-            <module>platform/config-service</module>
-            <module>platform/registry-service</module>
+        <module>services/auth-identity-service</module>
+        <module>services/tenant-service</module>
 
-            <module>services/auth-identity-service</module>
-            <module>services/tenant-service</module>
+        <module>services/ssim-ingestion-service</module>
+        <module>services/ssim-processor-service</module>
+    </modules>
 
-        </modules>
+    <!-- ===================================================== -->
+    <!-- DEPENDENCY MANAGEMENT -->
+    <!-- ===================================================== -->
+    <dependencyManagement>
+        <dependencies>
 
-        <dependencyManagement>
-            <dependencies>
+            <!-- Spring Cloud BOM -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-                <!-- Spring Cloud BOM -->
-                <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-dependencies</artifactId>
-                    <version>${spring.cloud.version}</version>
-                    <type>pom</type>
-                    <scope>import</scope>
-                </dependency>
+            <!-- Apache Mina SSHD -->
+            <dependency>
+                <groupId>org.apache.sshd</groupId>
+                <artifactId>sshd-core</artifactId>
+                <version>${sshd.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.sshd</groupId>
+                <artifactId>sshd-sftp</artifactId>
+                <version>${sshd.version}</version>
+            </dependency>
 
-                <!-- Spring Authorization Server (IMPORTANT) -->
-                <dependency>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-oauth2-authorization-server</artifactId>
-                    <version>${authorization-server-version}</version>
-                </dependency>
+            <!-- Spring Authorization Server -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${authorization-server.version}</version>
+            </dependency>
 
-                <!-- Shared libraries (version only) -->
-                <dependency>
-                    <groupId>org.mapstruct</groupId>
-                    <artifactId>mapstruct</artifactId>
-                    <version>${mapstruct.version}</version>
-                </dependency>
+            <!-- Utilities -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
 
-                <dependency>
-                    <groupId>org.mapstruct</groupId>
-                    <artifactId>mapstruct-processor</artifactId>
-                    <version>${mapstruct.version}</version>
-                    <scope>provided</scope>
-                </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+                <scope>provided</scope>
+            </dependency>
 
-                <dependency>
-                    <groupId>net.logstash.logback</groupId>
-                    <artifactId>logstash-logback-encoder</artifactId>
-                    <version>${logstash-logback-encoder.version}</version>
-                </dependency>
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback-encoder.version}</version>
+            </dependency>
 
-                <dependency>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
-                    <version>${lombok.version}</version>
-                    <scope>provided</scope>
-                </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
 
-                <dependency>
-                    <groupId>io.jsonwebtoken</groupId>
-                    <artifactId>jjwt-api</artifactId>
-                    <version>${jsonwebtoken.version}</version>
-                </dependency>
+            <!-- JWT -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jsonwebtoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jsonwebtoken.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jsonwebtoken.version}</version>
+                <scope>runtime</scope>
+            </dependency>
 
-                <dependency>
-                    <groupId>io.jsonwebtoken</groupId>
-                    <artifactId>jjwt-impl</artifactId>
-                    <version>${jsonwebtoken.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
+            <!-- Internal platform modules -->
+            <dependency>
+                <groupId>com.codeshare.airline</groupId>
+                <artifactId>csm-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.codeshare.airline</groupId>
+                <artifactId>platform-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.codeshare.airline</groupId>
+                <artifactId>csm-data-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.codeshare.airline</groupId>
+                <artifactId>csm-security-auth-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-                <dependency>
-                    <groupId>io.jsonwebtoken</groupId>
-                    <artifactId>jjwt-jackson</artifactId>
-                    <version>${jsonwebtoken.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
+        </dependencies>
+    </dependencyManagement>
 
+    <!-- ===================================================== -->
+    <!-- BUILD -->
+    <!-- ===================================================== -->
+    <build>
+        <pluginManagement>
+            <plugins>
 
-                <dependency>
-                    <groupId>com.codeshare.airline</groupId>
-                    <artifactId>csm-core</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.codeshare.airline</groupId>
-                    <artifactId>csm-data-jpa</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.codeshare.airline</groupId>
-                    <artifactId>csm-security-oauth2-client</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
 
-            </dependencies>
-        </dependencyManagement>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <release>${java.version}</release>
+                    </configuration>
+                </plugin>
 
-        <build>
-            <pluginManagement>
-                <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.5.0</version>
+                    <executions>
+                        <execution>
+                            <id>enforce</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireJavaVersion>
+                                        <version>[21,)</version>
+                                    </requireJavaVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
 
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                    </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <release>${java.version}</release>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>3.5.0</version>
-                        <executions>
-                            <execution>
-                                <id>enforce</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireJavaVersion>
-                                            <version>[21,)</version>
-                                        </requireJavaVersion>
-                                    </rules>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </pluginManagement>
-        </build>
-
-    </project>
+</project>

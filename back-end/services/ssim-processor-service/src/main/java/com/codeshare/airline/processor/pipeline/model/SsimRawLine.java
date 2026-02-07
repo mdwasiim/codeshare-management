@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.parsing.model;
+package com.codeshare.airline.processor.pipeline.model;
 
 import lombok.Getter;
 

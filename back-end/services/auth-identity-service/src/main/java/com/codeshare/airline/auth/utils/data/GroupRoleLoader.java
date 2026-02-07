@@ -104,7 +104,7 @@ public class GroupRoleLoader {
         try {
             return UUID.fromString(id);
         } catch (Exception ex) {
-            log.warn("⚠ Invalid ssim ID '{}'", id);
+            log.warn("⚠ Invalid ingestion ID '{}'", id);
             return null;
         }
     }

@@ -14,7 +14,6 @@
 
     <artifactId>registry-service</artifactId>
     <packaging>jar</packaging>
-    <name>Registry Service</name>
     <description>Service Registry (Eureka Server)</description>
 
     <dependencies>
@@ -31,7 +30,7 @@
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
-        <!-- REQUIRED: Eureka client internals -->
+        <!-- REQUIRED: Eureka gateway internals -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -50,15 +49,5 @@
         </dependency>
 
     </dependencies>
-
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

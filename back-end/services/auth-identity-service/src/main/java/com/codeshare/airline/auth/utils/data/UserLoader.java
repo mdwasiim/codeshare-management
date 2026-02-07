@@ -41,7 +41,7 @@ public class UserLoader {
 
         if (exists) {
             log.info(
-                    "✔ Admin user '{}' already exists for ssim '{}'. Skipping.",
+                    "✔ Admin user '{}' already exists for ingestion '{}'. Skipping.",
                     username,
                     tenant.getTenantCode()
             );
@@ -71,7 +71,7 @@ public class UserLoader {
         userRepository.save(user);
 
         log.warn(
-                "⚠️ Admin user '{}' created for ssim '{}'. Password must be changed immediately.",
+                "⚠️ Admin user '{}' created for ingestion '{}'. Password must be changed immediately.",
                 username,
                 tenant.getTenantCode()
         );

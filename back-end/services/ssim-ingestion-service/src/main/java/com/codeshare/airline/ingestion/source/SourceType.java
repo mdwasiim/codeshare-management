@@ -1,4 +1,8 @@
 package com.codeshare.airline.ingestion.source;
 
-public class SourceType {
+public enum SourceType {
+    LOCAL,
+    SFTP,
+    EMAIL,
+    REST
 }

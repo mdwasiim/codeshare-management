@@ -5,7 +5,7 @@ import java.util.UUID;
 
 /**
  * Deterministic UUID generator from a stable string.
- * COPY THIS FILE IDENTICALLY into ssim-service and aauth-identity-service.
+ * COPY THIS FILE IDENTICALLY into ingestion-service and aauth-identity-service.
  *
  * Use: CSMUuidUtil.idFor("CSM"), CSMUuidUtil.idFor("CSM-HQ"), CSMUuidUtil.idFor("DATASOURCE_PRIMARY_MYSQL")
  */

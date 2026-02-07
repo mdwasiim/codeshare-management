@@ -13,7 +13,6 @@
 
     <artifactId>tenant-service</artifactId>
     <packaging>jar</packaging>
-    <name>Tenant Service</name>
     <description>Tenant microservice</description>
 
     <dependencies>
@@ -112,7 +111,7 @@
         </dependency>
         <dependency>
             <groupId>com.codeshare.airline</groupId>
-            <artifactId>csm-security-oauth2-client</artifactId>
+            <artifactId>csm-security-auth-client</artifactId>
         </dependency>
     </dependencies>
 

@@ -17,7 +17,6 @@
     <artifactId>csm-data-jpa</artifactId>
     <packaging>jar</packaging>
 
-    <name>Common Persistence</name>
     <description>
         Shared persistence infrastructure:
         base entities, repositories, converters, pagination utilities.
@@ -43,7 +42,7 @@
             <artifactId>hibernate-core</artifactId>
         </dependency>
 
-        <!-- Validation (optional but common for entities) -->
+        <!-- Validation (optional but common for model) -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>

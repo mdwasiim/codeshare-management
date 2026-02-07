@@ -1,9 +1,9 @@
-package com.codeshare.airline.processor.validation;
+package com.codeshare.airline.processor.processing.validation;
 
 import com.codeshare.airline.processor.model.ssim.SsimAppendixHCodeshare;
 import com.codeshare.airline.processor.model.raw.SsimR1HeaderRecord;
 import com.codeshare.airline.processor.model.raw.SsimR3FlightLegRecord;
-import com.codeshare.airline.processor.persistence.repository.SsimAppendixHCodeshareRepository;
+import com.codeshare.airline.processor.processing.persistence.repository.SsimAppendixHCodeshareRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

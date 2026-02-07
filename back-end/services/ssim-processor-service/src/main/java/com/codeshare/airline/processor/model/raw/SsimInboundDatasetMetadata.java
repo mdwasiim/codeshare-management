@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.entities.raw;
+package com.codeshare.airline.processor.model.raw;
 
 import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.processor.pipeline.enm.SsimLoadStatus;

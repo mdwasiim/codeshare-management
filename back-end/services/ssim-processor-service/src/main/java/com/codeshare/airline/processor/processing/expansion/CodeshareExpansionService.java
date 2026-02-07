@@ -1,10 +1,10 @@
-package com.codeshare.airline.processor.expansion;
+package com.codeshare.airline.processor.processing.expansion;
 
-import com.codeshare.airline.processor.expansion.repository.FlightScheduleRepository;
+import com.codeshare.airline.processor.processing.expansion.repository.FlightScheduleRepository;
 import com.codeshare.airline.processor.model.domain.FlightSchedule;
 import com.codeshare.airline.processor.model.raw.SsimAppendixHCodeshare;
 import com.codeshare.airline.processor.model.raw.SsimR3FlightLegRecord;
-import com.codeshare.airline.processor.persistence.repository.SsimAppendixHCodeshareRepository;
+import com.codeshare.airline.processor.processing.persistence.repository.SsimAppendixHCodeshareRepository;
 import com.codeshare.airline.processor.pipeline.model.SsimLoadContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

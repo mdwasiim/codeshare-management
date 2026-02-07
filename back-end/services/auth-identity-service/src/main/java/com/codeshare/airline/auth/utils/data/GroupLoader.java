@@ -54,7 +54,7 @@ public class GroupLoader {
                                 .tenant(tenant)
                                 .code(code)
                                 .name(code + " Group")
-                                .description(code + " Group for ssim " + tenant.getTenantCode())
+                                .description(code + " Group for ingestion " + tenant.getTenantCode())
                                 .build()
                 );
             }
@@ -79,7 +79,7 @@ public class GroupLoader {
         try {
             return UUID.fromString(id);
         } catch (Exception e) {
-            log.warn("⚠ Invalid ssim UUID '{}'", id);
+            log.warn("⚠ Invalid ingestion UUID '{}'", id);
             return null;
         }
     }

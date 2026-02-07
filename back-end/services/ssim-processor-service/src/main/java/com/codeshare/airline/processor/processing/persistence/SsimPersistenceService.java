@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.persistence;
+package com.codeshare.airline.processor.processing.persistence;
 
 import com.codeshare.airline.processor.pipeline.enm.SsimLoadStatus;
 import com.codeshare.airline.processor.pipeline.model.ParsedSsimResult;

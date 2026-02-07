@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.persistence.repository;
+package com.codeshare.airline.processor.processing.persistence.repository;
 
 import com.codeshare.airline.processor.model.raw.SsimR3FlightLegRecord;
 import org.springframework.data.jpa.repository.JpaRepository;

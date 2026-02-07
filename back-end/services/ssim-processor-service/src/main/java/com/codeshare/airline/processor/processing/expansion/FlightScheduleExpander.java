@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.expansion;
+package com.codeshare.airline.processor.processing.expansion;
 
 
 import com.codeshare.airline.processor.pipeline.model.SsimLoadContext;

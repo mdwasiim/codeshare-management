@@ -1,8 +1,6 @@
-package com.codeshare.airline.processor.persistence;
+package com.codeshare.airline.processor.processing.persistence;
 
-import com.codeshare.airline.processor.model.raw.SsimAppendixHCodeshare;
 import com.codeshare.airline.processor.model.raw.*;
-import com.codeshare.airline.processor.persistence.repository.*;
 import com.codeshare.airline.processor.pipeline.dto.SsimR1HeaderRecordDTO;
 import com.codeshare.airline.processor.pipeline.dto.SsimR3FlightLegRecordDTO;
 import com.codeshare.airline.processor.pipeline.dto.SsimR4DateVariationRecordDTO;
@@ -10,6 +8,7 @@ import com.codeshare.airline.processor.pipeline.dto.SsimR5ContinuationRecordDTO;
 import com.codeshare.airline.processor.pipeline.enm.SsimLoadStatus;
 import com.codeshare.airline.processor.pipeline.model.ParsedSsimResult;
 import com.codeshare.airline.processor.pipeline.model.SsimLoadContext;
+import com.codeshare.airline.processor.processing.persistence.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

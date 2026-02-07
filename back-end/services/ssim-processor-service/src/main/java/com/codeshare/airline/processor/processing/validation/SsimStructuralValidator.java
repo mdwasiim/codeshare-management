@@ -1,4 +1,4 @@
-package com.codeshare.airline.processor.validation;
+package com.codeshare.airline.processor.processing.validation;
 
 import com.codeshare.airline.processor.pipeline.model.SsimRawFile;
 import org.springframework.stereotype.Component;

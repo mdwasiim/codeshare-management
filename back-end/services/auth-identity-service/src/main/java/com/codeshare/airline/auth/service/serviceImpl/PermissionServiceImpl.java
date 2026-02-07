@@ -38,11 +38,11 @@ public class PermissionServiceImpl implements PermissionService {
 
         String code = dto.getDomain() + ":" + dto.getAction();
 
-        // --- Prevent duplicates inside same ssim ---
+        // --- Prevent duplicates inside same ingestion ---
         if (repo.existsByTenantIdAndCode(dto.getTenantId(), code))
             throw new CSMBusinessException(
                     CSMErrorCodes.DUPLICATE_ENTITY,
-                    "Permission already exists for ssim: " + code
+                    "Permission already exists for ingestion: " + code
             );
 
         dto.setCode(code);  // enforce domain:action convention
@@ -104,7 +104,7 @@ public class PermissionServiceImpl implements PermissionService {
         List<Permission> list = repo.findByTenantId(tenantId);
 
         if (list.isEmpty()) {
-            log.warn("⚠ No permissions found for ssim {}", tenantId);
+            log.warn("⚠ No permissions found for ingestion {}", tenantId);
         }
 
         return mapper.toDTOList(list);

@@ -1,6 +1,6 @@
-package com.codeshare.airline.processor.parsing.model;
+package com.codeshare.airline.processor.pipeline.model;
 
-import com.codeshare.airline.processor.parsing.dto.*;
+import com.codeshare.airline.processor.pipeline.dto.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -11,48 +11,92 @@ public class ParsedSsimResult {
 
     private final SsimRawFile rawFile;
 
-    // Record-1 (exactly one)
-    private R1HeaderDto r1Header;
+    /* =========================================================
+     * ORDERED RECORD STREAM (AUTHORITATIVE)
+     * ========================================================= */
 
-    // Record-3
-    private final List<R3FlightLegDto> r3FlightLegs = new ArrayList<>();
+    /**
+     * Maintains exact SSIM file order.
+     * Elements are DTOs: R1, R2, R3, R4, R5, Appendix-H.
+     */
+    private final List<Object> orderedRecords = new ArrayList<>();
 
-    // Record-4
-    private final List<R4DateVariationDto> r4DateVariations = new ArrayList<>();
+    /* =========================================================
+     * TYPED ACCESS (CONVENIENCE)
+     * ========================================================= */
 
-    // Record-5
-    private final List<R5DateVariationDto> r5DateVariations = new ArrayList<>();
+    // Record 1 – Header (exactly one)
+    private SsimR1HeaderRecordDTO header;
 
-    // Appendix-H
-    private final List<AppendixHCodeshareDto> appendixH = new ArrayList<>();
+    // Record 2 – Carrier
+    private final List<SsimR2CarrierRecordDTO> carriers = new ArrayList<>();
 
-    // Unknown / unsupported
+    // Record 3 – Flight Leg
+    private final List<SsimR3FlightLegRecordDTO> flightLegs = new ArrayList<>();
+
+    // Record 4 – Segment Data (DEIs)
+    private final List<SsimR3SegmentDataRecordDTO> segmentData = new ArrayList<>();
+
+    // Record 5 – Date Variation
+    private final List<SsimR4DateVariationRecordDTO> dateVariations = new ArrayList<>();
+
+    // Record 6 – Continuation
+    private final List<SsimR5ContinuationRecordDTO> continuations = new ArrayList<>();
+
+    private final List<SsimAppendixHCodeshareDTO> codeshares = new ArrayList<>();
+
+    /* =========================================================
+     * DIAGNOSTICS
+     * ========================================================= */
+
+    private final List<String> structuralErrors = new ArrayList<>();
+    private final List<String> structuralWarnings = new ArrayList<>();
     private final List<String> unknownRecords = new ArrayList<>();
 
     public ParsedSsimResult(SsimRawFile rawFile) {
         this.rawFile = rawFile;
     }
 
-    /* ---------- adders (DTOs only) ---------- */
+    /* =========================================================
+     * ADDERS (ALWAYS ADD TO orderedRecords)
+     * ========================================================= */
 
-    public void setR1Header(R1HeaderDto header) {
-        this.r1Header = header;
+    public void setR1Header(SsimR1HeaderRecordDTO header) {
+        this.header = header;
+        orderedRecords.add(header);
     }
 
-    public void addR3(R3FlightLegDto dto) {
-        r3FlightLegs.add(dto);
+    public void addR2(SsimR2CarrierRecordDTO dto) {
+        carriers.add(dto);
+        orderedRecords.add(dto);
     }
 
-    public void addR4(R4DateVariationDto dto) {
-        r4DateVariations.add(dto);
+    public void addR3(SsimR3FlightLegRecordDTO dto) {
+        flightLegs.add(dto);
+        orderedRecords.add(dto);
     }
 
-    public void addR5(R5DateVariationDto dto) {
-        r5DateVariations.add(dto);
+    public void addR3Segment(SsimR3SegmentDataRecordDTO dto) {
+        segmentData.add(dto);
+        orderedRecords.add(dto);
     }
 
-    public void addAppendixH(AppendixHCodeshareDto dto) {
-        appendixH.add(dto);
+    public void addR4(SsimR4DateVariationRecordDTO dto) {
+        dateVariations.add(dto);
+        orderedRecords.add(dto);
+    }
+
+    public void addR5(SsimR5ContinuationRecordDTO dto) {
+        continuations.add(dto);
+        orderedRecords.add(dto);
+    }
+
+    public void addError(String error) {
+        structuralErrors.add(error);
+    }
+
+    public void addWarning(String warning) {
+        structuralWarnings.add(warning);
     }
 
     public void addUnknown(String line) {

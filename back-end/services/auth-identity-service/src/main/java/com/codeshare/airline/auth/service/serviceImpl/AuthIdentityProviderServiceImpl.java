@@ -17,7 +17,7 @@ public class AuthIdentityProviderServiceImpl implements AuthIdentityProviderServ
                 .findByTenant_TenantCodeAndAuthSource(tenantCode, source)
                 .orElseThrow(() ->
                         new UnsupportedAuthenticationFlowException(
-                                source + " authentication not enabled for ssim"
+                                source + " authentication not enabled for ingestion"
                         )
                 );
     }

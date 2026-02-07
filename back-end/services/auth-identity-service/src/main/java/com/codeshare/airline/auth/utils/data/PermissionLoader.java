@@ -103,7 +103,7 @@ public class PermissionLoader {
         try {
             return UUID.fromString(id);
         } catch (Exception ex) {
-            log.warn("⚠ Invalid ssim UUID '{}'", id);
+            log.warn("⚠ Invalid ingestion UUID '{}'", id);
             return null;
         }
     }

@@ -6,9 +6,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(scanBasePackages = "com.codeshare.airline")
 @EnableFeignClients(basePackages = "com.codeshare.airline.ingestion.feign")
-public class SSIMIngestionApplication {
+public class SSIMProcessorApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SSIMIngestionApplication.class, args);
+        SpringApplication.run(SSIMProcessorApplication.class, args);
     }
 }

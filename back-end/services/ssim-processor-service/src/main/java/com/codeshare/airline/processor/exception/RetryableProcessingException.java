@@ -1,4 +1,8 @@
 package com.codeshare.airline.processor.exception;
 
-public class RetryableProcessingException {
+// Retryable → retry topic
+public class RetryableProcessingException extends RuntimeException {
+    public RetryableProcessingException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 }

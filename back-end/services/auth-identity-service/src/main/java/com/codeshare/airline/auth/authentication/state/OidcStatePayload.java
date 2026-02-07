@@ -17,7 +17,7 @@ public class OidcStatePayload {
     // 🔐 CSRF / replay protection
     private String stateId;
 
-    // 🏢 Multi-ssim binding
+    // 🏢 Multi-ingestion binding
     private String tenantCode;
 
     // 🔐 OIDC replay protection (ID Token)

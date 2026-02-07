@@ -1,7 +1,7 @@
-package com.codeshare.airline.processor.entities.domain;
+package com.codeshare.airline.processor.model.domain;
 
 import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.processor.entities.raw.SsimR1HeaderRecord;
+import com.codeshare.airline.processor.model.raw.SsimR1HeaderRecord;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

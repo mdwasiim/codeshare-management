@@ -10,13 +10,20 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>ssim-ingestion-service</artifactId>
+    <artifactId>ssim-processor-service</artifactId>
+    <name>ssim-processor-service</name>
+
     <dependencies>
 
         <!-- Web / MVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
 
         <!-- Validation -->
@@ -89,7 +96,13 @@
         </dependency>
         <dependency>
             <groupId>com.codeshare.airline</groupId>
-            <artifactId>csm-security-oauth2-client</artifactId>
+            <artifactId>csm-security-auth-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.codeshare.airline</groupId>
+            <artifactId>platform-kafka</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

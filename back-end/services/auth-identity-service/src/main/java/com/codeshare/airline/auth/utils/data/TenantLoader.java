@@ -65,7 +65,7 @@ public class TenantLoader {
                  * ------------------------- */
                 .tenantCode(code)
                 .name(name)
-                .description("Auto-loaded ssim: " + code)
+                .description("Auto-loaded ingestion: " + code)
                 .active(true)
                 .plan(plan)
                 .trial(false)

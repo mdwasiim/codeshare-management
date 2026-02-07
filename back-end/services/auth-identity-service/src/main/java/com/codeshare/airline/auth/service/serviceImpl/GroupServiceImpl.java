@@ -33,9 +33,9 @@ public class GroupServiceImpl implements GroupService {
         if (dto.getName() == null || dto.getName().isBlank())
             throw new IllegalArgumentException("name is required");
 
-        // Check duplicate name inside ssim
+        // Check duplicate name inside ingestion
         if (groupRepository.existsByNameAndTenantId(dto.getName(), dto.getTenantId()))
-            throw new RuntimeException("Group with same name already exists for ssim");
+            throw new RuntimeException("Group with same name already exists for ingestion");
 
         Group saved = groupRepository.save(mapper.toEntity(dto));
         return mapper.toDTO(saved);

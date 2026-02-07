@@ -40,7 +40,7 @@ public enum CSMErrorCodes {
     AUTH_USER_LOCKED(808102, "AUTH_USER_LOCKED", "User account is locked"),
     AUTH_TENANT_NOT_FOUND(808103, "AUTH_TENANT_NOT_FOUND", "Tenant configuration not found"),
     AUTH_REFRESH_TOKEN_INVALID(808104, "AUTH_REFRESH_TOKEN_INVALID", "Refresh token invalid"),
-    AUTH_FLOW_NOT_SUPPORTED(808105, "AUTH_FLOW_NOT_SUPPORTED", "Authentication flow not supported"),
+    AUTH_FLOW_NOT_SUPPORTED(808105, "AUTH_FLOW_NOT_SUPPORTED", "Authentication coordination not supported"),
 
     /* ==========================
        SYSTEM / TECHNICAL (9xxx)

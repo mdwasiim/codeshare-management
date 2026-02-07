@@ -16,7 +16,7 @@ import java.util.UUID;
 public abstract class CSMAuditableDTO implements Serializable {
 
 
-    //ssim ID
+    //ingestion ID
     private UUID tenantId;
 
     // Creation

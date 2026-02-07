@@ -13,7 +13,6 @@
 
     <artifactId>gateway-service</artifactId>
     <packaging>jar</packaging>
-    <name>Gateway Service</name>
     <description>API Gateway microservice</description>
 
     <dependencies>

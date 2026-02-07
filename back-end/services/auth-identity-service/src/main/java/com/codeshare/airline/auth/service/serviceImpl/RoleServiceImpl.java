@@ -31,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
         }
 
         if (repo.existsByNameAndTenantId(dto.getName(), dto.getTenantId())) {
-            throw new RuntimeException("Role already exists for this ssim");
+            throw new RuntimeException("Role already exists for this ingestion");
         }
 
         Role entity = mapper.toEntity(dto);

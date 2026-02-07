@@ -109,7 +109,7 @@ public class GatewaySecurityConfig {
                         .flatMap(auth -> {
 
                             String tenant =
-                                    auth.getToken().getClaimAsString("ssim");
+                                    auth.getToken().getClaimAsString("ingestion");
 
                             var mutatedRequest =
                                     exchange.getRequest()
