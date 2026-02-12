@@ -61,7 +61,7 @@
                         </span> -->
                     </div>
 
-                    <p-button label="Sign In" styleClass="w-full" (onClick)="login()"></p-button>
+                    <p-button label="Sign In" styleClass="w-full" [loading]="loggingIn" (onClick)="login()"></p-button>
 
                 </div>
             </div>

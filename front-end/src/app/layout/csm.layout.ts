@@ -2,7 +2,7 @@ import { Component, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { CSMLayoutService } from '@/core/services/csm.layout.service';
+import { CSMLayoutService } from '@/layout/menu/service/csm.layout.service';
 import { CSMTopbar } from './topbar/csm.topbar';
 import { CSMSidebar } from './sidebar/csm.sidebar';
 import { CSMFooter } from './footer/csm.footer';

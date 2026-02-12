@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ssim-ingestion-service
+
+server:
+  port: ${SSIM_INGESTION_SERVICE_PORT:8083}
+

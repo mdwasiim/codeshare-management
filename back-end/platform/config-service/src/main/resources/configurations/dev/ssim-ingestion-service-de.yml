@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: tenant-service
-server:
-  port: ${SSIM_INGESTION_SERVICE_PORT:8083}
-

@@ -60,17 +60,17 @@ public class KafkaCommonConfig extends RetryTopicConfigurationSupport {
     public DefaultErrorHandler kafkaErrorHandler(
             DeadLetterPublishingRecoverer recoverer) {
 
-        // Retry 3 times with 2s gap → then DLT
         FixedBackOff backOff = new FixedBackOff(2000L, 3);
 
-        return new DefaultErrorHandler(recoverer, backOff);
-    }
+        DefaultErrorHandler handler =
+                new DefaultErrorHandler(recoverer, backOff);
 
-    @Bean
-    public DefaultErrorHandler kafkaErrorHandler() {
-        return new DefaultErrorHandler(
-                new FixedBackOff(2000L, 3)
+        // Don't retry deserialization errors
+        handler.addNotRetryableExceptions(
+                IllegalArgumentException.class
         );
+
+        return handler;
     }
 
 

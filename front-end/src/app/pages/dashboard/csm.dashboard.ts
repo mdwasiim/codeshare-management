@@ -4,7 +4,7 @@ import { StatsWidget } from './statswidget';
 import { CSMRecentSalesWidget } from './recentsaleswidget';
 import { BestSellingWidget } from './bestsellingwidget';
 import { CSMRevenueStreamWidget } from './revenuestreamwidget';
-import { CSMMenuService } from '@/core/services/csm-menu.service';
+import { CSMMenuService } from '@/layout/menu/service/csm-menu.service';
 
 
 @Component({

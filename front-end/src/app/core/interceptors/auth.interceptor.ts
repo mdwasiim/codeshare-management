@@ -7,9 +7,10 @@ import {
   BehaviorSubject,
   catchError,
   filter,
+  finalize,
   switchMap,
   take,
-  throwError
+  throwError,
 } from 'rxjs';
 
 import { TokenService } from '@services/auth/token.service';
@@ -30,7 +31,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   if (!tenantCode) {
     console.warn('Tenant code missing on frontend');
   }
-
+  
   const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh');
 
   // =========================
@@ -119,6 +120,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
           return throwError(() => err);
         })
       );
-    })
+    }),
+
   );
 };

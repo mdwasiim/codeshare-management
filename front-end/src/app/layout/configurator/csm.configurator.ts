@@ -1,4 +1,4 @@
-import { CSMLayoutService } from '@/core/services/csm.layout.service';
+import { CSMLayoutService } from '@/layout/menu/service/csm.layout.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';

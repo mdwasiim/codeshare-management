@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CSMMenuitem } from '../menu-item/csm.menuitem';
+import { CSMMenuitem } from './menuitem/csm.menuitem';
 import { CSMMenuItemModel } from '@/core/models/csm-menu.model';
-import { CSMMenuService } from '@/core/services/csm-menu.service';
+import { CSMMenuService } from '@/layout/menu/service/csm-menu.service';
 
 @Component({
     selector: 'csm-menu',

@@ -2,17 +2,14 @@ package com.codeshare.airline.kafka.idempotency;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class JpaIdempotencyStore implements IdempotencyStore {
 
-    private final ProcessedEventRepository repository;
+    //private final ProcessedEventRepository repository;
 
     /**
      * Simple existence check.
@@ -20,7 +17,8 @@ public class JpaIdempotencyStore implements IdempotencyStore {
      */
     @Override
     public boolean isProcessed(String key) {
-        return repository.existsById(key);
+       // return repository.existsById(key);
+        return true;
     }
 
     /**
@@ -29,7 +27,7 @@ public class JpaIdempotencyStore implements IdempotencyStore {
      */
     @Override
     public void markProcessed(String key) {
-        try {
+        /*try {
             repository.save(
                     ProcessedEventEntity.builder()
                             .idempotencyKey(key)
@@ -39,6 +37,6 @@ public class JpaIdempotencyStore implements IdempotencyStore {
         } catch (DataIntegrityViolationException ex) {
             // Duplicate key → retry / replay / parallel consumer
             log.warn("🔁 Idempotency key already processed: {}", key);
-        }
+        }*/
     }
 }

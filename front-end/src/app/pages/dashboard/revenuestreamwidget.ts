@@ -1,4 +1,4 @@
-import { CSMLayoutService } from '@/core/services/csm.layout.service';
+import { CSMLayoutService } from '@/layout/menu/service/csm.layout.service';
 import { Component } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { debounceTime, Subscription } from 'rxjs';

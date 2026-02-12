@@ -12,7 +12,7 @@ import { CSMFloatingConfigurator } from '@/layout/floating-configurator/csm.floa
 
 import { AuthService } from '@services/auth/auth.service';
 import { TokenService } from '@services/auth/token.service';
-import { CSMMenuService } from '@/core/services/csm-menu.service';
+import { CSMMenuService } from '@/layout/menu/service/csm-menu.service';
 
 @Component({
   selector: 'csm-login',
@@ -35,6 +35,7 @@ export class CSMLogin {
   username = '';
   password = '';
   checked = false;
+  loggingIn = false;
 
   private authService = inject(AuthService);
   private tokenService = inject(TokenService);
@@ -53,6 +54,8 @@ login() {
     return;
   }
 
+  this.loggingIn = true;
+
   this.authService.login(this.username, this.password).subscribe({
     next: (response) => {
 
@@ -68,6 +71,10 @@ login() {
     },
     error: (err) => {
       console.error('Login failed', err);
+      this.loggingIn = false;
+    },
+    complete: () => {
+      this.loggingIn = false; 
     }
   });
 }

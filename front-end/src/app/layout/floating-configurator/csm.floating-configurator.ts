@@ -3,7 +3,7 @@ import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { CSMConfigurator } from '@layout/configurator/csm.configurator';  // UPDATED IMPORT
 import { CommonModule } from '@angular/common';
-import { CSMLayoutService } from '@/core/services/csm.layout.service';
+import { CSMLayoutService } from '@/layout/menu/service/csm.layout.service';
 
 @Component({
     selector: 'csm-floating-configurator',

@@ -83,10 +83,34 @@
                     <span>Messages</span>
                 </button>
 
-                <button type="button" class="layout-topbar-action">
+                <!-- <button type="button" class="layout-topbar-action">
                     <i class="pi pi-user"></i>
                     <span>Profile</span>
+                </button> -->
+                <!-- User Menu Button -->
+                <button
+                    type="button"
+                    class="layout-topbar-action user-menu-btn"
+                    (click)="userMenu.toggle($event)">
+
+                    <p-avatar
+                        label="WK"
+                        shape="circle"
+                        class="topbar-avatar">
+                    </p-avatar>
+
+                    <i class="pi pi-chevron-down ml-2"></i>
                 </button>
+
+                <p-menu
+                    #userMenu
+                    [popup]="true"
+                    [model]="userMenuItems"
+                    styleClass="user-menu">
+                </p-menu>
+
+
+
             </div>
         </div>
     </div>

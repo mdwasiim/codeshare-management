@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { OrganizationList } from './list/organization-list';
-import { OrganizationDetail } from './details/organization-detail';
+import { OrganizationList } from './organization-list';
+import { OrganizationDetail } from './organization-detail';
 
 
 

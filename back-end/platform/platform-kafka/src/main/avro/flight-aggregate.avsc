@@ -1,0 +1,19 @@
+{
+  "type": "record",
+  "name": "FlightAggregate",
+  "namespace": "com.codeshare.airline.ssim",
+  "fields": [
+    {"name": "eventId", "type": "string"},
+    {"name": "createdAt", "type": "long"},
+    {"name": "schemaVersion", "type": "string"},
+    {"name": "ssimVersion", "type": "string"},
+    {"name": "fileId", "type": "string"},
+
+    {"name": "carrierCode", "type": "string"},
+    {"name": "flightNumber", "type": "string"},
+    {"name": "origin", "type": "string"},
+    {"name": "destination", "type": "string"},
+
+    {"name": "r5Count", "type": "int"}
+  ]
+}

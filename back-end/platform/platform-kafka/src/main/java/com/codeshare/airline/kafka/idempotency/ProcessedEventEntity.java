@@ -1,3 +1,4 @@
+/*
 package com.codeshare.airline.kafka.idempotency;
 
 import jakarta.persistence.*;
@@ -26,3 +27,4 @@ public class ProcessedEventEntity {
     @Column(name = "processed_at", nullable = false)
     private Instant processedAt;
 }
+*/

@@ -31,6 +31,7 @@
         <lombok.version>1.18.42</lombok.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <sshd.version>2.14.0</sshd.version>
+        <apache.camel.version>4.4.1</apache.camel.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -158,6 +159,13 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
+                <artifactId>camel-spring-boot-bom</artifactId>
+                <version>${apache.camel.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

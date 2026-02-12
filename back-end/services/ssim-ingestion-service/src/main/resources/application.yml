@@ -1,40 +1,30 @@
 spring:
   application:
     name: ssim-ingestion-service
-  cloud:
-    config:
-      enabled: false
+
+  profiles:
+    active: dev
+
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+    org.springframework.web: DEBUG
 
 server:
   port: ${SSIM_INGESTION_SERVICE_PORT:8083}
 
-
-
 ssim:
-  poll:
-    interval: 60000
-
-  sources:
-    local:
-      enabled: true
-      path: /data/ssim/inbound
-
+  source:
     sftp:
-      enabled: true
-      host: sftp.airline.com
+      host: sftp.partner.com
       port: 22
-      user: ssim
-      password: ***
-      inbound-path: /inbound
-      archive-path: /archive
-      error-path: /error
-
-    email:
-      enabled: false
-      host: imap.gmail.com
-      user: ssim@airline.com
-      password: ****
-
-kafka:
-  topic:
-    ssim-parsed: ssim.parsed.batch
+      username: airline
+      password: secret
+      remote-directory: /outbound
+      file-pattern: "*.txt"
+    local:
+      path: C:\Users\mdwas\Projects\SSIM\test
