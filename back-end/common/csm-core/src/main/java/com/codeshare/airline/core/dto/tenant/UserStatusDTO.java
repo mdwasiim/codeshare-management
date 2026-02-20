@@ -1,6 +1,6 @@
 package com.codeshare.airline.core.dto.tenant;
 
-import com.codeshare.airline.core.enums.UserStatus;
+import com.codeshare.airline.core.enums.common.Status;
 import lombok.*;
 
 import java.util.UUID;
@@ -14,5 +14,5 @@ public class UserStatusDTO {
 
     private UUID tenantId;
     private String userId;
-    private UserStatus status;
+    private Status status;
 }

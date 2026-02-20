@@ -3,7 +3,7 @@ package com.codeshare.airline.auth.authentication.service.source;
 import com.codeshare.airline.auth.authentication.domain.IdentityProviderConfig;
 import com.codeshare.airline.auth.authentication.domain.TenantContext;
 import com.codeshare.airline.auth.authentication.exception.UnsupportedAuthenticationFlowException;
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

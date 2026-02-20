@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.authentication.service.core;
 
 
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

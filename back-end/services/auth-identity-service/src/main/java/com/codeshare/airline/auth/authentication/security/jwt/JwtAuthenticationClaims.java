@@ -1,8 +1,8 @@
 package com.codeshare.airline.auth.authentication.security.jwt;
 
 
-import com.codeshare.airline.core.enums.AuthSource;
-import com.codeshare.airline.core.enums.TokenType;
+import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.core.enums.auth.TokenType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

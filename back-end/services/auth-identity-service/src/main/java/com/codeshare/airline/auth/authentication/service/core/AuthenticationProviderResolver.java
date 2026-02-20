@@ -2,7 +2,7 @@ package com.codeshare.airline.auth.authentication.service.core;
 
 import com.codeshare.airline.auth.authentication.exception.UnsupportedAuthenticationFlowException;
 import com.codeshare.airline.auth.authentication.provider.AuthenticationProvider;
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

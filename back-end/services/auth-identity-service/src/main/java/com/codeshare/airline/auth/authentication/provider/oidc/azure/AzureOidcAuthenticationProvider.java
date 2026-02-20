@@ -8,7 +8,7 @@ import com.codeshare.airline.auth.authentication.provider.oidc.base.OidcClientAd
 import com.codeshare.airline.auth.authentication.provider.oidc.base.OidcStateManager;
 import com.codeshare.airline.auth.authentication.service.core.AuthenticationResult;
 import com.codeshare.airline.auth.service.RolePermissionAssignmentService;
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;

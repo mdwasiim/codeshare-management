@@ -1,8 +1,8 @@
 package com.codeshare.airline.auth.entities;
 
-import com.codeshare.airline.core.enums.TenantPlan;
-import com.codeshare.airline.core.enums.TenantStatus;
-import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.core.enums.common.TenantPlan;
+import com.codeshare.airline.core.enums.common.TenantStatus;
+import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -82,7 +82,7 @@ public class Tenant extends CSMDataAbstractEntity {
     @Column(name = "logo_url", length = 500)
     private String logoUrl;
 
-    @Column(name = "region", length = 100)
+    @Column(name = "location", length = 100)
     private String region;
 
     // -------------------------------

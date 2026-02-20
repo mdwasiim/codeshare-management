@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -41,7 +40,7 @@ public class WebSecurityConfig {
                             "Authorization",
                             "Content-Type",
                             "Accept",
-                            "ingestion-code"
+                            "tenant-code"
                     ));
                     config.setAllowCredentials(true);
                     return config;

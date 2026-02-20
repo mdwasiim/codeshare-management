@@ -3,14 +3,14 @@ package com.codeshare.airline.auth.utils.mappers;
 import com.codeshare.airline.auth.entities.Menu;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.core.mapper.CSMMapperConfig;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
 
 import java.util.Comparator;
 
-@Mapper(componentModel = "spring",config = CSMGenericMapper.class,  unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(config = CSMMapperConfig.class)
 public interface MenuMapper extends CSMGenericMapper<Menu, MenuDTO> {
 
     @Override

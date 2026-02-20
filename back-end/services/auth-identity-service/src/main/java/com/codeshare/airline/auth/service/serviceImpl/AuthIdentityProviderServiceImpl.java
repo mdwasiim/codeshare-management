@@ -3,7 +3,7 @@ package com.codeshare.airline.auth.service.serviceImpl;
 import com.codeshare.airline.auth.authentication.exception.UnsupportedAuthenticationFlowException;
 import com.codeshare.airline.auth.repository.OidcIdentityProviderRepository;
 import com.codeshare.airline.auth.service.AuthIdentityProviderService;
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 
 public class AuthIdentityProviderServiceImpl implements AuthIdentityProviderService {
 

@@ -1,6 +1,6 @@
 package com.codeshare.airline.auth.authentication.domain;
 
-import com.codeshare.airline.core.enums.TenantStatus;
+import com.codeshare.airline.core.enums.common.TenantStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

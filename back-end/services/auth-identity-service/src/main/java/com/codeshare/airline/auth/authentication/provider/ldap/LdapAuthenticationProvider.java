@@ -11,7 +11,7 @@ import com.codeshare.airline.auth.authentication.service.core.AuthenticationResu
 import com.codeshare.airline.auth.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.auth.service.AuthUserService;
 import com.codeshare.airline.auth.service.RolePermissionAssignmentService;
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapEncoder;

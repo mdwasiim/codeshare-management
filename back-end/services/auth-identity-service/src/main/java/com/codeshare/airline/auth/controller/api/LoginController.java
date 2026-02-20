@@ -17,11 +17,9 @@ import com.codeshare.airline.auth.authentication.service.core.*;
 import com.codeshare.airline.auth.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.auth.authentication.state.OidcStatePayload;
 import com.codeshare.airline.auth.common.CSMResponse;
-import com.codeshare.airline.core.response.CSMServiceResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +43,7 @@ public class LoginController {
     // LOGIN
     // -------------------------------------------------
     @PostMapping("/login")
-    public LoginResponse login(@RequestHeader("ingestion-code") String tenantCode,@RequestBody LoginRequest request) {
+    public LoginResponse login(@RequestHeader("tenant-code") String tenantCode,@RequestBody LoginRequest request) {
 
         TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
 
@@ -79,7 +77,7 @@ public class LoginController {
     // REFRESH TOKEN
     // -------------------------------------------------
     @PostMapping("/refresh")
-    public RefreshTokenResponse refresh( @RequestHeader("ingestion-code") String tenantCode,@RequestHeader(value = "refresh-token", required = false) String refreshToken) {
+    public RefreshTokenResponse refresh( @RequestHeader("tenant-code") String tenantCode,@RequestHeader(value = "refresh-token", required = false) String refreshToken) {
 
         log.debug("Refresh token request received");
 

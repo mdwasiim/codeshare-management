@@ -8,7 +8,7 @@ import com.codeshare.airline.auth.authentication.security.adapter.UserDetailsAda
 import com.codeshare.airline.auth.authentication.service.core.AuthenticationResult;
 import com.codeshare.airline.auth.service.AuthUserService;
 import com.codeshare.airline.auth.service.RolePermissionAssignmentService;
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

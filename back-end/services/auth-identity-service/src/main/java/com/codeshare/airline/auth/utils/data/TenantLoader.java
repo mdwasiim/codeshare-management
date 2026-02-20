@@ -2,7 +2,7 @@ package com.codeshare.airline.auth.utils.data;
 
 import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.auth.repository.TenantRepository;
-import com.codeshare.airline.core.enums.TenantPlan;
+import com.codeshare.airline.core.enums.common.TenantPlan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

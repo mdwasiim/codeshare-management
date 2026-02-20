@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.entities;
 
 import com.codeshare.airline.persistence.converters.CSMListDataToJsonConverter;
-import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;

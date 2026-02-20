@@ -5,7 +5,7 @@ import com.codeshare.airline.auth.entities.OidcIdentityProviderEntity;
 import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.auth.repository.OidcIdentityProviderRepository;
 import com.codeshare.airline.auth.repository.TenantRepository;
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

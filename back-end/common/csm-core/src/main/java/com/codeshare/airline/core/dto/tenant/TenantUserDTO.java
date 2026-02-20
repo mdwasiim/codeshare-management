@@ -1,7 +1,7 @@
 package com.codeshare.airline.core.dto.tenant;
 
 import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
-import com.codeshare.airline.core.enums.UserStatus;
+import com.codeshare.airline.core.enums.common.Status;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -18,6 +18,6 @@ public class TenantUserDTO extends CSMAuditableDTO {
 
     private UUID tenantId;
     private UUID userId;
-    private UserStatus status;
+    private Status status;
     private boolean primaryAdmin;
 }

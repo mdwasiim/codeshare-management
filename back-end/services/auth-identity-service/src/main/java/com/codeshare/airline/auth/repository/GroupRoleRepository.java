@@ -4,7 +4,7 @@ import com.codeshare.airline.auth.entities.GroupRole;
 import com.codeshare.airline.auth.entities.Group;
 import com.codeshare.airline.auth.entities.Role;
 import com.codeshare.airline.auth.entities.Tenant;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.persistence.persistence.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.UUID;

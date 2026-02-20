@@ -1,0 +1,19 @@
+package com.codeshare.airline.data.ssim.controller;
+
+import com.codeshare.airline.core.dto.ssim.ActionIdentifierDTO;
+import com.codeshare.airline.data.common.BaseController;
+import com.codeshare.airline.persistence.persistence.service.BaseService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/action-identifiers")
+public class ActionIdentifierController
+        extends BaseController<ActionIdentifierDTO, UUID> {
+
+    protected ActionIdentifierController(BaseService<ActionIdentifierDTO, UUID> service) {
+        super(service);
+    }
+}

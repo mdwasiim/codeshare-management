@@ -2,7 +2,7 @@ package com.codeshare.airline.auth.common;
 
 
 import com.codeshare.airline.core.dto.audit.context.CSMAuditContext;
-import com.codeshare.airline.persistence.entity.CSMDataAuditableEntity;
+import com.codeshare.airline.persistence.persistence.entity.CSMDataAuditableEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;

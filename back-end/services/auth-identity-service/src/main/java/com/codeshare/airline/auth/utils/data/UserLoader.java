@@ -3,8 +3,8 @@ package com.codeshare.airline.auth.utils.data;
 import com.codeshare.airline.auth.entities.Tenant;
 import com.codeshare.airline.auth.entities.User;
 import com.codeshare.airline.auth.repository.UserRepository;
-import com.codeshare.airline.core.enums.AuthSource;
-import com.codeshare.airline.core.enums.UserStatus;
+import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.core.enums.common.Status;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,7 +64,7 @@ public class UserLoader {
                 .credentialsNonExpired(true)
                 .authSource(AuthSource.INTERNAL)
                 .externalId("internal:" + username)
-                .status(UserStatus.ACTIVE)
+                .status(Status.ACTIVE)
                 .tenant(tenant)
                 .build();
 

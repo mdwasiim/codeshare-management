@@ -3,7 +3,7 @@ package com.codeshare.airline.auth.authentication.security.jwt;
 import com.codeshare.airline.auth.authentication.config.SecurityProperties;
 import com.codeshare.airline.auth.authentication.exception.TokenValidationException;
 import com.codeshare.airline.auth.authentication.security.key.SigningKeyProvider;
-import com.codeshare.airline.core.enums.AuthSource;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.nimbusds.jose.JOSEException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
