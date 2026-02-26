@@ -109,10 +109,6 @@
             <groupId>com.codeshare.airline</groupId>
             <artifactId>csm-data-jpa</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.codeshare.airline</groupId>
-            <artifactId>csm-security-auth-client</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

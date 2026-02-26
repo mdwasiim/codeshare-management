@@ -1,12 +1,12 @@
 package com.codeshare.airline.data.aircraft.utils.data;
 
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.aircraft.eitities.AircraftConfiguration;
 import com.codeshare.airline.data.aircraft.eitities.AirlineFleet;
 import com.codeshare.airline.data.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.data.aircraft.repository.AirlineFleetRepository;
-import com.codeshare.airline.data.core.eitities.AirlineCarrier;
-import com.codeshare.airline.data.core.repository.AirlineCarrierRepository;
+import com.codeshare.airline.data.airport.georegion.eitities.AirlineCarrier;
+import com.codeshare.airline.data.airport.georegion.repository.AirlineCarrierRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -54,7 +54,7 @@ public class AirlineFleetDataLoader implements CommandLineRunner {
         fleet.setAirline(airline);
         fleet.setAircraftConfiguration(config);
         fleet.setAircraftCount(count);
-        fleet.setStatusCode(Status.ACTIVE);
+        fleet.setRecordStatus(RecordStatus.ACTIVE);
         fleet.setEffectiveFrom(LocalDate.of(2020, 1, 1));
 
         return fleet;

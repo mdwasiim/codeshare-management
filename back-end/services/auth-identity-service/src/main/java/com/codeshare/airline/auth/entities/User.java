@@ -1,7 +1,7 @@
 package com.codeshare.airline.auth.entities;
 
 import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -42,7 +42,7 @@ public class User extends CSMDataAbstractEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private Status status;
+    private RecordStatus recordStatus;
 
     @Column(name = "email", nullable = false, length = 200)
     private String email;

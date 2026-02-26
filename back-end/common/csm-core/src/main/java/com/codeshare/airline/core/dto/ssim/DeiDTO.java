@@ -1,7 +1,7 @@
 package com.codeshare.airline.core.dto.ssim;
 
 import com.codeshare.airline.core.enums.schedule.DeiCategory;
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +23,5 @@ public class DeiDTO {
 
     private DeiCategory deiCategory;
 
-    private Status statusCode;
+    private RecordStatus recordStatus;
 }

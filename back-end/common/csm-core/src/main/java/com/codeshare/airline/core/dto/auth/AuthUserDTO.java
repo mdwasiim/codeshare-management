@@ -3,7 +3,7 @@ package com.codeshare.airline.core.dto.auth;
 import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
 import com.codeshare.airline.core.dto.tenant.TenantDTO;
 import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -25,7 +25,7 @@ public class AuthUserDTO extends CSMAuditableDTO {
 
     private AuthSource authSource;
 
-    private Status status;
+    private RecordStatus recordStatus;
 
     private String email;
 

@@ -1,7 +1,7 @@
 package com.codeshare.airline.core.dto.codeshare;
 
 import com.codeshare.airline.core.enums.codeshare.CodeshareDisclosureType;
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +32,7 @@ public class CodeshareFlightMappingDTO {
 
     private String flightSuffix;
 
-    private Status statusCode;
+    private RecordStatus recordStatus;
 
     private CodeshareDisclosureType disclosureType;
 

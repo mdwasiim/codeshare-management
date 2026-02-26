@@ -24,41 +24,48 @@
 
     <dependencies>
 
-        <!-- JPA API (annotations only) -->
+        <!-- JPA API -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
 
-        <!-- Spring Data JPA (repository abstractions only) -->
+        <!-- Spring Data JPA abstractions -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
         </dependency>
 
-        <!-- Hibernate annotations (e.g. @Immutable, @CreationTimestamp) -->
+        <!-- Spring Context (if using @Configuration, @Bean, etc.) -->
         <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
 
-        <!-- Validation (optional but common for model) -->
+        <!-- Spring TX (if using @Transactional) -->
         <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
         </dependency>
 
-        <!-- JSON (for DTO serialization only) -->
+        <!-- Validation API (only if using validation annotations) -->
+        <!-- Remove if not used -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- Lombok (compile-time only) -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Internal Core -->
+        <dependency>
+            <groupId>com.codeshare.airline</groupId>
+            <artifactId>csm-core</artifactId>
         </dependency>
 
     </dependencies>

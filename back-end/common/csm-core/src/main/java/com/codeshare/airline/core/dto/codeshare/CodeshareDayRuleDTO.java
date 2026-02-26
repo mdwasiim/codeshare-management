@@ -1,7 +1,7 @@
 package com.codeshare.airline.core.dto.codeshare;
 
 import com.codeshare.airline.core.enums.common.FlightNumberPattern;
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ public class CodeshareDayRuleDTO {
 
     private String operatingDays;
 
-    private Status statusCode;
+    private RecordStatus recordStatus;
 
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;

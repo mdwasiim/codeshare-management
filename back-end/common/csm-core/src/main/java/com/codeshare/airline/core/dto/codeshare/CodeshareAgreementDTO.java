@@ -3,7 +3,7 @@ package com.codeshare.airline.core.dto.codeshare;
 import com.codeshare.airline.core.enums.codeshare.CodeshareInventoryType;
 import com.codeshare.airline.core.enums.codeshare.CodeshareScopeType;
 import com.codeshare.airline.core.enums.codeshare.CodeshareCommercialModel;
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class CodeshareAgreementDTO {
 
     private CodeshareCommercialModel codeshareCommercialModel;
 
-    private Status statusCode;
+    private RecordStatus recordStatus;
     private CodeshareScopeType scopeType;
     private CodeshareInventoryType inventoryType;
 

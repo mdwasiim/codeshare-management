@@ -1,6 +1,6 @@
 package com.codeshare.airline.core.dto.codeshare;
 
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ public class CodeshareEquipmentRuleDTO {
     private UUID flightMappingId;
     private UUID aircraftTypeId;
 
-    private Status statusCode;
+    private RecordStatus recordStatus;
 
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;

@@ -1,7 +1,7 @@
 package com.codeshare.airline.data.aircraft.eitities;
 
-import com.codeshare.airline.core.enums.common.Status;
-import com.codeshare.airline.data.core.eitities.AirlineCarrier;
+import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.data.airport.georegion.eitities.AirlineCarrier;
 import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,7 +22,7 @@ import java.time.LocalDate;
         indexes = {
                 @Index(name = "IDX_CONFIG_TYPE", columnList = "AIRCRAFT_TYPE_ID"),
                 @Index(name = "IDX_CONFIG_AIRLINE", columnList = "AIRLINE_ID"),
-                @Index(name = "IDX_CONFIG_STATUS", columnList = "STATUS_CODE")
+                @Index(name = "IDX_CONFIG_STATUS", columnList = "STATUS")
         }
 )
 @Getter
@@ -57,7 +57,7 @@ public class AircraftConfiguration extends CSMDataAbstractEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false, length = 20)
-    private Status status;
+    private RecordStatus recordStatus;
 
     @Column(name = "description")
     private String description;

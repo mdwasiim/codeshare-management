@@ -1,0 +1,169 @@
+package com.codeshare.airline.schedule.parsing.asm.dto;
+
+import com.codeshare.airline.schedule.domain.common.ProcessingStatus;
+import com.codeshare.airline.schedule.domain.common.ScheduleProfile;
+import com.codeshare.airline.schedule.domain.common.ScheduleSourceType;
+import com.codeshare.airline.schedule.domain.common.TimeMode;
+import com.codeshare.airline.schedule.parsing.ssim.dto.Record2Carrier;
+import com.codeshare.airline.schedule.persistence.ssim.entity.SsimInboundFile;
+import lombok.Builder;
+import lombok.Value;
+
+import java.time.Instant;
+import java.util.UUID;
+
+@Value
+@Builder
+public class AsmInboundFileDTO {
+
+    Record2Carrier ssimInboundCarrier;
+
+    /* ===================== IDENTITY ===================== */
+
+    String fileId;
+    UUID loadId;
+    String externalReference;
+
+    /* ===================== OWNERSHIP ===================== */
+
+    String airlineCode;
+    String airlineName;
+
+    /* ===================== ORIGIN ===================== */
+
+    String fileName;
+    ScheduleSourceType sourceType;
+    String sourceSystem;
+
+    /* ===================== FILE CHARACTERISTICS ===================== */
+
+    Long fileSizeBytes;
+    Integer totalRecords;
+    String checksum;
+    String characterSet;
+
+    /* ===================== SSIM CLASSIFICATION ===================== */
+
+    ScheduleProfile scheduleProfile;
+    String ssimVersion;
+    TimeMode timeMode;
+
+    /* ===================== PROCESSING ===================== */
+
+    ProcessingStatus processingStatus;
+
+    Boolean superseding;
+    String supersedesFileId;
+
+    /* ===================== TIMESTAMPS ===================== */
+
+    Instant receivedAt;
+    Instant parsedAt;
+    Instant validatedAt;
+    Instant storedAt;
+    Instant failedAt;
+
+    /* ===================== ERROR ===================== */
+
+    String errorCode;
+    String errorMessage;
+
+    /* ===================== AUDIT ===================== */
+
+    String ingestedBy;
+    String remarks;
+
+
+    public static AsmInboundFileDTO toDto(SsimInboundFile entity) {
+
+        return AsmInboundFileDTO.builder()
+                .fileId(String.valueOf(entity.getId()))
+                .loadId(entity.getLoadId())
+                .ssimInboundCarrier(Record2Carrier.toDto(entity.getCarrier()))
+                .externalReference(entity.getExternalReference())
+
+                .airlineCode(entity.getAirlineCode())
+                .airlineName(entity.getAirlineName())
+
+                .fileName(entity.getFileName())
+                .sourceType(entity.getSourceType())
+                .sourceSystem(entity.getSourceSystem())
+
+                .fileSizeBytes(entity.getFileSizeBytes())
+                .totalRecords(entity.getTotalRecordCount())
+                .checksum(entity.getChecksum())
+                .characterSet(entity.getCharacterSet())
+
+                .scheduleProfile(entity.getScheduleProfile())
+                .ssimVersion(entity.getSsimVersion())
+                .timeMode(entity.getTimeMode())
+
+                .processingStatus(entity.getProcessingStatus())
+                .superseding(entity.getIsSuperseding())
+                .supersedesFileId(entity.getSupersededFileId())
+
+                .receivedAt(entity.getReceivedTimestamp())
+                .parsedAt(entity.getParsedTimestamp())
+                .validatedAt(entity.getValidatedTimestamp())
+                .storedAt(entity.getStoredTimestamp())
+                .failedAt(entity.getFailedTimestamp())
+
+                .errorCode(entity.getErrorCode())
+                .errorMessage(entity.getErrorMessage())
+
+                .ingestedBy(entity.getIngestedBy())
+                .remarks(entity.getRemarks())
+
+                .build();
+    }
+
+    public static SsimInboundFile toEntity(AsmInboundFileDTO inboundFileDTO) {
+
+        if (inboundFileDTO == null) {
+            return null;
+        }
+
+        SsimInboundFile entity = new SsimInboundFile();
+
+        entity.setId(UUID.fromString(inboundFileDTO.getFileId()));
+        entity.setLoadId(inboundFileDTO.getLoadId());
+        entity.setExternalReference(inboundFileDTO.getExternalReference());
+
+        entity.setAirlineCode(inboundFileDTO.getAirlineCode());
+        entity.setAirlineName(inboundFileDTO.getAirlineName());
+
+        entity.setFileName(inboundFileDTO.getFileName());
+        entity.setSourceType(inboundFileDTO.getSourceType());
+        entity.setSourceSystem(inboundFileDTO.getSourceSystem());
+
+        entity.setFileSizeBytes(inboundFileDTO.getFileSizeBytes());
+        entity.setTotalRecordCount(inboundFileDTO.getTotalRecords());
+        entity.setChecksum(inboundFileDTO.getChecksum());
+        entity.setCharacterSet(inboundFileDTO.getCharacterSet());
+
+        entity.setScheduleProfile(inboundFileDTO.getScheduleProfile());
+        entity.setSsimVersion(inboundFileDTO.getSsimVersion());
+        entity.setTimeMode(inboundFileDTO.getTimeMode());
+
+        entity.setProcessingStatus(inboundFileDTO.getProcessingStatus());
+        entity.setIsSuperseding(inboundFileDTO.getSuperseding());
+        entity.setSupersededFileId(inboundFileDTO.getSupersedesFileId());
+
+        entity.setReceivedTimestamp(inboundFileDTO.getReceivedAt());
+        entity.setParsedTimestamp(inboundFileDTO.getParsedAt());
+        entity.setValidatedTimestamp(inboundFileDTO.getValidatedAt());
+        entity.setStoredTimestamp(inboundFileDTO.getStoredAt());
+        entity.setFailedTimestamp(inboundFileDTO.getFailedAt());
+
+        entity.setErrorCode(inboundFileDTO.getErrorCode());
+        entity.setErrorMessage(inboundFileDTO.getErrorMessage());
+
+        entity.setIngestedBy(inboundFileDTO.getIngestedBy());
+        entity.setRemarks(inboundFileDTO.getRemarks());
+
+        return entity;
+    }
+
+
+
+}

@@ -1,6 +1,6 @@
 package com.codeshare.airline.core.dto.codeshare;
 
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class CodeshareDeiRuleDTO {
     private Boolean mandatory;
     private Boolean overrideExisting;
 
-    private Status statusCode;
+    private RecordStatus recordStatus;
 
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;

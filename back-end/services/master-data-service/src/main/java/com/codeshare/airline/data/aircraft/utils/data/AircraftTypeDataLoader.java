@@ -1,6 +1,6 @@
 package com.codeshare.airline.data.aircraft.utils.data;
 
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.aircraft.eitities.AircraftType;
 import com.codeshare.airline.data.aircraft.repository.AircraftTypeRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class AircraftTypeDataLoader implements CommandLineRunner {
         AircraftType type = new AircraftType();
         type.setIataCode(code);
         type.setDescription(description);
-        type.setStatus(Status.ACTIVE);
+        type.setRecordStatus(RecordStatus.ACTIVE);
         return type;
     }
 }

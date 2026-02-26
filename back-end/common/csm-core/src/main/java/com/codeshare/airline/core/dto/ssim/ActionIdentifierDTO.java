@@ -1,6 +1,6 @@
 package com.codeshare.airline.core.dto.ssim;
 
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ public class ActionIdentifierDTO {
     private String actionName;
     private String description;
     private String applicableMessageType;
-    private Status statusCode;
+    private RecordStatus recordStatus;
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;
 }

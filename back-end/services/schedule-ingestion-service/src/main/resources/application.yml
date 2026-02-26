@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: schedule-ingestion-service
+
+  profiles:
+    active: dev
+
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+    org.springframework.web: DEBUG
+
+server:
+  port: ${SCHEDULE_INGESTION_SERVICE_PORT:8083}
+
+ssim:
+  source:
+    sftp:
+      host: sftp.partner.com
+      port: 22
+      username: airline
+      password: secret
+      remote-directory: /outbound
+      file-pattern: "*.txt"
+    local:
+      path: C:\Users\mdwas\Projects\SSIM\test

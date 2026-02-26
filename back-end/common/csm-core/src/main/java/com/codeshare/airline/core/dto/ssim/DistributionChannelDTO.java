@@ -1,6 +1,6 @@
 package com.codeshare.airline.core.dto.ssim;
 
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +18,7 @@ public class DistributionChannelDTO {
     private String protocolType;
     private String endpointUrl;
     private Boolean autoSend;
-    private Status statusCode;
+    private RecordStatus recordStatus;
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;
 }

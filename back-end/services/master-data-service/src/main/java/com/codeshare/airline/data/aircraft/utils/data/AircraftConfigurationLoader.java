@@ -1,6 +1,6 @@
 package com.codeshare.airline.data.aircraft.utils.data;
 
-import com.codeshare.airline.core.enums.common.Status;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.aircraft.eitities.AircraftConfiguration;
 import com.codeshare.airline.data.aircraft.eitities.AircraftType;
 import com.codeshare.airline.data.aircraft.repository.AircraftConfigurationRepository;
@@ -42,7 +42,7 @@ public class AircraftConfigurationLoader implements CommandLineRunner {
         config.setConfigurationCode(code);
         config.setAircraftType(type);
         config.setDescription(description);
-        config.setStatus(Status.ACTIVE);
+        config.setRecordStatus(RecordStatus.ACTIVE);
 
         return config;
     }

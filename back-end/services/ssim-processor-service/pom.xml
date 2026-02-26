@@ -102,10 +102,6 @@
         </dependency>
         <dependency>
             <groupId>com.codeshare.airline</groupId>
-            <artifactId>csm-security-auth-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.codeshare.airline</groupId>
             <artifactId>platform-kafka</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

@@ -7,8 +7,8 @@ import com.codeshare.airline.data.aircraft.repository.AircraftConfigurationRepos
 import com.codeshare.airline.data.aircraft.repository.AirlineFleetRepository;
 import com.codeshare.airline.data.aircraft.service.AirlineFleetService;
 import com.codeshare.airline.data.aircraft.utils.mappers.AirlineFleetMapper;
-import com.codeshare.airline.data.core.eitities.AirlineCarrier;
-import com.codeshare.airline.data.core.repository.AirlineCarrierRepository;
+import com.codeshare.airline.data.airport.georegion.eitities.AirlineCarrier;
+import com.codeshare.airline.data.airport.georegion.repository.AirlineCarrierRepository;
 import com.codeshare.airline.persistence.persistence.service.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
