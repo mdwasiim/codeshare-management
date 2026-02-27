@@ -1,14 +1,13 @@
 package com.codeshare.airline.schedule.persistence.ssim.loader;
 
-import com.codeshare.airline.schedule.parsing.ssim.parser.SsimParser;
-import com.codeshare.airline.schedule.orchestration.stage.ssim.parsing.SsimFlightBlockProcessor;
 import com.codeshare.airline.schedule.parsing.common.reader.LineReader;
 import com.codeshare.airline.schedule.parsing.common.splitter.FlightBlockSplitter;
+import com.codeshare.airline.schedule.parsing.ssim.parser.SsimParser;
 import com.codeshare.airline.schedule.persistence.ssim.entity.SsimInboundCarrier;
 import com.codeshare.airline.schedule.persistence.ssim.entity.SsimInboundFile;
 import com.codeshare.airline.schedule.persistence.ssim.entity.SsimInboundHeader;
 import com.codeshare.airline.schedule.persistence.ssim.entity.SsimInboundTrailer;
-import com.codeshare.airline.schedule.persistence.ssim.service.SsimInboundFileService;
+import com.codeshare.airline.schedule.persistence.ssim.service.SsimPersistenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class SsimIngestionLoader {
     private final SsimFlightBlockProcessor ssimFlightBlockProcessor;
 
 
-    private final SsimInboundFileService inboundFileService;
+    private final SsimPersistenceService ssimPersistenceService;
 
     public void loadStream(InputStream stream,
                            SsimInboundFile inboundFile) {
@@ -45,11 +44,11 @@ public class SsimIngestionLoader {
 
                     case '1' ->{
                         SsimInboundHeader ssimInboundHeader = ssimParser.processRecord1(line, inboundFile);
-                        inboundFileService.saveHeader(ssimInboundHeader);
+                        ssimPersistenceService.saveHeader(ssimInboundHeader);
                     }
                     case '2' -> {
                         SsimInboundCarrier ssimInboundCarrier = ssimParser.processRecord2(line, inboundFile);
-                        inboundFileService.saveCarrier(ssimInboundCarrier);
+                        ssimPersistenceService.saveCarrier(ssimInboundCarrier);
                     }
                     case '3', '4' ->
                             splitter.accept(line,
@@ -57,7 +56,7 @@ public class SsimIngestionLoader {
                             );
                     case '5' -> {
                         SsimInboundTrailer ssimInboundTrailer = ssimParser.processRecord5(line, inboundFile);
-                        inboundFileService.saveTrailer(ssimInboundTrailer);
+                        ssimPersistenceService.saveTrailer(ssimInboundTrailer);
                     }
                     case '0' -> {
                         log.info("skipping record type 0");

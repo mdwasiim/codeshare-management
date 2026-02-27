@@ -1,10 +1,8 @@
 package com.codeshare.airline.schedule.persistence.ssim.service;
 
 
-import com.codeshare.airline.schedule.persistence.ssim.entity.SsimInboundFlightLeg;
-import com.codeshare.airline.schedule.persistence.ssim.entity.SsimInboundSegmentDei;
-import com.codeshare.airline.schedule.persistence.ssim.repository.SsimInboundFlightLegRepository;
-import com.codeshare.airline.schedule.persistence.ssim.repository.SsimInboundSegmentDeiRepository;
+import com.codeshare.airline.schedule.persistence.ssim.entity.*;
+import com.codeshare.airline.schedule.persistence.ssim.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,7 +16,10 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
 
     private final SsimInboundFlightLegRepository flightLegRepo;
     private final SsimInboundSegmentDeiRepository segmentDeiRepo;
-
+    private final SsimInboundHeaderRepository headerRepository;
+    private final SsimInboundCarrierRepository carrierRepository;
+    private final SsimInboundTrailerRepository trailerRepository;
+    private final SsimInboundFileRepository fileRepository;
     /**
      * Persist ONE flight atomically.
      * This method is called repeatedly by the loader.
@@ -31,4 +32,27 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
        }
         flightLegRepo.save(flight);
     }
+
+
+    @Override
+    public void saveHeader(SsimInboundHeader header) {
+        headerRepository.save(header);
+    }
+
+    @Override
+    public void saveCarrier(SsimInboundCarrier carrier) {
+        SsimInboundCarrier ssimInboundCarrier = carrierRepository.save(carrier);
+
+        com.codeshare.airline.schedule.persistence.ssim.entity.SsimInboundFile inboundFile = ssimInboundCarrier.getInboundFile();
+        inboundFile.setAirlineCode(carrier.getAirlineCode().trim());
+        fileRepository.save(inboundFile);
+    }
+
+    @Override
+    public void saveTrailer(SsimInboundTrailer trailer) {
+        trailerRepository.save(trailer);
+    }
+
+
+
 }

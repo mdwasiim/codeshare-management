@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.persistence.ssim.report.entity;
 
 import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.schedule.validation.ssim.model.ValidationSeverity;
+import com.codeshare.airline.schedule.validation.model.ValidationSeverity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

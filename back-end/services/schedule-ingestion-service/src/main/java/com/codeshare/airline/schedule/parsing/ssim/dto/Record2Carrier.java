@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 public class Record2Carrier {
 
-    SsimInboundFileDTO inboundFile;
+    SsimParsedFile inboundFile;
 
     UUID id;
     UUID fileId;
@@ -59,7 +59,7 @@ public class Record2Carrier {
 
                 .inboundFile(
                         entity.getInboundFile() != null
-                                ? SsimInboundFileDTO.toDto(entity.getInboundFile())
+                                ? SsimParsedFile.toDto(entity.getInboundFile())
                                 : null
                 )
                 .fileId(entity.getId())

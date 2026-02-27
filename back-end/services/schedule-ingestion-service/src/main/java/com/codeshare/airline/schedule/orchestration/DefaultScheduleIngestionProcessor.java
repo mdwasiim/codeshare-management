@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import static com.codeshare.airline.schedule.domain.common.ScheduleMessageType.*;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -23,13 +25,24 @@ public class DefaultScheduleIngestionProcessor implements ScheduleIngestionProce
     @Override
     public void process(ScheduleSourceFile sourceFile) {
 
-        ScheduleMessageType type =
+        ScheduleMessageType headerType =
+                sourceFile.getScheduleMessageType();
+
+        ScheduleMessageType detectedType =
                 sourceFile.withStream(this::detect);
 
+        if (!headerType.equals(detectedType)) {
+            throw new IllegalStateException(
+                    "Header MESSAGE_TYPE mismatch. Header=" +
+                            headerType + ", Detected=" + detectedType);
+        }
+
         ScheduleChapterProcessor processor = chapterProcessors.stream()
-                .filter(p -> p.supports(type))
+                .filter(p -> p.supports(detectedType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No processor for type " + type));
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "No processor for type " + detectedType));
 
         processor.process(sourceFile);
     }
@@ -39,16 +52,25 @@ public class DefaultScheduleIngestionProcessor implements ScheduleIngestionProce
 
         try (BufferedReader reader =
                      new BufferedReader(new InputStreamReader(is))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (!line.isEmpty()) {
+                    break;
+                }
+            }
 
-            String firstLine = reader.readLine();
+            if (line == null) throw new IllegalStateException("Empty file");
 
-            if (firstLine.startsWith("SSM")) return ScheduleMessageType.SSM;
-            if (firstLine.startsWith("ASM")) return ScheduleMessageType.ASM;
+            line = line.toUpperCase();
 
-            return ScheduleMessageType.SSIM;
+            if (line.startsWith("SSM")) return SSM;
+            if (line.startsWith("ASM")) return ASM;
+            if (line.startsWith("1") || line.length() == 200) return SSIM;
 
         } catch (IOException e) {
             throw new IllegalStateException("Detection failed", e);
         }
+        return null;
     }
 }

@@ -5,18 +5,18 @@ import com.codeshare.airline.schedule.domain.common.ScheduleMessageType;
 import com.codeshare.airline.schedule.domain.contex.SsmIngestionContext;
 import com.codeshare.airline.schedule.orchestration.pipeline.ssm.SsmIngestionPipeline;
 import com.codeshare.airline.schedule.orchestration.processor.ScheduleChapterProcessor;
-import com.codeshare.airline.schedule.persistence.ssm.service.SsmInboundFileService;
+import com.codeshare.airline.schedule.persistence.inbound.entity.ScheduleInboundFile;
+import com.codeshare.airline.schedule.persistence.inbound.service.ScheduleInboundPersistenceService;
 import com.codeshare.airline.schedule.source.ScheduleSourceFile;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class SsmChapterProcessor implements ScheduleChapterProcessor {
 
-    private final SsmInboundFileService inboundFileService;
+    private final ScheduleInboundPersistenceService inboundService;
     private final SsmIngestionPipeline pipeline;
 
     @Override
@@ -25,27 +25,22 @@ public class SsmChapterProcessor implements ScheduleChapterProcessor {
     }
 
     @Override
+    @Transactional
     public void process(ScheduleSourceFile sourceFile) {
 
-        var inboundFile = inboundFileService.create(sourceFile);
+        ScheduleInboundFile metadata =
+                inboundService.createIfNotExists(sourceFile);
 
-        SsmIngestionContext context = SsmIngestionContext.builder()
-                .sourceFile(sourceFile)
-                .build();
-
-        try {
-
-            pipeline.execute(context);
-
-            inboundFileService.updateStatus(inboundFile.getFileId(), ProcessingStatus.COMPLETED);
-
-        } catch (Exception ex) {
-
-            log.error("SSM processing failed for fileId={}", inboundFile.getFileId(), ex);
-
-            inboundFileService.markFailed(inboundFile.getFileId(), ex);
-
-            throw ex;
+        if (metadata.getProcessingStatus() == ProcessingStatus.COMPLETED) {
+            return;
         }
+
+        SsmIngestionContext context =
+                SsmIngestionContext.builder()
+                        .sourceFile(sourceFile)
+                        .inboundFile(metadata)
+                        .build();
+
+        pipeline.execute(context);
     }
 }

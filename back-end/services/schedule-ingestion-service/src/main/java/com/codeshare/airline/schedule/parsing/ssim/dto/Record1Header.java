@@ -27,7 +27,7 @@ public class Record1Header {
     String rawRecord;
 
     Instant parsedTimestamp;
-    SsimInboundFileDTO inboundFile;
+    SsimParsedFile inboundFile;
 
 
     public static Record1Header toDto(SsimInboundHeader entity) {

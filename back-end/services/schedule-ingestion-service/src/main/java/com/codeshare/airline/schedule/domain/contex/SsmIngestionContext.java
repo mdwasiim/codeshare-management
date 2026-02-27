@@ -1,33 +1,18 @@
 package com.codeshare.airline.schedule.domain.contex;
 
-import com.codeshare.airline.schedule.domain.common.ProcessingStatus;
 import com.codeshare.airline.schedule.domain.common.ScheduleProfile;
-import com.codeshare.airline.schedule.validation.ssim.model.ValidationResult;
-import lombok.Getter;
-import lombok.Setter;
+import com.codeshare.airline.schedule.parsing.ssm.dto.SsmInboundMessage;
+import com.codeshare.airline.schedule.persistence.inbound.entity.ScheduleInboundFile;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
-@SuperBuilder(toBuilder = true)
-public class SsmIngestionContext extends AbstractIngestionContext {
-    private final ScheduleProfile profile;
+import java.util.List;
 
-    public SsmIngestionContext withStatus(ProcessingStatus status) {
-        return this.toBuilder()
-                .currentStatus(status)
-                .build();
-    }
+@SuperBuilder
+public class SsmIngestionContext  extends AbstractIngestionContext<
+        ScheduleInboundFile, List<SsmInboundMessage>> {
 
-    public SsmIngestionContext withStructuralResult(ValidationResult result) {
-        return this.toBuilder()
-                .structuralResult(result)
-                .build();
-    }
-
-    public SsmIngestionContext withBusinessResult(ValidationResult result) {
-        return this.toBuilder()
-                .businessResult(result)
-                .build();
-    }
+    /**
+     * Matched airline schedule profile
+     */
+    private ScheduleProfile profile;
 }

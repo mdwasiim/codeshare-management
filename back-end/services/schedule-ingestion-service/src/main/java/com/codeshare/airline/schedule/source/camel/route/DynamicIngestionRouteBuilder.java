@@ -26,9 +26,10 @@ public class DynamicIngestionRouteBuilder extends RouteBuilder {
         // 👇 1️⃣ Global error handling (PUT HERE)
         onException(Exception.class)
                 .routeId("ingestion-global-error")
-                .log("Ingestion error: ${exception.message}")
-                .handled(true)
-                .to("direct:dead-letter");
+                .log("Ingestion error: ${exception.stacktrace}")
+                .maximumRedeliveries(3)
+                .redeliveryDelay(2000)
+                .handled(false);
 
         // 👇 2️⃣ Dead letter route
         buildDeadLetterRoute();

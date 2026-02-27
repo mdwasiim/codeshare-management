@@ -1,22 +1,39 @@
 package com.codeshare.airline.schedule.domain.contex;
 
-import com.codeshare.airline.schedule.domain.common.ProcessingStatus;
 import com.codeshare.airline.schedule.source.ScheduleSourceFile;
-import com.codeshare.airline.schedule.validation.ssim.model.ValidationResult;
+import com.codeshare.airline.schedule.validation.model.ValidationResult;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
-@SuperBuilder(toBuilder = true)
-public abstract class AbstractIngestionContext {
+@Setter
+@SuperBuilder
+public abstract class AbstractIngestionContext<TMetadata, TParsed> {
 
-    protected final ScheduleSourceFile sourceFile;
+    /**
+     * Original transport-level source file
+     */
+    protected ScheduleSourceFile sourceFile;
 
-    protected final String inboundFileId;  
+    /**
+     * Persisted inbound metadata entity
+     * (ScheduleInboundFile OR SsimParsedFile)
+     */
+    protected TMetadata inboundFile;
 
-    protected final ValidationResult structuralResult;
+    /**
+     * Structural validation result
+     */
+    protected ValidationResult structuralResult;
 
-    protected final ValidationResult businessResult;
+    /**
+     * Business validation result
+     */
+    protected ValidationResult businessResult;
 
-    protected final ProcessingStatus currentStatus;
+    /**
+     * Parsed result (chapter-specific)
+     */
+    protected TParsed parsedResult;
 }

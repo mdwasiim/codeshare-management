@@ -44,7 +44,7 @@ public class Record4SegmentDei {
     String rawRecord;
     Instant parsedTimestamp;
 
-    SsimInboundFileDTO inboundFile;
+    SsimParsedFile inboundFile;
 
     public static Record4SegmentDei toDto(SsimInboundSegmentDei entity) {
 

@@ -85,7 +85,7 @@ public class Record3FlightLeg {
     String rawRecord;
     Instant parsedTimestamp;
 
-    SsimInboundFileDTO inboundFile;
+    SsimParsedFile inboundFile;
 
     List<Record4SegmentDei> segmentDeis = new ArrayList<>();
 
@@ -168,7 +168,7 @@ public class Record3FlightLeg {
                 .id(entity.getId())
                 .inboundFile(
                         entity.getInboundFile() != null
-                                ? SsimInboundFileDTO.toEntity(entity.getInboundFile())
+                                ? SsimParsedFile.toEntity(entity.getInboundFile())
                                 : null
                 )
                 .recordType(entity.getRecordType())

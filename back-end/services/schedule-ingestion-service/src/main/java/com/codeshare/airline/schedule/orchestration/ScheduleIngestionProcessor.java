@@ -5,9 +5,10 @@ import com.codeshare.airline.schedule.source.ScheduleSourceFile;
 public interface ScheduleIngestionProcessor {
 
     /**
-     * Process a single SSIM file using streaming.
+     * Process inbound schedule file.
      *
-     * This method MUST NOT load the full file into memory.
+     * Implementation may buffer content in memory if required
+     * for validation and multi-stage parsing.
      */
     void process(ScheduleSourceFile sourceFile);
 }

@@ -1,6 +1,5 @@
 package com.codeshare.airline.schedule.orchestration.pipeline.ssm;
 
-
 import com.codeshare.airline.schedule.domain.common.ProcessingStatus;
 import com.codeshare.airline.schedule.domain.contex.SsmIngestionContext;
 import com.codeshare.airline.schedule.orchestration.pipeline.AbstractIngestionPipeline;
@@ -8,7 +7,7 @@ import com.codeshare.airline.schedule.orchestration.stage.ssm.SsmStructuralValid
 import com.codeshare.airline.schedule.orchestration.stage.ssm.business.SsmBusinessValidationStage;
 import com.codeshare.airline.schedule.orchestration.stage.ssm.file.SsmFileValidationStage;
 import com.codeshare.airline.schedule.orchestration.stage.ssm.parsing.SsmParsingStage;
-import com.codeshare.airline.schedule.persistence.ssm.service.SsmInboundFileService;
+import com.codeshare.airline.schedule.persistence.inbound.service.ScheduleInboundPersistenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,17 +16,17 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class SsmIngestionPipeline
-        extends AbstractIngestionPipeline<SsmIngestionContext, ProcessingStatus> {
+        extends AbstractIngestionPipeline<SsmIngestionContext> {
 
     private final SsmFileValidationStage fileStage;
     private final SsmStructuralValidationStage structuralStage;
     private final SsmParsingStage parsingStage;
     private final SsmBusinessValidationStage businessStage;
-    private final SsmInboundFileService inboundFileService;
+    private final ScheduleInboundPersistenceService persistenceService;
 
     @Override
     protected String getFileId(SsmIngestionContext context) {
-        return context.getInboundFileId();
+        return context.getInboundFile().getFileId();
     }
 
     @Override
@@ -66,24 +65,9 @@ public class SsmIngestionPipeline
     protected void updateStatus(SsmIngestionContext context,
                                 ProcessingStatus status) {
 
-        inboundFileService.updateStatus(
-                context.getInboundFileId(),
+        persistenceService.updateStatus(
+                context.getInboundFile(),
                 status
         );
-    }
-
-    @Override
-    protected ProcessingStatus parsingStatus() {
-        return ProcessingStatus.PARSING;
-    }
-
-    @Override
-    protected ProcessingStatus businessValidatingStatus() {
-        return ProcessingStatus.BUSINESS_VALIDATING;
-    }
-
-    @Override
-    protected ProcessingStatus completedStatus() {
-        return ProcessingStatus.COMPLETED;
     }
 }

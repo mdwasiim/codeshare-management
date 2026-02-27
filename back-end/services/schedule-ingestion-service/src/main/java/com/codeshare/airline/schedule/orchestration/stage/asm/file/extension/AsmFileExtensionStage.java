@@ -2,7 +2,7 @@ package com.codeshare.airline.schedule.orchestration.stage.asm.file.extension;
 
 import com.codeshare.airline.schedule.persistence.ssim.report.entity.ValidationReport;
 import com.codeshare.airline.schedule.persistence.ssim.report.repository.ValidationReportRepository;
-import com.codeshare.airline.schedule.validation.ssim.model.ValidationMessage;
+import com.codeshare.airline.schedule.validation.model.ValidationMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

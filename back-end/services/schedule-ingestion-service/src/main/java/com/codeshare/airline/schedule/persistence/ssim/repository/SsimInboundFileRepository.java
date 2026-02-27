@@ -14,13 +14,13 @@ public interface SsimInboundFileRepository
         extends CSMDataBaseRepository<SsimInboundFile, UUID> {
 
     @Modifying
-    @Query("update SsimInboundFile f set f.processingStatus = :status where f.id = :id")
+    @Query("update SsimParsedFile f set f.processingStatus = :status where f.id = :id")
     void updateStatus(@Param("id") UUID fileId,
                       @Param("status") ProcessingStatus status);
 
     @Modifying
     @Query("""
-    update SsimInboundFile f
+    update SsimParsedFile f
        set f.ssimProfile = :ssimProfile
      where f.id = :id
 """)

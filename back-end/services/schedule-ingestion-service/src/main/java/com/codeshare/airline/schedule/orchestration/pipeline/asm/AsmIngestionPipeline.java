@@ -1,14 +1,13 @@
 package com.codeshare.airline.schedule.orchestration.pipeline.asm;
 
-
 import com.codeshare.airline.schedule.domain.common.ProcessingStatus;
-import com.codeshare.airline.schedule.domain.contex.AsmIngestionContext;
+import com.codeshare.airline.schedule.domain.context.AsmIngestionContext;
 import com.codeshare.airline.schedule.orchestration.pipeline.AbstractIngestionPipeline;
 import com.codeshare.airline.schedule.orchestration.stage.asm.business.AsmBusinessValidationStage;
 import com.codeshare.airline.schedule.orchestration.stage.asm.file.AsmFileValidationStage;
 import com.codeshare.airline.schedule.orchestration.stage.asm.parsing.AsmParsingStage;
-import com.codeshare.airline.schedule.orchestration.stage.asm.structural.AsmStructuralValidationStage;
-import com.codeshare.airline.schedule.persistence.asm.service.AsmInboundFileService;
+import com.codeshare.airline.schedule.orchestration.stage.asm.structural.AsmStructuralValidation;
+import com.codeshare.airline.schedule.persistence.inbound.service.ScheduleInboundPersistenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,17 +16,17 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AsmIngestionPipeline
-        extends AbstractIngestionPipeline<AsmIngestionContext, ProcessingStatus> {
+        extends AbstractIngestionPipeline<AsmIngestionContext> {
 
     private final AsmFileValidationStage fileStage;
-    private final AsmStructuralValidationStage structuralStage;
+    private final AsmStructuralValidation structuralStage;
     private final AsmParsingStage parsingStage;
     private final AsmBusinessValidationStage businessStage;
-    private final AsmInboundFileService inboundFileService;
+    private final ScheduleInboundPersistenceService persistenceService;
 
     @Override
     protected String getFileId(AsmIngestionContext context) {
-        return context.getInboundFileId();
+        return context.getInboundFile().getFileId();
     }
 
     @Override
@@ -66,24 +65,9 @@ public class AsmIngestionPipeline
     protected void updateStatus(AsmIngestionContext context,
                                 ProcessingStatus status) {
 
-        inboundFileService.updateStatus(
-                context.getInboundFileId(),
+        persistenceService.updateStatus(
+                context.getInboundFile(),
                 status
         );
-    }
-
-    @Override
-    protected ProcessingStatus parsingStatus() {
-        return ProcessingStatus.PARSING;
-    }
-
-    @Override
-    protected ProcessingStatus businessValidatingStatus() {
-        return ProcessingStatus.BUSINESS_VALIDATING;
-    }
-
-    @Override
-    protected ProcessingStatus completedStatus() {
-        return ProcessingStatus.COMPLETED;
     }
 }
