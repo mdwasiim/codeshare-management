@@ -35,7 +35,7 @@ public class DataLoader {
 
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
-        log.info("✅ Tenant-service started. Initializing data...");
+        log.info(" Tenant-service started. Initializing data...");
         init();
     }
 
@@ -53,7 +53,7 @@ public class DataLoader {
         }
 
         try {
-            log.info("⏳ Starting Tenant Data Initialization");
+            log.info("Starting Tenant Data Initialization");
 
             List<Tenant> tenants = tenantLoader.loadTenants();
 
@@ -76,12 +76,12 @@ public class DataLoader {
                 userGroupDataLoader.load(tenantIds);
 
             } else {
-                log.info("✔ Tenants already present — skipping load.");
+                log.info(" Tenants already present — skipping load.");
             }
             log.info("🎉 Tenant Data Initialization COMPLETED");
 
         } catch (Exception ex) {
-            log.error("❌ Tenant initialization failed. Will retry.", ex);
+            log.error(" Tenant initialization failed. Will retry.", ex);
         }
     }
 

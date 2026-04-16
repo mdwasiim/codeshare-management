@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,8 +44,8 @@ public class AuthUserServiceImpl implements AuthUserService {
         User entity = userMapper.toEntity(dto);
 
         // If you use auditing, remove these two lines
-        entity.setCreatedAt(LocalDateTime.now());
-        entity.setUpdatedAt(LocalDateTime.now());
+        entity.setCreatedAt(Instant.now());
+        entity.setUpdatedAt(Instant.now());
 
         // Default security flags
         entity.setAccountNonLocked(true);
@@ -87,7 +87,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         entity.setEnabled(dto.isEnabled());
         if (!dto.isAccountNonLocked()) entity.setAccountNonLocked(dto.isAccountNonLocked());
 
-        entity.setUpdatedAt(LocalDateTime.now());
+        entity.setUpdatedAt(Instant.now());
 
         return userMapper.toDTO(UserRepository.save(entity));
     }

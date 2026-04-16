@@ -1,5 +1,6 @@
 package com.codeshare.airline.data.messaging.eitities;
 
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.scheduling.eitities.ScheduleFlight;
 import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
@@ -18,7 +19,7 @@ import java.util.List;
 @Table(
         name = "SCHEDULE_MESSAGE",
         indexes = {
-                @Index(name = "IDX_MSG_TYPE", columnList = "MESSAGE_TYPE"),
+                @Index(name = "IDX_MSG_TYPE", columnList = "SCHEDULE_TYPE"),
                 @Index(name = "IDX_MSG_SERIAL", columnList = "MESSAGE_SERIAL_NUMBER")
         }
 )
@@ -36,7 +37,7 @@ public class ScheduleMessage extends CSMDataAbstractEntity {
     private String standardMessageIdentifier; // e.g. SSM, ASM
 
     @Column(name = "MESSAGE_TYPE", nullable = false, length = 10)
-    private String messageType; // SSM / ASM
+    private MessageType messageType; // SSM / ASM
 
     @Column(name = "MESSAGE_VERSION_NUMBER", length = 5)
     private String messageVersionNumber;
@@ -64,14 +65,6 @@ public class ScheduleMessage extends CSMDataAbstractEntity {
 
     @Column(name = "TIME_MODE", length = 10)
     private String timeMode; // UTC / LOCAL
-
-    // ---------------------------------------------------------
-    // RAW MESSAGE STORAGE (For Replay / Audit)
-    // ---------------------------------------------------------
-
-    @Lob
-    @Column(name = "RAW_MESSAGE", columnDefinition = "TEXT")
-    private String rawMessage;
 
     // ---------------------------------------------------------
     // ENGINE PROCESSING FIELDS

@@ -11,11 +11,11 @@ import org.springframework.data.repository.query.Param;
 public interface CSMDataBaseRepository<T extends CSMDataAbstractEntity, ID> extends JpaRepository<T, ID> {
 
     @Modifying
-    @Query("UPDATE #{#entityName} e SET e.isDeleted = true, e.deletedAt = CURRENT_TIMESTAMP, e.deletedBy = :deletedBy WHERE e.id = :id")
+    @Query("UPDATE #{#entityName} e SET e.deleted = true, e.deletedAt = CURRENT_TIMESTAMP, e.deletedBy = :deletedBy WHERE e.id = :id")
     void softDelete(@Param("id") ID id, @Param("deletedBy") String deletedBy);
 
     @Modifying
-    @Query("UPDATE #{#entityName} e SET e.isDeleted = false, e.deletedAt = null, e.deletedBy = null WHERE e.id = :id")
+    @Query("UPDATE #{#entityName} e SET e.deleted = false, e.deletedAt = null, e.deletedBy = null WHERE e.id = :id")
     void restore(@Param("id") ID id);
 }
 

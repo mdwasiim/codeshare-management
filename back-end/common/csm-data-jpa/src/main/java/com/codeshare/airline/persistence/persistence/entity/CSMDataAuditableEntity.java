@@ -1,5 +1,6 @@
 package com.codeshare.airline.persistence.persistence.entity;
 
+import com.codeshare.airline.core.dto.audit.context.CSMAuditContext;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
@@ -7,7 +8,7 @@ import jakarta.persistence.PreUpdate;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public abstract class CSMDataAuditableEntity {
     /* ---------- Creation ---------- */
 
     @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "created_by", length = 100, updatable = false)
     private String createdBy;
@@ -27,7 +28,7 @@ public abstract class CSMDataAuditableEntity {
     /* ---------- Update ---------- */
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     @Column(name = "updated_by", length = 100)
     private String updatedBy;
@@ -40,10 +41,10 @@ public abstract class CSMDataAuditableEntity {
 
     @Builder.Default
     @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted = false;
+    private boolean deleted = false;
 
     @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    private Instant deletedAt;
 
     @Column(name = "deleted_by", length = 100)
     private String deletedBy;
@@ -57,13 +58,46 @@ public abstract class CSMDataAuditableEntity {
 
     @PrePersist
     protected void onCreate() {
+        Instant now = Instant.now();
+
         if (this.createdAt == null) {
-            this.createdAt = LocalDateTime.now();
+            this.createdAt = now;
+        }
+
+        this.updatedAt = now;
+
+        var ctx = CSMAuditContext.get();
+        if (ctx != null) {
+            String user = ctx.getUserId() != null ? ctx.getUserId() : "SYSTEM";
+            String txn  = ctx.getTransactionId();
+
+            if (this.createdBy == null) {
+                this.createdBy = user;
+            }
+
+            this.updatedBy = user;
+
+            if (txn != null) {
+                this.transactionId = txn;
+            }
         }
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        Instant now = Instant.now();
+        this.updatedAt = now;
+
+        var ctx = CSMAuditContext.get();
+        if (ctx != null) {
+            String user = ctx.getUserId() != null ? ctx.getUserId() : "SYSTEM";
+            String txn  = ctx.getTransactionId();
+
+            this.updatedBy = user;
+
+            if (txn != null) {
+                this.transactionId = txn;
+            }
+        }
     }
 }

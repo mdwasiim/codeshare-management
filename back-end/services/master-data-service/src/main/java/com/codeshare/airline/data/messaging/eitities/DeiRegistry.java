@@ -2,7 +2,7 @@ package com.codeshare.airline.data.messaging.eitities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.core.enums.schedule.DeiFunctionType;
-import com.codeshare.airline.core.enums.schedule.DeiScopeLevel;
+import com.codeshare.airline.core.enums.schedule.DeiScope;
 import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,7 +37,7 @@ public class DeiRegistry extends CSMDataAbstractEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "SCOPE_LEVEL", nullable = false, length = 30)
-    private DeiScopeLevel scopeLevel;
+    private DeiScope scopeLevel;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "FUNCTION_TYPE", nullable = false, length = 30)
@@ -50,7 +50,7 @@ public class DeiRegistry extends CSMDataAbstractEntity {
 
     public DeiRegistry(String deiNumber,
                        String deiName,
-                       DeiScopeLevel scopeLevel,
+                       DeiScope scopeLevel,
                        DeiFunctionType functionType,
                        RecordStatus recordStatus) {
 

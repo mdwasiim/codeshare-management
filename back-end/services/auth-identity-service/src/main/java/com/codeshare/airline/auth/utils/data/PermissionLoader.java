@@ -77,9 +77,9 @@ public class PermissionLoader {
 
         if (!toSave.isEmpty()) {
             permissionRepository.saveAll(toSave);
-            log.info("✔ PermissionLoader: {} permissions created.", toSave.size());
+            log.info(" PermissionLoader: {} permissions created.", toSave.size());
         } else {
-            log.info("✔ PermissionLoader: all permissions already exist.");
+            log.info(" PermissionLoader: all permissions already exist.");
         }
     }
 

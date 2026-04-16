@@ -17,8 +17,8 @@
     </parent>
 
     <artifactId>schedule-ingestion-service</artifactId>
-    <name>SSIM Ingestion Service</name>
-    <description>SSIM ingestion via File, SFTP, Email and Event-driven sources</description>
+    <name>Schedule Ingestion Service</name>
+    <description>Schedule ingestion via File, SFTP, Email and Event-driven sources</description>
 
     <!-- ========================================================= -->
     <!-- DEPENDENCIES -->
@@ -49,9 +49,15 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -63,9 +69,16 @@
         <!-- ===================================================== -->
         <!-- Apache Camel (Ingestion Backbone) -->
         <!-- ===================================================== -->
+
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- ActiveMQ queue ingestion -->
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-activemq-starter</artifactId>
         </dependency>
 
         <!-- Local File ingestion -->
@@ -80,29 +93,21 @@
             <artifactId>camel-ftp-starter</artifactId>
         </dependency>
 
-        <!-- ===================================================== -->
-        <!-- SFTP low-level support -->
-        <!-- ===================================================== -->
-        <dependency>
-            <groupId>org.apache.sshd</groupId>
-            <artifactId>sshd-sftp</artifactId>
-        </dependency>
-
-        <!-- ===================================================== -->
         <!-- Email ingestion -->
-        <!-- ===================================================== -->
         <dependency>
-            <groupId>org.eclipse.angus</groupId>
-            <artifactId>angus-mail</artifactId>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-mail-starter</artifactId>
         </dependency>
 
         <!-- ===================================================== -->
         <!-- Internal Platform Modules -->
         <!-- ===================================================== -->
-        <!--<dependency>
+
+        <!-- ENABLED: Event-driven ingestion -->
+        <dependency>
             <groupId>com.codeshare.airline</groupId>
             <artifactId>platform-kafka</artifactId>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>com.codeshare.airline</groupId>
@@ -110,17 +115,53 @@
         </dependency>
 
         <!-- ===================================================== -->
+        <!-- Observability & Monitoring -->
+        <!-- ===================================================== -->
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <!-- ===================================================== -->
+        <!-- Resilience -->
+        <!-- ===================================================== -->
+
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
+        </dependency>
+
+        <!-- Optional Retry -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
+        <!-- ===================================================== -->
+        <!-- Logging (Structured JSON Logs) -->
+        <!-- ===================================================== -->
+
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
+
+        <!-- ===================================================== -->
         <!-- Tooling -->
         <!-- ===================================================== -->
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <!-- ===================================================== -->
         <!-- Testing -->
         <!-- ===================================================== -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -131,6 +172,13 @@
                     <artifactId>lombok</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- Testcontainers -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

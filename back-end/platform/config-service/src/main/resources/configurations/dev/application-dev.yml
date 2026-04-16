@@ -4,35 +4,36 @@
 spring:
 
   datasource:
-    driver-class-name: ${DB_DRIVER}
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/csm}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
     hikari:
       maximum-pool-size: ${DB_POOL_MAX:10}
       minimum-idle: ${DB_POOL_MIN:2}
 
   jpa:
     open-in-view: false
-    show-sql: ${SHOW_SQL:false}
+    show-sql: ${SHOW_SQL:true}   # ✅ enabled for dev
     hibernate:
-      ddl-auto: ${HIBERNATE_DDL:none}
+      ddl-auto: ${HIBERNATE_DDL:update}
     properties:
       hibernate:
-        format_sql: ${FORMAT_SQL:false}
+        format_sql: ${FORMAT_SQL:true}   # ✅ better readability
 
   flyway:
-    enabled: ${FLYWAY_ENABLED:true}
+    enabled: ${FLYWAY_ENABLED:false}   # ✅ keep disabled (you had issues)
     baseline-on-migrate: ${FLYWAY_BASELINE:true}
 
 # =====================================================
-# EUREKA CLIENT (COMMON FOR ALL SERVICES EXCEPT REGISTRY)
+# EUREKA CLIENT
 # =====================================================
 eureka:
   client:
+    enabled: ${EUREKA_ENABLED:true}   # ✅ disable locally
     service-url:
-      defaultZone: ${EUREKA_SERVER_URI}
-    fetch-registry: true
+      defaultZone: ${EUREKA_SERVER_URI:http://localhost:8761/eureka}
+    fetch-registry: ${EUREKA_FETCH:false}   # ✅ disable for local
     registry-fetch-interval-seconds: ${EUREKA_FETCH_INTERVAL:5}
 
   instance:
@@ -49,22 +50,20 @@ management:
         include: ${ACTUATOR_EXPOSED_DEFAULT:health,info}
 
 # =====================================================
-# LOGGING (COMMON)
+# LOGGING
 # =====================================================
 logging:
   level:
     root: INFO
-    com.codeshare.airline: ${LOG_LEVEL_APP:INFO}
-    com.codeshare.airline.security.client: ${LOG_LEVEL_APP:INFO}
+    com.codeshare.airline: ${LOG_LEVEL_APP:DEBUG}   # ✅ better for dev
+    com.codeshare.airline.security.client: ${LOG_LEVEL_APP:DEBUG}
     feign: ${LOG_LEVEL_APP:INFO}
-    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:WARN}
-    org.hibernate.type.descriptor.sql: ${LOG_LEVEL_HIBERNATE_BINDER:INFO}
-    org.springframework.security.oauth2: ${LOG_LEVEL_OAUTH2:INFO}
-
-
+    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:DEBUG}   # ✅ see SQL
+    org.hibernate.type.descriptor.sql: ${LOG_LEVEL_HIBERNATE_BINDER:TRACE}
+    org.springframework.security.oauth2: ${LOG_LEVEL_OAUTH2:DEBUG}
 
 # =====================================================
-# RESILIENCE4J (COMMON DEFAULTS)
+# RESILIENCE4J
 # =====================================================
 resilience4j:
   circuitbreaker:
@@ -80,4 +79,3 @@ resilience4j:
       default:
         max-attempts: ${RETRY_MAX_ATTEMPTS:3}
         wait-duration: ${RETRY_WAIT_DURATION:2s}
-

@@ -41,7 +41,7 @@ public class UserLoader {
 
         if (exists) {
             log.info(
-                    "✔ Admin user '{}' already exists for ingestion '{}'. Skipping.",
+                    " Admin user '{}' already exists for ingestion '{}'. Skipping.",
                     username,
                     tenant.getTenantCode()
             );

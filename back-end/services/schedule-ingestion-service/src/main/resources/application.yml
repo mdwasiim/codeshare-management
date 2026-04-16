@@ -8,23 +8,55 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8888"
 
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/csm
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  sql:
+    init:
+      mode: always
+  jpa:
+    defer-datasource-initialization: true
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: schedule_ingestion
+
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+    packages:
+      trust-all: true
+
 logging:
   level:
-    org.springframework.security: TRACE
-    org.springframework.security.oauth2: TRACE
     org.springframework.web: DEBUG
+    org.apache.camel.component.file: DEBUG
 
 server:
-  port: ${SCHEDULE_INGESTION_SERVICE_PORT:8083}
+  port: 8084
 
-ssim:
-  source:
-    sftp:
-      host: sftp.partner.com
-      port: 22
-      username: airline
-      password: secret
-      remote-directory: /outbound
-      file-pattern: "*.txt"
-    local:
-      path: C:\Users\mdwas\Projects\SSIM\test
+ingestion:
+  local-root: C:/Users/mdwas/Projects/messages
+
+  allowed-extensions:
+    SSIM: [txt, ssim]
+    SSM: [txt, ssim]
+    ASM: [txt, ssim]
+
+camel:
+  springboot:
+    auto-startup: false
+
+app:
+  crypto:
+    secret: YOUR_16_32_BYTE_SECRET_KEY

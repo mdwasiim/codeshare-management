@@ -1,5 +1,6 @@
 package com.codeshare.airline.data.messaging.eitities;
 
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
@@ -34,8 +35,8 @@ public class ActionIdentifier extends CSMDataAbstractEntity {
     @Column(name = "DESCRIPTION", length = 255)
     private String description;
 
-    @Column(name = "APPLICABLE_MESSAGE_TYPE", length = 20)
-    private String applicableMessageType;   // ASM, SSM, BOTH
+    @Column(name = "MESSAGE_TYPE", length = 20)
+    private MessageType messageType;   // ASM, SSM, BOTH
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false, length = 20)
@@ -52,9 +53,6 @@ public class ActionIdentifier extends CSMDataAbstractEntity {
     private void normalize() {
         if (actionCode != null) {
             actionCode = actionCode.toUpperCase();
-        }
-        if (applicableMessageType != null) {
-            applicableMessageType = applicableMessageType.toUpperCase();
         }
     }
 }

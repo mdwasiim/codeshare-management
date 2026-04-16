@@ -37,9 +37,9 @@ public class DltReplayService {
         kafkaTemplate.send(originalTopic, record.key(), record.value())
                 .whenComplete((result, ex) -> {
                     if (ex == null) {
-                        log.info("✅ Replay successful to {}", originalTopic);
+                        log.info(" Replay successful to {}", originalTopic);
                     } else {
-                        log.error("❌ Replay failed to {}", originalTopic, ex);
+                        log.error(" Replay failed to {}", originalTopic, ex);
                     }
                 });
 
@@ -57,9 +57,9 @@ public class DltReplayService {
         kafkaTemplate.send(targetTopic, record.key(), record.value())
                 .whenComplete((result, ex) -> {
                     if (ex == null) {
-                        log.info("✅ Replay successful to {}", targetTopic);
+                        log.info(" Replay successful to {}", targetTopic);
                     } else {
-                        log.error("❌ Replay failed to {}", targetTopic, ex);
+                        log.error(" Replay failed to {}", targetTopic, ex);
                     }
                 });
 

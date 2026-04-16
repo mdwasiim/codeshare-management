@@ -1,18 +1,21 @@
 package com.codeshare.airline.core.utils;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class CSMTransactionIdGenerator {
     // yyyyMMddHHmmssSSS → 17 digits
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")
+                    .withZone(ZoneOffset.UTC);
 
     private CSMTransactionIdGenerator() {}
 
     public static String nextId(String prefix) {
         // Time component (sortable, cluster-safe)
-        String timestamp = LocalDateTime.now().format(FORMATTER);
+        String timestamp = FORMATTER.format(Instant.now());
 
         // Random 5-digit number (00000–99999)
         int random = ThreadLocalRandom.current().nextInt(0, 100000);

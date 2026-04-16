@@ -33,7 +33,7 @@ public class RsaSigningKeyProvider implements SigningKeyProvider {
 
             Resource keystoreResource = ks.getLocation();
 
-            // ✅ PKCS12 for .p12 files
+            //  PKCS12 for .p12 files
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
 
             try (InputStream is = keystoreResource.getInputStream()) {
@@ -52,7 +52,7 @@ public class RsaSigningKeyProvider implements SigningKeyProvider {
             Certificate cert = keyStore.getCertificate(ks.getKeyAlias());
             RSAPublicKey publicKey = (RSAPublicKey) cert.getPublicKey();
 
-            // ✅ Stable KID (issuer-based)
+            //  Stable KID (issuer-based)
             this.rsaKey = new RSAKey.Builder(publicKey)
                     .privateKey(privateKey)
                     .keyID(jwt.getIssuer())

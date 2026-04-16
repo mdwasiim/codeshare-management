@@ -32,7 +32,7 @@ public class DltListener {
                 record.headers()
         );
 
-        // ❌ DO NOT AUTO-REPLAY
+        //  DO NOT AUTO-REPLAY
         // Replay must be explicit (manual / API / command)
     }
 

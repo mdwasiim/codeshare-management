@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -56,8 +56,8 @@ public class RefreshToken extends CSMDataAbstractEntity {
     private boolean active = true;
 
     @Column(name = "expires_at", nullable = false)
-    private LocalDateTime expiresAt;
+    private Instant expiresAt;
 
     @Column(name = "last_used_at")
-    private LocalDateTime lastUsedAt;
+    private Instant lastUsedAt;
 }

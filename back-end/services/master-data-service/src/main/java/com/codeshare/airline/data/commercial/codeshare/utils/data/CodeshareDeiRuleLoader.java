@@ -32,7 +32,7 @@ public class CodeshareDeiRuleLoader implements CommandLineRunner {
 
         CodeshareDeiRule rule = new CodeshareDeiRule();
         rule.setFlightMapping(mapping);
-        rule.setDeiRegistry(disclosureDeiRegistry);
+        rule.setDei(disclosureDeiRegistry);
         rule.setDeiRuleType(DeiRuleType.VALIDATE_ONLY);
         rule.setPriority(1);
         rule.setRecordStatus(RecordStatus.ACTIVE);

@@ -5,7 +5,7 @@ public enum DeiCategory {
     OPERATING,
     DISCLOSURE,
     GENERAL,
-    FLIGHT_LEVEL,
+    FLIGHT,
     LEG_LEVEL,
     SEGMENT_LEVEL,
     COMMERCIAL,

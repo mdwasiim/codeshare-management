@@ -192,7 +192,10 @@ public class GatewaySecurityConfig {
         config.setAllowedHeaders(List.of(
                 "Authorization",
                 "Content-Type",
-                "X-Correlation-Id"
+                "X-Correlation-Id",
+                "tenant-code",
+                "Tenant-Code",
+                "X-Tenant-Id"
         ));
         config.setExposedHeaders(List.of("X-Correlation-Id"));
         config.setAllowCredentials(true);

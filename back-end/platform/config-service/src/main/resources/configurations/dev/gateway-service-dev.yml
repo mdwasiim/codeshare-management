@@ -16,17 +16,26 @@ spring:
           lower-case-service-id: true
 
       routes:
-        - id: authentication-service
-          uri: lb://${AUTH_SERVICE_NAME}
+        - id: auth-service
+          uri: lb://${AUTH_IDENTITY_SERVICE_NAME:auth-identity-service}
           predicates:
-            - Path=/authentication/**,/.well-known/**
+            - Path=/api/auth/**, /api/menus/**
+          filters:
+            - TokenRelay
+
+        - id: tenant-service
+          uri: lb://${TENANT_SERVICE_NAME:tenant-service}
+          predicates:
+            - Path=/api/tenant/**
+          filters:
+            - TokenRelay
 
         - id: ingestion-service
-          uri: lb://${TENANT_SERVICE_NAME}
+          uri: lb://${SSIM_INGESTION_SERVICE_NAME:schedule-ingestion-service}
           predicates:
-            - Path=/ingestion/**
+            - Path=/api/ingestion/**
           filters:
-            - RewritePath=/ingestion/(?<path>.*), /${path}
+            - TokenRelay
 
 
 server:
@@ -49,10 +58,10 @@ gateway:
   security:
     auth:
       public-paths:
-        - /authentication/login
-        - /authentication/refresh
-        - /authentication/logout
-        - /authentication/azure/**
+        - /api/auth/login
+        - /api/auth/refresh
+        - /api/auth/logout
+        - /api/auth/oidc/**
         - /.well-known/**
     api:
       public-paths:

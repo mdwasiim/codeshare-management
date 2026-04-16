@@ -62,9 +62,9 @@ public class GroupLoader {
 
         if (!groupsToSave.isEmpty()) {
             groupRepository.saveAll(groupsToSave);
-            log.info("✔ GroupLoader: {} groups created.", groupsToSave.size());
+            log.info(" GroupLoader: {} groups created.", groupsToSave.size());
         } else {
-            log.info("✔ GroupLoader: all groups already exist.");
+            log.info(" GroupLoader: all groups already exist.");
         }
     }
 

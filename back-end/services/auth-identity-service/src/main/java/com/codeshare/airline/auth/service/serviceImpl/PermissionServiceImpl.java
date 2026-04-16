@@ -50,7 +50,7 @@ public class PermissionServiceImpl implements PermissionService {
         Permission entity = mapper.toEntity(dto);
 
         Permission saved = repo.save(entity);
-        log.info("✔ Permission created: {}", saved.getCode());
+        log.info(" Permission created: {}", saved.getCode());
 
         return mapper.toDTO(saved);
     }
@@ -72,11 +72,12 @@ public class PermissionServiceImpl implements PermissionService {
 
         if (dto.getName() != null) entity.setName(dto.getName());
         if (dto.getDescription() != null) entity.setDescription(dto.getDescription());
-        if (dto.getActive() != null) entity.setActive(dto.getActive());
+
+        entity.setActive(dto.getActive());
 
         Permission updated = repo.save(entity);
 
-        log.info("✔ Permission updated: {}", updated.getCode());
+        log.info(" Permission updated: {}", updated.getCode());
 
         return mapper.toDTO(updated);
     }
@@ -122,6 +123,6 @@ public class PermissionServiceImpl implements PermissionService {
 
         repo.delete(entity);
 
-        log.info("✔ Permission deleted: {}", entity.getCode());
+        log.info(" Permission deleted: {}", entity.getCode());
     }
 }

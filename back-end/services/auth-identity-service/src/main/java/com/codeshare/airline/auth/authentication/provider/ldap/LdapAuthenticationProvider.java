@@ -59,7 +59,7 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationFailedException("Invalid LDAP credentials");
         }
 
-        // ✅ Tenant-aware user lookup
+        //  Tenant-aware user lookup
         UserDetailsAdapter user = authUserService.getAuthUserByUsername(request.getUsername());
 
         if (user == null || !user.isEnabled()) {

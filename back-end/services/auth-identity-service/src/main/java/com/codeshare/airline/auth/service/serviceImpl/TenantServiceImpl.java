@@ -144,9 +144,9 @@ public class TenantServiceImpl implements TenantService {
 
         List<IdentityProviderConfig> identityProviderConfigs =
                 tenant.getIdentityProviders().stream()
-                        .filter(OidcIdentityProviderEntity::isEnabled)   // ✅ only enabled
+                        .filter(OidcIdentityProviderEntity::isEnabled)   //  only enabled
                         .sorted(Comparator.comparingInt(
-                                OidcIdentityProviderEntity::getPriority)) // ✅ priority
+                                OidcIdentityProviderEntity::getPriority)) //  priority
                         .map(this::toIdentityProviderConfig)
                         .toList();
 

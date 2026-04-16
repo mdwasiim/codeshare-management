@@ -31,7 +31,7 @@ public class GroupMenuLoader {
     public void load(List<UUID> tenantIds) {
 
         if (groupMenuRepository.count() > 0) {
-            log.info("✔ GroupMenuLoader: group-menu mappings already exist — skipping.");
+            log.info(" GroupMenuLoader: group-menu mappings already exist — skipping.");
             return;
         }
 
@@ -68,7 +68,7 @@ public class GroupMenuLoader {
 
         groupMenuRepository.saveAll(mappings);
 
-        log.info("✔ GroupMenuLoader: {} group-menu mappings created.", mappings.size());
+        log.info(" GroupMenuLoader: {} group-menu mappings created.", mappings.size());
     }
 
     public boolean isLoaded() {

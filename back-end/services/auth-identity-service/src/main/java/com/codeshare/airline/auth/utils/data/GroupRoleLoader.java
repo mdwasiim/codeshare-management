@@ -90,9 +90,9 @@ public class GroupRoleLoader {
 
         if (!toSave.isEmpty()) {
             groupRoleRepository.saveAll(toSave);
-            log.info("✔ GroupRoleLoader: {} mappings created.", toSave.size());
+            log.info(" GroupRoleLoader: {} mappings created.", toSave.size());
         } else {
-            log.info("✔ GroupRoleLoader: mappings already exist.");
+            log.info(" GroupRoleLoader: mappings already exist.");
         }
     }
 

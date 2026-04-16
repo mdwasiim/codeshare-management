@@ -64,9 +64,9 @@ public class RoleLoader {
 
         if (!rolesToSave.isEmpty()) {
             roleRepository.saveAll(rolesToSave);
-            log.info("✔ RoleLoader: {} roles created.", rolesToSave.size());
+            log.info(" RoleLoader: {} roles created.", rolesToSave.size());
         } else {
-            log.info("✔ RoleLoader: all roles already exist.");
+            log.info(" RoleLoader: all roles already exist.");
         }
     }
 

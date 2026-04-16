@@ -29,7 +29,7 @@ public class RolePermissionLoader {
     public void load(List<UUID> tenantIds) {
 
         if (repo.count() > 0) {
-            log.info("✔ PermissionRoleLoader: Role-Permission mappings already exist — skipping load.");
+            log.info(" PermissionRoleLoader: Role-Permission mappings already exist — skipping load.");
             return;
         }
 
@@ -44,7 +44,7 @@ public class RolePermissionLoader {
             total += assignTenantPermissions(tenantId);
         }
 
-        log.info("✔ PermissionRoleLoader: Completed. {} role-permission mappings created.", total);
+        log.info(" PermissionRoleLoader: Completed. {} role-permission mappings created.", total);
     }
 
     private int assignTenantPermissions(UUID tenantId) {
@@ -82,7 +82,7 @@ public class RolePermissionLoader {
 
         repo.saveAll(links);
 
-        log.info("✔ Tenant {}: {} permission-role mappings created.", tenantId, links.size());
+        log.info(" Tenant {}: {} permission-role mappings created.", tenantId, links.size());
 
         return links.size();
     }

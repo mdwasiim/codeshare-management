@@ -19,17 +19,17 @@ public interface MenuMapper extends CSMGenericMapper<Menu, MenuDTO> {
     @AfterMapping
     default void enrich(Menu menu, @MappingTarget MenuDTO dto) {
 
-        // ✅ parentId mapping
+        //  parentId mapping
         if (menu.getParentMenu() != null) {
             dto.setParentId(menu.getParentMenu().getId());
         }
 
-        // ✅ tenantId mapping
+        //  tenantId mapping
         if (menu.getTenant() != null) {
             dto.setTenantId(menu.getTenant().getId());
         }
 
-        // ✅ recursive items mapping
+        //  recursive items mapping
         if (menu.getItems() != null && !menu.getItems().isEmpty()) {
             dto.setItems(
                     menu.getItems().stream()

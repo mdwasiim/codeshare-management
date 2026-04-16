@@ -85,7 +85,7 @@ public class LoginController {
             log.warn("Refresh token missing in request");
             throw new AuthenticationFailedException("Refresh token missing");
         }
-        // ✅ Explicit ingestion validation
+        //  Explicit ingestion validation
         tenantContextResolver.validateTenant(tenantCode);
 
         TokenPair tokens = tokenService.refreshTokens(refreshToken);

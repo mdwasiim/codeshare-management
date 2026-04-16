@@ -48,7 +48,7 @@ public class CodeshareDeiRule extends CSMDataAbstractEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_CS_DEI_MASTER")
     )
-    private DeiRegistry deiRegistry;
+    private DeiRegistry dei;
 
     // Value to inject or enforce
     @Column(name = "DEI_VALUE", length = 500)

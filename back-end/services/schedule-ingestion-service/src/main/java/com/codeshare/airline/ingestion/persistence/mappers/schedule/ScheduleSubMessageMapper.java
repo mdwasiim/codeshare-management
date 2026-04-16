@@ -1,0 +1,80 @@
+package com.codeshare.airline.ingestion.persistence.mappers.schedule;
+
+import com.codeshare.airline.ingestion.domain.enums.ProcessingStatus;
+import com.codeshare.airline.ingestion.persistence.dto.schedule.ScheduleSubMessageDTO;
+import com.codeshare.airline.ingestion.persistence.entities.schedule.ScheduleFlightEntity;
+import com.codeshare.airline.ingestion.persistence.entities.schedule.ScheduleSubMessageEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class ScheduleSubMessageMapper {
+
+    private final ScheduleFlightMapper flightMapper;
+
+    public ScheduleSubMessageEntity toEntity(ScheduleSubMessageDTO dto) {
+        if (dto == null) return null;
+
+        ScheduleSubMessageEntity entity = new ScheduleSubMessageEntity();
+
+        /* ================= CORE ================= */
+
+        entity.setActionType(dto.getActionType());
+
+        // 🔥 DO NOT default here — handled by parent
+        entity.setMessageSequenceNumber(dto.getMessageSequenceNumber());
+
+        entity.setRawMessage(
+                dto.getRawMessage() != null && !dto.getRawMessage().isBlank()
+                        ? dto.getRawMessage()
+                        : null
+        );
+
+        // 🔥 default processing status
+        entity.setProcessingStatus(ProcessingStatus.RECEIVED);
+
+        /* ================= FLIGHTS ================= */
+
+        if (dto.getFlights() != null) {
+            int flightSeq = 1;
+
+            for (var flightDTO : dto.getFlights()) {
+                ScheduleFlightEntity flightEntity = flightMapper.toEntity(flightDTO);
+
+                if (flightEntity != null) {
+                    // 🔥 ensure sequence always set
+                    if (flightEntity.getFlightSequenceNumber() == null) {
+                        flightEntity.setFlightSequenceNumber(flightSeq++);
+                    }
+
+                    entity.addFlight(flightEntity);
+                }
+            }
+        }
+
+        return entity;
+    }
+
+    public ScheduleSubMessageDTO toDTO(ScheduleSubMessageEntity entity) {
+        if (entity == null) return null;
+
+        return ScheduleSubMessageDTO.builder()
+
+                .actionType(entity.getActionType())
+                .messageSequenceNumber(entity.getMessageSequenceNumber())
+                .rawMessage(entity.getRawMessage())
+
+                .flights(
+                        entity.getFlights() != null
+                                ? entity.getFlights().stream()
+                                .map(flightMapper::toDTO)
+                                .toList()
+                                : List.of()
+                )
+
+                .build();
+    }
+}

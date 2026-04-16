@@ -80,7 +80,7 @@ public class TokenService {
             throw new RefreshTokenInvalidException("Session revoked");
         }
 
-        if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
+        if (session.getExpiresAt().isBefore(Instant.now())) {
             throw new RefreshTokenInvalidException("Session expired");
         }
 
@@ -94,7 +94,7 @@ public class TokenService {
 
         // 🔁 Rotate old session
         session.setActive(false);
-        session.setLastUsedAt(LocalDateTime.now());
+        session.setLastUsedAt(Instant.now());
         refreshTokenRepository.save(session);
 
         AuthenticationResult auth = rebuildAuthResult(session);
@@ -107,7 +107,7 @@ public class TokenService {
         refreshTokenRepository.findByTokenHash(hash(refreshToken))
                 .ifPresent(session -> {
                     session.setActive(false);
-                    session.setLastUsedAt(LocalDateTime.now());
+                    session.setLastUsedAt(Instant.now());
                     refreshTokenRepository.save(session);
                 });
     }
@@ -130,8 +130,8 @@ public class TokenService {
                 .claim("tenant_code", auth.getTenantCode())
                 .claim("roles", auth.getRoles())
                 .claim("permissions", auth.getPermissions())
-                .claim("auth_source", auth.getAuthSource().name()) // ✅ FIX
-                .claim("type", "access")                            // ✅ FIX
+                .claim("auth_source", auth.getAuthSource().name()) //  FIX
+                .claim("type", "access")                            //  FIX
                 .build();
 
         return jwtEncoder
@@ -180,8 +180,10 @@ public class TokenService {
                         .username(auth.getUsername())
                         .authSource(auth.getAuthSource())
                         .active(true)
-                        .createdAt(LocalDateTime.now())
-                        .expiresAt(LocalDateTime.now().plusSeconds(securityProperties.getJwt().getRefreshTokenTtl()))
+                        .createdAt(Instant.now())
+                        .expiresAt(Instant.now().plusSeconds(
+                                securityProperties.getJwt().getRefreshTokenTtl()
+                        ))
                         .build();
 
         refreshTokenRepository.save(session);

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class TenantLoader {
                 "EU"
         );*/
 
-        log.info("✔ Tenant bootstrap completed");
+        log.info(" Tenant bootstrap completed");
         return List.of(tenantQR);
     }
 
@@ -83,7 +84,7 @@ public class TenantLoader {
                 /* -------------------------
                  * Audit fields
                  * ------------------------- */
-                .createdAt(now)
+                .createdAt(Instant.now())
                 .createdBy("SYSTEM")
                 .updatedAt(null)
                 .updatedBy(null)
@@ -92,7 +93,7 @@ public class TenantLoader {
                  * State fields
                  * ------------------------- */
                 .active(true)
-                .isDeleted(false)
+                .deleted(false)
                 .deletedAt(null)
                 .deletedBy(null)
 
@@ -103,7 +104,7 @@ public class TenantLoader {
 
                 .build();
 
-        log.info("✔ Tenant '{}' created with full audit data", code);
+        log.info(" Tenant '{}' created with full audit data", code);
         return  repo.save(tenant);
     }
 }

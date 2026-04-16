@@ -34,7 +34,7 @@ public class LoginAuditEntity extends CSMDataAbstractEntity {
     @Column(name = "success", nullable = false)
     private boolean success = false;
 
-    @Column(name = "message", length = 500)
+    @Column(columnDefinition = "TEXT")
     private String message;
 }
 

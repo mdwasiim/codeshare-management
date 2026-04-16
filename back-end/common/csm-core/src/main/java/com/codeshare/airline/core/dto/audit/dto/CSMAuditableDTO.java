@@ -1,44 +1,37 @@
 package com.codeshare.airline.core.dto.audit.dto;
 
+
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public abstract class CSMAuditableDTO implements Serializable {
+public abstract class CSMAuditableDTO {
 
-
-    //ingestion ID
+    private UUID id;
     private UUID tenantId;
 
-    // Creation
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     private String createdBy;
 
-    // Update
-    private LocalDateTime updatedAt;
-
+    private Instant updatedAt;
     private String updatedBy;
 
-    // Entity active flag
-    private Boolean active;
+    @Builder.Default
+    private Boolean active = true;
 
-    // Soft Delete
-    private Boolean isDeleted;
+    @Builder.Default
+    private Boolean deleted = false;
 
-    private LocalDateTime deletedAt;
-
+    private Instant deletedAt;
     private String deletedBy;
 
-    // Request trace
     private String transactionId;
 }

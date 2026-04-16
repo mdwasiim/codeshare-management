@@ -38,7 +38,7 @@ public class OidcIdentityProviderDataLoader {
             bootstrapProvider(tenant, AuthSource.LDAP, 3);
         }
 
-        log.info("✅ Identity Provider bootstrap completed");
+        log.info(" Identity Provider bootstrap completed");
     }
 
     private void bootstrapProvider(

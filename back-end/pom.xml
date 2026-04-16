@@ -23,15 +23,30 @@
     <!-- ===================================================== -->
     <properties>
         <java.version>21</java.version>
-        <spring.cloud.version>2025.0.1</spring.cloud.version>
 
+        <spring.boot.version>3.5.11</spring.boot.version>
+        <!-- Core Versions -->
+        <spring.cloud.version>2025.0.1</spring.cloud.version>
+        <apache.camel.version>4.4.1</apache.camel.version>
+
+        <!-- Existing -->
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <authorization-server.version>1.4.2</authorization-server.version>
         <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
         <lombok.version>1.18.42</lombok.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <sshd.version>2.14.0</sshd.version>
-        <apache.camel.version>4.4.1</apache.camel.version>
+        <org.flywaydb.version>10.20.1</org.flywaydb.version>
+
+        <!-- Added -->
+        <micrometer.version>1.13.0</micrometer.version>
+        <testcontainers.version>1.20.1</testcontainers.version>
+
+        <!-- Plugins -->
+        <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+        <maven.failsafe.plugin.version>3.2.5</maven.failsafe.plugin.version>
+        <flatten.plugin.version>1.5.0</flatten.plugin.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -53,7 +68,7 @@
         <module>services/tenant-service</module>
 
         <module>services/schedule-ingestion-service</module>
-        <module>services/ssim-processor-service</module>
+        <module>services/schedule-processor-service</module>
         <module>services/master-data-service</module>
     </modules>
 
@@ -62,6 +77,15 @@
     <!-- ===================================================== -->
     <dependencyManagement>
         <dependencies>
+
+            <!-- Spring Boot BOM (extra safety) -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- Spring Cloud BOM -->
             <dependency>
@@ -72,26 +96,56 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- Apache Mina SSHD -->
+            <!-- Apache Camel BOM -->
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
+                <artifactId>camel-spring-boot-bom</artifactId>
+                <version>${apache.camel.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Observability -->
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-core</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+
+            <!-- Flyway -->
+<!--            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${org.flywaydb.version}</version>
+            </dependency>-->
+
+            <!-- SSH -->
             <dependency>
                 <groupId>org.apache.sshd</groupId>
                 <artifactId>sshd-core</artifactId>
                 <version>${sshd.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.apache.sshd</groupId>
                 <artifactId>sshd-sftp</artifactId>
                 <version>${sshd.version}</version>
             </dependency>
 
-            <!-- Spring Authorization Server -->
+            <!-- Security -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
                 <version>${authorization-server.version}</version>
             </dependency>
 
-            <!-- Utilities -->
+            <!-- MapStruct -->
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
@@ -105,12 +159,14 @@
                 <scope>provided</scope>
             </dependency>
 
+            <!-- Logging -->
             <dependency>
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback-encoder.version}</version>
             </dependency>
 
+            <!-- Lombok -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -124,12 +180,14 @@
                 <artifactId>jjwt-api</artifactId>
                 <version>${jsonwebtoken.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-impl</artifactId>
                 <version>${jsonwebtoken.version}</version>
                 <scope>runtime</scope>
             </dependency>
+
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-jackson</artifactId>
@@ -137,29 +195,38 @@
                 <scope>runtime</scope>
             </dependency>
 
-            <!-- Internal platform modules -->
+            <!-- Testcontainers -->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers</artifactId>
+                <version>${testcontainers.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${testcontainers.version}</version>
+            </dependency>
+
+            <!-- Internal Modules -->
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
                 <artifactId>csm-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
                 <artifactId>platform-kafka</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
                 <artifactId>csm-data-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.camel.springboot</groupId>
-                <artifactId>camel-spring-boot-bom</artifactId>
-                <version>${apache.camel.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -170,19 +237,58 @@
         <pluginManagement>
             <plugins>
 
+                <!-- Spring Boot -->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                 </plugin>
 
+                <!-- Compiler -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
                     <configuration>
                         <release>${java.version}</release>
+                        <annotationProcessorPaths>
+
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
 
+                <!-- Tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.plugin.version}</version>
+                </plugin>
+
+                <!-- Flatten -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten.plugin.version}</version>
+                </plugin>
+
+                <!-- Enforcer -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
@@ -198,6 +304,8 @@
                                     <requireJavaVersion>
                                         <version>[21,)</version>
                                     </requireJavaVersion>
+                                    <dependencyConvergence/>
+                                    <requireUpperBoundDeps/>
                                 </rules>
                             </configuration>
                         </execution>
@@ -207,5 +315,33 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <!-- ===================================================== -->
+    <!-- PROFILES -->
+    <!-- ===================================================== -->
+    <profiles>
+
+        <profile>
+            <id>dev</id>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>qa</id>
+            <properties>
+                <spring.profiles.active>qa</spring.profiles.active>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
+            </properties>
+        </profile>
+
+    </profiles>
 
 </project>

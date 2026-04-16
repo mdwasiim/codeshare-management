@@ -38,7 +38,7 @@ public class UserGroupDataLoader {
             processTenant(tenantId);
         }
 
-        log.info("✅ UserGroup bootstrap completed");
+        log.info(" UserGroup bootstrap completed");
     }
 
     private void processTenant(UUID tenantId) {

@@ -7,6 +7,7 @@ import com.codeshare.airline.core.utils.CSMTransactionIdProvider;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Slf4j
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorrelationIdFilter implements Filter {
@@ -46,15 +48,21 @@ public class CorrelationIdFilter implements Filter {
         MDC.put(MDC_TXN_KEY, txnId);
 
         String user = CSMAuditUserContext.get();
-        if (user != null) {
-            MDC.put(MDC_USER_KEY, user);
-        }
+        MDC.put(MDC_USER_KEY, user != null ? user : "SYSTEM");
 
         resp.setHeader(HEADER, txnId);
 
         try {
             chain.doFilter(request, response);
         } finally {
+            long timeTaken = CSMRequestTimeProvider.getTimeTaken();
+
+            String path = req.getRequestURI();
+            String method = req.getMethod();
+
+            org.slf4j.LoggerFactory.getLogger(getClass())
+                    .info("Request completed {} {} in {} ms", method, path, timeTaken);
+
             CSMRequestTimeProvider.clear();
             CSMTransactionIdProvider.clear();
             CSMAuditUserContext.clear();

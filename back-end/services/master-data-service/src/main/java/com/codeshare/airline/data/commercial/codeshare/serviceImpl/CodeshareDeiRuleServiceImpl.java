@@ -72,7 +72,7 @@ public class CodeshareDeiRuleServiceImpl
 
         CodeshareDeiRule entity = mapper.toEntity(dto);
         entity.setFlightMapping(flightMapping);
-        entity.setDeiRegistry(deiRegistry);
+        entity.setDei(deiRegistry);
 
         return mapper.toDTO(repository.save(entity));
     }
@@ -92,7 +92,7 @@ public class CodeshareDeiRuleServiceImpl
         mapper.updateEntityFromDto(dto, existing);
 
         existing.setFlightMapping(flightMapping);
-        existing.setDeiRegistry(deiRegistry);
+        existing.setDei(deiRegistry);
 
         return mapper.toDTO(repository.save(existing));
     }
