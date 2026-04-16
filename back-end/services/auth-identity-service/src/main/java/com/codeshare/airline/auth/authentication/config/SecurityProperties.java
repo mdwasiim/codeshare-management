@@ -14,6 +14,7 @@ public class SecurityProperties {
 
     private Jwt jwt;
     private Oidc oidc;
+    private Cors cors;
 
     @Getter @Setter
     public static class Jwt {
@@ -42,5 +43,19 @@ public class SecurityProperties {
             private long ttlSeconds;
         }
     }
-}
 
+    @Getter @Setter
+    public static class Cors {
+        private java.util.List<String> allowedOrigins = java.util.List.of("http://localhost:4200");
+        private java.util.List<String> allowedMethods = java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS");
+        private java.util.List<String> allowedHeaders = java.util.List.of(
+                "Authorization",
+                "Content-Type",
+                "Accept",
+                "tenant-code",
+                "refresh-token",
+                "X-Refresh-Token"
+        );
+        private boolean allowCredentials = true;
+    }
+}

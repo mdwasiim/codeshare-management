@@ -13,8 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import java.util.List;
-
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
@@ -22,6 +20,7 @@ public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final TenantHeaderFilter tenantHeaderFilter;
+    private final SecurityProperties securityProperties;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,15 +33,10 @@ public class WebSecurityConfig {
                 // ----------------------------------
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("http://localhost:4200"));
-                    config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
-                    config.setAllowedHeaders(List.of(
-                            "Authorization",
-                            "Content-Type",
-                            "Accept",
-                            "tenant-code"
-                    ));
-                    config.setAllowCredentials(true);
+                    config.setAllowedOrigins(securityProperties.getCors().getAllowedOrigins());
+                    config.setAllowedMethods(securityProperties.getCors().getAllowedMethods());
+                    config.setAllowedHeaders(securityProperties.getCors().getAllowedHeaders());
+                    config.setAllowCredentials(securityProperties.getCors().isAllowCredentials());
                     return config;
                 }))
                 .csrf(csrf -> csrf.disable())
