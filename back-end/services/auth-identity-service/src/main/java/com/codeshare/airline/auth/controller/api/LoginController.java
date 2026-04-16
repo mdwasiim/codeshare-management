@@ -188,11 +188,27 @@ public class LoginController {
         OidcStatePayload statePayload =
                 oidcStateManager.verifyAndConsumeState(state);
 
+        if (!tenantCode.equals(statePayload.getTenantCode())) {
+            log.warn("OIDC callback rejected due to tenant mismatch | requestTenant={} stateTenant={}",
+                    tenantCode,
+                    statePayload.getTenantCode()
+            );
+            throw new AuthenticationFailedException("Tenant mismatch in OIDC callback");
+        }
+
         tokenService.verifyPkce(codeVerifier, statePayload.getCodeChallenge());
 
         TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
         IdentityProviderConfig idpConfig =
                 tenantIdentityProviderSelector.select(tenant, null);
+
+        if (!idpConfig.getProviderId().equals(statePayload.getProviderId())) {
+            log.warn("OIDC callback rejected due to provider mismatch | selectedProvider={} stateProvider={}",
+                    idpConfig.getProviderId(),
+                    statePayload.getProviderId()
+            );
+            throw new AuthenticationFailedException("Identity provider mismatch in OIDC callback");
+        }
 
         AuthenticationProvider provider =
                 authenticationProviderResolver.resolve(idpConfig.getAuthSource());
