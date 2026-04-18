@@ -10,8 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(
         config = CSMMapperConfig.class
 )
-public interface AircraftCabinLayoutMapper
-        extends CSMGenericMapper<AircraftCabinLayout, AircraftCabinLayoutDTO> {
+public interface AircraftCabinLayoutMapper extends CSMGenericMapper<AircraftCabinLayout, AircraftCabinLayoutDTO> {
 
     @Mapping(source = "aircraftConfiguration.id", target = "aircraftConfigurationId")
     AircraftCabinLayoutDTO toDTO(AircraftCabinLayout entity);

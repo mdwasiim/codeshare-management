@@ -47,6 +47,13 @@ public class CodeshareFlightMapping extends CSMDataAbstractEntity {
     @OneToMany(mappedBy = "flightMapping")
     private Set<CodeshareDayRule> dayRules;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "AGRREMENT_ID",
+            nullable = false
+    )
+    private CodeshareAgreement agreement;
+
     @OneToMany(mappedBy = "flightMapping")
     private Set<CodeshareEquipmentRule> equipmentRules;
 
