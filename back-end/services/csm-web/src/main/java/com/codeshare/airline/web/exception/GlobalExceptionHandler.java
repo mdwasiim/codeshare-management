@@ -1,4 +1,4 @@
-package com.codeshare.airline.exception;
+package com.codeshare.airline.web.exception;
 
 import com.codeshare.airline.core.exceptions.CSMBusinessException;
 import com.codeshare.airline.core.exceptions.CSMErrorCodes;

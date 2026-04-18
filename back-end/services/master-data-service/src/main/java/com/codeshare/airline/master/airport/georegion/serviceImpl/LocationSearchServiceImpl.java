@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airport.georegion.serviceImpl;
 
-import com.codeshare.airline.dto.airport.georegion.LocationSearchDTO;
+import com.codeshare.airline.core.dto.airport.georegion.LocationSearchDTO;
 import com.codeshare.airline.master.airport.georegion.eitities.Airport;
 import com.codeshare.airline.master.airport.georegion.eitities.City;
 import com.codeshare.airline.master.airport.georegion.repository.AirportRepository;

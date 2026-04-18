@@ -1,9 +1,9 @@
-package com.codeshare.airline.utils.data;
+package com.codeshare.airline.identity.utils.data;
 
 import com.codeshare.airline.identity.entities.Menu;
-import com.codeshare.airline.entities.Tenant;
-import com.codeshare.airline.repository.MenuRepository;
-import com.codeshare.airline.repository.TenantRepository;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.identity.repository.MenuRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

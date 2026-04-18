@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.repositories.ssim;
 
 import com.codeshare.airline.inbound.entities.ssim.SsimDataElementEntity;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.UUID;
 

@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.airport.georegion.serviceImpl;
 
-import com.codeshare.airline.dto.airport.georegion.AirlineCarrierDTO;
+import com.codeshare.airline.core.dto.airport.georegion.AirlineCarrierDTO;
 import com.codeshare.airline.master.airport.georegion.eitities.AirlineCarrier;
 import com.codeshare.airline.master.airport.georegion.eitities.Country;
 import com.codeshare.airline.master.airport.georegion.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.airport.georegion.repository.CountryRepository;
 import com.codeshare.airline.master.airport.georegion.service.AirlineCarrierService;
-import com.codeshare.airline.master.airport.georegion.utils.mappers.AirlineCarrierMapper;
+import com.codeshare.airline.master.airport.georegion.mappers.AirlineCarrierMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

@@ -18,10 +18,10 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@Component("csmRequestContextFilter")
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
-public class RequestContextFilter extends OncePerRequestFilter {
+public class CSMRequestContextFilter extends OncePerRequestFilter {
 
     public static final String TXN_HEADER = "X-Transaction-Id";
     public static final String USER_HEADER = "X-User-Id";

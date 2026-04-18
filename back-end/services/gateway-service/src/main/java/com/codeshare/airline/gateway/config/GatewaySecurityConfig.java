@@ -1,7 +1,7 @@
-package com.codeshare.airline.config;
+package com.codeshare.airline.gateway.config;
 
-import com.codeshare.airline.exception.GatewayErrorWriter;
-import com.codeshare.airline.properties.GatewayJwtSecurityProperties;
+import com.codeshare.airline.gateway.exception.GatewayErrorWriter;
+import com.codeshare.airline.gateway.properties.GatewayJwtSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.config.Customizer;
@@ -27,6 +28,7 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Configuration
@@ -77,9 +79,14 @@ public class GatewaySecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfiguration()))
 
                 .authorizeExchange(ex -> {
+
+                    // ✅ ALLOW preflight requests
+                    ex.pathMatchers(HttpMethod.OPTIONS).permitAll();
+
                     ex.pathMatchers(
                             props.getApi().getPublicPaths().toArray(new String[0])
                     ).permitAll();
+
                     ex.anyExchange().authenticated();
                 })
 
@@ -105,22 +112,24 @@ public class GatewaySecurityConfig {
     public GlobalFilter tenantPropagationFilter() {
         return (exchange, chain) ->
                 exchange.getPrincipal()
+                        .filter(p -> p instanceof JwtAuthenticationToken)
                         .cast(JwtAuthenticationToken.class)
                         .flatMap(auth -> {
 
                             String tenant =
-                                    auth.getToken().getClaimAsString("ingestion");
+                                    auth.getToken().getClaimAsString("X-Tenant-Id");
 
-                            var mutatedRequest =
-                                    exchange.getRequest()
-                                            .mutate()
-                                            .header("X-Tenant-Id", tenant)
-                                            .build();
+                            if (tenant == null || tenant.isBlank()) {
+                                return chain.filter(exchange);
+                            }
+
+                            var mutatedRequest = exchange.getRequest()
+                                    .mutate()
+                                    .header("X-Tenant-Id", tenant)
+                                    .build();
 
                             return chain.filter(
-                                    exchange.mutate()
-                                            .request(mutatedRequest)
-                                            .build()
+                                    exchange.mutate().request(mutatedRequest).build()
                             );
                         })
                         .switchIfEmpty(chain.filter(exchange));
@@ -143,7 +152,8 @@ public class GatewaySecurityConfig {
             }
 
             return reactor.core.publisher.Flux.fromIterable(roles)
-                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role));
+                    .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
+                    .map(SimpleGrantedAuthority::new);
         });
 
         return converter;
@@ -192,9 +202,8 @@ public class GatewaySecurityConfig {
         config.setAllowedHeaders(List.of(
                 "Authorization",
                 "Content-Type",
-                "X-Correlation-Id",
-                "tenant-code",
-                "Tenant-Code",
+                "X-Transaction-Id",
+                "X-User-Id",
                 "X-Tenant-Id"
         ));
         config.setExposedHeaders(List.of("X-Correlation-Id"));
@@ -216,23 +225,45 @@ public class GatewaySecurityConfig {
 
             ServerHttpResponse res = exchange.getResponse();
             HttpHeaders h = res.getHeaders();
-
-            h.add("X-Content-Type-Options", "nosniff");
-            h.add("X-Frame-Options", "DENY");
-            h.add("Referrer-Policy", "no-referrer");
-            h.add("Permissions-Policy", "geolocation=(), camera=(), microphone=()");
-            h.add("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
-            h.add("Pragma", "no-cache");
-            h.add(
+            h.set("X-Content-Type-Options", "nosniff");
+            h.set("X-Frame-Options", "DENY");
+            h.set("Referrer-Policy", "no-referrer");
+            h.set("Permissions-Policy", "geolocation=(), camera=(), microphone=()");
+            h.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+            h.set("Pragma", "no-cache");
+            h.set(
                     "Content-Security-Policy",
                     "default-src 'self'; frame-ancestors 'none'; object-src 'none';"
             );
-            h.add(
-                    "Strict-Transport-Security",
-                    "max-age=31536000; includeSubDomains"
-            );
+            if ("https".equalsIgnoreCase(exchange.getRequest().getURI().getScheme())) {
+                h.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+            }
 
             return chain.filter(exchange);
+        };
+    }
+
+    @Bean
+    @Order(-2)
+    public GlobalFilter transactionIdFilter() {
+        return (exchange, chain) -> {
+
+            String txnId = exchange.getRequest()
+                    .getHeaders()
+                    .getFirst("X-Transaction-Id");
+
+            if (txnId == null || txnId.isBlank()) {
+                txnId = UUID.randomUUID().toString();
+            }
+
+            var mutatedRequest = exchange.getRequest()
+                    .mutate()
+                    .header("X-Transaction-Id", txnId)
+                    .build();
+
+            return chain.filter(
+                    exchange.mutate().request(mutatedRequest).build()
+            );
         };
     }
 }

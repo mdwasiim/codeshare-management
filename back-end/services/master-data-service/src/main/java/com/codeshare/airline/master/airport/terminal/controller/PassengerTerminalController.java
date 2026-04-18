@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airport.terminal.controller;
 
-import com.codeshare.airline.dto.airport.terminal.PassengerTerminalDTO;
+import com.codeshare.airline.core.dto.airport.terminal.PassengerTerminalDTO;
 import com.codeshare.airline.master.airport.terminal.service.PassengerTerminalService;
 import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/airport-terminals")
+@RequestMapping("/airport-terminals")
 public class PassengerTerminalController
         extends BaseController<PassengerTerminalDTO, UUID> {
 

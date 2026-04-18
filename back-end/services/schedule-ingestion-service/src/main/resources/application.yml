@@ -3,60 +3,74 @@ spring:
     name: schedule-ingestion-service
 
   profiles:
-    active: dev
+    active: ${ACTIVE_PROFILE:dev}
 
-  config:
-    import: "optional:configserver:http://localhost:8888"
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_IDENTITY_SERVICE_ISSUER_URI:http://localhost:8081}
 
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/csm
-    username: postgres
-    password: postgres
+    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/csm}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
+
   sql:
     init:
       mode: always
+
   jpa:
     defer-datasource-initialization: true
     open-in-view: false
-    show-sql: true
+    show-sql: ${SHOW_SQL:true}
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${HIBERNATE_DDL:update}
     properties:
       hibernate:
-        format_sql: true
+        format_sql: ${FORMAT_SQL:true}
         default_schema: schedule_ingestion
 
   activemq:
-    broker-url: tcp://localhost:61616
-    user: admin
-    password: admin
+    broker-url: ${ACTIVEMQ_BROKER_URL:tcp://localhost:61616}
+    user: ${ACTIVEMQ_USER:admin}
+    password: ${ACTIVEMQ_PASSWORD:admin}
     packages:
       trust-all: true
+
+server:
+  port: ${SCHEDULE_INGESTION_SERVICE_PORT:8082}
 
 logging:
   level:
     org.springframework.web: DEBUG
     org.apache.camel.component.file: DEBUG
 
-server:
-  port: 8084
-
+# ----------------------------------
+# INGESTION CONFIG
+# ----------------------------------
 ingestion:
-  local-root: C:/Users/mdwas/Projects/messages
+  local-root: ${INGESTION_LOCAL_ROOT:C:/Users/mdwas/Projects/messages}
 
   allowed-extensions:
     SSIM: [txt, ssim]
     SSM: [txt, ssim]
     ASM: [txt, ssim]
 
+# ----------------------------------
+# CAMEL CONFIG
+# ----------------------------------
 camel:
   springboot:
     auto-startup: false
 
+# ----------------------------------
+# APP CONFIG
+# ----------------------------------
 app:
   crypto:
-    secret: YOUR_16_32_BYTE_SECRET_KEY
+    secret: ${APP_CRYPTO_SECRET:YOUR_16_32_BYTE_SECRET_KEY}

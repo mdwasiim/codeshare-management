@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.PermissionService;
+import com.codeshare.airline.identity.service.PermissionService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.core.response.CSMServiceResponse;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/permissions")
+@RequestMapping("/permissions")
 @RequiredArgsConstructor
 public class PermissionController {
 

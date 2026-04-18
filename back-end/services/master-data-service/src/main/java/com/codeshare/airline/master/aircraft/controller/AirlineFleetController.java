@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.aircraft.controller;
 
-import com.codeshare.airline.dto.aircraft.AirlineFleetDTO;
+import com.codeshare.airline.core.dto.aircraft.AirlineFleetDTO;
 import com.codeshare.airline.master.aircraft.service.AirlineFleetService;
 import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/airline-fleet")
+@RequestMapping("/airline-fleet")
 public class AirlineFleetController
         extends BaseController<AirlineFleetDTO, UUID> {
 

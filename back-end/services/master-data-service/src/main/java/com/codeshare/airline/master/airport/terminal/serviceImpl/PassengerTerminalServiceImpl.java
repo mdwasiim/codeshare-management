@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.airport.terminal.serviceImpl;
 
-import com.codeshare.airline.dto.airport.terminal.PassengerTerminalDTO;
+import com.codeshare.airline.core.dto.airport.terminal.PassengerTerminalDTO;
 import com.codeshare.airline.master.airport.georegion.eitities.Airport;
 import com.codeshare.airline.master.airport.georegion.repository.AirportRepository;
 import com.codeshare.airline.master.airport.terminal.eitities.PassengerTerminal;
 import com.codeshare.airline.master.airport.terminal.repository.PassengerTerminalRepository;
 import com.codeshare.airline.master.airport.terminal.service.PassengerTerminalService;
-import com.codeshare.airline.master.airport.terminal.utils.mappers.PassengerTerminalMapper;
+import com.codeshare.airline.master.airport.terminal.mappers.PassengerTerminalMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

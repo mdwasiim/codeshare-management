@@ -1,13 +1,10 @@
 package com.codeshare.airline.identity.entities;
 
 
-import com.codeshare.airline.enums.auth.AuthSource;
-import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(

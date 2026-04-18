@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.entities.ssim;
 
 import com.codeshare.airline.inbound.domain.enums.RecordType;
-import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

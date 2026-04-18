@@ -56,19 +56,14 @@
     <!-- MODULES -->
     <!-- ===================================================== -->
     <modules>
-        <module>common/csm-core</module>
-        <module>common/csm-data-jpa</module>
+        <module>services/csm-core</module>
+        <module>services/csm-data-jpa</module>
+        <module>services/csm-web</module>
 
-        <module>platform/gateway-service</module>
-        <module>platform/config-service</module>
-        <module>platform/registry-service</module>
-        <module>platform/platform-kafka</module>
-
-        <module>services/auth-identity-service</module>
-        <module>services/tenant-service</module>
-
+        <module>services/gateway-service</module>
+        <module>services/identity-service</module>
         <module>services/schedule-ingestion-service</module>
-        <module>services/schedule-processor-service</module>
+        <module>services/schedule-processing-service</module>
         <module>services/master-data-service</module>
     </modules>
 
@@ -208,6 +203,12 @@
                 <version>${testcontainers.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.codeshare.airline</groupId>
+                <artifactId>platform-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Internal Modules -->
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
@@ -217,7 +218,7 @@
 
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
-                <artifactId>platform-kafka</artifactId>
+                <artifactId>csm-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

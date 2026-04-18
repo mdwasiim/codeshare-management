@@ -1,10 +1,10 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airlineauthentication.domain.TenantContext;
-import com.codeshare.airlineauthentication.domain.TenantContextHolder;
-import com.codeshare.airline.common.CSMResponse;
-import com.codeshare.airline.service.MenuService;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.identity.authentication.domain.TenantContext;
+import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
+import com.codeshare.airline.identity.service.MenuService;
+import com.codeshare.airline.web.response.CSMResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @CSMResponse
 @RestController
-@RequestMapping("/api/menus")
+@RequestMapping("/menus")
 @RequiredArgsConstructor
 public class MenuController  {
 

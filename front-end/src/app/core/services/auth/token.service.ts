@@ -9,7 +9,7 @@ export class TokenService {
    * This token is typically sent in the Authorization header.
    */
   get accessToken(): string | null {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem('X-Access-Token');
   }
 
   /**
@@ -17,7 +17,7 @@ export class TokenService {
    * when the current one expires.
    */
   get refreshToken(): string | null {
-    return localStorage.getItem('refresh_token');
+    return localStorage.getItem('X-Refresh-Token');
   }
 
   /**
@@ -25,7 +25,7 @@ export class TokenService {
    * This value is required for multi-tenant backend requests.
    */
   get tenant(): string | null {
-    return localStorage.getItem('tenant');
+    return localStorage.getItem('X-Tenant-Id');
   }
 
   /**
@@ -45,12 +45,9 @@ export class TokenService {
    * @param expiresIn - Expiry time in seconds
    */
   setTokens(access: string, refresh: string, expiresIn: number) {
-    localStorage.setItem('access_token', access);
-    localStorage.setItem('refresh_token', refresh);
-    localStorage.setItem(
-      'expires_at',
-      (Date.now() + expiresIn * 1000).toString()
-    );
+    localStorage.setItem('X-Access-Token', access);
+    localStorage.setItem('X-Refresh-Token', refresh);
+    localStorage.setItem('X-Expires-At',(Date.now() + expiresIn * 1000).toString());
   }
 
   /**
@@ -60,7 +57,7 @@ export class TokenService {
    * @param tenant - Tenant code (e.g., "QR")
    */
   setTenant(tenant: string) {
-    localStorage.setItem('tenant', tenant);
+    localStorage.setItem('X-Tenant-Id', tenant);
   }
 
   /**
@@ -68,10 +65,10 @@ export class TokenService {
    * Typically used during logout.
    */
   clear(): void {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('expires_at');
-    localStorage.removeItem('tenant');
+    localStorage.removeItem('X-Access-Token');
+    localStorage.removeItem('X-Refresh-Token');
+    localStorage.removeItem('X-Expires-At');
+    localStorage.removeItem('X-Tenant-Id');
   }
 
   /**
@@ -92,7 +89,7 @@ export class TokenService {
    * @returns true if token is expired or missing, otherwise false
    */
   isTokenExpired(): boolean {
-    const expiresAt = localStorage.getItem('expires_at');
+    const expiresAt = localStorage.getItem('X-Expires-At');
     if (!expiresAt) return true;
 
     return Date.now() >= Number(expiresAt);

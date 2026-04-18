@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airport.georegion.controller;
 
-import com.codeshare.airline.dto.airport.georegion.CityDTO;
+import com.codeshare.airline.core.dto.airport.georegion.CityDTO;
 import com.codeshare.airline.master.airport.georegion.service.CityService;
 import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/cities")
+@RequestMapping("/cities")
 public class CityController
         extends BaseController<CityDTO, UUID> {
 

@@ -4,8 +4,6 @@ import com.codeshare.airline.inbound.dto.common.ssim.SsimDataElementDTO;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;
 import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.inbound.entities.ssim.*;
-import com.codeshare.airline.ingestion.persistence.entities.ssim.*;
-import com.codeshare.airline.persistence.entities.ssim.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

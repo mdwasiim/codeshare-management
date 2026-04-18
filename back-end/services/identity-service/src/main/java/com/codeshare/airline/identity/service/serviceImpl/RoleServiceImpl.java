@@ -1,9 +1,9 @@
-package com.codeshare.airline.service.serviceImpl;
+package com.codeshare.airline.identity.service.serviceImpl;
 
-import com.codeshare.airline.entities.Role;
-import com.codeshare.airline.repository.RoleRepository;
-import com.codeshare.airline.service.RoleService;
-import com.codeshare.airline.utils.mappers.RoleMapper;
+import com.codeshare.airline.identity.entities.Role;
+import com.codeshare.airline.identity.repository.RoleRepository;
+import com.codeshare.airline.identity.service.RoleService;
+import com.codeshare.airline.identity.utils.mappers.RoleMapper;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

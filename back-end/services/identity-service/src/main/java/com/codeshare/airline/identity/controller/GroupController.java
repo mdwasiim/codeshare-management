@@ -1,8 +1,8 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.GroupService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.GroupDTO;
+import com.codeshare.airline.identity.service.GroupService;
 import com.codeshare.airline.core.response.CSMServiceResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/groups")
+@RequestMapping("/groups")
 @RequiredArgsConstructor
 public class GroupController {
 

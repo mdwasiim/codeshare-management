@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.AuthUserService;
+import com.codeshare.airline.identity.service.AuthUserService;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

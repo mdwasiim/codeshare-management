@@ -1,10 +1,10 @@
-package com.codeshare.airlineservice.serviceImpl;
+package com.codeshare.airline.identity.service.serviceImpl;
 
-import com.codeshare.airlineentities.Menu;
-import com.codeshare.airlinerepository.MenuRepository;
-import com.codeshare.airlineservice.MenuService;
-import com.codeshare.airlineutils.mappers.MenuMapper;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.identity.entities.Menu;
+import com.codeshare.airline.identity.repository.MenuRepository;
+import com.codeshare.airline.identity.service.MenuService;
+import com.codeshare.airline.identity.utils.mappers.MenuMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

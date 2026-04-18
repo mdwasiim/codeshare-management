@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class OrganizationService {
 
-    private baseUrl = '/api/tenants'; // backend remains tenant
+    private baseUrl = '/tenants'; // backend remains tenant
 
     constructor(private http: HttpClient) {}
 

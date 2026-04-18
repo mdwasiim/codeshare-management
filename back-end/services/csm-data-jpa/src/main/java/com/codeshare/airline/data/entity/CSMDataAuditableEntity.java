@@ -1,6 +1,6 @@
 package com.codeshare.airline.data.entity;
 
-import com.codeshare.airline.dto.audit.context.CSMAuditContext;
+import com.codeshare.airline.core.dto.audit.context.CSMAuditContext;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -55,10 +56,9 @@ public abstract class CSMDataAuditableEntity {
     private String transactionId;
 
     /* ---------- Lifecycle hooks ---------- */
-
     @PrePersist
     protected void onCreate() {
-        Instant now = Instant.now();
+        Instant now = now();
 
         if (this.createdAt == null) {
             this.createdAt = now;
@@ -66,38 +66,52 @@ public abstract class CSMDataAuditableEntity {
 
         this.updatedAt = now;
 
-        var ctx = CSMAuditContext.get();
-        if (ctx != null) {
-            String user = ctx.getUserId() != null ? ctx.getUserId() : "SYSTEM";
-            String txn  = ctx.getTransactionId();
+        CSMAuditContext ctx = CSMAuditContext.get();
 
-            if (this.createdBy == null) {
-                this.createdBy = user;
-            }
+        String user = resolveUser(ctx);
+        String txn  = resolveTxn(ctx);
 
-            this.updatedBy = user;
-
-            if (txn != null) {
-                this.transactionId = txn;
-            }
+        if (this.createdBy == null) {
+            this.createdBy = user;
         }
+
+        this.updatedBy = user;
+
+        this.transactionId = (txn != null)
+                ? txn
+                : UUID.randomUUID().toString();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        Instant now = Instant.now();
+        Instant now = now();
         this.updatedAt = now;
 
-        var ctx = CSMAuditContext.get();
-        if (ctx != null) {
-            String user = ctx.getUserId() != null ? ctx.getUserId() : "SYSTEM";
-            String txn  = ctx.getTransactionId();
+        CSMAuditContext ctx = CSMAuditContext.get();
 
-            this.updatedBy = user;
+        String user = resolveUser(ctx);
+        String txn  = resolveTxn(ctx);
 
-            if (txn != null) {
-                this.transactionId = txn;
-            }
+        this.updatedBy = user;
+
+        if (txn != null) {
+            this.transactionId = txn;
         }
+    }
+
+    /* ---------- helpers ---------- */
+
+    private Instant now() {
+        return Instant.now();
+    }
+
+    private String resolveUser(CSMAuditContext ctx) {
+        return (ctx != null && ctx.getUserId() != null)
+                ? ctx.getUserId()
+                : "SYSTEM";
+    }
+
+    private String resolveTxn(CSMAuditContext ctx) {
+        return (ctx != null) ? ctx.getTransactionId() : null;
     }
 }

@@ -1,8 +1,9 @@
-package com.codeshare.airlinerepository;
+package com.codeshare.airline.identity.repository;
 
-import com.codeshare.airlineentities.OidcIdentityProviderEntity;
+
 import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.persistence.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.identity.entities.OidcIdentityProviderEntity;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.Optional;

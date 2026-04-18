@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.commercial.codeshare.serviceImpl;
 
-import com.codeshare.airline.dto.codeshare.CodeshareDayRuleDTO;
+import com.codeshare.airline.core.dto.codeshare.CodeshareDayRuleDTO;
 import com.codeshare.airline.master.commercial.codeshare.eitities.CodeshareDayRule;
 import com.codeshare.airline.master.commercial.codeshare.eitities.CodeshareFlightMapping;
 import com.codeshare.airline.master.commercial.codeshare.repository.CodeshareDayRuleRepository;
 import com.codeshare.airline.master.commercial.codeshare.repository.CodeshareFlightMappingRepository;
 import com.codeshare.airline.master.commercial.codeshare.service.CodeshareDayRuleService;
-import com.codeshare.airline.master.commercial.codeshare.utils.mappers.CodeshareDayRuleMapper;
+import com.codeshare.airline.master.commercial.codeshare.mappers.CodeshareDayRuleMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

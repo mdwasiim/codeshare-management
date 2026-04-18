@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.authentication.provider.ldap;
 
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.authentication.api.request.LoginRequest;
 import com.codeshare.airline.identity.authentication.domain.IdentityProviderConfig;
 import com.codeshare.airline.identity.authentication.domain.OidcConfig;
@@ -9,9 +10,8 @@ import com.codeshare.airline.identity.authentication.provider.AuthenticationProv
 import com.codeshare.airline.identity.authentication.security.adapter.UserDetailsAdapter;
 import com.codeshare.airline.identity.authentication.service.core.AuthenticationResult;
 import com.codeshare.airline.identity.authentication.service.source.TenantIdentityProviderSelector;
-import com.codeshare.airline.service.AuthUserService;
-import com.codeshare.airline.service.RolePermissionAssignmentService;
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.identity.service.AuthUserService;
+import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ldap.core.LdapTemplate;

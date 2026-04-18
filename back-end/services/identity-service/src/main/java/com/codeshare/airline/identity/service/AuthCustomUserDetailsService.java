@@ -1,7 +1,7 @@
-package com.codeshare.airline.service;
+package com.codeshare.airline.identity.service;
 
-import com.codeshare.airline.entities.User;
-import com.codeshare.airline.repository.UserRepository;
+import com.codeshare.airline.identity.entities.User;
+import com.codeshare.airline.identity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

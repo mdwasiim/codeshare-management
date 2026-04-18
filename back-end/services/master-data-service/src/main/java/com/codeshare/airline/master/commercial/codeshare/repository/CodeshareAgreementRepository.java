@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.commercial.codeshare.repository;
 
 import com.codeshare.airline.master.commercial.codeshare.eitities.CodeshareAgreement;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.time.LocalDate;
 import java.util.List;

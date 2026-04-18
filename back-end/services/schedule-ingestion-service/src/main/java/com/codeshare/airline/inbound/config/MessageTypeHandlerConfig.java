@@ -1,10 +1,10 @@
 package com.codeshare.airline.inbound.config;
 
-import com.codeshare.airline.enums.MessageType;
-import com.codeshare.airline.orchestration.handler.StreamExtractorHandler;
-import com.codeshare.airline.orchestration.parsers.MessageParser;
-import com.codeshare.airline.stream.extractor.GenericMessageExtractor;
-import com.codeshare.airline.stream.extractor.SsimMessageExtractor;
+import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.inbound.orchestration.handler.StreamExtractorHandler;
+import com.codeshare.airline.inbound.orchestration.parsers.MessageParser;
+import com.codeshare.airline.inbound.stream.extractor.GenericMessageExtractor;
+import com.codeshare.airline.inbound.stream.extractor.SsimMessageExtractor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

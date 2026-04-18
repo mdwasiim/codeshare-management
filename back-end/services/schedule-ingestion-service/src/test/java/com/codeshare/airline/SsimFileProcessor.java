@@ -1,11 +1,11 @@
 package com.codeshare.airline;
 
 import com.codeshare.airline.core.enums.MessageType;
-import com.codeshare.airline.domain.context.ScheduleGroupedMessage;
-import com.codeshare.airline.orchestration.parsers.SsimMessageParser;
-import com.codeshare.airline.persistence.dto.common.ssim.SsimFlightDTO;
-import com.codeshare.airline.persistence.dto.ssim.SSIMMessageDTO;
-import com.codeshare.airline.stream.extractor.SsimMessageExtractor;
+import com.codeshare.airline.inbound.domain.context.ScheduleGroupedMessage;
+import com.codeshare.airline.inbound.orchestration.parsers.SsimMessageParser;
+import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;
+import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
+import com.codeshare.airline.inbound.stream.extractor.SsimMessageExtractor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

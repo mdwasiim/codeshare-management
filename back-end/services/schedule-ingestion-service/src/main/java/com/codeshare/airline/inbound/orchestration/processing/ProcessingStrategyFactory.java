@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.orchestration.processing;
 
 import com.codeshare.airline.inbound.domain.context.AbstractIngestionContext;
-import com.codeshare.airline.enums.MessageType;
+import com.codeshare.airline.core.enums.MessageType;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

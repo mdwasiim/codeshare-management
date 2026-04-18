@@ -1,5 +1,7 @@
 package com.codeshare.airline.identity.controller.api;
 
+import com.codeshare.airline.core.constants.CSMConstants;
+import com.codeshare.airline.core.response.CSMServiceResponse;
 import com.codeshare.airline.identity.authentication.api.request.LoginRequest;
 import com.codeshare.airline.identity.authentication.api.request.OidcTokenExchangeRequest;
 import com.codeshare.airline.identity.authentication.api.response.LoginResponse;
@@ -13,18 +15,14 @@ import com.codeshare.airline.identity.authentication.exception.UnsupportedAuthen
 import com.codeshare.airline.identity.authentication.provider.AuthenticationProvider;
 import com.codeshare.airline.identity.authentication.provider.AuthorizationRedirectCapable;
 import com.codeshare.airline.identity.authentication.provider.oidc.base.OidcStateManager;
-import com.codeshare.airline.authentication.service.core.*;
 import com.codeshare.airline.identity.authentication.service.core.*;
 import com.codeshare.airline.identity.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.identity.authentication.state.OidcStatePayload;
-import com.codeshare.airline.common.CSMResponse;
-import com.codeshare.airline.core.constants.CSMConstants;
-import com.codeshare.airline.core.response.CSMServiceResponse;
+import com.codeshare.airline.web.response.CSMResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +32,7 @@ import java.io.IOException;
 @Slf4j
 @CSMResponse
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class LoginController {
 
@@ -49,7 +47,7 @@ public class LoginController {
     // LOGIN
     // -------------------------------------------------
     @PostMapping("/login")
-    public LoginResponse login(@RequestHeader("tenant-code") String tenantCode,@RequestBody LoginRequest request) {
+    public LoginResponse login(@RequestHeader("X-Tenant-Id") String tenantCode,@RequestBody LoginRequest request) {
 
         TenantContext tenant = tenantContextResolver.resolveTenant(tenantCode);
 
@@ -67,25 +65,25 @@ public class LoginController {
 
         log.debug("Tokens issued successfully | user={} ingestion={}",authResult.getUsername(),authResult.getTenantCode());
 
-        LoginResponse loginResponse = LoginResponse.builder()
-                .userId(authResult.getUserId())
-                .username(authResult.getUsername())
-                .email(authResult.getEmail())
-                .tenantCode(authResult.getTenantCode())
-                .roles(authResult.getRoles())
-                .permissions(authResult.getPermissions())
-                .accessToken(tokens.getAccessToken())
-                .refreshToken(tokens.getRefreshToken())
-                .expiresIn(tokenService.getAccessTokenTtl())
-                .build();
-        return loginResponse;
+        return LoginResponse.builder()
+                        .userId(authResult.getUserId())
+                        .username(authResult.getUsername())
+                        .email(authResult.getEmail())
+                        .tenantCode(authResult.getTenantCode())
+                        .roles(authResult.getRoles())
+                        .permissions(authResult.getPermissions())
+                        .accessToken(tokens.getAccessToken())
+                        .refreshToken(tokens.getRefreshToken())
+                        .expiresIn(tokenService.getAccessTokenTtl())
+                        .build();
+
     }
 
     // -------------------------------------------------
     // REFRESH TOKEN
     // -------------------------------------------------
     @PostMapping("/refresh")
-    public RefreshTokenResponse refresh( @RequestHeader("tenant-code") String tenantCode, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+    public RefreshTokenResponse refresh( @RequestHeader("X-Tenant-Id") String tenantCode, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
         log.debug("Refresh token request received");
         if (!StringUtils.hasText(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
@@ -113,23 +111,10 @@ public class LoginController {
     // -------------------------------------------------
     // LOGOUT
     // -------------------------------------------------
- /*   @PostMapping("/logout")
-    public void logout(
-            @RequestHeader(value = "X-Refresh-Token", required = false) String refreshToken
-    ) {
-        if (StringUtils.hasText(refreshToken)) {
-            log.info("Logout request received – revoking session");
-            tokenService.revokeSession(refreshToken);
-        } else {
-            log.debug("Logout request without refresh token");
-        }
-    }*/
-
     @PostMapping("/logout")
-    public ResponseEntity<CSMServiceResponse<?>> logout(
-            @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
+    public CSMServiceResponse<String> logout(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorizationHeader
     ) {
-
         String refreshToken = extractToken(authorizationHeader);
 
         Jwt jwt = tokenService.validateRefreshToken(refreshToken);
@@ -141,9 +126,8 @@ public class LoginController {
         );
 
         tokenService.revokeSession(refreshToken);
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(CSMConstants.NO_DATA)
-        );
+
+        return CSMServiceResponse.success(CSMConstants.LOGOUT_SUCCESS);
     }
 
     // -------------------------------------------------

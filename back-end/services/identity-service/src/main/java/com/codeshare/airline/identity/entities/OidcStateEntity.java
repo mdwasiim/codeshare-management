@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.entities;
 
-import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

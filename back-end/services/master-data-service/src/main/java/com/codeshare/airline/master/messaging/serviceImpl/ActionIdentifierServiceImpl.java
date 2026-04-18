@@ -1,10 +1,10 @@
-package com.codeshare.airline.messaging.serviceImpl;
+package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.dto.ssim.ActionIdentifierDTO;
-import com.codeshare.airline.messaging.eitities.ActionIdentifier;
-import com.codeshare.airline.messaging.repository.ActionIdentifierRepository;
-import com.codeshare.airline.messaging.service.ActionIdentifierService;
-import com.codeshare.airline.messaging.utils.mappers.ActionIdentifierMapper;
+import com.codeshare.airline.core.dto.ssim.ActionIdentifierDTO;
+import com.codeshare.airline.master.messaging.eitities.ActionIdentifier;
+import com.codeshare.airline.master.messaging.repository.ActionIdentifierRepository;
+import com.codeshare.airline.master.messaging.service.ActionIdentifierService;
+import com.codeshare.airline.master.messaging.mappers.ActionIdentifierMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 

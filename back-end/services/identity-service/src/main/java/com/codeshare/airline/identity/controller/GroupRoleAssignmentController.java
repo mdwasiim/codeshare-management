@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.GroupRoleAssignmentService;
+import com.codeshare.airline.identity.service.GroupRoleAssignmentService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.response.CSMServiceResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/group-role")
+@RequestMapping("/group-role")
 @RequiredArgsConstructor
 public class GroupRoleAssignmentController {
 

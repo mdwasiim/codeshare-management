@@ -1,10 +1,10 @@
-package com.codeshare.airline.messaging.serviceImpl;
+package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.dto.ssim.DeiDTO;
-import com.codeshare.airline.messaging.eitities.DeiRegistry;
-import com.codeshare.airline.messaging.repository.DeiRepository;
-import com.codeshare.airline.messaging.service.DeiService;
-import com.codeshare.airline.messaging.utils.mappers.DeiMapper;
+import com.codeshare.airline.core.dto.ssim.DeiDTO;
+import com.codeshare.airline.master.messaging.eitities.DeiRegistry;
+import com.codeshare.airline.master.messaging.repository.DeiRepository;
+import com.codeshare.airline.master.messaging.service.DeiService;
+import com.codeshare.airline.master.messaging.mappers.DeiMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 

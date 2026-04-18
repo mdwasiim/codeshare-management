@@ -1,9 +1,9 @@
-package com.codeshare.airline.messaging.controller;
+package com.codeshare.airline.master.messaging.controller;
 
 
-import com.codeshare.airline.dto.ssim.DeiDTO;
+import com.codeshare.airline.core.dto.ssim.DeiDTO;
 import com.codeshare.airline.master.common.base.BaseController;
-import com.codeshare.airline.messaging.service.DeiService;
+import com.codeshare.airline.master.messaging.service.DeiService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/dei")
+@RequestMapping("/dei")
 public class DeiController
         extends BaseController<DeiDTO, UUID> {
 

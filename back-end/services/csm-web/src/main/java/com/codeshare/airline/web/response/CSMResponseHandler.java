@@ -1,4 +1,4 @@
-package com.codeshare.airline.response;
+package com.codeshare.airline.web.response;
 
 import com.codeshare.airline.core.response.CSMServiceResponse;
 import org.springframework.core.MethodParameter;

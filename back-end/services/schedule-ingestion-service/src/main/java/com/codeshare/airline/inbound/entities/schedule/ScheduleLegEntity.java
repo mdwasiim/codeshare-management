@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.entities.schedule;
 
-import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

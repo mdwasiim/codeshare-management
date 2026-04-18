@@ -1,16 +1,16 @@
 package com.codeshare.airline;
 
 import com.codeshare.airline.core.enums.MessageType;
-import com.codeshare.airline.common.classifier.LineClassifier;
-import com.codeshare.airline.common.classifier.LineClassifierFactory;
-import com.codeshare.airline.domain.context.GenericLineClassifierContext;
-import com.codeshare.airline.domain.context.ScheduleGroupedMessage;
-import com.codeshare.airline.domain.enums.ActionType;
-import com.codeshare.airline.domain.enums.ScheduleLineIdentifier;
-import com.codeshare.airline.orchestration.parsers.AsmMessageParser;
-import com.codeshare.airline.orchestration.parsers.SsmMessageParser;
-import com.codeshare.airline.persistence.dto.schedule.ScheduleMessageDTO;
-import com.codeshare.airline.stream.extractor.GenericMessageExtractor;
+import com.codeshare.airline.inbound.common.classifier.LineClassifier;
+import com.codeshare.airline.inbound.common.classifier.LineClassifierFactory;
+import com.codeshare.airline.inbound.domain.context.GenericLineClassifierContext;
+import com.codeshare.airline.inbound.domain.context.ScheduleGroupedMessage;
+import com.codeshare.airline.inbound.domain.enums.ActionType;
+import com.codeshare.airline.inbound.domain.enums.ScheduleLineIdentifier;
+import com.codeshare.airline.inbound.orchestration.parsers.AsmMessageParser;
+import com.codeshare.airline.inbound.orchestration.parsers.SsmMessageParser;
+import com.codeshare.airline.inbound.dto.schedule.ScheduleMessageDTO;
+import com.codeshare.airline.inbound.stream.extractor.GenericMessageExtractor;
 
 import java.io.IOException;
 import java.io.InputStream;

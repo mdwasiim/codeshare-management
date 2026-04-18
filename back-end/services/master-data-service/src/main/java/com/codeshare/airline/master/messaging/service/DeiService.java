@@ -1,6 +1,6 @@
-package com.codeshare.airline.messaging.service;
+package com.codeshare.airline.master.messaging.service;
 
-import com.codeshare.airline.dto.ssim.DeiDTO;
+import com.codeshare.airline.core.dto.ssim.DeiDTO;
 import com.codeshare.airline.master.common.base.BaseService;
 
 import java.util.Optional;

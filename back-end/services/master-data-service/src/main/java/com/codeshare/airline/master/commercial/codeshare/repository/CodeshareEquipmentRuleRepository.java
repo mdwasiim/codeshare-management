@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.commercial.codeshare.repository;
 
 import com.codeshare.airline.master.commercial.codeshare.eitities.CodeshareEquipmentRule;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 

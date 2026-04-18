@@ -1,10 +1,10 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
-import com.codeshare.airline.dto.aircraft.AircraftTypeDTO;
+import com.codeshare.airline.core.dto.aircraft.AircraftTypeDTO;
 import com.codeshare.airline.master.aircraft.eitities.AircraftType;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
 import com.codeshare.airline.master.aircraft.service.AircraftTypeService;
-import com.codeshare.airline.master.aircraft.utils.mappers.AircraftTypeMapper;
+import com.codeshare.airline.master.aircraft.mappers.AircraftTypeMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,10 @@
 package com.codeshare.airline.identity.authentication.service.source;
 
+
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.authentication.domain.IdentityProviderConfig;
 import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.exception.UnsupportedAuthenticationFlowException;
-import com.codeshare.airline.core.enums.auth.AuthSource;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -12,7 +13,7 @@ import java.util.List;
 @Service
 public class TenantIdentityProviderSelector  {
 
-    public IdentityProviderConfig select(TenantContext tenant,AuthSource authSource) {
+    public IdentityProviderConfig select(TenantContext tenant, AuthSource authSource) {
 
         List<IdentityProviderConfig> providers = tenant.getIdentityProviders();
 

@@ -1,3 +1,4 @@
+/*
 package com.codeshare.airline.core.utils;
 
 import java.time.Instant;
@@ -24,3 +25,4 @@ public final class CSMTransactionIdGenerator {
         return prefix + "-" + timestamp + String.format("%05d", random);
     }
 }
+*/

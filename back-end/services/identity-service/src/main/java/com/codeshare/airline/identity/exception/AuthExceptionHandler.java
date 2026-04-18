@@ -1,7 +1,8 @@
 package com.codeshare.airline.identity.exception;
 
-import com.codeshare.airlineauthentication.exception.*;
+
 import com.codeshare.airline.core.exceptions.CSMErrorCodes;
+import com.codeshare.airline.identity.authentication.exception.*;
 import com.codeshare.airline.core.response.CSMServiceError;
 import com.codeshare.airline.core.response.CSMServiceResponse;
 import jakarta.servlet.http.HttpServletRequest;

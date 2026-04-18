@@ -1,17 +1,14 @@
 package com.codeshare.airline.inbound.orchestration.parsers;
 
-import com.codeshare.airline.enums.MessageType;
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.common.classifier.LineClassifier;
 import com.codeshare.airline.inbound.common.classifier.LineClassifierFactory;
 import com.codeshare.airline.inbound.domain.context.GenericLineClassifierContext;
 import com.codeshare.airline.inbound.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.inbound.domain.enums.TimeMode;
 import com.codeshare.airline.inbound.dto.schedule.*;
-import com.codeshare.airline.inbound.orchestration.parsers.shared.*;
-import com.codeshare.airline.ingestion.orchestration.parsers.shared.*;
-import com.codeshare.airline.ingestion.persistence.dto.schedule.*;
-import com.codeshare.airline.orchestration.parsers.shared.*;
 import com.codeshare.airline.inbound.mappers.schedule.ActionTypeMapper;
+import com.codeshare.airline.inbound.orchestration.parsers.shared.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

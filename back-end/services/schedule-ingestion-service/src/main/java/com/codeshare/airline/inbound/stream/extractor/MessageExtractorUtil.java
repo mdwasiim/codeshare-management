@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.stream.extractor;
 
-import com.codeshare.airline.enums.MessageType;
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.enums.ActionType;
 import com.codeshare.airline.inbound.mappers.schedule.ActionTypeMapper;
 

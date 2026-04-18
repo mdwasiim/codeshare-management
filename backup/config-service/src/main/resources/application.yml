@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: config-service
+
+  profiles:
+    active: native,${ACTIVE_PROFILE:dev}
+    group:
+      dev: native
+      stg: native
+      prd: native
+
+  cloud:
+    config:
+      server:
+        git:
+          enabled: false
+        native:
+          search-locations:
+            - classpath:/configurations/{profile}
+            - file:./configurations/{profile}
+
+server:
+  port: ${CONFIG_SERVER_PORT:8888}

@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.entities;
 
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

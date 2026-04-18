@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airport.georegion.service;
 
-import com.codeshare.airline.dto.airport.georegion.AirlineCarrierDTO;
+import com.codeshare.airline.core.dto.airport.georegion.AirlineCarrierDTO;
 import com.codeshare.airline.master.common.base.BaseService;
 
 import java.util.List;

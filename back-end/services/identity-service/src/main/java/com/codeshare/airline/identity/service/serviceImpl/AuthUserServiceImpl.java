@@ -1,13 +1,14 @@
-package com.codeshare.airline.service.serviceImpl;
+package com.codeshare.airline.identity.service.serviceImpl;
 
-import com.codeshare.airlineauthentication.security.adapter.UserDetailsAdapter;
-import com.codeshare.airline.identity.entities.User;
-import com.codeshare.airlinerepository.UserRepository;
-import com.codeshare.airlineservice.AuthUserService;
-import com.codeshare.airlineutils.mappers.AuthUserMapper;
-import com.codeshare.airlineutils.mappers.UserMapper;
+
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
+import com.codeshare.airline.identity.authentication.security.adapter.UserDetailsAdapter;
+import com.codeshare.airline.identity.entities.User;
+import com.codeshare.airline.identity.repository.UserRepository;
+import com.codeshare.airline.identity.service.AuthUserService;
+import com.codeshare.airline.identity.utils.mappers.AuthUserMapper;
+import com.codeshare.airline.identity.utils.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

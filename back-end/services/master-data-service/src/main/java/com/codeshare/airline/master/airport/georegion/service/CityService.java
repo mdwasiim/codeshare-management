@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airport.georegion.service;
 
-import com.codeshare.airline.dto.airport.georegion.CityDTO;
+import com.codeshare.airline.core.dto.airport.georegion.CityDTO;
 import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

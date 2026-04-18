@@ -1,10 +1,10 @@
-package com.codeshare.airline.messaging.serviceImpl;
+package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.dto.ssim.DistributionChannelDTO;
-import com.codeshare.airline.messaging.eitities.DistributionChannel;
-import com.codeshare.airline.messaging.repository.DistributionChannelRepository;
-import com.codeshare.airline.messaging.service.DistributionChannelService;
-import com.codeshare.airline.messaging.utils.mappers.DistributionChannelMapper;
+import com.codeshare.airline.core.dto.ssim.DistributionChannelDTO;
+import com.codeshare.airline.master.messaging.eitities.DistributionChannel;
+import com.codeshare.airline.master.messaging.repository.DistributionChannelRepository;
+import com.codeshare.airline.master.messaging.service.DistributionChannelService;
+import com.codeshare.airline.master.messaging.mappers.DistributionChannelMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 

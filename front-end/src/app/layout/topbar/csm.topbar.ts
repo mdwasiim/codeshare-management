@@ -59,10 +59,23 @@ export class CSMTopbar {
     ];
   }
 
-logout() {
-    this.authService.logout();      // sync
-    this.router.navigate(['/auth/login']);
-}
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.clearSession();
+        this.router.navigate(['/auth/login']);
+      },
+      error: () => {
+        this.clearSession();
+        this.router.navigate(['/auth/login']);
+      }
+    });
+  }
+
+  private clearSession() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+  }
 
 
   toggleDarkMode() {

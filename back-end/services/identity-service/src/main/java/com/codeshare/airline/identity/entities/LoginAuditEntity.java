@@ -1,8 +1,7 @@
 package com.codeshare.airline.identity.entities;
 
 
-
-import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

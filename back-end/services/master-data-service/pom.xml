@@ -54,18 +54,6 @@
             <scope>runtime</scope>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <!-- Config + Discovery -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-
         <!-- Feign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

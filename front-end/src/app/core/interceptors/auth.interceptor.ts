@@ -33,19 +33,25 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   }
   
   
-  const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh');
+  const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/logout'); ;
 
   // =========================
   // Build headers ONCE
   // =========================
+  const existingAuth = req.headers.get('Authorization');
+  const isLogout = req.url.includes('/auth/logout');
+
   const headers: Record<string, string> = {
     'X-Tenant-Id': tenantCode ?? ''
   };
 
-  if (!isAuthEndpoint && tokenService.accessToken) {
-    headers['Authorization'] = `Bearer ${tokenService.accessToken}`;
-  }
-
+if (isLogout && tokenService.refreshToken) {
+  // ✅ FORCE refresh token for logout
+  headers['Authorization'] = `Bearer ${tokenService.refreshToken}`;
+} else if (!existingAuth && tokenService.accessToken) {
+  // ✅ normal flow
+  headers['Authorization'] = `Bearer ${tokenService.accessToken}`;
+}
   const authReq = req.clone({ setHeaders: headers });
 
   // 🚫 Do NOT refresh on auth endpoints
@@ -109,7 +115,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
             req.clone({
               setHeaders: {
                 Authorization: `Bearer ${response.access_token}`,
-                'tenant-code': tenantCode ?? ''
+                'X-Tenant-Id': tenantCode ?? ''
               }
             })
           );

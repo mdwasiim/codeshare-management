@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.AuthUserDeviceService;
-import com.codeshare.airline.service.AuthUserService;
+import com.codeshare.airline.identity.service.AuthUserDeviceService;
+import com.codeshare.airline.identity.service.AuthUserService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.core.dto.auth.AuthUserDeviceDTO;
@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/devices")
+@RequestMapping("/devices")
 @RequiredArgsConstructor
 public class UserDeviceController {
 

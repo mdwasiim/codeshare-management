@@ -1,14 +1,14 @@
-package com.codeshare.airline.utils.data;
+package com.codeshare.airline.identity.utils.data;
 
 
-import com.codeshare.airline.entities.Group;
-import com.codeshare.airline.entities.GroupRole;
-import com.codeshare.airline.entities.Role;
-import com.codeshare.airline.entities.Tenant;
-import com.codeshare.airline.repository.GroupRepository;
-import com.codeshare.airline.repository.GroupRoleRepository;
-import com.codeshare.airline.repository.RoleRepository;
-import com.codeshare.airline.repository.TenantRepository;
+import com.codeshare.airline.identity.entities.Group;
+import com.codeshare.airline.identity.entities.GroupRole;
+import com.codeshare.airline.identity.entities.Role;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.identity.repository.GroupRepository;
+import com.codeshare.airline.identity.repository.GroupRoleRepository;
+import com.codeshare.airline.identity.repository.RoleRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

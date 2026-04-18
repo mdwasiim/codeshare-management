@@ -1,8 +1,8 @@
-package com.codeshare.airline.service;
+package com.codeshare.airline.identity.service;
 
 
-import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.identity.authentication.domain.TenantContext;
 
 import java.util.List;
 import java.util.UUID;

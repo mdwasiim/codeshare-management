@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.aircraft.repository;
 
 import com.codeshare.airline.master.aircraft.eitities.AircraftType;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.domain.context;
 
-import com.codeshare.airline.enums.MessageType;
+import com.codeshare.airline.core.enums.MessageType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

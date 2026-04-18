@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.airport.georegion.serviceImpl;
 
-import com.codeshare.airline.dto.airport.georegion.TimezoneDTO;
+import com.codeshare.airline.core.dto.airport.georegion.TimezoneDTO;
 import com.codeshare.airline.master.airport.georegion.eitities.DstRule;
 import com.codeshare.airline.master.airport.georegion.eitities.Timezone;
 import com.codeshare.airline.master.airport.georegion.repository.DstRuleRepository;
 import com.codeshare.airline.master.airport.georegion.repository.TimezoneRepository;
 import com.codeshare.airline.master.airport.georegion.service.TimezoneService;
-import com.codeshare.airline.master.airport.georegion.utils.mappers.TimezoneMapper;
+import com.codeshare.airline.master.airport.georegion.mappers.TimezoneMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

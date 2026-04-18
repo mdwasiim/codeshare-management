@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.stream.extractor;
 
 import com.codeshare.airline.inbound.common.reader.LineReader;
-import com.codeshare.airline.enums.MessageType;
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.orchestration.handler.StreamExtractorHandler;
 import lombok.extern.slf4j.Slf4j;
 

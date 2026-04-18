@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.TenantService;
+import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.TenantDTO;
 import com.codeshare.airline.core.response.CSMServiceResponse;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/tenants")
+@RequestMapping("/tenants")
 @RequiredArgsConstructor
 public class TenantController {
 

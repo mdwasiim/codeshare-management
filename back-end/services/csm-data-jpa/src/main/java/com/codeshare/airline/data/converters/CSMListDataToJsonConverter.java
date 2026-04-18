@@ -1,4 +1,4 @@
-package com.codeshare.airline.converters;
+package com.codeshare.airline.data.converters;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

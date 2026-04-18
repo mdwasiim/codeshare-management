@@ -6,8 +6,8 @@ import com.codeshare.airline.identity.authentication.exception.AuthenticationFai
 import com.codeshare.airline.identity.authentication.provider.AuthenticationProvider;
 import com.codeshare.airline.identity.authentication.security.adapter.UserDetailsAdapter;
 import com.codeshare.airline.identity.authentication.service.core.AuthenticationResult;
-import com.codeshare.airline.service.AuthUserService;
-import com.codeshare.airline.service.RolePermissionAssignmentService;
+import com.codeshare.airline.identity.service.AuthUserService;
+import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.repositories.source;
 
 
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import com.codeshare.airline.inbound.entities.source.ScheduleIngestionProfileEntity;
 import org.springframework.data.jpa.repository.Query;
 

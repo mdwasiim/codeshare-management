@@ -5,7 +5,7 @@ import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.authentication.exception.TenantResolutionException;
 import com.codeshare.airline.identity.authentication.service.source.TenantIdentityProviderSelector;
-import com.codeshare.airline.service.TenantService;
+import com.codeshare.airline.identity.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

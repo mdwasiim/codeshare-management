@@ -1,10 +1,11 @@
-package com.codeshare.airline.utils.data;
+package com.codeshare.airline.identity.utils.data;
 
 
-import com.codeshare.airline.enums.auth.AuthSource;
-import com.codeshare.airline.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.identity.entities.Tenant;
-import com.codeshare.airline.repository.UserRepository;
+import com.codeshare.airline.identity.entities.User;
+import com.codeshare.airline.identity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -13,7 +13,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 
@@ -34,14 +33,14 @@ public class WebSecurityConfig {
                 // ----------------------------------
                 // Core security
                 // ----------------------------------
-                .cors(cors -> cors.configurationSource(request -> {
+                /*.cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(securityProperties.getCors().getAllowedOrigins());
                     config.setAllowedMethods(securityProperties.getCors().getAllowedMethods());
                     config.setAllowedHeaders(securityProperties.getCors().getAllowedHeaders());
                     config.setAllowCredentials(securityProperties.getCors().isAllowCredentials());
                     return config;
-                }))
+                }))*/
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> {
                     log.debug("Configuring stateless session management");
@@ -54,13 +53,13 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> {log.debug("Configuring authorization rules");
 
                     auth.requestMatchers(
-                            "/api/auth/login",
-                            "/api/auth/refresh",
-                            "/api/auth/logout",
+                            "/auth/login",
+                            "/auth/refresh",
+                            "/auth/logout",
                             "/.well-known/**"
                     ).permitAll();
 
-                    log.info("Public endpoints: /api/auth/login, /api/auth/refresh, /api/auth/logout, /.well-known/**");
+                    log.info("Public endpoints: /auth/login, /auth/refresh, /auth/logout, /.well-known/**");
 
                     auth.requestMatchers("/actuator/health", "/actuator/info").permitAll();
 

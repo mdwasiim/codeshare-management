@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.commercial.codeshare.serviceImpl;
 
-import com.codeshare.airline.dto.codeshare.CodeshareFlightMappingDTO;
+import com.codeshare.airline.core.dto.codeshare.CodeshareFlightMappingDTO;
 import com.codeshare.airline.master.commercial.codeshare.eitities.CodeshareAgreement;
 import com.codeshare.airline.master.commercial.codeshare.eitities.CodeshareFlightMapping;
 import com.codeshare.airline.master.commercial.codeshare.repository.CodeshareAgreementRepository;
 import com.codeshare.airline.master.commercial.codeshare.repository.CodeshareFlightMappingRepository;
 import com.codeshare.airline.master.commercial.codeshare.service.CodeshareFlightMappingService;
-import com.codeshare.airline.master.commercial.codeshare.utils.mappers.CodeshareFlightMappingMapper;
+import com.codeshare.airline.master.commercial.codeshare.mappers.CodeshareFlightMappingMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

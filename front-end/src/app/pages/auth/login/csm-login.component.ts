@@ -59,6 +59,8 @@ login() {
   this.authService.login(this.username, this.password).subscribe({
     next: (response) => {
 
+      console.log('🚀 LOGOUT TOKEN:', this.tokenService.refreshToken);
+
       // ✅ Store tokens
       this.tokenService.setTokens(
         response.access_token,

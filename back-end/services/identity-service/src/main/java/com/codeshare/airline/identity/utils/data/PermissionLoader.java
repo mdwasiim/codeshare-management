@@ -1,8 +1,10 @@
-package com.codeshare.airline.utils.data;
+package com.codeshare.airline.identity.utils.data;
 
 
-import com.codeshare.airline.repository.PermissionRepository;
-import com.codeshare.airline.repository.TenantRepository;
+import com.codeshare.airline.identity.entities.Permission;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.identity.repository.PermissionRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

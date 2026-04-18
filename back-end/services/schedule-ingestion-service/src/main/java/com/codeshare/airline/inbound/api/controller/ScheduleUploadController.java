@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.api.controller;
 
 import com.codeshare.airline.inbound.api.response.UploadResponse;
-import com.codeshare.airline.enums.MessageType;
+import com.codeshare.airline.core.enums.MessageType;
 import lombok.RequiredArgsConstructor;
 import org.apache.camel.ProducerTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.time.Instant;
 
 @RestController
-@RequestMapping("/api/schedule")
+@RequestMapping("/schedule")
 @RequiredArgsConstructor
 public class ScheduleUploadController {
 

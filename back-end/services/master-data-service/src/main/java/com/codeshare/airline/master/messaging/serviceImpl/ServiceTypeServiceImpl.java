@@ -1,10 +1,10 @@
-package com.codeshare.airline.messaging.serviceImpl;
+package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.dto.airport.georegion.ServiceTypeDTO;
-import com.codeshare.airline.messaging.eitities.ServiceType;
-import com.codeshare.airline.messaging.repository.ServiceTypeRepository;
-import com.codeshare.airline.messaging.service.ServiceTypeService;
-import com.codeshare.airline.messaging.utils.mappers.ServiceTypeMapper;
+import com.codeshare.airline.core.dto.airport.georegion.ServiceTypeDTO;
+import com.codeshare.airline.master.messaging.eitities.ServiceType;
+import com.codeshare.airline.master.messaging.repository.ServiceTypeRepository;
+import com.codeshare.airline.master.messaging.service.ServiceTypeService;
+import com.codeshare.airline.master.messaging.mappers.ServiceTypeMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.RoleService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.core.response.CSMServiceResponse;
+import com.codeshare.airline.identity.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/roles")
+@RequestMapping("/roles")
 @RequiredArgsConstructor
 public class RoleController {
 

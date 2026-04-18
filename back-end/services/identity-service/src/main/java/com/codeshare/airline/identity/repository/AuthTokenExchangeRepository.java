@@ -1,7 +1,8 @@
-package com.codeshare.airline.repository;
+package com.codeshare.airline.identity.repository;
+
 
 import com.codeshare.airline.identity.entities.AuthTokenExchangeEntity;
-import com.codeshare.airline.persistence.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

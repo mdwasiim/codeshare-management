@@ -7,11 +7,11 @@ import com.codeshare.airline.identity.authentication.exception.RefreshTokenInval
 import com.codeshare.airline.identity.authentication.exception.TokenValidationException;
 import com.codeshare.airline.identity.authentication.security.adapter.UserDetailsAdapter;
 import com.codeshare.airline.identity.entities.AuthTokenExchangeEntity;
-import com.codeshare.airline.entities.RefreshToken;
-import com.codeshare.airline.repository.AuthTokenExchangeRepository;
-import com.codeshare.airline.repository.RefreshTokenRepository;
-import com.codeshare.airline.service.AuthUserService;
-import com.codeshare.airline.service.RolePermissionAssignmentService;
+import com.codeshare.airline.identity.entities.RefreshToken;
+import com.codeshare.airline.identity.repository.AuthTokenExchangeRepository;
+import com.codeshare.airline.identity.repository.RefreshTokenRepository;
+import com.codeshare.airline.identity.service.AuthUserService;
+import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.oauth2.jwt.*;

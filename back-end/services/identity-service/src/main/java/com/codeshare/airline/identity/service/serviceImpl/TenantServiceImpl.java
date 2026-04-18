@@ -1,17 +1,17 @@
-package com.codeshare.airline.service.serviceImpl;
+package com.codeshare.airline.identity.service.serviceImpl;
 
+import com.codeshare.airline.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
 import com.codeshare.airline.identity.authentication.domain.IdentityProviderConfig;
 import com.codeshare.airline.identity.authentication.domain.OidcConfig;
 import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.exception.AuthenticationFailedException;
+import com.codeshare.airline.identity.entities.OidcConfigEntity;
 import com.codeshare.airline.identity.entities.OidcIdentityProviderEntity;
-import com.codeshare.airline.entities.OidcConfigEntity;
-import com.codeshare.airline.entities.Tenant;
-import com.codeshare.airline.repository.TenantRepository;
-import com.codeshare.airline.service.TenantService;
-import com.codeshare.airline.utils.mappers.TenantMapper;
-import com.codeshare.airline.core.dto.tenant.TenantDTO;
-import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.identity.repository.TenantRepository;
+import com.codeshare.airline.identity.service.TenantService;
+import com.codeshare.airline.identity.utils.mappers.TenantMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

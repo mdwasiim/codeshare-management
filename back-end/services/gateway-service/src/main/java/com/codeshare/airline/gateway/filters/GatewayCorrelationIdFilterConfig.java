@@ -1,4 +1,4 @@
-package com.codeshare.airline.filters;
+package com.codeshare.airline.gateway.filters;
 
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;

@@ -1,7 +1,7 @@
-package com.codeshare.airline.repository;
+package com.codeshare.airline.identity.repository;
 
-import com.codeshare.airline.entities.OidcStateEntity;
-import com.codeshare.airline.persistence.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.identity.entities.OidcStateEntity;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.Optional;
 import java.util.UUID;

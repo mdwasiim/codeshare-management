@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.orchestration.processor;
 
-import com.codeshare.airline.enums.MessageType;
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.orchestration.pipelines.GenericIngestionPipeline;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.inbound.services.common.ScheduleFileService;

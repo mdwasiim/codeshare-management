@@ -1,12 +1,13 @@
-package com.codeshare.airlineservice.serviceImpl;
+package com.codeshare.airline.identity.service.serviceImpl;
 
-import com.codeshare.airline.identity.entities.Permission;
+
 import com.codeshare.airline.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.core.exceptions.CSMBusinessException;
 import com.codeshare.airline.core.exceptions.CSMErrorCodes;
-import com.codeshare.airlinerepository.PermissionRepository;
-import com.codeshare.airlineservice.PermissionService;
-import com.codeshare.airlineutils.mappers.PermissionMapper;
+import com.codeshare.airline.identity.entities.Permission;
+import com.codeshare.airline.identity.repository.PermissionRepository;
+import com.codeshare.airline.identity.service.PermissionService;
+import com.codeshare.airline.identity.utils.mappers.PermissionMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

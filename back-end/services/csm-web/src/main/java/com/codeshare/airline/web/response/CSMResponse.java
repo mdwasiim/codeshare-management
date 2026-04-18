@@ -1,4 +1,4 @@
-package com.codeshare.airline.response;
+package com.codeshare.airline.web.response;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.airport.georegion.repository;
 
 import com.codeshare.airline.master.airport.georegion.eitities.AirlineCarrier;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.Optional;

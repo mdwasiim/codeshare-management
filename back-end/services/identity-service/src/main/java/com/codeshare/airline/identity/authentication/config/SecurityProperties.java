@@ -52,9 +52,7 @@ public class SecurityProperties {
                 "Authorization",
                 "Content-Type",
                 "Accept",
-                "tenant-code",
-                "refresh-token",
-                "X-Refresh-Token"
+                "X-Tenant-Id"
         );
         private boolean allowCredentials = true;
     }

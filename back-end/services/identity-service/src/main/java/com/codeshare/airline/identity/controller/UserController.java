@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.AuthUserService;
+import com.codeshare.airline.identity.service.AuthUserService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.core.response.CSMServiceResponse;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 

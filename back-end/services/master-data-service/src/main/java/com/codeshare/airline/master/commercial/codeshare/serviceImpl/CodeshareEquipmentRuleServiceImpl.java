@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.commercial.codeshare.serviceImpl;
 
-import com.codeshare.airline.dto.codeshare.CodeshareEquipmentRuleDTO;
+import com.codeshare.airline.core.dto.codeshare.CodeshareEquipmentRuleDTO;
 import com.codeshare.airline.master.aircraft.eitities.AircraftType;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
 import com.codeshare.airline.master.commercial.codeshare.eitities.CodeshareEquipmentRule;
@@ -8,7 +8,7 @@ import com.codeshare.airline.master.commercial.codeshare.eitities.CodeshareFligh
 import com.codeshare.airline.master.commercial.codeshare.repository.CodeshareEquipmentRuleRepository;
 import com.codeshare.airline.master.commercial.codeshare.repository.CodeshareFlightMappingRepository;
 import com.codeshare.airline.master.commercial.codeshare.service.CodeshareEquipmentRuleService;
-import com.codeshare.airline.master.commercial.codeshare.utils.mappers.CodeshareEquipmentRuleMapper;
+import com.codeshare.airline.master.commercial.codeshare.mappers.CodeshareEquipmentRuleMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

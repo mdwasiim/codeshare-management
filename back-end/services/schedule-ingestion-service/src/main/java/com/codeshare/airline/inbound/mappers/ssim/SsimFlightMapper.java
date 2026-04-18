@@ -1,7 +1,6 @@
 package com.codeshare.airline.inbound.mappers.ssim;
 
 import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;
-import com.codeshare.airline.ingestion.persistence.entities.ssim.*;
 import com.codeshare.airline.inbound.entities.ssim.SsimCarrierEntity;
 import com.codeshare.airline.inbound.entities.ssim.SsimDataElementEntity;
 import com.codeshare.airline.inbound.entities.ssim.SsimFlightEntity;

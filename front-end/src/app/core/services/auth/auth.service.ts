@@ -17,10 +17,11 @@ refresh(): Observable<RefreshTokenResponse> {
   return this.apiService.post<RefreshTokenResponse>('refresh', {});
 }
 
-  logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+  logout(): Observable<any> {
+    return this.apiService.post<any>('logout', {});
   }
+
+
 }
 
 

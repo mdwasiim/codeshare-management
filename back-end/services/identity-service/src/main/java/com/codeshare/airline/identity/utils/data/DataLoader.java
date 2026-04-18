@@ -1,7 +1,7 @@
-package com.codeshare.airline.utils.data;
+package com.codeshare.airline.identity.utils.data;
 
-import com.codeshare.airline.entities.Tenant;
-import com.codeshare.airline.persistence.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.identity.entities.Tenant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.commercial.codeshare.eitities;
 
-import com.codeshare.airline.enums.codeshare.CodeshareCommercialModel;
-import com.codeshare.airline.enums.codeshare.CodeshareDisclosureType;
-import com.codeshare.airline.enums.codeshare.CodeshareInventoryType;
-import com.codeshare.airline.enums.codeshare.CodeshareScopeType;
-import com.codeshare.airline.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.codeshare.CodeshareCommercialModel;
+import com.codeshare.airline.core.enums.codeshare.CodeshareDisclosureType;
+import com.codeshare.airline.core.enums.codeshare.CodeshareInventoryType;
+import com.codeshare.airline.core.enums.codeshare.CodeshareScopeType;
+import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.airport.georegion.eitities.AirlineCarrier;
-import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

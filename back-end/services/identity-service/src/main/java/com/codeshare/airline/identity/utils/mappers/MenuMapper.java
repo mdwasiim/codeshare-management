@@ -1,4 +1,4 @@
-package com.codeshare.airline.utils.mappers;
+package com.codeshare.airline.identity.utils.mappers;
 
 import com.codeshare.airline.identity.entities.Menu;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;

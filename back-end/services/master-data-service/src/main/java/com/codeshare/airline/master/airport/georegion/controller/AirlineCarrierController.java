@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airport.georegion.controller;
 
-import com.codeshare.airline.dto.airport.georegion.AirlineCarrierDTO;
+import com.codeshare.airline.core.dto.airport.georegion.AirlineCarrierDTO;
 import com.codeshare.airline.master.airport.georegion.service.AirlineCarrierService;
 import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/airlines")
+@RequestMapping("/airlines")
 public class AirlineCarrierController
         extends BaseController<AirlineCarrierDTO, UUID> {
 

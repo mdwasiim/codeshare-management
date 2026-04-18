@@ -1,6 +1,6 @@
-package com.codeshare.airline.scheduling.eitities;
+package com.codeshare.airline.master.scheduling.eitities;
 
-import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

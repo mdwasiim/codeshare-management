@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.dto.schedule;
 
-import com.codeshare.airline.dto.audit.dto.CSMAuditableDTO;
+import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
 import lombok.*;
 
 import java.util.ArrayList;

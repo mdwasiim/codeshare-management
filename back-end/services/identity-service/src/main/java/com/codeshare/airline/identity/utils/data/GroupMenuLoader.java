@@ -1,13 +1,14 @@
-package com.codeshare.airline.utils.data;
+package com.codeshare.airline.identity.utils.data;
 
-import com.codeshare.airline.entities.Group;
-import com.codeshare.airline.entities.GroupMenu;
+
+import com.codeshare.airline.identity.entities.Group;
+import com.codeshare.airline.identity.entities.GroupMenu;
 import com.codeshare.airline.identity.entities.Menu;
-import com.codeshare.airline.entities.Tenant;
-import com.codeshare.airline.repository.GroupMenuRepository;
-import com.codeshare.airline.repository.GroupRepository;
-import com.codeshare.airline.repository.MenuRepository;
-import com.codeshare.airline.repository.TenantRepository;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.identity.repository.GroupMenuRepository;
+import com.codeshare.airline.identity.repository.GroupRepository;
+import com.codeshare.airline.identity.repository.MenuRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

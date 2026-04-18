@@ -3,7 +3,91 @@ spring:
     name: gateway-service
 
   profiles:
-    active: dev
+    active: ${ACTIVE_PROFILE:dev}
 
-  config:
-    import: "optional:configserver:http://localhost:8888"
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_IDENTITY_SERVICE_ISSUER_URI:http://localhost:8081}
+
+  cloud:
+    gateway:
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+      routes:
+
+        - id: identity-service
+          uri: ${IDENTITY_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/identity/**
+          filters:
+            - StripPrefix=1
+
+        - id: schedule-ingestion-service
+          uri: ${SCHEDULE_INGESTION_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/schedule/**
+          filters:
+            - StripPrefix=1
+
+        - id: codeshare-service
+          uri: ${CODESHARE_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/codeshare/**
+          filters:
+            - StripPrefix=1
+
+        # Master Data Service
+        - id: master-data-service
+          uri: ${MASTER_DATA_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/master/**
+          filters:
+            - StripPrefix=1
+
+server:
+  port: ${GATEWAY_SERVICE_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      base-path: ${ACTUATOR_BASE_PATH:/actuator}
+      exposure:
+        include: ${ACTUATOR_EXPOSED_GATEWAY:health,info,env}
+
+logging:
+  level:
+    root: ${LOG_LEVEL_APP:DEBUG}
+
+gateway:
+  security:
+    auth:
+      public-paths:
+        - /identity/auth/login
+        - /identity/auth/refresh
+        - /identity/auth/logout
+        - /identity/auth/oidc/**
+        - /.well-known/**
+    api:
+      public-paths:
+        - /actuator/**
+        - /swagger-ui/**
+        - /v3/api-docs/**
+        - /v3/api-docs.yaml
+        - /health
+        - /info

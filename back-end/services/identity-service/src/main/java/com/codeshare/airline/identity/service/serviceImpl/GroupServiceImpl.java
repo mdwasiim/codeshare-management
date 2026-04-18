@@ -1,11 +1,11 @@
-package com.codeshare.airline.service.serviceImpl;
+package com.codeshare.airline.identity.service.serviceImpl;
 
-import com.codeshare.airline.identity.entities.Group;
-import com.codeshare.airlineutils.mappers.GroupMapper;
 import com.codeshare.airline.core.dto.tenant.GroupDTO;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
-import com.codeshare.airlinerepository.GroupRepository;
-import com.codeshare.airlineservice.GroupService;
+import com.codeshare.airline.identity.entities.Group;
+import com.codeshare.airline.identity.repository.GroupRepository;
+import com.codeshare.airline.identity.service.GroupService;
+import com.codeshare.airline.identity.utils.mappers.GroupMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

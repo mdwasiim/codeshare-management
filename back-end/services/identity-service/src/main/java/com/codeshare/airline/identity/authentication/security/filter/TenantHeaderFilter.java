@@ -8,6 +8,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -15,6 +17,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE+1)
 public class TenantHeaderFilter extends OncePerRequestFilter {
 
     private final TenantContextResolver tenantContextResolver;
@@ -27,7 +30,7 @@ public class TenantHeaderFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
 
-        boolean skip = path.startsWith("/.well-known/") ||  path.startsWith("/api/auth/");
+        boolean skip = path.startsWith("/.well-known/") ||  path.startsWith("/auth/");
         if (skip) {
             log.debug("Skipping TenantHeaderFilter for path: {}", path);
         }
@@ -39,7 +42,7 @@ public class TenantHeaderFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,FilterChain filterChain ) throws IOException, ServletException {
 
         String path = request.getRequestURI();
-        String tenantCode = request.getHeader("tenant-code");
+        String tenantCode = request.getHeader("X-Tenant-Id");
 
         log.debug("TenantHeaderFilter invoked for path: {}", path);
 

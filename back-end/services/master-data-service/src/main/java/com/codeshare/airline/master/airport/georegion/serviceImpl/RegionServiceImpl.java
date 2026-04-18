@@ -1,10 +1,10 @@
 package com.codeshare.airline.master.airport.georegion.serviceImpl;
 
-import com.codeshare.airline.dto.airport.georegion.RegionDTO;
+import com.codeshare.airline.core.dto.airport.georegion.RegionDTO;
 import com.codeshare.airline.master.airport.georegion.eitities.Region;
 import com.codeshare.airline.master.airport.georegion.repository.RegionRepository;
 import com.codeshare.airline.master.airport.georegion.service.RegionService;
-import com.codeshare.airline.master.airport.georegion.utils.mappers.RegionMapper;
+import com.codeshare.airline.master.airport.georegion.mappers.RegionMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 

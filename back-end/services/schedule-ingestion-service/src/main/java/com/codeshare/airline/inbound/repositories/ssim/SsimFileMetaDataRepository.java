@@ -2,7 +2,7 @@ package com.codeshare.airline.inbound.repositories.ssim;
 
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.entities.ssim.SsimFileMetaDataEntity;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,8 +1,10 @@
+import { HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 export interface ApiEndpoints {
   menu: string;
   login: string;
+  logout: string;
   refresh: string;
   dashboardStats: string;
 }
@@ -15,10 +17,11 @@ export interface ApiConfig {
 export const API_CONFIG: Readonly<ApiConfig> = {
   baseUrl: environment.CSMBaseUrl,
   endpoints: {
-    menu: '/identity/api/menus',
-    login: '/identity/api/auth/login',
-    refresh: '/identity/api/auth/refresh',
-    dashboardStats: '/identity/api/dashboard/stats'
+    menu: '/identity/menus',
+    login: '/identity/auth/login',
+    logout: '/identity/auth/logout',
+    refresh: '/identity/auth/refresh',
+    dashboardStats: '/identity/dashboard/stats'
   }
 };
 
@@ -29,3 +32,9 @@ export const buildApiUrl = (key: ApiEndpointKey): string => {
   const path = API_CONFIG.endpoints[key].replace(/^\//, '');
   return `${base}/${path}`;
 };
+
+export interface ApiOptions {
+  params?: Record<string, string | number | boolean>;
+  headers?: HttpHeaders | Record<string, string>;
+}
+

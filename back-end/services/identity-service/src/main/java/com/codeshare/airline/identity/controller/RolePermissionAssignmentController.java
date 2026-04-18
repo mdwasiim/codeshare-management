@@ -1,8 +1,9 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.service.RolePermissionAssignmentService;
+
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.RolePermissionDTO;
+import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
 import com.codeshare.airline.core.response.CSMServiceResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/role-permissions")
+@RequestMapping("/role-permissions")
 @RequiredArgsConstructor
 public class RolePermissionAssignmentController {
 

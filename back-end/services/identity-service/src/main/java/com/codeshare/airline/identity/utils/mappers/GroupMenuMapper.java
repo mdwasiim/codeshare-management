@@ -1,10 +1,10 @@
-package com.codeshare.airline.utils.mappers;
+package com.codeshare.airline.identity.utils.mappers;
 
 
-import com.codeshare.airline.dto.tenant.GroupMenuDTO;
+import com.codeshare.airline.core.dto.tenant.GroupMenuDTO;
 import com.codeshare.airline.identity.entities.GroupMenu;
-import com.codeshare.airline.mapper.CSMGenericMapper;
-import com.codeshare.airline.mapper.CSMMapperConfig;
+import com.codeshare.airline.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.core.mapper.CSMMapperConfig;
 import org.mapstruct.Mapper;
 
 @Mapper(config = CSMMapperConfig.class)

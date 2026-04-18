@@ -4,13 +4,14 @@ import com.codeshare.airline.inbound.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.inbound.domain.enums.RecordType;
 import com.codeshare.airline.inbound.domain.enums.TimeMode;
 import com.codeshare.airline.inbound.dto.common.ssim.*;
-import com.codeshare.airline.ingestion.persistence.dto.common.ssim.*;
 import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.codeshare.airline.inbound.domain.enums.RecordType.*;
 
 @Slf4j
 @Component

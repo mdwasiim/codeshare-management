@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: platform-kafka
+
+  profiles:
+    active: dev
+
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
+  kafka:
+    listener:
+      concurrency: 3
+    consumer:
+      auto-offset-reset: earliest
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.aircraft.controller;
 
-import com.codeshare.airline.dto.aircraft.AircraftTypeDTO;
+import com.codeshare.airline.core.dto.aircraft.AircraftTypeDTO;
 import com.codeshare.airline.master.aircraft.service.AircraftTypeService;
 import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/aircraft-types")
+@RequestMapping("/aircraft-types")
 public class AircraftTypeController
         extends BaseController<AircraftTypeDTO, UUID> {
 

@@ -1,7 +1,7 @@
-package com.codeshare.airline.messaging.repository;
+package com.codeshare.airline.master.messaging.repository;
 
-import com.codeshare.airline.messaging.eitities.DeiRegistry;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.master.messaging.eitities.DeiRegistry;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -1,8 +1,9 @@
-package com.codeshare.airline.repository;
+package com.codeshare.airline.identity.repository;
 
-import com.codeshare.airline.entities.Permission;
-import com.codeshare.airline.entities.Tenant;
-import com.codeshare.airline.persistence.persistence.repository.CSMDataBaseRepository;
+
+import com.codeshare.airline.identity.entities.Permission;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 

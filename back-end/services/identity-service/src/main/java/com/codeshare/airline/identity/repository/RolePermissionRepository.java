@@ -1,7 +1,8 @@
-package com.codeshare.airline.repository;
+package com.codeshare.airline.identity.repository;
 
-import com.codeshare.airline.entities.RolePermission;
-import com.codeshare.airline.persistence.persistence.repository.CSMDataBaseRepository;
+
+import com.codeshare.airline.identity.entities.RolePermission;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.Optional;

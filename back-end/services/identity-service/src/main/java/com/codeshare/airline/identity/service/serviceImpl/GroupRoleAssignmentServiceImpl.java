@@ -1,14 +1,14 @@
-package com.codeshare.airlineservice.serviceImpl;
+package com.codeshare.airline.identity.service.serviceImpl;
 
-import com.codeshare.airline.identity.entities.Group;
-import com.codeshare.airline.identity.entities.Role;
-import com.codeshare.airlinerepository.GroupRepository;
-import com.codeshare.airlinerepository.GroupRoleRepository;
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
+import com.codeshare.airline.identity.entities.Group;
 import com.codeshare.airline.identity.entities.GroupRole;
-import com.codeshare.airlinerepository.RoleRepository;
-import com.codeshare.airlineservice.GroupRoleAssignmentService;
-import com.codeshare.airlineutils.mappers.GroupRoleMapper;
+import com.codeshare.airline.identity.entities.Role;
+import com.codeshare.airline.identity.repository.GroupRepository;
+import com.codeshare.airline.identity.repository.GroupRoleRepository;
+import com.codeshare.airline.identity.repository.RoleRepository;
+import com.codeshare.airline.identity.service.GroupRoleAssignmentService;
+import com.codeshare.airline.identity.utils.mappers.GroupRoleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

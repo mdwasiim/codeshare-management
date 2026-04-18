@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.repositories.error;
 
 import com.codeshare.airline.inbound.entities.error.ScheduleErrorEntity;
-import com.codeshare.airline.persistence.repository.CSMDataBaseRepository;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.UUID;
 

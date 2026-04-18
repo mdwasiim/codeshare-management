@@ -1,13 +1,13 @@
-package com.codeshare.airlineservice.serviceImpl;
+package com.codeshare.airline.identity.service.serviceImpl;
 
-import com.codeshare.airline.identity.entities.User;
-import com.codeshare.airline.identity.entities.UserDeviceEntity;
-import com.codeshare.airlinerepository.UserDeviceRepository;
-import com.codeshare.airlinerepository.UserRepository;
-import com.codeshare.airlineservice.AuthUserDeviceService;
-import com.codeshare.airlineutils.mappers.AuthUserDeviceMapper;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.core.dto.auth.AuthUserDeviceDTO;
+import com.codeshare.airline.identity.entities.User;
+import com.codeshare.airline.identity.entities.UserDeviceEntity;
+import com.codeshare.airline.identity.repository.UserDeviceRepository;
+import com.codeshare.airline.identity.repository.UserRepository;
+import com.codeshare.airline.identity.service.AuthUserDeviceService;
+import com.codeshare.airline.identity.utils.mappers.AuthUserDeviceMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

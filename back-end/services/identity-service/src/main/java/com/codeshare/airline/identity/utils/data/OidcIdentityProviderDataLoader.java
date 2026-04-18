@@ -1,11 +1,12 @@
-package com.codeshare.airline.utils.data;
+package com.codeshare.airline.identity.utils.data;
 
-import com.codeshare.airline.entities.OidcConfigEntity;
+
+import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.identity.entities.OidcConfigEntity;
 import com.codeshare.airline.identity.entities.OidcIdentityProviderEntity;
-import com.codeshare.airline.entities.Tenant;
-import com.codeshare.airline.repository.OidcIdentityProviderRepository;
-import com.codeshare.airline.repository.TenantRepository;
-import com.codeshare.airline.AuthSource;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.identity.repository.OidcIdentityProviderRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

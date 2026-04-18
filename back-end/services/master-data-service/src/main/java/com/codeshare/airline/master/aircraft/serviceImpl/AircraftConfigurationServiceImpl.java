@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
-import com.codeshare.airline.dto.aircraft.AircraftConfigurationDTO;
+import com.codeshare.airline.core.dto.aircraft.AircraftConfigurationDTO;
 import com.codeshare.airline.master.aircraft.eitities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.eitities.AircraftType;
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
 import com.codeshare.airline.master.aircraft.service.AircraftConfigurationService;
-import com.codeshare.airline.master.aircraft.utils.mappers.AircraftConfigurationMapper;
+import com.codeshare.airline.master.aircraft.mappers.AircraftConfigurationMapper;
 import com.codeshare.airline.master.airport.georegion.eitities.AirlineCarrier;
 import com.codeshare.airline.master.airport.georegion.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;

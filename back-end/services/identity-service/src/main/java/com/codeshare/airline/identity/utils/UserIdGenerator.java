@@ -1,4 +1,4 @@
-package com.codeshare.airline.utils;
+package com.codeshare.airline.identity.utils;
 
 import java.security.SecureRandom;
 

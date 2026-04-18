@@ -1,10 +1,10 @@
 package com.codeshare.airline.inbound.entities.schedule;
 
-import com.codeshare.airline.enums.MessageType;
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.domain.enums.ScheduleProfile;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
-import com.codeshare.airline.persistence.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
