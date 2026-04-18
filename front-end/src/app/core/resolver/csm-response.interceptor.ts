@@ -13,40 +13,52 @@ export const CSMResponseInterceptor: HttpInterceptorFn = (req, next) => {
 
     map((event: HttpEvent<any>) => {
 
-      // ✅ Only touch actual HTTP responses
-      if (event instanceof HttpResponse && event.body?.success !== undefined) {
+      if (event instanceof HttpResponse) {
 
-        const response = event.body as CSMServiceResponse<any>;
+        const body = event.body;
 
-        // ❌ Do NOT return throwError here
-        if (!response.success) {
-          // ✅ throw synchronously
-          throw response.error;
+        // ✅ Safely check CSM response structure
+        if (body && typeof body === 'object' && 'success' in body) {
+
+          const response = body as CSMServiceResponse<any>;
+
+          if (!response.success) {
+            throw new Error(response.error?.message || 'Unknown error');
+          }
+
+          // ✅ unwrap data
+          return event.clone({
+            body: response.data
+          });
         }
-
-        // ✅ unwrap data
-        return event.clone({
-          body: response.data
-        });
       }
 
       return event;
     }),
 
-    catchError((error: any) => {
+    catchError((error: unknown) => {
 
-      // Backend business error (success=false)
-      if (error && error.message) {
-        return throwError(() => error);
-      }
-
-      // HTTP-level error (401, 500, etc.)
+      // ✅ HTTP error
       if (error instanceof HttpErrorResponse) {
-        return throwError(() => error.error?.error || error);
+
+        console.error('HTTP Error:', error);
+
+        return throwError(() =>
+          new Error(
+            error.error?.error?.message ||
+            error.error?.message ||
+            error.message ||
+            'Server error'
+          )
+        );
       }
 
-      return throwError(() => error);
+      // ✅ Business / custom error
+      return throwError(() =>
+        error instanceof Error
+          ? error
+          : new Error('Unknown error')
+      );
     })
   );
 };
-

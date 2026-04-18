@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: schedule-ingestion-service
-
-server:
-  port: ${SCHEDULE_INGESTION_SERVICE_PORT:8083}
-

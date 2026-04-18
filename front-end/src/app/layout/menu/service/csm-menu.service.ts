@@ -18,6 +18,7 @@ export class CSMMenuService {
    * Call this ONCE after login
    */
   loadMenus(): Observable<CSMMenuItemModel[]> {
+    debugger;
     return this.apiService.get<any[]>('menu').pipe(
       map(data => this.mapToMenuItems(data))
     );

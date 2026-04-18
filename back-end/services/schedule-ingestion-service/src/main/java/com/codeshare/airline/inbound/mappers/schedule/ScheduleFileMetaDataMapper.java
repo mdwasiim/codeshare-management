@@ -1,0 +1,32 @@
+package com.codeshare.airline.inbound.mappers.schedule;
+
+import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
+import com.codeshare.airline.inbound.entities.schedule.ScheduleFileMetaDataEntity;
+import com.codeshare.airline.inbound.mappers.BaseScheduleFileMapper;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ScheduleFileMetaDataMapper extends BaseScheduleFileMapper {
+
+    public ScheduleFileMetaDataEntity toEntity(ScheduleFileMetaDataDTO dto) {
+        if (dto == null) return null;
+
+        ScheduleFileMetaDataEntity entity = new ScheduleFileMetaDataEntity();
+        mapToEntity(dto, entity);
+        return entity;
+    }
+
+    /* =========================================================
+       ENTITY → DTO (TYPE-SAFE METHODS)
+       ========================================================= */
+    public ScheduleFileMetaDataDTO toDto(ScheduleFileMetaDataEntity entity) {
+        if (entity == null) return null;
+
+        ScheduleFileMetaDataDTO.ScheduleFileMetaDataDTOBuilder<?, ?> builder = ScheduleFileMetaDataDTO.builder();
+
+        mapBaseFieldsToDTO(entity, builder);   //  reuse parent
+
+        return builder.build();
+    }
+
+}

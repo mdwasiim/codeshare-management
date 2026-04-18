@@ -1,0 +1,42 @@
+package com.codeshare.airline.master.aircraft.serviceImpl;
+
+import com.codeshare.airline.dto.aircraft.AircraftTypeDTO;
+import com.codeshare.airline.master.aircraft.eitities.AircraftType;
+import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
+import com.codeshare.airline.master.aircraft.service.AircraftTypeService;
+import com.codeshare.airline.master.aircraft.utils.mappers.AircraftTypeMapper;
+import com.codeshare.airline.master.common.base.BaseServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+public class AircraftTypeServiceImpl
+        extends BaseServiceImpl<AircraftType, AircraftTypeDTO, UUID>
+        implements AircraftTypeService {
+
+    private final AircraftTypeRepository repository;
+
+    public AircraftTypeServiceImpl(
+            AircraftTypeRepository repository,
+            AircraftTypeMapper mapper) {
+
+        super(repository, mapper);
+        this.repository = repository;
+    }
+
+    @Override
+    public AircraftTypeDTO getByIcao(String icao) {
+        return repository.findByIcaoCode(icao.toUpperCase())
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Aircraft not found"));
+    }
+
+    @Override
+    public AircraftTypeDTO getByModel(String model) {
+        return repository.findByModelCode(model.toUpperCase())
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Aircraft not found"));
+    }
+}

@@ -1,0 +1,10 @@
+package com.codeshare.airline.master.airport.georegion.service;
+
+import com.codeshare.airline.dto.airport.georegion.LocationSearchDTO;
+
+import java.util.List;
+
+public interface LocationSearchService {
+
+    List<LocationSearchDTO> search(String keyword);
+}

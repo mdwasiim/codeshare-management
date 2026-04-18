@@ -16,6 +16,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   private checkAuth(state: RouterStateSnapshot): boolean {
 
+    console.log('AuthGuard token:', this.tokenService.accessToken);
+    console.log('Is Authenticated:', this.tokenService.isAuthenticated());
     // ✅ MUST check validity, not just existence
     if (this.tokenService.isAuthenticated()) {
       return true;

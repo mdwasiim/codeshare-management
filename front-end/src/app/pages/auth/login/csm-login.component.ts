@@ -50,7 +50,7 @@ export class CSMLogin {
   }
 
 login() {
-  if (!this.username || !this.password) {
+  if (!this.username || !this.password || this.loggingIn) {
     return;
   }
 
@@ -59,22 +59,31 @@ login() {
   this.authService.login(this.username, this.password).subscribe({
     next: (response) => {
 
-      // 1️⃣ Store tokens
+      // ✅ Store tokens
       this.tokenService.setTokens(
         response.access_token,
         response.refresh_token,
         response.expires_in
       );
 
-      // 2️⃣ Navigate ONCE
-      this.router.navigateByUrl(this.returnUrl);
+      // ✅ Store tenant (important for backend)
+      this.tokenService.setTenant(response.tenant_code);
+
+      // ✅ Navigate
+      this.router.navigate([this.returnUrl]);
     },
-    error: (err) => {
-      console.error('Login failed', err);
+    error: (err: unknown) => {
+
+      console.error('Login failed:', err);
+
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Login failed';
+
+      alert(message);
+
       this.loggingIn = false;
-    },
-    complete: () => {
-      this.loggingIn = false; 
     }
   });
 }

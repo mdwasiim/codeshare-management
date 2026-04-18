@@ -1,0 +1,14 @@
+package com.codeshare.airline.master.airport.terminal.service;
+
+
+import com.codeshare.airline.dto.airport.terminal.PassengerTerminalDTO;
+import com.codeshare.airline.master.common.base.BaseService;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface PassengerTerminalService
+        extends BaseService<PassengerTerminalDTO, UUID> {
+
+    List<PassengerTerminalDTO> getByAirport(UUID airportId);
+}

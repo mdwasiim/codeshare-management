@@ -32,13 +32,14 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     console.warn('Tenant code missing on frontend');
   }
   
+  
   const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh');
 
   // =========================
   // Build headers ONCE
   // =========================
   const headers: Record<string, string> = {
-    'tenant-code': tenantCode ?? ''
+    'X-Tenant-Id': tenantCode ?? ''
   };
 
   if (!isAuthEndpoint && tokenService.accessToken) {
@@ -78,7 +79,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
               req.clone({
                 setHeaders: {
                   Authorization: `Bearer ${token}`,
-                  'tenant-code': tenantCode ?? ''
+                  'X-Tenant-Id': tenantCode ?? ''
                 }
               })
             )
@@ -116,7 +117,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
         catchError(err => {
           isRefreshing = false;
           tokenService.clear();
-          window.location.href = '/auth/login';
+          //window.location.href = '/auth/login';
           return throwError(() => err);
         })
       );
