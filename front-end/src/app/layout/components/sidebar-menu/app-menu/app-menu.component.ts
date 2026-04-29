@@ -24,9 +24,13 @@ export class AppMenuComponent implements OnInit {
         this.menuService.loadMenus().subscribe();
 
         // 🔥 always listen to state
-        this.menuService.getMenu().subscribe({
+        /*this.menuService.getMenu().subscribe({
             next: (menu) => (this.model = menu),
             error: (err) => console.error('Menu stream error', err)
+        });*/
+        // listen to selected root
+        this.menuService.selectedRootMenu$.subscribe(root => {
+            this.model = root?.items || [];
         });
     }
 }

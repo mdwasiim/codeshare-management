@@ -11,9 +11,16 @@ export class LayoutMenuService {
     private menuSubject = new BehaviorSubject<AppMenuModel[]>([]);
     private menu$ = this.menuSubject.asObservable();
 
+    private selectedRootMenuSubject = new BehaviorSubject<AppMenuModel | null>(null);
+    selectedRootMenu$ = this.selectedRootMenuSubject.asObservable();
+
     constructor(
         private apiService: AppApiService
     ) {}
+
+    setSelectedRoot(menu: AppMenuModel) {
+        this.selectedRootMenuSubject.next(menu);
+    }
 
     /**
      * Load app-menu-item from API (with RBAC + caching)

@@ -27,48 +27,71 @@
                 </svg>
                 <span>SAKAI</span>
             </a>
+        <!-- 🔥 MAIN NAVIGATION MENU -->
+        <div class="flex gap-6 ml-8 items-center">
+
+            @for (menu of menus; track menu.label) {
+                <div
+                    (click)="selectMenu(menu)"
+                    class="relative cursor-pointer text-sm font-medium pb-2 transition-all duration-200"
+                    [class.text-blue-600]="menu === activeMenu"
+                    [class.text-gray-600]="menu !== activeMenu"
+                >
+                    {{ menu.label }}
+
+                    <!-- 🔥 Smooth underline -->
+                    <span
+                        class="absolute left-0 bottom-0 h-[2px] w-full transition-all duration-300"
+                        [class.bg-blue-500]="menu === activeMenu"
+                        [class.scale-x-100]="menu === activeMenu"
+                        [class.scale-x-0]="menu !== activeMenu"
+                    ></span>
+                </div>
+            }
+
+        </div>
     </div>
 
     <div class="layout-topbar-actions">
-<!--        <div class="layout-config-app-menu-item">-->
-<!--            <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">-->
-<!--                <i-->
-<!--                    [ngClass]="{-->
-<!--                        'pi ': true,-->
-<!--                        'pi-moon': csmLayoutService.isDarkTheme(),-->
-<!--                        'pi-sun': !csmLayoutService.isDarkTheme()-->
-<!--                    }"-->
-<!--                ></i>-->
-<!--            </button>-->
+        <div class="layout-config-app-menu-item">
+            <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
+                <i
+                    [ngClass]="{
+                        'pi ': true,
+                        'pi-moon': csmLayoutService.isDarkTheme(),
+                        'pi-sun': !csmLayoutService.isDarkTheme()
+                    }"
+                ></i>
+            </button>
 
-<!--            <div class="relative">-->
-<!--                <button-->
-<!--                    class="layout-topbar-action layout-topbar-action-highlight"-->
-<!--                    pStyleClass="@next"-->
-<!--                    enterFromClass="hidden"-->
-<!--                    enterActiveClass="animate-scalein"-->
-<!--                    leaveToClass="hidden"-->
-<!--                    leaveActiveClass="animate-fadeout"-->
-<!--                    [hideOnOutsideClick]="true"-->
-<!--                >-->
-<!--                    <i class="pi pi-palette"></i>-->
-<!--                </button>-->
+            <div class="relative">
+                <button
+                    class="layout-topbar-action layout-topbar-action-highlight"
+                    pStyleClass="@next"
+                    enterFromClass="hidden"
+                    enterActiveClass="animate-scalein"
+                    leaveToClass="hidden"
+                    leaveActiveClass="animate-fadeout"
+                    [hideOnOutsideClick]="true"
+                >
+                    <i class="pi pi-palette"></i>
+                </button>
 
-<!--                &lt;!&ndash; UPDATED selector &ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
+                <!-- UPDATED selector -->
+            </div>
+        </div>
 
-<!--        <button-->
-<!--            class="layout-topbar-app-menu-item-button layout-topbar-action"-->
-<!--            pStyleClass="@next"-->
-<!--            enterFromClass="hidden"-->
-<!--            enterActiveClass="animate-scalein"-->
-<!--            leaveToClass="hidden"-->
-<!--            leaveActiveClass="animate-fadeout"-->
-<!--            [hideOnOutsideClick]="true"-->
-<!--        >-->
-<!--            <i class="pi pi-ellipsis-v"></i>-->
-<!--        </button>-->
+        <button
+            class="layout-topbar-app-menu-item-button layout-topbar-action"
+            pStyleClass="@next"
+            enterFromClass="hidden"
+            enterActiveClass="animate-scalein"
+            leaveToClass="hidden"
+            leaveActiveClass="animate-fadeout"
+            [hideOnOutsideClick]="true"
+        >
+            <i class="pi pi-ellipsis-v"></i>
+        </button>
 
         <div class="layout-topbar-menu hidden lg:block">
             <div class="layout-topbar-menu-content flex items-center gap-3">
