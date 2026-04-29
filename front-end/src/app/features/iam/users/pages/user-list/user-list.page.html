@@ -1,0 +1,52 @@
+<div class="page-container">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>Users</h2>
+        <button (click)="createUser()" [disabled]="loading">
+            + Create User
+        </button>
+    </div>
+
+    <!-- LOADING -->
+    <div *ngIf="loading">
+        Loading users...
+    </div>
+
+    <!-- TABLE -->
+    <table *ngIf="!loading && users.length > 0" border="1" cellpadding="8">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Tenant</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.firstName }} {{ user.lastName }}</td>
+            <td>{{ user.tenant?.name }}</td>
+            <td>
+                {{ user.enabled ? 'Active' : 'Disabled' }}
+            </td>
+
+            <td>
+                <button (click)="editUser(user)">Edit</button>
+                <button (click)="deleteUser(user)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- EMPTY -->
+    <div *ngIf="!loading && users.length === 0">
+        No users found.
+    </div>
+
+</div>

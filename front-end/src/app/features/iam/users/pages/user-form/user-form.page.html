@@ -1,0 +1,56 @@
+<form [formGroup]="form" (ngSubmit)="save()" class="card max-w-4xl mx-auto p-6">
+
+    <h2 class="text-xl font-semibold mb-6">
+        {{ id ? 'Edit User' : 'Create User' }}
+    </h2>
+
+    <!-- USER INFO -->
+    <div class="mb-6">
+        <h3 class="font-semibold mb-3">User Info</h3>
+
+        <div class="grid grid-cols-2 gap-4">
+
+            <input placeholder="Username" formControlName="username" />
+            <input placeholder="Email" formControlName="email" />
+
+            <input placeholder="First Name" formControlName="firstName" />
+            <input placeholder="Last Name" formControlName="lastName" />
+
+            <input type="password" placeholder="Password" formControlName="password" />
+
+        </div>
+    </div>
+
+    <!-- ACCOUNT -->
+    <div class="mb-6">
+        <h3 class="font-semibold mb-3">Account Settings</h3>
+
+        <label>
+            <input type="checkbox" formControlName="enabled" />
+            Enabled
+        </label>
+
+        <label class="ml-4">
+            <input type="checkbox" formControlName="accountNonLocked" />
+            Unlocked
+        </label>
+    </div>
+
+    <!-- TENANT -->
+    <div class="mb-6">
+        <h3 class="font-semibold mb-3">Tenant</h3>
+
+        <select formControlName="tenantId">
+            <option value="">Select Tenant</option>
+            <option *ngFor="let t of tenants" [value]="t.id">
+                {{ t.name }}
+            </option>
+        </select>
+    </div>
+
+    <!-- ACTION -->
+    <button type="submit" [disabled]="form.invalid">
+        Save
+    </button>
+
+</form>

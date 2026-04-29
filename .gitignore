@@ -2,4 +2,5 @@ services.zip
 services.zip 
 auth-identity-service.zip 
 *.zip 
-documents/SSIM_FULL/
+documents/
+back-end/logs/

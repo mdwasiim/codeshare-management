@@ -1,0 +1,44 @@
+<div class="page-container">
+
+    <div class="page-header">
+        <h2>Groups</h2>
+        <button (click)="createGroup()" [disabled]="loading">
+            + Create Group
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading">Loading groups...</div>
+
+    <!-- Table -->
+    <table *ngIf="!loading && groups.length > 0">
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Tenant</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let group of groups">
+            <td>{{ group.code }}</td>
+            <td>{{ group.name }}</td>
+            <td>{{ group.description }}</td>
+            <td>{{ group.tenantId }}</td>
+            <td>
+                <button (click)="editGroup(group)">Edit</button>
+                <button (click)="deleteGroup(group)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && groups.length === 0">
+        No groups found.
+    </div>
+
+</div>

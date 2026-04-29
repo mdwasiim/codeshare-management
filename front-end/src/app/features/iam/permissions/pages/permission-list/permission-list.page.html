@@ -1,0 +1,42 @@
+<div class="page-container">
+
+    <div class="page-header">
+        <h2>Permissions</h2>
+        <button (click)="createPermission()">+ Create Permission</button>
+    </div>
+
+    <div *ngIf="loading">Loading...</div>
+
+    <table *ngIf="!loading && data.length > 0">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Domain</th>
+            <th>Action</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let p of data">
+            <td>{{ p.name }}</td>
+            <td>{{ p.domain }}</td>
+            <td>{{ p.action }}</td>
+            <td>{{ p.code }}</td>
+            <td>{{ p.description }}</td>
+
+            <td>
+                <button (click)="editPermission(p)">Edit</button>
+                <button (click)="deletePermission(p)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="!loading && data.length === 0">
+        No permissions found
+    </div>
+
+</div>

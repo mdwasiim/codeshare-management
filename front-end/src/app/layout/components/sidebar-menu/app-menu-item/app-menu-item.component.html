@@ -1,0 +1,63 @@
+<ng-container>
+
+    <!-- ROOT LABEL -->
+    @if (root && item.visible !== false) {
+        <div class="layout-menuitem-root-text text-xs uppercase text-gray-400 px-3 mt-4 mb-2">
+            {{ item.label }}
+        </div>
+    }
+
+    <!-- PARENT ITEM -->
+    @if ((!item.routerLink || item.items) && item.visible !== false && !root){
+        <a
+            href="#"
+            (click)="itemClick($event)"
+            [ngClass]="item.styleClass"
+            tabindex="0"
+            pRipple
+            class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
+        >
+            <!-- KEEP original class -->
+            <i [ngClass]="item.icon" class="layout-menuitem-icon text-gray-500 text-lg w-5"></i>
+
+            <!-- KEEP original class -->
+            <span class="layout-menuitem-text">{{ item.label }}</span>
+
+            @if (item.items) {
+                <!-- KEEP original class -->
+                <i class="layout-submenu-toggler pi pi-angle-down ml-auto text-sm text-gray-400"></i>
+            }
+        </a>
+    }
+
+    <!-- ROUTER LINK -->
+    @if (item.routerLink && !item.items && item.visible !== false && !root){
+        <a
+            [routerLink]="item.routerLink"
+            routerLinkActive="active-route"
+            (click)="itemClick($event)"
+            tabindex="0"
+            pRipple
+            class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
+        >
+            <i [ngClass]="item.icon" class="layout-menuitem-icon text-gray-500 text-lg w-5"></i>
+            <span class="layout-menuitem-text">{{ item.label }}</span>
+        </a>
+    }
+
+    <!-- SUBMENU -->
+    @if (item.items && item.visible !== false) {
+        <ul [@children]="submenuAnimation" class="ml-4 mt-2 space-y-1">
+            @for (child of item.items; track child.id ?? child.label; let i = $index) {
+                <li>
+                    <app-menu-item
+                        [item]="child"
+                        [index]="i"
+                        [parentKey]="key">
+                    </app-menu-item>
+                </li>
+            }
+        </ul>
+    }
+
+</ng-container>

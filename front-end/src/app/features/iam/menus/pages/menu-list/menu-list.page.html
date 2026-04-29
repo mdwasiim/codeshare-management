@@ -1,0 +1,42 @@
+<div class="card">
+
+    <div class="flex justify-between mb-3">
+        <h3>Menus</h3>
+
+        <button
+            pButton
+            label="Create Menu"
+            icon="pi pi-plus"
+            (click)="createMenu()">
+        </button>
+    </div>
+
+    <p-table [value]="data">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Label</th>
+                <th>Icon</th>
+                <th>Route</th>
+                <th>Order</th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-m>
+            <tr>
+                <td>{{ m.label }}</td>
+                <td>{{ m.icon }}</td>
+                <td>{{ m.routerLink?.[0] }}</td>
+                <td>{{ m.displayOrder }}</td>
+
+                <td class="flex gap-2">
+                    <button pButton icon="pi pi-pencil" (click)="editMenu(m)"></button>
+                    <button pButton icon="pi pi-trash" severity="danger" (click)="deleteMenu(m)"></button>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+
+</div>

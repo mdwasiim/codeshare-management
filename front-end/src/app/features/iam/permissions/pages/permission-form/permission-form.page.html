@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="page-container">
+
+    <h2>{{ isEdit ? 'Edit Permission' : 'Create Permission' }}</h2>
+
+    <div>
+        <label>Name</label>
+        <input formControlName="name" />
+    </div>
+
+    <div>
+        <label>Domain</label>
+        <input formControlName="domain" placeholder="e.g. user" />
+    </div>
+
+    <div>
+        <label>Action</label>
+        <input formControlName="action" placeholder="e.g. create" />
+    </div>
+
+    <div>
+        <label>Description</label>
+        <input formControlName="description" />
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">
+        Save
+    </button>
+
+</form>

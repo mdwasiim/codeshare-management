@@ -1,0 +1,55 @@
+<div class="card">
+
+    <h3>{{ isEdit ? 'Edit Menu' : 'Create Menu' }}</h3>
+
+    <form [formGroup]="form" class="p-fluid">
+
+        <div class="field">
+            <label>Label</label>
+            <input pInputText formControlName="label" />
+            <small *ngIf="form.controls['label'].invalid && form.controls['label'].touched">
+                Label is required
+            </small>
+        </div>
+
+        <div class="field">
+            <label>Icon</label>
+            <input pInputText formControlName="icon" placeholder="pi pi-home" />
+        </div>
+
+        <div class="field">
+            <label>Route</label>
+            <input pInputText formControlName="routerLink" placeholder="/dashboard" />
+        </div>
+
+        <div class="field">
+            <label>Display Order</label>
+            <input type="number" pInputText formControlName="displayOrder" />
+        </div>
+
+        <div class="flex gap-2 mt-3">
+
+            <button
+                pButton
+                label="Save"
+                icon="pi pi-check"
+                (click)="submit()"
+                [disabled]="form.invalid || loading"
+                type="button">
+            </button>
+
+            <button
+                *ngIf="isEdit"
+                pButton
+                label="Delete"
+                icon="pi pi-trash"
+                severity="danger"
+                (click)="delete()"
+                type="button">
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
