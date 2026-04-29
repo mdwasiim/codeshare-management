@@ -4,3 +4,7 @@ auth-identity-service.zip
 *.zip 
 documents/
 back-end/logs/
+
+# Large ingestion files
+*.txt
+back-end/services/schedule-ingestion-service/src/main/resources/*.txt
