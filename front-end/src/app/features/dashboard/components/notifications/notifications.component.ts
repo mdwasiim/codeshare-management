@@ -4,12 +4,12 @@ import { MenuModule } from 'primeng/menu';
 
 @Component({
     standalone: true,
-    selector: 'notifications-widget',
+    selector: 'dashboard-notifications',
     imports: [ButtonModule, MenuModule],
-    templateUrl: './notifications-widget.component.html',
-    styleUrls: ['./notifications-widget.component.scss']
+    templateUrl: './notifications.component.html',
+    styleUrls: ['./notifications.component.scss']
 })
-export class NotificationsWidgetComponent {
+export class NotificationsComponent {
     items = [
         { label: 'Add New', icon: 'pi pi-fw pi-plus' },
         { label: 'Remove', icon: 'pi pi-fw pi-trash' }

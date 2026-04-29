@@ -1,28 +1,28 @@
 import { Component, OnInit, inject } from '@angular/core';
 
-import { MenuService } from '@shared/services/menu.service';
-import {StatsWidgetComponent} from "@features/dashboard/components/stats-widget/stats-widget.component";
-import {RecentSalesWidget} from "@features/dashboard/components/recent-sales-widget/recent-sales-widget.component";
-import {RevenueStreamWidget} from "@features/dashboard/components/revenue-stream-widget/revenue-stream-widget.component";
-import {NotificationsWidgetComponent} from "@features/dashboard/components/notifications-widget/notifications-widget.component";
-import {BestSellingWidgetComponent} from "@features/dashboard/components/best-selling-widget/best-selling-widget.component";
+import { LayoutMenuService } from '@layout/services/layout-menu.service';
+import {StatsComponent} from "@features/dashboard/components/stats/stats.component";
+import {RecentSalesWidget} from "@features/dashboard/components/recent-sales/recent-sales.component";
+import {RevenueStreamWidget} from "@features/dashboard/components/revenue-stream/revenue-stream.component";
+import {NotificationsComponent} from "@features/dashboard/components/notifications/notifications.component";
+import {BestSellingComponent} from "@features/dashboard/components/best-selling/best-selling.component";
 
 @Component({
-    selector: 'dashboard-widget',
+    selector: 'dashboard-page',
     standalone: true,
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss'],
+    templateUrl: './dashboard.page.html',
+    styleUrls: ['./dashboard.page.scss'],
     imports: [
-        StatsWidgetComponent,
+        StatsComponent,
         RecentSalesWidget,
-        BestSellingWidgetComponent,
+        BestSellingComponent,
         RevenueStreamWidget,
-        NotificationsWidgetComponent
+        NotificationsComponent
     ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardPage implements OnInit {
 
-    private menuService = inject(MenuService);
+    private menuService = inject(LayoutMenuService);
 
     ngOnInit(): void {
         this.menuService.loadMenus().subscribe({

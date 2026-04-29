@@ -5,20 +5,20 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
-import { csmRoutes } from './csm.routes';
-//import { AuthInterceptor } from '@/core/interceptors/auth.interceptor';
-import { ResponseInterceptor } from '@core/interceptors/response.interceptor';
+import { APP_ROUTES } from './app.routes';
+import { AppResponseInterceptor } from '@core/interceptors/app-response.interceptor';
+import {AppAuthInterceptor} from "@core/interceptors/app-auth.interceptor";
 
 
-export const csmConfig: ApplicationConfig = {
+export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
          withFetch(),
-        //withInterceptors([AuthInterceptor, ResponseInterceptor])
+        withInterceptors([AppAuthInterceptor, AppResponseInterceptor])
     ),
 
     provideRouter(
-      csmRoutes,
+        APP_ROUTES,
       withInMemoryScrolling({
         anchorScrolling: 'enabled',
         scrollPositionRestoration: 'enabled'
@@ -32,7 +32,7 @@ export const csmConfig: ApplicationConfig = {
       theme: {
         preset: Aura,
         options: {
-          darkModeSelector: '.csm-dark'
+          darkModeSelector: '.app-dark'
         }
       }
     })

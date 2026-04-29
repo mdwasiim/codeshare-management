@@ -1,52 +1,123 @@
-<div class="page-container">
+<!-- ============================= -->
+<!-- Toolbar                      -->
+<!-- ============================= -->
+<csm-crud-toolbar
+    [actions]="['create','delete','export','search']"
+    [disableDelete]="!selectedUsers.length"
+    (create)="createUser()"
+    (delete)="deleteSelectedUsers()"
+    (export)="exportCSV()"
+    (search)="onGlobalFilter(dt, $event)">
+</csm-crud-toolbar>
 
-    <!-- HEADER -->
-    <div class="page-header">
-        <h2>Users</h2>
-        <button (click)="createUser()" [disabled]="loading">
-            + Create User
-        </button>
-    </div>
 
-    <!-- LOADING -->
-    <div *ngIf="loading">
-        Loading users...
-    </div>
+<!-- ============================= -->
+<!-- Users Table                  -->
+<!-- ============================= -->
+<p-table
+    #dt
+    [value]="data"
+    [loading]="loading"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10,20,50]"
+    [(selection)]="selectedUsers"
+    dataKey="id"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+    class="p-datatable-sm"
+    [globalFilterFields]="['username','email','firstName','lastName']"
+>
 
-    <!-- TABLE -->
-    <table *ngIf="!loading && users.length > 0" border="1" cellpadding="8">
-        <thead>
+    <!-- Caption -->
+    <ng-template pTemplate="caption">
+        <div class="flex justify-between items-center">
+            <h5 class="m-0">Manage Users</h5>
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                    #searchInput
+                    pInputText
+                    type="text"
+                    (input)="onGlobalFilter(dt, searchInput.value)"
+                    placeholder="Search..." />
+            </span>
+        </div>
+    </ng-template>
+
+    <!-- Header -->
+    <ng-template pTemplate="header">
         <tr>
-            <th>Username</th>
+            <th style="width:3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+
+            <th pSortableColumn="username">
+                Username
+                <p-sortIcon field="username"></p-sortIcon>
+            </th>
+
             <th>Email</th>
             <th>Name</th>
             <th>Tenant</th>
             <th>Status</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
 
-        <tbody>
-        <tr *ngFor="let user of users">
+            <th style="width:10rem"></th>
+        </tr>
+    </ng-template>
+
+    <!-- Body -->
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="user"></p-tableCheckbox>
+            </td>
+
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.firstName }} {{ user.lastName }}</td>
-            <td>{{ user.tenant?.name }}</td>
-            <td>
-                {{ user.enabled ? 'Active' : 'Disabled' }}
-            </td>
+            <td>{{ user.tenant.name }}</td>
 
             <td>
-                <button (click)="editUser(user)">Edit</button>
-                <button (click)="deleteUser(user)">Delete</button>
+                <p-tag
+                    [value]="user.enabled ? 'Active' : 'Disabled'"
+                    [severity]="user.enabled ? 'success' : 'danger'">
+                </p-tag>
+            </td>
+
+            <td class="flex gap-2">
+                <p-button
+                    icon="pi pi-pencil"
+                    [rounded]="true"
+                    [outlined]="true"
+                    (click)="editUser(user)">
+                </p-button>
+
+                <p-button
+                    icon="pi pi-trash"
+                    severity="danger"
+                    [rounded]="true"
+                    [outlined]="true"
+                    (click)="deleteUser(user)">
+                </p-button>
             </td>
         </tr>
-        </tbody>
-    </table>
+    </ng-template>
 
-    <!-- EMPTY -->
-    <div *ngIf="!loading && users.length === 0">
-        No users found.
-    </div>
+</p-table>
 
+
+<!-- ============================= -->
+<!-- Confirm Dialog               -->
+<!-- ============================= -->
+<p-confirmDialog></p-confirmDialog>
+
+
+<!-- ============================= -->
+<!-- Empty State                  -->
+<!-- ============================= -->
+<div *ngIf="!loading && data.length === 0" class="text-center mt-6 text-gray-500">
+    <i class="pi pi-users text-3xl mb-2"></i>
+    <div>No users found</div>
 </div>

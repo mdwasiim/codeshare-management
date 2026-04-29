@@ -1,14 +1,12 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.GroupDTO;
 import com.codeshare.airline.identity.service.GroupService;
-import com.codeshare.airline.core.response.CSMServiceResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -23,68 +21,59 @@ public class GroupController {
     // CREATE GROUP
     // ---------------------------------------------------------
     @PostMapping
-    public ResponseEntity<CSMServiceResponse<?>> create(@RequestBody GroupDTO dto) {
+    public GroupDTO create(@RequestBody GroupDTO dto) {
 
         log.info("→ Creating group for ingestion {}", dto.getTenantId());
 
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(groupService.create(dto))
-        );
+        return groupService.create(dto);
     }
 
     // ---------------------------------------------------------
     // UPDATE GROUP
     // ---------------------------------------------------------
     @PutMapping("/{id}")
-    public ResponseEntity<CSMServiceResponse<?>> update(
+    public GroupDTO update(
             @PathVariable UUID id,
             @RequestBody GroupDTO dto
     ) {
         log.info("→ Updating group {} for ingestion {}", id, dto.getTenantId());
 
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(groupService.update(id, dto))
-        );
+        return groupService.update(id, dto);
     }
 
     // ---------------------------------------------------------
     // GET GROUP BY ID
     // ---------------------------------------------------------
     @GetMapping("/{id}")
-    public ResponseEntity<CSMServiceResponse<?>> getById(@PathVariable UUID id) {
+    public GroupDTO getById(@PathVariable UUID id) {
 
         log.debug("→ Fetching group {}", id);
 
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(groupService.getById(id))
-        );
+        return groupService.getById(id);
     }
 
     // ---------------------------------------------------------
     // GET GROUPS BY TENANT
     // ---------------------------------------------------------
     @GetMapping
-    public ResponseEntity<CSMServiceResponse<?>> getByTenant(@RequestParam UUID tenantId) {
-
-        log.debug("→ Fetching groups for ingestion {}", tenantId);
-
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(groupService.getByTenant(tenantId))
-        );
+    public List<GroupDTO> getAll(
+            @RequestParam(required = false) UUID tenantId
+    ) {
+        if (tenantId != null) {
+            return groupService.getByTenant(tenantId);
+        }
+        return groupService.getAll();
     }
 
     // ---------------------------------------------------------
     // DELETE GROUP
     // ---------------------------------------------------------
     @DeleteMapping("/{id}")
-    public ResponseEntity<CSMServiceResponse<?>> delete(@PathVariable UUID id) {
+    public void delete(@PathVariable UUID id) {
 
         log.warn("→ Deleting group {}", id);
 
         groupService.delete(id);
 
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(CSMConstants.NO_DATA)
-        );
     }
 }

@@ -22,7 +22,8 @@ import { InputIconModule } from 'primeng/inputicon';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import {ProductService} from "@features/settings/products/services/product.service";
 import {Product} from "@features/settings/model/product.model";
-import {ToolbarButtonComponent} from "@shared/toolbar/toolbar-button.component";
+import {ToolbarActionComponent} from "@shared/toolbar/toolbar-action.component";
+import {ProductFormPage} from "@features/settings/products/pages/product-form/product-form.page";
 
 interface Column {
     field: string;
@@ -36,7 +37,7 @@ interface ExportColumn {
 }
 
 @Component({
-    selector: 'csm-product',
+    selector: 'product-list',
     standalone: true,
     imports: [
         CommonModule,
@@ -57,9 +58,10 @@ interface ExportColumn {
         TagModule,
         IconFieldModule,
         InputIconModule,
-        ToolbarButtonComponent
+        ToolbarActionComponent,
+        ProductFormPage
     ],
-    templateUrl: './product.page.html',
+    templateUrl: './product-list.page.html',
     providers: [MessageService, ProductService, ConfirmationService]
 })
 export class ProductListPage implements OnInit {
@@ -114,8 +116,8 @@ export class ProductListPage implements OnInit {
     }
 
     /** Table filtering */
-    onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    onGlobalFilter(table: Table, value: string) {
+        table.filterGlobal(value, 'contains');
     }
 
     /** Toolbar actions */

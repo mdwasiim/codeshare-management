@@ -3,8 +3,12 @@ package com.codeshare.airline.identity.utils.data;
 
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.identity.entities.Group;
 import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.entities.User;
+import com.codeshare.airline.identity.entities.UserGroup;
+import com.codeshare.airline.identity.repository.GroupRepository;
+import com.codeshare.airline.identity.repository.UserGroupRepository;
 import com.codeshare.airline.identity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +23,8 @@ import java.util.List;
 public class UserLoader {
 
     private final UserRepository userRepository;
+    private final UserGroupRepository userGroupRepository;
+    private final GroupRepository groupRepository;
     private final PasswordEncoder passwordEncoder;
 
     public void loadUser(List<Tenant> tenants) {
@@ -33,31 +39,23 @@ public class UserLoader {
     private void createAdminIfMissing(Tenant tenant) {
 
         String username = "admin";
-        String email = tenant.getTenantCode()+ "@codeshare.com";
+        String email = tenant.getTenantCode() + "@codeshare.com";
 
-        boolean exists =
-                userRepository.existsByUsername(
-                        username
-                );
+        boolean exists = userRepository.existsByUsername(username);
 
-        if (exists) {
-            log.info(
-                    " Admin user '{}' already exists for ingestion '{}'. Skipping.",
-                    username,
-                    tenant.getTenantCode()
-            );
-            return;
-        }
+        if (exists) return;
 
-        // ⚠️ Ideally inject from config or generate randomly
-        String rawPassword = "admin";
+        Group adminGroup = groupRepository
+                .findByCodeAndTenant_TenantCode("ADMIN", tenant.getTenantCode())
+                .orElseThrow(() -> new RuntimeException("Admin group not found"));
 
+        // 🔥 create user FIRST
         User user = User.builder()
                 .username(username.toLowerCase())
                 .email(email)
                 .firstName("Admin")
                 .lastName(tenant.getName())
-                .password(passwordEncoder.encode(rawPassword))
+                .password(passwordEncoder.encode("admin"))
                 .enabled(true)
                 .active(true)
                 .accountNonExpired(true)
@@ -69,13 +67,15 @@ public class UserLoader {
                 .tenant(tenant)
                 .build();
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        log.warn(
-                "⚠️ Admin user '{}' created for ingestion '{}'. Password must be changed immediately.",
-                username,
-                tenant.getTenantCode()
-        );
+        UserGroup userGroup = UserGroup.builder()
+                .tenant(tenant)
+                .user(savedUser)
+                .group(adminGroup)
+                .build();
+
+        userGroupRepository.save(userGroup);
     }
 }
 

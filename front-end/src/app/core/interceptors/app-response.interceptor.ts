@@ -6,9 +6,9 @@ import {
 } from '@angular/common/http';
 
 import { map, catchError, throwError } from 'rxjs';
-import { CSMServiceResponse } from '@core/models/csm-service-esponse.model';
+import { CSMServiceResponse } from '@core/models/app-service-response.model';
 
-export const ResponseInterceptor: HttpInterceptorFn = (req, next) => {
+export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(req).pipe(
 

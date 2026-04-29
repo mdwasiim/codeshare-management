@@ -79,16 +79,18 @@
             .layout-submenu-toggler {
                 font-size: 75%;
                 margin-left: auto;
-                transition: transform var(--element-transition-duration);
+                transition: transform 0.25s ease;
             }
 
             &.active-route {
-                font-weight: 700;
+                font-weight: 600;
                 color: var(--primary-color);
+                background-color: rgba(34, 197, 94, 0.1); // light green
+                border-left: 3px solid var(--primary-color);
             }
 
             &:hover {
-                background-color: var(--surface-hover);
+                background-color: rgba(0, 0, 0, 0.04);
             }
 
             &:focus {
@@ -102,7 +104,7 @@
 
             li {
                 a {
-                    margin-left: 1rem;
+                    margin-left: 0.75rem;
                 }
 
                 li {
@@ -157,4 +159,76 @@
 .layout-submenu-enter-active {
     overflow: hidden;
     transition: max-height 1s ease-in-out;
+}
+
+/* ===== FORCE COLLAPSE ===== */
+
+.layout-wrapper.layout-sidebar-collapsed {
+
+    .layout-sidebar {
+        width: 5rem !important;
+        min-width: 5rem !important;
+        max-width: 5rem !important;
+    }
+
+    /* hide text */
+    .layout-menuitem-text {
+        display: none !important;
+    }
+
+    /* center + align icons */
+    .layout-menu a {
+        display: flex;
+        justify-content: center !important;
+        align-items: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        margin: 0.25rem auto;
+        padding: 0 !important;
+        border-radius: 0.75rem;
+        transition: all 0.2s ease;
+    }
+
+    /* hover */
+    .layout-menu a:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* active */
+    .active-route {
+        background: rgba(34, 197, 94, 0.15);
+    }
+
+    /* hide submenu arrows */
+    .layout-submenu-toggler {
+        display: none !important;
+    }
+
+    /* hide section titles */
+    .layout-menuitem-root-text {
+        display: none !important;
+    }
+
+    /* icon alignment */
+    .layout-menuitem-icon {
+        margin: 0 !important;
+        font-size: 1.2rem;
+    }
+
+    /* ensure all items centered */
+    .layout-menu li {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* ===== CONTENT SHIFT ===== */
+
+.layout-main-container {
+    margin-left: 22rem;
+    transition: margin-left 0.3s ease;
+}
+
+.layout-wrapper.layout-sidebar-collapsed .layout-main-container {
+    margin-left: 7rem !important;
 }

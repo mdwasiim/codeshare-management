@@ -1,19 +1,37 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import {Organization} from "@features/settings/model/organization.model";
 
 @Injectable({ providedIn: 'root' })
 export class OrganizationService {
 
-    private baseUrl = '/tenants'; // backend remains tenant
+    private data: Organization[] = [
+        { id: '1', name: 'Qatar Airways', code: 'QR', status: 'ACTIVE' },
+        { id: '2', name: 'Emirates', code: 'EK', status: 'ACTIVE' }
+    ];
 
-    constructor(private http: HttpClient) {}
-
-    getAll(): Observable<any[]> {
-        return this.http.get<any[]>(this.baseUrl);
+    getAll() {
+        return of(this.data);   // ✅ simulate API
     }
 
-    getById(id: string): Observable<any> {
-        return this.http.get<any>(`${this.baseUrl}/${id}`);
+    getById(id: string) {
+        return of(this.data.find(o => o.id === id));
+    }
+
+    create(org: Organization) {
+        org.id = Date.now().toString();
+        this.data.push(org);
+        return of(org);
+    }
+
+    update(id: string, org: Organization) {
+        const index = this.data.findIndex(o => o.id === id);
+        this.data[index] = { ...org, id };
+        return of(org);
+    }
+
+    delete(id: string) {
+        this.data = this.data.filter(o => o.id !== id);
+        return of(null);
     }
 }

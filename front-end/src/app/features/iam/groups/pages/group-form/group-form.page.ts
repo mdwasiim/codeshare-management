@@ -6,11 +6,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupService } from '../../services/group.service';
 import { BaseFormComponent } from '@core/base/base-form.component';
 import { Group } from '@features/iam/models/group.model';
+import {InputTextModule} from "primeng/inputtext";
+import {ButtonModule} from "primeng/button";
 
 @Component({
     selector: 'app-group-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        InputTextModule,
+        ButtonModule
+    ],
     templateUrl: './group-form.page.html'
 })
 export class GroupFormPage extends BaseFormComponent<Group> {

@@ -1,39 +1,44 @@
-import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
-import { LoginResponse } from '@/core/models/auth/login-response.model';
-import { RefreshTokenResponse } from '@/core/models/auth/refresh-token-response.model';
+import {Injectable} from '@angular/core';
+import {AppApiService} from '@services/auth/app-api.service';
+import {LoginResponse} from '@features/auth/models/login-response.model';
+import {RefreshTokenResponse} from '@features/auth/models/refresh-token-response.model';
 import {catchError, Observable, of, tap} from 'rxjs';
 import {AuthzService} from "@services/authz.service";
-import {TokenService} from "@services/auth/token.service";
-import {MenuService} from "@shared/services/menu.service";
+import {AppTokenService} from "@services/auth/app-token.service";
+import {LayoutMenuService} from "@layout/services/layout-menu.service";
+import {map} from "rxjs/operators";
+import { switchMap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
     constructor(
-        private apiService: ApiService,
+        private apiService: AppApiService,
         private authz: AuthzService,
-        private tokenService: TokenService,
-        private menuService: MenuService
+        private tokenService: AppTokenService,
+        private menuService: LayoutMenuService
     ) {}
+
+
 
     login(username: string, password: string): Observable<LoginResponse> {
         return this.apiService.post<LoginResponse>('auth.login', { username, password }).pipe(
-            tap((res) => {
 
-                // ✅ 1. Save tokens
+            tap(res => {
                 this.tokenService.setSession(
                     res.access_token,
                     res.refresh_token,
                     res.expires_in
                 );
 
-                // ✅ 2. Set RBAC
                 this.authz.setUserAccess(res.roles, res.permissions);
+            }),
 
-                // ✅ 3. Load menu AFTER RBAC set
-                this.menuService.loadMenus().subscribe();
-            })
+            switchMap(res =>
+                this.menuService.loadMenus().pipe(
+                    map(() => res)   // ✅ return original response
+                )
+            )
         );
     }
 

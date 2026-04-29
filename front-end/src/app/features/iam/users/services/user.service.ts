@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { User } from '../models/user.model';
-import {CSMApiService} from "@core/config/csm-api.service";
+import { AppApiService } from '@core/config/app-api.service';
+import { User } from '@features/iam/models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-    private api = inject(CSMApiService);
+    private api = inject(AppApiService);
 
     getAll() {
         return this.api.get<User[]>('users.base');

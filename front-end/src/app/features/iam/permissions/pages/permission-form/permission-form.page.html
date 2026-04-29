@@ -1,29 +1,28 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="page-container">
+<form [formGroup]="form" (ngSubmit)="submit()" class="card max-w-3xl mx-auto p-6">
 
-    <h2>{{ isEdit ? 'Edit Permission' : 'Create Permission' }}</h2>
+    <h2 class="text-xl font-semibold mb-6">
+        {{ isEdit ? 'Edit Permission' : 'Create Permission' }}
+    </h2>
 
-    <div>
-        <label>Name</label>
-        <input formControlName="name" />
+    <div class="grid grid-cols-2 gap-4">
+
+        <input pInputText placeholder="Name" formControlName="name" />
+
+        <input pInputText placeholder="Domain (e.g. user)" formControlName="domain" />
+
+        <input pInputText placeholder="Action (e.g. create)" formControlName="action" />
+
+        <input pInputText placeholder="Description" formControlName="description" />
+
     </div>
 
-    <div>
-        <label>Domain</label>
-        <input formControlName="domain" placeholder="e.g. user" />
+    <div class="mt-6">
+        <p-button
+            type="submit"
+            label="Save"
+            icon="pi pi-check"
+            [disabled]="form.invalid">
+        </p-button>
     </div>
-
-    <div>
-        <label>Action</label>
-        <input formControlName="action" placeholder="e.g. create" />
-    </div>
-
-    <div>
-        <label>Description</label>
-        <input formControlName="description" />
-    </div>
-
-    <button type="submit" [disabled]="form.invalid">
-        Save
-    </button>
 
 </form>

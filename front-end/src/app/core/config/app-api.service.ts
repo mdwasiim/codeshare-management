@@ -1,13 +1,13 @@
-// api.service.ts
+// app-api.service.ts
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ApiEndpointKey, ApiOptions, buildApiUrl } from './csm-api.config';
+import { ApiEndpointKey, ApiOptions, buildApiUrl } from './app-api.config';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CSMApiService {
+export class AppApiService {
 
     private http = inject(HttpClient);
 

@@ -3,15 +3,23 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+
 import { BaseFormComponent } from '@core/base/base-form.component';
 import { Permission } from '@features/iam/models/permission.model';
-import {PermissionService} from "@features/iam/permissions/services/permission.service";
+import { PermissionService } from '@features/iam/permissions/services/permission.service';
 
 @Component({
-    selector: 'app-permission-form',
+    selector: 'permission-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './permission-form.component.html'
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        InputTextModule,
+        ButtonModule
+    ],
+    templateUrl: './permission-form.page.html'
 })
 export class PermissionFormPage extends BaseFormComponent<Permission> {
 

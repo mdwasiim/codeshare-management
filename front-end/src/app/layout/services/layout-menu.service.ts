@@ -29,8 +29,15 @@ export class LayoutMenuService {
     /**
      * Transform + RBAC filter
      */
-    private mapToMenuItems(items: any[]): AppMenuModel[] {
+    private mapToMenuItems(items: any[],  parentPath: string = ''): AppMenuModel[] {
         return items.map(item => {
+
+            const currentPath =
+                parentPath +
+                '/' +
+                (item.label || '')
+                    .toLowerCase()
+                    .replace(/\s+/g, '-');
 
             const menuItem: AppMenuModel = {
                 id: item.id,
@@ -38,6 +45,8 @@ export class LayoutMenuService {
                 icon: item.icon,
 
                 routerLink: item.routerLink,
+
+                path: currentPath,
                 url: item.url,
                 target: item.target,
 

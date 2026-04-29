@@ -1,12 +1,37 @@
-import {CSMApiService} from "@core/config/csm-api.service";
-import {inject, Injectable} from "@angular/core";
+import { Injectable, inject } from '@angular/core';
+import { AppApiService } from '@core/config/app-api.service';
+import { Role } from '@features/iam/models/role.model';
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {
 
-    private api = inject(CSMApiService);
+    private api = inject(AppApiService);
 
-    getAll() {
-        return this.api.get<any[]>('roles.base'); // define in API config
+    getAll(tenantId: string) {
+        return this.api.get<Role[]>('roles.base', {
+            params: { tenantId }
+        });
+    }
+
+    getById(id: string) {
+        return this.api.get<Role>('roles.byId', {
+            pathParams: { id }
+        });
+    }
+
+    create(role: Role) {
+        return this.api.post<Role>('roles.base', role);
+    }
+
+    update(id: string, role: Role) {
+        return this.api.put<Role>('roles.byId', role, {
+            pathParams: { id }
+        });
+    }
+
+    delete(id: string) {
+        return this.api.delete<void>('roles.byId', {
+            pathParams: { id }
+        });
     }
 }

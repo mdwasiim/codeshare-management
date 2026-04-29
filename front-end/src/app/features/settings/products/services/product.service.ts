@@ -1,16 +1,14 @@
 
 import { AppApiService } from '@services/auth/app-api.service';
-import { Product } from '@features/products/models/product.model';
+import { Product } from '@features/settings/model/product.model';
 import { Injectable } from '@angular/core';
+import {of} from "rxjs";
+import {InventoryStatus} from "@shared/types/ui.types";
 
 
-interface InventoryStatus {
-    label: string;
-    value: string;
-}
-
-
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ProductService {
 
     products : Product[] = [
@@ -1207,7 +1205,7 @@ export class ProductService {
             }
         ];
 
-    status: string[] = ['OUTOFSTOCK', 'INSTOCK', 'LOWSTOCK'];
+    status: InventoryStatus[] = ['INSTOCK', 'LOWSTOCK', 'OUTOFSTOCK'] ;
 
     productNames: string[] = [
         'Bamboo Watch',
@@ -1308,11 +1306,34 @@ export class ProductService {
         return Math.floor(Math.random() * Math.floor(75) + 1);
     }
 
-    generateStatus() {
-        return this.status[Math.floor(Math.random() * Math.floor(3))];
+    generateStatus(): InventoryStatus {
+        return this.status[Math.floor(Math.random() * this.status.length)];
     }
 
     generateRating() {
         return Math.floor(Math.random() * Math.floor(5) + 1);
     }
+
+    getAll() {
+        return of(this.products);   // ✅ convert to Observable
+    }
+
+    delete(id: string) {
+        this.products = this.products.filter(p => p.id !== id);
+        return of(true);   // ✅ return Observable
+    }
+
+    create(product: Product) {
+        this.products.unshift(product);
+        return of(product);
+    }
+
+    update(id: string, updated: Product) {
+        const index = this.products.findIndex(p => p.id === id);
+        if (index !== -1) {
+            this.products[index] = updated;
+        }
+        return of(updated);
+    }
 }
+

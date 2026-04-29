@@ -13,16 +13,16 @@ import {
   throwError,
 } from 'rxjs';
 
-import { TokenService } from '@services/auth/token.service';
+import { AppTokenService } from '@services/auth/app-token.service';
 import { AuthService } from '@features/auth/services/auth.service';
 import { TenantService } from '@core/services/auth/tenant.service';
 
 let isRefreshing = false;
 const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const tokenService = inject(TokenService);
+  const tokenService = inject(AppTokenService);
   const authService = inject(AuthService);
   const tenantService = inject(TenantService);
 

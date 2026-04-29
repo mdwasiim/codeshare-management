@@ -1,13 +1,12 @@
 <ul class="layout-menu p-3 space-y-2">
-    @for (item of model; track item.id ?? item.label; let i = $index) {
+    @for (item of model; track item.label;) {
 
         @if (!item.separator) {
-            <li class="px-2">
-                <app-menu-item
-                    [item]="item"
-                    [index]="i"
-                    [root]="true">
-                </app-menu-item>
+            <li
+                class="px-2"
+                app-menuitem
+                [item]="item"
+                [root]="true">
             </li>
         }
 

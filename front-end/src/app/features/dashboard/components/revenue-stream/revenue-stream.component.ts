@@ -1,30 +1,34 @@
 import { LayoutService } from '@layout/services/layout.service';
-import { Component } from '@angular/core';
+import {afterNextRender, Component, effect, inject, signal} from '@angular/core';
 import { ChartModule } from 'primeng/chart';
-import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
     standalone: true,
-    selector: 'revenue-stream-widget',
+    selector: 'dashboard-revenue-stream',
     imports: [ChartModule],
     templateUrl: './revenue-stream.component.html',
     styleUrls: ['./revenue-stream.component.scss']
 })
 export class RevenueStreamWidget {
-    chartData: any;
+    layoutService = inject(LayoutService);
 
-    chartOptions: any;
+    chartData = signal<any>(null);
 
-    subscription!: Subscription;
+    chartOptions = signal<any>(null);
 
-    constructor(public csmLayoutService: LayoutService) {
-        this.subscription = this.csmLayoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
-            this.initChart();
+    constructor() {
+        afterNextRender(() => {
+            setTimeout(() => {
+                this.initChart();
+            }, 150);
         });
-    }
 
-    ngOnInit() {
-        this.initChart();
+        effect(() => {
+            this.layoutService.layoutConfig().darkTheme;
+            setTimeout(() => {
+                this.initChart();
+            }, 150);
+        });
     }
 
     initChart() {
@@ -33,7 +37,7 @@ export class RevenueStreamWidget {
         const borderColor = documentStyle.getPropertyValue('--surface-border');
         const textMutedColor = documentStyle.getPropertyValue('--text-color-secondary');
 
-        this.chartData = {
+        this.chartData.set({
             labels: ['Q1', 'Q2', 'Q3', 'Q4'],
             datasets: [
                 {
@@ -65,9 +69,9 @@ export class RevenueStreamWidget {
                     barThickness: 32
                 }
             ]
-        };
+        });
 
-        this.chartOptions = {
+        this.chartOptions.set({
             maintainAspectRatio: false,
             aspectRatio: 0.8,
             plugins: {
@@ -100,12 +104,6 @@ export class RevenueStreamWidget {
                     }
                 }
             }
-        };
-    }
-
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        });
     }
 }

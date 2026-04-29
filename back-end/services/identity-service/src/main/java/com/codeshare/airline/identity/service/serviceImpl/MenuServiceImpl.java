@@ -1,7 +1,12 @@
 package com.codeshare.airline.identity.service.serviceImpl;
 
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.identity.authentication.service.core.UserContextService;
+import com.codeshare.airline.identity.entities.Group;
 import com.codeshare.airline.identity.entities.Menu;
+import com.codeshare.airline.identity.entities.User;
+import com.codeshare.airline.identity.entities.UserGroup;
+import com.codeshare.airline.identity.repository.GroupMenuRepository;
 import com.codeshare.airline.identity.repository.MenuRepository;
 import com.codeshare.airline.identity.service.MenuService;
 import com.codeshare.airline.identity.utils.mappers.MenuMapper;
@@ -9,16 +14,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
 
+    private final UserContextService userContextService;
     private final MenuRepository repository;
+    private final GroupMenuRepository groupMenuRepository;
     private final MenuMapper mapper;
 
     // ---------------------------------------------------------
@@ -92,19 +97,54 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(readOnly = true)
     public List<MenuDTO> getAllByTenant(String tenantCode) {
 
-        List<Menu> allMenus = repository.findByTenant_TenantCode(tenantCode);
+        User user = userContextService.getCurrentUser();
 
-        List<Menu> rootMenus = allMenus.stream()
+        List<Group> groups = user.getUserGroups()
+                .stream()
+                .map(UserGroup::getGroup)
+                .toList();
+
+        // 🔥 fetch menus
+        List<Menu> allowedMenus =
+                groupMenuRepository.findMenusByGroupsAndTenant(groups, tenantCode);
+
+        // 🔥 remove duplicates + include parents
+        Set<Menu> allowedSet = new HashSet<>(allowedMenus);
+
+        for (Menu menu : allowedMenus) {
+            Menu parent = menu.getParentMenu();
+            while (parent != null) {
+                allowedSet.add(parent);
+                parent = parent.getParentMenu();
+            }
+        }
+
+        // 🔥 build tree recursively (inline)
+        List<MenuDTO> rootMenus = allowedSet.stream()
                 .filter(m -> m.getParentMenu() == null)
-                .sorted(Comparator.comparing(Menu::getDisplayOrder,
+                .map(root -> buildTreeDTO(root, allowedSet))
+                .filter(Objects::nonNull)
+                .sorted(Comparator.comparing(MenuDTO::getDisplayOrder,
                         Comparator.nullsLast(Integer::compareTo)))
                 .toList();
 
-        return mapper.toDTOList(rootMenus);
+        return rootMenus;
     }
 
+    private MenuDTO buildTreeDTO(Menu menu, Set<Menu> allowed) {
+        if (!allowed.contains(menu)) return null;
 
+        List<MenuDTO> children = menu.getItems().stream()
+                .sorted(Comparator.comparing(Menu::getDisplayOrder,
+                        Comparator.nullsLast(Integer::compareTo)))
+                .map(child -> buildTreeDTO(child, allowed))
+                .filter(Objects::nonNull)
+                .toList();
 
+        MenuDTO dto = mapper.toDTO(menu);
+        dto.setItems(children);
+        return dto;
+    }
 
     // ---------------------------------------------------------
     // DELETE MENU BY ID

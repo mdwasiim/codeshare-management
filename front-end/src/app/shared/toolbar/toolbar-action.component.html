@@ -1,0 +1,56 @@
+<p-toolbar *ngIf="hasAnyAction" class="mb-6">
+
+    <ng-template pTemplate="left">
+
+        <p-button
+            *ngIf="actions.includes('create') && canShow('create')"
+            label="New"
+            icon="pi pi-plus"
+            severity="secondary"
+            class="mr-2"
+            (click)="create.emit()">
+        </p-button>
+
+        <p-button
+            *ngIf="actions.includes('delete') && canShow('delete')"
+            label="Delete"
+            icon="pi pi-trash"
+            severity="secondary"
+            outlined
+            class="mr-2"
+            [disabled]="disableDelete"
+            (click)="delete.emit()">
+        </p-button>
+
+        <p-button
+            *ngIf="actions.includes('refresh') && canShow('refresh')"
+            label="Refresh"
+            icon="pi pi-refresh"
+            severity="secondary"
+            class="mr-2"
+            (click)="refresh.emit()">
+        </p-button>
+
+        <p-button
+            *ngIf="actions.includes('upload') && canShow('upload')"
+            label="Upload"
+            icon="pi pi-upload"
+            severity="secondary"
+            class="mr-2"
+            (click)="uploadFile.emit()">
+        </p-button>
+
+    </ng-template>
+
+    <ng-template pTemplate="right">
+        <p-button
+            *ngIf="actions.includes('export') && canShow('export')"
+            label="Export"
+            icon="pi pi-upload"
+            severity="secondary"
+            (click)="export.emit()">
+        </p-button>
+
+    </ng-template>
+
+</p-toolbar>

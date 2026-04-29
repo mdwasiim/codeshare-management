@@ -18,7 +18,7 @@ This document summarizes a quick code audit and concrete enhancements to improve
 - `refresh` validates the requested tenant exists, but does not explicitly enforce that requested `tenant-code` equals refresh-token tenant.
 - Recommendation: pass `tenant-code` into refresh flow and reject mismatch.
 
-### 3) Revisit public endpoint exposure for `/api/auth/logout`
+### 3) Revisit public endpoint exposure for `/auth/logout`
 - Logout is public and can be called without tenant context.
 - Recommendation: require tenant context and authenticated session where possible.
 

@@ -4,10 +4,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AppMenuModel } from "@shared/models/app-menu.model";
-import { MenuManagementService } from "@features/iam/menu-management/services/menu-management.service";
 import { BaseFormComponent } from "@core/base/base-form.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LayoutMenuService } from "@layout/services/layout-menu.service";
+import {MenuManagementService} from "@features/iam/menus/services/menu-management.service";
 
 @Component({
     selector: 'menu-form',

@@ -22,4 +22,7 @@ public interface GroupRepository extends CSMDataBaseRepository<Group, UUID> {
     Optional<Group> findByNameAndTenant_Id(String groupName, UUID tenantId);
 
     List<Group> findAllByTenant_Id(UUID tenantId);
+
+    Optional<Group> findByCodeAndTenant_TenantCode(String code, String tenantCode);
+
 }

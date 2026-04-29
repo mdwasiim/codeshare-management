@@ -1,65 +1,53 @@
 import { Injectable, effect, signal, computed } from '@angular/core';
-import { Subject } from 'rxjs';
 
-export interface CSMLayoutConfig {
-    preset?: string;
-    primary?: string;
-    surface?: string | undefined | null;
-    darkTheme?: boolean;
-    menuMode?: string;
+export interface LayoutConfig {
+    preset: string;
+    primary: string;
+    surface: string | undefined | null;
+    darkTheme: boolean;
+    menuMode: string;
 }
 
-interface CSMLayoutState {
-    staticMenuDesktopInactive?: boolean;
-    overlayMenuActive?: boolean;
-    configSidebarVisible?: boolean;
-    staticMenuMobileActive?: boolean;
-    menuHoverActive?: boolean;
-}
-
-interface CSMMenuChangeEvent {
-    key: string;
-    routeEvent?: boolean;
+interface LayoutState {
+    staticMenuDesktopInactive: boolean;
+    overlayMenuActive: boolean;
+    configSidebarVisible: boolean;
+    mobileMenuActive: boolean;
+    menuHoverActive: boolean;
+    activePath: string | null;
 }
 
 @Injectable({
     providedIn: 'root'
 })
 export class LayoutService {
-    _config: CSMLayoutConfig = {
+    layoutConfig = signal<LayoutConfig>({
         preset: 'Aura',
         primary: 'emerald',
         surface: null,
         darkTheme: false,
         menuMode: 'static'
-    };
+    });
 
-    _state: CSMLayoutState = {
+    layoutState = signal<LayoutState>({
         staticMenuDesktopInactive: false,
         overlayMenuActive: false,
         configSidebarVisible: false,
-        staticMenuMobileActive: false,
-        menuHoverActive: false
-    };
+        mobileMenuActive: false,
+        menuHoverActive: false,
+        activePath: null
+    });
 
-    layoutConfig = signal<CSMLayoutConfig>(this._config);
-    layoutState = signal<CSMLayoutState>(this._state);
+    theme = computed(() => (this.layoutConfig().darkTheme ? 'light' : 'dark'));
 
-    private configUpdate = new Subject<CSMLayoutConfig>();
-    private overlayOpen = new Subject<any>();
-    private menuSource = new Subject<CSMMenuChangeEvent>();
-    private resetSource = new Subject();
+    isSidebarActive = computed(() => this.layoutState().overlayMenuActive || this.layoutState().mobileMenuActive);
 
-    menuSource$ = this.menuSource.asObservable();
-    resetSource$ = this.resetSource.asObservable();
-    configUpdate$ = this.configUpdate.asObservable();
-    overlayOpen$ = this.overlayOpen.asObservable();
-
-    theme = computed(() => (this.layoutConfig()?.darkTheme ? 'light' : 'dark'));
-    isSidebarActive = computed(() => this.layoutState().overlayMenuActive || this.layoutState().staticMenuMobileActive);
     isDarkTheme = computed(() => this.layoutConfig().darkTheme);
+
     getPrimary = computed(() => this.layoutConfig().primary);
+
     getSurface = computed(() => this.layoutConfig().surface);
+
     isOverlay = computed(() => this.layoutConfig().menuMode === 'overlay');
 
     transitionComplete = signal<boolean>(false);
@@ -67,13 +55,6 @@ export class LayoutService {
     private initialized = false;
 
     constructor() {
-        effect(() => {
-            const config = this.layoutConfig();
-            if (config) {
-                this.onConfigUpdate();
-            }
-        });
-
         effect(() => {
             const config = this.layoutConfig();
 
@@ -86,26 +67,23 @@ export class LayoutService {
         });
     }
 
-    private handleDarkModeTransition(config: CSMLayoutConfig): void {
-        if ((document as any).startViewTransition) {
+    private handleDarkModeTransition(config: LayoutConfig): void {
+        const supportsViewTransition = 'startViewTransition' in document;
+
+        if (supportsViewTransition) {
             this.startViewTransition(config);
         } else {
             this.toggleDarkMode(config);
-            this.onTransitionEnd();
         }
     }
 
-    private startViewTransition(config: CSMLayoutConfig): void {
-        const transition = (document as any).startViewTransition(() => {
+    private startViewTransition(config: LayoutConfig): void {
+        document.startViewTransition(() => {
             this.toggleDarkMode(config);
-        });
-
-        transition.ready.then(() => {
-            this.onTransitionEnd();
         });
     }
 
-    toggleDarkMode(config?: CSMLayoutConfig): void {
+    toggleDarkMode(config?: LayoutConfig): void {
         const _config = config || this.layoutConfig();
         if (_config.darkTheme) {
             document.documentElement.classList.add('app-dark');
@@ -114,40 +92,24 @@ export class LayoutService {
         }
     }
 
-    private onTransitionEnd() {
-        this.transitionComplete.set(true);
-        setTimeout(() => {
-            this.transitionComplete.set(false);
-        });
-    }
-
     onMenuToggle() {
         if (this.isOverlay()) {
-            this.layoutState.update((prev) => ({
-                ...prev,
-                overlayMenuActive: !this.layoutState().overlayMenuActive
-            }));
-
-            if (this.layoutState().overlayMenuActive) {
-                this.overlayOpen.next(null);
-            }
+            this.layoutState.update((prev) => ({ ...prev, overlayMenuActive: !this.layoutState().overlayMenuActive }));
         }
 
         if (this.isDesktop()) {
-            this.layoutState.update((prev) => ({
-                ...prev,
-                staticMenuDesktopInactive: !this.layoutState().staticMenuDesktopInactive
-            }));
+            this.layoutState.update((prev) => ({ ...prev, staticMenuDesktopInactive: !this.layoutState().staticMenuDesktopInactive }));
         } else {
-            this.layoutState.update((prev) => ({
-                ...prev,
-                staticMenuMobileActive: !this.layoutState().staticMenuMobileActive
-            }));
-
-            if (this.layoutState().staticMenuMobileActive) {
-                this.overlayOpen.next(null);
-            }
+            this.layoutState.update((prev) => ({ ...prev, mobileMenuActive: !this.layoutState().mobileMenuActive }));
         }
+    }
+
+    showConfigSidebar() {
+        this.layoutState.update((prev) => ({ ...prev, configSidebarVisible: true }));
+    }
+
+    hideConfigSidebar() {
+        this.layoutState.update((prev) => ({ ...prev, configSidebarVisible: false }));
     }
 
     isDesktop() {
@@ -156,18 +118,5 @@ export class LayoutService {
 
     isMobile() {
         return !this.isDesktop();
-    }
-
-    onConfigUpdate() {
-        this._config = { ...this.layoutConfig() };
-        this.configUpdate.next(this.layoutConfig());
-    }
-
-    onMenuStateChange(event: CSMMenuChangeEvent) {
-        this.menuSource.next(event);
-    }
-
-    reset() {
-        this.resetSource.next(true);
     }
 }

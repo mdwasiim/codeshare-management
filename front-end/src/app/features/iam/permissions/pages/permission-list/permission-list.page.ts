@@ -2,15 +2,24 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+
 import { Permission } from '@features/iam/models/permission.model';
 import { BaseListComponent } from '@core/base/base-list.component';
-import {PermissionService} from "@features/iam/permissions/services/permission.service";
+import { PermissionService } from '@features/iam/permissions/services/permission.service';
 
 @Component({
-    selector: 'app-permission-list',
+    selector: 'permission-list',
     standalone: true,
-    imports: [CommonModule],
-    templateUrl: './permission-list.component.html'
+    imports: [
+        CommonModule,
+        TableModule,
+        ButtonModule,
+        TagModule
+    ],
+    templateUrl: './permission-list.page.html'
 })
 export class PermissionListPage extends BaseListComponent<Permission> {
 

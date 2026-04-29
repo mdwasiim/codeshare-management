@@ -79,6 +79,11 @@ public class GroupServiceImpl implements GroupService {
         return mapper.toDTOList(groupRepository.findByTenantId(tenantId));
     }
 
+    @Override
+    public List<GroupDTO> getAll() {
+        return mapper.toDTOList(groupRepository.findAll());
+    }
+
 
     // --------------------------------------------------------------------
     // DELETE GROUP + REMOVE USER-LINKS

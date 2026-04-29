@@ -41,7 +41,13 @@ export type ApiEndpointKey =
     | 'auth.login'
     | 'auth.logout'
     | 'auth.refresh'
+
     | 'menu.get'
+    |'menu.byId'
+    |'menu.create'
+    |'menu.update'
+    |'menu.delete'
+
     | 'dashboard.stats'
 
     | 'users.base'
@@ -56,11 +62,11 @@ export type ApiEndpointKey =
     | 'permissions.base'
     | 'permissions.byId';
 
-export const buildApiUrl = (key: ApiEndpointKey): string => {
-
+export const buildApiUrl = (  key: ApiEndpointKey,
+    pathParams?: Record<string, string | number> ): string => {
     const base = API_CONFIG.baseUrl.replace(/\/$/, '');
 
-    const path = key.split('.').reduce((acc: any, part) => {
+    let path = key.split('.').reduce((acc: any, part) => {
         if (!acc || !(part in acc)) {
             throw new Error(`Invalid API endpoint key: ${key}`);
         }
@@ -69,6 +75,13 @@ export const buildApiUrl = (key: ApiEndpointKey): string => {
 
     if (typeof path !== 'string') {
         throw new Error(`Invalid endpoint path for key: ${key}`);
+    }
+
+    // 🔥 APPLY PATH PARAMS
+    if (pathParams) {
+        Object.entries(pathParams).forEach(([k, v]) => {
+            path = path.replace(`{${k}}`, String(v));
+        });
     }
 
     return `${base}/${path.replace(/^\//, '')}`;

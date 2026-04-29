@@ -2,6 +2,10 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+
 import { GroupService } from '../../services/group.service';
 import { Group } from '@features/iam/models/group.model';
 import { BaseListComponent } from '@core/base/base-list.component';
@@ -9,7 +13,12 @@ import { BaseListComponent } from '@core/base/base-list.component';
 @Component({
     selector: 'app-group-list',
     standalone: true,
-    imports: [CommonModule],
+    imports: [
+        CommonModule,
+        TableModule,
+        ButtonModule,
+        TagModule
+    ],
     templateUrl: './group-list.page.html'
 })
 export class GroupListPage extends BaseListComponent<Group> {

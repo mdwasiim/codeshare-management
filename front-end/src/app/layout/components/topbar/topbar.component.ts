@@ -7,7 +7,7 @@ import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
 
 import { LayoutService } from '@layout/services/layout.service';
-import { AuthService } from '@services/auth/auth.service';
+import { AuthService } from '@features/auth/services/auth.service';
 
 @Component({
   selector: 'app-topbar',

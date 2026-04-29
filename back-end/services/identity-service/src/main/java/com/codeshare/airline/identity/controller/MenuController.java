@@ -43,12 +43,18 @@ public class MenuController  {
     }
 
     // -----------------------------------------------------------
+    // DELETE MENU (Soft delete recommended)
+    // -----------------------------------------------------------
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable UUID id) {
+        service.delete(id);
+    }
+
+    // -----------------------------------------------------------
     // GET ROOT MENUS FOR TENANT
     // -----------------------------------------------------------
     @GetMapping("/roots")
-    public List<MenuDTO> getRootMenus(
-            @RequestParam UUID tenantId
-    ) {
+    public List<MenuDTO> getRootMenus(   @RequestParam UUID tenantId) {
         return service.getRootMenus(tenantId);
     }
 
@@ -60,14 +66,5 @@ public class MenuController  {
         TenantContext tenant = TenantContextHolder.getTenant();
         return service.getAllByTenant(tenant.getTenantCode());
 
-    }
-
-
-    // -----------------------------------------------------------
-    // DELETE MENU (Soft delete recommended)
-    // -----------------------------------------------------------
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
-        service.delete(id);
     }
 }

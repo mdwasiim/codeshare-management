@@ -40,6 +40,9 @@ public class Menu extends CSMDataAbstractEntity {
     @Column(name = "icon", length = 200)
     private String icon;
 
+    @Column(name = "path", length = 200)
+    private String path;
+
     @Convert(converter = CSMListDataToJsonConverter.class)
     @Column(name = "router_link", nullable = false, length = 1000)
     @Builder.Default
@@ -61,7 +64,7 @@ public class Menu extends CSMDataAbstractEntity {
             orphanRemoval = true
     )
     @ToString.Exclude
-    private final List<Menu> items = new ArrayList<>();
+    private List<Menu> items = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tenant_id", nullable = false)

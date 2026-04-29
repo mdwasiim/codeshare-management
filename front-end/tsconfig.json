@@ -23,7 +23,8 @@
             "@services/*": ["src/app/core/services/*"],
             "@utils/*": ["src/app/core/utils/*"],
             "@layout/*": ["src/app/layout/*"],
-            "@pages/*": ["src/app/pages/*"]
+            "@features/*": ["src/app/features/*"],
+            "@shared/*": ["src/app/shared/*"]
         }
 
     },

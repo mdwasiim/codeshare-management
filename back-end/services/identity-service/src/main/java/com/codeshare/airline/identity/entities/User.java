@@ -1,14 +1,16 @@
 package com.codeshare.airline.identity.entities;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -86,4 +88,6 @@ public class User extends CSMDataAbstractEntity {
     @JoinColumn(name = "tenant_id", nullable = false)
     private Tenant tenant;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<UserGroup> userGroups = new HashSet<>();
 }

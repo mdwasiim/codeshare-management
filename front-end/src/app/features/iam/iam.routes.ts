@@ -5,6 +5,12 @@ export const IAM_ROUTES: Routes = [
         path: '',
         children: [
             {
+                path: 'menus',
+                loadChildren: () =>
+                    import('./menus/menus.routes')
+                        .then(m => m.MENUS_ROUTES)
+            },
+            {
                 path: 'users',
                 loadChildren: () =>
                     import('./users/users.routes')

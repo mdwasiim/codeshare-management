@@ -4,7 +4,7 @@ import { MenuModule } from 'primeng/menu';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'best-selling',
+    selector: 'dashboard-best-selling',
     standalone: true,
     imports: [CommonModule, ButtonModule, MenuModule],
     templateUrl: './best-selling.component.html',

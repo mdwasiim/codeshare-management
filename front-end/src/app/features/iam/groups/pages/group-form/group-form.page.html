@@ -1,44 +1,28 @@
-<div class="page-container">
+<form [formGroup]="form" (ngSubmit)="submit()" class="card max-w-3xl mx-auto p-6">
 
-    <div class="page-header">
-        <h2>Groups</h2>
-        <button (click)="createGroup()" [disabled]="loading">
-            + Create Group
-        </button>
+    <h2 class="text-xl font-semibold mb-6">
+        {{ isEdit ? 'Edit Group' : 'Create Group' }}
+    </h2>
+
+    <div class="grid grid-cols-2 gap-4">
+
+        <input pInputText placeholder="Code" formControlName="code" />
+
+        <input pInputText placeholder="Name" formControlName="name" />
+
+        <input pInputText placeholder="Description" formControlName="description" />
+
+        <input pInputText placeholder="Tenant ID" formControlName="tenantId" />
+
     </div>
 
-    <!-- Loading -->
-    <div *ngIf="loading">Loading groups...</div>
-
-    <!-- Table -->
-    <table *ngIf="!loading && groups.length > 0">
-        <thead>
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Tenant</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr *ngFor="let group of groups">
-            <td>{{ group.code }}</td>
-            <td>{{ group.name }}</td>
-            <td>{{ group.description }}</td>
-            <td>{{ group.tenantId }}</td>
-            <td>
-                <button (click)="editGroup(group)">Edit</button>
-                <button (click)="deleteGroup(group)">Delete</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <!-- Empty -->
-    <div *ngIf="!loading && groups.length === 0">
-        No groups found.
+    <div class="mt-6">
+        <p-button
+            type="submit"
+            label="Save"
+            icon="pi pi-check"
+            [disabled]="form.invalid">
+        </p-button>
     </div>
 
-</div>
+</form>

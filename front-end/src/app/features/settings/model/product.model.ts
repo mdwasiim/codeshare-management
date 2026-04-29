@@ -1,14 +1,20 @@
 export interface Product {
     id?: string;
+
     code?: string;
     name?: string;
     description?: string;
+
+    image?: string;
+    category?: string;
+
     price?: number;
     quantity?: number;
-    inventoryStatus?: string;
-    category?: string;
-    image?: string;
+
+    inventoryStatus?: 'INSTOCK' | 'LOWSTOCK' | 'OUTOFSTOCK';
+
     rating?: number;
-       /** Add this to fix your sortedProducts error */
+
+    active?: boolean;
     orders?: any[];
 }

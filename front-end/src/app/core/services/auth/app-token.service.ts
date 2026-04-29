@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 
 @Injectable({ providedIn: 'root' })
-export class TokenService {
+export class AppTokenService {
 
   /**
    * Returns the current access token used for API authentication.

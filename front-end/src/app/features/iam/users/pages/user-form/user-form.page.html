@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="save()" class="card max-w-4xl mx-auto p-6">
+<form [formGroup]="form" (ngSubmit)="submit()" class="card max-w-4xl mx-auto p-6">
 
     <h2 class="text-xl font-semibold mb-6">
         {{ id ? 'Edit User' : 'Create User' }}
@@ -10,47 +10,40 @@
 
         <div class="grid grid-cols-2 gap-4">
 
-            <input placeholder="Username" formControlName="username" />
-            <input placeholder="Email" formControlName="email" />
+            <input pInputText placeholder="Username" formControlName="username" />
+            <input pInputText placeholder="Email" formControlName="email" />
 
-            <input placeholder="First Name" formControlName="firstName" />
-            <input placeholder="Last Name" formControlName="lastName" />
+            <input pInputText placeholder="First Name" formControlName="firstName" />
+            <input pInputText placeholder="Last Name" formControlName="lastName" />
 
-            <input type="password" placeholder="Password" formControlName="password" />
+            <p-password formControlName="password"></p-password>
 
         </div>
     </div>
 
     <!-- ACCOUNT -->
-    <div class="mb-6">
-        <h3 class="font-semibold mb-3">Account Settings</h3>
-
-        <label>
-            <input type="checkbox" formControlName="enabled" />
-            Enabled
-        </label>
-
-        <label class="ml-4">
-            <input type="checkbox" formControlName="accountNonLocked" />
-            Unlocked
-        </label>
+    <div class="mb-6 flex gap-4">
+        <p-checkbox formControlName="enabled" binary="true" label="Enabled"></p-checkbox>
+        <p-checkbox formControlName="accountNonLocked" binary="true" label="Unlocked"></p-checkbox>
     </div>
 
     <!-- TENANT -->
     <div class="mb-6">
-        <h3 class="font-semibold mb-3">Tenant</h3>
-
-        <select formControlName="tenantId">
-            <option value="">Select Tenant</option>
-            <option *ngFor="let t of tenants" [value]="t.id">
-                {{ t.name }}
-            </option>
-        </select>
+        <p-select
+        [options]="tenants"
+        optionLabel="name"
+        optionValue="id"
+        formControlName="tenantId"
+        placeholder="Select Tenant">
+    </p-select>
     </div>
 
     <!-- ACTION -->
-    <button type="submit" [disabled]="form.invalid">
-        Save
-    </button>
+    <p-button
+        type="submit"
+        label="Save"
+        icon="pi pi-check"
+        [disabled]="form.invalid">
+    </p-button>
 
 </form>

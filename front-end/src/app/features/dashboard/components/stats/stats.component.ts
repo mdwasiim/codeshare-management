@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     standalone: true,
-    selector: 'stats',
+    selector: 'dashboard-stats',
     imports: [],
     templateUrl: './stats.component.html',
     styleUrls: ['./stats.component.scss']

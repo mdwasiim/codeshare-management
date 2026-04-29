@@ -5,19 +5,19 @@ export const ORGANIZATION_ROUTES: Routes = [
         path: '',
         pathMatch: 'full',   // ✅ IMPORTANT
         loadComponent: () =>
-            import('./pages/organizations/organization-list/organization-list.page.ts')
+            import('./pages/organization-list/organization-list.page')
                 .then(m => m.OrganizationListPage)
     },
     {
         path: 'create',
         loadComponent: () =>
-            import('./pages/organizations/organization-form/organization-form.page.ts')
+            import('./pages/organization-form/organization-form.page')
                 .then(m => m.OrganizationFormPage)
     },
     {
         path: ':id',
         loadComponent: () =>
-            import('./pages/organizations/organization-form/organization-form.page.ts')
+            import('./pages/organization-form/organization-form.page')
                 .then(m => m.OrganizationFormPage)
     }
 ];

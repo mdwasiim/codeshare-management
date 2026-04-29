@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-    selector: 'csm-root',
+    selector: 'app-root',
     standalone: true,
     imports: [RouterModule],
     template: `<router-outlet></router-outlet>`
 })
-export class CSMComponent {}
+export class AppComponent {}

@@ -1,6 +1,6 @@
-# Sakai19
+# CodeShare Management
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+This project is a code sharing and management platform built with [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
 
 ## Development server
 

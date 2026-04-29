@@ -1,7 +1,6 @@
-import { Component, Renderer2, ViewChild } from '@angular/core';
+import {Component, inject,effect, computed} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
 import { LayoutService } from '@layout/services/layout.service';
 import { TopbarComponent } from '@layout/components/topbar/topbar.component';
 import { SidebarComponent } from '@layout/components/sidebar/sidebar.component';
@@ -15,108 +14,28 @@ import { FooterComponent } from '@layout/components/footer/footer.component';
     styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
-    overlayMenuOpenSubscription: Subscription;
-    menuOutsideClickListener: any;
+    layoutService = inject(LayoutService);
 
-    @ViewChild(SidebarComponent) csmSidebar!: SidebarComponent;
-    @ViewChild(TopbarComponent) csmTopBar!: TopbarComponent;
-
-    constructor(
-        public csmLayoutService: LayoutService,
-        public renderer: Renderer2,
-        public router: Router
-    ) {
-        this.overlayMenuOpenSubscription = this.csmLayoutService.overlayOpen$.subscribe(() => {
-            if (!this.menuOutsideClickListener) {
-                this.menuOutsideClickListener = this.renderer.listen('document', 'click', (event) => {
-                    if (this.isOutsideClicked(event)) {
-                        this.hideMenu();
-                    }
-                });
-            }
-
-            if (this.csmLayoutService.layoutState().staticMenuMobileActive) {
-                this.blockBodyScroll();
+    constructor() {
+        effect(() => {
+            const state = this.layoutService.layoutState();
+            if (state.mobileMenuActive) {
+                document.body.classList.add('blocked-scroll');
+            } else {
+                document.body.classList.remove('blocked-scroll');
             }
         });
-
-        this.router.events
-            .pipe(filter((event) => event instanceof NavigationEnd))
-            .subscribe(() => {
-                this.hideMenu();
-            });
     }
 
-    isOutsideClicked(event: MouseEvent) {
-        const sidebarEl = document.querySelector('.layout-sidebar');
-        const topbarEl = document.querySelector('.layout-menu-button');
-        const eventTarget = event.target as Node;
-
-        return !(
-            sidebarEl?.isSameNode(eventTarget) ||
-            sidebarEl?.contains(eventTarget) ||
-            topbarEl?.isSameNode(eventTarget) ||
-            topbarEl?.contains(eventTarget)
-        );
-    }
-
-    hideMenu() {
-        this.csmLayoutService.layoutState.update((prev) => ({
-            ...prev,
-            overlayMenuActive: false,
-            staticMenuMobileActive: false,
-            menuHoverActive: false
-        }));
-
-        if (this.menuOutsideClickListener) {
-            this.menuOutsideClickListener();
-            this.menuOutsideClickListener = null;
-        }
-
-        this.unblockBodyScroll();
-    }
-
-    blockBodyScroll(): void {
-        if (document.body.classList) {
-            document.body.classList.add('blocked-scroll');
-        } else {
-            document.body.className += ' blocked-scroll';
-        }
-    }
-
-    unblockBodyScroll(): void {
-        if (document.body.classList) {
-            document.body.classList.remove('blocked-scroll');
-        } else {
-            document.body.className = document.body.className.replace(
-                new RegExp(
-                    '(^|\\b)' + 'blocked-scroll'.split(' ').join('|') + '(\\b|$)',
-                    'gi'
-                ),
-                ' '
-            );
-        }
-    }
-
-    get containerClass() {
+    containerClass = computed(() => {
+        const config = this.layoutService.layoutConfig();
+        const state = this.layoutService.layoutState();
         return {
-            'layout-overlay': this.csmLayoutService.layoutConfig().menuMode === 'overlay',
-            'layout-static': this.csmLayoutService.layoutConfig().menuMode === 'static',
-            'layout-static-inactive':
-                this.csmLayoutService.layoutState().staticMenuDesktopInactive &&
-                this.csmLayoutService.layoutConfig().menuMode === 'static',
-            'layout-overlay-active': this.csmLayoutService.layoutState().overlayMenuActive,
-            'layout-mobile-active': this.csmLayoutService.layoutState().staticMenuMobileActive
+            'layout-overlay': config.menuMode === 'overlay',
+            'layout-static': config.menuMode === 'static',
+            'layout-static-inactive': state.staticMenuDesktopInactive && config.menuMode === 'static',
+            'layout-overlay-active': state.overlayMenuActive,
+            'layout-mobile-active': state.mobileMenuActive
         };
-    }
-
-    ngOnDestroy() {
-        if (this.overlayMenuOpenSubscription) {
-            this.overlayMenuOpenSubscription.unsubscribe();
-        }
-
-        if (this.menuOutsideClickListener) {
-            this.menuOutsideClickListener();
-        }
-    }
+    })
 }

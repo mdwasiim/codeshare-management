@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { ApiEndpointKey, buildApiUrl, ApiOptions } from '@/core/config/csm-api.config';
+import { ApiEndpointKey, buildApiUrl, ApiOptions } from '@core/config/app-api.config';
 
 @Injectable({ providedIn: 'root' })
-export class ApiService {
+export class AppApiService {
 
     private http = inject(HttpClient);
 
@@ -33,7 +33,7 @@ export class ApiService {
     // GET
     // =========================
     get<T>(endpoint: ApiEndpointKey, options?: ApiOptions) {
-        return this.http.get<T>(buildApiUrl(endpoint), {
+        return this.http.get<T>(buildApiUrl(endpoint, options?.pathParams), {
             params: this.buildParams(options?.params),
             headers: this.buildHeaders(options?.headers)
         });
@@ -47,7 +47,7 @@ export class ApiService {
         body: B,
         options?: ApiOptions
     ) {
-        return this.http.post<T>(buildApiUrl(endpoint), body, {
+        return this.http.post<T>(buildApiUrl(endpoint, options?.pathParams), body, {
             params: this.buildParams(options?.params),
             headers: this.buildHeaders(options?.headers)
         });
@@ -61,7 +61,7 @@ export class ApiService {
         body: B,
         options?: ApiOptions
     ) {
-        return this.http.put<T>(buildApiUrl(endpoint), body, {
+        return this.http.put<T>(buildApiUrl(endpoint, options?.pathParams), body, {
             params: this.buildParams(options?.params),
             headers: this.buildHeaders(options?.headers)
         });
@@ -71,7 +71,7 @@ export class ApiService {
     // DELETE
     // =========================
     delete<T>(endpoint: ApiEndpointKey, options?: ApiOptions) {
-        return this.http.delete<T>(buildApiUrl(endpoint), {
+        return this.http.delete<T>(buildApiUrl(endpoint, options?.pathParams), {
             params: this.buildParams(options?.params),
             headers: this.buildHeaders(options?.headers)
         });

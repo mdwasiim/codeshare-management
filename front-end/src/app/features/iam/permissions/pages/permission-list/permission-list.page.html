@@ -1,42 +1,71 @@
-<div class="page-container">
+<div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-semibold">Permissions</h2>
 
-    <div class="page-header">
-        <h2>Permissions</h2>
-        <button (click)="createPermission()">+ Create Permission</button>
-    </div>
+    <p-button
+        label="Create Permission"
+        icon="pi pi-plus"
+        (click)="createPermission()">
+    </p-button>
+</div>
 
-    <div *ngIf="loading">Loading...</div>
+<p-table
+    [value]="data"
+    [paginator]="true"
+    [rows]="10"
+    [rowHover]="true"
+    dataKey="id"
+    [globalFilterFields]="['name','domain','action']"
+>
 
-    <table *ngIf="!loading && data.length > 0">
-        <thead>
+    <!-- Header -->
+    <ng-template pTemplate="header">
         <tr>
-            <th>Name</th>
+            <th pSortableColumn="name">
+                Name
+                <p-sortIcon field="name"></p-sortIcon>
+            </th>
             <th>Domain</th>
             <th>Action</th>
             <th>Code</th>
             <th>Description</th>
-            <th>Actions</th>
+            <th></th>
         </tr>
-        </thead>
+    </ng-template>
 
-        <tbody>
-        <tr *ngFor="let p of data">
+    <!-- Body -->
+    <ng-template pTemplate="body" let-p>
+        <tr>
             <td>{{ p.name }}</td>
-            <td>{{ p.domain }}</td>
-            <td>{{ p.action }}</td>
+            <td>
+                <p-tag [value]="p.domain" severity="info"></p-tag>
+            </td>
+            <td>
+                <p-tag [value]="p.action" severity="success"></p-tag>
+            </td>
             <td>{{ p.code }}</td>
             <td>{{ p.description }}</td>
 
-            <td>
-                <button (click)="editPermission(p)">Edit</button>
-                <button (click)="deletePermission(p)">Delete</button>
+            <td class="flex gap-2">
+                <p-button
+                    icon="pi pi-pencil"
+                    [rounded]="true"
+                    [outlined]="true"
+                    (click)="editPermission(p)">
+                </p-button>
+
+                <p-button
+                    icon="pi pi-trash"
+                    severity="danger"
+                    [rounded]="true"
+                    [outlined]="true"
+                    (click)="deletePermission(p)">
+                </p-button>
             </td>
         </tr>
-        </tbody>
-    </table>
+    </ng-template>
 
-    <div *ngIf="!loading && data.length === 0">
-        No permissions found
-    </div>
+</p-table>
 
+<div *ngIf="!loading && data.length === 0" class="text-center mt-4">
+    No permissions found
 </div>

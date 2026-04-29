@@ -3,15 +3,15 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { Product } from '@core/models/product.model';
-import { ProductService } from '@services/product/product.service';
+import { Product } from '@features/settings/model/product.model';
+import { ProductService } from '@features/settings/products/services/product.service';
 
 @Component({
     standalone: true,
-    selector: 'recent-sales-widget',
+    selector: 'dashboard-recent-sales',
     imports: [CommonModule, TableModule, ButtonModule, RippleModule],
-    templateUrl: './recent-sales-widget.component.html',
-    styleUrls: ['./recent-sales-widget.component.scss'],
+    templateUrl: './recent-sales.component.html',
+    styleUrls: ['./recent-sales.component.scss'],
     providers: [ProductService]
 })
 export class RecentSalesWidget {

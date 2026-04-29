@@ -21,6 +21,8 @@ public class MenuDTO extends CSMAuditableDTO {
 
     private String icon;
 
+    private String path;
+
     private List<String> routerLink;
 
     private Integer displayOrder;

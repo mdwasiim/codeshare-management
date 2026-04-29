@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LayoutMenuService } from '@shared/services/layout-menu.service';
 import {AppMenuItemComponent} from "@layout/components/sidebar-menu/app-menu-item/app-menu-item.component";
 import {AppMenuModel} from "@shared/models/app-menu.model";
+import {LayoutMenuService} from "@layout/services/layout-menu.service";
+import {MenuItem} from "primeng/api";
 
 @Component({
     selector: 'app-menu',
@@ -14,6 +15,7 @@ import {AppMenuModel} from "@shared/models/app-menu.model";
 export class AppMenuComponent implements OnInit {
 
     model: AppMenuModel[] = [];
+    //model: MenuItem[] = [];
 
     constructor(private menuService: LayoutMenuService) {}
 

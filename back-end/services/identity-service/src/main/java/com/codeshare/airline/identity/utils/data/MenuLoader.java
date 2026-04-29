@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,8 +26,7 @@ public class MenuLoader {
     private final ObjectMapper objectMapper;
 
     // Preload JSON once
-    private static final String MENU_JSON ="[{\"label\":\"Home\",\"displayOrder\":1,\"items\":[{\"label\":\"Dashboard\",\"icon\":\"pi pi-fw pi-home\",\"displayOrder\":1,\"routerLink\":[\"/\"]}]},{\"label\":\"Settings\",\"icon\":\"pi pi-fw pi-briefcase\",\"displayOrder\":2,\"items\":[{\"label\":\"Organization\",\"icon\":\"pi pi-fw pi-globe\",\"displayOrder\":1,\"items\":[{\"label\":\"All Organizations\",\"icon\":\"pi pi-fw pi-list\",\"displayOrder\":1,\"routerLink\":[\"/organizations\"]},{\"label\":\"Create Organization\",\"icon\":\"pi pi-fw pi-plus\",\"displayOrder\":2,\"routerLink\":[\"/organizations/create\"]}]}]},{\"label\":\"Pages\",\"icon\":\"pi pi-fw pi-briefcase\",\"displayOrder\":3,\"routerLink\":[\"/pages\"],\"items\":[{\"label\":\"Landing\",\"icon\":\"pi pi-fw pi-globe\",\"displayOrder\":1,\"routerLink\":[\"/landing\"]},{\"label\":\"Auth\",\"icon\":\"pi pi-fw pi-user\",\"displayOrder\":2,\"items\":[{\"label\":\"Login\",\"icon\":\"pi pi-fw pi-sign-in\",\"displayOrder\":1,\"routerLink\":[\"/auth/login\"]},{\"label\":\"Error\",\"icon\":\"pi pi-fw pi-times-circle\",\"displayOrder\":2,\"routerLink\":[\"/auth/error\"]},{\"label\":\"Access Denied\",\"icon\":\"pi pi-fw pi-lock\",\"displayOrder\":3,\"routerLink\":[\"/auth/access\"]}]},{\"label\":\"Product\",\"icon\":\"pi pi-fw pi-pencil\",\"displayOrder\":3,\"routerLink\":[\"/pages/product\"]},{\"label\":\"Not Found\",\"icon\":\"pi pi-fw pi-exclamation-circle\",\"displayOrder\":4,\"routerLink\":[\"/pages/notfound\"]},{\"label\":\"Empty\",\"icon\":\"pi pi-fw pi-circle-off\",\"displayOrder\":5,\"routerLink\":[\"/pages/empty\"]}]},{\"label\":\"Hierarchy\",\"displayOrder\":4,\"items\":[{\"label\":\"Submenu 1\",\"icon\":\"pi pi-fw pi-bookmark\",\"displayOrder\":1,\"items\":[{\"label\":\"Submenu 1.1\",\"icon\":\"pi pi-fw pi-bookmark\",\"displayOrder\":1,\"items\":[{\"label\":\"Submenu 1.1.1\",\"icon\":\"pi pi-fw pi-bookmark\",\"displayOrder\":1}]}]},{\"label\":\"Submenu 2\",\"icon\":\"pi pi-fw pi-bookmark\",\"displayOrder\":2,\"items\":[{\"label\":\"Submenu 2.1\",\"icon\":\"pi pi-fw pi-bookmark\",\"displayOrder\":1,\"items\":[{\"label\":\"Submenu 2.1.1\",\"icon\":\"pi pi-fw pi-bookmark\",\"displayOrder\":1},{\"label\":\"Submenu 2.1.2\",\"icon\":\"pi pi-fw pi-bookmark\",\"displayOrder\":2}]}]}]}]";
-
+    private static final String MENU_JSON ="[{\"label\":\"Home\",\"path\":\"/home\",\"displayOrder\":1,\"items\":[{\"label\":\"Dashboard\",\"icon\":\"pi pi-fw pi-home\",\"displayOrder\":1,\"routerLink\":[\"/dashboard\"]},{\"label\":\"Product\",\"icon\":\"pi pi-fw pi-box\",\"displayOrder\":3,\"routerLink\":[\"/settings/products\"]}]},{\"label\":\"Flight Operations\",\"icon\":\"pi pi-fw pi-send\",\"path\":\"/flights-root\",\"displayOrder\":2,\"items\":[{\"label\":\"Flight Schedules\",\"icon\":\"pi pi-fw pi-calendar\",\"displayOrder\":1,\"routerLink\":[\"/flights\"]},{\"label\":\"Codeshare Flights\",\"icon\":\"pi pi-fw pi-share-alt\",\"displayOrder\":2,\"routerLink\":[\"/codeshare\"]}]},{\"label\":\"Schedule Ingestion\",\"icon\":\"pi pi-fw pi-upload\",\"path\":\"/ingestion\",\"displayOrder\":3,\"items\":[{\"label\":\"Upload Schedule\",\"icon\":\"pi pi-fw pi-upload\",\"displayOrder\":1,\"routerLink\":[\"/ingestion/upload\"]},{\"label\":\"Processing Jobs\",\"icon\":\"pi pi-fw pi-cog\",\"displayOrder\":2,\"routerLink\":[\"/ingestion/jobs\"]},{\"label\":\"Validation Errors\",\"icon\":\"pi pi-fw pi-exclamation-triangle\",\"displayOrder\":3,\"routerLink\":[\"/ingestion/errors\"]}]},{\"label\":\"Partner Management\",\"icon\":\"pi pi-fw pi-users\",\"path\":\"/partners-root\",\"displayOrder\":4,\"items\":[{\"label\":\"Airline Partners\",\"icon\":\"pi pi-fw pi-building\",\"displayOrder\":1,\"routerLink\":[\"/partners\"]},{\"label\":\"Agreements\",\"icon\":\"pi pi-fw pi-file\",\"displayOrder\":2,\"routerLink\":[\"/agreements\"]}]},{\"label\":\"Reference Data\",\"icon\":\"pi pi-fw pi-database\",\"path\":\"/reference\",\"displayOrder\":5,\"items\":[{\"label\":\"Airports\",\"icon\":\"pi pi-fw pi-map\",\"displayOrder\":1,\"routerLink\":[\"/reference/airports\"]},{\"label\":\"Aircraft Types\",\"icon\":\"pi pi-fw pi-car\",\"displayOrder\":2,\"routerLink\":[\"/reference/aircraft\"]},{\"label\":\"Routes\",\"icon\":\"pi pi-fw pi-directions\",\"displayOrder\":3,\"routerLink\":[\"/reference/routes\"]}]},{\"label\":\"System Configuration\",\"icon\":\"pi pi-fw pi-cog\",\"path\":\"/settings/organizations\",\"displayOrder\":6,\"items\":[{\"label\":\"Organization\",\"icon\":\"pi pi-fw pi-globe\",\"path\":\"/settings/organizations\",\"displayOrder\":1,\"items\":[{\"label\":\"All Organizations\",\"icon\":\"pi pi-fw pi-list\",\"displayOrder\":1,\"routerLink\":[\"/settings/organizations\"]},{\"label\":\"Create Organization\",\"icon\":\"pi pi-fw pi-plus-circle\",\"displayOrder\":2,\"routerLink\":[\"/settings/organizations/create\"]}]}]},{\"label\":\"Access Management\",\"icon\":\"pi pi-fw pi-shield\",\"displayOrder\":7,\"path\":\"/iam\",\"items\":[{\"label\":\"User Management\",\"icon\":\"pi pi-fw pi-users\",\"path\":\"/iam/users\",\"displayOrder\":1,\"items\":[{\"label\":\"Users\",\"icon\":\"pi pi-fw pi-user\",\"displayOrder\":1,\"routerLink\":[\"/iam/users\"]},{\"label\":\"Groups\",\"icon\":\"pi pi-fw pi-users\",\"displayOrder\":2,\"routerLink\":[\"/iam/groups\"]}]},{\"label\":\"Role Management\",\"icon\":\"pi pi-fw pi-id-card\",\"path\":\"/iam/roles\",\"displayOrder\":2,\"items\":[{\"label\":\"Roles\",\"icon\":\"pi pi-fw pi-briefcase\",\"displayOrder\":1,\"routerLink\":[\"/iam/roles\"]},{\"label\":\"Permissions\",\"icon\":\"pi pi-fw pi-lock\",\"displayOrder\":2,\"routerLink\":[\"/iam/permissions\"]}]},{\"label\":\"Menu Management\",\"icon\":\"pi pi-fw pi-bars\",\"path\":\"/iam/menus\",\"displayOrder\":3,\"items\":[{\"label\":\"Menus\",\"icon\":\"pi pi-fw pi-list\",\"displayOrder\":1,\"routerLink\":[\"/iam/menus\"]}]}]}]";
 
     public void load(List<UUID> tenantIds) {
 
@@ -66,7 +66,7 @@ public class MenuLoader {
         }
 
         List<Menu> collector = new ArrayList<>();
-
+        rootMenus.sort(Comparator.comparing(MenuDTO::getDisplayOrder));
         for (MenuDTO dto : rootMenus) {
             processMenu(dto, null, tenant, collector);
         }
@@ -80,22 +80,41 @@ public class MenuLoader {
             Tenant tenant,
             List<Menu> collector
     ) {
+        String path = generatePath(dto, parent);
+
         Menu menu = Menu.builder()
                 .label(dto.getLabel())
                 .icon(dto.getIcon())
+                .path(path) // 🔥 use generated path
                 .routerLink(dto.getRouterLink())
                 .displayOrder(dto.getDisplayOrder())
                 .tenant(tenant)
-                .icon(dto.getIcon())
                 .parentMenu(parent)
                 .build();
 
         collector.add(menu);
 
-        if (dto.getItems()!= null) {
+        if (dto.getItems() != null) {
+            dto.getItems().sort(Comparator.comparing(MenuDTO::getDisplayOrder));
             for (MenuDTO child : dto.getItems()) {
                 processMenu(child, menu, tenant, collector);
             }
         }
+    }
+
+    private String generatePath(MenuDTO dto, Menu parent) {
+
+        String slug = dto.getLabel()
+                .trim()
+                .toLowerCase()
+                .replaceAll("[^a-z0-9]+", "-");
+
+        String current = "/" + slug;
+
+        if (parent == null || parent.getPath() == null) {
+            return current;
+        }
+
+        return parent.getPath() + current;
     }
 }
