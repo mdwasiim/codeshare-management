@@ -1,93 +1,82 @@
-import {Component, inject} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
-import {ButtonModule} from 'primeng/button';
-import {CheckboxModule} from 'primeng/checkbox';
-import {InputTextModule} from 'primeng/inputtext';
-import {PasswordModule} from 'primeng/password';
-import {RippleModule} from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { RippleModule } from 'primeng/ripple';
 
-
-import {AuthService} from '@features/auth/services/auth.service';
-import {AppTokenService} from '@services/auth/app-token.service';
+import { AuthService } from '@features/auth/services/auth.service';
 
 @Component({
-  selector: 'csm-login',
-  standalone: true,
-  imports: [
-    ButtonModule,
-    CheckboxModule,
-    InputTextModule,
-    PasswordModule,
-    FormsModule,
-    RouterModule,
-    RippleModule
-  ],
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+    selector: 'csm-login',
+    standalone: true,
+    imports: [
+        ButtonModule,
+        CheckboxModule,
+        InputTextModule,
+        PasswordModule,
+        FormsModule,
+        RouterModule,
+        RippleModule
+    ],
+    templateUrl: './login-page.component.html',
+    styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent {
 
-  username = '';
-  password = '';
-  checked = false;
-  loggingIn = false;
-  showPassword: boolean = false;
+    username = '';
+    password = '';
+    checked = false;
+    loggingIn = false;
+    showPassword = false;
 
-  private authService = inject(AuthService);
-  private tokenService = inject(AppTokenService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+    private authService = inject(AuthService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
 
-  private returnUrl = '/dashboard';
+    private returnUrl = '/dashboard';
 
-  ngOnInit() {
-    this.returnUrl =
-      this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
-  }
-
-login() {
-
-  if (!this.username || !this.password || this.loggingIn) {
-    return;
-  }
-
-  this.loggingIn = true;
-
-  this.authService.login(this.username, this.password).subscribe({
-    next: (response) => {
-
-      console.log('🚀 LOGOUT TOKEN:', this.tokenService.refreshToken);
-
-      // ✅ Store tokens
-      this.tokenService.setSession(
-        response.access_token,
-        response.refresh_token,
-        response.expires_in
-      );
-
-      // ✅ Store tenant (important for backend)
-      this.tokenService.setTenant(response.tenant_code);
-
-      // ✅ Navigate
-      this.router.navigate([this.returnUrl]);
-    },
-    error: (err: unknown) => {
-
-      console.error('Login failed:', err);
-
-      const message =
-        err instanceof Error
-          ? err.message
-          : 'Login failed';
-
-      alert(message);
-
-      this.loggingIn = false;
+    ngOnInit() {
+        // ✅ Get returnUrl or fallback to dashboard
+        this.returnUrl =
+            this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
     }
-  });
-}
 
+    login() {
 
+        if (!this.username || !this.password || this.loggingIn) {
+            return;
+        }
+
+        this.loggingIn = true;
+
+        this.authService.login(this.username, this.password).subscribe({
+            next: (response) => {
+
+                // ✅ Only tenant here (token already handled in service)
+                // (keep this only if required in your system)
+                if (response?.tenant_code) {
+                    // if still needed, inject tokenService back
+                    // otherwise remove completely
+                }
+
+                // ✅ Correct navigation (Promise handled)
+                void this.router.navigateByUrl(this.returnUrl);
+            },
+            error: (err: unknown) => {
+
+                console.error('Login failed:', err);
+
+                const message =
+                    err instanceof Error ? err.message : 'Login failed';
+
+                alert(message);
+
+                this.loggingIn = false;
+            }
+        });
+    }
 }

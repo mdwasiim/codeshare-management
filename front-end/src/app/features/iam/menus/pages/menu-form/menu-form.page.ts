@@ -1,13 +1,25 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    inject,
+    Input,
+    OnInit,
+    OnChanges,
+    Output,
+    SimpleChanges
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
+
 import { AppMenuModel } from "@shared/models/app-menu.model";
-import { BaseFormComponent } from "@core/base/base-form.component";
-import { ActivatedRoute, Router } from "@angular/router";
+import { BaseCrudForm } from "@core/base/base-crud-form.component";
 import { LayoutMenuService } from "@layout/services/layout-menu.service";
-import {MenuManagementService} from "@features/iam/menus/services/menu-management.service";
+import { MenuManagementService } from "@features/iam/menus/services/menu-management.service";
 
 @Component({
     selector: 'menu-form',
@@ -16,103 +28,114 @@ import {MenuManagementService} from "@features/iam/menus/services/menu-managemen
         CommonModule,
         ReactiveFormsModule,
         InputTextModule,
-        ButtonModule
+        ButtonModule,
+        DialogModule
     ],
     templateUrl: './menu-form.page.html'
 })
-export class MenuFormPage extends BaseFormComponent<AppMenuModel> implements OnInit {
+export class MenuFormPage extends BaseCrudForm<AppMenuModel>
+    implements OnInit, OnChanges {
+
+    @Input() visible = false;
+
+    @Output() visibleChange = new EventEmitter<boolean>();
 
     private fb = inject(FormBuilder);
     private service = inject(MenuManagementService);
     private layoutMenu = inject(LayoutMenuService);
 
-    loading = false;
 
     constructor() {
-        super(inject(ActivatedRoute), inject(Router));
+        super();
     }
 
+    // =========================
+    // INIT
+    // =========================
     ngOnInit(): void {
-        this.init();
+        this.buildForm();
     }
 
-    form = this.fb.group({
-        id: [null as string | null],
-        label: ['', Validators.required],
-        icon: [''],
-        routerLink: [''],
-        displayOrder: [0],
-        parentId: [null as string | null]
-    });
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['visible'] && this.visible) {
+            this.init(); // 🔥 important
+        }
+    }
 
     // =========================
-    // LOAD (EDIT MODE)
+    // BASE METHODS
     // =========================
-    load() {
-        if (!this.id) return;
 
-        this.service.getById(this.id).subscribe((res: any) => {
-            const user = res?.body ?? res;
-
-            this.form.patchValue({
-                ...user,
-                tenantId: user?.tenant?.id
-            });
+    buildForm(): void {
+        this.form = this.fb.group({
+            id: [null as string | null],
+            label: ['', Validators.required],
+            icon: [''],
+            routerLink: [''],
+            displayOrder: [0],
+            parentId: [null as string | null]
         });
     }
 
+    patchForm(data: AppMenuModel): void {
+        this.form.patchValue({
+            ...data,
+            routerLink: data.routerLink?.[0] || ''
+        });
+    }
+
+    fetchById(id: string) {
+        return this.service.getById(id);
+    }
+
+    create(payload: any) {
+        return this.service.create(this.mapToModel(payload));
+    }
+
+    update(id: string, payload: any) {
+        return this.service.update(id, this.mapToModel(payload));
+    }
+
     // =========================
-    // SAVE
+    // MAPPER
     // =========================
-    submit() {
-        if (this.form.invalid) return;
-
-        this.loading = true;
-
-        const formValue = this.form.value;
-
-        const payload: AppMenuModel = {
+    private mapToModel(formValue: any): AppMenuModel {
+        return {
             id: formValue.id ?? undefined,
-            label: formValue.label!,   // required
+            label: formValue.label!,
             icon: formValue.icon || undefined,
             displayOrder: formValue.displayOrder ?? 0,
             parentId: formValue.parentId ?? undefined,
-
-            // ✅ ALWAYS normalize to array
             routerLink: formValue.routerLink?.trim()
                 ? [formValue.routerLink.trim()]
                 : undefined
         };
-
-        (this.isEdit
-                ? this.service.update(this.id!, payload)
-                : this.service.create(payload)
-        ).subscribe({
-            next: () => {
-                this.loading = false;
-
-                // 🔥 refresh sidebar
-                this.layoutMenu.loadMenus().subscribe();
-
-                this.navigateBack('/iam/menu');
-            },
-            error: (err) => {
-                console.error(err);
-                this.loading = false;
-            }
-        });
     }
 
     // =========================
     // DELETE
     // =========================
-    delete() {
+    delete(): void {
         if (!this.id) return;
         if (!confirm('Delete this menu?')) return;
 
         this.service.delete(this.id).subscribe(() => {
             this.layoutMenu.loadMenus().subscribe();
-            this.navigateBack('/iam/menu');
+            this.saved.emit();
+            this.visibleChange.emit(false);
+        });
+    }
+
+    // =========================
+    // AFTER SAVE HOOK
+    // =========================
+    override submit(): void {
+        super.submit();
+
+        // handle after save via event
+        this.saved.subscribe(() => {
+            this.layoutMenu.loadMenus().subscribe();
+            this.visibleChange.emit(false);
         });
     }
 }

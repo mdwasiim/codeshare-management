@@ -1,24 +1,37 @@
-<div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-semibold">Groups</h2>
+<!-- ============================= -->
+<!-- Toolbar                      -->
+<!-- ============================= -->
+<csm-crud-toolbar
+    [actions]="['create','delete','search']"
+    [disableDelete]="!selectedGroups.length"
+    (create)="openCreate()"
+    (delete)="deleteSelectedGroups()"
+    (search)="onSearch($event)">
+</csm-crud-toolbar>
 
-    <p-button
-        label="Create Group"
-        icon="pi pi-plus"
-        (click)="createGroup()">
-    </p-button>
-</div>
-
+<!-- ============================= -->
+<!-- Table                        -->
+<!-- ============================= -->
 <p-table
+    #dt
     [value]="data"
+    [loading]="loading"
     [paginator]="true"
     [rows]="10"
-    [rowHover]="true"
+    [rowsPerPageOptions]="[10,20,50]"
+    [(selection)]="selectedGroups"
     dataKey="id"
+    [rowHover]="true"
+    [globalFilterFields]="['code','name','description']"
 >
 
     <!-- Header -->
     <ng-template pTemplate="header">
         <tr>
+            <th style="width:3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+
             <th>Code</th>
             <th>Name</th>
             <th>Description</th>
@@ -30,6 +43,10 @@
     <!-- Body -->
     <ng-template pTemplate="body" let-group>
         <tr>
+            <td>
+                <p-tableCheckbox [value]="group"></p-tableCheckbox>
+            </td>
+
             <td>{{ group.code }}</td>
             <td>{{ group.name }}</td>
             <td>{{ group.description }}</td>
@@ -39,19 +56,17 @@
             </td>
 
             <td class="flex gap-2">
-                <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [outlined]="true"
-                    (click)="editGroup(group)">
+                <p-button icon="pi pi-pencil"
+                          [rounded]="true"
+                          [outlined]="true"
+                          (click)="openEdit(group)">
                 </p-button>
 
-                <p-button
-                    icon="pi pi-trash"
-                    severity="danger"
-                    [rounded]="true"
-                    [outlined]="true"
-                    (click)="deleteGroup(group)">
+                <p-button icon="pi pi-trash"
+                          severity="danger"
+                          [rounded]="true"
+                          [outlined]="true"
+                          (click)="deleteGroup(group)">
                 </p-button>
             </td>
         </tr>
@@ -59,6 +74,24 @@
 
 </p-table>
 
+<!-- ============================= -->
+<!-- Dialog                       -->
+<!-- ============================= -->
+<group-form
+    [(visible)]="dialogVisible"
+    [id]="selectedGroupId"
+    (saved)="onSaved()">
+</group-form>
+
+<!-- ============================= -->
+<!-- Confirm + Toast              -->
+<!-- ============================= -->
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
+
+<!-- ============================= -->
+<!-- Empty State                  -->
+<!-- ============================= -->
 <div *ngIf="!loading && data.length === 0" class="text-center mt-4">
     No groups found
 </div>

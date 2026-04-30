@@ -1,6 +1,5 @@
 import {
     HttpInterceptorFn,
-    HttpEvent,
     HttpResponse,
     HttpErrorResponse
 } from '@angular/common/http';
@@ -12,31 +11,29 @@ export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(req).pipe(
 
-        map((event: HttpEvent<any>) => {
+        map((event) => {
 
             if (event instanceof HttpResponse) {
 
                 const body = event.body;
 
-                // ✅ Handle CSM standard response
                 if (body && typeof body === 'object' && 'success' in body) {
 
                     const response = body as CSMServiceResponse<any>;
 
                     if (!response.success) {
-                        // 🔥 Preserve HTTP structure
                         throw new HttpErrorResponse({
                             error: response,
-                            status: 200, // business error, not HTTP error
+                            status: 200,
                             statusText: response.error?.message || 'Business Error'
                         });
                     }
 
-                    // ✅ unwrap data
-                    return event.clone({
-                        body: response.data
-                    });
+                    // ✅ FIX: clone response, keep HttpResponse structure
+                    return event.clone({ body: response.data });
                 }
+
+                return event;
             }
 
             return event;
@@ -44,10 +41,7 @@ export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
 
         catchError((error: unknown) => {
 
-            // ✅ HTTP errors (including business errors we created)
             if (error instanceof HttpErrorResponse) {
-
-                console.error('HTTP Error:', error);
 
                 const message =
                     error.error?.error?.message ||
@@ -58,7 +52,6 @@ export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
                 return throwError(() => new Error(message));
             }
 
-            // ✅ fallback
             return throwError(() =>
                 error instanceof Error
                     ? error

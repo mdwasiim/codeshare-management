@@ -1,18 +1,27 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    inject,
+    Input,
+    OnInit,
+    OnChanges,
+    Output,
+    SimpleChanges
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { SelectModule } from 'primeng/select';
 
 import { UserService } from '@features/iam/users/services/user.service';
-import { BaseFormComponent } from '@core/base/base-form.component';
-import {SelectModule} from "primeng/select";
-import {User} from "@features/iam/models/user.model";
-import {ConfirmDialogModule} from "primeng/confirmdialog";
+import { User } from '@features/iam/models/user.model';
+import { BaseCrudForm } from '@core/base/base-crud-form.component';
 
 @Component({
     selector: 'user-form',
@@ -25,67 +34,104 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
         CheckboxModule,
         SelectModule,
         ButtonModule,
-        ConfirmDialogModule
+        DialogModule
     ],
     templateUrl: './user-form.page.html'
 })
-export class UserFormPage extends BaseFormComponent<User> implements OnInit {
+export class UserFormPage
+    extends BaseCrudForm<User>
+    implements OnInit, OnChanges {
+
+    // =========================
+    // Dialog Inputs
+    // =========================
+    @Input() visible = false;
+
+    @Output() visibleChange = new EventEmitter<boolean>();
 
     private fb = inject(FormBuilder);
     private service = inject(UserService);
 
-    ngOnInit(): void {
-        this.init();
-    }
-
+    // =========================
+    // Static Data (demo)
+    // =========================
     tenants = [
         { id: 'QR', name: 'Qatar Airways' },
         { id: 'EK', name: 'Emirates' }
     ];
 
-    form = this.fb.group({
-        username: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        password: [''],
-        firstName: [''],
-        lastName: [''],
-        enabled: [true],
-        accountNonLocked: [true],
-        tenantId: ['', Validators.required]
-    });
-
-    constructor() {
-        super(inject(ActivatedRoute), inject(Router));
+    // =========================
+    // Lifecycle
+    // =========================
+    ngOnInit(): void {
+        this.buildForm();
     }
 
-    load() {
-        this.service.getById(this.id!).subscribe((res: any) => {
-            const user = res?.body ?? res;
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['visible'] && this.visible) {
+            this.init(); // 🔥 important
+        }
+    }
 
-            this.form.patchValue({
-                ...user,
-                tenantId: user?.tenant?.id
-            });
+    // =========================
+    // BaseCrudForm Methods
+    // =========================
+
+    buildForm(): void {
+        this.form = this.fb.group({
+            id: [null as string | null],
+            username: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
+            password: [''],
+            firstName: [''],
+            lastName: [''],
+            enabled: [true],
+            accountNonLocked: [true],
+            tenantId: ['', Validators.required]
         });
     }
 
-    submit() {
-        if (this.form.invalid) return;
+    patchForm(data: User): void {
+        this.form.patchValue({
+            ...data,
+            tenantId: data?.tenant?.id || ''
+        });
+    }
 
-        const payload: any = this.form.value;
+    fetchById(id: string) {
+        return this.service.getById(id);
+    }
 
+    create(payload: any) {
+        return this.service.create(this.mapToModel(payload));
+    }
+
+    update(id: string, payload: any) {
+        return this.service.update(id, this.mapToModel(payload));
+    }
+
+    // =========================
+    // Payload Mapper
+    // =========================
+    private mapToModel(formValue: any): any {
+        const payload: any = { ...formValue };
+
+        // remove password if empty in edit
         if (this.id && !payload.password) {
             delete payload.password;
         }
 
-        if (this.isEdit) {
-            this.service.update(this.id!, payload).subscribe(() =>
-                this.navigateBack('/iam/users')
-            );
-        } else {
-            this.service.create(payload).subscribe(() =>
-                this.navigateBack('/iam/users')
-            );
-        }
+        return payload;
+    }
+
+    // =========================
+    // After Save Hook
+    // =========================
+    override submit(): void {
+        super.submit();
+
+        this.saved.subscribe(() => {
+            this.visibleChange.emit(false);
+        });
     }
 }

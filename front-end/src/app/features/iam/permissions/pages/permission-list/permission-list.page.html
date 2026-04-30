@@ -1,29 +1,38 @@
-<div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-semibold">Permissions</h2>
+<!-- ============================= -->
+<!-- Toolbar                      -->
+<!-- ============================= -->
+<csm-crud-toolbar
+    [actions]="['create','delete','search']"
+    [disableDelete]="!selectedPermissions.length"
+    (create)="openCreate()"
+    (delete)="deleteSelectedPermissions()"
+    (search)="onSearch($event)">
+</csm-crud-toolbar>
 
-    <p-button
-        label="Create Permission"
-        icon="pi pi-plus"
-        (click)="createPermission()">
-    </p-button>
-</div>
-
+<!-- ============================= -->
+<!-- Table                        -->
+<!-- ============================= -->
 <p-table
+    #dt
     [value]="data"
+    [loading]="loading"
     [paginator]="true"
     [rows]="10"
-    [rowHover]="true"
+    [rowsPerPageOptions]="[10,20,50]"
+    [(selection)]="selectedPermissions"
     dataKey="id"
-    [globalFilterFields]="['name','domain','action']"
+    [rowHover]="true"
+    [globalFilterFields]="['name','domain','action','code']"
 >
 
     <!-- Header -->
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="name">
-                Name
-                <p-sortIcon field="name"></p-sortIcon>
+            <th style="width:3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
+
+            <th>Name</th>
             <th>Domain</th>
             <th>Action</th>
             <th>Code</th>
@@ -35,30 +44,35 @@
     <!-- Body -->
     <ng-template pTemplate="body" let-p>
         <tr>
+            <td>
+                <p-tableCheckbox [value]="p"></p-tableCheckbox>
+            </td>
+
             <td>{{ p.name }}</td>
+
             <td>
                 <p-tag [value]="p.domain" severity="info"></p-tag>
             </td>
+
             <td>
                 <p-tag [value]="p.action" severity="success"></p-tag>
             </td>
+
             <td>{{ p.code }}</td>
             <td>{{ p.description }}</td>
 
             <td class="flex gap-2">
-                <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [outlined]="true"
-                    (click)="editPermission(p)">
+                <p-button icon="pi pi-pencil"
+                          [rounded]="true"
+                          [outlined]="true"
+                          (click)="openEdit(p)">
                 </p-button>
 
-                <p-button
-                    icon="pi pi-trash"
-                    severity="danger"
-                    [rounded]="true"
-                    [outlined]="true"
-                    (click)="deletePermission(p)">
+                <p-button icon="pi pi-trash"
+                          severity="danger"
+                          [rounded]="true"
+                          [outlined]="true"
+                          (click)="deletePermission(p)">
                 </p-button>
             </td>
         </tr>
@@ -66,6 +80,24 @@
 
 </p-table>
 
+<!-- ============================= -->
+<!-- Dialog                       -->
+<!-- ============================= -->
+<permission-form
+    [(visible)]="dialogVisible"
+    [id]="selectedPermissionId"
+    (saved)="onSaved()">
+</permission-form>
+
+<!-- ============================= -->
+<!-- Confirm + Toast              -->
+<!-- ============================= -->
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
+
+<!-- ============================= -->
+<!-- Empty State                  -->
+<!-- ============================= -->
 <div *ngIf="!loading && data.length === 0" class="text-center mt-4">
     No permissions found
 </div>

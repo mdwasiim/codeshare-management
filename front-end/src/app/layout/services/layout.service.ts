@@ -38,7 +38,7 @@ export class LayoutService {
         activePath: null
     });
 
-    theme = computed(() => (this.layoutConfig().darkTheme ? 'light' : 'dark'));
+    theme = computed(() => (this.layoutConfig().darkTheme ? 'dark' : 'light'));
 
     isSidebarActive = computed(() => this.layoutState().overlayMenuActive || this.layoutState().mobileMenuActive);
 
@@ -93,15 +93,26 @@ export class LayoutService {
     }
 
     onMenuToggle() {
-        if (this.isOverlay()) {
-            this.layoutState.update((prev) => ({ ...prev, overlayMenuActive: !this.layoutState().overlayMenuActive }));
-        }
+        this.layoutState.update(prev => {
+            if (this.isOverlay()) {
+                return {
+                    ...prev,
+                    overlayMenuActive: !prev.overlayMenuActive
+                };
+            }
 
-        if (this.isDesktop()) {
-            this.layoutState.update((prev) => ({ ...prev, staticMenuDesktopInactive: !this.layoutState().staticMenuDesktopInactive }));
-        } else {
-            this.layoutState.update((prev) => ({ ...prev, mobileMenuActive: !this.layoutState().mobileMenuActive }));
-        }
+            if (this.isDesktop()) {
+                return {
+                    ...prev,
+                    staticMenuDesktopInactive: !prev.staticMenuDesktopInactive
+                };
+            }
+
+            return {
+                ...prev,
+                mobileMenuActive: !prev.mobileMenuActive
+            };
+        });
     }
 
     showConfigSidebar() {
@@ -112,11 +123,19 @@ export class LayoutService {
         this.layoutState.update((prev) => ({ ...prev, configSidebarVisible: false }));
     }
 
-    isDesktop() {
-        return window.innerWidth > 991;
+    isDesktop(): boolean {
+        return typeof window !== 'undefined' && window.innerWidth > 991;
     }
 
     isMobile() {
         return !this.isDesktop();
+    }
+
+    closeSidebar() {
+        this.layoutState.update(prev => ({
+            ...prev,
+            overlayMenuActive: false,
+            mobileMenuActive: false
+        }));
     }
 }

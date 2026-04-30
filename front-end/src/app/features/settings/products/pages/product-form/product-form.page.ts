@@ -28,10 +28,32 @@ import {SelectModule} from "primeng/select";
 })
 export class ProductFormPage {
 
-    @Input() product: Product = {} as Product;
+    private _product: Product = this.createEmptyProduct();
+
+    @Input() set product(value: Product | undefined) {
+        this._product = value ?? this.createEmptyProduct();
+    }
+
+    get product(): Product {
+        return this._product;
+    }
+
     @Input() submitted!: boolean;
     @Input() statuses!: any[];
 
     @Output() save = new EventEmitter<void>();
     @Output() cancel = new EventEmitter<void>();
+
+    createEmptyProduct(): Product {
+        return {
+            name: '',
+            image: '',
+            description: '',
+            category: '',
+            price: 0,
+            quantity: 0,
+            inventoryStatus: 'INSTOCK',
+            active: true
+        };
+    }
 }

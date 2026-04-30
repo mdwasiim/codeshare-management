@@ -12,34 +12,66 @@ export abstract class BaseCrudForm<T> {
 
     form!: FormGroup;
     isEdit = false;
+    loading = false;
+
+    private initialized = false; // ✅ prevent rebuild
 
     abstract buildForm(): void;
     abstract patchForm(data: T): void;
-    abstract fetchById(id: string): void;
-    abstract create(payload: any): void;
-    abstract update(id: string, payload: any): void;
+    abstract fetchById(id: string): any;
+    abstract create(payload: any): any;
+    abstract update(id: string, payload: any): any;
 
+    // 🔥 SAFE INIT
     init() {
-        this.buildForm();
+
+        // ✅ build form only once
+        if (!this.initialized) {
+            this.buildForm();
+            this.initialized = true;
+        }
 
         if (this.data) {
             this.isEdit = true;
             this.patchForm(this.data);
+
         } else if (this.id) {
             this.isEdit = true;
-            this.fetchById(this.id);
+            this.fetchById(this.id).subscribe((res: T) => {
+                this.patchForm(res);
+            });
+
+        } else {
+            this.isEdit = false;
+            this.form.reset(this.getDefaultValues()); // ✅ safe reset
         }
     }
 
     submit() {
         if (this.form.invalid) return;
 
+        this.loading = true;
+
         const payload = this.form.value;
 
-        if (this.isEdit) {
-            this.update(this.id!, payload);
-        } else {
-            this.create(payload);
-        }
+        const request = this.isEdit
+            ? this.update(this.id!, payload)
+            : this.create(payload);
+
+        request.subscribe({
+            next: () => {
+                this.loading = false;
+                this.saved.emit();
+            },
+            error: (err: any) => {
+                console.error(err);
+                this.loading = false;
+            }
+        });
+    }
+
+    // ✅ override if needed
+    protected getDefaultValues(): any {
+        return {};
     }
 }

@@ -3,6 +3,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ApiEndpointKey, ApiOptions, buildApiUrl } from './app-api.config';
+import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,10 @@ export class AppApiService {
     // -----------------------------
     // Build HTTP Options
     // -----------------------------
-    private buildHttpOptions(options?: ApiOptions): any {
+    private buildHttpOptions(options?: ApiOptions): {
+        headers?: HttpHeaders;
+        params?: HttpParams;
+    } {
         const httpOptions: any = {};
 
         if (options?.params) {
@@ -37,7 +41,7 @@ export class AppApiService {
         if (params) {
             Object.entries(params).forEach(([key, value]) => {
                 if (value !== undefined && value !== null) {
-                    httpParams = httpParams.append(key, value);
+                    httpParams = httpParams.append(key, String(value));
                 }
             });
         }
@@ -92,14 +96,15 @@ export class AppApiService {
     // HTTP METHODS
     // -----------------------------
 
-    get<T>(endpoint: ApiEndpointKey, options?: ApiOptions) {
+    get<T>(endpoint: ApiEndpointKey, options?: ApiOptions) : Observable<T> {
         return this.http.get<T>(
             this.buildUrl(endpoint, options),
             this.buildHttpOptions(options)
         );
     }
 
-    post<T>(endpoint: ApiEndpointKey, body: any, options?: ApiOptions) {
+
+    post<T>(endpoint: ApiEndpointKey, body: any, options?: ApiOptions) : Observable<T> {
         return this.http.post<T>(
             this.buildUrl(endpoint, options),   // ✅ FIXED
             body,
@@ -107,15 +112,15 @@ export class AppApiService {
         );
     }
 
-    put<T>(endpoint: ApiEndpointKey, body: any, options?: ApiOptions) {
+    put<T>(endpoint: ApiEndpointKey, body: any, options?: ApiOptions) : Observable<T> {
         return this.http.put<T>(
             this.buildUrl(endpoint, options),   // ✅ FIXED
             body,
-            this.buildHttpOptions(options)
+            this.buildHttpOptions(options),
         );
     }
 
-    delete<T>(endpoint: ApiEndpointKey, options?: ApiOptions) {
+    delete<T>(endpoint: ApiEndpointKey, options?: ApiOptions) : Observable<T> {
         return this.http.delete<T>(
             this.buildUrl(endpoint, options),   // ✅ FIXED
             this.buildHttpOptions(options)

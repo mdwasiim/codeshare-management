@@ -42,7 +42,10 @@ export class  AppMenuItemComponent  {
         return items.length > 0;
     });
 
-    hasRouterLink = computed(() => !!this.item()?.routerLink);
+    hasRouterLink = computed(() => {
+        const link = this.item()?.routerLink;
+        return Array.isArray(link) && !!link[0];
+    });
 
     fullPath = computed(() => {
         const itemPath = this.item()?.path;
@@ -65,15 +68,17 @@ export class  AppMenuItemComponent  {
     initialized = signal<boolean>(false);
 
     constructor() {
-        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-            if (this.item()?.routerLink) {
-                this.updateActiveStateFromRoute();
-            }
-        });
+        this.router.events
+            .pipe(filter((event) => event instanceof NavigationEnd))
+            .subscribe(() => {
+                if (this.hasRouterLink()) {   // ✅ safe check
+                    this.updateActiveStateFromRoute();
+                }
+            });
     }
 
     ngOnInit() {
-        if (this.item()?.routerLink) {
+        if (this.hasRouterLink()) {
             this.updateActiveStateFromRoute();
         }
     }
@@ -86,9 +91,13 @@ export class  AppMenuItemComponent  {
 
     updateActiveStateFromRoute() {
         const item = this.item();
-        if (!item?.routerLink) return;
 
-        const isRouteActive = this.router.isActive(item.routerLink[0], {
+        const link = item?.routerLink?.[0];
+
+        // 🔥 FULL SAFETY CHECK
+        if (!link || typeof link !== 'string') return;
+
+        const isRouteActive = this.router.isActive(link, {
             paths: 'exact',
             queryParams: 'ignored',
             matrixParams: 'ignored',

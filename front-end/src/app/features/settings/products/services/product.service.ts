@@ -1,15 +1,18 @@
 
 import { AppApiService } from '@services/auth/app-api.service';
 import { Product } from '@features/settings/model/product.model';
-import { Injectable } from '@angular/core';
-import {of} from "rxjs";
+import {inject, Injectable} from '@angular/core';
+import {of, tap, throwError} from "rxjs";
 import {InventoryStatus} from "@shared/types/ui.types";
+import {AppToastService} from "@services/app-toast.service";
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService {
+
+    private toast = inject(AppToastService);
 
     products : Product[] = [
             {
@@ -1314,26 +1317,67 @@ export class ProductService {
         return Math.floor(Math.random() * Math.floor(5) + 1);
     }
 
+    // -----------------------------
+    // GET ALL
+    // -----------------------------
     getAll() {
-        return of(this.products);   // ✅ convert to Observable
+        return of([...this.products]); // ✅ return copy
     }
 
-    delete(id: string) {
-        this.products = this.products.filter(p => p.id !== id);
-        return of(true);   // ✅ return Observable
-    }
-
+    // -----------------------------
+    // CREATE
+    // -----------------------------
     create(product: Product) {
-        this.products.unshift(product);
-        return of(product);
+        const newProduct = {
+            ...product,
+            id: product.id ?? Date.now().toString()
+        };
+
+        this.products.unshift(newProduct);
+
+        return of({ ...newProduct }).pipe(
+            tap(() => {
+                this.toast.success('Product created successfully');
+            })
+        );
     }
 
+    // -----------------------------
+    // UPDATE
+    // -----------------------------
     update(id: string, updated: Product) {
         const index = this.products.findIndex(p => p.id === id);
-        if (index !== -1) {
-            this.products[index] = updated;
+
+        if (index === -1) {
+            return throwError(() => new Error('Product not found'));
         }
-        return of(updated);
+
+        this.products[index] = { ...updated, id };
+
+        return of({ ...this.products[index] }).pipe(
+            tap(() => {
+                this.toast.success('Product updated successfully');
+            })
+        );
+    }
+
+    // -----------------------------
+    // DELETE
+    // -----------------------------
+    delete(id: string) {
+        const exists = this.products.some(p => p.id === id);
+
+        if (!exists) {
+            return throwError(() => new Error('Product not found'));
+        }
+
+        this.products = this.products.filter(p => p.id !== id);
+
+        return of(true).pipe(
+            tap(() => {
+                this.toast.success('Product deleted successfully');
+            })
+        );
     }
 }
 

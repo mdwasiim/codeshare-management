@@ -1,48 +1,48 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="card max-w-3xl mx-auto p-6">
+<p-dialog
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '500px' }"
+    [header]="isEdit ? 'Edit Organization' : 'Create Organization'">
 
-    <h2 class="text-xl font-semibold mb-6">
-        {{ isEdit ? 'Edit Organization' : 'Create Organization' }}
-    </h2>
+    <form [formGroup]="form" class="p-fluid">
 
-    <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-3">
 
-        <input
-            pInputText
-            placeholder="Name"
-            formControlName="name" />
+            <input pInputText placeholder="Name" formControlName="name" />
 
-        <input
-            pInputText
-            placeholder="Code"
-            formControlName="code" />
+            <input pInputText placeholder="Code" formControlName="code" />
 
-        <p-select
-            [options]="statusOptions"
-            optionLabel="label"
-            optionValue="value"
-            formControlName="status"
-            placeholder="Select Status">
-        </p-select>
+            <p-select
+                [options]="statusOptions"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="status"
+                placeholder="Select Status">
+            </p-select>
 
-    </div>
+        </div>
 
-    <div class="mt-6 flex gap-2">
+        <div class="flex justify-end gap-2 mt-4">
 
-        <p-button
-            type="submit"
-            label="Save"
-            icon="pi pi-check"
-            [disabled]="form.invalid">
-        </p-button>
+            <button
+                pButton
+                label="Cancel"
+                class="p-button-text"
+                (click)="visibleChange.emit(false)"
+                type="button">
+            </button>
 
-        <p-button
-            type="button"
-            label="Cancel"
-            icon="pi pi-times"
-            severity="secondary"
-            (click)="navigateBack('/settings/organizations')">
-        </p-button>
+            <button
+                pButton
+                label="Save"
+                icon="pi pi-check"
+                (click)="submit()"
+                [disabled]="form.invalid || loading"
+                type="button">
+            </button>
 
-    </div>
+        </div>
 
-</form>
+    </form>
+
+</p-dialog>

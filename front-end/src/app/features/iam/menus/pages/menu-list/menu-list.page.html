@@ -1,42 +1,74 @@
-<div class="card">
+<!-- ============================= -->
+<!--  Toolbar (Top Actions)        -->
+<!-- ============================= -->
+<csm-crud-toolbar
+    [actions]="['create','delete','search']"
+    [disableDelete]="!selectedMenus.length"
 
-    <div class="flex justify-between mb-3">
-        <h3>Menus</h3>
+    (create)="openCreate()"
+    (delete)="deleteSelectedMenus()"
+    (search)="onSearch($event)">
+</csm-crud-toolbar>
 
-        <button
-            pButton
-            label="Create Menu"
-            icon="pi pi-plus"
-            (click)="createMenu()">
-        </button>
-    </div>
 
-    <p-table [value]="data">
+<p-table
+    #dt
+    [value]="data"
+    [(selection)]="selectedMenus"
+    dataKey="id"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10,20,30]"
+    [globalFilterFields]="['label','icon','routerLink']"
+    [tableStyle]="{ 'min-width': '60rem' }"
+>
 
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Label</th>
-                <th>Icon</th>
-                <th>Route</th>
-                <th>Order</th>
-                <th></th>
-            </tr>
-        </ng-template>
+    <!-- Header -->
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:3rem">
+                <p-tableHeaderCheckbox />
+            </th>
+            <th>Label</th>
+            <th>Icon</th>
+            <th>Route</th>
+            <th>Order</th>
+            <th></th>
+        </tr>
+    </ng-template>
 
-        <ng-template pTemplate="body" let-m>
-            <tr>
-                <td>{{ m.label }}</td>
-                <td>{{ m.icon }}</td>
-                <td>{{ m.routerLink?.[0] }}</td>
-                <td>{{ m.displayOrder }}</td>
+    <!-- Body -->
+    <ng-template pTemplate="body" let-m>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="m" />
+            </td>
 
-                <td class="flex gap-2">
-                    <button pButton icon="pi pi-pencil" (click)="editMenu(m)"></button>
-                    <button pButton icon="pi pi-trash" severity="danger" (click)="deleteMenu(m)"></button>
-                </td>
-            </tr>
-        </ng-template>
+            <td>{{ m.label }}</td>
+            <td>{{ m.icon }}</td>
+            <td>{{ m.routerLink?.[0] }}</td>
+            <td>{{ m.displayOrder }}</td>
 
-    </p-table>
+            <td class="flex gap-2">
+                <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true"
+                          (click)="openEdit(m)" />
+                <p-button icon="pi pi-trash" severity="danger"
+                          [rounded]="true" [outlined]="true"
+                          (click)="deleteMenu(m)" />
+            </td>
+        </tr>
+    </ng-template>
 
-</div>
+</p-table>
+
+<menu-form
+    [(visible)]="dialogVisible"
+    [id]="selectedMenuId"
+    (saved)="onSaved()">
+</menu-form>
+
+<!-- ============================= -->
+<!--  Global Confirm Dialog        -->
+<!-- ============================= -->
+<p-confirm-dialog></p-confirm-dialog>
+<p-toast></p-toast>

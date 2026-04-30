@@ -1,28 +1,46 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="card max-w-3xl mx-auto p-6">
+<p-dialog
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '500px' }"
+    [header]="isEdit ? 'Edit Group' : 'Create Group'">
 
-    <h2 class="text-xl font-semibold mb-6">
-        {{ isEdit ? 'Edit Group' : 'Create Group' }}
-    </h2>
+    <form [formGroup]="form" class="p-fluid">
 
-    <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-3">
 
-        <input pInputText placeholder="Code" formControlName="code" />
+            <input pInputText placeholder="Code" formControlName="code" />
 
-        <input pInputText placeholder="Name" formControlName="name" />
+            <input pInputText placeholder="Name" formControlName="name" />
 
-        <input pInputText placeholder="Description" formControlName="description" />
+            <input pInputText placeholder="Description" formControlName="description" />
 
-        <input pInputText placeholder="Tenant ID" formControlName="tenantId" />
+            <input pInputText placeholder="Tenant ID" formControlName="tenantId" />
 
-    </div>
+        </div>
 
-    <div class="mt-6">
-        <p-button
-            type="submit"
-            label="Save"
-            icon="pi pi-check"
-            [disabled]="form.invalid">
-        </p-button>
-    </div>
+        <div class="flex justify-end gap-2 mt-4">
 
-</form>
+            <!-- Cancel -->
+            <button
+                pButton
+                label="Cancel"
+                class="p-button-text"
+                (click)="visibleChange.emit(false)"
+                type="button">
+            </button>
+
+            <!-- Save -->
+            <button
+                pButton
+                label="Save"
+                icon="pi pi-check"
+                (click)="submit()"
+                [disabled]="form.invalid || loading"
+                type="button">
+            </button>
+
+        </div>
+
+    </form>
+
+</p-dialog>

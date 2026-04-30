@@ -1,11 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { AppApiService } from '@core/config/app-api.service';
+import { AppToastService } from '@core/services/app-toast.service';
 import { Permission } from '@features/iam/models/permission.model';
+import { tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
 
     private api = inject(AppApiService);
+    private toast = inject(AppToastService);
 
     // -----------------------------
     // GET ALL
@@ -27,7 +30,11 @@ export class PermissionService {
     // CREATE
     // -----------------------------
     create(permission: Permission) {
-        return this.api.post<Permission>('permissions.base', permission);
+        return this.api.post<Permission>('permissions.base', permission).pipe(
+            tap(() => {
+                this.toast.success('Permission created successfully');
+            })
+        );
     }
 
     // -----------------------------
@@ -36,7 +43,11 @@ export class PermissionService {
     update(id: string, permission: Permission) {
         return this.api.put<Permission>('permissions.byId', permission, {
             pathParams: { id }
-        });
+        }).pipe(
+            tap(() => {
+                this.toast.success('Permission updated successfully');
+            })
+        );
     }
 
     // -----------------------------
@@ -45,6 +56,10 @@ export class PermissionService {
     delete(id: string) {
         return this.api.delete<void>('permissions.byId', {
             pathParams: { id }
-        });
+        }).pipe(
+            tap(() => {
+                this.toast.success('Permission deleted successfully');
+            })
+        );
     }
 }

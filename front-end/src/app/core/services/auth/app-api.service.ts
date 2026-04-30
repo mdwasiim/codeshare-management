@@ -29,11 +29,33 @@ export class AppApiService {
             : new HttpHeaders(headers);
     }
 
+    private replacePathParams(
+        url: string,
+        pathParams?: Record<string, string | number>
+    ): string {
+        if (!pathParams) return url;
+
+        Object.entries(pathParams).forEach(([key, value]) => {
+            url = url.replace(`{${key}}`, String(value));
+        });
+
+        if (url.includes('{')) {
+            console.warn('⚠️ Missing pathParams for URL:', url);
+        }
+
+        return url;
+    }
+
+    private buildUrl(endpoint: ApiEndpointKey, options?: ApiOptions): string {
+        let url = buildApiUrl(endpoint);
+        return this.replacePathParams(url, options?.pathParams);
+    }
+
     // =========================
     // GET
     // =========================
     get<T>(endpoint: ApiEndpointKey, options?: ApiOptions) {
-        return this.http.get<T>(buildApiUrl(endpoint, options?.pathParams), {
+        return this.http.get<T>(this.buildUrl(endpoint, options), {
             params: this.buildParams(options?.params),
             headers: this.buildHeaders(options?.headers)
         });
@@ -47,7 +69,7 @@ export class AppApiService {
         body: B,
         options?: ApiOptions
     ) {
-        return this.http.post<T>(buildApiUrl(endpoint, options?.pathParams), body, {
+        return this.http.post<T>(this.buildUrl(endpoint, options), body, {
             params: this.buildParams(options?.params),
             headers: this.buildHeaders(options?.headers)
         });
@@ -61,7 +83,7 @@ export class AppApiService {
         body: B,
         options?: ApiOptions
     ) {
-        return this.http.put<T>(buildApiUrl(endpoint, options?.pathParams), body, {
+        return this.http.put<T>(this.buildUrl(endpoint, options), body, {
             params: this.buildParams(options?.params),
             headers: this.buildHeaders(options?.headers)
         });
@@ -71,7 +93,7 @@ export class AppApiService {
     // DELETE
     // =========================
     delete<T>(endpoint: ApiEndpointKey, options?: ApiOptions) {
-        return this.http.delete<T>(buildApiUrl(endpoint, options?.pathParams), {
+        return this.http.delete<T>(this.buildUrl(endpoint, options), {
             params: this.buildParams(options?.params),
             headers: this.buildHeaders(options?.headers)
         });

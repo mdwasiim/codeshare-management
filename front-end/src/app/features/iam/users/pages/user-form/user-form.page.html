@@ -1,49 +1,69 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="card max-w-4xl mx-auto p-6">
+<p-dialog
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '700px' }"
+    [header]="isEdit ? 'Edit User' : 'Create User'">
 
-    <h2 class="text-xl font-semibold mb-6">
-        {{ id ? 'Edit User' : 'Create User' }}
-    </h2>
+    <form [formGroup]="form" class="p-fluid">
 
-    <!-- USER INFO -->
-    <div class="mb-6">
-        <h3 class="font-semibold mb-3">User Info</h3>
+        <!-- USER INFO -->
+        <div class="mb-4">
+            <h3 class="font-semibold mb-3">User Info</h3>
 
-        <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-3">
 
-            <input pInputText placeholder="Username" formControlName="username" />
-            <input pInputText placeholder="Email" formControlName="email" />
+                <input pInputText placeholder="Username" formControlName="username" />
+                <input pInputText placeholder="Email" formControlName="email" />
 
-            <input pInputText placeholder="First Name" formControlName="firstName" />
-            <input pInputText placeholder="Last Name" formControlName="lastName" />
+                <input pInputText placeholder="First Name" formControlName="firstName" />
+                <input pInputText placeholder="Last Name" formControlName="lastName" />
 
-            <p-password formControlName="password"></p-password>
+                <p-password formControlName="password" placeholder="Password"></p-password>
+
+            </div>
+        </div>
+
+        <!-- ACCOUNT -->
+        <div class="mb-4 flex gap-4">
+            <p-checkbox formControlName="enabled" binary="true" label="Enabled"></p-checkbox>
+            <p-checkbox formControlName="accountNonLocked" binary="true" label="Unlocked"></p-checkbox>
+        </div>
+
+        <!-- TENANT -->
+        <div class="mb-4">
+            <p-select
+                [options]="tenants"
+                optionLabel="name"
+                optionValue="id"
+                formControlName="tenantId"
+                placeholder="Select Tenant">
+            </p-select>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="flex justify-end gap-2 mt-4">
+
+            <!-- Cancel -->
+            <button
+                pButton
+                label="Cancel"
+                class="p-button-text"
+                (click)="visibleChange.emit(false)"
+                type="button">
+            </button>
+
+            <!-- Save -->
+            <button
+                pButton
+                label="Save"
+                icon="pi pi-check"
+                (click)="submit()"
+                [disabled]="form.invalid || loading"
+                type="button">
+            </button>
 
         </div>
-    </div>
 
-    <!-- ACCOUNT -->
-    <div class="mb-6 flex gap-4">
-        <p-checkbox formControlName="enabled" binary="true" label="Enabled"></p-checkbox>
-        <p-checkbox formControlName="accountNonLocked" binary="true" label="Unlocked"></p-checkbox>
-    </div>
+    </form>
 
-    <!-- TENANT -->
-    <div class="mb-6">
-        <p-select
-        [options]="tenants"
-        optionLabel="name"
-        optionValue="id"
-        formControlName="tenantId"
-        placeholder="Select Tenant">
-    </p-select>
-    </div>
-
-    <!-- ACTION -->
-    <p-button
-        type="submit"
-        label="Save"
-        icon="pi pi-check"
-        [disabled]="form.invalid">
-    </p-button>
-
-</form>
+</p-dialog>

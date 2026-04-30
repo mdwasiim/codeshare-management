@@ -1,14 +1,24 @@
-import { Component, inject } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    inject,
+    Input,
+    OnInit,
+    OnChanges,
+    Output,
+    SimpleChanges
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 
-import { BaseFormComponent } from '@core/base/base-form.component';
 import { Permission } from '@features/iam/models/permission.model';
 import { PermissionService } from '@features/iam/permissions/services/permission.service';
+import { BaseCrudForm } from '@core/base/base-crud-form.component';
 
 @Component({
     selector: 'permission-form',
@@ -17,46 +27,77 @@ import { PermissionService } from '@features/iam/permissions/services/permission
         CommonModule,
         ReactiveFormsModule,
         InputTextModule,
-        ButtonModule
+        ButtonModule,
+        DialogModule
     ],
     templateUrl: './permission-form.page.html'
 })
-export class PermissionFormPage extends BaseFormComponent<Permission> {
+export class PermissionFormPage
+    extends BaseCrudForm<Permission>
+    implements OnInit, OnChanges {
+
+    // =========================
+    // Dialog Inputs
+    // =========================
+    @Input() visible = false;
+
+    @Output() visibleChange = new EventEmitter<boolean>();
 
     private fb = inject(FormBuilder);
     private service = inject(PermissionService);
 
-    form = this.fb.group({
-        name: ['', Validators.required],
-        domain: ['', Validators.required],
-        action: ['', Validators.required],
-        description: ['']
-    });
 
-    constructor() {
-        super(inject(ActivatedRoute), inject(Router));
+    // =========================
+    // Lifecycle
+    // =========================
+    ngOnInit(): void {
+        this.buildForm();
     }
 
-    load() {
-        this.service.getById(this.id!).subscribe((res: any) => {
-            const data = res?.body ?? res;
-            this.form.patchValue(data);
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['visible'] && this.visible) {
+            this.init(); // 🔥 important
+        }
+    }
+
+    // =========================
+    // BaseCrudForm Methods
+    // =========================
+
+    buildForm(): void {
+        this.form = this.fb.group({
+            id: [null as string | null],
+            name: ['', Validators.required],
+            domain: ['', Validators.required],
+            action: ['', Validators.required],
+            description: ['']
         });
     }
 
-    submit() {
-        if (this.form.invalid) return;
+    patchForm(data: Permission): void {
+        this.form.patchValue(data);
+    }
 
-        const payload = this.form.value as Permission;
+    fetchById(id: string) {
+        return this.service.getById(id);
+    }
 
-        if (this.isEdit) {
-            this.service.update(this.id!, payload).subscribe(() =>
-                this.navigateBack('/iam/permissions')
-            );
-        } else {
-            this.service.create(payload).subscribe(() =>
-                this.navigateBack('/iam/permissions')
-            );
-        }
+    create(payload: any) {
+        return this.service.create(payload);
+    }
+
+    update(id: string, payload: any) {
+        return this.service.update(id, payload);
+    }
+
+    // =========================
+    // After Save Hook
+    // =========================
+    override submit(): void {
+        super.submit();
+
+        this.saved.subscribe(() => {
+            this.visibleChange.emit(false);
+        });
     }
 }

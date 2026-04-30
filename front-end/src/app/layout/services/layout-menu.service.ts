@@ -8,6 +8,10 @@ import {AppMenuModel} from "@shared/models/app-menu.model";
 })
 export class LayoutMenuService {
 
+
+    private sidebarMenuSubject = new BehaviorSubject<AppMenuModel[]>([]);
+    sidebarMenu$ = this.sidebarMenuSubject.asObservable();
+
     private menuSubject = new BehaviorSubject<AppMenuModel[]>([]);
     private menu$ = this.menuSubject.asObservable();
 
@@ -20,18 +24,29 @@ export class LayoutMenuService {
 
     setSelectedRoot(menu: AppMenuModel) {
         this.selectedRootMenuSubject.next(menu);
+
+        // 🔥 Load sidebar from children
+        this.sidebarMenuSubject.next(menu.items || []);
     }
 
     /**
      * Load app-menu-item from API (with RBAC + caching)
      */
-     loadMenus(): Observable<AppMenuModel[]> {
-         return this.apiService.get<AppMenuModel[]>('menu.get').pipe(
-             map(menu => this.mapToMenuItems(menu)),
-             tap(menu => this.menuSubject.next(menu)),   // ✅ store in state
-             shareReplay(1)                              // ✅ cache result
-         );
-     }
+    loadMenus(): Observable<AppMenuModel[]> {
+        return this.apiService.get<AppMenuModel[]>('menu.base').pipe(
+            map(menu => this.mapToMenuItems(menu)),
+            tap(menu => {
+                this.menuSubject.next(menu);
+
+                // 🔥 Auto select first root
+                const firstRoot = menu.find(m => !m.parentId);
+                if (firstRoot) {
+                    this.setSelectedRoot(firstRoot);
+                }
+            }),
+            shareReplay(1)
+        );
+    }
 
     /**
      * Transform + RBAC filter
@@ -64,7 +79,9 @@ export class LayoutMenuService {
                 badgeClass: item.badgeClass
             };
 
-            menuItem.items = item.items? this.mapToMenuItems(item.items): [];
+            menuItem.items = item.items
+                ? this.mapToMenuItems(item.items, currentPath) // ✅ FIX
+                : [];
 
             return menuItem;
         });
@@ -83,155 +100,9 @@ export class LayoutMenuService {
         this.menuSubject.next([]);
     }
 
-    /*loadMenus(): Observable<AppMenuModel[]> {
-    const app-menu-item: AppMenuModel[] = [
-        {
-            "label": "Home",
-            "items": [
-                {
-                    "label": "Dashboard",
-                    "icon": "pi pi-fw pi-home",
-                    "routerLink": [
-                        "/"
-                    ]
-                }
-            ]
-        },
-        {
-            "label": "Settings",
-            "icon": "pi pi-fw pi-briefcase",
-            "items": [
-                {
-                    "label": "Organization",
-                    "icon": "pi pi-fw pi-globe",
-                    "items": [
-                        {
-                            "label": "All Organizations",
-                            "icon": "pi pi-fw pi-organization-list",
-                            "routerLink": [
-                                "/organizations"
-                            ]
-                        },
-                        {
-                            "label": "Create Organization",
-                            "icon": "pi pi-fw pi-plus",
-                            "routerLink": [
-                                "/organizations/create"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "label": "Pages",
-            "icon": "pi pi-fw pi-briefcase",
-            "routerLink": [
-                "/pages"
-            ],
-            "items": [
-                {
-                    "label": "Landing",
-                    "icon": "pi pi-fw pi-globe",
-                    "routerLink": [
-                        "/landing"
-                    ]
-                },
-                {
-                    "label": "Auth",
-                    "icon": "pi pi-fw pi-user",
-                    "items": [
-                        {
-                            "label": "Login",
-                            "icon": "pi pi-fw pi-sign-in",
-                            "routerLink": [
-                                "/auth/login"
-                            ]
-                        },
-                        {
-                            "label": "Error",
-                            "icon": "pi pi-fw pi-times-circle",
-                            "routerLink": [
-                                "/auth/error"
-                            ]
-                        },
-                        {
-                            "label": "Access Denied",
-                            "icon": "pi pi-fw pi-lock",
-                            "routerLink": [
-                                "/auth/access"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "label": "Product",
-                    "icon": "pi pi-fw pi-pencil",
-                    "routerLink": [
-                        "/pages/product"
-                    ]
-                },
-                {
-                    "label": "Not Found",
-                    "icon": "pi pi-fw pi-exclamation-circle",
-                    "routerLink": [
-                        "/pages/notfound"
-                    ]
-                },
-                {
-                    "label": "Empty",
-                    "icon": "pi pi-fw pi-circle-off",
-                    "routerLink": [
-                        "/pages/empty"
-                    ]
-                }
-            ]
-        },
-        {
-            'label': 'Hierarchy',
-            'items': [
-                {
-                    'label': 'Submenu 1',
-                    'icon': 'pi pi-fw pi-bookmark',
-                    'items': [
-                        {
-                            'label': 'Submenu 1.1',
-                            'icon': 'pi pi-fw pi-bookmark',
-                            'items': [
-                                {
-                                    'label': 'Submenu 1.1.1',
-                                    'icon': 'pi pi-fw pi-bookmark'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    'label': 'Submenu 2',
-                    'icon': 'pi pi-fw pi-bookmark',
-                    'items': [
-                        {
-                            'label': 'Submenu 2.1',
-                            'icon': 'pi pi-fw pi-bookmark',
-                            'items': [
-                                {
-                                    'label': 'Submenu 2.1.1',
-                                    'icon': 'pi pi-fw pi-bookmark'
-                                },
-                                {
-                                    'label': 'Submenu 2.1.2',
-                                    'icon': 'pi pi-fw pi-bookmark'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-
-    ];
-
-    return of(app-menu-item);
-
-}*/
+    getRootMenus(): Observable<AppMenuModel[]> {
+        return this.menu$.pipe(
+            map(menus => menus.filter(m => !m.parentId))
+        );
+    }
 }

@@ -1,30 +1,33 @@
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
-import {Table, TableModule} from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
-import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import {ConfirmationService, MessageService} from 'primeng/api';
+
+import {forkJoin, Observable, of} from 'rxjs';
 
 import { BaseListComponent } from '@core/base/base-list.component';
-import {Organization} from "@features/settings/model/organization.model";
-import {of} from "rxjs";
+import { Organization } from "@features/settings/model/organization.model";
 
-// 🔸 replace with real service later
+import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
+import {OrganizationFormPage} from "@features/settings/organizations/pages/organization-form/organization-form.page";
+
+// TEMP mock
 class MockOrgService {
 
-    getAll() {
+    getAll(): Observable<Organization[]> {
         return of([
             { id: '1', name: 'Qatar Airways', code: 'QR', status: 'ACTIVE' },
             { id: '2', name: 'Emirates', code: 'EK', status: 'ACTIVE' }
         ]);
     }
 
-    delete(id: string) {
-        return {
-            subscribe: ({ next }: any) => next()
-        };
+    delete(id: string): Observable<boolean> {
+        return of(true);
     }
 }
 
@@ -36,40 +39,80 @@ class MockOrgService {
         TableModule,
         ButtonModule,
         TagModule,
-        InputTextModule
+        ConfirmDialogModule,
+        ToastModule,
+        ToolbarActionComponent,
+        OrganizationFormPage
     ],
-    templateUrl: './organization-list.page.html'
+    templateUrl: './organization-list.page.html',
+    providers: [ConfirmationService, MessageService]
 })
-export class OrganizationListPage extends BaseListComponent<Organization> implements OnInit{
+export class OrganizationListPage extends BaseListComponent<Organization> {
+
+    private service = new MockOrgService(); // replace later
+    private confirmationService = inject(ConfirmationService);
+
+    dialogVisible = false;
+    selectedOrganizationId: string | null = null;
+    selectedOrganizations: Organization[] = [];
 
     @ViewChild('dt') dt!: Table;
-    private router = inject(Router);
-    private service = new MockOrgService(); // 🔥 replace with real service
 
-    ngOnInit(): void {
-        this.loadData();   // 🔥 MUST CALL HERE
-    }
-    // 🔥 required by BaseList
     fetch() {
         return this.service.getAll();
     }
 
-    create() {
-        this.router.navigate(['/settings/organizations/create']);
+    // =========================
+    // Toolbar Actions
+    // =========================
+
+    openCreate() {
+        this.selectedOrganizationId = null;
+        this.dialogVisible = true;
     }
 
-    edit(org: any) {
-        this.router.navigate(['/settings/organizations', org.id]);
+    openEdit(org: Organization) {
+        this.selectedOrganizationId = org.id ?? null;
+        this.dialogVisible = true;
     }
 
-    delete(org: any) {
-        if (!confirm(`Delete "${org.name}"?`)) return;
+    deleteSelectedOrganizations() {
+        if (!this.selectedOrganizations.length) return;
 
-        this.service.delete(org.id).subscribe(() => this.refresh());
+        this.confirmationService.confirm({
+            message: 'Delete selected organizations?',
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                const requests = this.selectedOrganizations.map(o =>
+                    this.service.delete(o.id!)
+                );
+
+                forkJoin(requests).subscribe(() => {
+                    this.refresh();
+                    this.selectedOrganizations = [];
+                });
+            }
+        });
     }
 
-    onSearch(event: Event) {
-        const input = event.target as HTMLInputElement;
-        this.dt.filterGlobal(input.value, 'contains');
+    deleteOrganization(org: Organization) {
+        this.confirmationService.confirm({
+            message: `Delete "${org.name}"?`,
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.service.delete(org.id!)
+                    .subscribe(() => this.refresh());
+            }
+        });
+    }
+
+    onSaved() {
+        this.refresh();
+    }
+
+    onSearch(value: string) {
+        this.dt.filterGlobal(value, 'contains');
     }
 }

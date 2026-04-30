@@ -1,6 +1,8 @@
-<div class="card">
-
-    <h3>{{ isEdit ? 'Edit Menu' : 'Create Menu' }}</h3>
+<p-dialog
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [header]="isEdit ? 'Edit Menu' : 'Create Menu'">
 
     <form [formGroup]="form" class="p-fluid">
 
@@ -27,8 +29,18 @@
             <input type="number" pInputText formControlName="displayOrder" />
         </div>
 
-        <div class="flex gap-2 mt-3">
+        <div class="flex justify-end gap-2 mt-3">
 
+            <!-- Cancel -->
+            <button
+                pButton
+                label="Cancel"
+                class="p-button-text"
+                (click)="visibleChange.emit(false)"
+                type="button">
+            </button>
+
+            <!-- Save -->
             <button
                 pButton
                 label="Save"
@@ -38,6 +50,7 @@
                 type="button">
             </button>
 
+            <!-- Delete -->
             <button
                 *ngIf="isEdit"
                 pButton
@@ -52,4 +65,4 @@
 
     </form>
 
-</div>
+</p-dialog>

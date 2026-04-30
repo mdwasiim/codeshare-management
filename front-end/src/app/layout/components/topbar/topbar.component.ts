@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -8,8 +8,9 @@ import { AvatarModule } from 'primeng/avatar';
 
 import { LayoutService } from '@layout/services/layout.service';
 import { AuthService } from '@features/auth/services/auth.service';
-import {AppMenuModel} from "@shared/models/app-menu.model";
-import {LayoutMenuService} from "@layout/services/layout-menu.service";
+import { AppMenuModel } from '@shared/models/app-menu.model';
+import { LayoutMenuService } from '@layout/services/layout-menu.service';
+import { AppTokenService } from '@services/auth/app-token.service';
 
 @Component({
     selector: 'app-topbar',
@@ -23,35 +24,30 @@ import {LayoutMenuService} from "@layout/services/layout-menu.service";
     templateUrl: './topbar.component.html',
     styleUrls: ['./topbar.component.scss']
 })
-export class TopbarComponent {
-
-    menus: AppMenuModel[] = [];
-    activeMenu!: AppMenuModel;
+export class TopbarComponent implements OnInit {
     userMenuItems: MenuItem[] = [];
-    username = 'Waseem'; // later: load from token / user service
     loggingOut = false;
+
+    username = '';
 
     private router = inject(Router);
     private authService = inject(AuthService);
     private menuService = inject(LayoutMenuService);
+    private tokenService = inject(AppTokenService);
+
+
+    rootMenus$ = this.menuService.getRootMenus();
+    selectedRoot$ = this.menuService.selectedRootMenu$;
+
 
     constructor(public csmLayoutService: LayoutService) {}
 
     ngOnInit() {
+        this.username = this.tokenService.username || 'User';
         this.buildUserMenu();
-
-        // ✅ load menus
-        this.menuService.getMenu().subscribe(menu => {
-            this.menus = menu;
-
-            if (menu.length && !this.activeMenu) {
-                this.selectMenu(menu[0]);
-            }
-        });
     }
 
     selectMenu(menu: AppMenuModel) {
-        this.activeMenu = menu;
         this.menuService.setSelectedRoot(menu);
     }
 
@@ -70,33 +66,31 @@ export class TopbarComponent {
             { separator: true },
             {
                 label: 'Logout',
-                icon: this.loggingOut ? 'pi pi-spin pi-spinner' : 'pi pi-sign-out',
+                icon: 'pi pi-sign-out',
                 command: () => this.logout()
             }
         ];
     }
 
     logout() {
+        if (this.loggingOut) return;
+
+        this.loggingOut = true;
+
         this.authService.logout().subscribe({
             next: () => {
-                this.clearSession();
+                this.loggingOut = false;
                 this.router.navigate(['/auth/login']);
             },
             error: () => {
-                this.clearSession();
+                this.loggingOut = false;
                 this.router.navigate(['/auth/login']);
             }
         });
     }
 
-    private clearSession() {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-    }
-
-
     toggleDarkMode() {
-        this.csmLayoutService.layoutConfig.update((state) => ({
+        this.csmLayoutService.layoutConfig.update(state => ({
             ...state,
             darkTheme: !state.darkTheme
         }));

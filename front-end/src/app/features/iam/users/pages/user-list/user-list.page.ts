@@ -1,21 +1,22 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import {ConfirmationService, MessageService} from 'primeng/api';
+
+import { forkJoin } from 'rxjs';
 
 import { UserService } from '@features/iam/users/services/user.service';
 import { User } from '@features/iam/models/user.model';
 import { BaseListComponent } from '@core/base/base-list.component';
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
-
-import { forkJoin } from 'rxjs';
+import { UserFormPage } from '@features/iam/users/pages/user-form/user-form.page';
 
 @Component({
     selector: 'user-list',
@@ -27,27 +28,37 @@ import { forkJoin } from 'rxjs';
         TagModule,
         InputTextModule,
         ConfirmDialogModule,
-        ToolbarActionComponent
+        ToastModule,
+        ToolbarActionComponent,
+        UserFormPage
     ],
     templateUrl: './user-list.page.html',
-    providers: [ConfirmationService]
+    providers: [ConfirmationService, MessageService]
 })
-export class UserListPage extends BaseListComponent<User> implements OnInit {
+export class UserListPage extends BaseListComponent<User> {
 
+    // =========================
+    // Dialog State
+    // =========================
+    dialogVisible = false;
+    selectedUserId: string | null = null;
+
+    // =========================
+    // Services
+    // =========================
     private service = inject(UserService);
-    private router = inject(Router);
     private confirmationService = inject(ConfirmationService);
 
-    // ✅ REQUIRED
+    // =========================
+    // Table
+    // =========================
     selectedUsers: User[] = [];
 
-    // ✅ REQUIRED for filter + export
     @ViewChild('dt') dt!: Table;
 
-    ngOnInit(): void {
-        this.loadData();
-    }
-
+    // =========================
+    // Data Fetch
+    // =========================
     fetch() {
         return this.service.getAll();
     }
@@ -56,11 +67,14 @@ export class UserListPage extends BaseListComponent<User> implements OnInit {
     // Toolbar Actions
     // =========================
 
-    createUser() {
-        this.router.navigate(['/iam/users/create']);
+    openCreate() {
+        this.selectedUserId = null;
+        this.dialogVisible = true;
     }
 
     deleteSelectedUsers() {
+        if (!this.selectedUsers.length) return;
+
         this.confirmationService.confirm({
             message: 'Delete selected users?',
             header: 'Confirm',
@@ -71,7 +85,7 @@ export class UserListPage extends BaseListComponent<User> implements OnInit {
                 );
 
                 forkJoin(requests).subscribe(() => {
-                    this.loadData();
+                    this.refresh();
                     this.selectedUsers = [];
                 });
             }
@@ -86,8 +100,9 @@ export class UserListPage extends BaseListComponent<User> implements OnInit {
     // Row Actions
     // =========================
 
-    editUser(user: User) {
-        this.router.navigate(['/iam/users', user.id]);
+    openEdit(user: User) {
+        this.selectedUserId = user.id ?? null;
+        this.dialogVisible = true;
     }
 
     deleteUser(user: User) {
@@ -96,16 +111,25 @@ export class UserListPage extends BaseListComponent<User> implements OnInit {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.service.delete(user.id!).subscribe(() => this.loadData());
+                this.service.delete(user.id!)
+                    .subscribe(() => this.refresh());
             }
         });
     }
 
     // =========================
-    // Helpers
+    // Dialog Callback
     // =========================
 
-    onGlobalFilter(table: Table, value: string) {
-        table.filterGlobal(value, 'contains');
+    onSaved() {
+        this.refresh();
+    }
+
+    // =========================
+    // Search
+    // =========================
+
+    onSearch(value: string) {
+        this.dt.filterGlobal(value, 'contains');
     }
 }

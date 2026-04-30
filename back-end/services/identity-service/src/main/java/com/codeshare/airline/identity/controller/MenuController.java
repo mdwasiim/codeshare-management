@@ -51,20 +51,18 @@ public class MenuController  {
     }
 
     // -----------------------------------------------------------
-    // GET ROOT MENUS FOR TENANT
-    // -----------------------------------------------------------
-    @GetMapping("/roots")
-    public List<MenuDTO> getRootMenus(   @RequestParam UUID tenantId) {
-        return service.getRootMenus(tenantId);
-    }
-
-    // -----------------------------------------------------------
     // GET ALL MENUS FOR TENANT
     // -----------------------------------------------------------
     @GetMapping
-    public List<MenuDTO> getAllMenuByTenant() {
+    public List<MenuDTO> getAll(
+            @RequestParam(required = false) Boolean rootOnly
+    ) {
         TenantContext tenant = TenantContextHolder.getTenant();
-        return service.getAllByTenant(tenant.getTenantCode());
 
+        if (Boolean.TRUE.equals(rootOnly)) {
+            return service.getRootMenus(UUID.fromString(tenant.getTenantCode()));
+        }
+
+        return service.getAllByTenant(tenant.getTenantCode());
     }
 }

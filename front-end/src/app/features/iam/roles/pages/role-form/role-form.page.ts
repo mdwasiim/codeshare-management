@@ -1,14 +1,24 @@
-import { Component, inject } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    inject,
+    Input,
+    OnInit,
+    OnChanges,
+    Output,
+    SimpleChanges
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 
-import { BaseFormComponent } from '@core/base/base-form.component';
 import { Role } from '@features/iam/models/role.model';
 import { RoleService } from '../../services/role.service';
+import { BaseCrudForm } from '@core/base/base-crud-form.component';
 
 @Component({
     selector: 'role-form',
@@ -17,46 +27,77 @@ import { RoleService } from '../../services/role.service';
         CommonModule,
         ReactiveFormsModule,
         InputTextModule,
-        ButtonModule
+        ButtonModule,
+        DialogModule
     ],
     templateUrl: './role-form.page.html'
 })
-export class RoleFormPage extends BaseFormComponent<Role> {
+export class RoleFormPage
+    extends BaseCrudForm<Role>
+    implements OnInit, OnChanges {
+
+    // =========================
+    // Dialog Inputs
+    // =========================
+    @Input() visible = false;
+
+    @Output() visibleChange = new EventEmitter<boolean>();
 
     private fb = inject(FormBuilder);
     private service = inject(RoleService);
 
-    form = this.fb.group({
-        code: ['', Validators.required],
-        name: ['', Validators.required],
-        description: [''],
-        tenantId: ['QR', Validators.required]
-    });
 
-    constructor() {
-        super(inject(ActivatedRoute), inject(Router));
+    // =========================
+    // Lifecycle
+    // =========================
+    ngOnInit(): void {
+        this.buildForm();
     }
 
-    load() {
-        this.service.getById(this.id!).subscribe((res: any) => {
-            const data = res?.body ?? res;
-            this.form.patchValue(data);
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['visible'] && this.visible) {
+            this.init(); // 🔥 important
+        }
+    }
+
+    // =========================
+    // BaseCrudForm Methods
+    // =========================
+
+    buildForm(): void {
+        this.form = this.fb.group({
+            id: [null as string | null],
+            code: ['', Validators.required],
+            name: ['', Validators.required],
+            description: [''],
+            tenantId: ['QR', Validators.required]
         });
     }
 
-    submit() {
-        if (this.form.invalid) return;
+    patchForm(data: Role): void {
+        this.form.patchValue(data);
+    }
 
-        const payload = this.form.value as Role;
+    fetchById(id: string) {
+        return this.service.getById(id);
+    }
 
-        if (this.isEdit) {
-            this.service.update(this.id!, payload).subscribe(() =>
-                this.navigateBack('/iam/roles')
-            );
-        } else {
-            this.service.create(payload).subscribe(() =>
-                this.navigateBack('/iam/roles')
-            );
-        }
+    create(payload: any) {
+        return this.service.create(payload);
+    }
+
+    update(id: string, payload: any) {
+        return this.service.update(id, payload);
+    }
+
+    // =========================
+    // After Save Hook
+    // =========================
+    override submit(): void {
+        super.submit();
+
+        this.saved.subscribe(() => {
+            this.visibleChange.emit(false);
+        });
     }
 }

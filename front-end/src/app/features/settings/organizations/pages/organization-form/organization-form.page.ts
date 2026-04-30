@@ -1,14 +1,25 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    inject,
+    Input,
+    OnInit,
+    OnChanges,
+    Output,
+    SimpleChanges
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select'; // PrimeNG v17+
+import { DialogModule } from 'primeng/dialog';
+import { SelectModule } from 'primeng/select';
 
-import { BaseFormComponent } from '@core/base/base-form.component';
-import {Organization} from "@features/settings/model/organization.model";
+import { Organization } from "@features/settings/model/organization.model";
+import { BaseCrudForm } from "@core/base/base-crud-form.component";
+import {of} from "rxjs";
 
 @Component({
     selector: 'organization-form',
@@ -18,62 +29,78 @@ import {Organization} from "@features/settings/model/organization.model";
         ReactiveFormsModule,
         InputTextModule,
         ButtonModule,
+        DialogModule,
         SelectModule
     ],
     templateUrl: './organization-form.page.html'
 })
-export class OrganizationFormPage extends BaseFormComponent<Organization> implements OnInit {
+export class OrganizationFormPage
+    extends BaseCrudForm<Organization>
+    implements OnInit, OnChanges {
+
+    @Input() visible = false;
+
+    @Output() visibleChange = new EventEmitter<boolean>();
 
     private fb = inject(FormBuilder);
-    // 🔸 later: private service = inject(OrganizationService);
 
     statusOptions = [
         { label: 'Active', value: 'ACTIVE' },
         { label: 'Inactive', value: 'INACTIVE' }
     ];
 
-    form = this.fb.group({
-        name: ['', Validators.required],
-        code: ['', Validators.required],
-        status: ['ACTIVE', Validators.required]
-    });
-
-    constructor(route: ActivatedRoute, router: Router) {
-        super(route, router);
-    }
-
     ngOnInit(): void {
-        this.init(); // 🔥 detects edit/create and calls load() if edit
+        this.buildForm();
     }
 
-    // 🔥 Called only in EDIT mode
-    load(): void {
-        // 🔸 Replace with API call
-        // this.service.getById(this.id!).subscribe(...)
-        const mock = {
-            id: this.id,
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['visible'] && this.visible) {
+            this.init(); // 🔥 important
+        }
+    }
+
+    // =========================
+    // BaseCrudForm methods
+    // =========================
+
+    buildForm(): void {
+        this.form = this.fb.group({
+            id: [null as string | null],
+            name: ['', Validators.required],
+            code: ['', Validators.required],
+            status: ['ACTIVE', Validators.required]
+        });
+    }
+
+    patchForm(data: Organization): void {
+        this.form.patchValue(data);
+    }
+
+    fetchById(id: string) {
+        // 🔥 replace with API later
+        return of({
+            id,
             name: 'Qatar Airways',
             code: 'QR',
             status: 'ACTIVE'
-        };
-
-        this.form.patchValue(mock);
+        });
     }
 
-    submit(): void {
-        if (this.form.invalid) return;
+    create(payload: any) {
+        console.log('Create org', payload);
+        return of(true);
+    }
 
-        const payload = this.form.value as Organization;
+    update(id: string, payload: any) {
+        console.log('Update org', id, payload);
+        return of(true);
+    }
 
-        if (this.isEdit) {
-            // 🔸 Replace with API
-            console.log('Update org', this.id, payload);
-            // this.service.update(this.id!, payload).subscribe(...)
-        } else {
-            console.log('Create org', payload);
-            // this.service.create(payload).subscribe(...)
-        }
+    override submit(): void {
+        super.submit();
 
-        this.navigateBack('/settings/organizations');
+        this.saved.subscribe(() => {
+            this.visibleChange.emit(false);
+        });
     }
 }
