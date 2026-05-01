@@ -1,46 +1,37 @@
 export interface AppMenuModel {
-    id?: string;                       // ✅ BACKEND (unique id, important for tracking)
 
-    label: string;                     // ✅ BACKEND (menu display text)
-    icon?: string;                     // ✅ BACKEND (optional icon)
+    // =========================
+    // CORE (BACKEND)
+    // =========================
+    id?: string;
 
-    path?: string;                     // ❌ FRONTEND (generated for menu hierarchy / active state)
+    label: string;
+    icon?: string;
 
-    routerLink?: string | string[];    // ✅ BACKEND (string preferred, frontend can convert to array)
+    route?: string;
 
-    routerLinkActiveOptions?: {        // ❌ FRONTEND (Angular-specific, do not send from API)
-        paths?: 'exact' | 'subset';
-        queryParams?: 'exact' | 'subset' | 'ignored';
-        matrixParams?: 'exact' | 'subset' | 'ignored';
-        fragment?: 'exact' | 'ignored';
-    };
+    routerLink?: string | string[]; //front-end use only
 
-    queryParams?: any;                 // ❌ FRONTEND (routing config)
-    fragment?: string;                 // ❌ FRONTEND
-    queryParamsHandling?: 'merge' | 'preserve' | ''; // ❌ FRONTEND
-    preserveFragment?: boolean;        // ❌ FRONTEND
-    skipLocationChange?: boolean;      // ❌ FRONTEND
-    replaceUrl?: boolean;              // ❌ FRONTEND
-    state?: any;                       // ❌ FRONTEND
+    parentId?: string;
+    displayOrder?: number;
 
-    url?: string;                      // ✅ BACKEND (external links)
-    target?: string;                   // ✅ BACKEND (e.g. _blank)
+    // =========================
+    // TREE (FRONTEND GENERATED)
+    // =========================
+    items?: AppMenuModel[];
 
-    visible?: boolean;                 // ✅ BACKEND (permission / feature control)
-    separator?: boolean;               // ✅ BACKEND (UI divider)
+    // =========================
+    // UI (OPTIONAL)
+    // =========================
+    visible?: boolean;
+    separator?: boolean;
 
-    styleClass?: string;               // 🟡 BACKEND (optional UI styling)
-    badgeClass?: string;               // 🟡 BACKEND (optional badge styling)
+    styleClass?: string;
+    badgeClass?: string;
 
-    parentId?: string;                 // ✅ BACKEND (if flat structure)
-    displayOrder?: number;             // ✅ BACKEND (sorting)
-
-    items?: AppMenuModel[];            // ✅ BACKEND (nested structure)
-
-    active?: boolean;                  // ❌ FRONTEND (runtime UI state, DO NOT store)
-
-    command?: (event: {               // ❌ FRONTEND (functions cannot come from backend)
-        originalEvent: Event;
-        item: AppMenuModel;
-    }) => void;
+    // =========================
+    // EXTERNAL LINKS (OPTIONAL)
+    // =========================
+    url?: string;
+    target?: string;
 }

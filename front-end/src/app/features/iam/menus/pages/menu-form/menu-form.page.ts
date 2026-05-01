@@ -89,6 +89,7 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
     }
 
     create(payload: any) {
+        debugger;
         return this.service.create(this.mapToModel(payload));
     }
 

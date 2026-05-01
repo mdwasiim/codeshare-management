@@ -2,7 +2,7 @@
     <div class="layout-topbar-logo-container">
         <button
             class="layout-menu-button layout-topbar-action"
-            (click)="csmLayoutService.onMenuToggle()"
+            (click)="layout.onMenuToggle()"
         >
             <i class="pi pi-bars"></i>
         </button>
@@ -30,22 +30,23 @@
         <!-- 🔥 MAIN NAVIGATION MENU -->
         <div class="flex gap-6 ml-8 items-center">
 
+            @let selected = selectedRoot$ | async;
+
             @for (menu of rootMenus$ | async; track menu.id) {
 
                 <div
                     (click)="selectMenu(menu)"
                     class="relative cursor-pointer text-sm font-medium pb-2 transition-all duration-200"
-                    [class.text-blue-600]="(selectedRoot$ | async)?.id === menu.id"
-                    [class.text-gray-600]="(selectedRoot$ | async)?.id !== menu.id"
+                    [class.text-blue-600]="isActive(menu, selected)"
+                    [class.text-gray-600]="!isActive(menu, selected)"
                 >
                     {{ menu.label }}
 
-                    <!-- 🔥 Smooth underline -->
                     <span
                         class="absolute left-0 bottom-0 h-[2px] w-full transition-all duration-300"
-                        [class.bg-blue-500]="(selectedRoot$ | async)?.id === menu.id"
-                        [class.scale-x-100]="(selectedRoot$ | async)?.id === menu.id"
-                        [class.scale-x-0]="(selectedRoot$ | async)?.id !== menu.id"
+                        [class.bg-blue-500]="isActive(menu, selected)"
+                        [class.scale-x-100]="isActive(menu, selected)"
+                        [class.scale-x-0]="!isActive(menu, selected)"
                     ></span>
                 </div>
 
@@ -60,8 +61,8 @@
                 <i
                     [ngClass]="{
                         'pi ': true,
-                        'pi-moon': csmLayoutService.isDarkTheme(),
-                        'pi-sun': !csmLayoutService.isDarkTheme()
+                        'pi-moon': layout.isDarkTheme(),
+                        'pi-sun': !layout.isDarkTheme()
                     }"
                 ></i>
             </button>

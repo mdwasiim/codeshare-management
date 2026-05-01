@@ -20,15 +20,23 @@ export class AppMenuComponent implements OnInit {
     constructor(private menuService: LayoutMenuService) {}
 
     ngOnInit(): void {
-        // 🔥 trigger load (once)
+
         this.menuService.loadMenus().subscribe();
 
-        // 🔥 always listen to state
-        /*this.menuService.getMenu().subscribe({
-            next: (menu) => (this.model = menu),
-            error: (err) => console.error('Menu stream error', err)
-        });*/
-        // listen to selected root
+        this.menuService.getMenu().subscribe(menu => {
+            if (!menu.length) return;
+
+            // ensure root is selected
+            let root = this.menuService['selectedRootMenuSubject'].value;
+
+            if (!root) {
+                root = menu[0];
+                this.menuService.setSelectedRoot(root);
+            }
+
+            this.model = root?.items || [];
+        });
+
         this.menuService.selectedRootMenu$.subscribe(root => {
             this.model = root?.items || [];
         });

@@ -50,10 +50,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
             )
             .subscribe((event) => {
                 const navEvent = event as NavigationEnd;
-                this.onRouteChange(navEvent.urlAfterRedirects);
+                this.onRouteChange();
             });
 
-        this.onRouteChange(this.router.url);
+        this.onRouteChange();
     }
     ngOnDestroy() {
         this.destroy$.next();
@@ -61,15 +61,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.unbindOutsideClickListener();
     }
 
-    private onRouteChange(path: string) {
-        this.layoutService.layoutState.update((val) => ({
-            ...val,
-            activePath: path,
-            overlayMenuActive: false,
-            staticMenuMobileActive: false,
-            mobileMenuActive: false,
-            menuHoverActive: false
-        }));
+    private onRouteChange() {
+        this.layoutService.closeSidebar();
     }
 
     private bindOutsideClickListener() {
@@ -79,9 +72,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
                     this.layoutService.layoutState.update((val) => ({
                         ...val,
                         overlayMenuActive: false,
-                        staticMenuMobileActive: false,
                         mobileMenuActive: false,
-                        menuHoverActive: false
                     }));
                 }
             };

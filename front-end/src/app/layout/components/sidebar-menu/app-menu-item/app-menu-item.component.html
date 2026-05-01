@@ -1,54 +1,48 @@
 @if (root() && isVisible()) {
-    <div class="layout-menuitem-root-text">{{ item().label }}</div>
+    <div class="layout-menuitem-root-text">
+        {{ item().label }}
+    </div>
 }
-@if ((!hasRouterLink() || hasChildren()) && isVisible()) {
-    <a [attr.href]="item().url" (click)="itemClick($event)" [ngClass]="item().styleClass" [attr.target]="item().target" tabindex="0" pRipple>
-        <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
-        <span class="layout-menuitem-text">{{ item().label }}</span>
-        @if (hasChildren()) {
-            <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
-        }
-    </a>
-}
-@if (hasRouterLink() && !hasChildren() && isVisible()) {
+
+<!-- ========================= -->
+<!-- MENU ITEM -->
+<!-- ========================= -->
+@if (isVisible()) {
+
     <a
-        (click)="itemClick($event)"
-        [ngClass]="item().styleClass"
+        *ngIf="item().routerLink && !hasChildren()"
         [routerLink]="item().routerLink"
         routerLinkActive="active-route"
-        [routerLinkActiveOptions]="{ exact: true }"
-        [fragment]="item().fragment"
-        [queryParamsHandling]="item().queryParamsHandling"
-        [preserveFragment]="item().preserveFragment"
-        [skipLocationChange]="item().skipLocationChange"
-        [replaceUrl]="item().replaceUrl"
-        [state]="item().state"
-        [queryParams]="item().queryParams"
-        [attr.target]="item().target"
+        [routerLinkActiveOptions]="{ exact: false }"
+        [ngClass]="item().styleClass"
+        (click)="layoutService.closeSidebar()"
         tabindex="0"
         pRipple
     >
         <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
         <span class="layout-menuitem-text">{{ item().label }}</span>
+
         @if (hasChildren()) {
             <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
         }
     </a>
 }
-@if (hasChildren() && isVisible() && (root() || isActive())) {
-    <ul
-        [animate.enter]="initialized() ? 'p-submenu-enter' : ''"
-        [animate.leave]="'p-submenu-leave'"
-        [class.layout-root-submenulist]="root()"
-    >
+
+<!-- ========================= -->
+<!-- CHILDREN -->
+<!-- ========================= -->
+@if (hasChildren() && isVisible() && (root() || isActive() || isExpanded())) {
+
+    <ul [class.layout-root-submenulist]="root()">
+
         @for (child of item().items ?? []; track child?.id ?? child?.label) {
             <li
                 app-menuitem
                 [item]="child"
-                [parentPath]="fullPath()"
                 [root]="false"
                 [class]="child['badgeClass']"
             ></li>
         }
+
     </ul>
 }

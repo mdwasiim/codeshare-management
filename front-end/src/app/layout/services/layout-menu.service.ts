@@ -34,57 +34,79 @@ export class LayoutMenuService {
      */
     loadMenus(): Observable<AppMenuModel[]> {
         return this.apiService.get<AppMenuModel[]>('menu.base').pipe(
-            map(menu => this.mapToMenuItems(menu)),
+
+            // 🔥 normalize backend response
+            map(res => this.normalizeMenus(res)),
+
+            // 🔥 build tree from flat structure
+            map(flat => this.buildTree(flat)),
+
             tap(menu => {
                 this.menuSubject.next(menu);
 
                 // 🔥 Auto select first root
-                const firstRoot = menu.find(m => !m.parentId);
+                const firstRoot = menu[0];
                 if (firstRoot) {
                     this.setSelectedRoot(firstRoot);
                 }
             }),
+
             shareReplay(1)
         );
+    }
+    private buildTree(flat: AppMenuModel[]): AppMenuModel[] {
+        const map = new Map<string, AppMenuModel>();
+
+        // create map
+        flat.forEach(item => {
+            map.set(item.id!, { ...item, items: [] });
+        });
+
+        const roots: AppMenuModel[] = [];
+
+        flat.forEach(item => {
+            const node = map.get(item.id!);
+
+            if (item.parentId) {
+                const parent = map.get(item.parentId);
+                parent?.items?.push(node!);
+            } else {
+                roots.push(node!);
+            }
+        });
+
+        // optional: sort by displayOrder
+        const sortFn = (a: AppMenuModel, b: AppMenuModel) =>
+            (a.displayOrder ?? 0) - (b.displayOrder ?? 0);
+
+        const sortTree = (nodes: AppMenuModel[]) => {
+            nodes.sort(sortFn);
+            nodes.forEach(n => n.items && sortTree(n.items));
+        };
+
+        sortTree(roots);
+
+        return roots;
     }
 
     /**
      * Transform + RBAC filter
      */
-    private mapToMenuItems(items: any[],  parentPath: string = ''): AppMenuModel[] {
-        return items.map(item => {
+    private normalizeMenus(items: any[]): AppMenuModel[] {
+        return items.map(item => ({
+            id: item.id,
+            label: item.label,
+            icon: item.icon,
+            route: item.route,
 
-            const currentPath =
-                parentPath +
-                '/' +
-                (item.label || '')
-                    .toLowerCase()
-                    .replace(/\s+/g, '-');
+            // 🔥 THIS IS THE FIX
+            routerLink: item.route ? [item.route] : undefined,
 
-            const menuItem: AppMenuModel = {
-                id: item.id,
-                label: item.label,
-                icon: item.icon,
+            parentId: item.parentId,
+            displayOrder: item.displayOrder,
 
-                routerLink: item.routerLink,
-
-                path: currentPath,
-                url: item.url,
-                target: item.target,
-
-                visible: item.visible !== false,
-                separator: item.separator,
-
-                styleClass: item.styleClass,
-                badgeClass: item.badgeClass
-            };
-
-            menuItem.items = item.items
-                ? this.mapToMenuItems(item.items, currentPath) // ✅ FIX
-                : [];
-
-            return menuItem;
-        });
+            visible: item.visible !== false
+        }));
     }
     /**
      * Components subscribe here
@@ -101,8 +123,6 @@ export class LayoutMenuService {
     }
 
     getRootMenus(): Observable<AppMenuModel[]> {
-        return this.menu$.pipe(
-            map(menus => menus.filter(m => !m.parentId))
-        );
+        return this.menu$;
     }
 }

@@ -10,25 +10,20 @@
     (search)="onSearch($event)">
 </csm-crud-toolbar>
 
-
-<p-table
-    #dt
+<p-treeTable
     [value]="data"
     [(selection)]="selectedMenus"
-    dataKey="id"
+    dataKey="key"
     [paginator]="true"
     [rows]="10"
     [rowsPerPageOptions]="[10,20,30]"
-    [globalFilterFields]="['label','icon','routerLink']"
     [tableStyle]="{ 'min-width': '60rem' }"
 >
 
     <!-- Header -->
     <ng-template pTemplate="header">
         <tr>
-            <th style="width:3rem">
-                <p-tableHeaderCheckbox />
-            </th>
+            <th style="width:3rem"></th>
             <th>Label</th>
             <th>Icon</th>
             <th>Route</th>
@@ -38,28 +33,30 @@
     </ng-template>
 
     <!-- Body -->
-    <ng-template pTemplate="body" let-m>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
         <tr>
             <td>
-                <p-tableCheckbox [value]="m" />
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
             </td>
 
-            <td>{{ m.label }}</td>
-            <td>{{ m.icon }}</td>
-            <td>{{ m.routerLink?.[0] }}</td>
-            <td>{{ m.displayOrder }}</td>
+            <!-- 🔥 USE rowData -->
+            <td>{{ rowData?.label }}</td>
+            <td>{{ rowData?.icon || '-' }}</td>
+            <td>{{ rowData?.route || '-' }}</td>
+            <td>{{ rowData?.displayOrder }}</td>
 
             <td class="flex gap-2">
-                <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true"
-                          (click)="openEdit(m)" />
-                <p-button icon="pi pi-trash" severity="danger"
-                          [rounded]="true" [outlined]="true"
-                          (click)="deleteMenu(m)" />
+                <p-button icon="pi pi-pencil"
+                          (click)="openEdit(rowData)" />
+
+                <p-button icon="pi pi-trash"
+                          severity="danger"
+                          (click)="deleteMenu(rowData)" />
             </td>
         </tr>
     </ng-template>
 
-</p-table>
+</p-treeTable>
 
 <menu-form
     [(visible)]="dialogVisible"

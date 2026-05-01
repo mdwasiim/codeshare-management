@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, computed } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -15,41 +15,62 @@ import { AppTokenService } from '@services/auth/app-token.service';
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [
-        CommonModule,
-        StyleClassModule,
-        MenuModule,
-        AvatarModule
-    ],
+    imports: [CommonModule, StyleClassModule, MenuModule, AvatarModule],
     templateUrl: './topbar.component.html',
     styleUrls: ['./topbar.component.scss']
 })
 export class TopbarComponent implements OnInit {
-    userMenuItems: MenuItem[] = [];
-    loggingOut = false;
-
-    username = '';
 
     private router = inject(Router);
     private authService = inject(AuthService);
     private menuService = inject(LayoutMenuService);
     private tokenService = inject(AppTokenService);
 
+    constructor(public layout: LayoutService) {}
+
+    // =========================
+    // STATE
+    // =========================
+
+    username = '';
+    loggingOut = false;
 
     rootMenus$ = this.menuService.getRootMenus();
     selectedRoot$ = this.menuService.selectedRootMenu$;
 
+    // 👉 Compute initials
+    initials = computed(() =>
+        this.username
+            ? this.username
+                .split(' ')
+                .map(x => x[0])
+                .join('')
+                .toUpperCase()
+            : 'U'
+    );
 
-    constructor(public csmLayoutService: LayoutService) {}
+    userMenuItems: MenuItem[] = [];
 
     ngOnInit() {
         this.username = this.tokenService.username || 'User';
         this.buildUserMenu();
     }
 
+    // =========================
+    // MENU
+    // =========================
+
     selectMenu(menu: AppMenuModel) {
         this.menuService.setSelectedRoot(menu);
     }
+
+    isActive(menu: AppMenuModel, selected: AppMenuModel | null): boolean {
+        return selected?.id === menu.id;
+    }
+
+    // =========================
+    // USER MENU
+    // =========================
 
     private buildUserMenu() {
         this.userMenuItems = [
@@ -78,21 +99,16 @@ export class TopbarComponent implements OnInit {
         this.loggingOut = true;
 
         this.authService.logout().subscribe({
-            next: () => {
-                this.loggingOut = false;
-                this.router.navigate(['/auth/login']);
-            },
-            error: () => {
-                this.loggingOut = false;
-                this.router.navigate(['/auth/login']);
-            }
+            next: () => this.router.navigate(['/auth/login']),
+            error: () => this.router.navigate(['/auth/login'])
         });
     }
 
+    // =========================
+    // THEME
+    // =========================
+
     toggleDarkMode() {
-        this.csmLayoutService.layoutConfig.update(state => ({
-            ...state,
-            darkTheme: !state.darkTheme
-        }));
+        this.layout.toggleTheme();   // ✅ FIXED
     }
 }
