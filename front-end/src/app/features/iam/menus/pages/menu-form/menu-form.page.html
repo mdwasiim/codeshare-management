@@ -29,6 +29,23 @@
             <input type="number" pInputText formControlName="displayOrder" />
         </div>
 
+        <!-- ============================= -->
+        <!-- Parent Menu -->
+        <!-- ============================= -->
+        <div class="field">
+            <label>Parent Menu</label>
+
+            <p-select
+                [options]="menuOptions"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="parentId"
+                placeholder="Select Parent (optional)"
+                [showClear]="true"
+                appendTo="body"
+            ></p-select>
+        </div>
+
         <div class="flex justify-end gap-2 mt-3">
 
             <!-- Cancel -->

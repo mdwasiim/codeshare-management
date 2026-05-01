@@ -30,7 +30,7 @@ export class MenuManagementService {
     // CREATE
     // -----------------------------
     create(menuModel: AppMenuModel) {
-
+        debugger;
         return this.api.post<AppMenuModel>('menu.base', menuModel).pipe(
             tap(() => {
                 this.toast.success('Menu created successfully');
@@ -42,7 +42,6 @@ export class MenuManagementService {
     // UPDATE
     // -----------------------------
     update(id: string, menuModel: AppMenuModel) {
-       debugger;
         return this.api.put<AppMenuModel>('menu.byId', menuModel, {
             pathParams: { id }
         }).pipe(

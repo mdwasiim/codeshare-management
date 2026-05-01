@@ -20,6 +20,7 @@ import { AppMenuModel } from "@shared/models/app-menu.model";
 import { BaseCrudForm } from "@core/base/base-crud-form.component";
 import { LayoutMenuService } from "@layout/services/layout-menu.service";
 import { MenuManagementService } from "@features/iam/menus/services/menu-management.service";
+import {SelectModule} from "primeng/select";
 
 @Component({
     selector: 'menu-form',
@@ -29,7 +30,8 @@ import { MenuManagementService } from "@features/iam/menus/services/menu-managem
         ReactiveFormsModule,
         InputTextModule,
         ButtonModule,
-        DialogModule
+        DialogModule,
+        SelectModule
     ],
     templateUrl: './menu-form.page.html'
 })
@@ -40,6 +42,7 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
 
     @Output() visibleChange = new EventEmitter<boolean>();
 
+    menuOptions: any[] = [];
     private fb = inject(FormBuilder);
     private service = inject(MenuManagementService);
     private layoutMenu = inject(LayoutMenuService);
@@ -59,6 +62,7 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['visible'] && this.visible) {
             this.init(); // 🔥 important
+            this.loadMenuOptions();
         }
     }
 
@@ -97,6 +101,20 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
         return this.service.update(id, this.mapToModel(payload));
     }
 
+    loadMenuOptions() {
+        this.service.getAll().subscribe(res => {
+            this.menuOptions = res.map(m => ({
+                label: m.label,
+                value: m.id
+            }));
+
+            // 🚫 prevent selecting itself as parent (edit mode)
+            if (this.id) {
+                this.menuOptions = this.menuOptions.filter(m => m.value !== this.id);
+            }
+        });
+    }
+
     // =========================
     // MAPPER
     // =========================
@@ -109,7 +127,8 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
             parentId: formValue.parentId ?? undefined,
             routerLink: formValue.routerLink?.trim()
                 ? [formValue.routerLink.trim()]
-                : undefined
+                : undefined,
+            route: formValue.routerLink?.trim() || undefined
         };
     }
 
