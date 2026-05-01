@@ -1,15 +1,11 @@
 package com.codeshare.airline.identity.entities;
 
-import com.codeshare.airline.data.converters.CSMListDataToJsonConverter;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(
@@ -34,37 +30,29 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Menu extends CSMDataAbstractEntity {
 
+    @Column(name = "code", nullable = false)
+    private String code;
+
     @Column(name = "label", nullable = false, length = 200)
     private String label;
 
     @Column(name = "icon", length = 200)
     private String icon;
 
-    @Column(name = "path", length = 200)
-    private String path;
-
-    @Convert(converter = CSMListDataToJsonConverter.class)
-    @Column(name = "router_link", nullable = false, length = 1000)
-    @Builder.Default
-    private List<String> routerLink = new ArrayList<>();
+    @Column(name = "route", length = 1000)
+    private String route;
 
     @Column(name = "display_order")
     private Integer displayOrder;
+
+    @Column(name = "visible")
+    private Boolean visible;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     @JsonIgnore
     @ToString.Exclude
     private Menu parentMenu;
-
-    @OneToMany(
-            mappedBy = "parentMenu",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            orphanRemoval = true
-    )
-    @ToString.Exclude
-    private List<Menu> items = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tenant_id", nullable = false)

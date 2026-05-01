@@ -4,7 +4,6 @@ import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -15,22 +14,20 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class MenuDTO extends CSMAuditableDTO {
-    private UUID id;
+
+    private String code;
+
+    private String parentCode;
 
     private String label;
 
     private String icon;
 
-    private String path;
-
-    private List<String> routerLink;
+    private String route;
 
     private Integer displayOrder;
 
-    private UUID tenantId;
+    private Boolean visible;
 
     private UUID parentId;
-
-    private List<MenuDTO> items;
-
 }

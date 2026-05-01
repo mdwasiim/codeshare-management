@@ -57,11 +57,16 @@ public class MenuServiceImpl implements MenuService {
         Menu entity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
 
-            // Assign parent menu
+        // 🔥 Use mapper
+        mapper.updateEntityFromDto(dto, entity);
+
+        // 🔥 Handle parent manually
         if (dto.getParentId() != null) {
             Menu parent = repository.findById(dto.getParentId())
                     .orElseThrow(() -> new RuntimeException("Parent menu not found"));
             entity.setParentMenu(parent);
+        } else {
+            entity.setParentMenu(null);
         }
 
         return mapper.toDTO(repository.save(entity));
@@ -104,11 +109,11 @@ public class MenuServiceImpl implements MenuService {
                 .map(UserGroup::getGroup)
                 .toList();
 
-        // 🔥 fetch menus
+        // 🔥 fetch allowed menus
         List<Menu> allowedMenus =
                 groupMenuRepository.findMenusByGroupsAndTenant(groups, tenantCode);
 
-        // 🔥 remove duplicates + include parents
+        // 🔥 include parents
         Set<Menu> allowedSet = new HashSet<>(allowedMenus);
 
         for (Menu menu : allowedMenus) {
@@ -119,31 +124,18 @@ public class MenuServiceImpl implements MenuService {
             }
         }
 
-        // 🔥 build tree recursively (inline)
-        List<MenuDTO> rootMenus = allowedSet.stream()
-                .filter(m -> m.getParentMenu() == null)
-                .map(root -> buildTreeDTO(root, allowedSet))
-                .filter(Objects::nonNull)
-                .sorted(Comparator.comparing(MenuDTO::getDisplayOrder,
-                        Comparator.nullsLast(Integer::compareTo)))
-                .toList();
+        allowedSet.forEach(menu -> {
+            if (menu.getParentMenu() != null) {
+                menu.getParentMenu().getId();
+            }
+        });
 
-        return rootMenus;
-    }
-
-    private MenuDTO buildTreeDTO(Menu menu, Set<Menu> allowed) {
-        if (!allowed.contains(menu)) return null;
-
-        List<MenuDTO> children = menu.getItems().stream()
+        // ✅ RETURN FLAT LIST
+        return allowedSet.stream()
                 .sorted(Comparator.comparing(Menu::getDisplayOrder,
                         Comparator.nullsLast(Integer::compareTo)))
-                .map(child -> buildTreeDTO(child, allowed))
-                .filter(Objects::nonNull)
+                .map(mapper::toDTO)
                 .toList();
-
-        MenuDTO dto = mapper.toDTO(menu);
-        dto.setItems(children);
-        return dto;
     }
 
     // ---------------------------------------------------------
