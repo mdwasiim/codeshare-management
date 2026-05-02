@@ -29,6 +29,9 @@ export interface AppMenuModel {
     styleClass?: string;
     badgeClass?: string;
 
+    expanded?: boolean;
+
+
     // =========================
     // EXTERNAL LINKS (OPTIONAL)
     // =========================

@@ -1,13 +1,13 @@
 package com.codeshare.airline.identity.service.serviceImpl;
 
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.identity.authentication.domain.TenantContext;
+import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.authentication.service.core.UserContextService;
-import com.codeshare.airline.identity.entities.Group;
-import com.codeshare.airline.identity.entities.Menu;
-import com.codeshare.airline.identity.entities.User;
-import com.codeshare.airline.identity.entities.UserGroup;
+import com.codeshare.airline.identity.entities.*;
 import com.codeshare.airline.identity.repository.GroupMenuRepository;
 import com.codeshare.airline.identity.repository.MenuRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.MenuService;
 import com.codeshare.airline.identity.utils.mappers.MenuMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,18 +26,30 @@ public class MenuServiceImpl implements MenuService {
     private final GroupMenuRepository groupMenuRepository;
     private final MenuMapper mapper;
 
+    private final TenantRepository tenantRepository;
+
     // ---------------------------------------------------------
     // CREATE NEW MENU FOR TENANT
     // ---------------------------------------------------------
     @Override
     public MenuDTO create(MenuDTO dto) {
 
-        if (dto.getTenantId() == null)
-            throw new IllegalArgumentException("tenantId is required");
+        // 🔥 Get tenant from context (NOT from DTO)
+        TenantContext ctx = TenantContextHolder.getTenant();
 
+        // 🔥 Fetch tenant entity
+        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
+                .orElseThrow(() -> new RuntimeException("Tenant not found"));
+
+        // 🔥 Map DTO → Entity
         Menu entity = mapper.toEntity(dto);
 
-        // Assign parent if exists
+        // 🔥 FIX: generate code
+        entity.setCode(dto.getLabel().trim().toUpperCase().replaceAll("\\s+", "_"));
+        // 🔥 Assign tenant
+        entity.setTenant(tenant);
+
+        // 🔥 Assign parent
         if (dto.getParentId() != null) {
             Menu parent = repository.findById(dto.getParentId())
                     .orElseThrow(() -> new RuntimeException("Parent menu not found"));
@@ -110,9 +122,10 @@ public class MenuServiceImpl implements MenuService {
                 .toList();
 
         // 🔥 fetch allowed menus
+        /*List<Menu> allowedMenus =
+                groupMenuRepository.findMenusByGroupsAndTenant(groups, tenantCode);*/
         List<Menu> allowedMenus =
-                groupMenuRepository.findMenusByGroupsAndTenant(groups, tenantCode);
-
+                repository.findAll();
         // 🔥 include parents
         Set<Menu> allowedSet = new HashSet<>(allowedMenus);
 

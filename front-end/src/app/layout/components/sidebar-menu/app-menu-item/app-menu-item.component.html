@@ -1,11 +1,19 @@
 @if (root() && isVisible()) {
-    <div class="layout-menuitem-root-text">
+    <div
+        class="layout-menuitem-root-text flex items-center justify-between cursor-pointer"
+        (click)="item().expanded = !item().expanded"
+    >
         {{ item().label }}
+
+        <i
+            class="pi text-xs"
+            [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'">
+        </i>
     </div>
 }
 
 <!-- ========================= -->
-<!-- MENU ITEM -->
+<!-- MENU ITEM (LEAF ONLY) -->
 <!-- ========================= -->
 @if (isVisible()) {
 
@@ -21,17 +29,13 @@
     >
         <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
         <span class="layout-menuitem-text">{{ item().label }}</span>
-
-        @if (hasChildren()) {
-            <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
-        }
     </a>
 }
 
 <!-- ========================= -->
 <!-- CHILDREN -->
 <!-- ========================= -->
-@if (hasChildren() && isVisible() && (root() || isActive() || isExpanded())) {
+@if (hasChildren() && isVisible() && (root() ? item().expanded : isActive() || isExpanded())) {
 
     <ul [class.layout-root-submenulist]="root()">
 

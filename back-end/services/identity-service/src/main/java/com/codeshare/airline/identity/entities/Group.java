@@ -53,6 +53,6 @@ public class Group extends CSMDataAbstractEntity {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
-    private Set<UserGroup> UserGroups = new HashSet<>();
+    private Set<UserGroup> userGroups = new HashSet<>();
 }
 

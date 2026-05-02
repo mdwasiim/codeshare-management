@@ -1,24 +1,24 @@
 import { Routes } from '@angular/router';
-import {AppAuthGuard} from "@core/guards/app-auth.guard";
+import { AppAuthGuard } from "@core/guards/app-auth.guard";
 
 export const APP_ROUTES: Routes = [
 
-    // Public
+    // ================= PUBLIC =================
     {
         path: 'auth',
         loadChildren: () =>
-            import('./app/features/auth/auth.routes')
+            import('@features/routes/auth.routes')
                 .then(m => m.AUTH_ROUTES)
     },
 
-    // Root redirect
+    // ================= ROOT =================
     {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
     },
 
-    // Protected Layout
+    // ================= PROTECTED =================
     {
         path: '',
         canActivate: [AppAuthGuard],
@@ -27,26 +27,24 @@ export const APP_ROUTES: Routes = [
                 .then(m => m.LayoutComponent),
 
         children: [
+
+            // ✅ Dashboard (keep as-is)
             {
                 path: 'dashboard',
                 loadChildren: () =>
-                    import('./app/features/dashboard/dashboard.routes')
+                    import('@features/routes/dashboard.routes')
                         .then(m => m.DASHBOARD_ROUTES)
             },
+
+            // 🔥 REPLACE IAM + SETTINGS WITH THIS
             {
-                path: 'iam',
+                path: '',
                 loadChildren: () =>
-                    import('@features/iam/iam.routes')
-                        .then(m => m.IAM_ROUTES)
-            },
-            {
-                path: 'settings',
-                loadChildren: () =>
-                    import('@features/settings/settings.routes')
-                        .then(m => m.SETTINGS_ROUTES)
+                    import('@features/feature.routes')
+                        .then(m => m.FEATURE_ROUTES)
             },
 
-            // ✅ ADD THIS
+            // ✅ Not Found
             {
                 path: 'notfound',
                 loadComponent: () =>
@@ -56,7 +54,7 @@ export const APP_ROUTES: Routes = [
         ]
     },
 
-    // ✅ Redirect unknown routes INTO layout
+    // ================= FALLBACK =================
     {
         path: '**',
         redirectTo: '/notfound'

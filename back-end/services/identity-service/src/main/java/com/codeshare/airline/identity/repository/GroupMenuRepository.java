@@ -26,8 +26,5 @@ public interface GroupMenuRepository extends CSMDataBaseRepository<GroupMenu, UU
     WHERE gm.group IN :groups
       AND gm.menu.tenant.tenantCode = :tenantCode
 """)
-    List<Menu> findMenusByGroupsAndTenant(
-            @Param("groups") List<Group> groups,
-            @Param("tenantCode") String tenantCode
-    );
+    List<Menu> findMenusByGroupsAndTenant( @Param("groups") List<Group> groups,@Param("tenantCode") String tenantCode);
 }

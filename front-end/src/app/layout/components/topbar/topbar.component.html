@@ -28,7 +28,7 @@
                 <span>SAKAI</span>
             </a>
         <!-- 🔥 MAIN NAVIGATION MENU -->
-        <div class="flex gap-6 ml-8 items-center">
+        <div class="flex items-center gap-8 ml-8">
 
             @let selected = selectedRoot$ | async;
 
@@ -36,18 +36,21 @@
 
                 <div
                     (click)="selectMenu(menu)"
-                    class="relative cursor-pointer text-sm font-medium pb-2 transition-all duration-200"
+                    class="relative cursor-pointer text-sm font-medium pb-3 px-2 transition-all duration-200 hover:text-gray-900 hover:bg-gray-50 rounded-md"
                     [class.text-blue-600]="isActive(menu, selected)"
                     [class.text-gray-600]="!isActive(menu, selected)"
                 >
-                    {{ menu.label }}
 
-                    <span
-                        class="absolute left-0 bottom-0 h-[2px] w-full transition-all duration-300"
-                        [class.bg-blue-500]="isActive(menu, selected)"
-                        [class.scale-x-100]="isActive(menu, selected)"
-                        [class.scale-x-0]="!isActive(menu, selected)"
-                    ></span>
+    <span class="relative inline-block">
+        {{ menu.label }}
+
+        <span
+            class="absolute left-0 -bottom-1 h-[3px] transition-all duration-300 origin-left"
+            [class.bg-blue-500]="isActive(menu, selected)"
+            [style.width.%]="isActive(menu, selected) ? 100 : 0"
+        ></span>
+    </span>
+
                 </div>
 
             }
@@ -56,36 +59,10 @@
     </div>
 
     <div class="layout-topbar-actions">
-        <div class="layout-config-app-menu-item">
-            <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
-                <i
-                    [ngClass]="{
-                        'pi ': true,
-                        'pi-moon': layout.isDarkTheme(),
-                        'pi-sun': !layout.isDarkTheme()
-                    }"
-                ></i>
-            </button>
 
-            <div class="relative">
-                <button
-                    class="layout-topbar-action layout-topbar-action-highlight"
-                    pStyleClass="@next"
-                    enterFromClass="hidden"
-                    enterActiveClass="animate-scalein"
-                    leaveToClass="hidden"
-                    leaveActiveClass="animate-fadeout"
-                    [hideOnOutsideClick]="true"
-                >
-                    <i class="pi pi-palette"></i>
-                </button>
-
-                <!-- UPDATED selector -->
-            </div>
-        </div>
-
+        <!-- Optional: more/menu button (keep only if needed for mobile) -->
         <button
-            class="layout-topbar-app-menu-item-button layout-topbar-action"
+            class="layout-topbar-action"
             pStyleClass="@next"
             enterFromClass="hidden"
             enterActiveClass="animate-scalein"
@@ -96,43 +73,43 @@
             <i class="pi pi-ellipsis-v"></i>
         </button>
 
-        <div class="layout-topbar-menu hidden lg:block">
-            <div class="layout-topbar-menu-content flex items-center gap-3">
-                <button type="button" class="layout-topbar-action p-2 rounded-full hover:bg-gray-100 transition-all">
-                    <i class="pi pi-calendar text-gray-600 text-lg"></i>
-                    <span>Calendar</span>
-                </button>
+        <!-- Calendar -->
+        <button type="button" class="layout-topbar-action">
+            <i class="pi pi-calendar"></i>
+        </button>
 
-                <button type="button" class="layout-topbar-action p-2 rounded-full hover:bg-gray-100 transition-all">
-                    <i class="pi pi-inbox"></i>
-                    <span>Messages</span>
-                </button>
+        <!-- Inbox -->
+        <button type="button" class="layout-topbar-action">
+            <i class="pi pi-inbox"></i>
+        </button>
 
-                <button type="button" class="layout-topbar-action p-2 rounded-full hover:bg-gray-100 transition-all">
-                    <i class="pi pi-user"></i>
-                    <span>Profile</span>
-                </button>
-                <!-- User Menu Button -->
-                <button
-                    type="button"
-                    class="layout-topbar-action user-menu-btn flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 transition-all"
-                    (click)="userMenu.toggle($event)">
+        <!-- Profile icon -->
+        <button type="button" class="layout-topbar-action">
+            <i class="pi pi-user"></i>
+        </button>
 
-                    <p-avatar label="WK" shape="circle" class="topbar-avatar shadow-sm border border-gray-200">
-                    </p-avatar>
-                    <i class="pi pi-chevron-down ml-2"></i>
-                </button>
+        <!-- User dropdown -->
+        <button
+            type="button"
+            class="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-100 transition-all cursor-pointer"
+            (click)="userMenu.toggle($event)"
+        >
+            <p-avatar
+                label="WK"
+                shape="circle"
+                class="topbar-avatar border border-gray-200"
+            ></p-avatar>
 
-                <p-menu
-                    #userMenu
-                    [popup]="true"
-                    [model]="userMenuItems"
-                    styleClass="user-menu">
-                </p-menu>
+            <i class="pi pi-chevron-down text-xs text-gray-500"></i>
+        </button>
 
+        <p-menu
+            #userMenu
+            [popup]="true"
+            [model]="userMenuItems"
+            styleClass="user-menu">
+        </p-menu>
 
-
-            </div>
-        </div>
     </div>
+
 </div>

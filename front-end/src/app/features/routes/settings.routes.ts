@@ -2,15 +2,15 @@ import { Routes } from '@angular/router';
 
 export const SETTINGS_ROUTES: Routes = [
     {
-        path: 'organizations',
+        path: 'orgs',
         loadChildren: () =>
-            import('./organizations/organization.routes')
+            import('@features/settings/organizations/organization.routes')
                 .then(m => m.ORGANIZATION_ROUTES)
     },
     {
         path: 'products',
         loadChildren: () =>
-            import('./products/products.routes')
+            import('@features/settings/products/products.routes')
                 .then(m => m.PRODUCTS_ROUTES)
     }
 ];

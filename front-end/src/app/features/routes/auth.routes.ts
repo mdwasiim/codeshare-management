@@ -5,10 +5,12 @@ export const AUTH_ROUTES: Routes = [
     {
         path: 'login',
         loadComponent: () =>
-            import('./pages/login/login-page.component')
-                .then(m => m.LoginPageComponent)
+            import('../auth/pages/login/login-page.component')
+                .then(m => m.LoginPageComponent),
+        data: {
+            title: 'Login'
+        }
     },
-
     {
         path: '',
         redirectTo: 'login',

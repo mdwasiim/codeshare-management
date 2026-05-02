@@ -12,11 +12,13 @@
     transition: left var(--layout-section-transition-duration);
     display: flex;
     align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 
     .layout-topbar-logo-container {
         width: 20rem;
         display: flex;
         align-items: center;
+        flex-shrink: 0;
     }
 
     .layout-topbar-logo {
@@ -27,6 +29,7 @@
         color: var(--text-color);
         font-weight: 500;
         gap: 0.5rem;
+        letter-spacing: 0.3px;
 
         svg {
             width: 3rem;
@@ -41,12 +44,11 @@
         display: inline-flex;
         justify-content: center;
         align-items: center;
-        color: var(--text-color-secondary);
+        color: var(--text-color);
         border-radius: 50%;
         width: 2.5rem;
         height: 2.5rem;
-        color: var(--text-color);
-        transition: background-color var(--element-transition-duration);
+        transition: background-color var(--element-transition-duration),color var(--element-transition-duration);
         cursor: pointer;
 
         &:hover {
@@ -58,7 +60,7 @@
         }
 
         i {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
         }
 
         span {
@@ -69,6 +71,16 @@
         &.layout-topbar-action-highlight {
             background-color: var(--primary-color);
             color: var(--primary-contrast-color);
+
+            display: inline-flex;          // 🔥 enforce same layout
+            align-items: center;           // 🔥 vertical center
+            justify-content: center;
+
+            width: 2.5rem;                 // 🔥 match others
+            height: 2.5rem;
+
+            margin: 0;                     // 🔥 remove any offset
+            transform: none;               // 🔥 prevent float effect
         }
     }
 
@@ -83,12 +95,13 @@
     .layout-topbar-actions {
         margin-left: auto;
         display: flex;
-        gap: 1rem;
+        align-items: center;
+        gap: 2rem;
     }
 
     .layout-topbar-menu-content {
         display: flex;
-        gap: 1rem;
+        gap: 1.75rem;
     }
 
     .layout-config-menu {
@@ -128,6 +141,7 @@
             top: 4rem;
             min-width: 15rem;
             border: 1px solid var(--surface-border);
+            animation: fadeInDown 0.2s ease;
 
             .layout-topbar-menu-content {
                 gap: 0.5rem;

@@ -38,7 +38,6 @@ export class TopbarComponent implements OnInit {
     rootMenus$ = this.menuService.getRootMenus();
     selectedRoot$ = this.menuService.selectedRootMenu$;
 
-    // 👉 Compute initials
     initials = computed(() =>
         this.username
             ? this.username
@@ -62,6 +61,15 @@ export class TopbarComponent implements OnInit {
 
     selectMenu(menu: AppMenuModel) {
         this.menuService.setSelectedRoot(menu);
+
+        const route = this.getFirstNavigableRoute(menu);
+
+        // ✅ avoid unnecessary navigation
+        if (route && this.router.url !== route) {
+            this.router.navigate([route]).catch(() => {
+                console.warn('Navigation failed:', route);
+            });
+        }
     }
 
     isActive(menu: AppMenuModel, selected: AppMenuModel | null): boolean {
@@ -73,7 +81,32 @@ export class TopbarComponent implements OnInit {
     // =========================
 
     private buildUserMenu() {
+        const fullName =
+            this.tokenService.username ??
+            this.username ??
+            'User';
+
+        const role =
+            this.tokenService.roles?.length
+                ? this.tokenService.roles
+                    .map(r => r.replace('_', ' '))
+                    .map(r => r.toLowerCase())
+                    .map(r => r.charAt(0).toUpperCase() + r.slice(1))
+                    .join(', ')
+                : 'User';
+
         this.userMenuItems = [
+            {
+                label: fullName,
+                styleClass: 'user-menu-header',
+                disabled: true
+            },
+            {
+                label: role,
+                styleClass: 'user-menu-subheader',
+                disabled: true
+            },
+            { separator: true },
             {
                 label: 'Profile',
                 icon: 'pi pi-user',
@@ -88,9 +121,16 @@ export class TopbarComponent implements OnInit {
             {
                 label: 'Logout',
                 icon: 'pi pi-sign-out',
+                styleClass: 'logout-item',
                 command: () => this.logout()
             }
         ];
+    }
+
+    private navigate(path: string) {
+        if (this.router.url !== path) {
+            this.router.navigate([path]);
+        }
     }
 
     logout() {
@@ -99,9 +139,14 @@ export class TopbarComponent implements OnInit {
         this.loggingOut = true;
 
         this.authService.logout().subscribe({
-            next: () => this.router.navigate(['/auth/login']),
-            error: () => this.router.navigate(['/auth/login'])
+            next: () => this.safeRedirectToLogin(),
+            error: () => this.safeRedirectToLogin(),
+            complete: () => (this.loggingOut = false) // ✅ reset state
         });
+    }
+
+    private safeRedirectToLogin() {
+        this.router.navigate(['/auth/login']);
     }
 
     // =========================
@@ -109,6 +154,29 @@ export class TopbarComponent implements OnInit {
     // =========================
 
     toggleDarkMode() {
-        this.layout.toggleTheme();   // ✅ FIXED
+        this.layout.toggleTheme();
+    }
+
+    // =========================
+    // NAVIGATION HELPER
+    // =========================
+
+    private getFirstNavigableRoute(menu: AppMenuModel): string | null {
+        // ✅ BFS (safer than recursion for deep trees)
+        const queue: AppMenuModel[] = [menu];
+
+        while (queue.length) {
+            const current = queue.shift()!;
+
+            if (current.route) {
+                return current.route;
+            }
+
+            if (current.items?.length) {
+                queue.push(...current.items);
+            }
+        }
+
+        return null;
     }
 }
