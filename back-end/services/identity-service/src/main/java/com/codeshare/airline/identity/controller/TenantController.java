@@ -1,13 +1,12 @@
 package com.codeshare.airline.identity.controller;
 
-import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.TenantDTO;
-import com.codeshare.airline.core.response.CSMServiceResponse;
+import com.codeshare.airline.identity.service.TenantService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,36 +17,36 @@ public class TenantController {
     private final TenantService tenantService;
 
     @PostMapping
-    public ResponseEntity<CSMServiceResponse> create(@RequestBody TenantDTO dto) {
-        return ResponseEntity.ok(CSMServiceResponse.success(tenantService.create(dto)));
+    public TenantDTO create(@RequestBody TenantDTO dto) {
+        return tenantService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CSMServiceResponse> update(
+    public TenantDTO update(
             @PathVariable UUID id,
             @RequestBody TenantDTO dto
     ) {
-        return ResponseEntity.ok(CSMServiceResponse.success(tenantService.update(id, dto)));
+        return tenantService.update(id, dto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CSMServiceResponse> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(CSMServiceResponse.success(tenantService.getById(id)));
+    public TenantDTO getById(@PathVariable UUID id) {
+        return tenantService.getById(id);
     }
 
     @GetMapping("/code/{code}")
-    public ResponseEntity<CSMServiceResponse> getByCode(@PathVariable String code) {
-        return ResponseEntity.ok(CSMServiceResponse.success(tenantService.getByCode(code)));
+    public TenantDTO getByCode(@PathVariable String code) {
+        return tenantService.getByCode(code);
     }
 
     @GetMapping
-    public ResponseEntity<CSMServiceResponse> getAllTenants() {
-        return ResponseEntity.ok(CSMServiceResponse.success(tenantService.getAll()));
+    public List<TenantDTO> getAllTenants() {
+        return tenantService.getAll();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CSMServiceResponse> delete(@PathVariable UUID id) {
+    public String delete(@PathVariable UUID id) {
         tenantService.delete(id);
-        return ResponseEntity.ok(CSMServiceResponse.success(CSMConstants.NO_DATA));
+        return CSMConstants.NO_DATA;
     }
 }

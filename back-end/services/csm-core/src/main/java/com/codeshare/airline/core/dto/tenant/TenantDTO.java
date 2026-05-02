@@ -23,10 +23,8 @@ public class TenantDTO extends CSMAuditableDTO {
     private String code;
     private String description;
 
-    private Boolean enabled;
-
     // DB config reference (safe)
-    private UUID dataSourceId;
+    private UUID databaseConfigId;
 
     // Subscription / Plan Info
     private String plan;
@@ -42,8 +40,4 @@ public class TenantDTO extends CSMAuditableDTO {
 
     private TenantStatus status = TenantStatus.ACTIVE;
 
-
-    public boolean canAuthenticate() {
-        return enabled && subscriptionEnd == null || subscriptionEnd.isAfter(LocalDateTime.now());
-    }
 }

@@ -3,6 +3,13 @@ import { Routes } from '@angular/router';
 
 export const IAM_ROUTES: Routes = [
     {
+        path: 'tenants',
+        loadChildren: () =>
+            import('@features/iam/tenants/tenant.routes')
+                .then(m => m.TENANT_ROUTES)
+    },
+
+    {
         path: 'users',
         loadChildren: () =>
             import('@features/iam/users/users.routes')

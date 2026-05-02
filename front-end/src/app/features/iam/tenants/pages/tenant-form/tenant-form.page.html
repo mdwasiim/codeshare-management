@@ -1,0 +1,68 @@
+<p-dialog
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [header]="isEdit ? 'Edit Tenant' : 'Create Tenant'"
+>
+
+    <form [formGroup]="form" class="p-fluid grid">
+
+        <!-- NAME -->
+        <div class="field col-12">
+            <label>Name</label>
+            <input pInputText formControlName="name" />
+        </div>
+
+        <!-- CODE -->
+        <div class="field col-12">
+            <label>Code</label>
+            <input pInputText formControlName="code" />
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="field col-12">
+            <label>Description</label>
+            <input pInputText formControlName="description" />
+        </div>
+
+        <!-- STATUS -->
+        <div class="field col-6">
+            <label>Status</label>
+            <p-select
+                formControlName="status"
+                [options]="statusOptions"
+                placeholder="Select Status">
+            </p-select>
+        </div>
+
+        <!-- PLAN -->
+        <div class="field col-6">
+            <label>Plan</label>
+            <p-select
+                formControlName="plan"
+                [options]="planOptions"
+                placeholder="Select Plan">
+            </p-select>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="col-12 flex justify-end gap-2 mt-3">
+            <button
+                pButton
+                label="Cancel"
+                severity="secondary"
+                (click)="visibleChange.emit(false)"
+                type="button">
+            </button>
+
+            <button
+                pButton
+                label="Save"
+                (click)="submit()"
+                type="button">
+            </button>
+        </div>
+
+    </form>
+
+</p-dialog>
