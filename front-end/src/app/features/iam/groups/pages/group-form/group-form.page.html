@@ -14,7 +14,13 @@
 
             <input pInputText placeholder="Description" formControlName="description" />
 
-            <input pInputText placeholder="Tenant ID" formControlName="tenantId" />
+            <p-select
+                [options]="tenants"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Select Tenant"
+                formControlName="tenantId">
+            </p-select>
 
         </div>
 

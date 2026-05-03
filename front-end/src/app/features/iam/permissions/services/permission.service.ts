@@ -3,6 +3,7 @@ import { AppApiService } from '@core/config/app-api.service';
 import { AppToastService } from '@core/services/app-toast.service';
 import { Permission } from '@features/iam/models/permission.model';
 import { tap } from 'rxjs';
+import {Group} from "@features/iam/models/group.model";
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
@@ -13,8 +14,10 @@ export class PermissionService {
     // -----------------------------
     // GET ALL
     // -----------------------------
-    getAll() {
-        return this.api.get<Permission[]>('permissions.base');
+    getAll(tenantId: string) {
+        return this.api.get<Permission[]>('permissions.base', {
+            /*params: { tenantId }*/
+        });
     }
 
     // -----------------------------

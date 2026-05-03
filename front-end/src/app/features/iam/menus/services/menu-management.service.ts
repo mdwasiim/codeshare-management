@@ -55,7 +55,7 @@ export class MenuManagementService {
     // DELETE
     // -----------------------------
     delete(id: string) {
-        return this.api.delete<void>('menu.base', {
+        return this.api.delete<void>('menu.byId', {
             pathParams: { id }
         }).pipe(
             tap(() => {

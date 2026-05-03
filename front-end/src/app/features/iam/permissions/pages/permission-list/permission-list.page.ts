@@ -43,9 +43,9 @@ export class PermissionListPage extends BaseListComponent<Permission> {
     selectedPermissions: Permission[] = [];
 
     @ViewChild('dt') dt!: Table;
-
+    tenantId = 'QR';
     fetch() {
-        return this.service.getAll();
+        return this.service.getAll(this.tenantId);
     }
 
     // =========================

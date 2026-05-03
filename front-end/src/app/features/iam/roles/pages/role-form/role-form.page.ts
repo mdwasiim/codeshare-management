@@ -19,6 +19,9 @@ import { DialogModule } from 'primeng/dialog';
 import { Role } from '@features/iam/models/role.model';
 import { RoleService } from '../../services/role.service';
 import { BaseCrudForm } from '@core/base/base-crud-form.component';
+import {SelectModule} from "primeng/select";
+import {Tenant} from "@features/iam/models/tenant.model";
+import {TenantService} from "@features/iam/tenants/services/tenant.service";
 
 @Component({
     selector: 'role-form',
@@ -28,7 +31,8 @@ import { BaseCrudForm } from '@core/base/base-crud-form.component';
         ReactiveFormsModule,
         InputTextModule,
         ButtonModule,
-        DialogModule
+        DialogModule,
+        SelectModule
     ],
     templateUrl: './role-form.page.html'
 })
@@ -42,9 +46,10 @@ export class RoleFormPage
     @Input() visible = false;
 
     @Output() visibleChange = new EventEmitter<boolean>();
-
+    tenants: Tenant[] = [];
     private fb = inject(FormBuilder);
     private service = inject(RoleService);
+    private tenantService = inject(TenantService);
 
 
     // =========================
@@ -52,6 +57,9 @@ export class RoleFormPage
     // =========================
     ngOnInit(): void {
         this.buildForm();
+        this.tenantService.getAll().subscribe(res => {
+            this.tenants = res;
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {

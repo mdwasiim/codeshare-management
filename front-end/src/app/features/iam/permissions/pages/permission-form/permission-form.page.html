@@ -8,19 +8,45 @@
 
         <div class="grid grid-cols-2 gap-3">
 
+            <!-- Name -->
             <input pInputText placeholder="Name" formControlName="name" />
 
-            <input pInputText placeholder="Domain (e.g. user)" formControlName="domain" />
+            <!-- Tenant -->
+            <p-select
+                [options]="tenants"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Select Tenant"
+                formControlName="tenantId">
+            </p-select>
 
-            <input pInputText placeholder="Action (e.g. create)" formControlName="action" />
+            <!-- Domain -->
+            <p-select
+                [options]="domains"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Select Domain"
+                formControlName="domain">
+            </p-select>
 
-            <input pInputText placeholder="Description" formControlName="description" />
+            <!-- Action -->
+            <p-select
+                [options]="actions"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Select Action"
+                formControlName="action">
+            </p-select>
+
+            <!-- Description -->
+            <div class="col-span-2">
+                <input pInputText placeholder="Description" formControlName="description" />
+            </div>
 
         </div>
 
         <div class="flex justify-end gap-2 mt-4">
 
-            <!-- Cancel -->
             <button
                 pButton
                 label="Cancel"
@@ -29,18 +55,15 @@
                 type="button">
             </button>
 
-            <!-- Save -->
             <button
                 pButton
                 label="Save"
                 icon="pi pi-check"
                 (click)="submit()"
-                [disabled]="form.invalid || loading"
                 type="button">
             </button>
 
         </div>
 
     </form>
-
 </p-dialog>

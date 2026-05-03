@@ -22,6 +22,8 @@ import { SelectModule } from 'primeng/select';
 import { UserService } from '@features/iam/users/services/user.service';
 import { User } from '@features/iam/models/user.model';
 import { BaseCrudForm } from '@core/base/base-crud-form.component';
+import {Tenant} from "@features/iam/models/tenant.model";
+import {TenantService} from "@features/iam/tenants/services/tenant.service";
 
 @Component({
     selector: 'user-form',
@@ -51,20 +53,19 @@ export class UserFormPage
 
     private fb = inject(FormBuilder);
     private service = inject(UserService);
+    private tenantService =  inject(TenantService);
 
     // =========================
     // Static Data (demo)
     // =========================
-    tenants = [
-        { id: 'QR', name: 'Qatar Airways' },
-        { id: 'EK', name: 'Emirates' }
-    ];
+    tenants: Tenant[] = [];
 
     // =========================
     // Lifecycle
     // =========================
     ngOnInit(): void {
         this.buildForm();
+        this.tenantService.getAll().subscribe(res => this.tenants = res);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -80,14 +81,30 @@ export class UserFormPage
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],
-            username: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
+
+            username: [''],
+            email: [''],
             password: [''],
+
             firstName: [''],
             lastName: [''],
+
             enabled: [true],
             accountNonLocked: [true],
-            tenantId: ['', Validators.required]
+            accountNonExpired: [true],
+            credentialsNonExpired: [true],
+
+            lastLogin: [''],
+            lastLoginProvider: [''],
+
+            externalId: [''],
+
+            authSource: ['INTERNAL'],
+            recordStatus: ['ACTIVE'],
+
+            tenantId: [''],
+
+            roleIds: [[]] // for roles mapping
         });
     }
 
@@ -102,7 +119,7 @@ export class UserFormPage
         return this.service.getById(id);
     }
 
-    create(payload: any) {
+    create(payload: User) {
         return this.service.create(this.mapToModel(payload));
     }
 
@@ -113,10 +130,19 @@ export class UserFormPage
     // =========================
     // Payload Mapper
     // =========================
-    private mapToModel(formValue: any): any {
+    private mapToModel(formValue: User): User {
         const payload: any = { ...formValue };
 
-        // remove password if empty in edit
+        // ✅ FIX: map tenantId → tenant object
+        if (payload.tenantId) {
+            payload.tenant = { id: payload.tenantId };
+        }
+        delete payload.tenantId;
+
+        if (!payload.authSource) {
+            payload.authSource = 'LOCAL';
+        }
+
         if (this.id && !payload.password) {
             delete payload.password;
         }

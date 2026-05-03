@@ -19,6 +19,9 @@ import { DialogModule } from 'primeng/dialog';
 import { Group } from '@features/iam/models/group.model';
 import { GroupService } from '../../services/group.service';
 import { BaseCrudForm } from '@core/base/base-crud-form.component';
+import {TenantService} from "@features/iam/tenants/services/tenant.service";
+import {Tenant} from "@features/iam/models/tenant.model";
+import {SelectModule} from "primeng/select";
 
 @Component({
     selector: 'group-form',
@@ -28,7 +31,8 @@ import { BaseCrudForm } from '@core/base/base-crud-form.component';
         ReactiveFormsModule,
         InputTextModule,
         ButtonModule,
-        DialogModule
+        DialogModule,
+        SelectModule
     ],
     templateUrl: './group-form.page.html'
 })
@@ -42,9 +46,10 @@ export class GroupFormPage
     @Input() visible = false;
 
     @Output() visibleChange = new EventEmitter<boolean>();
-
+    tenants: Tenant[] = [];
     private fb = inject(FormBuilder);
     private service = inject(GroupService);
+    private tenantService = inject(TenantService);
 
 
     // =========================
@@ -52,6 +57,9 @@ export class GroupFormPage
     // =========================
     ngOnInit(): void {
         this.buildForm();
+        this.tenantService.getAll().subscribe(res => {
+            this.tenants = res;
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {

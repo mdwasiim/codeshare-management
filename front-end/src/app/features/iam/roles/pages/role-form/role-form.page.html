@@ -12,9 +12,20 @@
 
             <input pInputText placeholder="Name" formControlName="name" />
 
-            <input pInputText placeholder="Description" formControlName="description" />
+            <div class="col-span-2">
+                <input pInputText placeholder="Description" formControlName="description" />
+            </div>
 
-            <input pInputText placeholder="Tenant ID" formControlName="tenantId" />
+            <!-- ✅ FIXED -->
+            <div class="col-span-2">
+                <p-select
+                    [options]="tenants"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder="Select Tenant"
+                    formControlName="tenantId">
+                </p-select>
+            </div>
 
         </div>
 

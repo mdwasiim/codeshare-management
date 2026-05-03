@@ -16,6 +16,7 @@ import { BaseListComponent } from '@core/base/base-list.component';
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
 import { GroupFormPage } from '@features/iam/groups/pages/group-form/group-form.page';
+import {SelectModule} from "primeng/select";
 
 @Component({
     selector: 'app-group-list',
@@ -28,7 +29,8 @@ import { GroupFormPage } from '@features/iam/groups/pages/group-form/group-form.
         ConfirmDialogModule,
         ToastModule,
         ToolbarActionComponent,
-        GroupFormPage
+        GroupFormPage,
+        SelectModule
     ],
     templateUrl: './group-list.page.html',
     providers: [ConfirmationService, MessageService]

@@ -15,7 +15,7 @@ export class GroupService {
     // -----------------------------
     getAll(tenantId: string) {
         return this.api.get<Group[]>('groups.base', {
-            params: { tenantId }
+            /*params: { tenantId }*/
         });
     }
 
