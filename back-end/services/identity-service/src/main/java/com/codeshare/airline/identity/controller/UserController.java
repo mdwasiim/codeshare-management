@@ -20,7 +20,7 @@ public class UserController {
     // CREATE USER
     // ---------------------------------------------------------------------
     @PostMapping
-    public AuthUserDTO create(@Valid @RequestBody AuthUserDTO dto) {
+    public AuthUserDTO create(@RequestBody AuthUserDTO dto) {
         return authUserService.create(dto);
     }
 

@@ -2,8 +2,12 @@ package com.codeshare.airline.identity.service.serviceImpl;
 
 import com.codeshare.airline.core.dto.tenant.GroupDTO;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
+import com.codeshare.airline.identity.authentication.domain.TenantContext;
+import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.entities.Group;
+import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.repository.GroupRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.GroupService;
 import com.codeshare.airline.identity.utils.mappers.GroupMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +24,20 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupRepository groupRepository;
     private final GroupMapper mapper;
+    private final TenantRepository tenantRepository;
 
     // --------------------------------------------------------------------
     // CREATE NEW GROUP
     // --------------------------------------------------------------------
     @Override
     public GroupDTO create(GroupDTO dto) {
+
+        // 🔥 Get tenant from context (NOT from DTO)
+        TenantContext ctx = TenantContextHolder.getTenant();
+
+        // 🔥 Fetch tenant entity
+        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
+                .orElseThrow(() -> new RuntimeException("Tenant not found"));
 
         if (dto.getTenantId() == null)
             throw new IllegalArgumentException("tenantId is required");
@@ -36,8 +48,9 @@ public class GroupServiceImpl implements GroupService {
         // Check duplicate name inside ingestion
         if (groupRepository.existsByNameAndTenantId(dto.getName(), dto.getTenantId()))
             throw new RuntimeException("Group with same name already exists for ingestion");
-
-        Group saved = groupRepository.save(mapper.toEntity(dto));
+        Group entity = mapper.toEntity(dto);
+        entity.setTenant(tenant);
+        Group saved = groupRepository.save(entity);
         return mapper.toDTO(saved);
     }
 

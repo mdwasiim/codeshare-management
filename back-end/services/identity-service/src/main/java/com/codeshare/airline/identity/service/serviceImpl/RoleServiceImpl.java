@@ -1,7 +1,11 @@
 package com.codeshare.airline.identity.service.serviceImpl;
 
+import com.codeshare.airline.identity.authentication.domain.TenantContext;
+import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.entities.Role;
+import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.repository.RoleRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.RoleService;
 import com.codeshare.airline.identity.utils.mappers.RoleMapper;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
@@ -19,13 +23,19 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository repo;
     private final RoleMapper mapper;
+    private final TenantRepository tenantRepository;
 
     // --------------------------------------------------------------------
     // CREATE NEW ROLE
     // --------------------------------------------------------------------
     @Override
     public RoleDTO create(RoleDTO dto) {
+        // 🔥 Get tenant from context (NOT from DTO)
+        TenantContext ctx = TenantContextHolder.getTenant();
 
+        // 🔥 Fetch tenant entity
+        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
+                .orElseThrow(() -> new RuntimeException("Tenant not found"));
         if (dto.getTenantId() == null) {
             throw new IllegalArgumentException("tenantId is required");
         }
@@ -35,6 +45,7 @@ public class RoleServiceImpl implements RoleService {
         }
 
         Role entity = mapper.toEntity(dto);
+        entity.setTenant(tenant);
         return mapper.toDTO(repo.save(entity));
     }
 

@@ -4,8 +4,12 @@ package com.codeshare.airline.identity.service.serviceImpl;
 import com.codeshare.airline.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.core.exceptions.CSMBusinessException;
 import com.codeshare.airline.core.exceptions.CSMErrorCodes;
+import com.codeshare.airline.identity.authentication.domain.TenantContext;
+import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.entities.Permission;
+import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.repository.PermissionRepository;
+import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.PermissionService;
 import com.codeshare.airline.identity.utils.mappers.PermissionMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +28,18 @@ public class PermissionServiceImpl implements PermissionService {
 
     private final PermissionRepository repo;
     private final PermissionMapper mapper;
-
+    private final TenantRepository tenantRepository;
     // ================================================================
     // CREATE PERMISSION
     // ================================================================
     @Override
     public PermissionDTO create(PermissionDTO dto) {
+        // 🔥 Get tenant from context (NOT from DTO)
+        TenantContext ctx = TenantContextHolder.getTenant();
 
+        // 🔥 Fetch tenant entity
+        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
+                .orElseThrow(() -> new RuntimeException("Tenant not found"));
         if (dto.getTenantId() == null)
             throw new CSMBusinessException(CSMErrorCodes.VALIDATION_ERROR, "tenantId is required");
 
@@ -49,7 +58,7 @@ public class PermissionServiceImpl implements PermissionService {
         dto.setCode(code);  // enforce domain:action convention
 
         Permission entity = mapper.toEntity(dto);
-
+        entity.setTenant(tenant);
         Permission saved = repo.save(entity);
         log.info(" Permission created: {}", saved.getCode());
 
