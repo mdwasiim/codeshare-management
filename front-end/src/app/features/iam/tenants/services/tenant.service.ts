@@ -11,8 +11,7 @@ export class TenantService  {
     private toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<Tenant[]>('tenants.base', {
-        });
+        return this.api.get<Tenant[]>('tenants.base');
     }
 
     getById(id: string) {

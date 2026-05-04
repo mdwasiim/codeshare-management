@@ -1,28 +1,28 @@
 package com.codeshare.airline.identity.service;
 
 
+import com.codeshare.airline.core.dto.auth.UserDeviceDTO;
 import com.codeshare.airline.identity.entities.User;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
-import com.codeshare.airline.core.dto.auth.AuthUserDeviceDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface AuthUserDeviceService {
 
-    AuthUserDeviceDTO create(AuthUserDeviceDTO dto);
+    UserDeviceDTO create(UserDeviceDTO dto);
 
-    AuthUserDeviceDTO update(UUID id, AuthUserDeviceDTO dto);
+    UserDeviceDTO update(UUID id, UserDeviceDTO dto);
 
-    List<AuthUserDeviceDTO> getDevicesByUserId(UUID userId);
+    List<UserDeviceDTO> getDevicesByUserId(UUID userId);
 
-    AuthUserDeviceDTO registerDevice(AuthUserDTO user, AuthUserDeviceDTO request);
+    UserDeviceDTO registerDevice(AuthUserDTO user, UserDeviceDTO request);
 
-    AuthUserDeviceDTO updateTrust(AuthUserDTO user, String deviceId, boolean trusted);
+    UserDeviceDTO updateTrust(AuthUserDTO user, String deviceId, boolean trusted);
 
     void deleteDevice(AuthUserDTO user, String deviceId);
 
-    AuthUserDeviceDTO findOrRegisterDevice(UUID id, UUID tenantId, String deviceId);
+    UserDeviceDTO findOrRegisterDevice(UUID id, UUID tenantId, String deviceId);
 
     void track(User User, String deviceId, String userAgent, String ip);
 }

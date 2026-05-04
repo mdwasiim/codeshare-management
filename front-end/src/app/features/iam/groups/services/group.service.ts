@@ -13,10 +13,8 @@ export class GroupService {
     // -----------------------------
     // GET ALL
     // -----------------------------
-    getAll(tenantId: string) {
-        return this.api.get<Group[]>('groups.base', {
-            /*params: { tenantId }*/
-        });
+    getAll() {
+        return this.api.get<Group[]>('groups.base');
     }
 
     // -----------------------------

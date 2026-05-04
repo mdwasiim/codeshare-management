@@ -1,69 +1,61 @@
-<p-dialog
+<csm-dialog
     [(visible)]="visible"
-    [modal]="true"
-    [style]="{ width: '500px' }"
-    [header]="isEdit ? 'Edit Permission' : 'Create Permission'">
+    [title]="isEdit ? 'Edit Permission' : 'Create Permission'"
+    [width]="'600px'"
+    [disableSave]="form.invalid"
+    (save)="submit()">
 
     <form [formGroup]="form" class="p-fluid">
 
-        <div class="grid grid-cols-2 gap-3">
+        <csm-form-section title="Permission Details">
+            <div class="grid formgrid">
 
-            <!-- Name -->
-            <input pInputText placeholder="Name" formControlName="name" />
+                <div class="col-12 md:col-6 field">
+                    <label>Name</label>
+                    <input pInputText formControlName="name" class="w-full" />
+                </div>
 
-            <!-- Tenant -->
-            <p-select
-                [options]="tenants"
-                optionLabel="name"
-                optionValue="id"
-                placeholder="Select Tenant"
-                formControlName="tenantId">
-            </p-select>
+                <div class="col-12 md:col-6 field">
+                    <label>Tenant</label>
+                    <p-select
+                        [options]="tenants"
+                        optionLabel="name"
+                        optionValue="id"
+                        formControlName="tenantId"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
 
-            <!-- Domain -->
-            <p-select
-                [options]="domains"
-                optionLabel="name"
-                optionValue="code"
-                placeholder="Select Domain"
-                formControlName="domain">
-            </p-select>
+                <div class="col-12 md:col-6 field">
+                    <label>Domain</label>
+                    <p-select
+                        [options]="domains"
+                        optionLabel="name"
+                        optionValue="code"
+                        formControlName="domain"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
 
-            <!-- Action -->
-            <p-select
-                [options]="actions"
-                optionLabel="name"
-                optionValue="code"
-                placeholder="Select Action"
-                formControlName="action">
-            </p-select>
+                <div class="col-12 md:col-6 field">
+                    <label>Action</label>
+                    <p-select
+                        [options]="actions"
+                        optionLabel="name"
+                        optionValue="code"
+                        formControlName="action"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
 
-            <!-- Description -->
-            <div class="col-span-2">
-                <input pInputText placeholder="Description" formControlName="description" />
+                <div class="col-12 field">
+                    <label>Description</label>
+                    <input pInputText formControlName="description" class="w-full" />
+                </div>
+
             </div>
-
-        </div>
-
-        <div class="flex justify-end gap-2 mt-4">
-
-            <button
-                pButton
-                label="Cancel"
-                class="p-button-text"
-                (click)="visibleChange.emit(false)"
-                type="button">
-            </button>
-
-            <button
-                pButton
-                label="Save"
-                icon="pi pi-check"
-                (click)="submit()"
-                type="button">
-            </button>
-
-        </div>
+        </csm-form-section>
 
     </form>
-</p-dialog>
+
+</csm-dialog>

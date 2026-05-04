@@ -4,9 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
-import {ConfirmationService, MessageService} from 'primeng/api';
 
 import { forkJoin } from 'rxjs';
 
@@ -17,28 +14,28 @@ import { RoleService } from '../../services/role.service';
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
 import { RoleFormPage } from '@features/iam/roles/pages/role-form/role-form.page';
 
+// ✅ wrapper services
+import { AppToastService } from '@core/services/app-toast.service';
+import { CsmConfirmService } from '@core/services/csm-confirm.service';
+import {Tooltip, TooltipModule} from "primeng/tooltip";
+import {PRIMENG_IMPORTS} from "@shared/primeng/primeng.imports";
+
 @Component({
     selector: 'role-list',
     standalone: true,
     imports: [
         CommonModule,
-        TableModule,
-        ButtonModule,
-        TagModule,
-        ConfirmDialogModule,
-        ToastModule,
         ToolbarActionComponent,
-        RoleFormPage
+        RoleFormPage,
+        PRIMENG_IMPORTS
     ],
-    templateUrl: './role-list.page.html',
-    providers: [ConfirmationService, MessageService]
+    templateUrl: './role-list.page.html'
 })
 export class RoleListPage extends BaseListComponent<Role> {
 
     private service = inject(RoleService);
-    private confirmationService = inject(ConfirmationService);
-
-    tenantId = 'QR';
+    private toast = inject(AppToastService);
+    private confirm = inject(CsmConfirmService);
 
     dialogVisible = false;
     selectedRoleId: string | null = null;
@@ -47,11 +44,11 @@ export class RoleListPage extends BaseListComponent<Role> {
     @ViewChild('dt') dt!: Table;
 
     fetch() {
-        return this.service.getAll(this.tenantId);
+        return this.service.getAll();
     }
 
     // =========================
-    // Toolbar Actions
+    // Actions
     // =========================
 
     openCreate() {
@@ -67,36 +64,43 @@ export class RoleListPage extends BaseListComponent<Role> {
     deleteSelectedRoles() {
         if (!this.selectedRoles.length) return;
 
-        this.confirmationService.confirm({
-            message: 'Delete selected roles?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                const requests = this.selectedRoles.map(r =>
-                    this.service.delete(r.id!)
-                );
+        this.confirm.delete('Delete selected roles?', () => {
+            const requests = this.selectedRoles.map(r =>
+                this.service.delete(r.id!)
+            );
 
-                forkJoin(requests).subscribe(() => {
+            forkJoin(requests).subscribe({
+                next: () => {
+                    this.toast.success('Roles deleted successfully');
                     this.refresh();
                     this.selectedRoles = [];
-                });
-            }
+                },
+                error: () => {
+                    this.toast.error('Failed to delete roles');
+                }
+            });
         });
     }
 
     deleteRole(role: Role) {
-        this.confirmationService.confirm({
-            message: `Delete role "${role.name}"?`,
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.service.delete(role.id!)
-                    .subscribe(() => this.refresh());
+        this.confirm.delete(
+            `Delete role "${role.name}"?`,
+            () => {
+                this.service.delete(role.id!).subscribe({
+                    next: () => {
+                        this.toast.success('Role deleted successfully');
+                        this.refresh();
+                    },
+                    error: () => {
+                        this.toast.error('Delete failed');
+                    }
+                });
             }
-        });
+        );
     }
 
     onSaved() {
+        this.dialogVisible = false;
         this.refresh();
     }
 

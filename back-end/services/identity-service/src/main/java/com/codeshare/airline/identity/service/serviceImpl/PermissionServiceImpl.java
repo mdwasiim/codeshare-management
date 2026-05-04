@@ -4,13 +4,13 @@ package com.codeshare.airline.identity.service.serviceImpl;
 import com.codeshare.airline.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.core.exceptions.CSMBusinessException;
 import com.codeshare.airline.core.exceptions.CSMErrorCodes;
-import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.entities.Permission;
 import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.repository.PermissionRepository;
 import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.PermissionService;
+import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.PermissionMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,17 +29,14 @@ public class PermissionServiceImpl implements PermissionService {
     private final PermissionRepository repo;
     private final PermissionMapper mapper;
     private final TenantRepository tenantRepository;
+    private final TenantService tenantService;
     // ================================================================
     // CREATE PERMISSION
     // ================================================================
     @Override
     public PermissionDTO create(PermissionDTO dto) {
-        // 🔥 Get tenant from context (NOT from DTO)
-        TenantContext ctx = TenantContextHolder.getTenant();
-
         // 🔥 Fetch tenant entity
-        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
-                .orElseThrow(() -> new RuntimeException("Tenant not found"));
+        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
         if (dto.getTenantId() == null)
             throw new CSMBusinessException(CSMErrorCodes.VALIDATION_ERROR, "tenantId is required");
 
@@ -110,12 +107,12 @@ public class PermissionServiceImpl implements PermissionService {
     // ================================================================
     @Override
     @Transactional(readOnly = true)
-    public List<PermissionDTO> getByTenant(UUID tenantId) {
-
-        List<Permission> list = repo.findByTenantId(tenantId);
+    public List<PermissionDTO> getAllTenant() {
+        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
+        List<Permission> list = repo.findByTenantId(tenant.getId());
 
         if (list.isEmpty()) {
-            log.warn("⚠ No permissions found for ingestion {}", tenantId);
+            log.warn("⚠ No permissions found for ingestion {}", tenant.getTenantCode());
         }
 
         return mapper.toDTOList(list);

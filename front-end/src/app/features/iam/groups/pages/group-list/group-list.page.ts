@@ -4,9 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
-import {ConfirmationService, MessageService} from 'primeng/api';
 
 import { forkJoin } from 'rxjs';
 
@@ -16,7 +13,11 @@ import { BaseListComponent } from '@core/base/base-list.component';
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
 import { GroupFormPage } from '@features/iam/groups/pages/group-form/group-form.page';
-import {SelectModule} from "primeng/select";
+
+// ✅ wrapper services
+import { AppToastService } from '@core/services/app-toast.service';
+import { CsmConfirmService } from '@core/services/csm-confirm.service';
+import {Tooltip} from "primeng/tooltip";
 
 @Component({
     selector: 'app-group-list',
@@ -26,21 +27,17 @@ import {SelectModule} from "primeng/select";
         TableModule,
         ButtonModule,
         TagModule,
-        ConfirmDialogModule,
-        ToastModule,
         ToolbarActionComponent,
         GroupFormPage,
-        SelectModule
+        Tooltip
     ],
-    templateUrl: './group-list.page.html',
-    providers: [ConfirmationService, MessageService]
+    templateUrl: './group-list.page.html'
 })
 export class GroupListPage extends BaseListComponent<Group> {
 
     private service = inject(GroupService);
-    private confirmationService = inject(ConfirmationService);
-
-    tenantId = 'QR';
+    private toast = inject(AppToastService);
+    private confirm = inject(CsmConfirmService);
 
     dialogVisible = false;
     selectedGroupId: string | null = null;
@@ -49,11 +46,11 @@ export class GroupListPage extends BaseListComponent<Group> {
     @ViewChild('dt') dt!: Table;
 
     fetch() {
-        return this.service.getAll(this.tenantId);
+        return this.service.getAll();
     }
 
     // =========================
-    // Toolbar Actions
+    // Actions
     // =========================
 
     openCreate() {
@@ -69,36 +66,44 @@ export class GroupListPage extends BaseListComponent<Group> {
     deleteSelectedGroups() {
         if (!this.selectedGroups.length) return;
 
-        this.confirmationService.confirm({
-            message: 'Delete selected groups?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                const requests = this.selectedGroups.map(g =>
-                    this.service.delete(g.id!)
-                );
+        this.confirm.delete('Delete selected groups?', () => {
+            const requests = this.selectedGroups.map(g =>
+                this.service.delete(g.id!)
+            );
 
-                forkJoin(requests).subscribe(() => {
+            forkJoin(requests).subscribe({
+                next: () => {
+                    this.toast.success('Groups deleted successfully');
                     this.refresh();
                     this.selectedGroups = [];
-                });
-            }
+                },
+                error: () => {
+                    this.toast.error('Failed to delete groups');
+                }
+            });
         });
     }
 
     deleteGroup(group: Group) {
-        this.confirmationService.confirm({
-            message: `Delete group "${group.name}"?`,
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.service.delete(group.id!)
-                    .subscribe(() => this.refresh());
+        this.confirm.delete(
+            `Delete group "${group.name}"?`,
+            () => {
+                this.service.delete(group.id!).subscribe({
+                    next: () => {
+                        this.toast.success('Group deleted successfully');
+                        this.refresh();
+                    },
+                    error: () => {
+                        this.toast.error('Delete failed');
+                    }
+                });
             }
-        });
+        );
     }
 
     onSaved() {
+        this.toast.success('Group saved successfully');
+        this.dialogVisible = false;
         this.refresh();
     }
 

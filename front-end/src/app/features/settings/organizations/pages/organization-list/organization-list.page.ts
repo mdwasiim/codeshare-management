@@ -4,21 +4,22 @@ import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
-import {ConfirmationService, MessageService} from 'primeng/api';
 
-import {forkJoin, Observable, of} from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 
 import { BaseListComponent } from '@core/base/base-list.component';
 import { Organization } from "@features/settings/model/organization.model";
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
-import {OrganizationFormPage} from "@features/settings/organizations/pages/organization-form/organization-form.page";
+import { OrganizationFormPage } from "@features/settings/organizations/pages/organization-form/organization-form.page";
+
+// ✅ your wrappers
+import { AppToastService } from '@core/services/app-toast.service';
+import { CsmConfirmService } from '@core/services/csm-confirm.service';
+import {TooltipModule} from "primeng/tooltip";
 
 // TEMP mock
 class MockOrgService {
-
     getAll(): Observable<Organization[]> {
         return of([
             { id: '1', name: 'Qatar Airways', code: 'QR', status: 'ACTIVE' },
@@ -39,18 +40,17 @@ class MockOrgService {
         TableModule,
         ButtonModule,
         TagModule,
-        ConfirmDialogModule,
-        ToastModule,
+        TooltipModule,
         ToolbarActionComponent,
         OrganizationFormPage
     ],
-    templateUrl: './organization-list.page.html',
-    providers: [ConfirmationService, MessageService]
+    templateUrl: './organization-list.page.html'
 })
 export class OrganizationListPage extends BaseListComponent<Organization> {
 
     private service = new MockOrgService(); // replace later
-    private confirmationService = inject(ConfirmationService);
+    private toast = inject(AppToastService);
+    private confirm = inject(CsmConfirmService);
 
     dialogVisible = false;
     selectedOrganizationId: string | null = null;
@@ -63,12 +63,16 @@ export class OrganizationListPage extends BaseListComponent<Organization> {
     }
 
     // =========================
-    // Toolbar Actions
+    // Actions
     // =========================
 
     openCreate() {
-        this.selectedOrganizationId = null;
-        this.dialogVisible = true;
+        this.dialogVisible = false;
+
+        setTimeout(() => {
+            this.selectedOrganizationId = null;
+            this.dialogVisible = true;
+        });
     }
 
     openEdit(org: Organization) {
@@ -79,36 +83,44 @@ export class OrganizationListPage extends BaseListComponent<Organization> {
     deleteSelectedOrganizations() {
         if (!this.selectedOrganizations.length) return;
 
-        this.confirmationService.confirm({
-            message: 'Delete selected organizations?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                const requests = this.selectedOrganizations.map(o =>
-                    this.service.delete(o.id!)
-                );
+        this.confirm.delete('Delete selected organizations?', () => {
+            const requests = this.selectedOrganizations.map(o =>
+                this.service.delete(o.id!)
+            );
 
-                forkJoin(requests).subscribe(() => {
+            forkJoin(requests).subscribe({
+                next: () => {
+                    this.toast.success('Organizations deleted successfully');
                     this.refresh();
                     this.selectedOrganizations = [];
-                });
-            }
+                },
+                error: () => {
+                    this.toast.error('Failed to delete organizations');
+                }
+            });
         });
     }
 
     deleteOrganization(org: Organization) {
-        this.confirmationService.confirm({
-            message: `Delete "${org.name}"?`,
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.service.delete(org.id!)
-                    .subscribe(() => this.refresh());
+        this.confirm.delete(
+            `Delete "${org.name}"?`,
+            () => {
+                this.service.delete(org.id!).subscribe({
+                    next: () => {
+                        this.toast.success('Organization deleted successfully');
+                        this.refresh();
+                    },
+                    error: () => {
+                        this.toast.error('Delete failed');
+                    }
+                });
             }
-        });
+        );
     }
 
     onSaved() {
+        this.toast.success('Organization saved successfully');
+        this.dialogVisible = false;
         this.refresh();
     }
 

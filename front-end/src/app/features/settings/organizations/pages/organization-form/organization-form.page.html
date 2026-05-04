@@ -1,48 +1,40 @@
-<p-dialog
+<csm-dialog
     [(visible)]="visible"
-    [modal]="true"
-    [style]="{ width: '500px' }"
-    [header]="isEdit ? 'Edit Organization' : 'Create Organization'">
+    [title]="isEdit ? 'Edit Organization' : 'Create Organization'"
+    [width]="'500px'"
+    [disableSave]="form.invalid || loading"
+    (save)="submit()">
 
     <form [formGroup]="form" class="p-fluid">
 
-        <div class="grid grid-cols-2 gap-3">
+        <csm-form-section title="Organization Details">
+            <div class="grid formgrid">
 
-            <input pInputText placeholder="Name" formControlName="name" />
+                <div class="col-12 md:col-6 field">
+                    <label>Name</label>
+                    <input pInputText formControlName="name" class="w-full" />
+                </div>
 
-            <input pInputText placeholder="Code" formControlName="code" />
+                <div class="col-12 md:col-6 field">
+                    <label>Code</label>
+                    <input pInputText formControlName="code" class="w-full" />
+                </div>
 
-            <p-select
-                [options]="statusOptions"
-                optionLabel="label"
-                optionValue="value"
-                formControlName="status"
-                placeholder="Select Status">
-            </p-select>
+                <div class="col-12 field">
+                    <label>Status</label>
+                    <p-select
+                        [options]="statusOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        formControlName="status"
+                        placeholder="Select Status"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
 
-        </div>
-
-        <div class="flex justify-end gap-2 mt-4">
-
-            <button
-                pButton
-                label="Cancel"
-                class="p-button-text"
-                (click)="visibleChange.emit(false)"
-                type="button">
-            </button>
-
-            <button
-                pButton
-                label="Save"
-                icon="pi pi-check"
-                (click)="submit()"
-                [disabled]="form.invalid || loading"
-                type="button">
-            </button>
-
-        </div>
+            </div>
+        </csm-form-section>
 
     </form>
 
-</p-dialog>
+</csm-dialog>

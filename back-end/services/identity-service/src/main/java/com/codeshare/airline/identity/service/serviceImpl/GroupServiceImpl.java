@@ -2,13 +2,12 @@ package com.codeshare.airline.identity.service.serviceImpl;
 
 import com.codeshare.airline.core.dto.tenant.GroupDTO;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
-import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.entities.Group;
 import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.repository.GroupRepository;
-import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.GroupService;
+import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.GroupMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupRepository groupRepository;
     private final GroupMapper mapper;
-    private final TenantRepository tenantRepository;
+    private final TenantService tenantService;
 
     // --------------------------------------------------------------------
     // CREATE NEW GROUP
@@ -32,12 +31,8 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupDTO create(GroupDTO dto) {
 
-        // 🔥 Get tenant from context (NOT from DTO)
-        TenantContext ctx = TenantContextHolder.getTenant();
-
         // 🔥 Fetch tenant entity
-        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
-                .orElseThrow(() -> new RuntimeException("Tenant not found"));
+        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
 
         if (dto.getTenantId() == null)
             throw new IllegalArgumentException("tenantId is required");
@@ -83,18 +78,17 @@ public class GroupServiceImpl implements GroupService {
         return mapper.toDTO(entity);
     }
 
-
+    @Override
+    public List<GroupDTO> getAll() {
+        // 🔥 Fetch tenant entity
+        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
+        return mapper.toDTOList(groupRepository.findAll());
+    }
     // --------------------------------------------------------------------
     // GET GROUPS BY TENANT
     // --------------------------------------------------------------------
-    @Override
     public List<GroupDTO> getByTenant(UUID tenantId) {
         return mapper.toDTOList(groupRepository.findByTenantId(tenantId));
-    }
-
-    @Override
-    public List<GroupDTO> getAll() {
-        return mapper.toDTOList(groupRepository.findAll());
     }
 
 

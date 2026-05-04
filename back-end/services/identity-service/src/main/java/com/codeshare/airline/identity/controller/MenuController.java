@@ -1,8 +1,6 @@
 package com.codeshare.airline.identity.controller;
 
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
-import com.codeshare.airline.identity.authentication.domain.TenantContext;
-import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.service.MenuService;
 import com.codeshare.airline.web.response.CSMResponse;
 import lombok.RequiredArgsConstructor;
@@ -54,15 +52,11 @@ public class MenuController  {
     // GET ALL MENUS FOR TENANT
     // -----------------------------------------------------------
     @GetMapping
-    public List<MenuDTO> getAll(
-            @RequestParam(required = false) Boolean rootOnly
-    ) {
-        TenantContext tenant = TenantContextHolder.getTenant();
-
+    public List<MenuDTO> getAll(  @RequestParam(required = false) Boolean rootOnly) {
         if (Boolean.TRUE.equals(rootOnly)) {
-            return service.getRootMenus(UUID.fromString(tenant.getTenantCode()));
+            return service.getRootMenus();
         }
 
-        return service.getAllByTenant(tenant.getTenantCode());
+        return service.getAllByTenant();
     }
 }

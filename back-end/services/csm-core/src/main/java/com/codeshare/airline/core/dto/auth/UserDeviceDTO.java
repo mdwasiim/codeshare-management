@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class AuthUserDeviceDTO extends CSMAuditableDTO {
+public class UserDeviceDTO extends CSMAuditableDTO {
     private String deviceId;
 
     private String userAgent;

@@ -1,0 +1,18 @@
+.section-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 12px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.field label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 500;
+}

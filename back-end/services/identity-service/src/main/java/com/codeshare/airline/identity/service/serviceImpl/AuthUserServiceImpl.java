@@ -4,7 +4,6 @@ package com.codeshare.airline.identity.service.serviceImpl;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
-import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.authentication.security.adapter.UserDetailsAdapter;
 import com.codeshare.airline.identity.entities.Tenant;
@@ -12,6 +11,7 @@ import com.codeshare.airline.identity.entities.User;
 import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.repository.UserRepository;
 import com.codeshare.airline.identity.service.AuthUserService;
+import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.AuthUserMapper;
 import com.codeshare.airline.identity.utils.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -31,19 +31,15 @@ public class AuthUserServiceImpl implements AuthUserService {
     private final UserMapper userMapper;
     private final AuthUserMapper authUserMapper;
     private final TenantRepository tenantRepository;
+    private final TenantService tenantService;
 
     // -------------------------------------------------------------------------
     // CREATE NEW USER
     // -------------------------------------------------------------------------
     @Override
     public AuthUserDTO create(AuthUserDTO dto) {
-
-        // 🔥 Get tenant from context (NOT from DTO)
-        TenantContext ctx = TenantContextHolder.getTenant();
-
         // 🔥 Fetch tenant entity
-        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
-                .orElseThrow(() -> new RuntimeException("Tenant not found"));
+        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
 
         // Check username uniqueness
         if (UserRepository.existsByUsername(dto.getUsername())) {

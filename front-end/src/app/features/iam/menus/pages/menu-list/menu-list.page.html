@@ -1,16 +1,19 @@
 <!-- ============================= -->
-<!--  Toolbar (Top Actions)        -->
+<!-- Toolbar -->
 <!-- ============================= -->
 <csm-crud-toolbar
     [actions]="['create','delete','search']"
     [disableDelete]="!selectedMenus.length"
-
     (create)="openCreate()"
     (delete)="deleteSelectedMenus()"
     (search)="onSearch($event)">
 </csm-crud-toolbar>
 
+<!-- ============================= -->
+<!-- Tree Table -->
+<!-- ============================= -->
 <p-treeTable
+    #dt
     [value]="data"
     [(selection)]="selectedMenus"
     dataKey="key"
@@ -28,7 +31,7 @@
             <th>Icon</th>
             <th>Route</th>
             <th>Order</th>
-            <th></th>
+            <th style="width:120px"></th>
         </tr>
     </ng-template>
 
@@ -39,33 +42,53 @@
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
             </td>
 
-            <!-- 🔥 USE rowData -->
             <td>{{ rowData?.label }}</td>
             <td>{{ rowData?.icon || '-' }}</td>
             <td>{{ rowData?.route || '-' }}</td>
             <td>{{ rowData?.displayOrder }}</td>
 
-            <td class="flex gap-2">
-                <p-button icon="pi pi-pencil"
-                          (click)="openEdit(rowData)" />
+            <td>
+                <div class="flex gap-1 justify-center">
+                    <p-button
+                        icon="pi pi-pencil"
+                        size="small"
+                        text
+                        pTooltip="Edit"
+                        tooltipPosition="top"
+                        (click)="openEdit(rowData)">
+                    </p-button>
 
-                <p-button icon="pi pi-trash"
-                          severity="danger"
-                          (click)="deleteMenu(rowData)" />
+                    <p-button
+                        icon="pi pi-trash"
+                        size="small"
+                        text
+                        severity="danger"
+                        pTooltip="Delete"
+                        tooltipPosition="top"
+                        (click)="deleteMenu(rowData)">
+                    </p-button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+    <!-- Empty State -->
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6" class="text-center py-6 text-gray-500">
+                <i class="pi pi-sitemap text-2xl mb-2"></i>
+                <div>No menus found</div>
             </td>
         </tr>
     </ng-template>
 
 </p-treeTable>
 
+<!-- ============================= -->
+<!-- Dialog -->
+<!-- ============================= -->
 <menu-form
     [(visible)]="dialogVisible"
     [id]="selectedMenuId"
     (saved)="onSaved()">
 </menu-form>
-
-<!-- ============================= -->
-<!--  Global Confirm Dialog        -->
-<!-- ============================= -->
-<p-confirm-dialog></p-confirm-dialog>
-<p-toast></p-toast>

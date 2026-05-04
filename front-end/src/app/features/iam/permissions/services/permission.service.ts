@@ -14,10 +14,8 @@ export class PermissionService {
     // -----------------------------
     // GET ALL
     // -----------------------------
-    getAll(tenantId: string) {
-        return this.api.get<Permission[]>('permissions.base', {
-            /*params: { tenantId }*/
-        });
+    getAll() {
+        return this.api.get<Permission[]>('permissions.base');
     }
 
     // -----------------------------

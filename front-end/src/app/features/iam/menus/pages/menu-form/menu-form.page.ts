@@ -21,6 +21,8 @@ import { BaseCrudForm } from "@core/base/base-crud-form.component";
 import { LayoutMenuService } from "@layout/services/layout-menu.service";
 import { MenuManagementService } from "@features/iam/menus/services/menu-management.service";
 import {SelectModule} from "primeng/select";
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
 
 @Component({
     selector: 'menu-form',
@@ -31,7 +33,9 @@ import {SelectModule} from "primeng/select";
         InputTextModule,
         ButtonModule,
         DialogModule,
-        SelectModule
+        SelectModule,
+        CsmDialogComponent,
+        CsmFormSectionComponent
     ],
     templateUrl: './menu-form.page.html'
 })
@@ -39,78 +43,75 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
     implements OnInit, OnChanges {
 
     @Input() visible = false;
-
     @Output() visibleChange = new EventEmitter<boolean>();
 
     menuOptions: any[] = [];
+
     private fb = inject(FormBuilder);
     private service = inject(MenuManagementService);
     private layoutMenu = inject(LayoutMenuService);
 
-
-    constructor() {
-        super();
-    }
-
-    // =========================
-    // INIT
-    // =========================
     ngOnInit(): void {
         this.buildForm();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['visible'] && this.visible) {
-            this.init(); // 🔥 important
+            this.init();
             this.loadMenuOptions();
         }
     }
 
     // =========================
-    // BASE METHODS
+    // FORM
     // =========================
 
-    buildForm(): void {
+    override buildForm(): void {
         this.form = this.fb.group({
-            id: [null as string | null],
+            id: [null],
             label: ['', Validators.required],
             icon: [''],
             routerLink: [''],
             displayOrder: [0],
-            parentId: [null as string | null]
+            parentId: [null]
         });
     }
 
-    patchForm(data: AppMenuModel): void {
+    override patchForm(data: AppMenuModel): void {
         this.form.patchValue({
             ...data,
             routerLink: data.routerLink?.[0] || ''
         });
     }
 
-    fetchById(id: string) {
+    override fetchById(id: string) {
         return this.service.getById(id);
     }
 
-    create(payload: any) {
-        debugger;
+    override create(payload: any) {
         return this.service.create(this.mapToModel(payload));
     }
 
-    update(id: string, payload: any) {
+    override update(id: string, payload: any) {
         return this.service.update(id, this.mapToModel(payload));
     }
 
-    loadMenuOptions() {
-        this.service.getAll().subscribe(res => {
-            this.menuOptions = res.map(m => ({
-                label: m.label,
-                value: m.id
-            }));
+    // =========================
+    // LOAD OPTIONS
+    // =========================
 
-            // 🚫 prevent selecting itself as parent (edit mode)
-            if (this.id) {
-                this.menuOptions = this.menuOptions.filter(m => m.value !== this.id);
+    loadMenuOptions() {
+        this.service.getAll().subscribe({
+            next: res => {
+                this.menuOptions = res.map(m => ({
+                    label: m.label,
+                    value: m.id
+                }));
+
+                // prevent self-parent
+                if (this.id) {
+                    this.menuOptions = this.menuOptions.filter(m => m.value !== this.id);
+                }
             }
         });
     }
@@ -118,10 +119,11 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
     // =========================
     // MAPPER
     // =========================
+
     private mapToModel(formValue: any): AppMenuModel {
         return {
             id: formValue.id ?? undefined,
-            label: formValue.label!,
+            label: formValue.label,
             icon: formValue.icon || undefined,
             displayOrder: formValue.displayOrder ?? 0,
             parentId: formValue.parentId ?? undefined,
@@ -133,29 +135,10 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
     }
 
     // =========================
-    // DELETE
+    // AFTER SAVE
     // =========================
-    delete(): void {
-        if (!this.id) return;
-        if (!confirm('Delete this menu?')) return;
 
-        this.service.delete(this.id).subscribe(() => {
-            this.layoutMenu.loadMenus().subscribe();
-            this.saved.emit();
-            this.visibleChange.emit(false);
-        });
-    }
-
-    // =========================
-    // AFTER SAVE HOOK
-    // =========================
     override submit(): void {
         super.submit();
-
-        // handle after save via event
-        this.saved.subscribe(() => {
-            this.layoutMenu.loadMenus().subscribe();
-            this.visibleChange.emit(false);
-        });
     }
 }

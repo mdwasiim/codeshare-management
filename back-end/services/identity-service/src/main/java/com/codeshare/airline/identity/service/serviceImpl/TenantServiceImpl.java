@@ -92,7 +92,11 @@ public class TenantServiceImpl implements TenantService {
                 .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + code));
     }
 
-
+    @Override
+    public Tenant getTenantByTenantCode(String tenantCode) {
+        return repository.findByTenantCode(tenantCode)
+                .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + tenantCode));
+    }
     // -------------------------------------------------------------------------
     // GET ALL TENANTS
     // -------------------------------------------------------------------------

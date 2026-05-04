@@ -10,16 +10,18 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
 import { SelectModule } from 'primeng/select';
 
 import { Organization } from "@features/settings/model/organization.model";
 import { BaseCrudForm } from "@core/base/base-crud-form.component";
-import {of} from "rxjs";
+import { of } from "rxjs";
+
+import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
 
 @Component({
     selector: 'organization-form',
@@ -29,8 +31,9 @@ import {of} from "rxjs";
         ReactiveFormsModule,
         InputTextModule,
         ButtonModule,
-        DialogModule,
-        SelectModule
+        SelectModule,
+        CsmDialogComponent,
+        CsmFormSectionComponent
     ],
     templateUrl: './organization-form.page.html'
 })
@@ -39,7 +42,6 @@ export class OrganizationFormPage
     implements OnInit, OnChanges {
 
     @Input() visible = false;
-
     @Output() visibleChange = new EventEmitter<boolean>();
 
     private fb = inject(FormBuilder);
@@ -49,58 +51,58 @@ export class OrganizationFormPage
         { label: 'Inactive', value: 'INACTIVE' }
     ];
 
+    // =========================
+    // Lifecycle
+    // =========================
+
     ngOnInit(): void {
         this.buildForm();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['visible'] && this.visible) {
-            this.init(); // 🔥 important
+            this.init();
         }
     }
 
     // =========================
-    // BaseCrudForm methods
+    // Form
     // =========================
 
-    buildForm(): void {
+    override buildForm(): void {
         this.form = this.fb.group({
-            id: [null as string | null],
+            id: [null],
             name: ['', Validators.required],
             code: ['', Validators.required],
             status: ['ACTIVE', Validators.required]
         });
     }
 
-    patchForm(data: Organization): void {
+    override patchForm(data: Organization): void {
         this.form.patchValue(data);
     }
 
-    fetchById(id: string) {
-        // 🔥 replace with API later
+    override fetchById(id: string) {
         return of({
             id,
             name: 'Qatar Airways',
             code: 'QR',
-            status: 'ACTIVE'
+            status: 'ACTIVE' as 'ACTIVE' | 'INACTIVE'   // ✅ FIX
         });
     }
 
-    create(payload: any) {
+    override create(payload: any) {
         console.log('Create org', payload);
         return of(true);
     }
 
-    update(id: string, payload: any) {
+    override update(id: string, payload: any) {
         console.log('Update org', id, payload);
         return of(true);
     }
 
+    // ✅ clean
     override submit(): void {
         super.submit();
-
-        this.saved.subscribe(() => {
-            this.visibleChange.emit(false);
-        });
     }
 }

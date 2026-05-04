@@ -1,14 +1,14 @@
 package com.codeshare.airline.identity.service.serviceImpl;
 
-import com.codeshare.airline.identity.authentication.domain.TenantContext;
+import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.entities.Role;
 import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.repository.RoleRepository;
 import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.RoleService;
+import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.RoleMapper;
-import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,18 +24,14 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository repo;
     private final RoleMapper mapper;
     private final TenantRepository tenantRepository;
-
+    private final TenantService tenantService;
     // --------------------------------------------------------------------
     // CREATE NEW ROLE
     // --------------------------------------------------------------------
     @Override
     public RoleDTO create(RoleDTO dto) {
-        // 🔥 Get tenant from context (NOT from DTO)
-        TenantContext ctx = TenantContextHolder.getTenant();
-
         // 🔥 Fetch tenant entity
-        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
-                .orElseThrow(() -> new RuntimeException("Tenant not found"));
+        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
         if (dto.getTenantId() == null) {
             throw new IllegalArgumentException("tenantId is required");
         }
@@ -97,8 +93,6 @@ public class RoleServiceImpl implements RoleService {
     // --------------------------------------------------------------------
     // GET ALL ROLES FOR A TENANT
     // --------------------------------------------------------------------
-    @Override
-    @Transactional(readOnly = true)
     public List<RoleDTO> getAllByTenant(UUID tenantId) {
 
         return mapper.toDTOList(repo.findByTenantId(tenantId));
@@ -110,7 +104,8 @@ public class RoleServiceImpl implements RoleService {
     // --------------------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
-    public List<RoleDTO> getAll() {
+    public List<RoleDTO> getAllRoles () {
+        String tenantCode = TenantContextHolder.getTenant().getTenantCode();
         return mapper.toDTOList(repo.findAll());
     }
 }

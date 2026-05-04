@@ -1,0 +1,37 @@
+<p-dialog
+    [(visible)]="visible"
+    [modal]="true"
+    appendTo="body"
+    [style]="{ width: width }"
+    [draggable]="false"
+    [resizable]="false"
+    [header]="title"
+    (onHide)="onHide()">
+
+    <ng-content></ng-content>
+
+    <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-2">
+
+            <button
+                pButton
+                label="Cancel"
+                class="p-button-text"
+                (click)="onCancel()"
+                type="button">
+            </button>
+
+            <button
+                pButton
+                label="Save"
+                icon="pi pi-check"
+                [disabled]="disableSave"
+                [loading]="loading"
+                (click)="onSave()"
+                type="button">
+            </button>
+
+        </div>
+    </ng-template>
+
+</p-dialog>

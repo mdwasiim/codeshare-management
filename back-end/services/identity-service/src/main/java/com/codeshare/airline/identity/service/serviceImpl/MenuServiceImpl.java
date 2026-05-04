@@ -9,6 +9,7 @@ import com.codeshare.airline.identity.repository.GroupMenuRepository;
 import com.codeshare.airline.identity.repository.MenuRepository;
 import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.MenuService;
+import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.MenuMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class MenuServiceImpl implements MenuService {
     private final MenuMapper mapper;
 
     private final TenantRepository tenantRepository;
+    private final TenantService tenantService;
+
 
     // ---------------------------------------------------------
     // CREATE NEW MENU FOR TENANT
@@ -102,8 +105,10 @@ public class MenuServiceImpl implements MenuService {
     // ---------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
-    public List<MenuDTO> getRootMenus(UUID tenantId) {
-        return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNull(tenantId));
+    public List<MenuDTO> getRootMenus() {
+        TenantContext tenant = TenantContextHolder.getTenant();
+        Tenant tenantByTenantCode = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
+        return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNull(tenantByTenantCode.getId()));
     }
 
 
@@ -112,7 +117,7 @@ public class MenuServiceImpl implements MenuService {
     // ---------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
-    public List<MenuDTO> getAllByTenant(String tenantCode) {
+    public List<MenuDTO> getAllByTenant() {
 
         User user = userContextService.getCurrentUser();
 

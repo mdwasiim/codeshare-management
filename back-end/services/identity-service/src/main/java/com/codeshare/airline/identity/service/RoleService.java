@@ -17,7 +17,6 @@ public interface RoleService {
 
     RoleDTO getById(UUID id);
 
-    List<RoleDTO> getAllByTenant(UUID tenantId);
 
-    List<RoleDTO> getAll();
+    List<RoleDTO> getAllRoles();
 }

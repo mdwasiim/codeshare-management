@@ -1,109 +1,126 @@
-<p-dialog
+<csm-dialog
     [(visible)]="visible"
-    [modal]="true"
-    [style]="{ width: '800px' }"
-    [header]="isEdit ? 'Edit User' : 'Create User'">
+    [title]="isEdit ? 'Edit User' : 'Create User'"
+    [width]="'800px'"
+    [disableSave]="form.invalid"
+    (save)="submit()">
 
     <form [formGroup]="form" class="p-fluid">
 
         <!-- USER INFO -->
-        <div class="mb-4">
-            <h3 class="font-semibold mb-3">User Info</h3>
+        <csm-form-section title="User Information">
+            <div class="grid formgrid">
 
-            <div class="grid grid-cols-2 gap-3">
+                <div class="col-12 md:col-6 field">
+                    <label>Username</label>
+                    <input pInputText formControlName="username" class="w-full" />
+                </div>
 
-                <input pInputText placeholder="Username" formControlName="username" />
-                <input pInputText placeholder="Email" formControlName="email" />
+                <div class="col-12 md:col-6 field">
+                    <label>Email Address</label>
+                    <input pInputText formControlName="email" class="w-full" />
+                </div>
 
-                <input pInputText placeholder="First Name" formControlName="firstName" />
-                <input pInputText placeholder="Last Name" formControlName="lastName" />
+                <div class="col-12 md:col-6 field">
+                    <label>First Name</label>
+                    <input pInputText formControlName="firstName" class="w-full" />
+                </div>
 
-                <div class="col-span-2">
-                    <p-password formControlName="password" placeholder="Password"></p-password>
+                <div class="col-12 md:col-6 field">
+                    <label>Last Name</label>
+                    <input pInputText formControlName="lastName" class="w-full" />
+                </div>
+
+                <div class="col-12 field">
+                    <label>Password</label>
+                    <p-password
+                        formControlName="password"
+                        [toggleMask]="true"
+                        [feedback]="false"
+                        styleClass="w-full">
+                    </p-password>
                 </div>
 
             </div>
-        </div>
+        </csm-form-section>
 
         <!-- ACCOUNT FLAGS -->
-        <div class="mb-4">
-            <h3 class="font-semibold mb-3">Account Settings</h3>
+        <csm-form-section title="Account Settings">
+            <div class="grid formgrid">
 
-            <div class="flex flex-wrap gap-4">
-                <p-checkbox formControlName="enabled" binary="true" label="Enabled"></p-checkbox>
-                <p-checkbox formControlName="accountNonLocked" binary="true" label="Unlocked"></p-checkbox>
-                <p-checkbox formControlName="accountNonExpired" binary="true" label="Account Valid"></p-checkbox>
-                <p-checkbox formControlName="credentialsNonExpired" binary="true" label="Credentials Valid"></p-checkbox>
-            </div>
-        </div>
+                <div class="col-12 flex flex-wrap gap-3">
+                    <p-checkbox formControlName="enabled" binary="true" label="Enabled"></p-checkbox>
 
-        <!-- AUTH / SYSTEM -->
-        <div class="mb-4">
-            <h3 class="font-semibold mb-3">Auth & System</h3>
+                    <p-checkbox formControlName="accountNonLocked" binary="true" label="Account Unlocked"></p-checkbox>
 
-            <div class="grid grid-cols-2 gap-3">
+                    <p-checkbox formControlName="accountNonExpired" binary="true" label="Account Active"></p-checkbox>
 
-                <!-- ✅ FIXED -->
-                <p-select
-                    [options]="[
-                        { label: 'INTERNAL', value: 'INTERNAL' },
-                        { label: 'LDAP', value: 'LDAP' },
-                        { label: 'OAUTH', value: 'OAUTH' }
-                    ]"
-                    placeholder="Auth Source"
-                    formControlName="authSource">
-                </p-select>
-
-                <!-- ✅ FIXED -->
-                <p-select
-                    [options]="[
-                        { label: 'ACTIVE', value: 'ACTIVE' },
-                        { label: 'INACTIVE', value: 'INACTIVE' }
-                    ]"
-                    placeholder="Record Status"
-                    formControlName="recordStatus">
-                </p-select>
-
-                <input pInputText placeholder="External ID" formControlName="externalId" />
-                <input pInputText placeholder="Last Login Provider" formControlName="lastLoginProvider" />
+                    <p-checkbox formControlName="credentialsNonExpired" binary="true" label="Credentials Valid"></p-checkbox>
+                </div>
 
             </div>
-        </div>
+        </csm-form-section>
+
+        <!-- AUTH -->
+        <csm-form-section title="Authentication & System">
+            <div class="grid formgrid">
+
+                <div class="col-12 md:col-6 field">
+                    <label>Authentication Source</label>
+                    <p-select
+                        [options]="[
+                            { label: 'Internal', value: 'INTERNAL' },
+                            { label: 'LDAP', value: 'LDAP' },
+                            { label: 'OAuth', value: 'OAUTH' }
+                        ]"
+                        formControlName="authSource"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                    <label>Record Status</label>
+                    <p-select
+                        [options]="[
+                            { label: 'Active', value: 'ACTIVE' },
+                            { label: 'Inactive', value: 'INACTIVE' }
+                        ]"
+                        formControlName="recordStatus"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                    <label>External ID</label>
+                    <input pInputText formControlName="externalId" class="w-full" />
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                    <label>Last Login Provider</label>
+                    <input pInputText formControlName="lastLoginProvider" class="w-full" />
+                </div>
+
+            </div>
+        </csm-form-section>
 
         <!-- TENANT -->
-        <div class="mb-4">
-            <h3 class="font-semibold mb-3">Tenant</h3>
+        <csm-form-section title="Tenant">
+            <div class="grid formgrid">
 
-            <!-- ✅ FIXED -->
-            <p-select
-                [options]="tenants"
-                optionLabel="name"
-                optionValue="id"
-                placeholder="Select Tenant"
-                formControlName="tenantId">
-            </p-select>
-        </div>
+                <div class="col-12 md:col-6 field">
+                    <label>Tenant</label>
+                    <p-select
+                        [options]="tenants"
+                        optionLabel="name"
+                        optionValue="id"
+                        formControlName="tenantId"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
 
-        <!-- ACTIONS -->
-        <div class="flex justify-end gap-2 mt-4">
-
-            <button
-                pButton
-                label="Cancel"
-                class="p-button-text"
-                (click)="visibleChange.emit(false)"
-                type="button">
-            </button>
-
-            <button
-                pButton
-                label="Save"
-                icon="pi pi-check"
-                (click)="submit()"
-                type="button">
-            </button>
-
-        </div>
+            </div>
+        </csm-form-section>
 
     </form>
-</p-dialog>
+
+</csm-dialog>

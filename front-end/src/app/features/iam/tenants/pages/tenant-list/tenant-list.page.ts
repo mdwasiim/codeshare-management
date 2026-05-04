@@ -16,6 +16,7 @@ import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
 import {TenantService} from "../../services/tenant.service";
 import {TenantFormPage} from "@features/iam/tenants/pages/tenant-form/tenant-form.page";
 import {Tenant} from "@features/iam/models/tenant.model";
+import {TooltipModule} from "primeng/tooltip";
 
 
 @Component({
@@ -30,7 +31,8 @@ import {Tenant} from "@features/iam/models/tenant.model";
         ConfirmDialogModule,
         ToastModule,
         ToolbarActionComponent,
-        TenantFormPage
+        TenantFormPage,
+        TooltipModule
     ],
     templateUrl: './tenant-list.page.html',
     providers: [ConfirmationService, MessageService]

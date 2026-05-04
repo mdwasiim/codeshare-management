@@ -3,6 +3,7 @@
 /* Your SCSS modules */
 @use "./layout/layout";
 @use "./demo/demo";
+@use "./demo/csm-styles";
 
 /* Icons only (still CSS-based) */
 @import "primeicons/primeicons.css";

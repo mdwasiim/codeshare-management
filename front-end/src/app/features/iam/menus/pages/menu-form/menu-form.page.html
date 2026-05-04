@@ -1,85 +1,54 @@
-<p-dialog
+<csm-dialog
     [(visible)]="visible"
-    [modal]="true"
-    [style]="{ width: '450px' }"
-    [header]="isEdit ? 'Edit Menu' : 'Create Menu'">
+    [title]="isEdit ? 'Edit Menu' : 'Create Menu'"
+    [width]="'500px'"
+    [disableSave]="form.invalid || loading"
+    (save)="submit()">
 
     <form [formGroup]="form" class="p-fluid">
 
-        <div class="field">
-            <label>Label</label>
-            <input pInputText formControlName="label" />
-            <small *ngIf="form.controls['label'].invalid && form.controls['label'].touched">
-                Label is required
-            </small>
-        </div>
+        <csm-form-section title="Menu Details">
+            <div class="grid formgrid">
 
-        <div class="field">
-            <label>Icon</label>
-            <input pInputText formControlName="icon" placeholder="pi pi-home" />
-        </div>
+                <div class="col-12 field">
+                    <label>Label</label>
+                    <input pInputText formControlName="label" class="w-full" />
+                    <small *ngIf="form.controls['label'].invalid && form.controls['label'].touched">
+                        Label is required
+                    </small>
+                </div>
 
-        <div class="field">
-            <label>Route</label>
-            <input pInputText formControlName="routerLink" placeholder="/dashboard" />
-        </div>
+                <div class="col-12 field">
+                    <label>Icon</label>
+                    <input pInputText formControlName="icon" placeholder="pi pi-home" class="w-full" />
+                </div>
 
-        <div class="field">
-            <label>Display Order</label>
-            <input type="number" pInputText formControlName="displayOrder" />
-        </div>
+                <div class="col-12 field">
+                    <label>Route</label>
+                    <input pInputText formControlName="routerLink" placeholder="/dashboard" class="w-full" />
+                </div>
 
-        <!-- ============================= -->
-        <!-- Parent Menu -->
-        <!-- ============================= -->
-        <div class="field">
-            <label>Parent Menu</label>
+                <div class="col-12 md:col-6 field">
+                    <label>Display Order</label>
+                    <input type="number" pInputText formControlName="displayOrder" class="w-full" />
+                </div>
 
-            <p-select
-                [options]="menuOptions"
-                optionLabel="label"
-                optionValue="value"
-                formControlName="parentId"
-                placeholder="Select Parent (optional)"
-                [showClear]="true"
-                appendTo="body"
-            ></p-select>
-        </div>
+                <div class="col-12 md:col-6 field">
+                    <label>Parent Menu</label>
+                    <p-select
+                        [options]="menuOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        formControlName="parentId"
+                        placeholder="Select Parent"
+                        [showClear]="true"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
 
-        <div class="flex justify-end gap-2 mt-3">
-
-            <!-- Cancel -->
-            <button
-                pButton
-                label="Cancel"
-                class="p-button-text"
-                (click)="visibleChange.emit(false)"
-                type="button">
-            </button>
-
-            <!-- Save -->
-            <button
-                pButton
-                label="Save"
-                icon="pi pi-check"
-                (click)="submit()"
-                [disabled]="form.invalid || loading"
-                type="button">
-            </button>
-
-            <!-- Delete -->
-            <button
-                *ngIf="isEdit"
-                pButton
-                label="Delete"
-                icon="pi pi-trash"
-                severity="danger"
-                (click)="delete()"
-                type="button">
-            </button>
-
-        </div>
+            </div>
+        </csm-form-section>
 
     </form>
 
-</p-dialog>
+</csm-dialog>

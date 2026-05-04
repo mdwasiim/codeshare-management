@@ -46,8 +46,8 @@ public class PermissionController {
     // GET PERMISSIONS BY TENANT
     // ---------------------------------------------------------
     @GetMapping
-    public List<PermissionDTO> getByTenant(@RequestParam UUID tenantId) {
-        return service.getByTenant(tenantId);
+    public List<PermissionDTO> getAllTenant() {
+        return service.getAllTenant();
     }
 
     // ---------------------------------------------------------

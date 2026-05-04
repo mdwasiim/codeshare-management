@@ -1,47 +1,61 @@
-import {Component, inject, Input, ViewChild} from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Table, TableModule} from 'primeng/table';
+
+import { TreeTable, TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'primeng/button';
+
 import { BaseListComponent } from '@core/base/base-list.component';
 import { MenuManagementService } from '../../services/menu-management.service';
 import { AppMenuModel } from '@shared/models/app-menu.model';
-import { MenuFormPage } from "@features/iam/menus/pages/menu-form/menu-form.page";
-import {map, takeUntil} from 'rxjs/operators';
-import {Observable, tap} from "rxjs";
-import {ConfirmDialog} from "primeng/confirmdialog";
-import {Toast, ToastItem} from "primeng/toast";
-import {ToolbarActionComponent} from "@shared/toolbar/toolbar-action.component";
-import {TreeTableModule} from "primeng/treetable";
+
+import { MenuFormPage } from '@features/iam/menus/pages/menu-form/menu-form.page';
+import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
+
+import { map } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+
+// ✅ wrapper services
+import { AppToastService } from '@core/services/app-toast.service';
+import { CsmConfirmService } from '@core/services/csm-confirm.service';
+import {Tooltip, TooltipModule} from "primeng/tooltip";
 
 @Component({
     selector: 'menu-list',
     standalone: true,
-    imports: [CommonModule, TableModule,TreeTableModule, ButtonModule, MenuFormPage, ConfirmDialog, Toast, ToolbarActionComponent],
+    imports: [
+        CommonModule,
+        TreeTableModule,
+        ButtonModule,
+        MenuFormPage,
+        ToolbarActionComponent,
+        TooltipModule
+    ],
     templateUrl: './menu-list.page.html'
 })
 export class MenuListPage extends BaseListComponent<AppMenuModel> {
 
     private service = inject(MenuManagementService);
+    private toast = inject(AppToastService);
+    private confirm = inject(CsmConfirmService);
 
-    @ViewChild('dt') dt!: Table;
+    @ViewChild('dt') dt!: TreeTable;
+
     selectedMenus: any[] = [];
     dialogVisible = false;
     selectedMenuId: string | null = null;
 
+    // =========================
+    // Fetch Tree Data
+    // =========================
     fetch(): Observable<any[]> {
         return this.service.getAll().pipe(
-            map(res => {
-                console.log('API DATA:', res);
-                const tree = this.buildTree(res);
-                console.log('FINAL TREE:', tree);
-                return tree;   // ✅ RETURN TREE
-            }),
-            tap(res => {
-                console.log('API DATA:', res);
-                console.log('FIRST ITEM:', res[0]);
-            })
+            map(res => this.buildTree(res))
         );
     }
+
+    // =========================
+    // Toolbar Actions
+    // =========================
 
     openCreate() {
         this.selectedMenuId = null;
@@ -49,46 +63,63 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
     }
 
     openEdit(menu: AppMenuModel) {
-        if (!menu) {
-            console.error('Menu is undefined!', menu);
-            return;
-        }
+        if (!menu) return;
+
         this.selectedMenuId = menu.id ?? null;
         this.dialogVisible = true;
     }
 
-    onSaved() {
-        this.refresh(); // ✅ cleaner
+    deleteMenu(menu: AppMenuModel) {
+        this.confirm.delete(
+            `Delete menu "${menu.label}"?`,
+            () => {
+                this.service.delete(menu.id!).subscribe({
+                    next: () => {
+                        this.toast.success('Menu deleted successfully');
+                        this.refresh();
+                    },
+                    error: () => {
+                        this.toast.error('Failed to delete menu');
+                    }
+                });
+            }
+        );
     }
 
-    deleteMenu(menu: AppMenuModel) {
-        if (!confirm(`Delete menu "${menu.label}"?`)) return;
+    deleteSelectedMenus() {
+        if (!this.selectedMenus?.length) return;
 
-        this.service.delete(menu.id!)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => this.refresh());
+        this.confirm.delete('Delete selected menus?', () => {
+
+            const ids = this.selectedMenus.map(n => n.data.id);
+            const requests = ids.map(id => this.service.delete(id));
+
+            forkJoin(requests).subscribe({
+                next: () => {
+                    this.toast.success('Menus deleted successfully');
+                    this.refresh();
+                    this.selectedMenus = [];
+                },
+                error: () => {
+                    this.toast.error('Failed to delete menus');
+                }
+            });
+        });
+    }
+
+    onSaved() {
+        this.toast.success('Menu saved successfully');
+        this.dialogVisible = false;
+        this.refresh();
     }
 
     onSearch(value: string) {
         this.dt.filterGlobal(value, 'contains');
     }
 
-    deleteSelectedMenus() {
-        if (!this.selectedMenus?.length) return;
-
-        if (!confirm('Delete selected menus?')) return;
-
-        const ids = this.selectedMenus.map(n => n.data.id);
-
-        ids.forEach(id => {
-            this.service.delete(id!)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe(() => this.refresh());
-        });
-
-        this.selectedMenus = [];
-    }
-
+    // =========================
+    // Tree Builder
+    // =========================
     private buildTree(items: AppMenuModel[]): any[] {
         const map = new Map<string, any>();
 
@@ -97,7 +128,7 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
 
             map.set(item.id, {
                 key: item.id,
-                data: { ...item },   // ✅ FIX HERE
+                data: { ...item },
                 children: []
             });
         });
@@ -108,7 +139,6 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
             if (!item?.id) return;
 
             const node = map.get(item.id);
-            if (!node) return;
 
             if (item.parentId && map.has(item.parentId)) {
                 map.get(item.parentId).children.push(node);
@@ -116,8 +146,6 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
                 roots.push(node);
             }
         });
-
-        console.log('FINAL TREE:', roots);
 
         return roots;
     }

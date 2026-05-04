@@ -14,7 +14,7 @@ public interface PermissionService {
 
     PermissionDTO getById(UUID id);
 
-    List<PermissionDTO> getByTenant(UUID tenantId);
+    List<PermissionDTO> getAllTenant();
 
     void delete(UUID id);
 }

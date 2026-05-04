@@ -10,14 +10,18 @@ export class AppToastService {
     private show(
         severity: 'success' | 'error' | 'warn' | 'info',
         detail?: string,
-        summary?: string
+        summary?: string,
+        life = 3000,
+        sticky = false
     ) {
-        if (!detail?.trim()) return; // ✅ clean + TS safe
+        if (!detail?.trim()) return;
 
         this.messageService.add({
             severity,
             summary: summary || this.getDefaultSummary(severity),
-            detail
+            detail,
+            life,
+            sticky
         });
     }
 
@@ -31,19 +35,28 @@ export class AppToastService {
         }
     }
 
-    success(detail?: string, summary?: string) {
-        this.show('success', detail, summary);
+    // ✅ consistent API everywhere
+    success(detail: string, summary?: string, life?: number) {
+        this.show('success', detail, summary, life);
     }
 
-    error(detail?: string, summary?: string) {
-        this.show('error', detail, summary);
+    error(detail: string, summary?: string, life = 5000) {
+        this.show('error', detail, summary, life);
     }
 
-    warn(detail?: string, summary?: string) {
-        this.show('warn', detail, summary);
+    warn(detail: string, summary?: string, life?: number) {
+        this.show('warn', detail, summary, life);
     }
 
-    info(detail?: string, summary?: string) {
-        this.show('info', detail, summary);
+    info(detail: string, summary?: string, life?: number) {
+        this.show('info', detail, summary, life);
+    }
+
+    errorSticky(detail: string, summary?: string) {
+        this.show('error', detail, summary, 0, true);
+    }
+
+    clear() {
+        this.messageService.clear();
     }
 }

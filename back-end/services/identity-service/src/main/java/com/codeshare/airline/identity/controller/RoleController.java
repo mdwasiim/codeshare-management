@@ -53,16 +53,8 @@ public class RoleController {
     // ---------------------------------------------------------
     // GET ROLES BY TENANT
     // ---------------------------------------------------------
-    @GetMapping("/ingestion/{tenantId}")
-    public List<RoleDTO> getByTenant(@PathVariable UUID tenantId) {
-        return service.getAllByTenant(tenantId);
-    }
-
-    // ---------------------------------------------------------
-    // GET ALL ROLES
-    // ---------------------------------------------------------
     @GetMapping
-    public List<RoleDTO> getAll() {
-        return service.getAll();
+    public List<RoleDTO> getAllRoles() {
+        return service.getAllRoles();
     }
 }

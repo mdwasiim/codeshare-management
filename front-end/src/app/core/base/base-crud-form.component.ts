@@ -1,5 +1,6 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Directive()
 export abstract class BaseCrudForm<T> {
@@ -14,41 +15,50 @@ export abstract class BaseCrudForm<T> {
     isEdit = false;
     loading = false;
 
-    private initialized = false; // ✅ prevent rebuild
+    private initialized = false;
 
     abstract buildForm(): void;
     abstract patchForm(data: T): void;
-    abstract fetchById(id: string): any;
-    abstract create(payload: any): any;
-    abstract update(id: string, payload: any): any;
+    abstract fetchById(id: string): Observable<T>;
+    abstract create(payload: any): Observable<any>;
+    abstract update(id: string, payload: any): Observable<any>;
 
-    // 🔥 SAFE INIT
     init() {
-
-        // ✅ build form only once
         if (!this.initialized) {
             this.buildForm();
             this.initialized = true;
         }
 
-        if (this.data) {
+        this.loading = false;
+
+        if (this.data != null) {
             this.isEdit = true;
+            this.form.reset();
             this.patchForm(this.data);
 
         } else if (this.id) {
             this.isEdit = true;
-            this.fetchById(this.id).subscribe((res: T) => {
-                this.patchForm(res);
+            this.loading = true;
+
+            this.fetchById(this.id).subscribe({
+                next: (res) => {
+                    this.patchForm(res);
+                    this.loading = false;
+                },
+                error: () => this.loading = false
             });
 
         } else {
             this.isEdit = false;
-            this.form.reset(this.getDefaultValues()); // ✅ safe reset
+            this.form.reset(this.getDefaultValues());
         }
+
+        this.form.markAsPristine();
+        this.form.markAsUntouched();
     }
 
     submit() {
-        if (this.form.invalid) return;
+        if (this.form.invalid || this.loading) return;
 
         this.loading = true;
 
@@ -63,15 +73,22 @@ export abstract class BaseCrudForm<T> {
                 this.loading = false;
                 this.saved.emit();
             },
-            error: (err: any) => {
-                console.error(err);
+            error: (err) => {
                 this.loading = false;
+                this.onError(err);
             }
         });
     }
 
-    // ✅ override if needed
+    cancel() {
+        this.cancelled.emit();
+    }
+
     protected getDefaultValues(): any {
         return {};
+    }
+
+    protected onError(err: any) {
+        console.error(err);
     }
 }

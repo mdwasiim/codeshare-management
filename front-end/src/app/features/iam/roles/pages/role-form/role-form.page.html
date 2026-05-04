@@ -1,55 +1,45 @@
-<p-dialog
+<csm-dialog
     [(visible)]="visible"
-    [modal]="true"
-    [style]="{ width: '500px' }"
-    [header]="isEdit ? 'Edit Role' : 'Create Role'">
+    [title]="isEdit ? 'Edit Role' : 'Create Role'"
+    [width]="'500px'"
+    [disableSave]="form.invalid || loading"
+    (save)="submit()">
 
     <form [formGroup]="form" class="p-fluid">
 
-        <div class="grid grid-cols-2 gap-3">
+        <csm-form-section title="Role Details">
+            <div class="grid formgrid">
 
-            <input pInputText placeholder="Code" formControlName="code" />
+                <div class="col-12 md:col-6 field">
+                    <label>Code</label>
+                    <input pInputText formControlName="code" class="w-full" />
+                </div>
 
-            <input pInputText placeholder="Name" formControlName="name" />
+                <div class="col-12 md:col-6 field">
+                    <label>Name</label>
+                    <input pInputText formControlName="name" class="w-full" />
+                </div>
 
-            <div class="col-span-2">
-                <input pInputText placeholder="Description" formControlName="description" />
+                <div class="col-12 field">
+                    <label>Description</label>
+                    <input pInputText formControlName="description" class="w-full" />
+                </div>
+
+                <div class="col-12 field">
+                    <label>Tenant</label>
+                    <p-select
+                        [options]="tenants"
+                        optionLabel="name"
+                        optionValue="id"
+                        formControlName="tenantId"
+                        placeholder="Select Tenant"
+                        styleClass="w-full">
+                    </p-select>
+                </div>
+
             </div>
-
-            <!-- ✅ FIXED -->
-            <div class="col-span-2">
-                <p-select
-                    [options]="tenants"
-                    optionLabel="name"
-                    optionValue="id"
-                    placeholder="Select Tenant"
-                    formControlName="tenantId">
-                </p-select>
-            </div>
-
-        </div>
-
-        <div class="flex justify-end gap-2 mt-4">
-
-            <button
-                pButton
-                label="Cancel"
-                class="p-button-text"
-                (click)="visibleChange.emit(false)"
-                type="button">
-            </button>
-
-            <button
-                pButton
-                label="Save"
-                icon="pi pi-check"
-                (click)="submit()"
-                [disabled]="form.invalid || loading"
-                type="button">
-            </button>
-
-        </div>
+        </csm-form-section>
 
     </form>
 
-</p-dialog>
+</csm-dialog>

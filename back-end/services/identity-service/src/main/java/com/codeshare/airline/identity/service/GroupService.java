@@ -14,8 +14,6 @@ public interface GroupService {
 
     GroupDTO getById(UUID id);
 
-    List<GroupDTO> getByTenant(UUID tenantId);
-
     List<GroupDTO> getAll();
 
     void delete(UUID id);

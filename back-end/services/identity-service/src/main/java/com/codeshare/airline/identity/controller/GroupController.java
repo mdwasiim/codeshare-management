@@ -56,12 +56,7 @@ public class GroupController {
     // GET GROUPS BY TENANT
     // ---------------------------------------------------------
     @GetMapping
-    public List<GroupDTO> getAll(
-            @RequestParam(required = false) UUID tenantId
-    ) {
-        if (tenantId != null) {
-            return groupService.getByTenant(tenantId);
-        }
+    public List<GroupDTO> getAll() {
         return groupService.getAll();
     }
 

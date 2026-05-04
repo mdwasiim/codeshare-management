@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.service.serviceImpl;
 
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
-import com.codeshare.airline.core.dto.auth.AuthUserDeviceDTO;
+import com.codeshare.airline.core.dto.auth.UserDeviceDTO;
 import com.codeshare.airline.identity.entities.User;
 import com.codeshare.airline.identity.entities.UserDeviceEntity;
 import com.codeshare.airline.identity.repository.UserDeviceRepository;
@@ -36,7 +36,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Create new device entry (only used internally)
     // ----------------------------------------------------------------------
     @Override
-    public AuthUserDeviceDTO create(AuthUserDeviceDTO dto) {
+    public UserDeviceDTO create(UserDeviceDTO dto) {
         UserDeviceEntity entity = authUserDeviceMapper.toEntity(dto);
         return authUserDeviceMapper.toDTO(userDeviceRepository.save(entity));
     }
@@ -46,7 +46,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Update device record (e.g., lastSeen, userAgent)
     // ----------------------------------------------------------------------
     @Override
-    public AuthUserDeviceDTO update(UUID id, AuthUserDeviceDTO dto) {
+    public UserDeviceDTO update(UUID id, UserDeviceDTO dto) {
 
         UserDeviceEntity entity = userDeviceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Device not found"));
@@ -64,7 +64,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Retrieve all devices associated with a userEntity
     // ----------------------------------------------------------------------
     @Override
-    public List<AuthUserDeviceDTO> getDevicesByUserId(UUID userId) {
+    public List<UserDeviceDTO> getDevicesByUserId(UUID userId) {
         List<UserDeviceEntity> devices = userDeviceRepository.findByUser_Id(userId);
         return authUserDeviceMapper.toDTOList(devices);
     }
@@ -74,7 +74,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Registers a new device or updates an existing one
     // ----------------------------------------------------------------------
     @Override
-    public AuthUserDeviceDTO registerDevice(AuthUserDTO authUserDTO, AuthUserDeviceDTO dto) {
+    public UserDeviceDTO registerDevice(AuthUserDTO authUserDTO, UserDeviceDTO dto) {
 
         Optional<UserDeviceEntity> optional = userDeviceRepository
                 .findByUser_IdAndDeviceId(authUserDTO.getId(), dto.getDeviceId());
@@ -102,7 +102,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Mark a device as trusted/untrusted
     // ----------------------------------------------------------------------
     @Override
-    public AuthUserDeviceDTO updateTrust(AuthUserDTO user, String deviceId, boolean trusted) {
+    public UserDeviceDTO updateTrust(AuthUserDTO user, String deviceId, boolean trusted) {
 
         UserDeviceEntity device = userDeviceRepository
                 .findByUser_IdAndDeviceId(user.getId(), deviceId)
@@ -131,7 +131,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Find a device or create it if missing (used during login)
     // ----------------------------------------------------------------------
     @Override
-    public AuthUserDeviceDTO findOrRegisterDevice(UUID userId, UUID tenantId, String deviceId) {
+    public UserDeviceDTO findOrRegisterDevice(UUID userId, UUID tenantId, String deviceId) {
 
         Optional<UserDeviceEntity> optional = userDeviceRepository
                 .findByUser_IdAndDeviceId(userId, deviceId);
@@ -161,7 +161,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
         UserDeviceEntity device = userDeviceRepository
                 .findByUser_IdAndDeviceId(user.getId(), deviceId)
                 .orElseGet(() -> {
-                    AuthUserDeviceDTO dto = AuthUserDeviceDTO.builder()
+                    UserDeviceDTO dto = UserDeviceDTO.builder()
                             .deviceId(deviceId)
                             .userAgent(userAgent)
                             .lastSeen(LocalDateTime.now())

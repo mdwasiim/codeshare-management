@@ -4,9 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
-import {ConfirmationService, MessageService} from 'primeng/api';
 
 import { forkJoin } from 'rxjs';
 
@@ -17,6 +14,11 @@ import { PermissionService } from '@features/iam/permissions/services/permission
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
 import { PermissionFormPage } from '@features/iam/permissions/pages/permission-form/permission-form.page';
 
+// ✅ use wrapper services
+import { AppToastService } from '@core/services/app-toast.service';
+import { CsmConfirmService } from '@core/services/csm-confirm.service';
+import {Tooltip, TooltipModule} from "primeng/tooltip";
+
 @Component({
     selector: 'permission-list',
     standalone: true,
@@ -25,31 +27,30 @@ import { PermissionFormPage } from '@features/iam/permissions/pages/permission-f
         TableModule,
         ButtonModule,
         TagModule,
-        ConfirmDialogModule,
-        ToastModule,
         ToolbarActionComponent,
-        PermissionFormPage
+        PermissionFormPage,
+        TooltipModule
     ],
-    templateUrl: './permission-list.page.html',
-    providers: [ConfirmationService, MessageService]
+    templateUrl: './permission-list.page.html'
 })
 export class PermissionListPage extends BaseListComponent<Permission> {
 
     private service = inject(PermissionService);
-    private confirmationService = inject(ConfirmationService);
+    private toast = inject(AppToastService);
+    private confirm = inject(CsmConfirmService);
 
     dialogVisible = false;
     selectedPermissionId: string | null = null;
     selectedPermissions: Permission[] = [];
 
     @ViewChild('dt') dt!: Table;
-    tenantId = 'QR';
+
     fetch() {
-        return this.service.getAll(this.tenantId);
+        return this.service.getAll();
     }
 
     // =========================
-    // Toolbar Actions
+    // Actions
     // =========================
 
     openCreate() {
@@ -65,36 +66,44 @@ export class PermissionListPage extends BaseListComponent<Permission> {
     deleteSelectedPermissions() {
         if (!this.selectedPermissions.length) return;
 
-        this.confirmationService.confirm({
-            message: 'Delete selected permissions?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                const requests = this.selectedPermissions.map(p =>
-                    this.service.delete(p.id!)
-                );
+        this.confirm.delete('Delete selected permissions?', () => {
+            const requests = this.selectedPermissions.map(p =>
+                this.service.delete(p.id!)
+            );
 
-                forkJoin(requests).subscribe(() => {
+            forkJoin(requests).subscribe({
+                next: () => {
+                    this.toast.success('Permissions deleted successfully');
                     this.refresh();
                     this.selectedPermissions = [];
-                });
-            }
+                },
+                error: () => {
+                    this.toast.error('Failed to delete permissions');
+                }
+            });
         });
     }
 
     deletePermission(permission: Permission) {
-        this.confirmationService.confirm({
-            message: `Delete "${permission.name}"?`,
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.service.delete(permission.id!)
-                    .subscribe(() => this.refresh());
+        this.confirm.delete(
+            `Delete "${permission.name}"?`,
+            () => {
+                this.service.delete(permission.id!).subscribe({
+                    next: () => {
+                        this.toast.success('Permission deleted');
+                        this.refresh();
+                    },
+                    error: () => {
+                        this.toast.error('Delete failed');
+                    }
+                });
             }
-        });
+        );
     }
 
     onSaved() {
+        this.toast.success('Permission saved successfully');
+        this.dialogVisible = false;
         this.refresh();
     }
 

@@ -1,27 +1,19 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnInit,
-    OnChanges,
-    Output,
-    SimpleChanges
-} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { SelectModule } from 'primeng/select';
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
+import {SelectModule} from 'primeng/select';
 
-import { Permission } from '@features/iam/models/permission.model';
-import { PermissionService } from '@features/iam/permissions/services/permission.service';
-import { TenantService } from '@features/iam/tenants/services/tenant.service';
+import {Permission} from '@features/iam/models/permission.model';
+import {PermissionService} from '@features/iam/permissions/services/permission.service';
+import {TenantService} from '@features/iam/tenants/services/tenant.service';
 
-import { BaseCrudForm } from '@core/base/base-crud-form.component';
+import {BaseCrudForm} from '@core/base/base-crud-form.component';
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
 
 @Component({
     selector: 'permission-form',
@@ -31,8 +23,9 @@ import { BaseCrudForm } from '@core/base/base-crud-form.component';
         ReactiveFormsModule,
         InputTextModule,
         ButtonModule,
-        DialogModule,
-        SelectModule // ✅ REQUIRED
+        SelectModule,
+        CsmDialogComponent,
+        CsmFormSectionComponent
     ],
     templateUrl: './permission-form.page.html'
 })
@@ -54,10 +47,10 @@ export class PermissionFormPage
     ngOnInit(): void {
         this.buildForm();
 
-        // Load tenants
-        this.tenantService.getAll().subscribe(res => this.tenants = res);
+        this.tenantService.getAll().subscribe({
+            next: res => this.tenants = res
+        });
 
-        // Static domains (can be dynamic later)
         this.domains = [
             { name: 'User', code: 'USER' },
             { name: 'Group', code: 'GROUP' },
@@ -71,7 +64,6 @@ export class PermissionFormPage
             { name: 'Delete', code: 'DELETE' }
         ];
 
-        // Auto-generate name (UI-friendly)
         this.form.valueChanges.subscribe(val => {
             if (val.domain && val.action) {
                 this.form.patchValue({
@@ -87,7 +79,7 @@ export class PermissionFormPage
         }
     }
 
-    buildForm(): void {
+    override buildForm(): void {
         this.form = this.fb.group({
             id: [null],
             name: [''],
@@ -98,31 +90,23 @@ export class PermissionFormPage
         });
     }
 
-    patchForm(data: Permission): void {
+    override patchForm(data: Permission): void {
         this.form.patchValue(data);
     }
 
-    fetchById(id: string) {
+    override fetchById(id: string) {
         return this.service.getById(id);
     }
 
-    create(payload: any) {
+    override create(payload: any) {
         payload.domain = payload.domain?.toUpperCase();
         payload.action = payload.action?.toUpperCase();
         return this.service.create(payload);
     }
 
-    update(id: string, payload: any) {
+    override update(id: string, payload: any) {
         payload.domain = payload.domain?.toUpperCase();
         payload.action = payload.action?.toUpperCase();
         return this.service.update(id, payload);
-    }
-
-    override submit(): void {
-        super.submit();
-
-        this.saved.subscribe(() => {
-            this.visibleChange.emit(false);
-        });
     }
 }

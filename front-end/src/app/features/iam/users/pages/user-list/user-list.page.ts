@@ -5,9 +5,6 @@ import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
-import {ConfirmationService, MessageService} from 'primeng/api';
 
 import { forkJoin } from 'rxjs';
 
@@ -18,6 +15,11 @@ import { BaseListComponent } from '@core/base/base-list.component';
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
 import { UserFormPage } from '@features/iam/users/pages/user-form/user-form.page';
 
+// ✅ use your wrapper services
+import { CsmConfirmService } from '@core/services/csm-confirm.service';
+import { AppToastService } from '@core/services/app-toast.service';
+import {TooltipModule} from "primeng/tooltip";
+
 @Component({
     selector: 'user-list',
     standalone: true,
@@ -26,14 +28,12 @@ import { UserFormPage } from '@features/iam/users/pages/user-form/user-form.page
         TableModule,
         ButtonModule,
         TagModule,
+        TooltipModule,
         InputTextModule,
-        ConfirmDialogModule,
-        ToastModule,
         ToolbarActionComponent,
         UserFormPage
     ],
-    templateUrl: './user-list.page.html',
-    providers: [ConfirmationService, MessageService]
+    templateUrl: './user-list.page.html'
 })
 export class UserListPage extends BaseListComponent<User> {
 
@@ -47,7 +47,8 @@ export class UserListPage extends BaseListComponent<User> {
     // Services
     // =========================
     private service = inject(UserService);
-    private confirmationService = inject(ConfirmationService);
+    private toast = inject(AppToastService);
+    private confirm = inject(CsmConfirmService); // or use ConfirmationService if you prefer
 
     // =========================
     // Table
@@ -75,20 +76,21 @@ export class UserListPage extends BaseListComponent<User> {
     deleteSelectedUsers() {
         if (!this.selectedUsers.length) return;
 
-        this.confirmationService.confirm({
-            message: 'Delete selected users?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                const requests = this.selectedUsers.map(u =>
-                    this.service.delete(u.id!)
-                );
+        this.confirm.delete('Delete selected users?', () => {
+            const requests = this.selectedUsers.map(u =>
+                this.service.delete(u.id!)
+            );
 
-                forkJoin(requests).subscribe(() => {
+            forkJoin(requests).subscribe({
+                next: () => {
+                    this.toast.success('Users deleted successfully');
                     this.refresh();
                     this.selectedUsers = [];
-                });
-            }
+                },
+                error: () => {
+                    this.toast.error('Failed to delete users');
+                }
+            });
         });
     }
 
@@ -106,15 +108,20 @@ export class UserListPage extends BaseListComponent<User> {
     }
 
     deleteUser(user: User) {
-        this.confirmationService.confirm({
-            message: `Delete user "${user.username}"?`,
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.service.delete(user.id!)
-                    .subscribe(() => this.refresh());
+        this.confirm.delete(
+            `Delete user "${user.username}"?`,
+            () => {
+                this.service.delete(user.id!).subscribe({
+                    next: () => {
+                        this.toast.success('User deleted successfully');
+                        this.refresh();
+                    },
+                    error: () => {
+                        this.toast.error('Failed to delete user');
+                    }
+                });
             }
-        });
+        );
     }
 
     // =========================
@@ -122,6 +129,8 @@ export class UserListPage extends BaseListComponent<User> {
     // =========================
 
     onSaved() {
+        this.toast.success('User saved successfully');
+        this.dialogVisible = false;
         this.refresh();
     }
 
