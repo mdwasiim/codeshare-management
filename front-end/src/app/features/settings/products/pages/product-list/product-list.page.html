@@ -3,8 +3,7 @@
 <!-- ============================= -->
 <csm-crud-toolbar
     [actions]="['create','delete','export','search']"
-    [disableDelete]="!selectedProducts?.length"
-
+    [hasSelection]="!selectedProducts?.length"
     (create)="openNew()"
     (delete)="deleteSelectedProducts()"
     (export)="exportCSV()"

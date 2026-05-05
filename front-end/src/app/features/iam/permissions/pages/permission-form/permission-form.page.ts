@@ -8,10 +8,10 @@ import {ButtonModule} from 'primeng/button';
 import {SelectModule} from 'primeng/select';
 
 import {Permission} from '@features/iam/models/permission.model';
-import {PermissionService} from '@features/iam/permissions/services/permission.service';
+import {PermissionApiService} from '@features/iam/permissions/services/permission-api.service';
 import {TenantService} from '@features/iam/tenants/services/tenant.service';
 
-import {BaseCrudForm} from '@core/base/base-crud-form.component';
+import {BaseCrudForm} from '@shared/components/base/base-form.component';
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
 
@@ -37,7 +37,7 @@ export class PermissionFormPage
     @Output() visibleChange = new EventEmitter<boolean>();
 
     private fb = inject(FormBuilder);
-    private service = inject(PermissionService);
+    private service = inject(PermissionApiService);
     private tenantService = inject(TenantService);
 
     tenants: any[] = [];

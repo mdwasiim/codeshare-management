@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -22,9 +24,9 @@ public class TenantLoader {
     @Transactional
     public List<Tenant> loadTenants() {
 
-        log.info("⏳ Bootstrapping tenants (full audit fields)...");
+        log.info("⏳ Bootstrapping tenants...");
 
-        Tenant tenantQR  =createTenantIfNotExists(
+        Tenant tenantQR = createOrGetTenant(
                 "QR",
                 "Qatar Airways",
                 "qr@qatarairways.com.qa",
@@ -32,19 +34,20 @@ public class TenantLoader {
                 "GLOBAL"
         );
 
-       /* Tenant tenantBA =  createTenantIfNotExists(
+        Tenant tenantBA = createOrGetTenant(
                 "BA",
                 "British Airways",
                 "support@ba.com",
                 TenantPlan.PRO,
                 "EU"
-        );*/
+        );
 
-        log.info(" Tenant bootstrap completed");
-        return List.of(tenantQR);
+        log.info("✅ Tenant bootstrap completed");
+
+        return List.of(tenantQR, tenantBA);
     }
 
-    private Tenant createTenantIfNotExists(
+    private Tenant createOrGetTenant(
             String code,
             String name,
             String email,
@@ -52,59 +55,71 @@ public class TenantLoader {
             String region
     ) {
 
-        if (repo.existsByTenantCode(code)) {
-            log.info("Tenant '{}' already exists. Skipping.", code);
-            return null;
+        Optional<Tenant> existing = repo.findByTenantCode(code);
+
+        if (existing.isPresent()) {
+            log.info("Tenant '{}' already exists. Using existing.", code);
+            return existing.get(); // ✅ IMPORTANT: return existing, not null
         }
 
         LocalDateTime now = LocalDateTime.now();
 
         Tenant tenant = Tenant.builder()
 
-                /* -------------------------
-                 * Tenant domain fields
-                 * ------------------------- */
+                // =========================
+                // BUSINESS FIELDS
+                // =========================
                 .tenantCode(code)
                 .name(name)
-                .description("Auto-loaded ingestion: " + code)
-                .active(true)
+                .description("Auto-loaded tenant: " + code)
                 .plan(plan)
                 .trial(false)
                 .contactEmail(email)
-                .contactPhone(null)
-                .logoUrl(null)
                 .region(region)
 
-                /* -------------------------
-                 * Subscription fields
-                 * ------------------------- */
+                // =========================
+                // STATUS
+                // =========================
+                .active(true)
+                .deleted(false)
+
+                // =========================
+                // SUBSCRIPTION
+                // =========================
                 .subscriptionStart(now)
                 .subscriptionEnd(null)
 
-                /* -------------------------
-                 * Audit fields
-                 * ------------------------- */
+                // =========================
+                // AUDIT (only if not auto-handled)
+                // =========================
                 .createdAt(Instant.now())
                 .createdBy("SYSTEM")
-                .updatedAt(null)
-                .updatedBy(null)
 
-                /* -------------------------
-                 * State fields
-                 * ------------------------- */
-                .active(true)
-                .deleted(false)
-                .deletedAt(null)
-                .deletedBy(null)
-
-                /* -------------------------
-                 * Trace fields
-                 * ------------------------- */
+                // =========================
+                // TRACE
+                // =========================
                 .transactionId("BOOTSTRAP-TENANT-" + code)
 
                 .build();
 
-        log.info(" Tenant '{}' created with full audit data", code);
-        return  repo.save(tenant);
+        Tenant saved = repo.save(tenant);
+
+        log.info("✅ Tenant '{}' created", code);
+
+        return saved;
+    }
+
+    // ===============================
+    // 🔥 REQUIRED FOR DATALOADER
+    // ===============================
+    public List<UUID> getAllTenantIds() {
+        return repo.findAll()
+                .stream()
+                .map(Tenant::getId)
+                .toList();
+    }
+
+    public boolean isLoaded(UUID tenantId) {
+        return repo.existsById(tenantId);
     }
 }

@@ -7,7 +7,7 @@ import { TagModule } from 'primeng/tag';
 
 import { forkJoin, Observable, of } from 'rxjs';
 
-import { BaseListComponent } from '@core/base/base-list.component';
+import { BaseListComponent } from '@shared/components/base/base-list.component';
 import { Organization } from "@features/settings/model/organization.model";
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
@@ -126,5 +126,9 @@ export class OrganizationListPage extends BaseListComponent<Organization> {
 
     onSearch(value: string) {
         this.dt.filterGlobal(value, 'contains');
+    }
+
+    exportCSV() {
+        this.dt.exportCSV();
     }
 }

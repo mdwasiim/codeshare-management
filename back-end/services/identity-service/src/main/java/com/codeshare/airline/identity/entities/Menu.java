@@ -42,6 +42,9 @@ public class Menu extends CSMDataAbstractEntity {
     @Column(name = "route", length = 1000)
     private String route;
 
+    @Column(name = "permission", length = 150)
+    private String permission;
+
     @Column(name = "display_order")
     private Integer displayOrder;
 

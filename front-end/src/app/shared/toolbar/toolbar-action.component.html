@@ -3,7 +3,7 @@
     <ng-template pTemplate="left">
 
         <p-button
-            *ngIf="actions.includes('create') && canShow('create')"
+            *ngIf="visibleActions.includes('create')"
             label="New"
             icon="pi pi-plus"
             severity="secondary"
@@ -12,18 +12,18 @@
         </p-button>
 
         <p-button
-            *ngIf="actions.includes('delete') && canShow('delete')"
+            *ngIf="visibleActions.includes('delete')"
             label="Delete"
             icon="pi pi-trash"
             severity="secondary"
             outlined
             class="mr-2"
-            [disabled]="disableDelete"
+            [disabled]="isDeleteDisabled()"
             (click)="delete.emit()">
         </p-button>
 
         <p-button
-            *ngIf="actions.includes('refresh') && canShow('refresh')"
+            *ngIf="visibleActions.includes('refresh')"
             label="Refresh"
             icon="pi pi-refresh"
             severity="secondary"
@@ -32,7 +32,7 @@
         </p-button>
 
         <p-button
-            *ngIf="actions.includes('upload') && canShow('upload')"
+            *ngIf="visibleActions.includes('upload')"
             label="Upload"
             icon="pi pi-upload"
             severity="secondary"
@@ -43,8 +43,9 @@
     </ng-template>
 
     <ng-template pTemplate="right">
+
         <p-button
-            *ngIf="actions.includes('export') && canShow('export')"
+            *ngIf="visibleActions.includes('export')"
             label="Export"
             icon="pi pi-upload"
             severity="secondary"

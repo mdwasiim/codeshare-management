@@ -39,8 +39,8 @@ public class InternalAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationFailedException("Invalid username or password");
         }
 
-        Set<String> rolese = rolePermissionAssignmentService.resolveRoleNames(userDetailsAdapter.getUserId());
-        Set<String> permissions = rolePermissionAssignmentService.resolvePermissionsNames(userDetailsAdapter.getUserId());
+        Set<String> rolese = rolePermissionAssignmentService.resolveRoleCodes(userDetailsAdapter.getUserId());
+        Set<String> permissions = rolePermissionAssignmentService.resolvePermissionCodes(userDetailsAdapter.getUserId());
         return AuthenticationResult.builder()
                 .userId(userDetailsAdapter.getUserId().toString())
                 .username(userDetailsAdapter.getUsername())

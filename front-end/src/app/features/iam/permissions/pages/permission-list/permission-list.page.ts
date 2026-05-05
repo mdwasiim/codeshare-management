@@ -8,8 +8,8 @@ import { TagModule } from 'primeng/tag';
 import { forkJoin } from 'rxjs';
 
 import { Permission } from '@features/iam/models/permission.model';
-import { BaseListComponent } from '@core/base/base-list.component';
-import { PermissionService } from '@features/iam/permissions/services/permission.service';
+import { BaseListComponent } from '@shared/components/base/base-list.component';
+import { PermissionApiService } from '@features/iam/permissions/services/permission-api.service';
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
 import { PermissionFormPage } from '@features/iam/permissions/pages/permission-form/permission-form.page';
@@ -35,7 +35,7 @@ import {Tooltip, TooltipModule} from "primeng/tooltip";
 })
 export class PermissionListPage extends BaseListComponent<Permission> {
 
-    private service = inject(PermissionService);
+    private service = inject(PermissionApiService);
     private toast = inject(AppToastService);
     private confirm = inject(CsmConfirmService);
 
@@ -86,7 +86,7 @@ export class PermissionListPage extends BaseListComponent<Permission> {
 
     deletePermission(permission: Permission) {
         this.confirm.delete(
-            `Delete "${permission.name}"?`,
+            `Delete "${permission.displayName}"?`,
             () => {
                 this.service.delete(permission.id!).subscribe({
                     next: () => {
@@ -109,5 +109,9 @@ export class PermissionListPage extends BaseListComponent<Permission> {
 
     onSearch(value: string) {
         this.dt.filterGlobal(value, 'contains');
+    }
+
+    exportCSV() {
+        this.dt.exportCSV();
     }
 }

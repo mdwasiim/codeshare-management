@@ -25,6 +25,8 @@ public class MenuDTO extends CSMAuditableDTO {
 
     private String route;
 
+    private String permission;
+
     private Integer displayOrder;
 
     private Boolean visible;

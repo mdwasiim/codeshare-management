@@ -16,4 +16,6 @@ public interface OidcIdentityProviderRepository extends CSMDataBaseRepository<Oi
     List<OidcIdentityProviderEntity> findAllByTenant_TenantCodeOrderByPriorityAsc(String tenantCode);
 
     Optional<OidcIdentityProviderEntity> findByTenant_IdAndAuthSource(UUID id, AuthSource authSource);
+
+    long countByTenantId(UUID tenantId);
 }

@@ -299,9 +299,9 @@ public class TokenService {
         }
 
         Set<String> roles =
-                rolePermissionAssignmentService.resolveRoleNames(user.getUserId());
+                rolePermissionAssignmentService.resolveRoleCodes(user.getUserId());
         Set<String> permissions =
-                rolePermissionAssignmentService.resolvePermissionsNames(user.getUserId());
+                rolePermissionAssignmentService.resolvePermissionCodes(user.getUserId());
 
         return AuthenticationResult.builder()
                 .username(user.getUsername())

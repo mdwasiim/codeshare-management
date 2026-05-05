@@ -44,6 +44,13 @@ export const APP_ROUTES: Routes = [
                         .then(m => m.FEATURE_ROUTES)
             },
 
+            {
+                path: 'unauthorized',
+                loadComponent: () =>
+                    import('@core/pages/unauthorized.page')
+                        .then(m => m.UnauthorizedPage)
+            },
+
             // ✅ Not Found
             {
                 path: 'notfound',

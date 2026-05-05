@@ -17,7 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 
 import { AppMenuModel } from "@shared/models/app-menu.model";
-import { BaseCrudForm } from "@core/base/base-crud-form.component";
+import { BaseCrudForm } from "@shared/components/base/base-form.component";
 import { LayoutMenuService } from "@layout/services/layout-menu.service";
 import { MenuManagementService } from "@features/iam/menus/services/menu-management.service";
 import {SelectModule} from "primeng/select";

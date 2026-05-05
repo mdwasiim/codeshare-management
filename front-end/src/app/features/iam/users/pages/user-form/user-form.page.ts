@@ -20,7 +20,7 @@ import { SelectModule } from 'primeng/select';
 
 import { UserService } from '@features/iam/users/services/user.service';
 import { User } from '@features/iam/models/user.model';
-import { BaseCrudForm } from '@core/base/base-crud-form.component';
+import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { Tenant } from "@features/iam/models/tenant.model";
 import { TenantService } from "@features/iam/tenants/services/tenant.service";
 import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";

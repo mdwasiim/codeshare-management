@@ -43,8 +43,8 @@ public abstract class AbstractOidcAuthenticationProvider implements Authenticati
                 );
 
         Set<String> roles =
-                rolePermissionAssignmentService.resolveRoleNames(oidcUser.getUserId());
-        Set<String> permissions = rolePermissionAssignmentService.resolvePermissionsNames(oidcUser.getUserId());
+                rolePermissionAssignmentService.resolveRoleCodes(oidcUser.getUserId());
+        Set<String> permissions = rolePermissionAssignmentService.resolvePermissionCodes(oidcUser.getUserId());
 
         return mapToAuthResult(oidcUser, tenant, roles, permissions);
     }

@@ -2,7 +2,8 @@
 <!-- Toolbar -->
 <csm-crud-toolbar
     [actions]="['create','delete','export','search']"
-    [disableDelete]="!selectedUsers.length"
+    [permissions]="permissions"
+    [hasSelection]="selectedUsers.length > 0"
     (create)="openCreate()"
     (delete)="deleteSelectedUsers()"
     (export)="exportCSV()"
@@ -72,6 +73,7 @@
             <td>
                 <div class="flex gap-1 justify-center">
                     <p-button
+                        *ngIf="permissions.canCreate"
                         icon="pi pi-pencil"
                         size="small"
                         text
@@ -81,6 +83,7 @@
                     </p-button>
 
                     <p-button
+                        *ngIf="permissions.canDelete"
                         icon="pi pi-trash"
                         size="small"
                         text

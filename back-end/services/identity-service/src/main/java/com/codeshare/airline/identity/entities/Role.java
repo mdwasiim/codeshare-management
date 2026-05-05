@@ -32,6 +32,7 @@ public class Role extends CSMDataAbstractEntity {
     @Column(name = "name", nullable = false, length = 200)
     private String name;
 
+    @EqualsAndHashCode.Include
     @Column(name = "code", nullable = false, length = 200)
     private String code;
 
@@ -52,4 +53,10 @@ public class Role extends CSMDataAbstractEntity {
     )
     @ToString.Exclude
     private Set<RolePermission> rolePermissions = new HashSet<>();
+
+    @PrePersist
+    @PreUpdate
+    private void normalize() {
+        if (code != null) code = code.toUpperCase();
+    }
 }

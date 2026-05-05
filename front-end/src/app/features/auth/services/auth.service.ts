@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {AppApiService} from '@services/auth/app-api.service';
 import {LoginResponse} from '@features/auth/models/login-response.model';
 import {RefreshTokenResponse} from '@features/auth/models/refresh-token-response.model';
 import {catchError, Observable, of, tap} from 'rxjs';
@@ -8,6 +7,7 @@ import {AppTokenService} from "@services/auth/app-token.service";
 import {LayoutMenuService} from "@layout/services/layout-menu.service";
 import {map} from "rxjs/operators";
 import { switchMap } from 'rxjs';
+import {AppApiService} from "@core/config/app-api.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

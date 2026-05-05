@@ -7,7 +7,7 @@ import com.codeshare.airline.identity.entities.OidcIdentityProviderEntity;
 import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.repository.OidcIdentityProviderRepository;
 import com.codeshare.airline.identity.repository.TenantRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OidcIdentityProviderDataLoader {
 
     private final TenantRepository tenantRepository;
@@ -30,6 +30,8 @@ public class OidcIdentityProviderDataLoader {
 
         for (UUID tenantId : tenantIds) {
 
+            if (tenantId == null) continue;
+
             Tenant tenant = tenantRepository.findById(tenantId)
                     .orElseThrow(() ->
                             new IllegalStateException("Tenant not found: " + tenantId));
@@ -39,7 +41,7 @@ public class OidcIdentityProviderDataLoader {
             bootstrapProvider(tenant, AuthSource.LDAP, 3);
         }
 
-        log.info(" Identity Provider bootstrap completed");
+        log.info("✅ Identity Provider bootstrap completed");
     }
 
     private void bootstrapProvider(
@@ -56,7 +58,7 @@ public class OidcIdentityProviderDataLoader {
         if (authSource == AuthSource.INTERNAL || authSource == AuthSource.AZURE) {
             ensureOidcConfig(provider, authSource);
         } else {
-            log.info("ℹ️ LDAP provider ready for ingestion [{}]", tenant.getTenantCode());
+            log.info("ℹ️ LDAP provider ready for tenant [{}]", tenant.getTenantCode());
         }
     }
 
@@ -70,13 +72,13 @@ public class OidcIdentityProviderDataLoader {
                 OidcIdentityProviderEntity.builder()
                         .tenant(tenant)
                         .authSource(authSource)
-                        .enabled(authSource == AuthSource.INTERNAL)
+                        .enabled(authSource == AuthSource.INTERNAL || authSource == AuthSource.AZURE)
                         .priority(priority)
                         .build();
 
         identityProviderRepository.save(provider);
 
-        log.info("➕ Created {} provider for ingestion [{}]", authSource, tenant.getTenantCode());
+        log.info("➕ Created {} provider for tenant [{}]", authSource, tenant.getTenantCode());
         return provider;
     }
 
@@ -85,7 +87,10 @@ public class OidcIdentityProviderDataLoader {
             AuthSource authSource
     ) {
 
-        if (provider.getOidcConfig() != null) {
+        OidcConfigEntity existing = provider.getOidcConfig();
+
+        // ✅ if already valid, skip
+        if (existing != null && existing.getIssuerUri() != null) {
             return;
         }
 
@@ -98,13 +103,15 @@ public class OidcIdentityProviderDataLoader {
         identityProviderRepository.save(provider);
 
         log.info(
-                "➕ Created {} OIDC config for ingestion [{}]",
+                "➕ Ensured {} OIDC config for tenant [{}]",
                 authSource,
                 provider.getTenant().getTenantCode()
         );
     }
 
-    /* ================= DEFAULT CONFIGS ================= */
+    // ===============================
+    // DEFAULT CONFIGS
+    // ===============================
 
     private OidcConfigEntity internalDefaults(OidcIdentityProviderEntity provider) {
 
@@ -128,9 +135,9 @@ public class OidcIdentityProviderDataLoader {
 
         return OidcConfigEntity.builder()
                 .identityProvider(provider)
-                .issuerUri("https://login.microsoftonline.com/{ingestion-id}/v2.0")
-                .authorizationUri("https://login.microsoftonline.com/{ingestion-id}/oauth2/v2.0/authorize")
-                .tokenUri("https://login.microsoftonline.com/{ingestion-id}/oauth2/v2.0/token")
+                .issuerUri("https://login.microsoftonline.com/{tenant-id}/v2.0")
+                .authorizationUri("https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/authorize")
+                .tokenUri("https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/token")
                 .jwkSetUri("https://login.microsoftonline.com/common/discovery/v2.0/keys")
                 .clientId("azure-gateway-id")
                 .clientSecretRef("vault:azure-gateway-secret")
@@ -140,5 +147,16 @@ public class OidcIdentityProviderDataLoader {
                 .scopes("openid profile email offline_access")
                 .enforceRedirectUri(true)
                 .build();
+    }
+
+    // ===============================
+    // TENANT-AWARE VALIDATION
+    // ===============================
+    public boolean isLoaded(UUID tenantId) {
+
+        long count = identityProviderRepository.countByTenantId(tenantId);
+
+        // INTERNAL + AZURE + LDAP = 3 providers expected
+        return count >= 3;
     }
 }

@@ -17,7 +17,7 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 
 import { Organization } from "@features/settings/model/organization.model";
-import { BaseCrudForm } from "@core/base/base-crud-form.component";
+import { BaseCrudForm } from "@shared/components/base/base-form.component";
 import { of } from "rxjs";
 
 import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';

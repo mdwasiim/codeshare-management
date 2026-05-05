@@ -3,9 +3,11 @@
 <!-- ============================= -->
 <csm-crud-toolbar
     [actions]="['create','delete','search']"
-    [disableDelete]="!selectedMenus.length"
+    [permissions]="permissions"
+    [hasSelection]="selectedMenus.length > 0"
     (create)="openCreate()"
     (delete)="deleteSelectedMenus()"
+    (export)="exportCSV()"
     (search)="onSearch($event)">
 </csm-crud-toolbar>
 

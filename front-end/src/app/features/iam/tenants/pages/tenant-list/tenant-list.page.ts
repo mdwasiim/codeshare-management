@@ -10,7 +10,7 @@ import {ToastModule} from 'primeng/toast';
 import {ConfirmationService, MessageService} from 'primeng/api';
 
 import {forkJoin} from 'rxjs';
-import {BaseListComponent} from '@core/base/base-list.component';
+import {BaseListComponent} from '@shared/components/base/base-list.component';
 
 import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
 import {TenantService} from "../../services/tenant.service";

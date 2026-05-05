@@ -1,20 +1,12 @@
 package com.codeshare.airline.identity.utils.data;
 
-import com.codeshare.airline.identity.entities.Permission;
-import com.codeshare.airline.identity.entities.Role;
-import com.codeshare.airline.identity.entities.RolePermission;
-import com.codeshare.airline.identity.entities.Tenant;
-import com.codeshare.airline.identity.repository.PermissionRepository;
-import com.codeshare.airline.identity.repository.RolePermissionRepository;
-import com.codeshare.airline.identity.repository.RoleRepository;
-import com.codeshare.airline.identity.repository.TenantRepository;
+import com.codeshare.airline.identity.entities.*;
+import com.codeshare.airline.identity.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -28,12 +20,7 @@ public class RolePermissionLoader {
 
     public void load(List<UUID> tenantIds) {
 
-        if (repo.count() > 0) {
-            log.info(" PermissionRoleLoader: Role-Permission mappings already exist — skipping load.");
-            return;
-        }
-
-        log.info("⏳ PermissionRoleLoader: Assigning permissions to roles for {} tenants...", tenantIds.size());
+        log.info("⏳ RolePermissionLoader: Assigning permissions to roles...");
 
         int total = 0;
 
@@ -44,7 +31,7 @@ public class RolePermissionLoader {
             total += assignTenantPermissions(tenantId);
         }
 
-        log.info(" PermissionRoleLoader: Completed. {} role-permission mappings created.", total);
+        log.info("✅ RolePermissionLoader: Completed. {} mappings created.", total);
     }
 
     private int assignTenantPermissions(UUID tenantId) {
@@ -56,47 +43,59 @@ public class RolePermissionLoader {
         List<Permission> permissions = permRepo.findByTenantId(tenantId);
         List<Role> roles = roleRepo.findByTenantId(tenantId);
 
-
-
         if (permissions.isEmpty()) {
-            log.warn("⚠ No permissions found for ingestion {} — skipping mapping", tenantId);
+            log.warn("⚠ No permissions found for tenant {} — skipping", tenantId);
             return 0;
         }
 
         if (roles.isEmpty()) {
-            log.warn("⚠ No roles found for ingestion {} — skipping mapping", tenantId);
+            log.warn("⚠ No roles found for tenant {} — skipping", tenantId);
             return 0;
         }
 
-        List<RolePermission> links = new ArrayList<>();
+        // 🔥 Load existing mappings once
+        Set<String> existingMappings = repo.findMappings(tenant);
+
+        List<RolePermission> toSave = new ArrayList<>();
 
         for (Role role : roles) {
+
             for (Permission permission : permissions) {
-                links.add(RolePermission.builder()
-                        .tenant(tenant)
-                        .role(role)
-                        .permission(permission)
-                        .build());
+
+                String key = role.getCode() + ":" + permission.getCode();
+
+                if (existingMappings.contains(key)) continue;
+
+                toSave.add(
+                        RolePermission.builder()
+                                .tenant(tenant)
+                                .role(role)
+                                .permission(permission)
+                                .build()
+                );
             }
         }
 
-        repo.saveAll(links);
-
-        log.info(" Tenant {}: {} permission-role mappings created.", tenantId, links.size());
-
-        return links.size();
-    }
-
-    private UUID safeUUID(String id) {
-        try {
-            return UUID.fromString(id);
-        } catch (Exception ex) {
-            log.warn("⚠ Invalid ingestion ID '{}' — skipping...", id);
-            return null;
+        if (!toSave.isEmpty()) {
+            repo.saveAll(toSave);
         }
+
+        log.info("Tenant {}: {} role-permission mappings created.", tenant.getTenantCode(), toSave.size());
+
+        return toSave.size();
     }
 
-    public boolean isLoaded() {
-        return repo.count()>0;
+    // ===============================
+    // 🔥 TENANT-AWARE CHECK
+    // ===============================
+    public boolean isLoaded(UUID tenantId) {
+
+        long roleCount = roleRepo.countByTenantId(tenantId);
+        long permCount = permRepo.countByTenantId(tenantId);
+        long expected = roleCount * permCount;
+
+        long actual = repo.countByTenantId(tenantId);
+
+        return actual >= expected;
     }
 }

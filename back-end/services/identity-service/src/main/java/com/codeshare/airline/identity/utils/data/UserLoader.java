@@ -1,15 +1,9 @@
 package com.codeshare.airline.identity.utils.data;
 
-
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.identity.entities.Group;
-import com.codeshare.airline.identity.entities.Tenant;
-import com.codeshare.airline.identity.entities.User;
-import com.codeshare.airline.identity.entities.UserGroup;
-import com.codeshare.airline.identity.repository.GroupRepository;
-import com.codeshare.airline.identity.repository.UserGroupRepository;
-import com.codeshare.airline.identity.repository.UserRepository;
+import com.codeshare.airline.identity.entities.*;
+import com.codeshare.airline.identity.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,24 +32,29 @@ public class UserLoader {
 
     private void createAdminIfMissing(Tenant tenant) {
 
-        String username = "admin";
+        String username = "admin@"+tenant.getTenantCode() ;
         String email = tenant.getTenantCode() + "@codeshare.com";
 
-        boolean exists = userRepository.existsByUsername(username);
+        // 🔥 FIX: tenant-aware check
+        boolean exists = userRepository.existsByUsernameAndTenant(username, tenant);
 
-        if (exists) return;
+        if (exists) {
+            log.info("Admin user already exists for tenant {}", tenant.getTenantCode());
+            return;
+        }
 
+        // 🔥 FIX: correct group code
         Group adminGroup = groupRepository
-                .findByCodeAndTenant_TenantCode("ADMIN", tenant.getTenantCode())
+                .findByCodeAndTenant_TenantCode("ADMIN_GROUP", tenant.getTenantCode())
                 .orElseThrow(() -> new RuntimeException("Admin group not found"));
 
-        // 🔥 create user FIRST
+        // 🔥 create user
         User user = User.builder()
                 .username(username.toLowerCase())
                 .email(email)
                 .firstName("Admin")
                 .lastName(tenant.getName())
-                .password(passwordEncoder.encode("admin"))
+                .password(passwordEncoder.encode("admin")) // ⚠ change later
                 .enabled(true)
                 .active(true)
                 .accountNonExpired(true)
@@ -69,13 +68,20 @@ public class UserLoader {
 
         User savedUser = userRepository.save(user);
 
-        UserGroup userGroup = UserGroup.builder()
-                .tenant(tenant)
-                .user(savedUser)
-                .group(adminGroup)
-                .build();
+        // 🔥 FIX: avoid duplicate mapping
+        boolean mappingExists = userGroupRepository
+                .existsByTenantAndUserAndGroup(tenant, savedUser, adminGroup);
 
-        userGroupRepository.save(userGroup);
+        if (!mappingExists) {
+            UserGroup userGroup = UserGroup.builder()
+                    .tenant(tenant)
+                    .user(savedUser)
+                    .group(adminGroup)
+                    .build();
+
+            userGroupRepository.save(userGroup);
+        }
+
+        log.info("✅ Admin user created for tenant {}", tenant.getTenantCode());
     }
 }
-

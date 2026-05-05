@@ -28,10 +28,17 @@ public class GroupRoleLoader {
     /**
      * Default role assignments per group
      */
-    private static final Map<String, List<String>> GROUP_ROLE_MAP = Map.of(
-            "ADMIN", List.of("ADMIN", "TENANT_ADMIN"),
-            "IT", List.of("MANAGER"),
-            "OPS", List.of("STAFF")
+    private static final Map<String, List<String>> GROUP_ROLE_MAP = Map.ofEntries(
+
+            Map.entry("ADMIN_GROUP", List.of("ADMIN", "TENANT_ADMIN")),
+            Map.entry("TENANT_ADMIN_GROUP", List.of("TENANT_ADMIN")),
+
+            Map.entry("OPS_MANAGER_GROUP", List.of("MANAGER")),
+            Map.entry("OPS_STAFF_GROUP", List.of("STAFF")),
+
+            Map.entry("IT_SUPPORT", List.of("MANAGER")),
+
+            Map.entry("VIEWER_GROUP", List.of("STAFF"))
     );
 
     public void load(List<UUID> tenantIds) {
@@ -96,8 +103,16 @@ public class GroupRoleLoader {
         }
     }
 
-    public boolean isLoaded() {
-        return groupRoleRepository.count()>0;
+    public boolean isLoaded(UUID tenantId) {
+
+        long expected = GROUP_ROLE_MAP.values()
+                .stream()
+                .mapToLong(List::size)
+                .sum();
+
+        long actual = groupRoleRepository.countByTenantId(tenantId);
+
+        return actual >= expected;
     }
 
     private UUID safeUUID(String id) {

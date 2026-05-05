@@ -13,12 +13,20 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public class PermissionDTO extends CSMAuditableDTO {
 
-    private String name;            // Human-readable name (e.g., "User Create")
-    private String code;            // domain:action (auto-generated)
+    private String displayName;     // "User Create"
 
-    private String description;     // Detailed meaning
+    private String code;            // "USER:CREATE"
 
-    private String domain;          // NEW — example: "user"
-    private String action;          // NEW — example: "create"
+    private String description;
 
+    private String domain;          // "USER"
+    private String action;          // "CREATE"
+
+    // Optional
+    private String tenantCode;
+
+    // Optional safety
+    public String getCode() {
+        return domain + ":" + action;
+    }
 }

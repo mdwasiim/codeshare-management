@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
-import { AppApiService } from '@services/auth/app-api.service';
 import { AppMenuModel } from '@shared/models/app-menu.model';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import {AppApiService} from "@core/config/app-api.service";
 
 @Injectable({
     providedIn: 'root'

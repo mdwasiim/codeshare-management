@@ -6,7 +6,7 @@ import { tap } from 'rxjs';
 import {Group} from "@features/iam/models/group.model";
 
 @Injectable({ providedIn: 'root' })
-export class PermissionService {
+export class PermissionApiService {
 
     private api = inject(AppApiService);
     private toast = inject(AppToastService);

@@ -1,9 +1,11 @@
 <!-- Toolbar -->
 <csm-crud-toolbar
     [actions]="['create','delete','search']"
-    [disableDelete]="!selectedGroups.length"
+    [permissions]="permissions"
+    [hasSelection]="selectedGroups.length > 0"
     (create)="openCreate()"
     (delete)="deleteSelectedGroups()"
+    (export)="exportCSV()"
     (search)="onSearch($event)">
 </csm-crud-toolbar>
 

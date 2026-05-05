@@ -21,9 +21,9 @@ public interface RolePermissionAssignmentService {
 
     List<RolePermissionDTO> assignPermissionsToRole(UUID roleId, List<UUID> permissionIds);
     
-    Set<String> resolveRoleNames(UUID userId);
+    Set<String> resolveRoleCodes(UUID userId);
 
-    Set<String> resolvePermissionsNames(UUID userId);
+    Set<String> resolvePermissionCodes(UUID userId);
 
     Set<RoleDTO> resolveRoles(UUID userId);
 

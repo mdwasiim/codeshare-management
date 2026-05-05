@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -22,8 +23,17 @@ public class GroupLoader {
     private final TenantRepository tenantRepository;
 
     private static final List<String> BASE_GROUPS = List.of(
-            "ADMIN",
-            "IT"
+
+            "ADMIN_GROUP",
+            "TENANT_ADMIN_GROUP",
+            "OPS_MANAGER_GROUP",
+            "OPS_STAFF_GROUP",
+            "BOOKING_TEAM",
+            "FLIGHT_TEAM",
+            "SUPPORT_TEAM",
+            "AUDIT_TEAM",
+            "IT_SUPPORT",
+            "VIEWER_GROUP"
     );
 
     public void load(List<UUID> tenantIds) {
@@ -40,21 +50,20 @@ public class GroupLoader {
                     .orElseThrow(() ->
                             new IllegalStateException("Tenant not found: " + tenantId));
 
+            // 🔥 PERFORMANCE FIX
+            Set<String> existingCodes =
+                    groupRepository.findCodesByTenant(tenant);
+
             for (String code : BASE_GROUPS) {
 
-                boolean exists =
-                        groupRepository.existsByTenantAndCode(tenant, code);
-
-                if (exists) {
-                    continue;
-                }
+                if (existingCodes.contains(code)) continue;
 
                 groupsToSave.add(
                         Group.builder()
                                 .tenant(tenant)
                                 .code(code)
-                                .name(code + " Group")
-                                .description(code + " Group for ingestion " + tenant.getTenantCode())
+                                .name(toReadableName(code))
+                                .description(code + " for tenant " + tenant.getTenantCode())
                                 .build()
                 );
             }
@@ -62,27 +71,25 @@ public class GroupLoader {
 
         if (!groupsToSave.isEmpty()) {
             groupRepository.saveAll(groupsToSave);
-            log.info(" GroupLoader: {} groups created.", groupsToSave.size());
+            log.info("✅ GroupLoader: {} groups created.", groupsToSave.size());
         } else {
-            log.info(" GroupLoader: all groups already exist.");
+            log.info("✅ GroupLoader: all groups already exist.");
         }
     }
 
-    /**
-     * Tenant-aware initialization check
-     */
-    public boolean isLoaded() {
-        return groupRepository.count()>0;
+    // ===============================
+    // 🔥 TENANT-AWARE CHECK
+    // ===============================
+    public boolean isLoaded(UUID tenantId) {
+
+        long expected = BASE_GROUPS.size();
+        long actual = groupRepository.countByTenantId(tenantId);
+
+        return actual >= expected;
     }
 
-    private UUID safeUUID(String id) {
-        try {
-            return UUID.fromString(id);
-        } catch (Exception e) {
-            log.warn("⚠ Invalid ingestion UUID '{}'", id);
-            return null;
-        }
+    private String toReadableName(String code) {
+        return code.replace("_", " ");
     }
 }
-
 

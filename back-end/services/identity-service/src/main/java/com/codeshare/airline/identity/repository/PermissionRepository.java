@@ -25,4 +25,9 @@ public interface PermissionRepository extends CSMDataBaseRepository<Permission, 
     boolean existsByTenantIdAndCode(UUID tenantId, String code);
 
     boolean existsByTenantAndCode(Tenant tenant, String code);
+
+    @Query("select p.code from Permission p where p.tenant = :tenant")
+    Set<String> findCodesByTenant(@Param("tenant") Tenant tenant);
+
+    long countByTenantId(UUID tenantId);
 }

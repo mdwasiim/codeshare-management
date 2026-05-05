@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TreeTable, TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'primeng/button';
 
-import { BaseListComponent } from '@core/base/base-list.component';
+import { BaseListComponent } from '@shared/components/base/base-list.component';
 import { MenuManagementService } from '../../services/menu-management.service';
 import { AppMenuModel } from '@shared/models/app-menu.model';
 
@@ -148,5 +148,9 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
         });
 
         return roots;
+    }
+
+    exportCSV() {
+        //this.dt.exportCSV();
     }
 }

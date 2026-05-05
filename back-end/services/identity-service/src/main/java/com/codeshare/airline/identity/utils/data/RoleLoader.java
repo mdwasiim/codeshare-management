@@ -8,9 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -42,21 +40,20 @@ public class RoleLoader {
                     .orElseThrow(() ->
                             new IllegalStateException("Tenant not found: " + tenantId));
 
+            // 🔥 PERFORMANCE FIX: fetch once
+            Set<String> existingCodes =
+                    roleRepository.findCodesByTenant(tenant);
+
             for (String code : BASE_ROLES) {
 
-                boolean exists =
-                        roleRepository.existsByTenantAndCode(tenant, code);
-
-                if (exists) {
-                    continue;
-                }
+                if (existingCodes.contains(code)) continue;
 
                 rolesToSave.add(
                         Role.builder()
                                 .tenant(tenant)
                                 .code(code)
                                 .name(toReadableName(code))
-                                .description(code + " role for ingestion " + tenant.getTenantCode())
+                                .description(code + " role for tenant " + tenant.getTenantCode())
                                 .build()
                 );
             }
@@ -64,27 +61,27 @@ public class RoleLoader {
 
         if (!rolesToSave.isEmpty()) {
             roleRepository.saveAll(rolesToSave);
-            log.info(" RoleLoader: {} roles created.", rolesToSave.size());
+            log.info("✅ RoleLoader: {} roles created.", rolesToSave.size());
         } else {
-            log.info(" RoleLoader: all roles already exist.");
+            log.info("✅ RoleLoader: all roles already exist.");
         }
     }
 
-    public boolean isLoaded() {
-        return roleRepository.count()>0;
+    // ===============================
+    // 🔥 TENANT-AWARE VALIDATION
+    // ===============================
+    public boolean isLoaded(UUID tenantId) {
+
+        long expected = BASE_ROLES.size();
+        long actual = roleRepository.countByTenantId(tenantId);
+
+        return actual >= expected;
     }
 
-    private UUID safeUUID(String id) {
-        try {
-            return UUID.fromString(id);
-        } catch (Exception e) {
-            log.warn("⚠ Invalid ingestion UUID '{}'", id);
-            return null;
-        }
-    }
-
+    // ===============================
+    // HELPERS
+    // ===============================
     private String toReadableName(String code) {
         return code.replace("_", " ");
     }
 }
-

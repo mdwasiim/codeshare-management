@@ -119,6 +119,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(readOnly = true)
     public List<MenuDTO> getAllByTenant() {
 
+        TenantContext ctx = TenantContextHolder.getTenant();
         User user = userContextService.getCurrentUser();
 
         List<Group> groups = user.getUserGroups()
@@ -127,10 +128,10 @@ public class MenuServiceImpl implements MenuService {
                 .toList();
 
         // 🔥 fetch allowed menus
-        /*List<Menu> allowedMenus =
-                groupMenuRepository.findMenusByGroupsAndTenant(groups, tenantCode);*/
         List<Menu> allowedMenus =
-                repository.findAll();
+                groupMenuRepository.findMenusByGroupsAndTenant(groups, ctx.getTenantCode());
+        /*List<Menu> allowedMenus =
+                repository.findAll();*/
         // 🔥 include parents
         Set<Menu> allowedSet = new HashSet<>(allowedMenus);
 

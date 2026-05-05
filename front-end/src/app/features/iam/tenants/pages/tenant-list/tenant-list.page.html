@@ -1,6 +1,7 @@
 <csm-crud-toolbar
     [actions]="['create','delete','export','search']"
-    [disableDelete]="!selectedTenants.length"
+    [permissions]="permissions"
+    [hasSelection]="selectedTenants.length > 0"
     (create)="openCreate()"
     (delete)="deleteSelectedTenants()"
     (export)="exportCSV()"

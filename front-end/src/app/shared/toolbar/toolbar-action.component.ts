@@ -19,15 +19,17 @@ export class ToolbarActionComponent {
 
     @Input() actions: CrudAction[] = [];
 
-    @Input() permissions: CSMCrudPermissions = {
+    /*@Input() permissions: CSMCrudPermissions = {
         canCreate: true,
         canDelete: true,
         canExport: true,
         canUpload: true,
         canRefresh: true
-    };
+    };*/
 
-    @Input() disableDelete = false;
+    @Input() permissions?: Partial<CSMCrudPermissions>;
+
+    @Input() hasSelection = false;
     @Input() searchText = '';
 
     @Output() create = new EventEmitter<void>();
@@ -38,10 +40,12 @@ export class ToolbarActionComponent {
     @Output() search = new EventEmitter<string>();
 
     canShow(action: CrudAction): boolean {
+        if (!this.permissions) return true;
+
         switch (action) {
-            case 'create': return this.permissions.canCreate;
-            case 'delete': return this.permissions.canDelete;
-            case 'export': return this.permissions.canExport;
+            case 'create': return this.permissions.canCreate ?? false;
+            case 'delete': return this.permissions.canDelete ?? false;
+            case 'export': return this.permissions.canExport ?? false;
             case 'upload': return this.permissions.canUpload ?? true;
             case 'refresh': return this.permissions.canRefresh ?? true;
             default: return true;
@@ -49,6 +53,25 @@ export class ToolbarActionComponent {
     }
 
     get hasAnyAction(): boolean {
-        return this.actions.some(a => this.canShow(a));
+        return this.visibleActions.length > 0;
+    }
+
+    isDeleteDisabled(): boolean {
+        if (!this.permissions) return !this.hasSelection;
+        return !(this.permissions.canDelete ?? false) || !this.hasSelection;
+    }
+
+    get visibleActions(): CrudAction[] {
+        return this.actions.filter(a => this.canShow(a));
+    }
+
+    private get perms(): CSMCrudPermissions {
+        return {
+            canCreate: this.permissions?.canCreate ?? false,
+            canDelete: this.permissions?.canDelete ?? false,
+            canExport: this.permissions?.canExport ?? false,
+            canUpload: this.permissions?.canUpload ?? false,
+            canRefresh: this.permissions?.canRefresh ?? false
+        };
     }
 }

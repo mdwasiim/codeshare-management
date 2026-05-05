@@ -1,7 +1,8 @@
 package com.codeshare.airline.identity.repository;
 
-import com.codeshare.airline.identity.entities.User;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.identity.entities.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,6 @@ public interface UserRepository extends CSMDataBaseRepository<User, UUID> {
     Optional<User> findByUsernameAndTenant_Id(String username, UUID id);
 
     List<User> findAllByTenant_Id(UUID tenantId);
+
+    boolean existsByUsernameAndTenant(String username, Tenant tenant);
 }

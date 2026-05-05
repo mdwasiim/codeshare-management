@@ -2,7 +2,7 @@ export interface Role {
     id?: string;
 
     code: string;
-    name: string;
+    displayName: string;
     description?: string;
     tenantId: string;
 

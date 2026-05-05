@@ -6,7 +6,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
-import {BaseCrudForm} from '@core/base/base-crud-form.component';
+import {BaseCrudForm} from '@shared/components/base/base-form.component';
 import {TenantService} from "../../services/tenant.service";
 import {Tenant} from "@features/iam/models/tenant.model";
 import {SelectModule} from "primeng/select";

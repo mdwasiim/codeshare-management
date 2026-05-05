@@ -10,7 +10,7 @@ import { forkJoin } from 'rxjs';
 
 import { UserService } from '@features/iam/users/services/user.service';
 import { User } from '@features/iam/models/user.model';
-import { BaseListComponent } from '@core/base/base-list.component';
+import { BaseListComponent } from '@shared/components/base/base-list.component';
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
 import { UserFormPage } from '@features/iam/users/pages/user-form/user-form.page';
@@ -37,6 +37,7 @@ import {TooltipModule} from "primeng/tooltip";
 })
 export class UserListPage extends BaseListComponent<User> {
 
+    protected override resourceName = 'USER';
     // =========================
     // Dialog State
     // =========================
@@ -57,11 +58,18 @@ export class UserListPage extends BaseListComponent<User> {
 
     @ViewChild('dt') dt!: Table;
 
+    override ngOnInit(): void {
+        console.log('UserListPage INIT');
+        super.ngOnInit();
+    }
+
+
     // =========================
     // Data Fetch
     // =========================
-    fetch() {
-        return this.service.getAll();
+     override fetch() {
+         console.log('FETCH CALLED');
+         return this.service.getAll();
     }
 
     // =========================
@@ -129,7 +137,6 @@ export class UserListPage extends BaseListComponent<User> {
     // =========================
 
     onSaved() {
-        this.toast.success('User saved successfully');
         this.dialogVisible = false;
         this.refresh();
     }

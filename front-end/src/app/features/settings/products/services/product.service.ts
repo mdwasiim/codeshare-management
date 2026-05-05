@@ -1,10 +1,10 @@
 
-import { AppApiService } from '@services/auth/app-api.service';
 import { Product } from '@features/settings/model/product.model';
 import {inject, Injectable} from '@angular/core';
 import {of, tap, throwError} from "rxjs";
 import {InventoryStatus} from "@shared/types/ui.types";
 import {AppToastService} from "@services/app-toast.service";
+import {AppApiService} from "@core/config/app-api.service";
 
 
 @Injectable({

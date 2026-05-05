@@ -36,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
             throw new IllegalArgumentException("tenantId is required");
         }
 
-        if (repo.existsByNameAndTenantId(dto.getName(), dto.getTenantId())) {
+        if (repo.existsByNameAndTenantId(dto.getDisplayName(), dto.getTenantId())) {
             throw new RuntimeException("Role already exists for this ingestion");
         }
 
@@ -56,7 +56,7 @@ public class RoleServiceImpl implements RoleService {
                 .orElseThrow(() -> new RuntimeException("Role not found: " + id));
 
         // Only update fields provided in request
-        if (dto.getName() != null) entity.setName(dto.getName());
+        if (dto.getDisplayName() != null) entity.setName(dto.getDisplayName());
         if (dto.getDescription() != null) entity.setDescription(dto.getDescription());
 
         return mapper.toDTO(repo.save(entity));

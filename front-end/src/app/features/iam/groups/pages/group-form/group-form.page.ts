@@ -18,7 +18,7 @@ import { SelectModule } from 'primeng/select';
 
 import { Group } from '@features/iam/models/group.model';
 import { GroupService } from '../../services/group.service';
-import { BaseCrudForm } from '@core/base/base-crud-form.component';
+import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { TenantService } from '@features/iam/tenants/services/tenant.service';
 import { Tenant } from '@features/iam/models/tenant.model';
 

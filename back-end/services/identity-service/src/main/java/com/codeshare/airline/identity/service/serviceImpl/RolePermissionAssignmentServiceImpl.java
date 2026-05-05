@@ -187,10 +187,10 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     // Convenience: only return role names
     // -------------------------------------------------------------------------
     @Override
-    public Set<String> resolveRoleNames(UUID userId) {
+    public Set<String> resolveRoleCodes(UUID userId) {
 
         return resolveRoles(userId).stream()
-                .map(RoleDTO::getName)
+                .map(RoleDTO::getCode)   // ✅ better
                 .collect(Collectors.toSet());
     }
 
@@ -199,10 +199,12 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     // Convenience: only return permission names
     // -------------------------------------------------------------------------
     @Override
-    public Set<String> resolvePermissionsNames(UUID userId) {
+    public Set<String> resolvePermissionCodes(UUID userId) {
 
         return resolvePermissions(userId).stream()
-                .map(PermissionDTO::getName)
+                .map(PermissionDTO::getCode)   // ✅ MUST
                 .collect(Collectors.toSet());
     }
+
+
 }

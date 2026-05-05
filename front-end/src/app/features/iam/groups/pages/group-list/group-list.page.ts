@@ -9,7 +9,7 @@ import { forkJoin } from 'rxjs';
 
 import { GroupService } from '../../services/group.service';
 import { Group } from '@features/iam/models/group.model';
-import { BaseListComponent } from '@core/base/base-list.component';
+import { BaseListComponent } from '@shared/components/base/base-list.component';
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
 import { GroupFormPage } from '@features/iam/groups/pages/group-form/group-form.page';
@@ -109,5 +109,9 @@ export class GroupListPage extends BaseListComponent<Group> {
 
     onSearch(value: string) {
         this.dt.filterGlobal(value, 'contains');
+    }
+
+    exportCSV() {
+        this.dt.exportCSV();
     }
 }

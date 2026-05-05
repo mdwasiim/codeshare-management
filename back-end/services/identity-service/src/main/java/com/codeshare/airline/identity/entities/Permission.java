@@ -13,13 +13,13 @@ import java.util.Set;
         name = "permissions",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_permission_code_tenant",
-                        columnNames = {"tenant_id", "code"}
+                        name = "uk_permission_domain_action_tenant",
+                        columnNames = {"tenant_id", "domain", "action"}
                 )
         },
         indexes = {
                 @Index(name = "idx_permission_tenant", columnList = "tenant_id"),
-                @Index(name = "idx_permission_domain", columnList = "domain")
+                @Index(name = "idx_permission_domain_action", columnList = "domain, action")
         }
 )
 @Getter
@@ -31,32 +31,34 @@ import java.util.Set;
 public class Permission extends CSMDataAbstractEntity {
 
     @Column(name = "name", nullable = false, length = 200)
-    private String name;
+    private String name; // or displayName
 
+    @EqualsAndHashCode.Include
     @Column(name = "code", nullable = false, length = 150)
-    private String code;   // e.g. "user:create"
+    private String code;   // USER:CREATE
 
     @Column(name = "domain", nullable = false, length = 100)
-    private String domain;
+    private String domain; // USER
 
     @Column(name = "action", nullable = false, length = 100)
-    private String action;
+    private String action; // CREATE
 
     @Column(name = "description", length = 500)
     private String description;
 
-    /* Tenant boundary — CONSISTENT */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tenant_id", nullable = false)
-    @ToString.Exclude
     private Tenant tenant;
 
-    /* Role mapping — NO dangerous cascades */
-    @OneToMany(
-            mappedBy = "permission",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @ToString.Exclude
+    @OneToMany(mappedBy = "permission", fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<RolePermission> rolePermissions = new HashSet<>();
+
+    @PrePersist
+    @PreUpdate
+    private void normalize() {
+        if (domain != null) domain = domain.toUpperCase();
+        if (action != null) action = action.toUpperCase();
+        this.code = domain + ":" + action;
+    }
 }

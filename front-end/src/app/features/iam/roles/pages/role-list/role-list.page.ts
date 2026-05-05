@@ -8,7 +8,7 @@ import { TagModule } from 'primeng/tag';
 import { forkJoin } from 'rxjs';
 
 import { Role } from '@features/iam/models/role.model';
-import { BaseListComponent } from '@core/base/base-list.component';
+import { BaseListComponent } from '@shared/components/base/base-list.component';
 import { RoleService } from '../../services/role.service';
 
 import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
@@ -84,7 +84,7 @@ export class RoleListPage extends BaseListComponent<Role> {
 
     deleteRole(role: Role) {
         this.confirm.delete(
-            `Delete role "${role.name}"?`,
+            `Delete role "${role.displayName}"?`,
             () => {
                 this.service.delete(role.id!).subscribe({
                     next: () => {
@@ -106,5 +106,9 @@ export class RoleListPage extends BaseListComponent<Role> {
 
     onSearch(value: string) {
         this.dt.filterGlobal(value, 'contains');
+    }
+
+    exportCSV() {
+        this.dt.exportCSV();
     }
 }

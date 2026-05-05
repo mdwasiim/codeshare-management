@@ -69,9 +69,9 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationFailedException("User not active");
         }
 
-        Set<String> roles = rolePermissionAssignmentService.resolveRoleNames(user.getUserId());
+        Set<String> roles = rolePermissionAssignmentService.resolveRoleCodes(user.getUserId());
 
-        Set<String> permissions = rolePermissionAssignmentService.resolvePermissionsNames(user.getUserId());
+        Set<String> permissions = rolePermissionAssignmentService.resolvePermissionCodes(user.getUserId());
 
         log.info("LDAP login success | user={} tenant={}", request.getUsername(), tenant.getTenantCode());
 
