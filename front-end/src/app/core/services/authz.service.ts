@@ -31,6 +31,11 @@ export class AuthzService {
 
     has(resource: string, action: string): boolean {
         const key = `${resource}:${action}`.toUpperCase();
+        console.log('CHECKING PERMISSION=', key);
+        console.log(
+            'HAS PERMISSION=',
+            this.userPermissions.has(key)
+        );
         return this.userPermissions.has(key);
     }
 

@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public class PermissionDTO extends CSMAuditableDTO {
 
-    private String displayName;     // "User Create"
+    private String name;     // "User Create"
 
     private String code;            // "USER:CREATE"
 

@@ -15,6 +15,9 @@ export interface AppMenuModel {
     parentId?: string;
     displayOrder?: number;
 
+    groupIds?: string[];
+    permission?: string;
+
     // =========================
     // TREE (FRONTEND GENERATED)
     // =========================

@@ -12,7 +12,6 @@ import {PermissionApiService} from '@features/iam/permissions/services/permissio
 import {TenantService} from '@features/iam/tenants/services/tenant.service';
 
 import {BaseCrudForm} from '@shared/components/base/base-form.component';
-import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
 
 @Component({
@@ -24,7 +23,6 @@ import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-
         InputTextModule,
         ButtonModule,
         SelectModule,
-        CsmDialogComponent,
         CsmFormSectionComponent
     ],
     templateUrl: './permission-form.page.html'

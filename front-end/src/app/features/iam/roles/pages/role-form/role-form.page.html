@@ -1,33 +1,62 @@
-<csm-dialog
-    [(visible)]="visible"
-    [title]="isEdit ? 'Edit Role' : 'Create Role'"
-    [width]="'500px'"
-    [disableSave]="form.invalid || loading"
-    (save)="submit()">
+<form [formGroup]="form" class="p-fluid w-full">
 
-    <form [formGroup]="form" class="p-fluid">
+    <div class="w-full">
 
         <csm-form-section title="Role Details">
-            <div class="grid formgrid">
 
-                <div class="col-12 md:col-6 field">
-                    <label>Code</label>
-                    <input pInputText formControlName="code" class="w-full" />
+            <div class="grid">
+
+                <!-- CODE -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="code">Code</label>
+
+                    <input
+                        id="code"
+                        pInputText
+                        formControlName="code"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Name</label>
-                    <input pInputText formControlName="name" class="w-full" />
+                <!-- NAME -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="name">Name</label>
+
+                    <input
+                        id="name"
+                        pInputText
+                        formControlName="name"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12 field">
-                    <label>Description</label>
-                    <input pInputText formControlName="description" class="w-full" />
+                <!-- DESCRIPTION -->
+                <div class="field col-12">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <input
+                        id="description"
+                        pInputText
+                        formControlName="description"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12 field">
-                    <label>Tenant</label>
+                <!-- TENANT -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="tenantId">
+                        Tenant
+                    </label>
+
                     <p-select
+                        inputId="tenantId"
+                        appendTo="body"
                         [options]="tenants"
                         optionLabel="name"
                         optionValue="id"
@@ -35,11 +64,13 @@
                         placeholder="Select Tenant"
                         styleClass="w-full">
                     </p-select>
+
                 </div>
 
             </div>
+
         </csm-form-section>
 
-    </form>
+    </div>
 
-</csm-dialog>
+</form>

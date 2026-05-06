@@ -10,6 +10,7 @@ import {BaseCrudForm} from '@shared/components/base/base-form.component';
 import {TenantService} from "../../services/tenant.service";
 import {Tenant} from "@features/iam/models/tenant.model";
 import {SelectModule} from "primeng/select";
+import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
 
 @Component({
     selector: 'tenant-form',
@@ -20,15 +21,12 @@ import {SelectModule} from "primeng/select";
         InputTextModule,
         ButtonModule,
         DialogModule,
-        SelectModule
+        SelectModule,CsmFormSectionComponent
     ],
     templateUrl: './tenant-form.page.html'
 })
 export class TenantFormPage extends BaseCrudForm<Tenant>
-    implements OnInit, OnChanges {
-
-    @Input() visible = false;
-    @Output() visibleChange = new EventEmitter<boolean>();
+    implements OnInit {
 
     private fb = inject(FormBuilder);
     private service = inject(TenantService);
@@ -47,16 +45,10 @@ export class TenantFormPage extends BaseCrudForm<Tenant>
         { label: 'Enterprise', value: 'ENTERPRISE' }
     ];
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['visible'] && this.visible) {
-            this.init(); // 🔥 REQUIRED
-        }
-    }
 
 
     ngOnInit() {
         this.buildForm();
-        this.saved.subscribe(() => this.visibleChange.emit(false));
     }
 
     buildForm(): void {
@@ -88,13 +80,4 @@ export class TenantFormPage extends BaseCrudForm<Tenant>
     update(id: string, payload: Tenant) {
         return this.service.update(id, payload);
     }
-
-    override submit(): void {
-        super.submit();
-
-        this.saved.subscribe(() => {
-            this.visibleChange.emit(false);
-        });
-    }
-
 }

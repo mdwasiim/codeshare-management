@@ -35,4 +35,12 @@ public interface GroupMenuRepository extends CSMDataBaseRepository<GroupMenu, UU
 
     long countByTenantId(UUID tenantId);
 
+    List<Group> findAllByTenant_Id(UUID tenantId);
+
+    boolean existsByTenantAndGroupAndMenu(
+            Tenant tenant,
+            Group group,
+            Menu menu
+    );
+
 }

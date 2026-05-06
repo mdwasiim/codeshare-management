@@ -4,6 +4,7 @@ import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -32,4 +33,6 @@ public class MenuDTO extends CSMAuditableDTO {
     private Boolean visible;
 
     private UUID parentId;
+
+    private List<UUID> groupIds;
 }

@@ -1,37 +1,60 @@
 <p-dialog
-    [(visible)]="visible"
+    [visible]="visible"
+    (visibleChange)="onVisibleChange($event)"
     [modal]="true"
     appendTo="body"
-    [style]="{ width: width }"
+
+    [style]="{
+        width: width,
+        maxWidth: '95vw'
+    }"
+
+    [contentStyle]="{
+        overflow: 'auto',
+        padding: '1.25rem',
+        maxHeight: '75vh'
+    }"
+
     [draggable]="false"
     [resizable]="false"
+    [closable]="closable"
+
     [header]="title"
+
     (onHide)="onHide()">
 
-    <ng-content></ng-content>
+    <!-- CONTENT -->
+    <div class="w-full block">
 
+        <ng-content></ng-content>
+
+    </div>
+
+    <!-- FOOTER -->
     <ng-template pTemplate="footer">
-        <div class="flex justify-end gap-2">
+
+        <div class="flex justify-end align-items-center gap-2">
 
             <button
                 pButton
                 label="Cancel"
                 class="p-button-text"
-                (click)="onCancel()"
-                type="button">
+                type="button"
+                (click)="onCancel()">
             </button>
 
             <button
                 pButton
                 label="Save"
                 icon="pi pi-check"
+                type="button"
                 [disabled]="disableSave"
                 [loading]="loading"
-                (click)="onSave()"
-                type="button">
+                (click)="onSave()">
             </button>
 
         </div>
+
     </ng-template>
 
 </p-dialog>

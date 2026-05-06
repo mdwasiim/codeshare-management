@@ -34,17 +34,17 @@ public class TenantLoader {
                 "GLOBAL"
         );
 
-        Tenant tenantBA = createOrGetTenant(
+       /* Tenant tenantBA = createOrGetTenant(
                 "BA",
                 "British Airways",
                 "support@ba.com",
                 TenantPlan.PRO,
                 "EU"
-        );
+        );*/
 
         log.info("✅ Tenant bootstrap completed");
 
-        return List.of(tenantQR, tenantBA);
+        return List.of(tenantQR);
     }
 
     private Tenant createOrGetTenant(

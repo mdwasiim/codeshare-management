@@ -1,28 +1,21 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnInit,
-    OnChanges,
-    Output,
-    SimpleChanges
-} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DialogModule } from 'primeng/dialog';
+import {ButtonModule} from 'primeng/button';
+import {InputTextModule} from 'primeng/inputtext';
+import {DialogModule} from 'primeng/dialog';
 
-import { AppMenuModel } from "@shared/models/app-menu.model";
-import { BaseCrudForm } from "@shared/components/base/base-form.component";
-import { LayoutMenuService } from "@layout/services/layout-menu.service";
-import { MenuManagementService } from "@features/iam/menus/services/menu-management.service";
+import {AppMenuModel} from "@features/iam/models/app-menu.model";
+import {BaseCrudForm} from "@shared/components/base/base-form.component";
+import {MenuManagementService} from "@features/iam/menus/services/menu-management.service";
 import {SelectModule} from "primeng/select";
-import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
+import {GroupService} from "@features/iam/groups/services/group.service";
+import {MultiSelectModule} from "primeng/multiselect";
+import {PermissionApiService} from "@features/iam/permissions/services/permission-api.service";
+import {Permission} from "@features/iam/models/permission.model";
 
 @Component({
     selector: 'menu-form',
@@ -34,7 +27,7 @@ import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-
         ButtonModule,
         DialogModule,
         SelectModule,
-        CsmDialogComponent,
+        MultiSelectModule,
         CsmFormSectionComponent
     ],
     templateUrl: './menu-form.page.html'
@@ -45,21 +38,48 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
 
-    menuOptions: any[] = [];
+    menuOptions: { label: string; value: string }[] = [];
 
     private fb = inject(FormBuilder);
     private service = inject(MenuManagementService);
-    private layoutMenu = inject(LayoutMenuService);
+    private groupService = inject(GroupService);
+    private permissionApiService = inject(PermissionApiService);
 
     ngOnInit(): void {
         this.buildForm();
+        this.loadGroups();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['visible'] && this.visible) {
             this.init();
             this.loadMenuOptions();
+            this.loadPermissions();
         }
+    }
+    groups: { label: string; value: string }[] = [];
+    permissionOptions: { label: string; value: string }[] = [];
+
+    loadGroups() {
+        this.groupService.getAll().subscribe({
+            next: res => {
+                this.groups = res.map(g => ({
+                    label: g.name,
+                    value: g.id!
+                }));
+            }
+        });
+    }
+
+    loadPermissions() {
+        this.permissionApiService.getAll().subscribe({
+            next: (res: Permission[]) => {
+                this.permissionOptions = res.map(p => ({
+                    label: p.code!,
+                    value: p.code!
+                }));
+            }
+        });
     }
 
     // =========================
@@ -71,16 +91,19 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
             id: [null],
             label: ['', Validators.required],
             icon: [''],
-            routerLink: [''],
+            route: ['', Validators.required],
+            permission: ['', Validators.required],
             displayOrder: [0],
-            parentId: [null]
+            parentId: [null],
+            groupIds: [[]]
         });
     }
 
     override patchForm(data: AppMenuModel): void {
         this.form.patchValue({
             ...data,
-            routerLink: data.routerLink?.[0] || ''
+            route: data.route || '',
+            groupIds: data.groupIds || []
         });
     }
 
@@ -105,11 +128,11 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
             next: res => {
                 this.menuOptions = res.map(m => ({
                     label: m.label,
-                    value: m.id
+                    value: m.id!
                 }));
-
                 // prevent self-parent
-                if (this.id) {
+                const currentId = this.form.get('id')?.value;
+                if (currentId) {
                     this.menuOptions = this.menuOptions.filter(m => m.value !== this.id);
                 }
             }
@@ -125,12 +148,11 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
             id: formValue.id ?? undefined,
             label: formValue.label,
             icon: formValue.icon || undefined,
+            route: formValue.route?.trim() || undefined,
+            permission: formValue.permission?.trim() || undefined,
             displayOrder: formValue.displayOrder ?? 0,
             parentId: formValue.parentId ?? undefined,
-            routerLink: formValue.routerLink?.trim()
-                ? [formValue.routerLink.trim()]
-                : undefined,
-            route: formValue.routerLink?.trim() || undefined
+            groupIds: formValue.groupIds || []
         };
     }
 

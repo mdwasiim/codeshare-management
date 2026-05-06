@@ -19,6 +19,7 @@ import { UserFormPage } from '@features/iam/users/pages/user-form/user-form.page
 import { CsmConfirmService } from '@core/services/csm-confirm.service';
 import { AppToastService } from '@core/services/app-toast.service';
 import {TooltipModule} from "primeng/tooltip";
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 
 @Component({
     selector: 'user-list',
@@ -31,13 +32,14 @@ import {TooltipModule} from "primeng/tooltip";
         TooltipModule,
         InputTextModule,
         ToolbarActionComponent,
-        UserFormPage
+        UserFormPage,
+        CsmDialogComponent
     ],
     templateUrl: './user-list.page.html'
 })
 export class UserListPage extends BaseListComponent<User> {
 
-    protected override resourceName = 'USER';
+   // protected override resourceName = 'USER';
     // =========================
     // Dialog State
     // =========================
@@ -62,7 +64,6 @@ export class UserListPage extends BaseListComponent<User> {
         console.log('UserListPage INIT');
         super.ngOnInit();
     }
-
 
     // =========================
     // Data Fetch

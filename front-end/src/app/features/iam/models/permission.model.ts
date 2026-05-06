@@ -1,7 +1,7 @@
 export interface Permission {
     id?: string;
 
-    displayName: string;
+    name: string;
     code?: string; // backend may auto-generate
 
     description?: string;

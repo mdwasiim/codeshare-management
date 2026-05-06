@@ -23,11 +23,18 @@ export class PermissionService {
     // CHECKS
     // ========================
     has(resource: string, action: string): boolean {
-        return this.permissions.has(`${resource}:${action}`);
+
+        const permission =
+            `${resource}:${action}`.toUpperCase();
+
+        console.log('CHECKING=', permission);
+        console.log('AVAILABLE=', [...this.permissions]);
+
+        return this.permissions.has(permission);
     }
 
     hasRaw(permission: string): boolean {
-        return this.permissions.has(permission);
+        return this.permissions.has(permission.toUpperCase());
     }
 
     hasAny(perms: string[]): boolean {

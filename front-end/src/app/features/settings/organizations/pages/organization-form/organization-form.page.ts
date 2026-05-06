@@ -1,27 +1,16 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnInit,
-    OnChanges,
-    Output,
-    SimpleChanges
-} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
+import {SelectModule} from 'primeng/select';
 
-import { Organization } from "@features/settings/model/organization.model";
-import { BaseCrudForm } from "@shared/components/base/base-form.component";
-import { of } from "rxjs";
-
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
-import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
+import {Organization} from "@features/settings/model/organization.model";
+import {BaseCrudForm} from "@shared/components/base/base-form.component";
+import {of} from "rxjs";
+import {CsmFormSectionComponent} from '@shared/components/form-section/csm-form-section.component';
 
 @Component({
     selector: 'organization-form',
@@ -32,17 +21,13 @@ import { CsmFormSectionComponent } from '@shared/components/form-section/csm-for
         InputTextModule,
         ButtonModule,
         SelectModule,
-        CsmDialogComponent,
         CsmFormSectionComponent
     ],
     templateUrl: './organization-form.page.html'
 })
 export class OrganizationFormPage
     extends BaseCrudForm<Organization>
-    implements OnInit, OnChanges {
-
-    @Input() visible = false;
-    @Output() visibleChange = new EventEmitter<boolean>();
+    implements OnInit {
 
     private fb = inject(FormBuilder);
 
@@ -59,11 +44,6 @@ export class OrganizationFormPage
         this.buildForm();
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['visible'] && this.visible) {
-            this.init();
-        }
-    }
 
     // =========================
     // Form
@@ -92,12 +72,10 @@ export class OrganizationFormPage
     }
 
     override create(payload: any) {
-        console.log('Create org', payload);
         return of(true);
     }
 
     override update(id: string, payload: any) {
-        console.log('Update org', id, payload);
         return of(true);
     }
 

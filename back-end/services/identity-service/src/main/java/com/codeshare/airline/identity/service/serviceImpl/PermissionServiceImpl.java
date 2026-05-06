@@ -77,7 +77,7 @@ public class PermissionServiceImpl implements PermissionService {
             log.warn("⚠ Ignored domain/action/code change for permission {} — such updates are not allowed.", id);
         }
 
-        if (dto.getDisplayName() != null) entity.setName(dto.getDisplayName());
+        if (dto.getName() != null) entity.setName(dto.getName());
         if (dto.getDescription() != null) entity.setDescription(dto.getDescription());
 
         entity.setActive(dto.getActive());

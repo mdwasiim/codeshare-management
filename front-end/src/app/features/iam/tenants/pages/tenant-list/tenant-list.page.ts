@@ -17,6 +17,7 @@ import {TenantService} from "../../services/tenant.service";
 import {TenantFormPage} from "@features/iam/tenants/pages/tenant-form/tenant-form.page";
 import {Tenant} from "@features/iam/models/tenant.model";
 import {TooltipModule} from "primeng/tooltip";
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 
 
 @Component({
@@ -32,7 +33,9 @@ import {TooltipModule} from "primeng/tooltip";
         ToastModule,
         ToolbarActionComponent,
         TenantFormPage,
-        TooltipModule
+        TooltipModule,
+        TenantFormPage,
+        CsmDialogComponent
     ],
     templateUrl: './tenant-list.page.html',
     providers: [ConfirmationService, MessageService]
@@ -40,7 +43,7 @@ import {TooltipModule} from "primeng/tooltip";
 export class TenantListPage extends BaseListComponent<Tenant> {
 
     dialogVisible = false;
-    selectedTenantId: string | null = null;
+    selectedId: string | null = null;
 
     private service = inject(TenantService);
     private confirmationService = inject(ConfirmationService);
@@ -54,12 +57,12 @@ export class TenantListPage extends BaseListComponent<Tenant> {
     }
 
     openCreate() {
-        this.selectedTenantId = null;
+        this.selectedId = null;
         this.dialogVisible = true;
     }
 
     openEdit(tenant: Tenant) {
-        this.selectedTenantId = tenant.id ?? null;
+        this.selectedId = tenant.id ?? null;
         this.dialogVisible = true;
     }
 

@@ -91,8 +91,16 @@
 </p-table>
 
 <!-- Dialog -->
-<role-form
+<csm-dialog
     [(visible)]="dialogVisible"
-    [id]="selectedRoleId"
-    (saved)="onSaved()">
-</role-form>
+    [title]="selectedId ? 'Edit' : 'Create'"
+    [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading"
+    (save)="formRef.submit()">
+
+    <role-form
+        #formRef
+        [id]="selectedId"
+        (saved)="onSaved()">
+    </role-form>
+
+</csm-dialog>

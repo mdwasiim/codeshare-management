@@ -8,7 +8,7 @@ import { AvatarModule } from 'primeng/avatar';
 
 import { LayoutService } from '@layout/services/layout.service';
 import { AuthService } from '@features/auth/services/auth.service';
-import { AppMenuModel } from '@shared/models/app-menu.model';
+import { AppMenuModel } from '@features/iam/models/app-menu.model';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
 import { AppTokenService } from '@services/auth/app-token.service';
 

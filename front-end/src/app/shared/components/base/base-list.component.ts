@@ -40,7 +40,9 @@ export abstract class BaseListComponent<T> implements OnInit, OnDestroy {
     // PERMISSION INIT (HOOK)
     // ========================
     protected initPermissions() {
+        console.log('RESOURCE=', this.resourceName);
 
+        console.log('PERMISSIONS=', this.permissions);
         // ✅ backward compatibility (no RBAC applied)
         if (!this.resourceName) {
             this.permissions = {

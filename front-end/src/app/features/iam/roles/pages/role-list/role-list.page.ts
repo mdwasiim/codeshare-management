@@ -19,6 +19,7 @@ import { AppToastService } from '@core/services/app-toast.service';
 import { CsmConfirmService } from '@core/services/csm-confirm.service';
 import {Tooltip, TooltipModule} from "primeng/tooltip";
 import {PRIMENG_IMPORTS} from "@shared/primeng/primeng.imports";
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 
 @Component({
     selector: 'role-list',
@@ -26,6 +27,8 @@ import {PRIMENG_IMPORTS} from "@shared/primeng/primeng.imports";
     imports: [
         CommonModule,
         ToolbarActionComponent,
+        RoleFormPage,
+        CsmDialogComponent,
         RoleFormPage,
         PRIMENG_IMPORTS
     ],
@@ -38,7 +41,7 @@ export class RoleListPage extends BaseListComponent<Role> {
     private confirm = inject(CsmConfirmService);
 
     dialogVisible = false;
-    selectedRoleId: string | null = null;
+    selectedId: string | null = null;
     selectedRoles: Role[] = [];
 
     @ViewChild('dt') dt!: Table;
@@ -52,12 +55,12 @@ export class RoleListPage extends BaseListComponent<Role> {
     // =========================
 
     openCreate() {
-        this.selectedRoleId = null;
+        this.selectedId = null;
         this.dialogVisible = true;
     }
 
     openEdit(role: Role) {
-        this.selectedRoleId = role.id ?? null;
+        this.selectedId = role.id ?? null;
         this.dialogVisible = true;
     }
 

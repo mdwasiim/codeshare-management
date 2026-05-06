@@ -1,41 +1,87 @@
-<csm-dialog
-    [(visible)]="visible"
-    [title]="isEdit ? 'Edit Menu' : 'Create Menu'"
-    [width]="'500px'"
-    [disableSave]="form.invalid || loading"
-    (save)="submit()">
+<form [formGroup]="form" class="p-fluid w-full">
 
-    <form [formGroup]="form" class="p-fluid">
+    <div class="w-full">
 
         <csm-form-section title="Menu Details">
-            <div class="grid formgrid">
 
-                <div class="col-12 field">
-                    <label>Label</label>
-                    <input pInputText formControlName="label" class="w-full" />
-                    <small *ngIf="form.controls['label'].invalid && form.controls['label'].touched">
+            <div class="grid">
+
+                <!-- LABEL -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="label">Label</label>
+
+                    <input
+                        id="label"
+                        pInputText
+                        formControlName="label"
+                        class="w-full" />
+
+                    <small
+                        class="p-error"
+                        *ngIf="form.controls['label'].invalid
+                            && form.controls['label'].touched">
+
                         Label is required
+
                     </small>
+
                 </div>
 
-                <div class="col-12 field">
-                    <label>Icon</label>
-                    <input pInputText formControlName="icon" placeholder="pi pi-home" class="w-full" />
+                <!-- ICON -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="icon">Icon</label>
+
+                    <input
+                        id="icon"
+                        pInputText
+                        formControlName="icon"
+                        placeholder="pi pi-home"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12 field">
-                    <label>Route</label>
-                    <input pInputText formControlName="routerLink" placeholder="/dashboard" class="w-full" />
+                <!-- ROUTE -->
+                <div class="field col-12">
+
+                    <label for="route">Route</label>
+
+                    <input
+                        id="route"
+                        pInputText
+                        formControlName="route"
+                        placeholder="/dashboard"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Display Order</label>
-                    <input type="number" pInputText formControlName="displayOrder" class="w-full" />
+                <!-- DISPLAY ORDER -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="displayOrder">
+                        Display Order
+                    </label>
+
+                    <input
+                        id="displayOrder"
+                        type="number"
+                        pInputText
+                        formControlName="displayOrder"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Parent Menu</label>
+                <!-- PARENT MENU -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="parentId">
+                        Parent Menu
+                    </label>
+
                     <p-select
+                        inputId="parentId"
+                        appendTo="body"
                         [options]="menuOptions"
                         optionLabel="label"
                         optionValue="value"
@@ -44,11 +90,54 @@
                         [showClear]="true"
                         styleClass="w-full">
                     </p-select>
+
+                </div>
+
+                <!-- PERMISSION -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="permission">
+                        Permission
+                    </label>
+
+                    <p-select
+                        inputId="permission"
+                        appendTo="body"
+                        formControlName="permission"
+                        [options]="permissionOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        placeholder="Select Permission"
+                        styleClass="w-full">
+                    </p-select>
+
+                </div>
+
+                <!-- GROUPS -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="groupIds">
+                        Groups
+                    </label>
+
+                    <p-multiSelect
+                        inputId="groupIds"
+                        appendTo="body"
+                        formControlName="groupIds"
+                        [options]="groups"
+                        optionLabel="label"
+                        optionValue="value"
+                        placeholder="Select Groups"
+                        display="chip"
+                        styleClass="w-full">
+                    </p-multiSelect>
+
                 </div>
 
             </div>
+
         </csm-form-section>
 
-    </form>
+    </div>
 
-</csm-dialog>
+</form>

@@ -6,17 +6,20 @@ import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.authentication.service.core.UserContextService;
 import com.codeshare.airline.identity.entities.*;
 import com.codeshare.airline.identity.repository.GroupMenuRepository;
+import com.codeshare.airline.identity.repository.GroupRepository;
 import com.codeshare.airline.identity.repository.MenuRepository;
 import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.MenuService;
 import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.MenuMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -25,10 +28,13 @@ public class MenuServiceImpl implements MenuService {
     private final UserContextService userContextService;
     private final MenuRepository repository;
     private final GroupMenuRepository groupMenuRepository;
+    private final GroupRepository groupRepository;
+
     private final MenuMapper mapper;
 
     private final TenantRepository tenantRepository;
     private final TenantService tenantService;
+
 
 
     // ---------------------------------------------------------
@@ -58,8 +64,28 @@ public class MenuServiceImpl implements MenuService {
                     .orElseThrow(() -> new RuntimeException("Parent menu not found"));
             entity.setParentMenu(parent);
         }
+        Menu menu = repository.save(entity);
+        if (dto.getGroupIds() != null) {
 
-        return mapper.toDTO(repository.save(entity));
+            List<GroupMenu> mappings = new ArrayList<>();
+
+            for (UUID groupId : dto.getGroupIds()) {
+
+                Group group = groupRepository.findById(groupId)
+                        .orElseThrow();
+
+                mappings.add(
+                        GroupMenu.builder()
+                                .tenant(tenant)
+                                .group(group)
+                                .menu(menu)
+                                .build()
+                );
+            }
+
+            groupMenuRepository.saveAll(mappings);
+        }
+        return mapper.toDTO(menu);
     }
 
 
@@ -148,6 +174,17 @@ public class MenuServiceImpl implements MenuService {
                 menu.getParentMenu().getId();
             }
         });
+        log.info("Allowed menus count={}", allowedMenus.size());
+
+        allowedMenus.forEach(m ->
+                log.info(
+                        "MENU code={} visible={} route={} permission={}",
+                        m.getCode(),
+                        m.getVisible(),
+                        m.getRoute(),
+                        m.getPermission()
+                )
+        );
 
         // ✅ RETURN FLAT LIST
         return allowedSet.stream()

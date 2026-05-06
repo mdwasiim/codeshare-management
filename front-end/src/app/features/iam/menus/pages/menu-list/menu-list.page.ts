@@ -1,23 +1,23 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, inject, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { TreeTable, TreeTableModule } from 'primeng/treetable';
-import { ButtonModule } from 'primeng/button';
+import {TreeTable, TreeTableModule} from 'primeng/treetable';
+import {ButtonModule} from 'primeng/button';
 
-import { BaseListComponent } from '@shared/components/base/base-list.component';
-import { MenuManagementService } from '../../services/menu-management.service';
-import { AppMenuModel } from '@shared/models/app-menu.model';
+import {BaseListComponent} from '@shared/components/base/base-list.component';
+import {MenuManagementService} from '../../services/menu-management.service';
+import {AppMenuModel} from '@features/iam/models/app-menu.model';
+import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
 
-import { MenuFormPage } from '@features/iam/menus/pages/menu-form/menu-form.page';
-import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
-
-import { map } from 'rxjs/operators';
-import { Observable, forkJoin } from 'rxjs';
+import {map} from 'rxjs/operators';
+import {forkJoin, Observable} from 'rxjs';
 
 // ✅ wrapper services
-import { AppToastService } from '@core/services/app-toast.service';
-import { CsmConfirmService } from '@core/services/csm-confirm.service';
-import {Tooltip, TooltipModule} from "primeng/tooltip";
+import {AppToastService} from '@core/services/app-toast.service';
+import {CsmConfirmService} from '@core/services/csm-confirm.service';
+import {TooltipModule} from "primeng/tooltip";
+import {MenuFormPage} from "@features/iam/menus/pages/menu-form/menu-form.page";
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 
 @Component({
     selector: 'menu-list',
@@ -26,9 +26,10 @@ import {Tooltip, TooltipModule} from "primeng/tooltip";
         CommonModule,
         TreeTableModule,
         ButtonModule,
-        MenuFormPage,
         ToolbarActionComponent,
-        TooltipModule
+        TooltipModule,
+        MenuFormPage,
+        CsmDialogComponent
     ],
     templateUrl: './menu-list.page.html'
 })
@@ -42,7 +43,7 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
 
     selectedMenus: any[] = [];
     dialogVisible = false;
-    selectedMenuId: string | null = null;
+    selectedId: string | null = null;
 
     // =========================
     // Fetch Tree Data
@@ -58,14 +59,14 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
     // =========================
 
     openCreate() {
-        this.selectedMenuId = null;
+        this.selectedId = null;
         this.dialogVisible = true;
     }
 
     openEdit(menu: AppMenuModel) {
         if (!menu) return;
 
-        this.selectedMenuId = menu.id ?? null;
+        this.selectedId = menu.id ?? null;
         this.dialogVisible = true;
     }
 

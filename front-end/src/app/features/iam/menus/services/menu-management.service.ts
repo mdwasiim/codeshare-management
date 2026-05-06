@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { AppApiService } from '@core/config/app-api.service';
 import { AppToastService } from '@core/services/app-toast.service';
-import { AppMenuModel } from '@shared/models/app-menu.model';
+import { AppMenuModel } from '@features/iam/models/app-menu.model';
 import { tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

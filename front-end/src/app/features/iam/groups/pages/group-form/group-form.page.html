@@ -1,45 +1,55 @@
-<csm-dialog
-    [(visible)]="visible"
-    [title]="isEdit ? 'Edit Group' : 'Create Group'"
-    [width]="'500px'"
-    [disableSave]="form.invalid || loading"
-    (save)="submit()">
+<form [formGroup]="form" class="p-fluid w-full">
 
-    <form [formGroup]="form" class="p-fluid">
+    <csm-form-section title="Group Details">
 
-        <csm-form-section title="Group Details">
-            <div class="grid formgrid">
+        <div class="grid">
 
-                <div class="col-12 md:col-6 field">
-                    <label>Code</label>
-                    <input pInputText formControlName="code" class="w-full" />
-                </div>
+            <div class="field col-12 md:col-6">
+                <label for="code">Code</label>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Name</label>
-                    <input pInputText formControlName="name" class="w-full" />
-                </div>
-
-                <div class="col-12 field">
-                    <label>Description</label>
-                    <input pInputText formControlName="description" class="w-full" />
-                </div>
-
-                <div class="col-12 field">
-                    <label>Tenant</label>
-                    <p-select
-                        [options]="tenants"
-                        optionLabel="name"
-                        optionValue="id"
-                        formControlName="tenantId"
-                        placeholder="Select Tenant"
-                        styleClass="w-full">
-                    </p-select>
-                </div>
-
+                <input
+                    id="code"
+                    pInputText
+                    formControlName="code"
+                    class="w-full" />
             </div>
-        </csm-form-section>
 
-    </form>
+            <div class="field col-12 md:col-6">
+                <label for="name">Name</label>
 
-</csm-dialog>
+                <input
+                    id="name"
+                    pInputText
+                    formControlName="name"
+                    class="w-full" />
+            </div>
+
+            <div class="field col-12">
+                <label for="description">Description</label>
+
+                <input
+                    id="description"
+                    pInputText
+                    formControlName="description"
+                    class="w-full" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="tenant">Tenant</label>
+
+                <p-select
+                    inputId="tenant"
+                    [options]="tenants"
+                    optionLabel="name"
+                    optionValue="id"
+                    formControlName="tenantId"
+                    placeholder="Select Tenant"
+                    styleClass="w-full">
+                </p-select>
+            </div>
+
+        </div>
+
+    </csm-form-section>
+
+</form>

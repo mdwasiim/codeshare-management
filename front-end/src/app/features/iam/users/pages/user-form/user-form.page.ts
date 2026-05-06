@@ -1,30 +1,20 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnInit,
-    OnChanges,
-    Output,
-    SimpleChanges
-} from '@angular/core';
+import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { CheckboxModule } from 'primeng/checkbox';
-import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
+import {InputTextModule} from 'primeng/inputtext';
+import {PasswordModule} from 'primeng/password';
+import {CheckboxModule} from 'primeng/checkbox';
+import {ButtonModule} from 'primeng/button';
+import {SelectModule} from 'primeng/select';
 
-import { UserService } from '@features/iam/users/services/user.service';
-import { User } from '@features/iam/models/user.model';
-import { BaseCrudForm } from '@shared/components/base/base-form.component';
-import { Tenant } from "@features/iam/models/tenant.model";
-import { TenantService } from "@features/iam/tenants/services/tenant.service";
+import {UserService} from '@features/iam/users/services/user.service';
+import {User} from '@features/iam/models/user.model';
+import {BaseCrudForm} from '@shared/components/base/base-form.component';
+import {Tenant} from "@features/iam/models/tenant.model";
+import {TenantService} from "@features/iam/tenants/services/tenant.service";
 import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
-import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 
 @Component({
     selector: 'user-form',
@@ -37,21 +27,17 @@ import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.compo
         CheckboxModule,
         SelectModule,
         ButtonModule,
-        CsmFormSectionComponent,
-        CsmDialogComponent
+        CsmFormSectionComponent
     ],
     templateUrl: './user-form.page.html'
 })
 export class UserFormPage
     extends BaseCrudForm<User>
-    implements OnInit, OnChanges {
+    implements OnInit {
 
     // =========================
     // Dialog Inputs
     // =========================
-    @Input() visible = false;
-    @Output() visibleChange = new EventEmitter<boolean>();
-
     private fb = inject(FormBuilder);
     private service = inject(UserService);
     private tenantService = inject(TenantService);
@@ -67,13 +53,6 @@ export class UserFormPage
             next: res => this.tenants = res
         });
     }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['visible'] && this.visible) {
-            this.init(); // load edit data
-        }
-    }
-
     // =========================
     // Form
     // =========================

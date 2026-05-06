@@ -87,8 +87,17 @@
 
 </p-table>
 
-<organization-form
+
+<csm-dialog
     [(visible)]="dialogVisible"
-    [id]="selectedOrganizationId"
-    (saved)="onSaved()">
-</organization-form>
+    [title]="selectedId ? 'Edit' : 'Create'"
+    [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading"
+    (save)="formRef.submit()">
+
+    <organization-form
+        #formRef
+        [id]="selectedId"
+        (saved)="onSaved()">
+    </organization-form>
+
+</csm-dialog>

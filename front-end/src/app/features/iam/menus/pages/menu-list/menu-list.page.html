@@ -89,8 +89,16 @@
 <!-- ============================= -->
 <!-- Dialog -->
 <!-- ============================= -->
-<menu-form
+<csm-dialog
     [(visible)]="dialogVisible"
-    [id]="selectedMenuId"
-    (saved)="onSaved()">
-</menu-form>
+    [title]="selectedId ? 'Edit' : 'Create'"
+    [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading"
+    (save)="formRef.submit()">
+
+    <menu-form
+        #formRef
+        [id]="selectedId"
+        (saved)="onSaved()">
+    </menu-form>
+
+</csm-dialog>

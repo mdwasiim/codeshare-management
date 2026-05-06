@@ -1,23 +1,24 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, inject, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { Table, TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
+import {Table, TableModule} from 'primeng/table';
+import {ButtonModule} from 'primeng/button';
+import {TagModule} from 'primeng/tag';
 
-import { forkJoin } from 'rxjs';
+import {forkJoin} from 'rxjs';
 
-import { GroupService } from '../../services/group.service';
-import { Group } from '@features/iam/models/group.model';
-import { BaseListComponent } from '@shared/components/base/base-list.component';
+import {GroupService} from '../../services/group.service';
+import {Group} from '@features/iam/models/group.model';
+import {BaseListComponent} from '@shared/components/base/base-list.component';
 
-import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
-import { GroupFormPage } from '@features/iam/groups/pages/group-form/group-form.page';
+import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
 
 // ✅ wrapper services
-import { AppToastService } from '@core/services/app-toast.service';
-import { CsmConfirmService } from '@core/services/csm-confirm.service';
+import {AppToastService} from '@core/services/app-toast.service';
+import {CsmConfirmService} from '@core/services/csm-confirm.service';
 import {Tooltip} from "primeng/tooltip";
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import {GroupFormPage} from "@features/iam/groups/pages/group-form/group-form.page";
 
 @Component({
     selector: 'app-group-list',
@@ -28,8 +29,9 @@ import {Tooltip} from "primeng/tooltip";
         ButtonModule,
         TagModule,
         ToolbarActionComponent,
+        Tooltip,
         GroupFormPage,
-        Tooltip
+        CsmDialogComponent
     ],
     templateUrl: './group-list.page.html'
 })
@@ -40,7 +42,7 @@ export class GroupListPage extends BaseListComponent<Group> {
     private confirm = inject(CsmConfirmService);
 
     dialogVisible = false;
-    selectedGroupId: string | null = null;
+    selectedId: string | null = null;
     selectedGroups: Group[] = [];
 
     @ViewChild('dt') dt!: Table;
@@ -54,12 +56,12 @@ export class GroupListPage extends BaseListComponent<Group> {
     // =========================
 
     openCreate() {
-        this.selectedGroupId = null;
+        this.selectedId = null;
         this.dialogVisible = true;
     }
 
     openEdit(group: Group) {
-        this.selectedGroupId = group.id ?? null;
+        this.selectedId = group.id ?? null;
         this.dialogVisible = true;
     }
 
@@ -102,7 +104,6 @@ export class GroupListPage extends BaseListComponent<Group> {
     }
 
     onSaved() {
-        this.toast.success('Group saved successfully');
         this.dialogVisible = false;
         this.refresh();
     }

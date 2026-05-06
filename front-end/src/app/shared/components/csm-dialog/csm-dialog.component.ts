@@ -43,10 +43,11 @@ export class CsmDialogComponent {
     // =========================
 
     onCancel(): void {
+        console.log('CANCEL CLICKED');
+        this.visible = false;
         this.visibleChange.emit(false);
         this.cancel.emit();
     }
-
     onSave(): void {
         if (!this.disableSave) {
             this.save.emit();
@@ -54,8 +55,13 @@ export class CsmDialogComponent {
     }
 
     onHide(): void {
-        // Ensures sync if user clicks outside / close icon
+        console.log('DIALOG HIDDEN');
+        this.visible = false;
         this.visibleChange.emit(false);
     }
 
+    onVisibleChange(value: boolean): void {
+        this.visible = value;
+        this.visibleChange.emit(value);
+    }
 }

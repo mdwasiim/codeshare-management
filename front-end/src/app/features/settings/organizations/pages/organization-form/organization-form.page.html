@@ -1,40 +1,32 @@
-<csm-dialog
-    [(visible)]="visible"
-    [title]="isEdit ? 'Edit Organization' : 'Create Organization'"
-    [width]="'500px'"
-    [disableSave]="form.invalid || loading"
-    (save)="submit()">
+<form [formGroup]="form" class="p-fluid  w-full">
 
-    <form [formGroup]="form" class="p-fluid">
+    <csm-form-section title="Organization Details">
+        <div class="grid formgrid">
 
-        <csm-form-section title="Organization Details">
-            <div class="grid formgrid">
-
-                <div class="col-12 md:col-6 field">
-                    <label>Name</label>
-                    <input pInputText formControlName="name" class="w-full" />
-                </div>
-
-                <div class="col-12 md:col-6 field">
-                    <label>Code</label>
-                    <input pInputText formControlName="code" class="w-full" />
-                </div>
-
-                <div class="col-12 field">
-                    <label>Status</label>
-                    <p-select
-                        [options]="statusOptions"
-                        optionLabel="label"
-                        optionValue="value"
-                        formControlName="status"
-                        placeholder="Select Status"
-                        styleClass="w-full">
-                    </p-select>
-                </div>
-
+            <div class="col-12 md:col-6 field">
+                <label>Name</label>
+                <input pInputText formControlName="name" class="w-full" />
             </div>
-        </csm-form-section>
 
-    </form>
+            <div class="col-12 md:col-6 field">
+                <label>Code</label>
+                <input pInputText formControlName="code" class="w-full" />
+            </div>
 
-</csm-dialog>
+            <div class="col-12 field">
+                <label>Status</label>
+                <p-select
+                    [options]="statusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    formControlName="status"
+                    placeholder="Select Status"
+                    styleClass="w-full">
+                </p-select>
+            </div>
+
+        </div>
+    </csm-form-section>
+
+</form>
+

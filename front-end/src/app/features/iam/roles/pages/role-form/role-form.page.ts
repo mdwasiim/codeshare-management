@@ -1,30 +1,19 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnInit,
-    OnChanges,
-    Output,
-    SimpleChanges
-} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
+import {SelectModule} from 'primeng/select';
 
-import { Role } from '@features/iam/models/role.model';
-import { RoleService } from '../../services/role.service';
-import { BaseCrudForm } from '@shared/components/base/base-form.component';
+import {Role} from '@features/iam/models/role.model';
+import {RoleService} from '../../services/role.service';
+import {BaseCrudForm} from '@shared/components/base/base-form.component';
 
-import { TenantService } from '@features/iam/tenants/services/tenant.service';
-import { Tenant } from '@features/iam/models/tenant.model';
-
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
-import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
+import {TenantService} from '@features/iam/tenants/services/tenant.service';
+import {Tenant} from '@features/iam/models/tenant.model';
+import {CsmFormSectionComponent} from '@shared/components/form-section/csm-form-section.component';
 
 @Component({
     selector: 'role-form',
@@ -35,7 +24,6 @@ import { CsmFormSectionComponent } from '@shared/components/form-section/csm-for
         InputTextModule,
         ButtonModule,
         SelectModule,
-        CsmDialogComponent,
         CsmFormSectionComponent
     ],
     templateUrl: './role-form.page.html'

@@ -109,9 +109,16 @@
 
 </p-table>
 
-<!-- Dialog -->
-<user-form
+<csm-dialog
     [(visible)]="dialogVisible"
-    [id]="selectedUserId"
-    (saved)="onSaved()">
-</user-form>
+    [title]="selectedUserId ? 'Edit User' : 'Create User'"
+    [disableSave]="!!userForm?.form?.invalid || !!userForm?.loading"
+    (save)="userForm.submit()">
+
+    <user-form
+        #userForm
+        [id]="selectedUserId"
+        (saved)="onSaved()">
+    </user-form>
+
+</csm-dialog>

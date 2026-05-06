@@ -1,104 +1,102 @@
-<p-dialog
-    [(visible)]="visible"
-    [modal]="true"
-    [style]="{ width: '540px' }"
-    [draggable]="false"
-    [resizable]="false"
-    [header]="isEdit ? 'Edit Tenant' : 'Create Tenant'">
+<form [formGroup]="form" class="p-fluid w-full">
 
-    <form [formGroup]="form" class="p-fluid">
+    <div class="w-full">
 
-        <!-- SECTION -->
-        <div class="mb-4">
-            <div class="text-700 font-semibold text-sm mb-3">
-                Basic Information
-            </div>
+        <!-- BASIC INFORMATION -->
+        <csm-form-section title="Basic Information">
 
-            <div class="grid formgrid">
+            <div class="grid">
 
-                <div class="col-12 md:col-6">
-                    <div class="field">
-                        <label for="name">Name</label>
-                        <input id="name" pInputText formControlName="name" />
-                    </div>
+                <!-- NAME -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="name">Name</label>
+
+                    <input
+                        id="name"
+                        pInputText
+                        formControlName="name"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12 md:col-6">
-                    <div class="field">
-                        <label for="code">Code</label>
-                        <input id="code" pInputText formControlName="code" />
-                    </div>
+                <!-- CODE -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="code">Code</label>
+
+                    <input
+                        id="code"
+                        pInputText
+                        formControlName="code"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12">
-                    <div class="field">
-                        <label for="description">Description</label>
-                        <input id="description" pInputText formControlName="description" />
-                    </div>
-                </div>
+                <!-- DESCRIPTION -->
+                <div class="field col-12">
 
-            </div>
-        </div>
+                    <label for="description">
+                        Description
+                    </label>
 
-        <!-- SECTION -->
-        <div class="mb-2">
-            <div class="text-700 font-semibold text-sm mb-3">
-                Configuration
-            </div>
+                    <input
+                        id="description"
+                        pInputText
+                        formControlName="description"
+                        class="w-full" />
 
-            <div class="grid formgrid">
-
-                <div class="col-12 md:col-6">
-                    <div class="field">
-                        <label for="status">Status</label>
-                        <p-select
-                            inputId="status"
-                            formControlName="status"
-                            [options]="statusOptions"
-                            styleClass="w-full">
-                        </p-select>
-                    </div>
-                </div>
-
-                <div class="col-12 md:col-6">
-                    <div class="field">
-                        <label for="plan">Plan</label>
-                        <p-select
-                            inputId="plan"
-                            formControlName="plan"
-                            [options]="planOptions"
-                            styleClass="w-full">
-                        </p-select>
-                    </div>
                 </div>
 
             </div>
-        </div>
 
-    </form>
+        </csm-form-section>
 
-    <!-- FOOTER -->
-    <ng-template pTemplate="footer">
-        <div class="flex justify-end gap-2">
+        <!-- CONFIGURATION -->
+        <csm-form-section title="Configuration">
 
-            <button
-                pButton
-                label="Cancel"
-                class="p-button-text"
-                (click)="visibleChange.emit(false)"
-                type="button">
-            </button>
+            <div class="grid">
 
-            <button
-                pButton
-                label="Save"
-                icon="pi pi-check"
-                [disabled]="form.invalid"
-                (click)="submit()"
-                type="button">
-            </button>
+                <!-- STATUS -->
+                <div class="field col-12 md:col-6">
 
-        </div>
-    </ng-template>
+                    <label for="status">
+                        Status
+                    </label>
 
-</p-dialog>
+                    <p-select
+                        inputId="status"
+                        appendTo="body"
+                        formControlName="status"
+                        [options]="statusOptions"
+                        placeholder="Select Status"
+                        styleClass="w-full">
+                    </p-select>
+
+                </div>
+
+                <!-- PLAN -->
+                <div class="field col-12 md:col-6">
+
+                    <label for="plan">
+                        Plan
+                    </label>
+
+                    <p-select
+                        inputId="plan"
+                        appendTo="body"
+                        formControlName="plan"
+                        [options]="planOptions"
+                        placeholder="Select Plan"
+                        styleClass="w-full">
+                    </p-select>
+
+                </div>
+
+            </div>
+
+        </csm-form-section>
+
+    </div>
+
+</form>

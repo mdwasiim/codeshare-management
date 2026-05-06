@@ -1,23 +1,24 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, inject, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { Table, TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
+import {Table, TableModule} from 'primeng/table';
+import {ButtonModule} from 'primeng/button';
+import {TagModule} from 'primeng/tag';
 
-import { forkJoin } from 'rxjs';
+import {forkJoin} from 'rxjs';
 
-import { Permission } from '@features/iam/models/permission.model';
-import { BaseListComponent } from '@shared/components/base/base-list.component';
-import { PermissionApiService } from '@features/iam/permissions/services/permission-api.service';
+import {Permission} from '@features/iam/models/permission.model';
+import {BaseListComponent} from '@shared/components/base/base-list.component';
+import {PermissionApiService} from '@features/iam/permissions/services/permission-api.service';
 
-import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
-import { PermissionFormPage } from '@features/iam/permissions/pages/permission-form/permission-form.page';
+import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
 
 // ✅ use wrapper services
-import { AppToastService } from '@core/services/app-toast.service';
-import { CsmConfirmService } from '@core/services/csm-confirm.service';
-import {Tooltip, TooltipModule} from "primeng/tooltip";
+import {AppToastService} from '@core/services/app-toast.service';
+import {CsmConfirmService} from '@core/services/csm-confirm.service';
+import {TooltipModule} from "primeng/tooltip";
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import {PermissionFormPage} from "@features/iam/permissions/pages/permission-form/permission-form.page";
 
 @Component({
     selector: 'permission-list',
@@ -28,8 +29,9 @@ import {Tooltip, TooltipModule} from "primeng/tooltip";
         ButtonModule,
         TagModule,
         ToolbarActionComponent,
-        PermissionFormPage,
-        TooltipModule
+        TooltipModule,
+        CsmDialogComponent,
+        PermissionFormPage
     ],
     templateUrl: './permission-list.page.html'
 })
@@ -40,7 +42,7 @@ export class PermissionListPage extends BaseListComponent<Permission> {
     private confirm = inject(CsmConfirmService);
 
     dialogVisible = false;
-    selectedPermissionId: string | null = null;
+    selectedId: string | null = null;
     selectedPermissions: Permission[] = [];
 
     @ViewChild('dt') dt!: Table;
@@ -54,12 +56,12 @@ export class PermissionListPage extends BaseListComponent<Permission> {
     // =========================
 
     openCreate() {
-        this.selectedPermissionId = null;
+        this.selectedId = null;
         this.dialogVisible = true;
     }
 
     openEdit(permission: Permission) {
-        this.selectedPermissionId = permission.id ?? null;
+        this.selectedId = permission.id ?? null;
         this.dialogVisible = true;
     }
 
@@ -86,7 +88,7 @@ export class PermissionListPage extends BaseListComponent<Permission> {
 
     deletePermission(permission: Permission) {
         this.confirm.delete(
-            `Delete "${permission.displayName}"?`,
+            `Delete "${permission.name}"?`,
             () => {
                 this.service.delete(permission.id!).subscribe({
                     next: () => {
@@ -102,7 +104,6 @@ export class PermissionListPage extends BaseListComponent<Permission> {
     }
 
     onSaved() {
-        this.toast.success('Permission saved successfully');
         this.dialogVisible = false;
         this.refresh();
     }

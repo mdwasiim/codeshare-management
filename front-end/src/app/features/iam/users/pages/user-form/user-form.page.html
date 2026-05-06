@@ -1,39 +1,57 @@
-<csm-dialog
-    [(visible)]="visible"
-    [title]="isEdit ? 'Edit User' : 'Create User'"
-    [width]="'800px'"
-    [disableSave]="form.invalid"
-    (save)="submit()">
+<form [formGroup]="form" class="p-fluid w-full block">
 
-    <form [formGroup]="form" class="p-fluid">
+    <div class="w-full">
 
-        <!-- USER INFO -->
+        <!-- USER INFORMATION -->
         <csm-form-section title="User Information">
-            <div class="grid formgrid">
 
-                <div class="col-12 md:col-6 field">
-                    <label>Username</label>
-                    <input pInputText formControlName="username" class="w-full" />
+            <div class="grid">
+
+                <div class="field col-12 md:col-6">
+                    <label for="username">Username</label>
+
+                    <input
+                        id="username"
+                        pInputText
+                        formControlName="username"
+                        class="w-full" />
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Email Address</label>
-                    <input pInputText formControlName="email" class="w-full" />
+                <div class="field col-12 md:col-6">
+                    <label for="email">Email Address</label>
+
+                    <input
+                        id="email"
+                        pInputText
+                        formControlName="email"
+                        class="w-full" />
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>First Name</label>
-                    <input pInputText formControlName="firstName" class="w-full" />
+                <div class="field col-12 md:col-6">
+                    <label for="firstName">First Name</label>
+
+                    <input
+                        id="firstName"
+                        pInputText
+                        formControlName="firstName"
+                        class="w-full" />
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Last Name</label>
-                    <input pInputText formControlName="lastName" class="w-full" />
+                <div class="field col-12 md:col-6">
+                    <label for="lastName">Last Name</label>
+
+                    <input
+                        id="lastName"
+                        pInputText
+                        formControlName="lastName"
+                        class="w-full" />
                 </div>
 
-                <div class="col-12 field">
-                    <label>Password</label>
+                <div class="field col-12 md:col-6">
+                    <label for="password">Password</label>
+
                     <p-password
+                        inputId="password"
                         formControlName="password"
                         [toggleMask]="true"
                         [feedback]="false"
@@ -41,33 +59,127 @@
                     </p-password>
                 </div>
 
-            </div>
-        </csm-form-section>
+                <div class="field col-12 md:col-6">
+                    <label for="tenant">Tenant</label>
 
-        <!-- ACCOUNT FLAGS -->
-        <csm-form-section title="Account Settings">
-            <div class="grid formgrid">
-
-                <div class="col-12 flex flex-wrap gap-3">
-                    <p-checkbox formControlName="enabled" binary="true" label="Enabled"></p-checkbox>
-
-                    <p-checkbox formControlName="accountNonLocked" binary="true" label="Account Unlocked"></p-checkbox>
-
-                    <p-checkbox formControlName="accountNonExpired" binary="true" label="Account Active"></p-checkbox>
-
-                    <p-checkbox formControlName="credentialsNonExpired" binary="true" label="Credentials Valid"></p-checkbox>
+                    <p-select
+                        inputId="tenant"
+                        [options]="tenants"
+                        optionLabel="name"
+                        optionValue="id"
+                        formControlName="tenantId"
+                        placeholder="Select Tenant"
+                        styleClass="w-full">
+                    </p-select>
                 </div>
 
             </div>
+
         </csm-form-section>
 
-        <!-- AUTH -->
-        <csm-form-section title="Authentication & System">
-            <div class="grid formgrid">
+        <!-- ACCOUNT SETTINGS -->
+        <csm-form-section title="Account Settings">
 
-                <div class="col-12 md:col-6 field">
-                    <label>Authentication Source</label>
+            <div class="grid">
+
+                <div class="col-12 md:col-6">
+
+                    <div class="flex align-items-center gap-2">
+
+                        <p-checkbox
+                            inputId="enabled"
+                            formControlName="enabled"
+                            binary="true">
+                        </p-checkbox>
+
+                        <label for="enabled" class="mb-0">
+                            Enabled
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 md:col-6">
+
+                    <div class="flex align-items-center gap-2">
+
+                        <p-checkbox
+                            inputId="accountNonLocked"
+                            formControlName="accountNonLocked"
+                            binary="true">
+                        </p-checkbox>
+
+                        <label
+                            for="accountNonLocked"
+                            class="mb-0">
+
+                            Account Unlocked
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 md:col-6">
+
+                    <div class="flex align-items-center gap-2">
+
+                        <p-checkbox
+                            inputId="accountNonExpired"
+                            formControlName="accountNonExpired"
+                            binary="true">
+                        </p-checkbox>
+
+                        <label
+                            for="accountNonExpired"
+                            class="mb-0">
+
+                            Account Active
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 md:col-6">
+
+                    <div class="flex align-items-center gap-2">
+
+                        <p-checkbox
+                            inputId="credentialsNonExpired"
+                            formControlName="credentialsNonExpired"
+                            binary="true">
+                        </p-checkbox>
+
+                        <label
+                            for="credentialsNonExpired"
+                            class="mb-0">
+
+                            Credentials Valid
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </csm-form-section>
+
+        <!-- AUTHENTICATION & SYSTEM -->
+        <csm-form-section title="Authentication & System">
+
+            <div class="grid">
+
+                <div class="field col-12 md:col-6">
+
+                    <label for="authSource">
+                        Authentication Source
+                    </label>
+
                     <p-select
+                        inputId="authSource"
                         [options]="[
                             { label: 'Internal', value: 'INTERNAL' },
                             { label: 'LDAP', value: 'LDAP' },
@@ -76,11 +188,17 @@
                         formControlName="authSource"
                         styleClass="w-full">
                     </p-select>
+
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Record Status</label>
+                <div class="field col-12 md:col-6">
+
+                    <label for="recordStatus">
+                        Record Status
+                    </label>
+
                     <p-select
+                        inputId="recordStatus"
                         [options]="[
                             { label: 'Active', value: 'ACTIVE' },
                             { label: 'Inactive', value: 'INACTIVE' }
@@ -88,39 +206,41 @@
                         formControlName="recordStatus"
                         styleClass="w-full">
                     </p-select>
+
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>External ID</label>
-                    <input pInputText formControlName="externalId" class="w-full" />
+                <div class="field col-12 md:col-6">
+
+                    <label for="externalId">
+                        External ID
+                    </label>
+
+                    <input
+                        id="externalId"
+                        pInputText
+                        formControlName="externalId"
+                        class="w-full" />
+
                 </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Last Login Provider</label>
-                    <input pInputText formControlName="lastLoginProvider" class="w-full" />
+                <div class="field col-12 md:col-6">
+
+                    <label for="lastLoginProvider">
+                        Last Login Provider
+                    </label>
+
+                    <input
+                        id="lastLoginProvider"
+                        pInputText
+                        formControlName="lastLoginProvider"
+                        class="w-full" />
+
                 </div>
 
             </div>
+
         </csm-form-section>
 
-        <!-- TENANT -->
-        <csm-form-section title="Tenant">
-            <div class="grid formgrid">
+    </div>
 
-                <div class="col-12 md:col-6 field">
-                    <label>Tenant</label>
-                    <p-select
-                        [options]="tenants"
-                        optionLabel="name"
-                        optionValue="id"
-                        formControlName="tenantId"
-                        styleClass="w-full">
-                    </p-select>
-                </div>
-
-            </div>
-        </csm-form-section>
-
-    </form>
-
-</csm-dialog>
+</form>
