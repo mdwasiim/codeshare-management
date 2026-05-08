@@ -19,45 +19,62 @@ public class RoleLoader {
     private final TenantRepository tenantRepository;
 
     private static final List<String> BASE_ROLES = List.of(
-            "ADMIN",
+
+            // PLATFORM
+            "SUPER_ADMIN",
+
+            // TENANT
             "TENANT_ADMIN",
-            "ORG_ADMIN",
-            "MANAGER",
-            "STAFF"
+
+            // IAM / SECURITY
+            "IAM_ADMIN",
+
+            // AIRLINE OPERATIONS
+            "OPS_MANAGER",
+            "FLIGHT_OPERATOR",
+
+            // BOOKING / RESERVATION
+            "BOOKING_AGENT",
+
+            // CUSTOMER SUPPORT
+            "CUSTOMER_SUPPORT",
+
+            // REPORTING / AUDIT
+            "REPORT_ANALYST",
+            "AUDITOR",
+
+            // DEFAULT BUSINESS USER
+            "USER"
     );
 
-    public void load(List<UUID> tenantIds) {
+    public void load(UUID tenantId) {
 
-        log.info("⏳ RoleLoader: ensuring base roles for {} tenants...", tenantIds.size());
+        log.info("⏳ RoleLoader: ensuring base roles for {} tenants...", tenantId);
 
         List<Role> rolesToSave = new ArrayList<>();
 
-        for (UUID tenantId : tenantIds) {
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() ->
+                        new IllegalStateException("Tenant not found: " + tenantId));
 
-            if (tenantId == null) continue;
+        // 🔥 PERFORMANCE FIX: fetch once
+        Set<String> existingCodes =
+                roleRepository.findCodesByTenant(tenant);
 
-            Tenant tenant = tenantRepository.findById(tenantId)
-                    .orElseThrow(() ->
-                            new IllegalStateException("Tenant not found: " + tenantId));
+        for (String code : BASE_ROLES) {
 
-            // 🔥 PERFORMANCE FIX: fetch once
-            Set<String> existingCodes =
-                    roleRepository.findCodesByTenant(tenant);
+            if (existingCodes.contains(code)) continue;
 
-            for (String code : BASE_ROLES) {
-
-                if (existingCodes.contains(code)) continue;
-
-                rolesToSave.add(
-                        Role.builder()
-                                .tenant(tenant)
-                                .code(code)
-                                .name(toReadableName(code))
-                                .description(code + " role for tenant " + tenant.getTenantCode())
-                                .build()
-                );
-            }
+            rolesToSave.add(
+                    Role.builder()
+                            .tenant(tenant)
+                            .code(code)
+                            .name(toReadableName(code))
+                            .description(buildDescription(code))
+                            .build()
+            );
         }
+
 
         if (!rolesToSave.isEmpty()) {
             roleRepository.saveAll(rolesToSave);
@@ -65,6 +82,44 @@ public class RoleLoader {
         } else {
             log.info("✅ RoleLoader: all roles already exist.");
         }
+    }
+    private String buildDescription(String code) {
+
+        return switch (code) {
+
+            case "SUPER_ADMIN" ->
+                    "Full platform administration access";
+
+            case "TENANT_ADMIN" ->
+                    "Tenant administration and configuration access";
+
+            case "IAM_ADMIN" ->
+                    "Identity and access management administration";
+
+            case "OPS_MANAGER" ->
+                    "Operational management access";
+
+            case "FLIGHT_OPERATOR" ->
+                    "Flight operations management access";
+
+            case "BOOKING_AGENT" ->
+                    "Booking and reservation management access";
+
+            case "CUSTOMER_SUPPORT" ->
+                    "Customer support operations access";
+
+            case "REPORT_ANALYST" ->
+                    "Reporting and analytics access";
+
+            case "AUDITOR" ->
+                    "Audit and compliance read-only access";
+
+            case "USER" ->
+                    "Default authenticated user access";
+
+            default ->
+                    code + " role";
+        };
     }
 
     // ===============================

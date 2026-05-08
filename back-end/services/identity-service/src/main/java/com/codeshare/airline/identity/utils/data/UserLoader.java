@@ -2,14 +2,16 @@ package com.codeshare.airline.identity.utils.data;
 
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.identity.entities.*;
-import com.codeshare.airline.identity.repository.*;
+import com.codeshare.airline.identity.entities.Tenant;
+import com.codeshare.airline.identity.entities.User;
+import com.codeshare.airline.identity.repository.TenantRepository;
+import com.codeshare.airline.identity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -17,71 +19,107 @@ import java.util.List;
 public class UserLoader {
 
     private final UserRepository userRepository;
-    private final UserGroupRepository userGroupRepository;
-    private final GroupRepository groupRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TenantRepository tenantRepository;
 
-    public void loadUser(List<Tenant> tenants) {
+    public void loadUser(UUID tenantId) {
 
-        log.info("⏳ Bootstrapping internal admin users...");
+        log.info("⏳ Bootstrapping internal users...");
 
-        for (Tenant tenant : tenants) {
-            createAdminIfMissing(tenant);
-        }
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Tenant not found: " + tenantId
+                        ));
+
+        createUserIfMissing(
+                tenant,
+                "admin",
+                "admin",
+                "System",
+                "Administrator"
+        );
+
+        createUserIfMissing(
+                tenant,
+                "auditor",
+                "auditor",
+                "Audit",
+                "User"
+        );
     }
 
-    private void createAdminIfMissing(Tenant tenant) {
+    private void createUserIfMissing(
+            Tenant tenant,
+            String username,
+            String password,
+            String firstName,
+            String lastName
+    ) {
 
-        String username = "admin" ;
-        String email = tenant.getTenantCode() + "@codeshare.com";
-
-        // 🔥 FIX: tenant-aware check
-        boolean exists = userRepository.existsByUsernameAndTenant(username, tenant);
+        boolean exists =
+                userRepository.existsByUsernameAndTenant(
+                        username,
+                        tenant
+                );
 
         if (exists) {
-            log.info("Admin user already exists for tenant {}", tenant.getTenantCode());
+
+            log.info(
+                    "User [{}] already exists for tenant [{}]",
+                    username,
+                    tenant.getTenantCode()
+            );
+
             return;
         }
 
-        // 🔥 FIX: correct group code
-        Group adminGroup = groupRepository
-                .findByCodeAndTenant_TenantCode("ADMIN_GROUP", tenant.getTenantCode())
-                .orElseThrow(() -> new RuntimeException("Admin group not found"));
+        String email =
+                username.toLowerCase()
+                        + "@"
+                        + tenant.getTenantCode().toLowerCase()
+                        + ".codeshare.com";
 
-        // 🔥 create user
         User user = User.builder()
+
                 .username(username.toLowerCase())
                 .email(email)
-                .firstName("Admin")
-                .lastName(tenant.getName())
-                .password(passwordEncoder.encode("admin")) // ⚠ change later
+
+                .firstName(firstName)
+                .lastName(lastName)
+
+                .password(
+                        passwordEncoder.encode(password)
+                )
+
                 .enabled(true)
                 .active(true)
+
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
+
                 .authSource(AuthSource.INTERNAL)
+
                 .externalId("internal:" + username)
+
                 .recordStatus(RecordStatus.ACTIVE)
+
                 .tenant(tenant)
+
                 .build();
 
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
 
-        // 🔥 FIX: avoid duplicate mapping
-        boolean mappingExists = userGroupRepository
-                .existsByTenantAndUserAndGroup(tenant, savedUser, adminGroup);
+        log.info(
+                "✅ User [{}] created for tenant [{}]",
+                username,
+                tenant.getTenantCode()
+        );
+    }
 
-        if (!mappingExists) {
-            UserGroup userGroup = UserGroup.builder()
-                    .tenant(tenant)
-                    .user(savedUser)
-                    .group(adminGroup)
-                    .build();
+    public boolean isLoaded(UUID tenantId) {
 
-            userGroupRepository.save(userGroup);
-        }
-
-        log.info("✅ Admin user created for tenant {}", tenant.getTenantCode());
+         return userRepository.count()>0;
     }
 }

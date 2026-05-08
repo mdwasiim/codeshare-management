@@ -19,6 +19,7 @@ import {CsmConfirmService} from '@core/services/csm-confirm.service';
 import {TooltipModule} from "primeng/tooltip";
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 import {PermissionFormPage} from "@features/iam/permissions/pages/permission-form/permission-form.page";
+import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
 
 @Component({
     selector: 'permission-list',
@@ -31,7 +32,8 @@ import {PermissionFormPage} from "@features/iam/permissions/pages/permission-for
         ToolbarActionComponent,
         TooltipModule,
         CsmDialogComponent,
-        PermissionFormPage
+        PermissionFormPage,
+        HasPermissionDirective
     ],
     templateUrl: './permission-list.page.html'
 })

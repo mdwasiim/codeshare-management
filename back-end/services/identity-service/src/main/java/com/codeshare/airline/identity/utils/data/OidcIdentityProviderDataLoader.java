@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -24,22 +23,17 @@ public class OidcIdentityProviderDataLoader {
     private final OidcIdentityProviderRepository identityProviderRepository;
 
     @Transactional
-    public void load(List<UUID> tenantIds) {
+    public void load(UUID tenantId) {
 
-        log.info("🔹 Bootstrapping Identity Providers for {} tenants", tenantIds.size());
+        log.info("🔹 Bootstrapping Identity Providers for {} tenants", tenantId);
 
-        for (UUID tenantId : tenantIds) {
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() ->
+                        new IllegalStateException("Tenant not found: " + tenantId));
 
-            if (tenantId == null) continue;
-
-            Tenant tenant = tenantRepository.findById(tenantId)
-                    .orElseThrow(() ->
-                            new IllegalStateException("Tenant not found: " + tenantId));
-
-            bootstrapProvider(tenant, AuthSource.INTERNAL, 1);
-            bootstrapProvider(tenant, AuthSource.AZURE, 2);
-            bootstrapProvider(tenant, AuthSource.LDAP, 3);
-        }
+        bootstrapProvider(tenant, AuthSource.INTERNAL, 1);
+        bootstrapProvider(tenant, AuthSource.AZURE, 2);
+        bootstrapProvider(tenant, AuthSource.LDAP, 3);
 
         log.info("✅ Identity Provider bootstrap completed");
     }

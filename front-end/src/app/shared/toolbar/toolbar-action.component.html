@@ -1,56 +1,88 @@
-<p-toolbar *ngIf="hasAnyAction" class="mb-6">
+<p-toolbar
+    *ngIf="hasAnyAction"
+    class="mb-6">
 
     <ng-template pTemplate="left">
 
-        <p-button
-            *ngIf="visibleActions.includes('create')"
-            label="New"
-            icon="pi pi-plus"
-            severity="secondary"
-            class="mr-2"
-            (click)="create.emit()">
-        </p-button>
+        <!-- CREATE -->
+        <ng-container
+            *csmHasPermission="permission('create')">
 
-        <p-button
-            *ngIf="visibleActions.includes('delete')"
-            label="Delete"
-            icon="pi pi-trash"
-            severity="secondary"
-            outlined
-            class="mr-2"
-            [disabled]="isDeleteDisabled()"
-            (click)="delete.emit()">
-        </p-button>
+            <p-button
+                *ngIf="hasAction('create')"
+                label="New"
+                icon="pi pi-plus"
+                severity="secondary"
+                class="mr-2"
+                (click)="create.emit()">
+            </p-button>
 
-        <p-button
-            *ngIf="visibleActions.includes('refresh')"
-            label="Refresh"
-            icon="pi pi-refresh"
-            severity="secondary"
-            class="mr-2"
-            (click)="refresh.emit()">
-        </p-button>
+        </ng-container>
 
-        <p-button
-            *ngIf="visibleActions.includes('upload')"
-            label="Upload"
-            icon="pi pi-upload"
-            severity="secondary"
-            class="mr-2"
-            (click)="uploadFile.emit()">
-        </p-button>
+        <!-- DELETE -->
+        <ng-container
+            *csmHasPermission="permission('delete')">
+
+            <p-button
+                *ngIf="hasAction('delete')"
+                label="Delete"
+                icon="pi pi-trash"
+                severity="secondary"
+                outlined
+                class="mr-2"
+                [disabled]="isDeleteDisabled()"
+                (click)="delete.emit()">
+            </p-button>
+
+        </ng-container>
+
+        <!-- REFRESH -->
+        <ng-container
+            *csmHasPermission="permission('read')">
+
+            <p-button
+                *ngIf="hasAction('refresh')"
+                label="Refresh"
+                icon="pi pi-refresh"
+                severity="secondary"
+                class="mr-2"
+                (click)="refresh.emit()">
+            </p-button>
+
+        </ng-container>
+
+        <!-- UPLOAD -->
+        <ng-container
+            *csmHasPermission="permission('upload')">
+
+            <p-button
+                *ngIf="hasAction('upload')"
+                label="Upload"
+                icon="pi pi-upload"
+                severity="secondary"
+                class="mr-2"
+                (click)="uploadFile.emit()">
+            </p-button>
+
+        </ng-container>
 
     </ng-template>
 
     <ng-template pTemplate="right">
 
-        <p-button
-            *ngIf="visibleActions.includes('export')"
-            label="Export"
-            icon="pi pi-upload"
-            severity="secondary"
-            (click)="export.emit()">
-        </p-button>
+        <!-- EXPORT -->
+        <ng-container
+            *csmHasPermission="permission('export')">
+
+            <p-button
+                *ngIf="hasAction('export')"
+                label="Export"
+                icon="pi pi-download"
+                severity="secondary"
+                (click)="export.emit()">
+            </p-button>
+
+        </ng-container>
 
     </ng-template>
 

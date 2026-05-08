@@ -19,6 +19,7 @@ import {CsmConfirmService} from '@core/services/csm-confirm.service';
 import {Tooltip} from "primeng/tooltip";
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 import {GroupFormPage} from "@features/iam/groups/pages/group-form/group-form.page";
+import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
 
 @Component({
     selector: 'app-group-list',
@@ -31,7 +32,8 @@ import {GroupFormPage} from "@features/iam/groups/pages/group-form/group-form.pa
         ToolbarActionComponent,
         Tooltip,
         GroupFormPage,
-        CsmDialogComponent
+        CsmDialogComponent,
+        HasPermissionDirective
     ],
     templateUrl: './group-list.page.html'
 })

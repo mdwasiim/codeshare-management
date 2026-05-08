@@ -30,74 +30,112 @@ public class GroupRoleLoader {
      */
     private static final Map<String, List<String>> GROUP_ROLE_MAP = Map.ofEntries(
 
-            Map.entry("ADMIN_GROUP", List.of("ADMIN", "TENANT_ADMIN")),
-            Map.entry("TENANT_ADMIN_GROUP", List.of("TENANT_ADMIN")),
+            // =========================
+            // PLATFORM / SECURITY
+            // =========================
+            Map.entry("PLATFORM_TEAM",
+                    List.of("SUPER_ADMIN")),
 
-            Map.entry("OPS_MANAGER_GROUP", List.of("MANAGER")),
-            Map.entry("OPS_STAFF_GROUP", List.of("STAFF")),
+            Map.entry("SECURITY_TEAM",
+                    List.of("IAM_ADMIN")),
 
-            Map.entry("IT_SUPPORT", List.of("MANAGER")),
+            // =========================
+            // TENANT ADMIN
+            // =========================
+            Map.entry("TENANT_ADMIN_TEAM",
+                    List.of("TENANT_ADMIN")),
 
-            Map.entry("VIEWER_GROUP", List.of("STAFF"))
+            // =========================
+            // OPERATIONS
+            // =========================
+            Map.entry("OPERATIONS_TEAM",
+                    List.of("OPS_MANAGER")),
+
+            Map.entry("FLIGHT_OPERATIONS_TEAM",
+                    List.of("FLIGHT_OPERATOR")),
+
+            // =========================
+            // BOOKING
+            // =========================
+            Map.entry("BOOKING_TEAM",
+                    List.of("BOOKING_AGENT")),
+
+            // =========================
+            // CUSTOMER SUPPORT
+            // =========================
+            Map.entry("CUSTOMER_SUPPORT_TEAM",
+                    List.of("CUSTOMER_SUPPORT")),
+
+            // =========================
+            // REPORTING / AUDIT
+            // =========================
+            Map.entry("AUDIT_TEAM",
+                    List.of("AUDITOR")),
+
+            Map.entry("ANALYTICS_TEAM",
+                    List.of("REPORT_ANALYST")),
+
+            // =========================
+            // IT SUPPORT
+            // =========================
+            Map.entry("IT_SUPPORT_TEAM",
+                    List.of("IAM_ADMIN")),
+
+            // =========================
+            // DEFAULT USERS
+            // =========================
+            Map.entry("DEFAULT_USERS",
+                    List.of("USER"))
     );
 
-    public void load(List<UUID> tenantIds) {
+    public void load(UUID tenantId) {
 
         log.info("⏳ GroupRoleLoader: ensuring group-role mappings...");
 
         List<GroupRole> toSave = new ArrayList<>();
 
-        for (UUID tenantId : tenantIds) {
 
-            if (tenantId == null) continue;
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() ->
+                        new IllegalStateException("Tenant not found: " + tenantId));
 
-            Tenant tenant = tenantRepository.findById(tenantId)
-                    .orElseThrow(() ->
-                            new IllegalStateException("Tenant not found: " + tenantId));
+        List<Group> groups = groupRepository.findByTenant(tenant);
+        List<Role> roles = roleRepository.findByTenant(tenant);
 
-            List<Group> groups = groupRepository.findByTenant(tenant);
-            List<Role> roles = roleRepository.findByTenant(tenant);
+        Map<String, Role> roleByCode = new HashMap<>();
+        for (Role role : roles) {
+            roleByCode.put(role.getCode(), role);
+        }
 
-            if (groups.isEmpty() || roles.isEmpty()) {
-                log.warn("⚠ Tenant {} missing groups or roles — skipping", tenant.getTenantCode());
-                continue;
-            }
+        for (Group group : groups) {
 
-            Map<String, Role> roleByCode = new HashMap<>();
-            for (Role role : roles) {
-                roleByCode.put(role.getCode(), role);
-            }
+            List<String> allowedRoles =
+                    GROUP_ROLE_MAP.getOrDefault(group.getCode(), List.of());
 
-            for (Group group : groups) {
+            for (String roleCode : allowedRoles) {
 
-                List<String> allowedRoles =
-                        GROUP_ROLE_MAP.getOrDefault(group.getCode(), List.of());
+                Role role = roleByCode.get(roleCode);
+                if (role == null) continue;
 
-                for (String roleCode : allowedRoles) {
+                boolean exists =
+                        groupRoleRepository.existsByTenantAndGroupAndRole(
+                                tenant, group, role);
 
-                    Role role = roleByCode.get(roleCode);
-                    if (role == null) continue;
+                if (exists) continue;
 
-                    boolean exists =
-                            groupRoleRepository.existsByTenantAndGroupAndRole(
-                                    tenant, group, role);
-
-                    if (exists) continue;
-
-                    toSave.add(
-                            GroupRole.builder()
-                                    .tenant(tenant)
-                                    .group(group)
-                                    .role(role)
-                                    .build()
-                    );
-                }
+                toSave.add(
+                        GroupRole.builder()
+                                .tenant(tenant)
+                                .group(group)
+                                .role(role)
+                                .build()
+                );
             }
         }
 
         if (!toSave.isEmpty()) {
             groupRoleRepository.saveAll(toSave);
-            log.info(" GroupRoleLoader: {} mappings created.", toSave.size());
+            log.info("GroupRoleLoader: {} mappings created.", toSave.size());
         } else {
             log.info(" GroupRoleLoader: mappings already exist.");
         }
@@ -105,22 +143,9 @@ public class GroupRoleLoader {
 
     public boolean isLoaded(UUID tenantId) {
 
-        long expected = GROUP_ROLE_MAP.values()
-                .stream()
-                .mapToLong(List::size)
-                .sum();
-
         long actual = groupRoleRepository.countByTenantId(tenantId);
 
-        return actual >= expected;
+        return actual >= 0;
     }
 
-    private UUID safeUUID(String id) {
-        try {
-            return UUID.fromString(id);
-        } catch (Exception ex) {
-            log.warn("⚠ Invalid ingestion ID '{}'", id);
-            return null;
-        }
-    }
 }

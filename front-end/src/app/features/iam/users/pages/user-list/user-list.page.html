@@ -2,7 +2,7 @@
 <!-- Toolbar -->
 <csm-crud-toolbar
     [actions]="['create','delete','export','search']"
-    [permissions]="permissions"
+    [resource]="resourceName"
     [hasSelection]="selectedUsers.length > 0"
     (create)="openCreate()"
     (delete)="deleteSelectedUsers()"
@@ -72,26 +72,36 @@
 
             <td>
                 <div class="flex gap-1 justify-center">
-                    <p-button
-                        *ngIf="permissions.canCreate"
-                        icon="pi pi-pencil"
-                        size="small"
-                        text
-                        pTooltip="Edit"
-                        tooltipPosition="top"
-                        (click)="openEdit(user)">
-                    </p-button>
 
-                    <p-button
-                        *ngIf="permissions.canDelete"
-                        icon="pi pi-trash"
-                        size="small"
-                        text
-                        severity="danger"
-                        pTooltip="Delete"
-                        tooltipPosition="top"
-                        (click)="deleteUser(user)">
-                    </p-button>
+                    <!-- EDIT -->
+                    <ng-container *csmHasPermission="'user:update'">
+
+                        <p-button
+                            icon="pi pi-pencil"
+                            size="small"
+                            text
+                            pTooltip="Edit"
+                            tooltipPosition="top"
+                            (click)="openEdit(user)">
+                        </p-button>
+
+                    </ng-container>
+
+                    <!-- DELETE -->
+                    <ng-container *csmHasPermission="'user:delete'">
+
+                        <p-button
+                            icon="pi pi-trash"
+                            size="small"
+                            text
+                            severity="danger"
+                            pTooltip="Delete"
+                            tooltipPosition="top"
+                            (click)="deleteUser(user)">
+                        </p-button>
+
+                    </ng-container>
+
                 </div>
             </td>
         </tr>

@@ -1,6 +1,6 @@
 <csm-crud-toolbar
     [actions]="['create','delete','search']"
-    [permissions]="permissions"
+    [resource]="resourceName"
     [hasSelection]="selectedOrganizations.length > 0"
     (create)="openCreate()"
     (delete)="deleteSelectedOrganizations()"

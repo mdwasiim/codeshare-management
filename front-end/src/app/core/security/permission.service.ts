@@ -1,51 +1,146 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+    providedIn: 'root'
+})
 export class PermissionService {
 
     private permissions = new Set<string>();
+
     private roles = new Set<string>();
 
-    // ========================
-    // INIT (after login)
-    // ========================
-    setPermissions(perms: string[]) {
+    private groups = new Set<string>();
+
+    // =========================
+    // INITIALIZATION
+    // =========================
+    setPermissions(permissions: string[] = []): void {
+
         this.permissions = new Set(
-            perms.map(p => p.toUpperCase())
+            permissions.map(p => p.toUpperCase())
         );
     }
 
-    setRoles(roles: string[]) {
-        this.roles = new Set(roles || []);
+    setRoles(roles: string[] = []): void {
+
+        this.roles = new Set(
+            roles.map(r => r.toUpperCase())
+        );
     }
 
-    // ========================
-    // CHECKS
-    // ========================
-    has(resource: string, action: string): boolean {
+    setGroups(groups: string[] = []): void {
 
-        const permission =
-            `${resource}:${action}`.toUpperCase();
-
-        console.log('CHECKING=', permission);
-        console.log('AVAILABLE=', [...this.permissions]);
-
-        return this.permissions.has(permission);
+        this.groups = new Set(
+            groups.map(g => g.toUpperCase())
+        );
     }
 
-    hasRaw(permission: string): boolean {
-        return this.permissions.has(permission.toUpperCase());
+    clear(): void {
+
+        this.permissions.clear();
+        this.roles.clear();
+        this.groups.clear();
     }
 
-    hasAny(perms: string[]): boolean {
-        return perms.some(p => this.permissions.has(p));
+    // =========================
+    // PERMISSION CHECKS
+    // =========================
+    hasPermission(
+        resource: string,
+        action: string
+    ): boolean {
+
+        return this.hasRawPermission(
+            `${resource}:${action}`
+        );
     }
 
-    hasAll(perms: string[]): boolean {
-        return perms.every(p => this.permissions.has(p));
+    hasRawPermission(permission: string): boolean {
+
+        const normalized =
+            permission.toUpperCase();
+
+        // direct permission
+        if (this.permissions.has(normalized)) {
+            return true;
+        }
+
+        // wildcard support
+        const [resource] =
+            normalized.split(':');
+
+        return this.permissions.has(
+            `${resource}:*`
+        );
     }
 
-    getAll(): Set<string> {
-        return this.permissions;
+    hasAnyPermission(
+        permissions: string[]
+    ): boolean {
+
+        return permissions.some(permission =>
+            this.hasRawPermission(permission)
+        );
+    }
+
+    hasAllPermissions(
+        permissions: string[]
+    ): boolean {
+
+        return permissions.every(permission =>
+            this.hasRawPermission(permission)
+        );
+    }
+
+    // =========================
+    // ROLE CHECKS
+    // =========================
+    hasRole(role: string): boolean {
+
+        return this.roles.has(
+            role.toUpperCase()
+        );
+    }
+
+    hasAnyRole(roles: string[]): boolean {
+
+        return roles.some(role =>
+            this.hasRole(role)
+        );
+    }
+
+    // =========================
+    // GROUP CHECKS
+    // =========================
+    hasGroup(group: string): boolean {
+
+        return this.groups.has(
+            group.toUpperCase()
+        );
+    }
+
+    hasAnyGroup(groups: string[]): boolean {
+
+        return groups.some(group =>
+            this.hasGroup(group)
+        );
+    }
+
+    // =========================
+    // GETTERS
+    // =========================
+    getPermissions(): string[] {
+
+        return [...this.permissions];
+    }
+
+    getRoles(): string[] {
+
+        return [...this.roles];
+    }
+
+    getGroups(): string[] {
+
+        return [...this.groups];
     }
 }

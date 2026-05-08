@@ -18,6 +18,7 @@ import {TenantFormPage} from "@features/iam/tenants/pages/tenant-form/tenant-for
 import {Tenant} from "@features/iam/models/tenant.model";
 import {TooltipModule} from "primeng/tooltip";
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
 
 
 @Component({
@@ -35,7 +36,8 @@ import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.compo
         TenantFormPage,
         TooltipModule,
         TenantFormPage,
-        CsmDialogComponent
+        CsmDialogComponent,
+        HasPermissionDirective
     ],
     templateUrl: './tenant-list.page.html',
     providers: [ConfirmationService, MessageService]

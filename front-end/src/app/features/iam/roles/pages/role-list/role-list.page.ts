@@ -20,6 +20,7 @@ import { CsmConfirmService } from '@core/services/csm-confirm.service';
 import {Tooltip, TooltipModule} from "primeng/tooltip";
 import {PRIMENG_IMPORTS} from "@shared/primeng/primeng.imports";
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
 
 @Component({
     selector: 'role-list',
@@ -30,6 +31,7 @@ import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.compo
         RoleFormPage,
         CsmDialogComponent,
         RoleFormPage,
+        HasPermissionDirective,
         PRIMENG_IMPORTS
     ],
     templateUrl: './role-list.page.html'

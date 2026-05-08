@@ -22,4 +22,6 @@ public interface UserRepository extends CSMDataBaseRepository<User, UUID> {
     List<User> findAllByTenant_Id(UUID tenantId);
 
     boolean existsByUsernameAndTenant(String username, Tenant tenant);
+
+    List<User> findByTenant(Tenant tenant);
 }

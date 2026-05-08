@@ -20,6 +20,7 @@ import { CsmConfirmService } from '@core/services/csm-confirm.service';
 import { AppToastService } from '@core/services/app-toast.service';
 import {TooltipModule} from "primeng/tooltip";
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
 
 @Component({
     selector: 'user-list',
@@ -33,13 +34,14 @@ import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.compo
         InputTextModule,
         ToolbarActionComponent,
         UserFormPage,
-        CsmDialogComponent
+        CsmDialogComponent,
+        HasPermissionDirective
     ],
     templateUrl: './user-list.page.html'
 })
 export class UserListPage extends BaseListComponent<User> {
 
-   // protected override resourceName = 'USER';
+    protected override resourceName = 'USER';
     // =========================
     // Dialog State
     // =========================

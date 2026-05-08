@@ -47,7 +47,7 @@ export const APP_ROUTES: Routes = [
             {
                 path: 'unauthorized',
                 loadComponent: () =>
-                    import('@core/pages/unauthorized.page')
+                    import('@core/pages/unauthorized/unauthorized.page')
                         .then(m => m.UnauthorizedPage)
             },
 

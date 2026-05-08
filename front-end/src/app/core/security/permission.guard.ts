@@ -1,28 +1,57 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { PermissionService } from '@core/security/permission.service';
 
-@Injectable({ providedIn: 'root' })
-export class PermissionGuard implements CanActivate {
+import {
+    ActivatedRouteSnapshot,
+    CanActivate,
+    Router,
+    RouterStateSnapshot
+} from '@angular/router';
+
+import { PermissionService }
+    from '@core/security/permission.service';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PermissionGuard
+    implements CanActivate {
 
     constructor(
         private permissionService: PermissionService,
         private router: Router
     ) {}
 
-    canActivate(route: ActivatedRouteSnapshot): boolean {
+    canActivate(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): boolean {
 
-        const permissions = route.data?.['permissions'] as string[];
+        const permissions = (
+            route.data?.['permissions']
+        ) as string[] | undefined;
 
-        if (!permissions || permissions.length === 0) return true;
-
-        const hasAccess = this.permissionService.hasAny(permissions);
-
-        if (!hasAccess) {
-            this.router.navigate(['/unauthorized']);
-            return false;
+        // no permission required
+        if (!permissions?.length) {
+            return true;
         }
 
-        return true;
+        const hasAccess =
+            this.permissionService
+                .hasAnyPermission(permissions);
+
+        if (hasAccess) {
+            return true;
+        }
+
+        this.router.navigate(
+            ['/unauthorized'],
+            {
+                queryParams: {
+                    returnUrl: state.url
+                }
+            }
+        );
+
+        return false;
     }
 }

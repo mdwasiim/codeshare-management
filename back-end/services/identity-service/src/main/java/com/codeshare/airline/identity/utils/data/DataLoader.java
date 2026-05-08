@@ -1,7 +1,5 @@
 package com.codeshare.airline.identity.utils.data;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.identity.entities.Tenant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -29,7 +27,7 @@ public class DataLoader {
     private final GroupMenuLoader groupMenuLoader;
 
     private final UserLoader userLoader;
-    private final UserGroupDataLoader userGroupDataLoader;
+    private final UserGroupLoader userGroupLoader;
 
     private final OidcIdentityProviderDataLoader oidcLoader;
 
@@ -50,51 +48,47 @@ public class DataLoader {
     private synchronized void init() {
 
         try {
+
             log.info("⏳ Starting Tenant Data Initialization");
 
-            List<Tenant> tenants = tenantLoader.loadTenants();
+            // Ensure default tenants exist
+            tenantLoader.loadTenants();
 
-            if (tenants.isEmpty()) {
-                log.info("✔ Tenants already exist — skipping bootstrap.");
-                return;
-            }
-
-            for (Tenant tenant : tenants) {
-
-                UUID tenantId = tenant.getId();
+            // Fetch all tenants
+            List<UUID> tenantIds = tenantLoader.getAllTenantIds();
+            for (UUID tenantId : tenantIds) {
 
                 if (isTenantInitialized(tenantId)) {
-                    log.info("✔ Tenant [{}] already initialized — skipping",
-                            tenant.getTenantCode());
+                    log.info(" Tenant [{}] already initialized — skipping", tenantId);
                     continue;
                 }
 
-                log.info("➡ Initializing tenant [{}]", tenant.getTenantCode());
+                log.info(" Initializing tenant [{}]", tenantId);
 
                 // =============================
                 // CORE LOADERS
                 // =============================
-                oidcLoader.load(List.of(tenantId));
-                roleLoader.load(List.of(tenantId));
-                permissionLoader.load(List.of(tenantId));
-                groupLoader.load(List.of(tenantId));
-                menuLoader.load(List.of(tenantId));
+                oidcLoader.load(tenantId);
+                roleLoader.load(tenantId);
+                permissionLoader.load(tenantId);
+                groupLoader.load(tenantId);
+                menuLoader.load(tenantId);
 
                 // =============================
                 // MAPPINGS
                 // =============================
-                groupRoleLoader.load(List.of(tenantId));
-                rolePermissionLoader.load(List.of(tenantId));
-                groupMenuLoader.load(List.of(tenantId));
+                groupRoleLoader.load(tenantId);
+                rolePermissionLoader.load(tenantId);
+                groupMenuLoader.load(tenantId);
 
                 // =============================
                 // USERS
                 // =============================
-                userLoader.loadUser(List.of(tenant));
-                userGroupDataLoader.load(List.of(tenantId));
+                userLoader.loadUser(tenantId);
+                userGroupLoader.load(tenantId);
 
                 log.info("✅ Tenant [{}] initialized successfully",
-                        tenant.getTenantCode());
+                        tenantId);
             }
 
             log.info("🎉 Tenant Data Initialization COMPLETED");
@@ -109,10 +103,10 @@ public class DataLoader {
     // ===============================
     private boolean isInitialized() {
 
-        List<Tenant> tenants = tenantLoader.loadTenants();
+        List<UUID> tenantIds =
+                tenantLoader.getAllTenantIds();
 
-        return tenants.stream()
-                .map(CSMDataAbstractEntity::getId)
+        return tenantIds.stream()
                 .allMatch(this::isTenantInitialized);
     }
 
@@ -128,6 +122,8 @@ public class DataLoader {
                 && groupRoleLoader.isLoaded(tenantId)
                 && rolePermissionLoader.isLoaded(tenantId)
                 && groupMenuLoader.isLoaded(tenantId)
+                && userLoader.isLoaded(tenantId)
+                && userGroupLoader.isLoaded(tenantId)
                 && oidcLoader.isLoaded(tenantId);
     }
 }

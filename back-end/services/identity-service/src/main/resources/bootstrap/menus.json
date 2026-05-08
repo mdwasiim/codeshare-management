@@ -1,0 +1,249 @@
+[
+  {
+    "code": "HOME",
+    "label": "Home",
+    "displayOrder": 1
+  },
+  {
+    "code": "DASHBOARD",
+    "label": "Dashboard",
+    "icon": "pi pi-fw pi-home",
+    "displayOrder": 1,
+    "parentCode": "HOME"
+  },
+  {
+    "code": "DASHBOARD_OVERVIEW",
+    "label": "Overview",
+    "icon": "pi pi-fw pi-home",
+    "route": "/dashboard",
+    "permission": "dashboard:read",
+    "displayOrder": 1,
+    "parentCode": "DASHBOARD"
+  },
+  {
+    "code": "DASHBOARD_PRODUCT",
+    "label": "Product",
+    "icon": "pi pi-fw pi-box",
+    "route": "/products",
+    "permission": "dashboard:read",
+    "displayOrder": 3,
+    "parentCode": "DASHBOARD"
+  },
+  {
+    "code": "FLIGHT_OPS",
+    "label": "Flight Operations",
+    "icon": "pi pi-fw pi-send",
+    "displayOrder": 2
+  },
+  {
+    "code": "FLIGHT_SCHEDULES",
+    "label": "Flight Schedules",
+    "icon": "pi pi-fw pi-calendar",
+    "route": "/flights",
+    "permission": "flight:read",
+    "displayOrder": 1,
+    "parentCode": "FLIGHT_OPS"
+  },
+  {
+    "code": "CODESHARE_FLIGHTS",
+    "label": "Codeshare Flights",
+    "icon": "pi pi-fw pi-share-alt",
+    "route": "/codeshare",
+    "permission": "flight:read",
+    "displayOrder": 2,
+    "parentCode": "FLIGHT_OPS"
+  },
+  {
+    "code": "INGESTION",
+    "label": "Schedule Ingestion",
+    "icon": "pi pi-fw pi-upload",
+    "displayOrder": 3
+  },
+  {
+    "code": "UPLOAD_SCHEDULE",
+    "label": "Upload Schedule",
+    "icon": "pi pi-fw pi-upload",
+    "route": "/upload",
+    "permission": "file:upload",
+    "displayOrder": 1,
+    "parentCode": "INGESTION"
+  },
+  {
+    "code": "PROCESSING_JOBS",
+    "label": "Processing Jobs",
+    "icon": "pi pi-fw pi-cog",
+    "route": "/jobs",
+    "permission": "flight:read",
+    "displayOrder": 2,
+    "parentCode": "INGESTION"
+  },
+  {
+    "code": "VALIDATION_ERRORS",
+    "label": "Validation Errors",
+    "icon": "pi pi-fw pi-exclamation-triangle",
+    "route": "/errors",
+    "permission": "flight:read",
+    "displayOrder": 3,
+    "parentCode": "INGESTION"
+  },
+  {
+    "code": "PARTNER_MGMT",
+    "label": "Partner Management",
+    "icon": "pi pi-fw pi-users",
+    "displayOrder": 4
+  },
+  {
+    "code": "AIRLINE_PARTNERS",
+    "label": "Airline Partners",
+    "icon": "pi pi-fw pi-building",
+    "route": "/partners",
+    "permission": "group:read",
+    "displayOrder": 1,
+    "parentCode": "PARTNER_MGMT"
+  },
+  {
+    "code": "AGREEMENTS",
+    "label": "Agreements",
+    "icon": "pi pi-fw pi-file",
+    "route": "/agreements",
+    "permission": "group:read",
+    "displayOrder": 2,
+    "parentCode": "PARTNER_MGMT"
+  },
+  {
+    "code": "REFERENCE_DATA",
+    "label": "Reference Data",
+    "icon": "pi pi-fw pi-database",
+    "displayOrder": 5
+  },
+  {
+    "code": "AIRPORTS",
+    "label": "Airports",
+    "icon": "pi pi-fw pi-map",
+    "route": "/airports",
+    "permission": "flight:read",
+    "displayOrder": 1,
+    "parentCode": "REFERENCE_DATA"
+  },
+  {
+    "code": "AIRCRAFT_TYPES",
+    "label": "Aircraft Types",
+    "icon": "pi pi-fw pi-car",
+    "route": "/aircraft",
+    "permission": "flight:read",
+    "displayOrder": 2,
+    "parentCode": "REFERENCE_DATA"
+  },
+  {
+    "code": "ROUTES",
+    "label": "Routes",
+    "icon": "pi pi-fw pi-directions",
+    "route": "/routes",
+    "permission": "flight:read",
+    "displayOrder": 3,
+    "parentCode": "REFERENCE_DATA"
+  },
+  {
+    "code": "SYSTEM_CONFIG",
+    "label": "System Configuration",
+    "icon": "pi pi-fw pi-cog",
+    "displayOrder": 6
+  },
+  {
+    "code": "ORG_ROOT",
+    "label": "Organization",
+    "icon": "pi pi-fw pi-globe",
+    "displayOrder": 1,
+    "parentCode": "SYSTEM_CONFIG"
+  },
+  {
+    "code": "ORG_LIST",
+    "label": "All Organizations",
+    "icon": "pi pi-fw pi-list",
+    "route": "/orgs",
+    "permission": "group:read",
+    "displayOrder": 1,
+    "parentCode": "ORG_ROOT"
+  },
+  {
+    "code": "ORG_CREATE",
+    "label": "Create Organization",
+    "icon": "pi pi-fw pi-plus-circle",
+    "route": "/orgs/create",
+    "permission": "group:create",
+    "displayOrder": 2,
+    "parentCode": "ORG_ROOT"
+  },
+  {
+    "code": "ACCESS_MGMT",
+    "label": "Access Management",
+    "icon": "pi pi-fw pi-shield",
+    "displayOrder": 7
+  },
+  {
+    "code": "USER_MGMT",
+    "label": "User Management",
+    "icon": "pi pi-fw pi-users",
+    "displayOrder": 1,
+    "parentCode": "ACCESS_MGMT"
+  },
+  {
+    "code": "USERS",
+    "label": "Users",
+    "icon": "pi pi-fw pi-user",
+    "route": "/users",
+    "permission": "user:read",
+    "displayOrder": 1,
+    "parentCode": "USER_MGMT"
+  },
+  {
+    "code": "GROUPS",
+    "label": "Groups",
+    "icon": "pi pi-fw pi-users",
+    "route": "/groups",
+    "permission": "group:read",
+    "displayOrder": 2,
+    "parentCode": "USER_MGMT"
+  },
+  {
+    "code": "ROLE_MGMT",
+    "label": "Role Management",
+    "icon": "pi pi-fw pi-id-card",
+    "displayOrder": 2,
+    "parentCode": "ACCESS_MGMT"
+  },
+  {
+    "code": "ROLES",
+    "label": "Roles",
+    "icon": "pi pi-fw pi-briefcase",
+    "route": "/roles",
+    "permission": "role:read",
+    "displayOrder": 1,
+    "parentCode": "ROLE_MGMT"
+  },
+  {
+    "code": "PERMISSIONS",
+    "label": "Permissions",
+    "icon": "pi pi-fw pi-lock",
+    "route": "/permissions",
+    "permission": "permission:read",
+    "displayOrder": 2,
+    "parentCode": "ROLE_MGMT"
+  },
+  {
+    "code": "MENU_MGMT",
+    "label": "Menu Management",
+    "icon": "pi pi-fw pi-bars",
+    "displayOrder": 3,
+    "parentCode": "ACCESS_MGMT"
+  },
+  {
+    "code": "MENUS",
+    "label": "Menus",
+    "icon": "pi pi-fw pi-list",
+    "route": "/menus",
+    "permission": "permission:read",
+    "displayOrder": 1,
+    "parentCode": "MENU_MGMT"
+  }
+]

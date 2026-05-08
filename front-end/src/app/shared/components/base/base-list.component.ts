@@ -1,131 +1,176 @@
-import {Directive, inject, OnDestroy, OnInit} from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import {CSMCrudPermissions} from "@core/models/app-permission.model";
-import {AuthzService} from "@services/authz.service";
+import {
+    Directive,
+    inject,
+    OnDestroy,
+    OnInit
+} from '@angular/core';
+
+import {
+    Observable,
+    Subject
+} from 'rxjs';
+
+import {
+    takeUntil
+} from 'rxjs/operators';
+
+import {
+    AuthzService
+} from '@services/authz.service';
 
 @Directive()
-export abstract class BaseListComponent<T> implements OnInit, OnDestroy {
+export abstract class BaseListComponent<T>
+    implements OnInit, OnDestroy {
 
-    // 🔹 ADD THESE TWO LINES
-    protected authz = inject(AuthzService);
+    // =========================
+    // DEPENDENCIES
+    // =========================
+    protected authz =
+        inject(AuthzService);
+
+    // =========================
+    // RBAC
+    // =========================
     protected resourceName?: string;
 
+    // =========================
+    // STATE
+    // =========================
     data: T[] = [];
-    loading = true;
 
-    // ✅ RBAC support (optional for child classes)
-    permissions: Partial<CSMCrudPermissions> = {};
-    protected readonly destroy$ = new Subject<void>();
+    loading = false;
 
-    // ========================
+    totalRecords = 0;
+
+    page = 0;
+
+    size = 10;
+
+    // =========================
+    // RXJS
+    // =========================
+    protected readonly destroy$ =
+        new Subject<void>();
+
+    // =========================
     // ABSTRACT API
-    // ========================
+    // =========================
     abstract fetch(): Observable<T[]>;
 
-    // ========================
+    // =========================
     // LIFECYCLE
-    // ========================
+    // =========================
     ngOnInit(): void {
-        this.initPermissions();
+
         this.loadData();
     }
 
     ngOnDestroy(): void {
+
         this.destroy$.next();
+
         this.destroy$.complete();
     }
 
-    // ========================
-    // PERMISSION INIT (HOOK)
-    // ========================
-    protected initPermissions() {
-        console.log('RESOURCE=', this.resourceName);
+    // =========================
+    // RBAC HELPERS
+    // =========================
+    can(action: string): boolean {
 
-        console.log('PERMISSIONS=', this.permissions);
-        // ✅ backward compatibility (no RBAC applied)
+        // no RBAC configured
         if (!this.resourceName) {
-            this.permissions = {
-                canCreate: true,
-                canDelete: true,
-                canExport: true,
-                canUpload: true,
-                canRefresh: true
-            };
-            return;
+            return true;
         }
 
-        const has = (action: string) =>
-            this.authz.has(this.resourceName!, action);
-
-        this.permissions = {
-            canCreate: has('CREATE'),
-            canDelete: has('DELETE'),
-            canExport: has('EXPORT'),
-            canUpload: has('UPLOAD'),
-            canRefresh: has('READ')
-        };
+        return this.authz.has(
+            this.resourceName,
+            action
+        );
     }
 
-    // ========================
-    // PERMISSION CHECK HELPERS
-    // ========================
-    hasPermission(key: keyof CSMCrudPermissions): boolean {
-        return !!this.permissions?.[key];
-    }
-
-    // ========================
-    // CORE OBSERVABLE HANDLER
-    // ========================
-    protected handleObservable<R>(
-        obs$: Observable<R>,
-        onSuccess: (value: R) => void,
-        onError?: (err: any) => void
-    ) {
-        this.startLoading();
-
-        obs$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: (res) => {
-                    onSuccess(res);
-                    this.stopLoading();
-                },
-                error: (err) => {
-                    console.error(err);
-                    onError?.(err);
-                    this.stopLoading();
-                }
-            });
-    }
-
-    // ========================
+    // =========================
     // LIST LOGIC
-    // ========================
-    loadData() {
-        // optional guard
-        if (this.resourceName && !this.hasPermission('canRefresh')) {
+    // =========================
+    loadData(): void {
+
+        // READ permission required
+        if (!this.can('READ')) {
             return;
         }
 
         this.handleObservable(
             this.fetch(),
-            (res) => this.data = res ?? []
+            (res) => {
+
+                this.data = res ?? [];
+
+                this.afterLoad();
+            }
         );
     }
 
-    refresh() {
+    refresh(): void {
+
         this.loadData();
     }
 
-    // ========================
+    // =========================
+    // CORE OBSERVABLE HANDLER
+    // =========================
+    protected handleObservable<R>(
+        obs$: Observable<R>,
+        onSuccess: (value: R) => void,
+        onError?: (err: any) => void
+    ): void {
+
+        this.startLoading();
+
+        obs$
+            .pipe(
+                takeUntil(this.destroy$)
+            )
+            .subscribe({
+
+                next: (res) => {
+
+                    onSuccess(res);
+
+                    this.stopLoading();
+                },
+
+                error: (err) => {
+
+                    this.stopLoading();
+
+                    this.onError(err);
+
+                    onError?.(err);
+                }
+            });
+    }
+
+    // =========================
+    // HOOKS
+    // =========================
+    protected afterLoad(): void {}
+
+    protected onError(
+        err: any
+    ): void {
+
+        console.error(err);
+    }
+
+    // =========================
     // LOADING HELPERS
-    // ========================
-    protected startLoading() {
+    // =========================
+    protected startLoading(): void {
+
         this.loading = true;
     }
 
-    protected stopLoading() {
+    protected stopLoading(): void {
+
         this.loading = false;
     }
 }

@@ -1,7 +1,7 @@
 <!-- Toolbar -->
 <csm-crud-toolbar
     [actions]="['create','delete','search']"
-    [permissions]="permissions"
+    [resource]="resourceName"
     [hasSelection]="selectedRoles.length > 0"
     (create)="openCreate()"
     (delete)="deleteSelectedRoles()"
@@ -55,24 +55,36 @@
 
             <td>
                 <div class="flex gap-1 justify-center">
-                    <p-button
-                        icon="pi pi-pencil"
-                        size="small"
-                        text
-                        pTooltip="Edit"
-                        tooltipPosition="top"
-                        (click)="openEdit(role)">
-                    </p-button>
 
-                    <p-button
-                        icon="pi pi-trash"
-                        size="small"
-                        text
-                        severity="danger"
-                        pTooltip="Delete"
-                        tooltipPosition="top"
-                        (click)="deleteRole(role)">
-                    </p-button>
+                    <!-- EDIT -->
+                    <ng-container *csmHasPermission="'user:update'">
+
+                        <p-button
+                            icon="pi pi-pencil"
+                            size="small"
+                            text
+                            pTooltip="Edit"
+                            tooltipPosition="top"
+                            (click)="openEdit(role)">
+                        </p-button>
+
+                    </ng-container>
+
+                    <!-- DELETE -->
+                    <ng-container *csmHasPermission="'user:delete'">
+
+                        <p-button
+                            icon="pi pi-trash"
+                            size="small"
+                            text
+                            severity="danger"
+                            pTooltip="Delete"
+                            tooltipPosition="top"
+                            (click)="deleteRole(role)">
+                        </p-button>
+
+                    </ng-container>
+
                 </div>
             </td>
         </tr>

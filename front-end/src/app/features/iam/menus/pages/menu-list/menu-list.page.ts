@@ -18,6 +18,7 @@ import {CsmConfirmService} from '@core/services/csm-confirm.service';
 import {TooltipModule} from "primeng/tooltip";
 import {MenuFormPage} from "@features/iam/menus/pages/menu-form/menu-form.page";
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
 
 @Component({
     selector: 'menu-list',
@@ -29,7 +30,8 @@ import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.compo
         ToolbarActionComponent,
         TooltipModule,
         MenuFormPage,
-        CsmDialogComponent
+        CsmDialogComponent,
+        HasPermissionDirective
     ],
     templateUrl: './menu-list.page.html'
 })

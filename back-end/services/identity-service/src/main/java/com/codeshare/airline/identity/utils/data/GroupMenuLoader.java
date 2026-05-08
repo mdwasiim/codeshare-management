@@ -19,68 +19,239 @@ public class GroupMenuLoader {
     private final MenuRepository menuRepository;
     private final TenantRepository tenantRepository;
 
+    private static final Map<String, List<String>> GROUP_MENU_MAP = Map.ofEntries(
+
+            // =========================
+            // PLATFORM TEAM
+            // =========================
+            Map.entry("PLATFORM_TEAM", List.of("*")),
+
+            // =========================
+            // SECURITY TEAM
+            // =========================
+            Map.entry("SECURITY_TEAM", List.of(
+                    "DASHBOARD",
+                    "ACCESS_MGMT",
+                    "USER_MGMT",
+                    "USERS",
+                    "GROUPS",
+                    "ROLE_MGMT",
+                    "ROLES",
+                    "PERMISSIONS",
+                    "MENU_MGMT",
+                    "MENUS"
+            )),
+
+            // =========================
+            // TENANT ADMIN
+            // =========================
+            Map.entry("TENANT_ADMIN_TEAM", List.of(
+                    "DASHBOARD",
+                    "ACCESS_MGMT",
+                    "USER_MGMT",
+                    "USERS",
+                    "GROUPS"
+            )),
+
+            // =========================
+            // OPERATIONS
+            // =========================
+            Map.entry("OPERATIONS_TEAM", List.of(
+                    "DASHBOARD",
+                    "FLIGHT_OPS",
+                    "FLIGHT_SCHEDULES",
+                    "CODESHARE_FLIGHTS",
+                    "INGESTION",
+                    "PROCESSING_JOBS",
+                    "VALIDATION_ERRORS"
+            )),
+
+            // =========================
+            // FLIGHT OPERATIONS
+            // =========================
+            Map.entry("FLIGHT_OPERATIONS_TEAM", List.of(
+                    "DASHBOARD",
+                    "FLIGHT_OPS",
+                    "FLIGHT_SCHEDULES",
+                    "CODESHARE_FLIGHTS"
+            )),
+
+            // =========================
+            // BOOKING TEAM
+            // =========================
+            Map.entry("BOOKING_TEAM", List.of(
+                    "DASHBOARD"
+            )),
+
+            // =========================
+            // CUSTOMER SUPPORT
+            // =========================
+            Map.entry("CUSTOMER_SUPPORT_TEAM", List.of(
+                    "DASHBOARD"
+            )),
+
+            // =========================
+            // AUDIT TEAM
+            // =========================
+            Map.entry("AUDIT_TEAM", List.of(
+                    "DASHBOARD",
+                    "AUDIT"
+            )),
+
+            // =========================
+            // ANALYTICS
+            // =========================
+            Map.entry("ANALYTICS_TEAM", List.of(
+                    "DASHBOARD",
+                    "REPORTS"
+            )),
+
+            // =========================
+            // DEFAULT USERS
+            // =========================
+            Map.entry("DEFAULT_USERS", List.of(
+                    "DASHBOARD"
+            ))
+    );
+
+
     @Transactional
-    public void load(List<UUID> tenantIds) {
+    public void load(UUID tenantId) {
 
         log.info("⏳ GroupMenuLoader: creating group-menu mappings...");
 
-        int total = 0;
+        assignTenantMenus(tenantId);
 
-        for (UUID tenantId : tenantIds) {
-
-            if (tenantId == null) continue;
-
-            total += assignTenantMenus(tenantId);
-        }
-
-        log.info("✅ GroupMenuLoader: {} mappings created.", total);
+        log.info("✅ GroupMenuLoader: {} mappings created.", tenantId);
     }
 
-    private int assignTenantMenus(UUID tenantId) {
+    private void assignTenantMenus(UUID tenantId) {
 
         Tenant tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() ->
                         new IllegalStateException("Tenant not found: " + tenantId));
 
-        List<Group> groups = groupRepository.findByTenant(tenant);
-        List<Menu> menus = menuRepository.findByTenant(tenant);
+        List<Group> groups =
+                groupRepository.findByTenant(tenant);
+
+        List<Menu> menus =
+                menuRepository.findByTenant(tenant);
 
         if (groups.isEmpty() || menus.isEmpty()) {
-            log.warn("⚠ Skipping tenant {} — groups or menus missing", tenant.getTenantCode());
-            return 0;
+
+            log.warn(
+                    "⚠ Skipping tenant {} — groups or menus missing",
+                    tenant.getTenantCode()
+            );
+
+            return;
         }
 
-        // 🔥 Load existing mappings once
-        Set<String> existingMappings = groupMenuRepository.findMappings(tenant);
+        Set<String> existingMappings =
+                groupMenuRepository.findMappings(tenant);
 
-        List<GroupMenu> toSave = new ArrayList<>();
+        List<GroupMenu> toSave =
+                new ArrayList<>();
+
+        Map<String, Menu> menuByCode =
+                new HashMap<>();
+
+        for (Menu menu : menus) {
+            menuByCode.put(menu.getCode(), menu);
+        }
 
         for (Group group : groups) {
 
-            for (Menu menu : menus) {
+            List<String> allowedMenus =
+                    GROUP_MENU_MAP.getOrDefault(
+                            group.getCode(),
+                            List.of()
+                    );
 
-                String key = group.getCode() + ":" + menu.getCode();
+            // PLATFORM TEAM => ALL MENUS
+            if (allowedMenus.contains("*")) {
 
-                if (existingMappings.contains(key)) continue;
+                for (Menu menu : menus) {
 
-                toSave.add(
-                        GroupMenu.builder()
-                                .tenant(tenant)
-                                .group(group)
-                                .menu(menu)
-                                .build()
+                    saveGroupMenu(
+                            tenant,
+                            group,
+                            menu,
+                            existingMappings,
+                            toSave
+                    );
+                }
+
+                continue;
+            }
+
+            for (String menuCode : allowedMenus) {
+
+                Menu menu = menuByCode.get(menuCode);
+
+                if (menu == null) {
+
+                    log.warn(
+                            "⚠ Menu [{}] not found for group [{}]",
+                            menuCode,
+                            group.getCode()
+                    );
+
+                    continue;
+                }
+
+                saveGroupMenu(
+                        tenant,
+                        group,
+                        menu,
+                        existingMappings,
+                        toSave
                 );
             }
         }
 
         if (!toSave.isEmpty()) {
+
             groupMenuRepository.saveAll(toSave);
+
+            log.info(
+                    "✅ Tenant [{}]: {} group-menu mappings created.",
+                    tenant.getTenantCode(),
+                    toSave.size()
+            );
+
+        } else {
+
+            log.info(
+                    "✅ Tenant [{}]: group-menu mappings already exist.",
+                    tenant.getTenantCode()
+            );
+        }
+    }
+    private void saveGroupMenu(
+            Tenant tenant,
+            Group group,
+            Menu menu,
+            Set<String> existingMappings,
+            List<GroupMenu> toSave
+    ) {
+
+        String key =
+                group.getCode() + ":" + menu.getCode();
+
+        if (existingMappings.contains(key)) {
+            return;
         }
 
-        log.info("Tenant {}: {} group-menu mappings created.",
-                tenant.getTenantCode(), toSave.size());
+        existingMappings.add(key);
 
-        return toSave.size();
+        toSave.add(
+                GroupMenu.builder()
+                        .tenant(tenant)
+                        .group(group)
+                        .menu(menu)
+                        .build()
+        );
     }
 
     // ===============================
@@ -88,12 +259,8 @@ public class GroupMenuLoader {
     // ===============================
     public boolean isLoaded(UUID tenantId) {
 
-        long groupCount = groupRepository.countByTenantId(tenantId);
-        long menuCount = menuRepository.countByTenantId(tenantId);
-
-        long expected = groupCount * menuCount;
         long actual = groupMenuRepository.countByTenantId(tenantId);
 
-        return actual >= expected;
+        return actual >= 0;
     }
 }
