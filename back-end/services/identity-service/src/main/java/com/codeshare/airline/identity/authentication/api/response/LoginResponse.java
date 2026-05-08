@@ -28,6 +28,9 @@ public class LoginResponse {
     @JsonProperty("tenant_code")
     private String tenantCode;
 
+    @JsonProperty("groups")
+    private Set<String> groups;
+
     @JsonProperty("roles")
     private Set<String> roles;
 

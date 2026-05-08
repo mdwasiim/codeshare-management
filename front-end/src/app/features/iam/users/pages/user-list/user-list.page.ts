@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { forkJoin } from 'rxjs';
+import {forkJoin, tap} from 'rxjs';
 
 import { UserService } from '@features/iam/users/services/user.service';
 import { User } from '@features/iam/models/user.model';
@@ -72,7 +72,13 @@ export class UserListPage extends BaseListComponent<User> {
     // =========================
      override fetch() {
          console.log('FETCH CALLED');
-         return this.service.getAll();
+         /*return this.service.getAll();*/
+         return this.service.getAll().pipe(
+             tap(res => {
+                 console.log('USER API RESPONSE=', res);
+                 console.log('IS ARRAY=', Array.isArray(res));
+             })
+         );
     }
 
     // =========================

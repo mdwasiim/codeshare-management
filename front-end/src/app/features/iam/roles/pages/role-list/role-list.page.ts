@@ -37,7 +37,7 @@ import {HasPermissionDirective} from "@shared/directives/permission/has-permissi
     templateUrl: './role-list.page.html'
 })
 export class RoleListPage extends BaseListComponent<Role> {
-
+    protected override resourceName = 'role';
     private service = inject(RoleService);
     private toast = inject(AppToastService);
     private confirm = inject(CsmConfirmService);

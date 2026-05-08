@@ -36,7 +36,7 @@ import {HasPermissionDirective} from "@shared/directives/permission/has-permissi
     templateUrl: './menu-list.page.html'
 })
 export class MenuListPage extends BaseListComponent<AppMenuModel> {
-
+    protected override resourceName = 'menu';
     private service = inject(MenuManagementService);
     private toast = inject(AppToastService);
     private confirm = inject(CsmConfirmService);

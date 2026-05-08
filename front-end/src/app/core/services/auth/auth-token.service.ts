@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 
 @Injectable({ providedIn: 'root' })
-export class AppTokenService {
+export class AuthTokenService {
 
   /**
    * Returns the current access token used for API authentication.
@@ -112,6 +112,10 @@ export class AppTokenService {
     get decodedToken(): any | null {
         if (!this.accessToken) return null;
         return this.decodeToken(this.accessToken);
+    }
+
+    get groups(): string[] {
+        return this.decodedToken?.groups || [];
     }
 
     get roles(): string[] {

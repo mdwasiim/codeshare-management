@@ -1,5 +1,6 @@
+<!-- TOOLBAR -->
 <csm-crud-toolbar
-    [actions]="['create','delete','search']"
+    [actions]="['create','delete','search','export']"
     [resource]="resourceName"
     [hasSelection]="selectedPermissions.length > 0"
     (create)="openCreate()"
@@ -60,7 +61,8 @@
                 <div class="flex gap-1 justify-center">
 
                     <!-- EDIT -->
-                    <ng-container *csmHasPermission="'user:update'">
+                    <ng-container
+                        *csmHasPermission="'permission:update'">
 
                         <p-button
                             icon="pi pi-pencil"
@@ -74,7 +76,8 @@
                     </ng-container>
 
                     <!-- DELETE -->
-                    <ng-container *csmHasPermission="'user:delete'">
+                    <ng-container
+                        *csmHasPermission="'permission:delete'">
 
                         <p-button
                             icon="pi pi-trash"
@@ -108,7 +111,7 @@
 <!-- ============================= -->
 <csm-dialog
     [(visible)]="dialogVisible"
-    [title]="selectedId ? 'Edit' : 'Create'"
+    [title]="selectedId ? 'Edit Permission' : 'Create Permission'"
     [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading"
     (save)="formRef.submit()">
 

@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.authentication.provider.local;
 
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.authentication.api.request.LoginRequest;
 import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.exception.AuthenticationFailedException;
@@ -8,7 +9,7 @@ import com.codeshare.airline.identity.authentication.security.adapter.UserDetail
 import com.codeshare.airline.identity.authentication.service.core.AuthenticationResult;
 import com.codeshare.airline.identity.service.AuthUserService;
 import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.identity.service.UserGroupAssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ public class InternalAuthenticationProvider implements AuthenticationProvider {
     private final PasswordEncoder passwordEncoder;
     private final AuthUserService authUserService;
     private final RolePermissionAssignmentService rolePermissionAssignmentService;
+    private final UserGroupAssignmentService userGroupAssignmentService;
 
 
     @Override
@@ -39,7 +41,8 @@ public class InternalAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationFailedException("Invalid username or password");
         }
 
-        Set<String> rolese = rolePermissionAssignmentService.resolveRoleCodes(userDetailsAdapter.getUserId());
+        Set<String> userGroups = userGroupAssignmentService.resolveGroupCodes(userDetailsAdapter.getUserId());
+        Set<String> roles = rolePermissionAssignmentService.resolveRoleCodes(userDetailsAdapter.getUserId());
         Set<String> permissions = rolePermissionAssignmentService.resolvePermissionCodes(userDetailsAdapter.getUserId());
         return AuthenticationResult.builder()
                 .userId(userDetailsAdapter.getUserId().toString())
@@ -47,7 +50,8 @@ public class InternalAuthenticationProvider implements AuthenticationProvider {
                 .email(userDetailsAdapter.getEmail())
                 .tenantCode(tenantContext.getTenantCode())
                 .tenantId(loginRequest.getTenant().getId())
-                .roles(rolese)
+                .userGroups(userGroups)
+                .roles(roles)
                 .permissions(permissions)
                 .authSource(AuthSource.INTERNAL)
                 .build();

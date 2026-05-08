@@ -2,20 +2,22 @@ import {Injectable} from '@angular/core';
 import {LoginResponse} from '@features/auth/models/login-response.model';
 import {RefreshTokenResponse} from '@features/auth/models/refresh-token-response.model';
 import {catchError, Observable, of, tap} from 'rxjs';
-import {AuthzService} from "@services/authz.service";
-import {AppTokenService} from "@services/auth/app-token.service";
+import {AuthTokenService} from "@services/auth/auth-token.service";
 import {LayoutMenuService} from "@layout/services/layout-menu.service";
 import {map} from "rxjs/operators";
 import { switchMap } from 'rxjs';
 import {AppApiService} from "@core/config/app-api.service";
+import {PermissionService} from "@core/security/permission.service";
+import {AuthTenantService} from "@services/auth/auth-tenant.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
     constructor(
         private apiService: AppApiService,
-        private authz: AuthzService,
-        private tokenService: AppTokenService,
+        private tenantService: AuthTenantService,
+        private permissionService: PermissionService,
+        private tokenService: AuthTokenService,
         private menuService: LayoutMenuService
     ) {}
 
@@ -25,13 +27,45 @@ export class AuthService {
         return this.apiService.post<LoginResponse>('auth.login', { username, password }).pipe(
 
             tap(res => {
+
+                // =========================
+                // STORE SESSION
+                // =========================
                 this.tokenService.setSession(
                     res.access_token,
                     res.refresh_token,
                     res.expires_in
                 );
 
-                this.authz.setUserAccess(res.roles, res.permissions);
+                // =========================
+                // STORE TENANT
+                // =========================
+                this.tokenService.setTenant(
+                    res.tenant_code
+                );
+
+                // =========================
+                // RESTORE RUNTIME TENANT
+                // =========================
+                this.tenantService.setTenant(
+                    res.tenant_id,
+                    res.tenant_code
+                );
+
+                // =========================
+                // RBAC
+                // =========================
+                this.permissionService.setPermissions(
+                    res.permissions || []
+                );
+
+                this.permissionService.setRoles(
+                    res.roles || []
+                );
+
+                this.permissionService.setGroups(
+                    res.groups || []
+                );
             }),
 
             switchMap(res =>
@@ -70,7 +104,7 @@ export class AuthService {
 
     private handleLogout() {
         this.tokenService.clear();
-        this.authz.clear();
+        this.permissionService.clear();
         this.menuService.clear();
 
         // 🔥 redirect to login

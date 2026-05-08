@@ -66,16 +66,17 @@ public class LoginController {
         log.debug("Tokens issued successfully | user={} ingestion={}",authResult.getUsername(),authResult.getTenantCode());
 
         return LoginResponse.builder()
-                        .userId(authResult.getUserId())
-                        .username(authResult.getUsername())
-                        .email(authResult.getEmail())
-                        .tenantCode(authResult.getTenantCode())
-                        .roles(authResult.getRoles())
-                        .permissions(authResult.getPermissions())
-                        .accessToken(tokens.getAccessToken())
-                        .refreshToken(tokens.getRefreshToken())
-                        .expiresIn(tokenService.getAccessTokenTtl())
-                        .build();
+                .userId(authResult.getUserId())
+                .username(authResult.getUsername())
+                .email(authResult.getEmail())
+                .tenantCode(authResult.getTenantCode())
+                .groups(authResult.getUserGroups())
+                .roles(authResult.getRoles())
+                .permissions(authResult.getPermissions())
+                .accessToken(tokens.getAccessToken())
+                .refreshToken(tokens.getRefreshToken())
+                .expiresIn(tokenService.getAccessTokenTtl())
+                .build();
 
     }
 

@@ -9,6 +9,7 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 
 import { AuthService } from '@features/auth/services/auth.service';
+import {AuthTenantService} from "@services/auth/auth-tenant.service";
 
 @Component({
     selector: 'csm-login',
@@ -36,8 +37,10 @@ export class LoginPageComponent {
     private authService = inject(AuthService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
+    private authTenantService = inject(AuthTenantService);
 
     private returnUrl = '/dashboard';
+    private tenantCode = 'QR';
 
     ngOnInit() {
         // ✅ Get returnUrl or fallback to dashboard
@@ -47,9 +50,17 @@ export class LoginPageComponent {
 
     login() {
 
-        if (!this.username || !this.password || this.loggingIn) {
+        if (!this.tenantCode || !this.username || !this.password || this.loggingIn) {
             return;
         }
+
+        // =========================
+        // SET TENANT BEFORE LOGIN
+        // =========================
+        this.authTenantService.setTenant(
+            '',
+            this.tenantCode
+        );
 
         this.loggingIn = true;
 

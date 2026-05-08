@@ -15,8 +15,8 @@ import {
 } from 'rxjs/operators';
 
 import {
-    AuthzService
-} from '@services/authz.service';
+    PermissionService
+} from '@core/security/permission.service';
 
 @Directive()
 export abstract class BaseListComponent<T>
@@ -25,8 +25,8 @@ export abstract class BaseListComponent<T>
     // =========================
     // DEPENDENCIES
     // =========================
-    protected authz =
-        inject(AuthzService);
+    protected permissionService =
+        inject(PermissionService);
 
     // =========================
     // RBAC
@@ -77,14 +77,13 @@ export abstract class BaseListComponent<T>
     // =========================
     can(action: string): boolean {
 
-        // no RBAC configured
         if (!this.resourceName) {
             return true;
         }
 
-        return this.authz.has(
-            this.resourceName,
-            action
+        return this.permissionService.hasPermission(
+            this.resourceName.toLowerCase(),
+            action.toLowerCase()
         );
     }
 

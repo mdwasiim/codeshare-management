@@ -1,8 +1,15 @@
-<!-- Toolbar -->
+<!-- TOOLBAR -->
 <csm-crud-toolbar
-    [actions]="['create','delete','search']"
+    [actions]="[
+        'create',
+        'delete',
+        'search',
+        'export'
+    ]"
     [resource]="resourceName"
-    [hasSelection]="selectedGroups.length > 0"
+    [hasSelection]="
+        selectedGroups.length > 0
+    "
     (create)="openCreate()"
     (delete)="deleteSelectedGroups()"
     (export)="exportCSV()"
@@ -23,6 +30,11 @@
     [tableStyle]="{ 'min-width': '60rem' }"
     [globalFilterFields]="['code','name','description']"
 >
+    <ng-template pTemplate="caption">
+        <div class="flex justify-between items-center">
+            <h5 class="m-0">Manage Groups</h5>
+        </div>
+    </ng-template>
 
     <!-- Header -->
     <ng-template pTemplate="header">
@@ -57,7 +69,8 @@
                 <div class="flex gap-1 justify-center">
 
                     <!-- EDIT -->
-                    <ng-container *csmHasPermission="'user:update'">
+                    <ng-container
+                        *csmHasPermission="'group:update'">
 
                         <p-button
                             icon="pi pi-pencil"
@@ -71,7 +84,8 @@
                     </ng-container>
 
                     <!-- DELETE -->
-                    <ng-container *csmHasPermission="'user:delete'">
+                    <ng-container
+                        *csmHasPermission="'group:delete'">
 
                         <p-button
                             icon="pi pi-trash"
@@ -104,7 +118,7 @@
 
 <csm-dialog
     [(visible)]="dialogVisible"
-    [title]="selectedId ? 'Edit' : 'Create'"
+    [title]="selectedId ? 'Edit Group' : 'Create Group'"
     [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading"
     (save)="formRef.submit()">
 

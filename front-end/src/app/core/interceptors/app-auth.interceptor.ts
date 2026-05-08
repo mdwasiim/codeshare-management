@@ -1,152 +1,150 @@
 import {
-  HttpInterceptorFn,
-  HttpErrorResponse
+    HttpInterceptorFn,
+    HttpErrorResponse
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import {
-  BehaviorSubject,
-  catchError,
-  filter,
-  finalize,
-  switchMap,
-  take,
-  throwError,
+    BehaviorSubject,
+    catchError,
+    filter,
+    finalize,
+    switchMap,
+    take,
+    throwError,
 } from 'rxjs';
 
-import { AppTokenService } from '@services/auth/app-token.service';
+import { AuthTokenService } from '@services/auth/auth-token.service';
 import { AuthService } from '@features/auth/services/auth.service';
-import { TenantService } from '@core/services/auth/tenant.service';
+import { AuthTenantService } from '@services/auth/auth-tenant.service';
 
 let isRefreshing = false;
 const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
 export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const tokenService = inject(AppTokenService);
-  const authService = inject(AuthService);
-  const tenantService = inject(TenantService);
+    const tokenService = inject(AuthTokenService);
+    const authService = inject(AuthService);
+    const authTenantService = inject(AuthTenantService);
 
-  const tenantCode = tenantService.getTenantCode();
+    const tenantCode = authTenantService.getTenantCode();
 
-  if (!tenantCode) {
-    console.warn('Tenant code missing on frontend');
-  }
-
-
-  const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/logout'); ;
-
-  // =========================
-  // Build headers ONCE
-  // =========================
-  const headers: Record<string, string> = {
-    'X-Tenant-Id': tenantCode ?? ''
-  };
-
-if (!isAuthEndpoint) {
-  const existingAuth = req.headers.get('Authorization');
-  const isLogout = req.url.includes('/auth/logout');
-  if (isLogout && tokenService.refreshToken) {
-    // ✅ FORCE refresh token for logout
-    headers['Authorization'] = `Bearer ${tokenService.refreshToken}`;
-  } else if (!existingAuth && tokenService.accessToken) {
-    // ✅ normal flow
-    headers['Authorization'] = `Bearer ${tokenService.accessToken}`;
-  }
-
-}
+    if (!tenantCode) {
+        console.warn('Tenant code missing on frontend');
+    }
 
 
+    const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/logout'); ;
 
-  const authReq = req.clone({ setHeaders: headers });
+    // =========================
+    // Build headers ONCE
+    // =========================
+    const headers: Record<string, string> = {
+        'X-Tenant-Id': tenantCode ?? ''
+    };
 
-  // 🚫 Do NOT refresh on auth endpoints
-  if (isAuthEndpoint) {
-    return next(authReq);
-  }
+    if (!isAuthEndpoint) {
+        const existingAuth = req.headers.get('Authorization');
+        const isLogout = req.url.includes('/auth/logout');
+        if (isLogout && tokenService.refreshToken) {
+            // ✅ FORCE refresh token for logout
+            headers['Authorization'] = `Bearer ${tokenService.refreshToken}`;
+        } else if (!existingAuth && tokenService.accessToken) {
+            // ✅ normal flow
+            headers['Authorization'] = `Bearer ${tokenService.accessToken}`;
+        }
 
-  return next(authReq).pipe(
-      catchError((error: HttpErrorResponse) => {
+    }
 
-          // 🔐 ONLY handle 401
-          if (error.status !== 401) {
-              return throwError(() => error);
-          }
+    const authReq = req.clone({ setHeaders: headers });
 
-          // 🚫 No refresh token → logout scenario
-          if (!tokenService.refreshToken) {
-              tokenService.clear();
-              window.location.href = '/auth/login';
-              return throwError(() => error);
-          }
+    // 🚫 Do NOT refresh on auth endpoints
+    if (isAuthEndpoint) {
+        return next(authReq);
+    }
 
-          // =========================
-          // Refresh already in progress
-          // =========================
-          if (isRefreshing) {
-              return refreshTokenSubject.pipe(
-                  filter(token => token !== null),
-                  take(1),
-                  switchMap(token =>
-                      next(
-                          req.clone({
-                              setHeaders: {
-                                  Authorization: `Bearer ${token}`,
-                                  'X-Tenant-Id': tenantCode ?? ''
-                              }
-                          })
-                      )
-                  )
-              );
-          }
+    return next(authReq).pipe(
+        catchError((error: HttpErrorResponse) => {
 
-          // =========================
-          // Start refresh flow
-          // =========================
-          isRefreshing = true;
-          refreshTokenSubject.next(null);
+            // 🔐 ONLY handle 401
+            if (error.status !== 401) {
+                return throwError(() => error);
+            }
 
-          return authService.refresh().pipe(
-              switchMap(response => {
+            // 🚫 No refresh token → logout scenario
+            if (!tokenService.refreshToken) {
+                tokenService.clear();
+                window.location.href = '/auth/login';
+                return throwError(() => error);
+            }
 
-                  isRefreshing = false;
+            // =========================
+            // Refresh already in progress
+            // =========================
+            if (isRefreshing) {
+                return refreshTokenSubject.pipe(
+                    filter(token => token !== null),
+                    take(1),
+                    switchMap(token =>
+                        next(
+                            req.clone({
+                                setHeaders: {
+                                    Authorization: `Bearer ${token}`,
+                                    'X-Tenant-Id': tenantCode ?? ''
+                                }
+                            })
+                        )
+                    )
+                );
+            }
 
-                  // ✅ update tokens
-                  tokenService.setSession(
-                      response.access_token,
-                      response.refresh_token,
-                      response.expires_in
-                  );
+            // =========================
+            // Start refresh flow
+            // =========================
+            isRefreshing = true;
+            refreshTokenSubject.next(null);
 
-                  refreshTokenSubject.next(response.access_token);
+            return authService.refresh().pipe(
+                switchMap(response => {
 
-                  // ✅ retry original request
-                  return next(
-                      req.clone({
-                          setHeaders: {
-                              Authorization: `Bearer ${response.access_token}`,
-                              'X-Tenant-Id': tenantCode ?? ''
-                          }
-                      })
-                  );
-              }),
+                    isRefreshing = false;
 
-              catchError(err => {
-                  isRefreshing = false;
+                    // ✅ update tokens
+                    tokenService.setSession(
+                        response.access_token,
+                        response.refresh_token,
+                        response.expires_in
+                    );
 
-                  tokenService.clear();
-                  refreshTokenSubject.next(null);
+                    refreshTokenSubject.next(response.access_token);
 
-                  // 🔥 FORCE logout
-                  window.location.href = '/auth/login';
+                    // ✅ retry original request
+                    return next(
+                        req.clone({
+                            setHeaders: {
+                                Authorization: `Bearer ${response.access_token}`,
+                                'X-Tenant-Id': tenantCode ?? ''
+                            }
+                        })
+                    );
+                }),
 
-                  return throwError(() => err);
-              }),
+                catchError(err => {
+                    isRefreshing = false;
 
-              finalize(() => {
-                  isRefreshing = false;
-              })
-          );
-      })
+                    tokenService.clear();
+                    refreshTokenSubject.next(null);
 
-  );
+                    // 🔥 FORCE logout
+                    window.location.href = '/auth/login';
+
+                    return throwError(() => err);
+                }),
+
+                finalize(() => {
+                    isRefreshing = false;
+                })
+            );
+        })
+
+    );
 };

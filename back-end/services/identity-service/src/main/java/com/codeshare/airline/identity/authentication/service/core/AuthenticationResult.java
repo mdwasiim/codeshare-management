@@ -32,6 +32,9 @@ public class AuthenticationResult {
     private final AuthSource authSource;
 
     /** Application roles */
+    private final Set<String> userGroups;
+
+    /** Application roles */
     private final Set<String> roles;
 
     /** Application permissions */

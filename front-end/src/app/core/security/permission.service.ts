@@ -143,4 +143,8 @@ export class PermissionService {
 
         return [...this.groups];
     }
+
+    setUserAccess(roles: string[], permissions: string[]) {
+
+    }
 }

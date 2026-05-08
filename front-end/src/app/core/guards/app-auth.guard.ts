@@ -6,12 +6,12 @@ import {
     ActivatedRouteSnapshot,
     RouterStateSnapshot
 } from '@angular/router';
-import { AppTokenService } from '@services/auth/app-token.service';
+import { AuthTokenService } from '@services/auth/auth-token.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppAuthGuard implements CanActivate, CanActivateChild {
 
-    private tokenService = inject(AppTokenService);
+    private tokenService = inject(AuthTokenService);
     private router = inject(Router);
 
     private checkAccess(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

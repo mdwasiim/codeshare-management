@@ -39,6 +39,8 @@ import {HasPermissionDirective} from "@shared/directives/permission/has-permissi
 })
 export class GroupListPage extends BaseListComponent<Group> {
 
+    protected override resourceName = 'group';
+
     private service = inject(GroupService);
     private toast = inject(AppToastService);
     private confirm = inject(CsmConfirmService);
