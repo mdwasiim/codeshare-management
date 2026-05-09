@@ -4,9 +4,11 @@ package com.codeshare.airline.identity.service.serviceImpl;
 import com.codeshare.airline.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.core.dto.tenant.RolePermissionDTO;
+import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.entities.*;
 import com.codeshare.airline.identity.repository.*;
 import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
+import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.PermissionMapper;
 import com.codeshare.airline.identity.utils.mappers.RoleMapper;
 import com.codeshare.airline.identity.utils.mappers.RolePermissionMapper;
@@ -34,83 +36,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     private final RoleMapper tenantRbacRoleMapper;
     private final PermissionMapper permissionMapper;
 
-    // -------------------------------------------------------------------------
-    // Assign a SINGLE permission to a role
-    // -------------------------------------------------------------------------
-    @Override
-    public RolePermissionDTO assignPermissionToRole(UUID roleId, UUID permissionId) {
-
-        // Check duplicate assignment
-        if (rolePermissionRepository.findByRoleIdAndPermissionId(roleId, permissionId).isPresent()) {
-            throw new RuntimeException("Permission already assigned to role");
-        }
-
-        // Fetch role
-        Role role = roleRepository.findById(roleId)
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleId));
-
-        // Fetch permission
-        Permission permission = permissionRepository.findById(permissionId)
-                .orElseThrow(() -> new RuntimeException("Permission not found: " + permissionId));
-
-        // Create mapping
-        RolePermission entity = RolePermission.builder()
-                .role(role)
-                .permission(permission)
-                .build();
-
-        return mapper.toDTO(rolePermissionRepository.save(entity));
-    }
-
-    // -------------------------------------------------------------------------
-    // Assign MULTIPLE permissions to a role
-    // -------------------------------------------------------------------------
-    @Override
-    public List<RolePermissionDTO> assignPermissionsToRole(UUID roleId, List<UUID> permissionIds) {
-
-        // Validate role
-        Role role = roleRepository.findById(roleId)
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleId));
-
-        // Process each permission
-        List<RolePermission> entities = permissionIds.stream()
-                .distinct() // prevent duplicates in input
-                .map(permissionId -> {
-
-                    // Skip if already assigned
-                    boolean exists = rolePermissionRepository
-                            .findByRoleIdAndPermissionId(roleId, permissionId)
-                            .isPresent();
-
-                    if (exists) return null;
-
-                    Permission permission = permissionRepository.findById(permissionId)
-                            .orElseThrow(() -> new RuntimeException("Permission not found: " + permissionId));
-
-                    return RolePermission.builder()
-                            .role(role)
-                            .permission(permission)
-                            .build();
-                })
-                .filter(Objects::nonNull) // remove already existing ones
-                .collect(Collectors.toList());
-
-        return mapper.toDTOList(rolePermissionRepository.saveAll(entities));
-    }
-
-    // -------------------------------------------------------------------------
-    // Remove a SINGLE permission from a role
-    // -------------------------------------------------------------------------
-    @Override
-    public void removePermissionFromRole(UUID roleId, UUID permissionId) {
-
-        RolePermission mapping = rolePermissionRepository
-                .findByRoleIdAndPermissionId(roleId, permissionId)
-                .orElseThrow(() -> new RuntimeException("Permission not assigned to this role"));
-
-        rolePermissionRepository.delete(mapping);
-    }
-
+    private final TenantService tenantService;
     // -------------------------------------------------------------------------
     // List permissions BY role
     // -------------------------------------------------------------------------
@@ -204,6 +130,51 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
         return resolvePermissions(userId).stream()
                 .map(PermissionDTO::getCode)   // ✅ MUST
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    @Transactional
+    public List<RolePermissionDTO> replaceRolePermissions(
+            UUID roleId,
+            List<UUID> permissionIds
+    ) {
+
+        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
+
+        Role role = roleRepository.findById(roleId).orElseThrow(() ->new RuntimeException("Role not found: " + roleId) );
+
+        // delete old
+        rolePermissionRepository.deleteByRoleId(roleId);
+
+        // VERY IMPORTANT
+        rolePermissionRepository.flush();
+
+        // clear all case
+        if (permissionIds == null || permissionIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<RolePermission> entities =
+                permissionIds.stream().distinct().map(permissionId -> {
+                            Permission permission = permissionRepository.findById(permissionId) .orElseThrow(() ->
+                                                    new RuntimeException(
+                                                            "Permission not found: "
+                                                                    + permissionId
+                                                    )
+                                            );
+
+                            return RolePermission.builder()
+                                    .tenant(tenant)
+                                    .role(role)
+                                    .permission(permission)
+                                    .build();
+
+                        }).collect(Collectors.toList());
+
+        List<RolePermission> saved =
+                rolePermissionRepository.saveAll(entities);
+
+        return mapper.toDTOList(saved);
     }
 
 

@@ -32,7 +32,9 @@ export type CrudAction =
     | 'export'
     | 'refresh'
     | 'upload'
-    | 'search';
+    | 'search'
+    | 'reset'
+    | 'save';
 
 @Component({
     selector: 'csm-crud-toolbar',
@@ -64,9 +66,15 @@ export class ToolbarActionComponent {
     @Input()
     searchText = '';
 
+    @Input()
+    loading = false;
+
     // =========================
     // OUTPUTS
     // =========================
+// =========================
+// OUTPUTS
+// =========================
     @Output()
     create = new EventEmitter<void>();
 
@@ -84,6 +92,12 @@ export class ToolbarActionComponent {
 
     @Output()
     search = new EventEmitter<string>();
+
+    @Output()
+    reset = new EventEmitter<void>();
+
+    @Output()
+    save = new EventEmitter<void>();
 
     // =========================
     // HELPERS

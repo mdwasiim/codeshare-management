@@ -10,7 +10,7 @@ import {forkJoin, Observable, of} from 'rxjs';
 import {BaseListComponent} from '@shared/components/base/base-list.component';
 import {Organization} from "@features/settings/model/organization.model";
 
-import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
+import {ToolbarActionComponent} from '@shared/components/toolbar/toolbar-action.component';
 
 // ✅ your wrappers
 import {AppToastService} from '@core/services/app-toast.service';

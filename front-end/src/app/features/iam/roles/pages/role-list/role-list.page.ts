@@ -11,7 +11,7 @@ import { Role } from '@features/iam/models/role.model';
 import { BaseListComponent } from '@shared/components/base/base-list.component';
 import { RoleService } from '../../services/role.service';
 
-import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
+import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
 import { RoleFormPage } from '@features/iam/roles/pages/role-form/role-form.page';
 
 // ✅ wrapper services
@@ -89,7 +89,7 @@ export class RoleListPage extends BaseListComponent<Role> {
 
     deleteRole(role: Role) {
         this.confirm.delete(
-            `Delete role "${role.displayName}"?`,
+            `Delete role "${role.name}"?`,
             () => {
                 this.service.delete(role.id!).subscribe({
                     next: () => {

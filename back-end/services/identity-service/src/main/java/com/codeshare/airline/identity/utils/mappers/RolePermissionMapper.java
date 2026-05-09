@@ -6,9 +6,13 @@ import com.codeshare.airline.identity.entities.RolePermission;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.core.mapper.CSMMapperConfig;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(config = CSMMapperConfig.class)
 public interface RolePermissionMapper extends CSMGenericMapper<RolePermission, RolePermissionDTO> {
-
+    @Override
+    @Mapping(target = "permissionId", source = "permission.id")
+    @Mapping(target = "roleId", source = "role.id")
+    RolePermissionDTO toDTO(RolePermission entity);
 }
 

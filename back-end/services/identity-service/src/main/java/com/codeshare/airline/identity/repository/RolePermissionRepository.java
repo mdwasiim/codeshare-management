@@ -4,6 +4,7 @@ package com.codeshare.airline.identity.repository;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import com.codeshare.airline.identity.entities.RolePermission;
 import com.codeshare.airline.identity.entities.Tenant;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,5 +25,12 @@ public interface RolePermissionRepository extends CSMDataBaseRepository<RolePerm
     Set<String> findMappings(@Param("tenant") Tenant tenant);
 
     long countByTenantId(UUID tenantId);
+
+    @Modifying
+    @Query("""
+       delete from RolePermission rp
+       where rp.role.id = :roleId
+       """)
+    void deleteByRoleId(@Param("roleId") UUID roleId);
 
 }

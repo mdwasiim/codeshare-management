@@ -11,7 +11,7 @@ import {Permission} from '@features/iam/models/permission.model';
 import {BaseListComponent} from '@shared/components/base/base-list.component';
 import {PermissionApiService} from '@features/iam/permissions/services/permission-api.service';
 
-import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
+import {ToolbarActionComponent} from '@shared/components/toolbar/toolbar-action.component';
 
 // ✅ use wrapper services
 import {AppToastService} from '@core/services/app-toast.service';
@@ -39,6 +39,7 @@ import {HasPermissionDirective} from "@shared/directives/permission/has-permissi
 })
 export class PermissionListPage extends BaseListComponent<Permission> {
     protected override resourceName = 'permission';
+
     private service = inject(PermissionApiService);
     private toast = inject(AppToastService);
     private confirm = inject(CsmConfirmService);

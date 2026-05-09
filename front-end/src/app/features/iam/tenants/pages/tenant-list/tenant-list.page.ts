@@ -12,7 +12,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {forkJoin} from 'rxjs';
 import {BaseListComponent} from '@shared/components/base/base-list.component';
 
-import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
+import {ToolbarActionComponent} from '@shared/components/toolbar/toolbar-action.component';
 import {TenantService} from "../../services/tenant.service";
 import {TenantFormPage} from "@features/iam/tenants/pages/tenant-form/tenant-form.page";
 import {Tenant} from "@features/iam/models/tenant.model";

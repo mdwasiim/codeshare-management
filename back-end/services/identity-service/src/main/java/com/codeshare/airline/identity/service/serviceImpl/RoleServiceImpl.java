@@ -36,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
             throw new IllegalArgumentException("tenantId is required");
         }
 
-        if (repo.existsByNameAndTenantId(dto.getDisplayName(), dto.getTenantId())) {
+        if (repo.existsByNameAndTenantId(dto.getName(), dto.getTenantId())) {
             throw new RuntimeException("Role already exists for this ingestion");
         }
 
@@ -56,7 +56,7 @@ public class RoleServiceImpl implements RoleService {
                 .orElseThrow(() -> new RuntimeException("Role not found: " + id));
 
         // Only update fields provided in request
-        if (dto.getDisplayName() != null) entity.setName(dto.getDisplayName());
+        if (dto.getName() != null) entity.setName(dto.getName());
         if (dto.getDescription() != null) entity.setDescription(dto.getDescription());
 
         return mapper.toDTO(repo.save(entity));
@@ -105,7 +105,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(readOnly = true)
     public List<RoleDTO> getAllRoles () {
-        String tenantCode = TenantContextHolder.getTenant().getTenantCode();
-        return mapper.toDTOList(repo.findAll());
+        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
+        List<Role> repoByTenant = repo.findByTenant(tenant);
+        return mapper.toDTOList(repoByTenant);
     }
 }

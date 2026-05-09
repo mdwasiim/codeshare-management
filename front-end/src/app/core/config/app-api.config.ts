@@ -44,6 +44,12 @@ export const API_CONFIG = {
         tenants: {
             base: '/identity/tenants',
             byId: '/identity/tenants/{id}'
+        },
+        accessManagement: {
+            rolePermissions: {
+                byRoleId:
+                    '/identity/role-permissions/{roleId}'
+            }
         }
     }
 } as const;
@@ -71,7 +77,9 @@ export type ApiEndpointKey =
     | 'permissions.byId'
 
     | 'tenants.base'
-    | 'tenants.byId';
+    | 'tenants.byId'
+
+    | 'accessManagement.rolePermissions.byRoleId';
 
 export const buildApiUrl = (key: ApiEndpointKey): string => {
     const base = API_CONFIG.baseUrl.replace(/\/$/, '');

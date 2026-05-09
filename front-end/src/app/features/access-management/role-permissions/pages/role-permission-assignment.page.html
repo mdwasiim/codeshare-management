@@ -1,0 +1,151 @@
+<!-- TOOLBAR -->
+<csm-assignment-layout
+    title="Role Permissions"
+    leftTitle="Roles"
+    rightTitle="Permissions">
+
+    <!-- LEFT PANEL -->
+    <div left-panel>
+
+        <p-table
+            [value]="roles"
+            [loading]="loading"
+            selectionMode="single"
+            [(selection)]="selectedRole"
+            dataKey="id"
+            responsiveLayout="scroll"
+            (onRowSelect)="onRoleSelect($event)">
+
+            <!-- HEADER -->
+            <ng-template pTemplate="header">
+
+                <tr>
+
+                    <th>
+                        Code
+                    </th>
+
+                    <th>
+                        Display Name
+                    </th>
+
+                </tr>
+
+            </ng-template>
+
+            <!-- BODY -->
+            <ng-template
+                pTemplate="body"
+                let-role>
+
+                <tr [pSelectableRow]="role">
+
+                    <td>
+                        {{ role.code }}
+                    </td>
+
+                    <td>
+                        {{ role.name }}
+                    </td>
+
+                </tr>
+
+            </ng-template>
+
+        </p-table>
+
+    </div>
+
+    <div right-panel>
+        <!-- TOOLBAR -->
+        <div class="mb-4">
+
+            <csm-crud-toolbar
+                [actions]="[
+                'refresh',
+                'reset',
+                'save'
+            ]"
+                [loading]="saving"
+                (refresh)="loadData()"
+                (reset)="reset()"
+                (save)="save()">
+            </csm-crud-toolbar>
+
+        </div>
+        <!-- EMPTY STATE -->
+        <div
+            *ngIf="!selectedRole"
+            class="flex
+               align-items-center
+               justify-content-center
+               p-6
+               text-500">
+
+            Select a role to manage permissions
+
+        </div>
+
+        <!-- PERMISSIONS -->
+        <div
+            *ngIf="selectedRole"
+            class="mt-4">
+
+            <p-accordion>
+
+                <p-accordion-panel
+                    *ngFor="let group of groupedPermissions"
+                    [value]="group.domain">
+
+                    <!-- HEADER -->
+                    <p-accordion-header>
+
+                        {{ group.domain }}
+
+                    </p-accordion-header>
+
+                    <!-- CONTENT -->
+                    <p-accordion-content>
+
+                        <div class="grid">
+
+                            <div
+                                *ngFor="let permission of group.permissions"
+                                class="col-12
+                                   md:col-6
+                                   lg:col-4">
+
+                                <div
+                                    class="flex
+                                       align-items-center
+                                       gap-2">
+
+                                    <p-checkbox
+                                        [binary]="true"
+                                        [ngModel]="selectedPermissionIds.includes(permission.id!)"
+                                        (onChange)="togglePermission(permission.id, $event.checked)">
+                                    </p-checkbox>
+
+                                    <label>
+
+                                        {{ permission.action }}
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </p-accordion-content>
+
+                </p-accordion-panel>
+
+            </p-accordion>
+
+        </div>
+
+    </div>
+
+</csm-assignment-layout>

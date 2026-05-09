@@ -1,0 +1,44 @@
+<div class="flex flex-column gap-4">
+
+    <!-- CONTENT -->
+    <div class="grid">
+
+        <!-- LEFT PANEL -->
+        <div class="col-12 lg:col-3">
+
+            <p-card>
+
+                <ng-template pTemplate="title">
+
+                    {{ leftTitle }}
+
+                </ng-template>
+
+                <ng-content select="[left-panel]">
+                </ng-content>
+
+            </p-card>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="col-12 lg:col-9">
+
+            <p-card>
+
+                <ng-template pTemplate="title">
+
+                    {{ rightTitle }}
+
+                </ng-template>
+
+                <ng-content select="[right-panel]">
+                </ng-content>
+
+            </p-card>
+
+        </div>
+
+    </div>
+
+</div>

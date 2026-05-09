@@ -7,7 +7,7 @@ import {ButtonModule} from 'primeng/button';
 import {BaseListComponent} from '@shared/components/base/base-list.component';
 import {MenuManagementService} from '../../services/menu-management.service';
 import {AppMenuModel} from '@features/iam/models/app-menu.model';
-import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
+import {ToolbarActionComponent} from '@shared/components/toolbar/toolbar-action.component';
 
 import {map} from 'rxjs/operators';
 import {forkJoin, Observable} from 'rxjs';

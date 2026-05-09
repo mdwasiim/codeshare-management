@@ -69,7 +69,49 @@
     </ng-template>
 
     <ng-template pTemplate="right">
+        <!-- SEARCH -->
+       <!-- <ng-container
+            *csmHasPermission="permission('read')">-->
+        <span
+            *ngIf="hasAction('search')"
+            class="p-input-icon-left mr-2">
 
+            <i class="pi pi-search"></i>
+
+            <input
+                pInputText
+                type="text"
+                [ngModel]="searchText"
+                (ngModelChange)="search.emit($event)"
+                placeholder="Search..." />
+
+        </span>
+        <!--</ng-container>-->
+        <!-- RESET -->
+        <!--<ng-container
+            *csmHasPermission="permission('read')">-->
+        <p-button
+            *ngIf="hasAction('reset')"
+            label="Reset"
+            icon="pi pi-replay"
+            severity="contrast"
+            outlined
+            class="mr-2"
+            (click)="reset.emit()">
+        </p-button>
+       <!-- </ng-container>-->
+        <!-- SAVE -->
+        <!--<ng-container
+            *csmHasPermission="permission('assign')">-->
+        <p-button
+            *ngIf="hasAction('save')"
+            label="Save"
+            icon="pi pi-save"
+            [loading]="loading"
+            class="mr-2"
+            (click)="save.emit()">
+        </p-button>
+       <!-- </ng-container>-->
         <!-- EXPORT -->
         <ng-container
             *csmHasPermission="permission('export')">

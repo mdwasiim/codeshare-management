@@ -25,8 +25,4 @@ public class PermissionDTO extends CSMAuditableDTO {
     // Optional
     private String tenantCode;
 
-    // Optional safety
-    public String getCode() {
-        return domain + ":" + action;
-    }
 }

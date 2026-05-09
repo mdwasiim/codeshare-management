@@ -19,7 +19,7 @@ export class AuthTenantService {
         tenantCode: string
     ): void {
         console.log("tenantId  after login ",tenantId);
-        console.log("tenantId  after login ",tenantCode);
+        console.log("tenantcode  after login ",tenantCode);
         this.tenantId = tenantId;
         this.tenantCode = tenantCode;
     }

@@ -22,7 +22,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import {ProductService} from "@features/settings/products/services/product.service";
 import {Product} from "@features/settings/model/product.model";
-import {ToolbarActionComponent} from "@shared/toolbar/toolbar-action.component";
+import {ToolbarActionComponent} from "@shared/components/toolbar/toolbar-action.component";
 import {ProductFormPage} from "@features/settings/products/pages/product-form/product-form.page";
 
 interface Column {

@@ -16,7 +16,7 @@ public class RoleDTO extends CSMAuditableDTO {
 
     private UUID id;
     private String code;
-    private String displayName;
+    private String name;
     private String description;
     private UUID tenantId;
 }

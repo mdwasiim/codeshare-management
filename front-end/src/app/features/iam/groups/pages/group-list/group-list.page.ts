@@ -11,7 +11,7 @@ import {GroupService} from '../../services/group.service';
 import {Group} from '@features/iam/models/group.model';
 import {BaseListComponent} from '@shared/components/base/base-list.component';
 
-import {ToolbarActionComponent} from '@shared/toolbar/toolbar-action.component';
+import {ToolbarActionComponent} from '@shared/components/toolbar/toolbar-action.component';
 
 // ✅ wrapper services
 import {AppToastService} from '@core/services/app-toast.service';

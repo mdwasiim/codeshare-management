@@ -11,16 +11,15 @@ import java.util.UUID;
 
 public interface RolePermissionAssignmentService {
 
-    RolePermissionDTO assignPermissionToRole(UUID roleId, UUID permissionId);
-
-    void removePermissionFromRole(UUID roleId, UUID permissionId);
-
     List<RolePermissionDTO> getPermissionsByRole(UUID roleId);
+
+    List<RolePermissionDTO> replaceRolePermissions(
+            UUID roleId,
+            List<UUID> permissionIds
+    );
 
     List<RolePermissionDTO> getRolesByPermission(UUID permissionId);
 
-    List<RolePermissionDTO> assignPermissionsToRole(UUID roleId, List<UUID> permissionIds);
-    
     Set<String> resolveRoleCodes(UUID userId);
 
     Set<String> resolvePermissionCodes(UUID userId);

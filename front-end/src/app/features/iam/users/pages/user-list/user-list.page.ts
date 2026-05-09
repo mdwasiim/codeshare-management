@@ -12,7 +12,7 @@ import { UserService } from '@features/iam/users/services/user.service';
 import { User } from '@features/iam/models/user.model';
 import { BaseListComponent } from '@shared/components/base/base-list.component';
 
-import { ToolbarActionComponent } from '@shared/toolbar/toolbar-action.component';
+import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
 import { UserFormPage } from '@features/iam/users/pages/user-form/user-form.page';
 
 // ✅ use your wrapper services
