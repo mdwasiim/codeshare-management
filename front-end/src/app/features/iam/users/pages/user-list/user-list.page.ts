@@ -71,7 +71,6 @@ export class UserListPage extends BaseListComponent<User> {
     // Data Fetch
     // =========================
      override fetch() {
-         console.log('FETCH CALLED');
          /*return this.service.getAll();*/
          return this.service.getAll().pipe(
              tap(res => {

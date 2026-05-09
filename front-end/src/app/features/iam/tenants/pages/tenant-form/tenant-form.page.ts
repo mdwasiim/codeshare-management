@@ -25,8 +25,7 @@ import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-
     ],
     templateUrl: './tenant-form.page.html'
 })
-export class TenantFormPage extends BaseCrudForm<Tenant>
-    implements OnInit {
+export class TenantFormPage extends BaseCrudForm<Tenant> {
 
     private fb = inject(FormBuilder);
     private service = inject(TenantService);
@@ -46,8 +45,7 @@ export class TenantFormPage extends BaseCrudForm<Tenant>
     ];
 
 
-
-    ngOnInit() {
+    override ngOnInit() {
         this.buildForm();
     }
 

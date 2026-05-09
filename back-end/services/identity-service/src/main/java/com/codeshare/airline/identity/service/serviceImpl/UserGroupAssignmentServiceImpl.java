@@ -6,6 +6,7 @@ import com.codeshare.airline.identity.repository.UserGroupRepository;
 import com.codeshare.airline.identity.service.UserGroupAssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Set;
@@ -20,13 +21,14 @@ public class UserGroupAssignmentServiceImpl
     private final UserGroupRepository
             userGroupRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public Set<String> resolveGroupCodes(
             UUID userId
     ) {
 
         return userGroupRepository
-                .findByUser_Id(userId)
+                .findByUserIdWithGroup(userId)
                 .stream()
 
                 .map(UserGroup::getGroup)

@@ -28,8 +28,7 @@ import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-
     templateUrl: './permission-form.page.html'
 })
 export class PermissionFormPage
-    extends BaseCrudForm<Permission>
-    implements OnInit, OnChanges {
+    extends BaseCrudForm<Permission> {
 
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
@@ -42,7 +41,7 @@ export class PermissionFormPage
     domains: any[] = [];
     actions: any[] = [];
 
-    ngOnInit(): void {
+    override ngOnInit(): void {
         this.buildForm();
 
         this.tenantService.getAll().subscribe({
@@ -69,12 +68,6 @@ export class PermissionFormPage
                 }, { emitEvent: false });
             }
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['visible'] && this.visible) {
-            this.init();
-        }
     }
 
     override buildForm(): void {

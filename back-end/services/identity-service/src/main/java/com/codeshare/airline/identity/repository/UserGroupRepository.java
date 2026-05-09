@@ -28,4 +28,12 @@ public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, UU
 
     @Query("select ug.user.id || ':' || ug.group.id from UserGroup ug where ug.tenant = :tenant")
     Set<String> findMappings(@Param("tenant") Tenant tenant);
+
+    @Query("""
+    SELECT ug
+    FROM UserGroup ug
+    JOIN FETCH ug.group g
+    WHERE ug.user.id = :userId
+""")
+    List<UserGroup> findByUserIdWithGroup(UUID userId);
 }

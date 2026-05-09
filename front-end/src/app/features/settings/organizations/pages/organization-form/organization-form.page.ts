@@ -26,8 +26,7 @@ import {CsmFormSectionComponent} from '@shared/components/form-section/csm-form-
     templateUrl: './organization-form.page.html'
 })
 export class OrganizationFormPage
-    extends BaseCrudForm<Organization>
-    implements OnInit {
+    extends BaseCrudForm<Organization> {
 
     private fb = inject(FormBuilder);
 
@@ -40,7 +39,7 @@ export class OrganizationFormPage
     // Lifecycle
     // =========================
 
-    ngOnInit(): void {
+    override ngOnInit(): void {
         this.buildForm();
     }
 

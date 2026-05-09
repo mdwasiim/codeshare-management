@@ -32,8 +32,7 @@ import {Permission} from "@features/iam/models/permission.model";
     ],
     templateUrl: './menu-form.page.html'
 })
-export class MenuFormPage extends BaseCrudForm<AppMenuModel>
-    implements OnInit, OnChanges {
+export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
 
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
@@ -45,18 +44,15 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
     private groupService = inject(GroupService);
     private permissionApiService = inject(PermissionApiService);
 
-    ngOnInit(): void {
-        this.buildForm();
+    override ngOnInit(): void {
+
+        super.ngOnInit();
+
         this.loadGroups();
+        this.loadMenuOptions();
+        this.loadPermissions();
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['visible'] && this.visible) {
-            this.init();
-            this.loadMenuOptions();
-            this.loadPermissions();
-        }
-    }
     groups: { label: string; value: string }[] = [];
     permissionOptions: { label: string; value: string }[] = [];
 
@@ -91,8 +87,8 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel>
             id: [null],
             label: ['', Validators.required],
             icon: [''],
-            route: ['', Validators.required],
-            permission: ['', Validators.required],
+            route: [''],
+            permission: [''],
             displayOrder: [0],
             parentId: [null],
             groupIds: [[]]

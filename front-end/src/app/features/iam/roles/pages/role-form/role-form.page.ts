@@ -29,8 +29,7 @@ import {CsmFormSectionComponent} from '@shared/components/form-section/csm-form-
     templateUrl: './role-form.page.html'
 })
 export class RoleFormPage
-    extends BaseCrudForm<Role>
-    implements OnInit, OnChanges {
+    extends BaseCrudForm<Role> {
 
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
@@ -45,18 +44,12 @@ export class RoleFormPage
     // Lifecycle
     // =========================
 
-    ngOnInit(): void {
+    override ngOnInit(): void {
         this.buildForm();
 
         this.tenantService.getAll().subscribe({
             next: res => this.tenants = res
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['visible'] && this.visible) {
-            this.init();
-        }
     }
 
     // =========================

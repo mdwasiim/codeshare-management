@@ -32,8 +32,7 @@ import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-
     templateUrl: './user-form.page.html'
 })
 export class UserFormPage
-    extends BaseCrudForm<User>
-    implements OnInit {
+    extends BaseCrudForm<User> {
 
     // =========================
     // Dialog Inputs
@@ -47,8 +46,8 @@ export class UserFormPage
     // =========================
     // Lifecycle
     // =========================
-    ngOnInit(): void {
-        this.buildForm();
+    override ngOnInit(): void {
+        super.ngOnInit();
         this.tenantService.getAll().subscribe({
             next: res => this.tenants = res
         });

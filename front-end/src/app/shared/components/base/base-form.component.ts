@@ -1,9 +1,9 @@
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import {Directive, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 @Directive()
-export abstract class BaseCrudForm<T> {
+export abstract class BaseCrudForm<T> implements OnInit, OnChanges{
 
     @Input() data: T | null = null;
     @Input() id: string | null = null;
@@ -17,11 +17,40 @@ export abstract class BaseCrudForm<T> {
 
     private initialized = false;
 
+    // =========================
+    // Lifecycle
+    // =========================
+
+    ngOnInit(): void {
+        this.init();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+
+        if (
+            changes['id'] ||
+            changes['data']
+        ) {
+
+            // skip first change before form exists
+            if (!this.initialized) {
+                return;
+            }
+
+            this.init();
+        }
+    }
+    // =========================
+    // Abstracts
+    // =========================
     abstract buildForm(): void;
     abstract patchForm(data: T): void;
     abstract fetchById(id: string): Observable<T>;
     abstract create(payload: any): Observable<any>;
     abstract update(id: string, payload: any): Observable<any>;
+    // =========================
+    // Init
+    // =========================
 
     init() {
         if (!this.initialized) {
@@ -39,7 +68,7 @@ export abstract class BaseCrudForm<T> {
         } else if (this.id) {
             this.isEdit = true;
             this.loading = true;
-
+            this.form.reset();
             this.fetchById(this.id).subscribe({
                 next: (res) => {
                     this.patchForm(res);
@@ -56,7 +85,9 @@ export abstract class BaseCrudForm<T> {
         this.form.markAsPristine();
         this.form.markAsUntouched();
     }
-
+    // =========================
+    // Submit
+    // =========================
     submit() {
         if (this.form.invalid || this.loading) return;
 

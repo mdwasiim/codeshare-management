@@ -28,8 +28,7 @@ import {CsmFormSectionComponent} from '@shared/components/form-section/csm-form-
     templateUrl: './group-form.page.html'
 })
 export class GroupFormPage
-    extends BaseCrudForm<Group>
-    implements OnInit, OnChanges {
+    extends BaseCrudForm<Group> {
 
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
@@ -44,18 +43,11 @@ export class GroupFormPage
     // Lifecycle
     // =========================
 
-    ngOnInit(): void {
+    override ngOnInit(): void {
         this.buildForm();
-
         this.tenantService.getAll().subscribe({
             next: res => this.tenants = res
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['visible'] && this.visible) {
-            this.init();
-        }
     }
 
     // =========================
