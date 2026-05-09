@@ -1,0 +1,108 @@
+<csm-assignment-layout
+    groupTitle="Groups"
+    rightTitle="Roles">
+
+    <!-- GROUP PANEL -->
+    <div group-panel>
+
+        <p-table
+            [value]="groups"
+            [loading]="loading"
+            selectionMode="single"
+            [(selection)]="selectedGroup"
+            dataKey="id"
+            responsiveLayout="scroll"
+            (onRowSelect)="onGroupSelect($any($event.data))">
+
+            <!-- HEADER -->
+            <ng-template pTemplate="header">
+
+                <tr>
+
+                    <th>
+                        Group Name
+                    </th>
+
+                </tr>
+
+            </ng-template>
+
+            <!-- BODY -->
+            <ng-template
+                pTemplate="body"
+                let-group>
+
+                <tr [pSelectableRow]="group">
+
+                    <td>
+                        {{ group.name }}
+                    </td>
+
+                </tr>
+
+            </ng-template>
+
+        </p-table>
+
+    </div>
+
+    <!-- ROLE PANEL -->
+    <div right-panel>
+
+        <!-- TOOLBAR -->
+        <div class="mb-4">
+
+            <csm-crud-toolbar
+                [actions]="[
+                    'refresh',
+                    'reset',
+                    'save'
+                ]"
+                [loading]="saving"
+                (refresh)="loadData()"
+                (reset)="reset()"
+                (save)="save()">
+            </csm-crud-toolbar>
+
+        </div>
+
+        <!-- EMPTY -->
+        <div
+            *ngIf="!selectedGroup"
+            class="p-4 text-500">
+
+            Select a group to manage roles
+
+        </div>
+
+        <!-- ROLES -->
+        <div *ngIf="selectedGroup">
+
+            <div
+                *ngFor="let role of roles"
+                class="mb-3">
+
+                <div
+                    class="flex align-items-center gap-2">
+
+                    <p-checkbox
+                        [binary]="true"
+                        [ngModel]="selectedRoleIds.includes(role.id!)"
+                        (onChange)="toggleRole(role.id!, $event.checked)">
+                    </p-checkbox>
+
+                    <label>
+
+                        {{ role.name }}
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</csm-assignment-layout>

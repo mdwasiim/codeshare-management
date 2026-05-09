@@ -4,7 +4,7 @@
     <div class="grid">
 
         <!-- GROUP PANEL -->
-        <div class="col-12 lg:col-3">
+        <div *ngIf="groupTitle" class="col-12 lg:col-3">
 
             <p-card class="h-full min-h-full">
 
@@ -22,7 +22,7 @@
         </div>
 
         <!-- ROLE PANEL -->
-        <div class="col-12 lg:col-4">
+        <div *ngIf="leftTitle" class="col-12 lg:col-4">
 
             <p-card class="h-full min-h-full">
 
@@ -40,7 +40,7 @@
         </div>
 
         <!-- PERMISSION PANEL -->
-        <div class="col-12 lg:col-5">
+        <div *ngIf="rightTitle"class="col-12 lg:col-5">
 
             <p-card class="h-full min-h-full">
 

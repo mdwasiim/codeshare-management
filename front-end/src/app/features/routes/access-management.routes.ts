@@ -12,5 +12,17 @@ export const ACCESS_MANAGEMENT_ROUTES: Routes = [
                 ).then(
                 m => m.RolePermissionAssignmentPage
             )
+    },
+
+    {
+        path: 'group-roles',
+
+        loadComponent: () =>
+            import(
+                '../access-management/group-roles/pages/group-role-assignment.page'
+                ).then(
+                m => m.GroupRoleAssignmentPage
+            )
     }
+
 ];

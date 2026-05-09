@@ -24,23 +24,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentService {
 
-    private final GroupRoleRepository repo;
-    private final GroupRepository groupRepo;
-    private final RoleRepository roleRepo;
-    private final GroupRoleMapper mapper;
+    private final GroupRoleRepository groupRoleRepository;
+    private final GroupRepository groupRepository;
+    private final RoleRepository roleRepository;
+    private final GroupRoleMapper groupRoleMapper;
     private final RoleMapper roleMapper;
 
     @Override
     public GroupRoleDTO assignRoleToGroup(UUID groupId, UUID roleId) {
 
-        if (repo.existsByGroup_IdAndRole_Id(groupId, roleId)) {
+        if (groupRoleRepository.existsByGroup_IdAndRole_Id(groupId, roleId)) {
             throw new RuntimeException("Role already assigned to this group");
         }
 
-        Group group = groupRepo.findById(groupId)
+        Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
 
-        Role role = roleRepo.findById(roleId)
+        Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
         GroupRole entity = GroupRole.builder()
@@ -48,20 +48,20 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
                 .role(role)
                 .build();
 
-        return mapper.toDTO(repo.save(entity));
+        return groupRoleMapper.toDTO(groupRoleRepository.save(entity));
     }
 
     @Override
     public void removeRoleFromGroup(UUID groupId, UUID roleId) {
-        repo.findByGroup_Id(groupId).stream()
+        groupRoleRepository.findByGroup_Id(groupId).stream()
                 .filter(x -> x.getRole().getId().equals(roleId))
                 .findFirst()
-                .ifPresent(repo::delete);
+                .ifPresent(groupRoleRepository::delete);
     }
 
     @Override
     public List<RoleDTO> getRolesByGroup(UUID groupId) {
-        List<GroupRole> groupRoles = repo.findByGroup_Id(groupId);
+        List<GroupRole> groupRoles = groupRoleRepository.findByGroup_Id(groupId);
 
         return groupRoles.stream()
                 .map(groupRole -> roleMapper.toDTO(groupRole.getRole()))
@@ -70,6 +70,74 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
 
     @Override
     public List<GroupRoleDTO> getGroupsByRole(UUID roleId) {
-        return mapper.toDTOList(repo.findByRole_Id(roleId));
+        return groupRoleMapper.toDTOList(groupRoleRepository.findByRole_Id(roleId));
+    }
+
+    @Override
+    @Transactional
+    public List<GroupRoleDTO> replaceGroupRoles(
+            UUID groupId,
+            List<UUID> roleIds
+    ) {
+
+        // =====================================================
+        // VALIDATE GROUP
+        // =====================================================
+        Group group = groupRepository
+                .findById(groupId)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Group not found: " + groupId
+                        )
+                );
+
+        // =====================================================
+        // REMOVE EXISTING ROLES
+        // =====================================================
+        groupRoleRepository
+                .deleteByGroup_Id(groupId);
+        // IMPORTANT
+        groupRoleRepository.flush();
+        // =====================================================
+        // NO ROLES SELECTED
+        // =====================================================
+        if (roleIds == null || roleIds.isEmpty()) {
+
+            return List.of();
+        }
+
+        // =====================================================
+        // LOAD ROLES
+        // =====================================================
+        List<Role> roles =
+                roleRepository.findAllById(roleIds);
+
+        // =====================================================
+        // CREATE NEW MAPPINGS
+        // =====================================================
+        List<GroupRole> entities =
+                roles.stream()
+
+                        .map(role -> GroupRole.builder()
+
+                                .group(group)
+
+                                .role(role)
+
+                                .tenant(group.getTenant())
+
+                                .build())
+
+                        .collect(Collectors.toList());
+
+        // =====================================================
+        // SAVE
+        // =====================================================
+        List<GroupRole> groupRoles = groupRoleRepository.saveAll(entities);
+
+        // =====================================================
+        // RETURN DTO
+        // =====================================================
+        return groupRoles.stream().map(groupRoleMapper::toDTO).collect(Collectors.toList());
     }
 }

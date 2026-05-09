@@ -27,4 +27,6 @@ public interface GroupRoleRepository extends CSMDataBaseRepository<GroupRole, UU
     Set<String> findMappings(@Param("tenant") Tenant tenant);
 
     long countByTenantId(UUID tenantId);
+
+    void deleteByGroup_Id(UUID groupId);
 }

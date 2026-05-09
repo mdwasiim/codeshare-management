@@ -52,10 +52,8 @@ export const API_CONFIG = {
                     '/identity/role-permissions/{roleId}'
             },
             groupRole: {
-                base: '/identity/group-role',
-                byId: '/identity/group-role/{id}',
-                roleByGroupId: '/identity/group-role/role/{groupId}'
-            },
+                byGroupId: '/identity/group-role/role/{groupId}'
+            }
         }
     }
 } as const;
@@ -87,7 +85,7 @@ export type ApiEndpointKey =
     | 'tenants.byId'
 
     | 'accessManagement.rolePermissions.byRoleId'
-    | 'accessManagement.groupRole.roleByGroupId';
+    | 'accessManagement.groupRole.byGroupId';
 
 export const buildApiUrl = (key: ApiEndpointKey): string => {
     const base = API_CONFIG.baseUrl.replace(/\/$/, '');

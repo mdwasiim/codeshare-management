@@ -1,12 +1,10 @@
 package com.codeshare.airline.identity.controller;
 
+import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.identity.service.GroupRoleAssignmentService;
-import com.codeshare.airline.core.constants.CSMConstants;
-import com.codeshare.airline.core.response.CSMServiceResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,16 +22,20 @@ public class GroupRoleAssignmentController {
     // ASSIGN ROLE → GROUP
     // ---------------------------------------------------------
     @PostMapping("/{groupId}/{roleId}")
-    public ResponseEntity<CSMServiceResponse<?>> assign(
+    public GroupRoleDTO assign(
             @PathVariable UUID groupId,
             @PathVariable UUID roleId
     ) {
-        log.info("→ Assigning role {} to group {}", roleId, groupId);
 
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(
-                        service.assignRoleToGroup(groupId, roleId)
-                )
+        log.info(
+                "Assigning role {} to group {}",
+                roleId,
+                groupId
+        );
+
+        return service.assignRoleToGroup(
+                groupId,
+                roleId
         );
     }
 
@@ -41,16 +43,20 @@ public class GroupRoleAssignmentController {
     // REMOVE ROLE FROM GROUP
     // ---------------------------------------------------------
     @DeleteMapping("/{groupId}/{roleId}")
-    public ResponseEntity<CSMServiceResponse<?>> remove(
+    public void remove(
             @PathVariable UUID groupId,
             @PathVariable UUID roleId
     ) {
-        log.info("→ Removing role {} from group {}", roleId, groupId);
 
-        service.removeRoleFromGroup(groupId, roleId);
+        log.info(
+                "Removing role {} from group {}",
+                roleId,
+                groupId
+        );
 
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(CSMConstants.NO_DATA)
+        service.removeRoleFromGroup(
+                groupId,
+                roleId
         );
     }
 
@@ -58,25 +64,52 @@ public class GroupRoleAssignmentController {
     // GET ROLES ASSIGNED TO GROUP
     // ---------------------------------------------------------
     @GetMapping("/role/{groupId}")
-    public List<RoleDTO> getRolesByGroup(@PathVariable UUID groupId) {
+    public List<RoleDTO> getRolesByGroup(
+            @PathVariable UUID groupId
+    ) {
 
-        log.debug("→ Fetching roles for group {}", groupId);
+        log.debug(
+                "Fetching roles for group {}",
+                groupId
+        );
 
         return service.getRolesByGroup(groupId);
+    }
+
+    // ---------------------------------------------------------
+    // REPLACE GROUP ROLES
+    // ---------------------------------------------------------
+    @PutMapping("/role/{groupId}")
+    public List<GroupRoleDTO> replaceGroupRoles(
+            @PathVariable UUID groupId,
+            @RequestBody List<UUID> roleIds
+    ) {
+
+        log.info(
+                "Replacing roles for group {} with {} roles",
+                groupId,
+                roleIds.size()
+        );
+
+        return service.replaceGroupRoles(
+                groupId,
+                roleIds
+        );
     }
 
     // ---------------------------------------------------------
     // GET GROUPS ASSIGNED TO ROLE
     // ---------------------------------------------------------
     @GetMapping("/group/{roleId}")
-    public ResponseEntity<CSMServiceResponse<?>> getGroupsByRole(@PathVariable UUID roleId) {
+    public List<GroupRoleDTO> getGroupsByRole(
+            @PathVariable UUID roleId
+    ) {
 
-        log.debug("→ Fetching groups for role {}", roleId);
-
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(
-                        service.getGroupsByRole(roleId)
-                )
+        log.debug(
+                "Fetching groups for role {}",
+                roleId
         );
+
+        return service.getGroupsByRole(roleId);
     }
 }

@@ -24,7 +24,7 @@ import {Role} from '@features/iam/models/role.model';
 import {ToolbarActionComponent} from "@shared/components/toolbar/toolbar-action.component";
 import {AppToastService} from "@services/app-toast.service";
 import {Group} from "@features/iam/models/group.model";
-import {GroupRoleService} from "@features/access-management/role-permissions/services/group-role.service";
+import {GroupRoleService} from "@features/access-management/group-roles/services/group-role.service";
 
 @Component({
     selector: 'role-permission-assignment-page',

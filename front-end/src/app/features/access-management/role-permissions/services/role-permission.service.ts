@@ -29,14 +29,14 @@ export class RolePermissionService {
 
     private permissionApiService = inject(PermissionApiService);
 
-    private groupRoleService = inject(GroupService);
+    private groupService = inject(GroupService);
 
     // =====================================================
     // ROLES
     // =====================================================
     getGroups() {
 
-        return this.groupRoleService.getAll();
+        return this.groupService.getAll();
     }
 
     // =====================================================
