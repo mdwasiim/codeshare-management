@@ -1,6 +1,7 @@
 package com.codeshare.airline.identity.service.serviceImpl;
 
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
+import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.identity.entities.Group;
 import com.codeshare.airline.identity.entities.GroupRole;
 import com.codeshare.airline.identity.entities.Role;
@@ -9,12 +10,14 @@ import com.codeshare.airline.identity.repository.GroupRoleRepository;
 import com.codeshare.airline.identity.repository.RoleRepository;
 import com.codeshare.airline.identity.service.GroupRoleAssignmentService;
 import com.codeshare.airline.identity.utils.mappers.GroupRoleMapper;
+import com.codeshare.airline.identity.utils.mappers.RoleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,6 +28,7 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
     private final GroupRepository groupRepo;
     private final RoleRepository roleRepo;
     private final GroupRoleMapper mapper;
+    private final RoleMapper roleMapper;
 
     @Override
     public GroupRoleDTO assignRoleToGroup(UUID groupId, UUID roleId) {
@@ -56,8 +60,12 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
     }
 
     @Override
-    public List<GroupRoleDTO> getRolesByGroup(UUID groupId) {
-        return mapper.toDTOList(repo.findByGroup_Id(groupId));
+    public List<RoleDTO> getRolesByGroup(UUID groupId) {
+        List<GroupRole> groupRoles = repo.findByGroup_Id(groupId);
+
+        return groupRoles.stream()
+                .map(groupRole -> roleMapper.toDTO(groupRole.getRole()))
+                .collect(Collectors.toList());
     }
 
     @Override

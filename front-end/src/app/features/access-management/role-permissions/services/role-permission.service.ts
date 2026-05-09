@@ -15,6 +15,7 @@ import {
     RoleService
 } from '@features/iam/roles/services/role.service';
 import {PermissionApiService} from "@features/iam/permissions/services/permission-api.service";
+import {GroupService} from "@features/iam/groups/services/group.service";
 
 
 @Injectable({
@@ -26,15 +27,16 @@ export class RolePermissionService {
 
     private roleService = inject(RoleService);
 
-    private permissionApiService =
-        inject(PermissionApiService);
+    private permissionApiService = inject(PermissionApiService);
+
+    private groupRoleService = inject(GroupService);
 
     // =====================================================
     // ROLES
     // =====================================================
-    getRoles() {
+    getGroups() {
 
-        return this.roleService.getAll();
+        return this.groupRoleService.getAll();
     }
 
     // =====================================================

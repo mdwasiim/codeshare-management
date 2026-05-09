@@ -23,6 +23,8 @@ import {Permission} from '@features/iam/models/permission.model';
 import {Role} from '@features/iam/models/role.model';
 import {ToolbarActionComponent} from "@shared/components/toolbar/toolbar-action.component";
 import {AppToastService} from "@services/app-toast.service";
+import {Group} from "@features/iam/models/group.model";
+import {GroupRoleService} from "@features/access-management/role-permissions/services/group-role.service";
 
 @Component({
     selector: 'role-permission-assignment-page',
@@ -48,6 +50,7 @@ export class RolePermissionAssignmentPage
     // SERVICES
     // =========================
     private service =  inject(RolePermissionService);
+    private groupRoleService =  inject(GroupRoleService);
     private toast = inject(AppToastService);
 
     // =========================
@@ -59,18 +62,19 @@ export class RolePermissionAssignmentPage
 
     search = '';
 
-    selectedRole: Role | null = null;
+    selectedGroup?: Group;
+    groups: Group[] = [];
 
+    selectedRole: Role | null = null;
     roles: Role[] = [];
 
+    selectedPermissionIds: string[] = [];
     permissions: Permission[] = [];
 
     groupedPermissions: {
         domain: string;
         permissions: Permission[];
     }[] = [];
-
-    selectedPermissionIds: string[] = [];
 
     // =========================
     // INIT
@@ -89,18 +93,15 @@ export class RolePermissionAssignmentPage
 
         forkJoin({
 
-            roles:
-                this.service.getRoles(),
+            groups: this.service.getGroups(),
 
-            permissions:
-                this.service.getPermissions()
+            permissions: this.service.getPermissions()
 
         }).subscribe({
 
             next: (res) => {
 
-                this.roles =
-                    res.roles || [];
+                this.groups = res.groups || [];
 
                 this.permissions =
                     res.permissions || [];
@@ -109,8 +110,17 @@ export class RolePermissionAssignmentPage
                     this.groupPermissions(
                         this.permissions
                     );
-                console.log('ROLES RESPONSE=', res.roles);
-                console.log('PERMISSIONS RESPONSE=', res.permissions);
+
+                console.log(
+                    'GROUPS RESPONSE=',
+                    res.groups
+                );
+
+                console.log(
+                    'PERMISSIONS RESPONSE=',
+                    res.permissions
+                );
+
                 this.loading = false;
             },
 
@@ -156,6 +166,53 @@ export class RolePermissionAssignmentPage
             permissions:
                 groups[domain]
         }));
+    }
+    // =========================
+    // GROUP SELECT
+    // =========================
+
+    onGroupSelect(
+        group: Group
+    ): void {
+
+        this.selectedGroup = group;
+
+        // reset dependent state
+        this.selectedRole = null;
+
+        this.selectedPermissionIds = [];
+
+        this.roles = [];
+
+        this.search = '';
+
+        if (!group.id) {
+            return;
+        }
+
+        this.loading = true;
+
+        this.groupRoleService
+            .getRolesByGroup(group.id)
+            .subscribe({
+                next: (roles: Role[]) => {
+
+                    this.roles = roles || [];
+
+                    this.loading = false;
+                },
+
+                error: (err) => {
+
+                    console.error(err);
+
+                    this.loading = false;
+
+                    this.toast.error(
+                        'Failed to load roles'
+                    );
+                }
+            });
     }
 
     // =========================

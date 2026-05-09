@@ -24,6 +24,9 @@ import {
 export class CsmAssignmentLayoutComponent {
 
     @Input()
+    groupTitle = 'Groups';
+
+    @Input()
     title = 'Manage Assignment';
 
     @Input()

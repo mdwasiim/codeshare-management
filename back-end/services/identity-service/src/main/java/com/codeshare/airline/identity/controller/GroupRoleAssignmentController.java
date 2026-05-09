@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.controller;
 
+import com.codeshare.airline.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.identity.service.GroupRoleAssignmentService;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.response.CSMServiceResponse;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -55,22 +57,18 @@ public class GroupRoleAssignmentController {
     // ---------------------------------------------------------
     // GET ROLES ASSIGNED TO GROUP
     // ---------------------------------------------------------
-    @GetMapping("/group/{groupId}")
-    public ResponseEntity<CSMServiceResponse<?>> getRolesByGroup(@PathVariable UUID groupId) {
+    @GetMapping("/role/{groupId}")
+    public List<RoleDTO> getRolesByGroup(@PathVariable UUID groupId) {
 
         log.debug("→ Fetching roles for group {}", groupId);
 
-        return ResponseEntity.ok(
-                CSMServiceResponse.success(
-                        service.getRolesByGroup(groupId)
-                )
-        );
+        return service.getRolesByGroup(groupId);
     }
 
     // ---------------------------------------------------------
     // GET GROUPS ASSIGNED TO ROLE
     // ---------------------------------------------------------
-    @GetMapping("/role/{roleId}")
+    @GetMapping("/group/{roleId}")
     public ResponseEntity<CSMServiceResponse<?>> getGroupsByRole(@PathVariable UUID roleId) {
 
         log.debug("→ Fetching groups for role {}", roleId);

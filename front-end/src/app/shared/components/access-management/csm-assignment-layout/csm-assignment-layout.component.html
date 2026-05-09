@@ -3,10 +3,28 @@
     <!-- CONTENT -->
     <div class="grid">
 
-        <!-- LEFT PANEL -->
+        <!-- GROUP PANEL -->
         <div class="col-12 lg:col-3">
 
-            <p-card>
+            <p-card class="h-full min-h-full">
+
+                <ng-template pTemplate="title">
+
+                    {{ groupTitle }}
+
+                </ng-template>
+
+                <ng-content select="[group-panel]">
+                </ng-content>
+
+            </p-card>
+
+        </div>
+
+        <!-- ROLE PANEL -->
+        <div class="col-12 lg:col-4">
+
+            <p-card class="h-full min-h-full">
 
                 <ng-template pTemplate="title">
 
@@ -21,10 +39,10 @@
 
         </div>
 
-        <!-- RIGHT PANEL -->
-        <div class="col-12 lg:col-9">
+        <!-- PERMISSION PANEL -->
+        <div class="col-12 lg:col-5">
 
-            <p-card>
+            <p-card class="h-full min-h-full">
 
                 <ng-template pTemplate="title">
 

@@ -28,7 +28,8 @@ export const API_CONFIG = {
 
         roles: {
             base: '/identity/roles',
-            byId: '/identity/roles/{id}'
+            byId: '/identity/roles/{id}',
+            byGroupId: '/identity/roles/{id}'
         },
 
         groups: {
@@ -49,7 +50,12 @@ export const API_CONFIG = {
             rolePermissions: {
                 byRoleId:
                     '/identity/role-permissions/{roleId}'
-            }
+            },
+            groupRole: {
+                base: '/identity/group-role',
+                byId: '/identity/group-role/{id}',
+                roleByGroupId: '/identity/group-role/role/{groupId}'
+            },
         }
     }
 } as const;
@@ -69,6 +75,7 @@ export type ApiEndpointKey =
 
     | 'roles.base'
     | 'roles.byId'
+    | 'roles.byGroupId'
 
     | 'groups.base'
     | 'groups.byId'
@@ -79,7 +86,8 @@ export type ApiEndpointKey =
     | 'tenants.base'
     | 'tenants.byId'
 
-    | 'accessManagement.rolePermissions.byRoleId';
+    | 'accessManagement.rolePermissions.byRoleId'
+    | 'accessManagement.groupRole.roleByGroupId';
 
 export const buildApiUrl = (key: ApiEndpointKey): string => {
     const base = API_CONFIG.baseUrl.replace(/\/$/, '');

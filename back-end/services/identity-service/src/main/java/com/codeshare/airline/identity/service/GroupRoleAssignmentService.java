@@ -2,6 +2,7 @@ package com.codeshare.airline.identity.service;
 
 
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
+import com.codeshare.airline.core.dto.tenant.RoleDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +13,7 @@ public interface GroupRoleAssignmentService {
 
     void removeRoleFromGroup(UUID groupId, UUID roleId);
 
-    List<GroupRoleDTO> getRolesByGroup(UUID groupId);
+    List<RoleDTO> getRolesByGroup(UUID groupId);
 
     List<GroupRoleDTO> getGroupsByRole(UUID roleId);
 }
