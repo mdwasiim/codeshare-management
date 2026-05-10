@@ -33,15 +33,18 @@ public class UserGroup extends CSMDataAbstractEntity {
     @EqualsAndHashCode.Include
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tenant_id", nullable = false)
+    @ToString.Exclude
     private Tenant tenant;
 
     @EqualsAndHashCode.Include
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
     private User user;
 
     @EqualsAndHashCode.Include
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "group_id", nullable = false)
+    @ToString.Exclude
     private Group group;
 }

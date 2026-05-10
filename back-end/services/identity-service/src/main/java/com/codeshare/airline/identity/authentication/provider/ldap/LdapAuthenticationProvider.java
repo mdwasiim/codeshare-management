@@ -11,7 +11,7 @@ import com.codeshare.airline.identity.authentication.security.adapter.UserDetail
 import com.codeshare.airline.identity.authentication.service.core.AuthenticationResult;
 import com.codeshare.airline.identity.authentication.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.identity.service.AuthUserService;
-import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
+import com.codeshare.airline.identity.service.assignment.RolePermissionAssignmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ldap.core.LdapTemplate;

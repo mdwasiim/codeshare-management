@@ -46,7 +46,7 @@ export class LayoutMenuService {
      * Load menus (API → normalize → tree → router mapping)
      */
     loadMenus(): Observable<AppMenuModel[]> {
-        return this.apiService.get<AppMenuModel[]>('menu.base').pipe(
+        return this.apiService.get<AppMenuModel[]>('accessManagement.menu.base').pipe(
 
             map(res => this.normalizeMenus(res)),
 
@@ -70,7 +70,7 @@ export class LayoutMenuService {
         );
     }
 
-    private buildTree(flat: AppMenuModel[]): AppMenuModel[] {
+    public buildTree(flat: AppMenuModel[]): AppMenuModel[] {
         const map = new Map<string, AppMenuModel>();
 
         flat.forEach(item => {

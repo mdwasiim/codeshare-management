@@ -11,17 +11,17 @@ export class TenantService  {
     private toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<Tenant[]>('tenants.base');
+        return this.api.get<Tenant[]>('accessManagement.tenants.base');
     }
 
     getById(id: string) {
-        return this.api.get<Tenant>('tenants.byId', {
+        return this.api.get<Tenant>('accessManagement.tenants.byId', {
             pathParams: { id }
         });
     }
 
     create(tenant: Tenant) {
-        return this.api.post<Tenant>('tenants.base', tenant).pipe(
+        return this.api.post<Tenant>('accessManagement.tenants.base', tenant).pipe(
             tap(() => {
                 this.toast.success('Tenant created successfully');
             })
@@ -29,7 +29,7 @@ export class TenantService  {
     }
 
     update(id: string, tenant: Tenant) {
-        return this.api.put<Tenant>('tenants.byId', tenant, {
+        return this.api.put<Tenant>('accessManagement.tenants.byId', tenant, {
             pathParams: { id }
         }).pipe(
             tap(() => {
@@ -39,7 +39,7 @@ export class TenantService  {
     }
 
     delete(id: string) {
-        return this.api.delete<void>('tenants.byId', {
+        return this.api.delete<void>('accessManagement.tenants.byId', {
             pathParams: { id }
         }).pipe(
             tap(() => {

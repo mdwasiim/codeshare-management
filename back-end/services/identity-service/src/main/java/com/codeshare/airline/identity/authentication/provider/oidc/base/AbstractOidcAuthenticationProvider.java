@@ -9,7 +9,7 @@ import com.codeshare.airline.identity.authentication.exception.UnsupportedAuthen
 import com.codeshare.airline.identity.authentication.provider.AuthenticationProvider;
 import com.codeshare.airline.identity.authentication.provider.AuthorizationRedirectCapable;
 import com.codeshare.airline.identity.authentication.service.core.AuthenticationResult;
-import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
+import com.codeshare.airline.identity.service.assignment.RolePermissionAssignmentService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;

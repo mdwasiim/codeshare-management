@@ -4,6 +4,26 @@ import {
 
 export const ACCESS_MANAGEMENT_ROUTES: Routes = [
     {
+        path: 'group-menus',
+
+        loadComponent: () =>
+            import(
+                '../access-management/group-menus/pages/group-menu.component'
+                ).then(
+                m => m.GroupMenuComponent
+            )
+    },
+    {
+        path: 'user-groups',
+
+        loadComponent: () =>
+            import(
+                '../access-management/user-group/pages/user-group.component'
+                ).then(
+                m => m.UserGroupComponent
+            )
+    },
+    {
         path: 'role-permissions',
 
         loadComponent: () =>

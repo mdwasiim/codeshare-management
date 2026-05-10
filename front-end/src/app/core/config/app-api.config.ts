@@ -16,43 +16,52 @@ export const API_CONFIG = {
             stats: '/identity/dashboard/stats'
         },
 
-        menu: {
-            base: '/identity/menus',
-            byId: '/identity/menus/{id}'
-        },
-
-        users: {
-            base: '/identity/users',
-            byId: '/identity/users/{id}'
-        },
-
-        roles: {
-            base: '/identity/roles',
-            byId: '/identity/roles/{id}',
-            byGroupId: '/identity/roles/{id}'
-        },
-
-        groups: {
-            base: '/identity/groups',
-            byId: '/identity/groups/{id}'
-        },
-
-        permissions: {
-            base: '/identity/permissions',
-            byId: '/identity/permissions/{id}'
-        },
-
-        tenants: {
-            base: '/identity/tenants',
-            byId: '/identity/tenants/{id}'
-        },
         accessManagement: {
+            userGroups: {
+                byUserId:
+                    '/identity/user-groups/group/{userId}'
+            },
+
             rolePermissions: {
                 byRoleId:
                     '/identity/role-permissions/{roleId}'
             },
+
             groupRole: {
                 byGroupId: '/identity/group-role/role/{groupId}'
+            },
+
+            groupMenu: {
+                byGroupId: '/identity/group-menus/{groupId}'
+            },
+
+            users: {
+                base: '/identity/users',
+                byId: '/identity/users/{id}'
+            },
+
+            roles: {
+                base: '/identity/roles',
+                byId: '/identity/roles/{id}',
+                byGroupId: '/identity/roles/{id}'
+            },
+
+            groups: {
+                base: '/identity/groups',
+                byId: '/identity/groups/{id}'
+            },
+
+            permissions: {
+                base: '/identity/permissions',
+                byId: '/identity/permissions/{id}'
+            },
+            tenants: {
+                base: '/identity/tenants',
+                byId: '/identity/tenants/{id}'
+            },
+            menu: {
+                base: '/identity/menus',
+                byId: '/identity/menus/{id}'
             }
         }
     }
@@ -65,27 +74,31 @@ export type ApiEndpointKey =
 
     | 'dashboard.stats'
 
-    | 'menu.base'
-    | 'menu.byId'
-
-    | 'users.base'
-    | 'users.byId'
-
-    | 'roles.base'
-    | 'roles.byId'
-    | 'roles.byGroupId'
-
-    | 'groups.base'
-    | 'groups.byId'
-
-    | 'permissions.base'
-    | 'permissions.byId'
-
-    | 'tenants.base'
-    | 'tenants.byId'
-
     | 'accessManagement.rolePermissions.byRoleId'
-    | 'accessManagement.groupRole.byGroupId';
+    | 'accessManagement.groupRole.byGroupId'
+
+    | 'accessManagement.groupMenu.byGroupId'
+
+    | 'accessManagement.users.base'
+    | 'accessManagement.users.byId'
+
+    |`accessManagement.userGroups.byUserId`
+
+    | 'accessManagement.roles.base'
+    | 'accessManagement.roles.byId'
+    | 'accessManagement.roles.byGroupId'
+
+    | 'accessManagement.groups.base'
+    | 'accessManagement.groups.byId'
+
+    | 'accessManagement.permissions.base'
+    | 'accessManagement.permissions.byId'
+
+    | 'accessManagement.tenants.base'
+    | 'accessManagement.tenants.byId'
+
+    | 'accessManagement.menu.base'
+    | 'accessManagement.menu.byId';
 
 export const buildApiUrl = (key: ApiEndpointKey): string => {
     const base = API_CONFIG.baseUrl.replace(/\/$/, '');

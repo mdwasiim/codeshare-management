@@ -36,4 +36,6 @@ public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, UU
     WHERE ug.user.id = :userId
 """)
     List<UserGroup> findByUserIdWithGroup(UUID userId);
+
+    void deleteByUser_Id(UUID userId);
 }

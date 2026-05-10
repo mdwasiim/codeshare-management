@@ -1,4 +1,4 @@
-package com.codeshare.airline.identity.service.serviceImpl;
+package com.codeshare.airline.identity.service.assignment.impl;
 
 
 import com.codeshare.airline.core.dto.tenant.PermissionDTO;
@@ -7,7 +7,7 @@ import com.codeshare.airline.core.dto.tenant.RolePermissionDTO;
 import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
 import com.codeshare.airline.identity.entities.*;
 import com.codeshare.airline.identity.repository.*;
-import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
+import com.codeshare.airline.identity.service.assignment.RolePermissionAssignmentService;
 import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.PermissionMapper;
 import com.codeshare.airline.identity.utils.mappers.RoleMapper;

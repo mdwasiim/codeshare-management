@@ -13,11 +13,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class GroupMenuDTO extends CSMAuditableDTO {
+public class UserGroupDTO extends CSMAuditableDTO {
 
     private UUID id;
 
-    private UUID groupId;
+    private UUID userId;
 
-    private UUID menuId;
+    private UUID groupId;
 }

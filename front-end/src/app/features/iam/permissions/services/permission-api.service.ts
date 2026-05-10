@@ -15,14 +15,14 @@ export class PermissionApiService {
     // GET ALL
     // -----------------------------
     getAll() {
-        return this.api.get<Permission[]>('permissions.base');
+        return this.api.get<Permission[]>('accessManagement.permissions.base');
     }
 
     // -----------------------------
     // GET BY ID
     // -----------------------------
     getById(id: string) {
-        return this.api.get<Permission>('permissions.byId', {
+        return this.api.get<Permission>('accessManagement.permissions.byId', {
             pathParams: { id }
         });
     }
@@ -31,7 +31,7 @@ export class PermissionApiService {
     // CREATE
     // -----------------------------
     create(permission: Permission) {
-        return this.api.post<Permission>('permissions.base', permission).pipe(
+        return this.api.post<Permission>('accessManagement.permissions.base', permission).pipe(
             tap(() => {
                 this.toast.success('Permission created successfully');
             })
@@ -42,7 +42,7 @@ export class PermissionApiService {
     // UPDATE
     // -----------------------------
     update(id: string, permission: Permission) {
-        return this.api.put<Permission>('permissions.byId', permission, {
+        return this.api.put<Permission>('accessManagement.permissions.byId', permission, {
             pathParams: { id }
         }).pipe(
             tap(() => {
@@ -55,7 +55,7 @@ export class PermissionApiService {
     // DELETE
     // -----------------------------
     delete(id: string) {
-        return this.api.delete<void>('permissions.byId', {
+        return this.api.delete<void>('accessManagement.permissions.byId', {
             pathParams: { id }
         }).pipe(
             tap(() => {

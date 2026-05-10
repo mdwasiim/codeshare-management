@@ -1,8 +1,8 @@
-package com.codeshare.airline.identity.controller;
+package com.codeshare.airline.identity.controller.assignment;
 
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
-import com.codeshare.airline.identity.service.GroupRoleAssignmentService;
+import com.codeshare.airline.identity.service.assignment.GroupRoleAssignmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

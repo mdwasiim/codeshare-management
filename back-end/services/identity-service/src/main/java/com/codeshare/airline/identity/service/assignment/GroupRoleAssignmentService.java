@@ -1,4 +1,4 @@
-package com.codeshare.airline.identity.service;
+package com.codeshare.airline.identity.service.assignment;
 
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;

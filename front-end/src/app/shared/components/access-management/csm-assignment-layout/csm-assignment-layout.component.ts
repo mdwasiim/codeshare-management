@@ -24,16 +24,16 @@ import {
 export class CsmAssignmentLayoutComponent {
 
     @Input()
-    groupTitle = 'Groups';
+    groupTitle?: string;
 
     @Input()
     title = 'Manage Assignment';
 
     @Input()
-    leftTitle = '';
+    leftTitle?: string;
 
     @Input()
-    rightTitle = '';
+    rightTitle?: string;
 
 
 }

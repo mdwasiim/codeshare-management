@@ -14,14 +14,14 @@ export class MenuManagementService {
     // GET ALL
     // -----------------------------
     getAll() {
-        return this.api.get<AppMenuModel[]>('menu.base');
+        return this.api.get<AppMenuModel[]>('accessManagement.menu.base');
     }
 
     // -----------------------------
     // GET BY ID
     // -----------------------------
     getById(id: string) {
-        return this.api.get<AppMenuModel>('menu.byId', {
+        return this.api.get<AppMenuModel>('accessManagement.menu.byId', {
             pathParams: { id }
         });
     }
@@ -30,8 +30,7 @@ export class MenuManagementService {
     // CREATE
     // -----------------------------
     create(menuModel: AppMenuModel) {
-        debugger;
-        return this.api.post<AppMenuModel>('menu.base', menuModel).pipe(
+        return this.api.post<AppMenuModel>('accessManagement.menu.base', menuModel).pipe(
             tap(() => {
                 this.toast.success('Menu created successfully');
             })
@@ -42,7 +41,7 @@ export class MenuManagementService {
     // UPDATE
     // -----------------------------
     update(id: string, menuModel: AppMenuModel) {
-        return this.api.put<AppMenuModel>('menu.byId', menuModel, {
+        return this.api.put<AppMenuModel>('accessManagement.menu.byId', menuModel, {
             pathParams: { id }
         }).pipe(
             tap(() => {
@@ -55,7 +54,7 @@ export class MenuManagementService {
     // DELETE
     // -----------------------------
     delete(id: string) {
-        return this.api.delete<void>('menu.byId', {
+        return this.api.delete<void>('accessManagement.menu.byId', {
             pathParams: { id }
         }).pipe(
             tap(() => {

@@ -11,7 +11,7 @@ import com.codeshare.airline.identity.entities.RefreshToken;
 import com.codeshare.airline.identity.repository.AuthTokenExchangeRepository;
 import com.codeshare.airline.identity.repository.RefreshTokenRepository;
 import com.codeshare.airline.identity.service.AuthUserService;
-import com.codeshare.airline.identity.service.RolePermissionAssignmentService;
+import com.codeshare.airline.identity.service.assignment.RolePermissionAssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.oauth2.jwt.*;

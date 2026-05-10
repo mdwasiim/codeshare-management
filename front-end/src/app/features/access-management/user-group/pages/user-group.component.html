@@ -1,0 +1,122 @@
+<csm-assignment-layout
+    leftTitle="Users"
+    rightTitle="Groups">
+
+    <!-- USER PANEL -->
+    <div left-panel>
+
+        <p-table
+            [value]="users"
+            [loading]="loading"
+            selectionMode="single"
+            [(selection)]="selectedUser"
+            dataKey="id"
+            responsiveLayout="scroll"
+            (onRowSelect)="onUserSelect($any($event.data))">
+
+            <!-- HEADER -->
+            <ng-template pTemplate="header">
+
+                <tr>
+
+                    <th>
+                        Username
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+
+                </tr>
+
+            </ng-template>
+
+            <!-- BODY -->
+            <ng-template
+                pTemplate="body"
+                let-user>
+
+                <tr [pSelectableRow]="user">
+
+                    <td>
+                        {{ user.username }}
+                    </td>
+
+                    <td>
+                        {{ user.name }}
+                    </td>
+
+                </tr>
+
+            </ng-template>
+
+        </p-table>
+
+    </div>
+
+    <!-- GROUP PANEL -->
+    <div right-panel>
+
+        <!-- TOOLBAR -->
+        <div class="mb-4">
+
+            <csm-crud-toolbar
+                [actions]="[
+                    'refresh',
+                    'reset',
+                    'save'
+                ]"
+                [loading]="saving"
+                (refresh)="loadData()"
+                (reset)="reset()"
+                (save)="save()">
+            </csm-crud-toolbar>
+
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div
+            *ngIf="!selectedUser"
+            class="flex
+                   align-items-center
+                   justify-content-center
+                   p-6
+                   text-500">
+
+            Select a user to manage groups
+
+        </div>
+
+        <!-- GROUPS -->
+        <div *ngIf="selectedUser">
+
+            <div
+                *ngFor="let group of groups"
+                class="mb-3">
+
+                <div
+                    class="flex
+                           align-items-center
+                           gap-2">
+
+                    <p-checkbox
+                        [binary]="true"
+                        [ngModel]="selectedGroupIds.includes(group.id!)"
+                        (onChange)="toggleGroup(group.id!, $event.checked)">
+                    </p-checkbox>
+
+                    <label>
+
+                        {{ group.name }}
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</csm-assignment-layout>

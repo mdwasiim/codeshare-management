@@ -1,4 +1,4 @@
-package com.codeshare.airline.identity.service.serviceImpl;
+package com.codeshare.airline.identity.service.assignment.impl;
 
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
@@ -8,7 +8,7 @@ import com.codeshare.airline.identity.entities.Role;
 import com.codeshare.airline.identity.repository.GroupRepository;
 import com.codeshare.airline.identity.repository.GroupRoleRepository;
 import com.codeshare.airline.identity.repository.RoleRepository;
-import com.codeshare.airline.identity.service.GroupRoleAssignmentService;
+import com.codeshare.airline.identity.service.assignment.GroupRoleAssignmentService;
 import com.codeshare.airline.identity.utils.mappers.GroupRoleMapper;
 import com.codeshare.airline.identity.utils.mappers.RoleMapper;
 import lombok.RequiredArgsConstructor;
@@ -138,6 +138,6 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
         // =====================================================
         // RETURN DTO
         // =====================================================
-        return groupRoles.stream().map(groupRoleMapper::toDTO).collect(Collectors.toList());
+        return groupRoleMapper.toDTOList(groupRoles);
     }
 }

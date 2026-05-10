@@ -1,0 +1,96 @@
+<csm-assignment-layout
+    leftTitle="Groups"
+    rightTitle="Menus">
+
+    <!-- GROUP PANEL -->
+    <div left-panel>
+
+        <p-table
+            [value]="groups"
+            [loading]="loading"
+            selectionMode="single"
+            [(selection)]="selectedGroup"
+            dataKey="id"
+            responsiveLayout="scroll"
+            (onRowSelect)="onGroupSelect($any($event.data))">
+
+            <!-- HEADER -->
+            <ng-template pTemplate="header">
+
+                <tr>
+
+                    <th>
+                        Group Name
+                    </th>
+
+                </tr>
+
+            </ng-template>
+
+            <!-- BODY -->
+            <ng-template
+                pTemplate="body"
+                let-group>
+
+                <tr [pSelectableRow]="group">
+
+                    <td>
+                        {{ group.name }}
+                    </td>
+
+                </tr>
+
+            </ng-template>
+
+        </p-table>
+
+    </div>
+
+    <!-- MENU PANEL -->
+    <div right-panel>
+
+        <!-- TOOLBAR -->
+        <div class="mb-4">
+
+            <csm-crud-toolbar
+                [actions]="[
+                    'refresh',
+                    'reset',
+                    'save'
+                ]"
+                [loading]="saving"
+                (refresh)="loadData()"
+                (reset)="reset()"
+                (save)="save()">
+            </csm-crud-toolbar>
+
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div
+            *ngIf="!selectedGroup"
+            class="flex
+                   align-items-center
+                   justify-content-center
+                   p-6
+                   text-500">
+
+            Select a group to manage menus
+
+        </div>
+
+        <!-- MENUS -->
+        <div *ngIf="selectedGroup">
+
+            <p-tree
+                [value]="menuTree"
+                selectionMode="checkbox"
+                [(selection)]="selectedMenus"
+                class="w-full">
+            </p-tree>
+
+        </div>
+
+    </div>
+
+</csm-assignment-layout>
