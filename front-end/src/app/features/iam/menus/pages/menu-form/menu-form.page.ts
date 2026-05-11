@@ -85,6 +85,7 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
     override buildForm(): void {
         this.form = this.fb.group({
             id: [null],
+            code: [null],
             label: ['', Validators.required],
             icon: [''],
             route: [''],
@@ -142,6 +143,7 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
     private mapToModel(formValue: any): AppMenuModel {
         return {
             id: formValue.id ?? undefined,
+            code: formValue.code,
             label: formValue.label,
             icon: formValue.icon || undefined,
             route: formValue.route?.trim() || undefined,

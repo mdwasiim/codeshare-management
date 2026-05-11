@@ -5,6 +5,7 @@ export interface AppMenuModel {
     // =========================
     id?: string;
 
+    code: string;
     label: string;
     icon?: string;
 

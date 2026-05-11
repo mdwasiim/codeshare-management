@@ -109,6 +109,7 @@ export class LayoutMenuService {
     private normalizeMenus(items: any[]): AppMenuModel[] {
         return items.map(item => ({
             id: item.id,
+            code: item.code,
             label: item.label,
             icon: item.icon,
             route: item.route,
