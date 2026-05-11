@@ -7,7 +7,7 @@ export const APP_ROUTES: Routes = [
     {
         path: 'auth',
         loadChildren: () =>
-            import('@features/routes/auth.routes')
+            import('@features/access-management/auth/auth.routes')
                 .then(m => m.AUTH_ROUTES)
     },
 
@@ -32,7 +32,7 @@ export const APP_ROUTES: Routes = [
             {
                 path: 'dashboard',
                 loadChildren: () =>
-                    import('@features/routes/dashboard.routes')
+                    import('@features/home/dashboard/dashboard.routes')
                         .then(m => m.DASHBOARD_ROUTES)
             },
 

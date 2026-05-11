@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
-import { AppMenuModel } from '@features/iam/models/app-menu.model';
+import { AppMenuModel } from '@features/access-management/iam/models/app-menu.model';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import {AppApiService} from "@core/config/app-api.service";

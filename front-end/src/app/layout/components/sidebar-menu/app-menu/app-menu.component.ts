@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {AppMenuItemComponent} from "@layout/components/sidebar-menu/app-menu-item/app-menu-item.component";
-import {AppMenuModel} from "@features/iam/models/app-menu.model";
+import {AppMenuModel} from "@features/access-management/iam/models/app-menu.model";
 import {LayoutMenuService} from "@layout/services/layout-menu.service";
 import {MenuItem} from "primeng/api";
 

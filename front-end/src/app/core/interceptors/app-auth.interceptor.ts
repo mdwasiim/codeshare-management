@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 
 import { AuthTokenService } from '@services/auth/auth-token.service';
-import { AuthService } from '@features/auth/services/auth.service';
+import { AuthService } from '@features/access-management/auth/services/auth.service';
 import { AuthTenantService } from '@services/auth/auth-tenant.service';
 
 let isRefreshing = false;
