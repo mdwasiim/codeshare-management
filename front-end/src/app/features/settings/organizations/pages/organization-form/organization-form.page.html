@@ -1,21 +1,23 @@
-<form [formGroup]="form" class="p-fluid  w-full">
+<form [formGroup]="form" class="p-fluid w-full block">
 
     <csm-form-section title="Organization Details">
-        <div class="grid formgrid">
+        <div class="grid">
 
-            <div class="col-12 md:col-6 field">
-                <label>Name</label>
-                <input pInputText formControlName="name" class="w-full" />
+            <div class="field col-12 md:col-6">
+                <label for="name">Name</label>
+                <input id="name" pInputText formControlName="name" class="w-full" />
             </div>
 
-            <div class="col-12 md:col-6 field">
-                <label>Code</label>
-                <input pInputText formControlName="code" class="w-full" />
+            <div class="field col-12 md:col-6">
+                <label for="code">Code</label>
+                <input id="code" pInputText formControlName="code" class="w-full" />
             </div>
 
-            <div class="col-12 field">
-                <label>Status</label>
+            <div class="field col-12">
+                <label for="status">Status</label>
                 <p-select
+                    inputId="status"
+                    appendTo="body"
                     [options]="statusOptions"
                     optionLabel="label"
                     optionValue="value"

@@ -137,20 +137,22 @@
 <!-- ============================= -->
 <!--  Dialog: Product Details      -->
 <!-- ============================= -->
-<p-dialog
+<csm-dialog
     [(visible)]="productDialog"
-    [style]="{ width: '450px' }"
-    header="Product Details"
-    [modal]="true"
->
+    title="Product Details"
+    [width]="'450px'"
+    [disableSave]="!product.name?.trim()"
+    (save)="saveProduct()"
+    (cancel)="hideDialog()">
+
     <product-form
         [product]="product"
         [submitted]="submitted"
         [statuses]="statuses"
-        (save)="saveProduct()"
-        (cancel)="hideDialog()"
+        [showActions]="false"
     ></product-form>
-</p-dialog>
+
+</csm-dialog>
 
 <!-- ============================= -->
 <!--  Global Confirm Dialog        -->
