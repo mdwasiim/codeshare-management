@@ -179,4 +179,5 @@ export class TopbarComponent implements OnInit {
 
         return null;
     }
+
 }

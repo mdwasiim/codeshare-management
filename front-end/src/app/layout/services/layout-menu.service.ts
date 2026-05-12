@@ -47,6 +47,7 @@ export class LayoutMenuService {
     }
 
     setSelectedRoot(menu: AppMenuModel) {
+        this.prepareDefaultSidebarExpansion(menu);
         this.selectedRootMenuSubject.next(menu);
         this.sidebarMenuSubject.next(menu.items || []);
     }
@@ -212,5 +213,27 @@ export class LayoutMenuService {
         if (codeParent) return `code:${codeParent}`;
         if (item.parentId) return `id:${item.parentId}`;
         return null;
+    }
+
+    private prepareDefaultSidebarExpansion(menu: AppMenuModel) {
+        const sidebarItems = menu.items ?? [];
+        if (!sidebarItems.length) return;
+
+        sidebarItems.forEach(item => this.collapseTree(item));
+        this.expandFirstBranch(sidebarItems[0]);
+    }
+
+    private collapseTree(node: AppMenuModel) {
+        node.expanded = false;
+        (node.items ?? []).forEach(child => this.collapseTree(child));
+    }
+
+    private expandFirstBranch(node: AppMenuModel) {
+        node.expanded = true;
+
+        const children = node.items ?? [];
+        if (!children.length) return;
+
+        this.expandFirstBranch(children[0]);
     }
 }
