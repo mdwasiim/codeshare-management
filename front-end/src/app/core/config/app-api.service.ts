@@ -1,25 +1,22 @@
-// app-api.service.ts
-
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { AnyApiEndpointFactory, ApiEndpointKey, ApiOptions, buildApiUrl } from './app-api.config';
-import {Observable} from "rxjs";
+import { Observable } from 'rxjs';
+import { AnyApiEndpointFactory, ApiOptions, API_CONFIG } from './app-api.config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AppApiService {
-
     private http = inject(HttpClient);
 
-    // -----------------------------
-    // Build HTTP Options
-    // -----------------------------
     private buildHttpOptions(options?: ApiOptions): {
         headers?: HttpHeaders;
         params?: HttpParams;
     } {
-        const httpOptions: any = {};
+        const httpOptions: {
+            headers?: HttpHeaders;
+            params?: HttpParams;
+        } = {};
 
         if (options?.params) {
             httpOptions.params = this.buildParams(options.params);
@@ -32,9 +29,6 @@ export class AppApiService {
         return httpOptions;
     }
 
-    // -----------------------------
-    // Build Query Params
-    // -----------------------------
     private buildParams(params?: ApiOptions['params']): HttpParams {
         let httpParams = new HttpParams();
 
@@ -58,9 +52,6 @@ export class AppApiService {
         return httpParams;
     }
 
-    // -----------------------------
-    // Build Headers
-    // -----------------------------
     private buildHeaders(headers?: HttpHeaders | Record<string, string>): HttpHeaders | undefined {
         if (!headers) return undefined;
 
@@ -69,73 +60,46 @@ export class AppApiService {
             : new HttpHeaders(headers);
     }
 
-    // -----------------------------
-    // Replace Path Params
-    // -----------------------------
-    private replacePathParams(
-        url: string,
-        pathParams?: Record<string, string | number | boolean>
-    ): string {
-        if (!pathParams) return url;
-
-        Object.entries(pathParams).forEach(([key, value]) => {
-            url = url.replace(`{${key}}`, String(value));
-        });
-
-        return url;
-    }
-
-    // -----------------------------
-    // Build Final URL
-    // -----------------------------
-    private buildUrl(endpoint: ApiEndpointKey | AnyApiEndpointFactory, options?: ApiOptions): string {
+    private buildUrl(endpoint: string | AnyApiEndpointFactory, options?: ApiOptions): string {
         if (typeof endpoint === 'function') {
-            return endpoint(options?.pathParams as any);
+            return endpoint(options?.pathParams);
         }
 
-        let url = buildApiUrl(endpoint);
-
-        url = this.replacePathParams(url, options?.pathParams);
-
-        // Optional safety check
-        if (url.includes('{')) {
-            console.warn('⚠️ Missing pathParams for URL:', url);
+        if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) {
+            return endpoint;
         }
 
-        return url;
+        const base = API_CONFIG.baseUrl;
+        const path = endpoint.replace(/^\//, '');
+        return `${base}/${path}`;
     }
 
-    // -----------------------------
-    // HTTP METHODS
-    // -----------------------------
-
-    get<T>(endpoint: ApiEndpointKey | AnyApiEndpointFactory, options?: ApiOptions) : Observable<T> {
+    get<T>(endpoint: string | AnyApiEndpointFactory, options?: ApiOptions): Observable<T> {
         return this.http.get<T>(
             this.buildUrl(endpoint, options),
             this.buildHttpOptions(options)
         );
     }
 
-
-    post<T>(endpoint: ApiEndpointKey | AnyApiEndpointFactory, body: any, options?: ApiOptions) : Observable<T> {
+    post<T>(endpoint: string | AnyApiEndpointFactory, body: any, options?: ApiOptions): Observable<T> {
         return this.http.post<T>(
-            this.buildUrl(endpoint, options),   // ✅ FIXED
+            this.buildUrl(endpoint, options),
             body,
             this.buildHttpOptions(options)
         );
     }
 
-    put<T>(endpoint: ApiEndpointKey | AnyApiEndpointFactory, body: any, options?: ApiOptions) : Observable<T> {
+    put<T>(endpoint: string | AnyApiEndpointFactory, body: any, options?: ApiOptions): Observable<T> {
         return this.http.put<T>(
-            this.buildUrl(endpoint, options),   // ✅ FIXED
+            this.buildUrl(endpoint, options),
             body,
-            this.buildHttpOptions(options),
+            this.buildHttpOptions(options)
         );
     }
 
-    delete<T>(endpoint: ApiEndpointKey | AnyApiEndpointFactory, options?: ApiOptions) : Observable<T> {
+    delete<T>(endpoint: string | AnyApiEndpointFactory, options?: ApiOptions): Observable<T> {
         return this.http.delete<T>(
-            this.buildUrl(endpoint, options),   // ✅ FIXED
+            this.buildUrl(endpoint, options),
             this.buildHttpOptions(options)
         );
     }

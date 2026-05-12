@@ -54,7 +54,7 @@
 
     <ul [class.layout-root-submenulist]="root()">
 
-        @for (child of item().items ?? []; track child?.id ?? child?.label) {
+        @for (child of item().items ?? []; track childTrackKey(child, $index)) {
             <li
                 app-menuitem
                 [item]="child"

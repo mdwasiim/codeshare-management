@@ -19,6 +19,10 @@ export class AppMenuComponent implements OnInit {
 
     constructor(private menuService: LayoutMenuService) {}
 
+    rootTrackKey(item: AppMenuModel, index: number): string {
+        return item.id ?? item.code ?? item.route ?? `${item.label}-${index}`;
+    }
+
     ngOnInit(): void {
         this.menuService
             .loadMenus()

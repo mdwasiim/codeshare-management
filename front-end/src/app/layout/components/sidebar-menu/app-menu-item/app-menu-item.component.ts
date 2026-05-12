@@ -87,6 +87,10 @@ export class AppMenuItemComponent {
         return !!item.expanded || this.hasActiveDescendant(item);
     }
 
+    childTrackKey(child: AppMenuModel, index: number): string {
+        return child.id ?? child.code ?? child.route ?? `${child.label}-${index}`;
+    }
+
     private hasActiveDescendant(item: AppMenuModel): boolean {
         const children = item.items ?? [];
 

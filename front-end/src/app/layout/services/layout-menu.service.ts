@@ -48,7 +48,7 @@ export class LayoutMenuService {
     }
 
     setSelectedRoot(menu: AppMenuModel) {
-        this.prepareDefaultSidebarExpansion(menu);
+        this.prepareSidebarExpansion(menu, this.router.url);
         this.selectedRootMenuSubject.next(menu);
         this.sidebarMenuSubject.next(menu.items || []);
     }
@@ -216,11 +216,18 @@ export class LayoutMenuService {
         return null;
     }
 
-    private prepareDefaultSidebarExpansion(menu: AppMenuModel) {
+    private prepareSidebarExpansion(menu: AppMenuModel, currentUrl: string) {
         const sidebarItems = menu.items ?? [];
         if (!sidebarItems.length) return;
 
         sidebarItems.forEach(item => this.collapseTree(item));
+
+        const branchWithActiveRoute = sidebarItems.find(item => this.containsRoute(item, currentUrl));
+        if (branchWithActiveRoute) {
+            this.expandActivePath(branchWithActiveRoute, currentUrl);
+            return;
+        }
+
         this.expandFirstBranch(sidebarItems[0]);
     }
 
@@ -236,6 +243,14 @@ export class LayoutMenuService {
         if (!children.length) return;
 
         this.expandFirstBranch(children[0]);
+    }
+
+    private expandActivePath(node: AppMenuModel, url: string): boolean {
+        const selfMatches = !!node.route && this.matchesPath(url, node.route);
+        const childMatches = (node.items ?? []).some(child => this.expandActivePath(child, url));
+
+        node.expanded = childMatches;
+        return selfMatches || childMatches;
     }
 
     private matchesPath(currentUrl: string, link: string): boolean {
