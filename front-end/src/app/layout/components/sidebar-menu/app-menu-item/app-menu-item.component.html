@@ -16,6 +16,21 @@
 <!-- MENU ITEM (LEAF ONLY) -->
 <!-- ========================= -->
 @if (isVisible()) {
+    <a
+        *ngIf="hasChildren() && !root()"
+        href="#"
+        [ngClass]="item().styleClass"
+        (click)="onBranchClick($event)"
+        tabindex="0"
+        pRipple
+    >
+        <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
+        <span class="layout-menuitem-text">{{ item().label }}</span>
+        <i
+            class="layout-submenu-toggler pi"
+            [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'"
+        ></i>
+    </a>
 
     <a
         *ngIf="item().routerLink && !hasChildren()"
@@ -23,7 +38,7 @@
         routerLinkActive="active-route"
         [routerLinkActiveOptions]="{ exact: false }"
         [ngClass]="item().styleClass"
-        (click)="layoutService.closeSidebar()"
+        (click)="itemClick()"
         tabindex="0"
         pRipple
     >
@@ -35,7 +50,7 @@
 <!-- ========================= -->
 <!-- CHILDREN -->
 <!-- ========================= -->
-@if (hasChildren() && isVisible() && (root() ? item().expanded : isActive() || isExpanded())) {
+@if (shouldRenderChildren()) {
 
     <ul [class.layout-root-submenulist]="root()">
 

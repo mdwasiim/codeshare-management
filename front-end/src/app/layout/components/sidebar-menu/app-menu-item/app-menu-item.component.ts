@@ -41,15 +41,7 @@ export class AppMenuItemComponent {
     // ACTIVE STATE (Router Driven)
     // =========================
     isActive = computed(() => {
-        const item = this.item();
-
-        if (!item?.routerLink) return false;
-
-        const link = Array.isArray(item.routerLink)
-            ? item.routerLink[0]
-            : item.routerLink;
-
-        return this.router.url.startsWith(link);
+        return this.isRouteMatch(this.item());
     });
 
     // =========================
@@ -70,5 +62,46 @@ export class AppMenuItemComponent {
 
         // Close sidebar (mobile / overlay)
         this.layoutService.closeSidebar();
+    }
+
+    onBranchClick(event: Event) {
+        event.preventDefault();
+
+        const item = this.item();
+        if (!item || !this.hasChildren()) return;
+
+        item.expanded = !item.expanded;
+    }
+
+    shouldRenderChildren(): boolean {
+        const item = this.item();
+
+        if (!item || !this.hasChildren() || !this.isVisible()) {
+            return false;
+        }
+
+        if (this.root()) {
+            return !!item.expanded;
+        }
+
+        return !!item.expanded || this.hasActiveDescendant(item);
+    }
+
+    private hasActiveDescendant(item: AppMenuModel): boolean {
+        const children = item.items ?? [];
+
+        return children.some(child => this.isRouteMatch(child) || this.hasActiveDescendant(child));
+    }
+
+    private isRouteMatch(item: AppMenuModel | undefined): boolean {
+        if (!item) return false;
+
+        const link = Array.isArray(item.routerLink)
+            ? item.routerLink[0]
+            : item.routerLink ?? item.route;
+
+        if (!link) return false;
+
+        return this.router.url.startsWith(link);
     }
 }
