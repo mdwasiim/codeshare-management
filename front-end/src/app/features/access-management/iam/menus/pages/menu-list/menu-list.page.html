@@ -24,7 +24,11 @@
     [rowsPerPageOptions]="[10,20,30]"
     [tableStyle]="{ 'min-width': '60rem' }"
 >
-
+    <ng-template pTemplate="caption">
+        <div class="flex justify-between items-center">
+            <h5 class="m-0">Manage Menus</h5>
+        </div>
+    </ng-template>
     <!-- Header -->
     <ng-template pTemplate="header">
         <tr>

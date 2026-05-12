@@ -128,13 +128,18 @@ export class LayoutMenuService {
         return items.map(item => ({
             id: item.id,
             code: item.code ?? '',
-            label: item.label ?? '',
+            label: this.normalizeLabel(item.label),
             icon: item.icon,
             route: item.route,
             parentId: item.parentId ?? undefined,
             displayOrder: item.displayOrder,
             visible: item.visible !== false
         }));
+    }
+
+    private normalizeLabel(label?: string): string {
+        if (!label) return '';
+        return label.trim().replace(/\s+\d+$/, '');
     }
 
     /**
