@@ -4,6 +4,7 @@
     min-height: 100vh;
     justify-content: space-between;
     padding: 6rem 2rem 0 2rem;
+    margin-left: 22rem;
     transition: margin-left var(--layout-section-transition-duration);
 }
 
@@ -13,5 +14,12 @@
 }
 
 img {
-    max-width: none !important;
+    max-width: 100%;
+    height: auto;
+}
+
+.layout-wrapper.layout-sidebar-collapsed {
+    .layout-main-container {
+        margin-left: 7rem;
+    }
 }
