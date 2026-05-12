@@ -50,6 +50,10 @@ export class TopbarComponent implements OnInit {
 
     userMenuItems: MenuItem[] = [];
 
+    userInitialsCss(): string {
+        return `"${this.initials()}"`;
+    }
+
     ngOnInit() {
         this.username = this.tokenService.username || 'User';
         this.buildUserMenu();
@@ -131,12 +135,6 @@ export class TopbarComponent implements OnInit {
                 command: () => this.logout()
             }
         ];
-    }
-
-    private navigate(path: string) {
-        if (this.router.url !== path) {
-            this.router.navigate([path]);
-        }
     }
 
     logout() {

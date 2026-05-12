@@ -95,7 +95,7 @@
             (click)="userMenu.toggle($event)"
         >
             <p-avatar
-                label="WK"
+                [label]="initials()"
                 shape="circle"
                 class="topbar-avatar border border-gray-200"
             ></p-avatar>
@@ -107,6 +107,7 @@
             #userMenu
             [popup]="true"
             [model]="userMenuItems"
+            [style.--user-initials]="userInitialsCss()"
             styleClass="user-menu">
         </p-menu>
 
