@@ -179,7 +179,7 @@ export class LayoutMenuService {
     }
 
     private containsRoute(node: AppMenuModel, url: string): boolean {
-        if (node.route && url.startsWith(node.route)) {
+        if (node.route && this.matchesPath(url, node.route)) {
             return true;
         }
 
@@ -235,5 +235,12 @@ export class LayoutMenuService {
         if (!children.length) return;
 
         this.expandFirstBranch(children[0]);
+    }
+
+    private matchesPath(currentUrl: string, link: string): boolean {
+        if (!currentUrl || !link) return false;
+        if (currentUrl === link) return true;
+
+        return currentUrl.startsWith(`${link}/`) || currentUrl.startsWith(`${link}?`);
     }
 }

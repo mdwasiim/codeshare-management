@@ -102,6 +102,13 @@ export class AppMenuItemComponent {
 
         if (!link) return false;
 
-        return this.router.url.startsWith(link);
+        return this.matchesPath(this.router.url, link);
+    }
+
+    private matchesPath(currentUrl: string, link: string): boolean {
+        if (!currentUrl || !link) return false;
+        if (currentUrl === link) return true;
+
+        return currentUrl.startsWith(`${link}/`) || currentUrl.startsWith(`${link}?`);
     }
 }

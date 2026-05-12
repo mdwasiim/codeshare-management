@@ -73,7 +73,13 @@ export class TopbarComponent implements OnInit {
     }
 
     isActive(menu: AppMenuModel, selected: AppMenuModel | null): boolean {
-        return selected?.id === menu.id;
+        if (!selected) return false;
+
+        if (selected.id && menu.id) {
+            return selected.id === menu.id;
+        }
+
+        return selected.code === menu.code;
     }
 
     // =========================
