@@ -89,7 +89,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     private isOutsideClicked(event: MouseEvent): boolean {
-        const topbarButtonEl = document.querySelector('.topbar-start > button');
+        const topbarButtonEl = document.querySelector('.layout-menu-button');
         const sidebarEl = this.el.nativeElement;
 
         return !(
