@@ -1,9 +1,10 @@
-import {Directive, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Directive()
-export abstract class BaseCrudForm<T> implements OnInit, OnChanges{
+export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
 
     @Input() data: T | null = null;
     @Input() id: string | null = null;
@@ -16,6 +17,7 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges{
     loading = false;
 
     private initialized = false;
+    private readonly destroy$ = new Subject<void>();
 
     // =========================
     // Lifecycle
@@ -39,6 +41,11 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges{
 
             this.init();
         }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
     // =========================
     // Abstracts
@@ -69,13 +76,15 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges{
             this.isEdit = true;
             this.loading = true;
             this.form.reset();
-            this.fetchById(this.id).subscribe({
-                next: (res) => {
-                    this.patchForm(res);
-                    this.loading = false;
-                },
-                error: () => this.loading = false
-            });
+            this.fetchById(this.id)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe({
+                    next: (res) => {
+                        this.patchForm(res);
+                        this.loading = false;
+                    },
+                    error: () => this.loading = false
+                });
 
         } else {
             this.isEdit = false;
@@ -99,16 +108,18 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges{
             ? this.update(this.id!, payload)
             : this.create(payload);
 
-        request.subscribe({
-            next: () => {
-                this.loading = false;
-                this.saved.emit();
-            },
-            error: (err) => {
-                this.loading = false;
-                this.onError(err);
-            }
-        });
+        request
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.loading = false;
+                    this.saved.emit();
+                },
+                error: (err) => {
+                    this.loading = false;
+                    this.onError(err);
+                }
+            });
     }
 
     cancel() {

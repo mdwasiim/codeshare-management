@@ -70,8 +70,6 @@
 
     <ng-template pTemplate="right">
         <!-- SEARCH -->
-       <!-- <ng-container
-            *csmHasPermission="permission('read')">-->
         <span
             *ngIf="hasAction('search')"
             class="p-input-icon-left mr-2">
@@ -86,10 +84,8 @@
                 placeholder="Search..." />
 
         </span>
-        <!--</ng-container>-->
+
         <!-- RESET -->
-        <!--<ng-container
-            *csmHasPermission="permission('read')">-->
         <p-button
             *ngIf="hasAction('reset')"
             label="Reset"
@@ -99,10 +95,8 @@
             class="mr-2"
             (click)="reset.emit()">
         </p-button>
-       <!-- </ng-container>-->
+
         <!-- SAVE -->
-        <!--<ng-container
-            *csmHasPermission="permission('assign')">-->
         <p-button
             *ngIf="hasAction('save')"
             label="Save"
@@ -111,7 +105,7 @@
             class="mr-2"
             (click)="save.emit()">
         </p-button>
-       <!-- </ng-container>-->
+
         <!-- EXPORT -->
         <ng-container
             *csmHasPermission="permission('export')">

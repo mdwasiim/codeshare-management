@@ -43,7 +43,6 @@ export class CsmDialogComponent {
     // =========================
 
     onCancel(): void {
-        console.log('CANCEL CLICKED');
         this.visible = false;
         this.visibleChange.emit(false);
         this.cancel.emit();
@@ -55,7 +54,6 @@ export class CsmDialogComponent {
     }
 
     onHide(): void {
-        console.log('DIALOG HIDDEN');
         this.visible = false;
         this.visibleChange.emit(false);
     }
