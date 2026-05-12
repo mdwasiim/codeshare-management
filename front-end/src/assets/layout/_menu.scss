@@ -3,17 +3,19 @@
 .layout-sidebar {
     position: fixed;
     width: 20rem;
-    height: calc(100vh - 8rem);
+    height: calc(100vh - 6.25rem);
     z-index: 999;
     overflow-y: auto;
     user-select: none;
-    top: 6rem;
-    left: 2rem;
+    top: 5rem;
+    left: 1.5rem;
     transition:
         transform var(--layout-section-transition-duration),
         left var(--layout-section-transition-duration);
     background-color: var(--surface-overlay);
+    border: 1px solid #d9e2ec;
     border-radius: var(--content-border-radius);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
     padding: 0.5rem 1.5rem;
 }
 
@@ -24,10 +26,10 @@
 
     .layout-root-menuitem {
         > .layout-menuitem-root-text {
-            font-size: 0.857rem;
+            font-size: 0.84rem;
             text-transform: uppercase;
             font-weight: 700;
-            color: var(--text-color);
+            color: #334155;
             margin: 0.75rem 0;
         }
 
@@ -65,6 +67,7 @@
             position: relative;
             outline: 0 none;
             color: var(--text-color);
+            font-weight: 500;
             cursor: pointer;
             padding: 0.75rem 1rem;
             border-radius: var(--content-border-radius);
@@ -84,13 +87,13 @@
 
             &.active-route {
                 font-weight: 600;
-                color: var(--primary-color);
-                background-color: rgba(34, 197, 94, 0.1);
-                border-left: 3px solid var(--primary-color);
+                color: #0f766e;
+                background-color: rgba(16, 185, 129, 0.14);
+                border-left: 3px solid #10b981;
             }
 
             &:hover {
-                background-color: rgba(0, 0, 0, 0.04);
+                background-color: rgba(51, 65, 85, 0.07);
             }
 
             &:focus {

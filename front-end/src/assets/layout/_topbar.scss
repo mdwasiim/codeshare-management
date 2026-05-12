@@ -11,7 +11,8 @@
     height: 4rem;
     padding: 0 2rem;
     background-color: var(--surface-card);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid #dbe3ec;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
     transition: left var(--layout-section-transition-duration);
 
     .layout-topbar-logo-container {
@@ -48,13 +49,14 @@
         height: 2.5rem;
         border-radius: 50%;
         color: var(--text-color);
+        font-weight: 500;
         cursor: pointer;
         transition:
             background-color var(--element-transition-duration),
             color var(--element-transition-duration);
 
         &:hover {
-            background-color: var(--surface-hover);
+            background-color: rgba(51, 65, 85, 0.08);
         }
 
         &:focus-visible {
