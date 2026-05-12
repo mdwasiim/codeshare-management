@@ -2,7 +2,7 @@
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ApiEndpointKey, ApiOptions, buildApiUrl } from './app-api.config';
+import { AnyApiEndpointFactory, ApiEndpointKey, ApiOptions, buildApiUrl } from './app-api.config';
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -35,14 +35,23 @@ export class AppApiService {
     // -----------------------------
     // Build Query Params
     // -----------------------------
-    private buildParams(params?: Record<string, any>): HttpParams {
+    private buildParams(params?: ApiOptions['params']): HttpParams {
         let httpParams = new HttpParams();
 
         if (params) {
             Object.entries(params).forEach(([key, value]) => {
-                if (value !== undefined && value !== null) {
-                    httpParams = httpParams.append(key, String(value));
+                if (value === undefined || value === null) return;
+
+                if (Array.isArray(value)) {
+                    value.forEach(item => {
+                        if (item !== undefined && item !== null) {
+                            httpParams = httpParams.append(key, String(item));
+                        }
+                    });
+                    return;
                 }
+
+                httpParams = httpParams.append(key, String(value));
             });
         }
 
@@ -79,7 +88,11 @@ export class AppApiService {
     // -----------------------------
     // Build Final URL
     // -----------------------------
-    private buildUrl(endpoint: ApiEndpointKey, options?: ApiOptions): string {
+    private buildUrl(endpoint: ApiEndpointKey | AnyApiEndpointFactory, options?: ApiOptions): string {
+        if (typeof endpoint === 'function') {
+            return endpoint(options?.pathParams as any);
+        }
+
         let url = buildApiUrl(endpoint);
 
         url = this.replacePathParams(url, options?.pathParams);
@@ -96,7 +109,7 @@ export class AppApiService {
     // HTTP METHODS
     // -----------------------------
 
-    get<T>(endpoint: ApiEndpointKey, options?: ApiOptions) : Observable<T> {
+    get<T>(endpoint: ApiEndpointKey | AnyApiEndpointFactory, options?: ApiOptions) : Observable<T> {
         return this.http.get<T>(
             this.buildUrl(endpoint, options),
             this.buildHttpOptions(options)
@@ -104,7 +117,7 @@ export class AppApiService {
     }
 
 
-    post<T>(endpoint: ApiEndpointKey, body: any, options?: ApiOptions) : Observable<T> {
+    post<T>(endpoint: ApiEndpointKey | AnyApiEndpointFactory, body: any, options?: ApiOptions) : Observable<T> {
         return this.http.post<T>(
             this.buildUrl(endpoint, options),   // ✅ FIXED
             body,
@@ -112,7 +125,7 @@ export class AppApiService {
         );
     }
 
-    put<T>(endpoint: ApiEndpointKey, body: any, options?: ApiOptions) : Observable<T> {
+    put<T>(endpoint: ApiEndpointKey | AnyApiEndpointFactory, body: any, options?: ApiOptions) : Observable<T> {
         return this.http.put<T>(
             this.buildUrl(endpoint, options),   // ✅ FIXED
             body,
@@ -120,7 +133,7 @@ export class AppApiService {
         );
     }
 
-    delete<T>(endpoint: ApiEndpointKey, options?: ApiOptions) : Observable<T> {
+    delete<T>(endpoint: ApiEndpointKey | AnyApiEndpointFactory, options?: ApiOptions) : Observable<T> {
         return this.http.delete<T>(
             this.buildUrl(endpoint, options),   // ✅ FIXED
             this.buildHttpOptions(options)

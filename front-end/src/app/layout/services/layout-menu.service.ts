@@ -4,6 +4,7 @@ import { AppMenuModel } from '@features/access-management/iam/models/app-menu.mo
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import {AppApiService} from "@core/config/app-api.service";
+import {API_ENDPOINTS} from "@core/config/app-api.config";
 
 type MenuApiItem = Partial<AppMenuModel> & {
     id?: string;
@@ -56,7 +57,7 @@ export class LayoutMenuService {
      * Load menus (API → normalize → tree → router mapping)
      */
     loadMenus(): Observable<AppMenuModel[]> {
-        return this.apiService.get<AppMenuModel[]>('accessManagement.menu.base').pipe(
+        return this.apiService.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base).pipe(
 
             map(res => this.normalizeMenus(res)),
 

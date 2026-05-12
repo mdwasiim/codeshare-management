@@ -7,6 +7,7 @@ import {LayoutMenuService} from "@layout/services/layout-menu.service";
 import {map} from "rxjs/operators";
 import { switchMap } from 'rxjs';
 import {AppApiService} from "@core/config/app-api.service";
+import {API_ENDPOINTS} from "@core/config/app-api.config";
 import {PermissionService} from "@core/security/permission.service";
 import {AuthTenantService} from "@services/auth/auth-tenant.service";
 
@@ -24,7 +25,7 @@ export class AuthService {
 
 
     login(username: string, password: string): Observable<LoginResponse> {
-        return this.apiService.post<LoginResponse>('auth.login', { username, password }).pipe(
+        return this.apiService.post<LoginResponse>(API_ENDPOINTS.auth.login, { username, password }).pipe(
 
             tap(res => {
 
@@ -77,7 +78,7 @@ export class AuthService {
     }
 
     refresh(): Observable<RefreshTokenResponse> {
-        return this.apiService.post<RefreshTokenResponse>('auth.refresh', {}).pipe(
+        return this.apiService.post<RefreshTokenResponse>(API_ENDPOINTS.auth.refresh, {}).pipe(
             tap(res => {
                 this.tokenService.setSession(
                     res.access_token,
@@ -89,7 +90,7 @@ export class AuthService {
     }
 
     logout(): Observable<any> {
-        return this.apiService.post<any>('auth.logout', {}).pipe(
+        return this.apiService.post<any>(API_ENDPOINTS.auth.logout, {}).pipe(
 
             // ✅ Always clear session
             tap(() => this.handleLogout()),
