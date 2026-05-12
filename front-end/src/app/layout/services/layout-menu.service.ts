@@ -5,6 +5,15 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import {AppApiService} from "@core/config/app-api.service";
 
+type MenuApiItem = Partial<AppMenuModel> & {
+    id?: string;
+    code?: string;
+    label?: string;
+    parentId?: string | null;
+    parentCode?: string | null;
+    visible?: boolean | null;
+};
+
 @Injectable({
     providedIn: 'root'
 })
@@ -74,19 +83,26 @@ export class LayoutMenuService {
         const map = new Map<string, AppMenuModel>();
 
         flat.forEach(item => {
-            map.set(item.id!, { ...item, items: [] });
+            const node: AppMenuModel = { ...item, items: [] };
+
+            const keys = this.getNodeKeys(item);
+            if (!keys.length) return;
+
+            keys.forEach(key => map.set(key, node));
         });
 
         const roots: AppMenuModel[] = [];
 
         flat.forEach(item => {
-            const node = map.get(item.id!);
+            const node = this.resolveNode(item, map);
+            if (!node) return;
 
-            if (item.parentId) {
-                const parent = map.get(item.parentId);
-                parent?.items?.push(node!);
+            const parentKey = this.getParentKey(item);
+            if (parentKey) {
+                const parent = map.get(parentKey);
+                parent?.items?.push(node);
             } else {
-                roots.push(node!);
+                roots.push(node);
             }
         });
 
@@ -106,14 +122,14 @@ export class LayoutMenuService {
     /**
      * Normalize backend response (NO routerLink here)
      */
-    private normalizeMenus(items: any[]): AppMenuModel[] {
+    private normalizeMenus(items: MenuApiItem[]): AppMenuModel[] {
         return items.map(item => ({
             id: item.id,
-            code: item.code,
-            label: item.label,
+            code: item.code ?? '',
+            label: item.label ?? '',
             icon: item.icon,
             route: item.route,
-            parentId: item.parentId,
+            parentId: item.parentId ?? undefined,
             displayOrder: item.displayOrder,
             visible: item.visible !== false
         }));
@@ -167,5 +183,34 @@ export class LayoutMenuService {
         }
 
         return node.items?.some(child => this.containsRoute(child, url)) ?? false;
+    }
+
+    private getNodeKeys(item: AppMenuModel): string[] {
+        const keys: string[] = [];
+
+        if (item.id) keys.push(`id:${item.id}`);
+        if (item.code) keys.push(`code:${item.code}`);
+
+        return keys;
+    }
+
+    private resolveNode(item: AppMenuModel, map: Map<string, AppMenuModel>): AppMenuModel | undefined {
+        if (item.id) {
+            const byId = map.get(`id:${item.id}`);
+            if (byId) return byId;
+        }
+
+        if (item.code) {
+            return map.get(`code:${item.code}`);
+        }
+
+        return undefined;
+    }
+
+    private getParentKey(item: AppMenuModel): string | null {
+        const codeParent = (item as AppMenuModel & { parentCode?: string | null }).parentCode;
+        if (codeParent) return `code:${codeParent}`;
+        if (item.parentId) return `id:${item.parentId}`;
+        return null;
     }
 }
