@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { AppApiService } from '@core/config/app-api.service';
+import { API_ENDPOINTS } from '@core/config/app-api.config';
 import { AppToastService } from '@services/app-toast.service';
 import { User } from '@features/access-management/iam/models/user.model';
 import { tap, catchError, throwError } from 'rxjs';
@@ -11,17 +12,17 @@ export class UserService {
     private toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<User[]>('accessManagement.users.base');
+        return this.api.get<User[]>(API_ENDPOINTS.accessManagement.users.base);
     }
 
     getById(id: string) {
-        return this.api.get<User>('accessManagement.users.byId', {
+        return this.api.get<User>(API_ENDPOINTS.accessManagement.users.byId, {
             pathParams: { id }
         });
     }
 
     create(user: User) {
-        return this.api.post<User>('accessManagement.users.base', user).pipe(
+        return this.api.post<User>(API_ENDPOINTS.accessManagement.users.base, user).pipe(
             tap(() => {
                 this.toast.success('User created successfully');
             }),
@@ -33,7 +34,7 @@ export class UserService {
     }
 
     update(id: string, user: User) {
-        return this.api.put<User>('accessManagement.users.byId', user, {
+        return this.api.put<User>(API_ENDPOINTS.accessManagement.users.byId, user, {
             pathParams: { id }
         }).pipe(
             tap(() => {
@@ -47,7 +48,7 @@ export class UserService {
     }
 
     delete(id: string) {
-        return this.api.delete<void>('accessManagement.users.byId', {
+        return this.api.delete<void>(API_ENDPOINTS.accessManagement.users.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => {

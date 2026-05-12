@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { AppApiService } from '@core/config/app-api.service';
+import { API_ENDPOINTS } from '@core/config/app-api.config';
 import { AppToastService } from '@services/app-toast.service';
 import { Role } from '@features/access-management/iam/models/role.model';
 import { tap } from 'rxjs';
@@ -11,17 +12,17 @@ export class RoleService {
     private toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<Role[]>('accessManagement.roles.base');
+        return this.api.get<Role[]>(API_ENDPOINTS.accessManagement.roles.base);
     }
 
     getById(id: string) {
-        return this.api.get<Role>('accessManagement.roles.byId', {
+        return this.api.get<Role>(API_ENDPOINTS.accessManagement.roles.byId, {
             pathParams: { id }
         });
     }
 
     create(role: Role) {
-        return this.api.post<Role>('accessManagement.roles.base', role).pipe(
+        return this.api.post<Role>(API_ENDPOINTS.accessManagement.roles.base, role).pipe(
             tap(() => {
                 this.toast.success('Role created successfully');
             })
@@ -29,7 +30,7 @@ export class RoleService {
     }
 
     update(id: string, role: Role) {
-        return this.api.put<Role>('accessManagement.roles.byId', role, {
+        return this.api.put<Role>(API_ENDPOINTS.accessManagement.roles.byId, role, {
             pathParams: { id }
         }).pipe(
             tap(() => {
@@ -39,7 +40,7 @@ export class RoleService {
     }
 
     delete(id: string) {
-        return this.api.delete<void>('accessManagement.roles.byId', {
+        return this.api.delete<void>(API_ENDPOINTS.accessManagement.roles.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => {

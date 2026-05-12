@@ -1,10 +1,10 @@
 import {inject, Injectable} from '@angular/core';
 
 import {AppApiService} from '@core/config/app-api.service';
+import { API_ENDPOINTS } from '@core/config/app-api.config';
 import {Role} from "@features/access-management/iam/models/role.model";
 import {GroupService} from "@features/access-management/iam/groups/services/group.service";
 import {RoleService} from "@features/access-management/iam/roles/services/role.service";
-import {RolePermissionModel} from "@features/access-management/assignment/role-permissions/models/role-permission.model";
 import {GroupRoleModel} from "@features/access-management/assignment/group-roles/models/group-role.model";
 
 
@@ -22,7 +22,7 @@ export class GroupRoleService {
     // ROLES By Group
     // =====================================================
     getRolesByGroup(groupId: string) {
-        return this.api.get<Role[]>('accessManagement.groupRole.byGroupId', {
+        return this.api.get<Role[]>(API_ENDPOINTS.accessManagement.groupRole.byGroupId, {
             pathParams: { groupId }
         });
     }
@@ -39,7 +39,7 @@ export class GroupRoleService {
     ) {
 
         return this.api.put<GroupRoleModel []>(
-            'accessManagement.groupRole.byGroupId',
+            API_ENDPOINTS.accessManagement.groupRole.byGroupId,
             roleId,
             {
                 pathParams: {

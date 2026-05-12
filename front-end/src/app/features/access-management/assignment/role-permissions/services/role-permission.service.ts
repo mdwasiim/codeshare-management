@@ -6,14 +6,12 @@ import {
 import {
     AppApiService
 } from '@core/config/app-api.service';
+import { API_ENDPOINTS } from '@core/config/app-api.config';
 
 import {
     RolePermissionModel
 } from '@features/access-management/assignment/role-permissions/models/role-permission.model';
 
-import {
-    RoleService
-} from '@features/access-management/iam/roles/services/role.service';
 import {PermissionApiService} from "@features/access-management/iam/permissions/services/permission-api.service";
 import {GroupService} from "@features/access-management/iam/groups/services/group.service";
 
@@ -24,8 +22,6 @@ import {GroupService} from "@features/access-management/iam/groups/services/grou
 export class RolePermissionService {
 
     private api = inject(AppApiService);
-
-    private roleService = inject(RoleService);
 
     private permissionApiService = inject(PermissionApiService);
 
@@ -54,7 +50,7 @@ export class RolePermissionService {
         roleId: string
     ) {
         return this.api.get<RolePermissionModel[]>(
-            'accessManagement.rolePermissions.byRoleId',{
+            API_ENDPOINTS.accessManagement.rolePermissions.byRoleId,{
                 pathParams: { roleId }
             });
     }
@@ -68,7 +64,7 @@ export class RolePermissionService {
     ) {
 
         return this.api.put<RolePermissionModel[]>(
-            'accessManagement.rolePermissions.byRoleId',
+            API_ENDPOINTS.accessManagement.rolePermissions.byRoleId,
             permissionIds,
             {
                 pathParams: {

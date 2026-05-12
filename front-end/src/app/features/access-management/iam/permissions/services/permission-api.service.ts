@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { AppApiService } from '@core/config/app-api.service';
+import { API_ENDPOINTS } from '@core/config/app-api.config';
 import { AppToastService } from '@services/app-toast.service';
 import { Permission } from '@features/access-management/iam/models/permission.model';
 import { tap } from 'rxjs';
-import {Group} from "@features/access-management/iam/models/group.model";
 
 @Injectable({ providedIn: 'root' })
 export class PermissionApiService {
@@ -15,14 +15,14 @@ export class PermissionApiService {
     // GET ALL
     // -----------------------------
     getAll() {
-        return this.api.get<Permission[]>('accessManagement.permissions.base');
+        return this.api.get<Permission[]>(API_ENDPOINTS.accessManagement.permissions.base);
     }
 
     // -----------------------------
     // GET BY ID
     // -----------------------------
     getById(id: string) {
-        return this.api.get<Permission>('accessManagement.permissions.byId', {
+        return this.api.get<Permission>(API_ENDPOINTS.accessManagement.permissions.byId, {
             pathParams: { id }
         });
     }
@@ -31,7 +31,7 @@ export class PermissionApiService {
     // CREATE
     // -----------------------------
     create(permission: Permission) {
-        return this.api.post<Permission>('accessManagement.permissions.base', permission).pipe(
+        return this.api.post<Permission>(API_ENDPOINTS.accessManagement.permissions.base, permission).pipe(
             tap(() => {
                 this.toast.success('Permission created successfully');
             })
@@ -42,7 +42,7 @@ export class PermissionApiService {
     // UPDATE
     // -----------------------------
     update(id: string, permission: Permission) {
-        return this.api.put<Permission>('accessManagement.permissions.byId', permission, {
+        return this.api.put<Permission>(API_ENDPOINTS.accessManagement.permissions.byId, permission, {
             pathParams: { id }
         }).pipe(
             tap(() => {
@@ -55,7 +55,7 @@ export class PermissionApiService {
     // DELETE
     // -----------------------------
     delete(id: string) {
-        return this.api.delete<void>('accessManagement.permissions.byId', {
+        return this.api.delete<void>(API_ENDPOINTS.accessManagement.permissions.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => {

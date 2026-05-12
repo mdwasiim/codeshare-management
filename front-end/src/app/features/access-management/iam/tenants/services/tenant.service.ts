@@ -1,5 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {AppApiService} from '@core/config/app-api.service';
+import { API_ENDPOINTS } from '@core/config/app-api.config';
 import {AppToastService} from '@services/app-toast.service';
 import {tap} from 'rxjs';
 import {Tenant} from "@features/access-management/iam/models/tenant.model";
@@ -11,17 +12,17 @@ export class TenantService  {
     private toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<Tenant[]>('accessManagement.tenants.base');
+        return this.api.get<Tenant[]>(API_ENDPOINTS.accessManagement.tenants.base);
     }
 
     getById(id: string) {
-        return this.api.get<Tenant>('accessManagement.tenants.byId', {
+        return this.api.get<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, {
             pathParams: { id }
         });
     }
 
     create(tenant: Tenant) {
-        return this.api.post<Tenant>('accessManagement.tenants.base', tenant).pipe(
+        return this.api.post<Tenant>(API_ENDPOINTS.accessManagement.tenants.base, tenant).pipe(
             tap(() => {
                 this.toast.success('Tenant created successfully');
             })
@@ -29,7 +30,7 @@ export class TenantService  {
     }
 
     update(id: string, tenant: Tenant) {
-        return this.api.put<Tenant>('accessManagement.tenants.byId', tenant, {
+        return this.api.put<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, tenant, {
             pathParams: { id }
         }).pipe(
             tap(() => {
@@ -39,7 +40,7 @@ export class TenantService  {
     }
 
     delete(id: string) {
-        return this.api.delete<void>('accessManagement.tenants.byId', {
+        return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenants.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => {

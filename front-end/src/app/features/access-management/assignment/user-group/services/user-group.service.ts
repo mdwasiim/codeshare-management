@@ -1,6 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 
 import {AppApiService} from '@core/config/app-api.service';
+import { API_ENDPOINTS } from '@core/config/app-api.config';
 
 import {UserService} from '@features/access-management/iam/users/services/user.service';
 
@@ -47,7 +48,7 @@ export class UserGroupService {
     ) {
 
         return this.api.get<Group[]>(
-            'accessManagement.userGroups.byUserId',
+            API_ENDPOINTS.accessManagement.userGroups.byUserId,
             {
                 pathParams: {
                     userId
@@ -65,7 +66,7 @@ export class UserGroupService {
     ) {
 
         return this.api.put<UserGroupModel[]>(
-            'accessManagement.userGroups.byUserId',
+            API_ENDPOINTS.accessManagement.userGroups.byUserId,
             groupIds,
             {
                 pathParams: {
