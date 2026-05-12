@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ToastModule} from "primeng/toast";
 import {AuthInitializerService} from "@services/auth/auth-initializer.service";
+import { CsmSpinnerOverlayComponent } from '@core/components/spinner-overlay/csm-spinner-overlay.component';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +11,8 @@ import {AuthInitializerService} from "@services/auth/auth-initializer.service";
     imports: [
         RouterModule,
         ConfirmDialogModule,
-        ToastModule
+        ToastModule,
+        CsmSpinnerOverlayComponent
     ],
     templateUrl: './app.component.html'
 })
