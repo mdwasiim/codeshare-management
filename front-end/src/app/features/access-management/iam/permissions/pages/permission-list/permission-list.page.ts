@@ -14,7 +14,7 @@ import {PermissionApiService} from '@features/access-management/iam/permissions/
 import {ToolbarActionComponent} from '@shared/components/toolbar/toolbar-action.component';
 
 // ✅ use wrapper services
-import {AppToastService} from '@services/app-toast.service';
+import {AppToastService} from '@services/toast/app-toast.service';
 import {CsmConfirmService} from '@services/csm-confirm.service';
 import {TooltipModule} from "primeng/tooltip";
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";

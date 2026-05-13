@@ -3,8 +3,8 @@ import { Product } from '@features/settings/model/product.model';
 import {inject, Injectable} from '@angular/core';
 import {of, tap, throwError} from "rxjs";
 import {InventoryStatus} from "@shared/types/ui.types";
-import {AppToastService} from "@services/app-toast.service";
-import {AppApiService} from "@core/config/app-api.service";
+import {AppToastService} from "@services/toast/app-toast.service";
+import {AppApiService} from "@core/api/config/app-api.service";
 
 
 @Injectable({

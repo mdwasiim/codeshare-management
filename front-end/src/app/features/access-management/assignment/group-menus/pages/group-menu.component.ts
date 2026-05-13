@@ -1,6 +1,6 @@
 import {AppMenuModel} from "@features/access-management/iam/models/app-menu.model";
 import {Group} from "@features/access-management/iam/models/group.model";
-import {AppToastService} from "@services/app-toast.service";
+import {AppToastService} from "@services/toast/app-toast.service";
 import {Component, inject, OnInit} from "@angular/core";
 import {GroupMenuService} from "@features/access-management/assignment/group-menus/services/group-menu.service";
 import {forkJoin} from "rxjs";

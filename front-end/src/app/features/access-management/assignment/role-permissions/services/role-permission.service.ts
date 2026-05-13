@@ -5,8 +5,8 @@ import {
 
 import {
     AppApiService
-} from '@core/config/app-api.service';
-import { API_ENDPOINTS } from '@core/config/app-api.config';
+} from '@core/api/config/app-api.service';
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 
 import {
     RolePermissionModel

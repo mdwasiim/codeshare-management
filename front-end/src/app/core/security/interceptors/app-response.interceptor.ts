@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 
 import { map, catchError, throwError } from 'rxjs';
-import { CSMServiceResponse } from '@core/models/app-service-response.model';
+import { ApiServiceResponse } from '@core/api/models/api-service-response.model';
 
 export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
 
@@ -19,7 +19,7 @@ export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
 
                 if (body && typeof body === 'object' && 'success' in body) {
 
-                    const response = body as CSMServiceResponse<any>;
+                    const response = body as ApiServiceResponse<any>;
 
                     if (!response.success) {
                         throw new HttpErrorResponse({

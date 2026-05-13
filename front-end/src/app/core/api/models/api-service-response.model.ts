@@ -1,4 +1,4 @@
-export interface CSMServiceResponse<T> {
+export interface ApiServiceResponse<T> {
   success: boolean;
   data: T;
   error?: {

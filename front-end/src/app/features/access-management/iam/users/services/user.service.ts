@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { AppApiService } from '@core/config/app-api.service';
-import { API_ENDPOINTS } from '@core/config/app-api.config';
-import { AppToastService } from '@services/app-toast.service';
+import { AppApiService } from '@core/api/config/app-api.service';
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
+import { AppToastService } from '@services/toast/app-toast.service';
 import { User } from '@features/access-management/iam/models/user.model';
 import { tap, catchError, throwError } from 'rxjs';
 

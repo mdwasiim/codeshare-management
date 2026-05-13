@@ -1,6 +1,6 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { CsmSpinnerService } from '@core/services/spinner/csm-spinner.service';
+import { CsmSpinnerService } from '@services/spinner/csm-spinner.service';
 
 @Component({
     selector: 'csm-spinner-overlay',

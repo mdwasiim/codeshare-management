@@ -6,8 +6,8 @@ import {AuthTokenService} from "@services/auth/auth-token.service";
 import {LayoutMenuService} from "@layout/services/layout-menu.service";
 import {map} from "rxjs/operators";
 import { switchMap } from 'rxjs';
-import {AppApiService} from "@core/config/app-api.service";
-import {API_ENDPOINTS} from "@core/config/app-api.config";
+import {AppApiService} from "@core/api/config/app-api.service";
+import {API_ENDPOINTS} from "@core/api/config/app-api.config";
 import {PermissionService} from "@core/security/permission.service";
 import {AuthTenantService} from "@services/auth/auth-tenant.service";
 

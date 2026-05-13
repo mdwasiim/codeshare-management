@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 
-import {AppApiService} from '@core/config/app-api.service';
-import { API_ENDPOINTS } from '@core/config/app-api.config';
+import {AppApiService} from '@core/api/config/app-api.service';
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 import {Role} from "@features/access-management/iam/models/role.model";
 import {GroupService} from "@features/access-management/iam/groups/services/group.service";
 import {RoleService} from "@features/access-management/iam/roles/services/role.service";

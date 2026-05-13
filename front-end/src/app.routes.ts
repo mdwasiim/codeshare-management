@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AppAuthGuard } from '@core/guards/app-auth.guard';
+import { AppAuthGuard } from '@core/security/guards/app-auth.guard';
 
 export const APP_ROUTES: Routes = [
     {
@@ -41,20 +41,20 @@ export const APP_ROUTES: Routes = [
             {
                 path: 'access-denied',
                 loadComponent: () =>
-                    import('@core/pages/access-denied/access-denied.page')
-                        .then(m => m.AccessDeniedPage)
+                    import('@core/pages/access-denied/access-denied.component')
+                        .then(m => m.AccessDeniedComponent)
             },
             {
                 path: 'error',
                 loadComponent: () =>
-                    import('@core/pages/error/error.page')
-                        .then(m => m.ErrorPage)
+                    import('@core/pages/error/error.component')
+                        .then(m => m.ErrorComponent)
             },
             {
                 path: 'notfound',
                 loadComponent: () =>
                     import('@core/pages/notfound/notfound.page')
-                        .then(m => m.NotfoundPage)
+                        .then(m => m.CSMNotfound)
             }
         ]
     },

@@ -1,6 +1,6 @@
 import {inject, Injectable} from "@angular/core";
-import {AppApiService} from "@core/config/app-api.service";
-import { API_ENDPOINTS } from '@core/config/app-api.config';
+import {AppApiService} from "@core/api/config/app-api.service";
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 import {GroupService} from "@features/access-management/iam/groups/services/group.service";
 import {MenuManagementService} from "@features/access-management/iam/menus/services/menu-management.service";
 import {AppMenuModel} from "@features/access-management/iam/models/app-menu.model";

@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 
-import {AppApiService} from '@core/config/app-api.service';
-import { API_ENDPOINTS } from '@core/config/app-api.config';
+import {AppApiService} from '@core/api/config/app-api.service';
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 
 import {UserService} from '@features/access-management/iam/users/services/user.service';
 

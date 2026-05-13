@@ -1,18 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-    selector: 'app-notfound',
+    selector: 'csm-notfound',
     standalone: true,
-    imports: [CommonModule, ButtonModule],
+    imports: [RouterModule, ButtonModule],
     templateUrl: './notfound.page.html'
 })
-export class NotfoundPage {
-    constructor(private router: Router) {}
-
-    goHome(): void {
-        this.router.navigate(['/']);
-    }
-}
+export class CSMNotfound {}

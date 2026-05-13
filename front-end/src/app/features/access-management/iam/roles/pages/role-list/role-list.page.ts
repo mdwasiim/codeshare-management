@@ -15,7 +15,7 @@ import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-actio
 import { RoleFormPage } from '@features/access-management/iam/roles/pages/role-form/role-form.page';
 
 // ✅ wrapper services
-import { AppToastService } from '@services/app-toast.service';
+import { AppToastService } from '@services/toast/app-toast.service';
 import { CsmConfirmService } from '@services/csm-confirm.service';
 import {Tooltip, TooltipModule} from "primeng/tooltip";
 import {PRIMENG_IMPORTS} from "@shared/primeng/primeng.imports";

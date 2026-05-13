@@ -22,7 +22,7 @@ import {Permission} from '@features/access-management/iam/models/permission.mode
 
 import {Role} from '@features/access-management/iam/models/role.model';
 import {ToolbarActionComponent} from "@shared/components/toolbar/toolbar-action.component";
-import {AppToastService} from "@services/app-toast.service";
+import {AppToastService} from "@services/toast/app-toast.service";
 import {Group} from "@features/access-management/iam/models/group.model";
 import {GroupRoleService} from "@features/access-management/assignment/group-roles/services/group-role.service";
 

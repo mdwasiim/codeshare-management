@@ -3,8 +3,8 @@ import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
 import { AppMenuModel } from '@features/access-management/iam/models/app-menu.model';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import {AppApiService} from "@core/config/app-api.service";
-import {API_ENDPOINTS} from "@core/config/app-api.config";
+import {AppApiService} from "@core/api/config/app-api.service";
+import {API_ENDPOINTS} from "@core/api/config/app-api.config";
 
 type MenuApiItem = Partial<AppMenuModel> & {
     id?: string;
