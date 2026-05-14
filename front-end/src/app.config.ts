@@ -6,8 +6,8 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
 import { APP_ROUTES } from './app.routes';
-import { AppResponseInterceptor } from '@core/interceptors/app-response.interceptor';
-import {AppAuthInterceptor} from "@core/interceptors/app-auth.interceptor";
+import { AppResponseInterceptor } from '@core/security/interceptors/app-response.interceptor';
+import {AppAuthInterceptor} from "@core/security/interceptors/app-auth.interceptor";
 import {ConfirmationService, MessageService} from "primeng/api";
 
 

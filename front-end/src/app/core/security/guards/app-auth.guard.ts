@@ -28,19 +28,23 @@ export class AppAuthGuard implements CanActivate, CanActivateChild {
         const requiredRoles = route.data?.['roles'] as string[] | undefined;
         const requiredPermissions = route.data?.['permissions'] as string[] | undefined;
 
-        const userRoles = this.tokenService.roles;
-        const userPermissions = this.tokenService.permissions;
+        const userRoles = this.tokenService.roles.map(r => r.toUpperCase());
+        const userPermissions = this.tokenService.permissions.map(p => p.toUpperCase());
+        const normalizedRequiredRoles = requiredRoles?.map(r => r.toUpperCase());
+        const normalizedRequiredPermissions = requiredPermissions?.map(p => p.toUpperCase());
 
         const hasRole =
-            !requiredRoles || requiredRoles.length === 0 ||
-            requiredRoles.some(r => userRoles.includes(r));
+            !normalizedRequiredRoles || normalizedRequiredRoles.length === 0 ||
+            normalizedRequiredRoles.some(r => userRoles.includes(r));
 
         const hasPermission =
-            !requiredPermissions || requiredPermissions.length === 0 ||
-            requiredPermissions.some(p => userPermissions.includes(p));
+            !normalizedRequiredPermissions || normalizedRequiredPermissions.length === 0 ||
+            normalizedRequiredPermissions.some(p => userPermissions.includes(p));
 
         if (!hasRole || !hasPermission) {
-            this.router.navigate(['/access-denied']); // keep path consistent
+            this.router.navigate(['/unauthorized'], {
+                queryParams: { returnUrl: state.url }
+            });
             return false;
         }
 

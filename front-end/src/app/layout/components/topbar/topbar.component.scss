@@ -75,7 +75,7 @@
 
 
 .user-menu .user-menu-header::before {
-    content: "WK";
+    content: var(--user-initials, "U");
     display: inline-flex;
     align-items: center;
     justify-content: center;

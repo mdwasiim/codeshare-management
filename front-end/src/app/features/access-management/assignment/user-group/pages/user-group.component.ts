@@ -3,7 +3,7 @@ import {User} from "@features/access-management/iam/models/user.model";
 import {Group} from "@features/access-management/iam/models/group.model";
 import {forkJoin} from "rxjs";
 import {Component, inject, OnInit} from "@angular/core";
-import {AppToastService} from "@services/app-toast.service";
+import {AppToastService} from "@services/toast/app-toast.service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {AccordionModule} from "primeng/accordion";

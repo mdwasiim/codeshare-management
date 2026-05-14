@@ -72,9 +72,6 @@ export class ToolbarActionComponent {
     // =========================
     // OUTPUTS
     // =========================
-// =========================
-// OUTPUTS
-// =========================
     @Output()
     create = new EventEmitter<void>();
 

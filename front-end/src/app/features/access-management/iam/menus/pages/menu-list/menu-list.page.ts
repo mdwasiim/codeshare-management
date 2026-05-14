@@ -13,7 +13,7 @@ import {map} from 'rxjs/operators';
 import {forkJoin, Observable} from 'rxjs';
 
 // ✅ wrapper services
-import {AppToastService} from '@services/app-toast.service';
+import {AppToastService} from '@services/toast/app-toast.service';
 import {CsmConfirmService} from '@services/csm-confirm.service';
 import {TooltipModule} from "primeng/tooltip";
 import {MenuFormPage} from "@features/access-management/iam/menus/pages/menu-form/menu-form.page";

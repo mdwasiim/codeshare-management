@@ -17,7 +17,7 @@ import { UserFormPage } from '@features/access-management/iam/users/pages/user-f
 
 // ✅ use your wrapper services
 import { CsmConfirmService } from '@services/csm-confirm.service';
-import { AppToastService } from '@services/app-toast.service';
+import { AppToastService } from '@services/toast/app-toast.service';
 import {TooltipModule} from "primeng/tooltip";
 import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";

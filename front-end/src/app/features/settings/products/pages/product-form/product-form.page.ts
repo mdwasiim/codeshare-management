@@ -10,6 +10,7 @@ import {ButtonModule} from 'primeng/button';
 
 import {Product} from "@features/settings/model/product.model";
 import {SelectModule} from "primeng/select";
+import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
 
 @Component({
     selector: 'product-form',
@@ -22,7 +23,8 @@ import {SelectModule} from "primeng/select";
         RadioButtonModule,
         InputNumberModule,
         SelectModule,
-        ButtonModule
+        ButtonModule,
+        CsmFormSectionComponent
     ],
     templateUrl: './product-form.page.html'
 })
@@ -40,6 +42,7 @@ export class ProductFormPage {
 
     @Input() submitted!: boolean;
     @Input() statuses!: any[];
+    @Input() showActions = true;
 
     @Output() save = new EventEmitter<void>();
     @Output() cancel = new EventEmitter<void>();

@@ -13,7 +13,6 @@ import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -24,6 +23,7 @@ import {ProductService} from "@features/settings/products/services/product.servi
 import {Product} from "@features/settings/model/product.model";
 import {ToolbarActionComponent} from "@shared/components/toolbar/toolbar-action.component";
 import {ProductFormPage} from "@features/settings/products/pages/product-form/product-form.page";
+import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
 
 interface Column {
     field: string;
@@ -53,13 +53,13 @@ interface ExportColumn {
         SelectModule,
         RadioButtonModule,
         InputNumberModule,
-        DialogModule,
         ConfirmDialogModule,
         TagModule,
         IconFieldModule,
         InputIconModule,
         ToolbarActionComponent,
-        ProductFormPage
+        ProductFormPage,
+        CsmDialogComponent
     ],
     templateUrl: './product-list.page.html',
     providers: [MessageService, ProductService, ConfirmationService]

@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="p-fluid w-full">
+<form [formGroup]="form" class="p-fluid w-full block csm-form">
 
     <csm-form-section title="Group Details">
 
@@ -39,6 +39,7 @@
 
                 <p-select
                     inputId="tenant"
+                    appendTo="body"
                     [options]="tenants"
                     optionLabel="name"
                     optionValue="id"

@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(
         name = "menus",
@@ -56,6 +59,22 @@ public class Menu extends CSMDataAbstractEntity {
     @JsonIgnore
     @ToString.Exclude
     private Menu parentMenu;
+
+    // parent-child menus
+    @OneToMany(
+            mappedBy = "parentMenu",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Menu> childMenus = new ArrayList<>();
+
+    // group-menu mappings
+    @OneToMany(
+            mappedBy = "menu",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<GroupMenu> groupMenus = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tenant_id", nullable = false)

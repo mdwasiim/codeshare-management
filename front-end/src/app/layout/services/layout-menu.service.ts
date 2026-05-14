@@ -3,7 +3,17 @@ import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
 import { AppMenuModel } from '@features/access-management/iam/models/app-menu.model';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import {AppApiService} from "@core/config/app-api.service";
+import {AppApiService} from "@core/api/config/app-api.service";
+import {API_ENDPOINTS} from "@core/api/config/app-api.config";
+
+type MenuApiItem = Partial<AppMenuModel> & {
+    id?: string;
+    code?: string;
+    label?: string;
+    parentId?: string | null;
+    parentCode?: string | null;
+    visible?: boolean | null;
+};
 
 @Injectable({
     providedIn: 'root'
@@ -38,6 +48,7 @@ export class LayoutMenuService {
     }
 
     setSelectedRoot(menu: AppMenuModel) {
+        this.prepareSidebarExpansion(menu, this.router.url);
         this.selectedRootMenuSubject.next(menu);
         this.sidebarMenuSubject.next(menu.items || []);
     }
@@ -46,7 +57,7 @@ export class LayoutMenuService {
      * Load menus (API → normalize → tree → router mapping)
      */
     loadMenus(): Observable<AppMenuModel[]> {
-        return this.apiService.get<AppMenuModel[]>('accessManagement.menu.base').pipe(
+        return this.apiService.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base).pipe(
 
             map(res => this.normalizeMenus(res)),
 
@@ -74,19 +85,26 @@ export class LayoutMenuService {
         const map = new Map<string, AppMenuModel>();
 
         flat.forEach(item => {
-            map.set(item.id!, { ...item, items: [] });
+            const node: AppMenuModel = { ...item, items: [] };
+
+            const keys = this.getNodeKeys(item);
+            if (!keys.length) return;
+
+            keys.forEach(key => map.set(key, node));
         });
 
         const roots: AppMenuModel[] = [];
 
         flat.forEach(item => {
-            const node = map.get(item.id!);
+            const node = this.resolveNode(item, map);
+            if (!node) return;
 
-            if (item.parentId) {
-                const parent = map.get(item.parentId);
-                parent?.items?.push(node!);
+            const parentKey = this.getParentKey(item);
+            if (parentKey) {
+                const parent = map.get(parentKey);
+                parent?.items?.push(node);
             } else {
-                roots.push(node!);
+                roots.push(node);
             }
         });
 
@@ -106,17 +124,22 @@ export class LayoutMenuService {
     /**
      * Normalize backend response (NO routerLink here)
      */
-    private normalizeMenus(items: any[]): AppMenuModel[] {
+    private normalizeMenus(items: MenuApiItem[]): AppMenuModel[] {
         return items.map(item => ({
             id: item.id,
-            code: item.code,
-            label: item.label,
+            code: item.code ?? '',
+            label: this.normalizeLabel(item.label),
             icon: item.icon,
             route: item.route,
-            parentId: item.parentId,
+            parentId: item.parentId ?? undefined,
             displayOrder: item.displayOrder,
             visible: item.visible !== false
         }));
+    }
+
+    private normalizeLabel(label?: string): string {
+        if (!label) return '';
+        return label.trim().replace(/\s+\d+$/, '');
     }
 
     /**
@@ -162,10 +185,83 @@ export class LayoutMenuService {
     }
 
     private containsRoute(node: AppMenuModel, url: string): boolean {
-        if (node.route && url.startsWith(node.route)) {
+        if (node.route && this.matchesPath(url, node.route)) {
             return true;
         }
 
         return node.items?.some(child => this.containsRoute(child, url)) ?? false;
+    }
+
+    private getNodeKeys(item: AppMenuModel): string[] {
+        const keys: string[] = [];
+
+        if (item.id) keys.push(`id:${item.id}`);
+        if (item.code) keys.push(`code:${item.code}`);
+
+        return keys;
+    }
+
+    private resolveNode(item: AppMenuModel, map: Map<string, AppMenuModel>): AppMenuModel | undefined {
+        if (item.id) {
+            const byId = map.get(`id:${item.id}`);
+            if (byId) return byId;
+        }
+
+        if (item.code) {
+            return map.get(`code:${item.code}`);
+        }
+
+        return undefined;
+    }
+
+    private getParentKey(item: AppMenuModel): string | null {
+        const codeParent = (item as AppMenuModel & { parentCode?: string | null }).parentCode;
+        if (codeParent) return `code:${codeParent}`;
+        if (item.parentId) return `id:${item.parentId}`;
+        return null;
+    }
+
+    private prepareSidebarExpansion(menu: AppMenuModel, currentUrl: string) {
+        const sidebarItems = menu.items ?? [];
+        if (!sidebarItems.length) return;
+
+        sidebarItems.forEach(item => this.collapseTree(item));
+
+        const branchWithActiveRoute = sidebarItems.find(item => this.containsRoute(item, currentUrl));
+        if (branchWithActiveRoute) {
+            this.expandActivePath(branchWithActiveRoute, currentUrl);
+            return;
+        }
+
+        this.expandFirstBranch(sidebarItems[0]);
+    }
+
+    private collapseTree(node: AppMenuModel) {
+        node.expanded = false;
+        (node.items ?? []).forEach(child => this.collapseTree(child));
+    }
+
+    private expandFirstBranch(node: AppMenuModel) {
+        node.expanded = true;
+
+        const children = node.items ?? [];
+        if (!children.length) return;
+
+        this.expandFirstBranch(children[0]);
+    }
+
+    private expandActivePath(node: AppMenuModel, url: string): boolean {
+        const selfMatches = !!node.route && this.matchesPath(url, node.route);
+        const childMatches = (node.items ?? []).some(child => this.expandActivePath(child, url));
+
+        node.expanded = childMatches;
+        return selfMatches || childMatches;
+    }
+
+    private matchesPath(currentUrl: string, link: string): boolean {
+        if (!currentUrl || !link) return false;
+        if (currentUrl === link) return true;
+
+        return currentUrl.startsWith(`${link}/`) || currentUrl.startsWith(`${link}?`);
     }
 }

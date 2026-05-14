@@ -50,6 +50,10 @@ export class TopbarComponent implements OnInit {
 
     userMenuItems: MenuItem[] = [];
 
+    userInitialsCss(): string {
+        return `"${this.initials()}"`;
+    }
+
     ngOnInit() {
         this.username = this.tokenService.username || 'User';
         this.buildUserMenu();
@@ -73,7 +77,13 @@ export class TopbarComponent implements OnInit {
     }
 
     isActive(menu: AppMenuModel, selected: AppMenuModel | null): boolean {
-        return selected?.id === menu.id;
+        if (!selected) return false;
+
+        if (selected.id && menu.id) {
+            return selected.id === menu.id;
+        }
+
+        return selected.code === menu.code;
     }
 
     // =========================
@@ -127,12 +137,6 @@ export class TopbarComponent implements OnInit {
         ];
     }
 
-    private navigate(path: string) {
-        if (this.router.url !== path) {
-            this.router.navigate([path]);
-        }
-    }
-
     logout() {
         if (this.loggingOut) return;
 
@@ -179,4 +183,5 @@ export class TopbarComponent implements OnInit {
 
         return null;
     }
+
 }

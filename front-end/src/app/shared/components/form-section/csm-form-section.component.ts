@@ -5,7 +5,8 @@ import { CommonModule } from '@angular/common';
     selector: 'csm-form-section',
     standalone: true,
     imports: [CommonModule],
-    templateUrl: './csm-form-section.component.html'
+    templateUrl: './csm-form-section.component.html',
+    styleUrls: ['./csm-form-section.component.scss']
 })
 export class CsmFormSectionComponent {
     @Input() title = '';

@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { AppApiService } from '@core/config/app-api.service';
-import { AppToastService } from '@services/app-toast.service';
+import { AppApiService } from '@core/api/config/app-api.service';
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
+import { AppToastService } from '@services/toast/app-toast.service';
 import { Group } from '@features/access-management/iam/models/group.model';
 import { tap } from 'rxjs';
 
@@ -14,14 +15,14 @@ export class GroupService {
     // GET ALL
     // -----------------------------
     getAll() {
-        return this.api.get<Group[]>('accessManagement.groups.base');
+        return this.api.get<Group[]>(API_ENDPOINTS.accessManagement.groups.base);
     }
 
     // -----------------------------
     // GET BY ID
     // -----------------------------
     getById(id: string) {
-        return this.api.get<Group>('accessManagement.groups.byId', {
+        return this.api.get<Group>(API_ENDPOINTS.accessManagement.groups.byId, {
             pathParams: { id }
         });
     }
@@ -30,7 +31,7 @@ export class GroupService {
     // CREATE
     // -----------------------------
     create(group: Group) {
-        return this.api.post<Group>('accessManagement.groups.base', group).pipe(
+        return this.api.post<Group>(API_ENDPOINTS.accessManagement.groups.base, group).pipe(
             tap(() => {
                 this.toast.success('Group created successfully');
             })
@@ -41,7 +42,7 @@ export class GroupService {
     // UPDATE
     // -----------------------------
     update(id: string, group: Group) {
-        return this.api.put<Group>('accessManagement.groups.byId', group, {
+        return this.api.put<Group>(API_ENDPOINTS.accessManagement.groups.byId, group, {
             pathParams: { id }
         }).pipe(
             tap(() => {
@@ -54,7 +55,7 @@ export class GroupService {
     // DELETE
     // -----------------------------
     delete(id: string) {
-        return this.api.delete<void>('accessManagement.groups.byId', {
+        return this.api.delete<void>(API_ENDPOINTS.accessManagement.groups.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => {

@@ -1,0 +1,67 @@
+.csm-form {
+  .grid {
+    justify-content: flex-start;
+    align-items: flex-start;
+    row-gap: 0.25rem;
+  }
+
+  .field {
+    margin-bottom: 0.9rem;
+  }
+
+  .field > label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4b5563;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .p-inputtext,
+  .p-password-input,
+  .p-select,
+  .p-multiselect,
+  .p-inputnumber-input,
+  textarea.p-inputtextarea {
+    width: 100%;
+  }
+
+  .p-inputtext,
+  .p-password-input,
+  .p-inputnumber-input,
+  textarea.p-inputtextarea {
+    min-height: 2.5rem;
+    border-radius: 6px;
+    border-color: #d1d5db;
+  }
+
+  .p-select,
+  .p-multiselect {
+    min-height: 2.5rem;
+    align-items: center;
+    border-radius: 6px;
+    border-color: #d1d5db;
+  }
+
+  .p-inputtext:enabled:focus,
+  .p-password-input:enabled:focus,
+  .p-inputnumber-input:enabled:focus,
+  textarea.p-inputtextarea:enabled:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px #3b82f6;
+  }
+
+  .flex.align-items-center.gap-2 > label,
+  .p-radiobutton + label {
+    font-size: 0.88rem;
+    color: #374151;
+    font-weight: 500;
+  }
+
+  .p-error {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+  }
+}

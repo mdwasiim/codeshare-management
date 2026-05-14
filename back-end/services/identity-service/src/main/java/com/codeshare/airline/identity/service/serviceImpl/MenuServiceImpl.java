@@ -199,8 +199,11 @@ public class MenuServiceImpl implements MenuService {
     // ---------------------------------------------------------
     @Override
     public void delete(UUID id) {
+
         Menu menu = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
+                .orElseThrow(() ->
+                        new RuntimeException("Menu not found: " + id)
+                );
 
         repository.delete(menu);
     }
