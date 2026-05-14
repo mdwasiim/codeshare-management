@@ -1,10 +1,9 @@
 import { Injectable, effect, signal, computed } from '@angular/core';
-import {LayoutConfig} from "@layout/model/layout-config.model";
-import {LayoutState} from "@layout/model/layout-state.model";
+import { LayoutConfig } from '@layout/model/layout-config.model';
+import { LayoutState } from '@layout/model/layout-state.model';
 
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
-
     layoutConfig = signal<LayoutConfig>({
         preset: 'Aura',
         primary: 'emerald',
@@ -27,9 +26,7 @@ export class LayoutService {
 
     isOverlay = computed(() => this.layoutConfig().menuMode === 'overlay');
 
-    isSidebarActive = computed(() =>
-        this.layoutState().overlayMenuActive || this.layoutState().mobileMenuActive
-    );
+    isSidebarActive = computed(() => this.layoutState().overlayMenuActive || this.layoutState().mobileMenuActive);
 
     // =========================
     // INIT
@@ -39,7 +36,7 @@ export class LayoutService {
         const saved = localStorage.getItem('theme');
 
         if (saved === 'dark') {
-            this.layoutConfig.update(cfg => ({ ...cfg, darkTheme: true }));
+            this.layoutConfig.update((cfg) => ({ ...cfg, darkTheme: true }));
         }
 
         effect(() => {
@@ -52,14 +49,12 @@ export class LayoutService {
     // =========================
 
     toggleTheme() {
-        this.layoutConfig.update(cfg => ({
+        this.layoutConfig.update((cfg) => ({
             ...cfg,
             darkTheme: !cfg.darkTheme
         }));
 
-        localStorage.setItem('theme',
-            this.layoutConfig().darkTheme ? 'dark' : 'light'
-        );
+        localStorage.setItem('theme', this.layoutConfig().darkTheme ? 'dark' : 'light');
     }
 
     private applyTheme(isDark: boolean) {
@@ -73,8 +68,7 @@ export class LayoutService {
     // =========================
 
     onMenuToggle() {
-        this.layoutState.update(prev => {
-
+        this.layoutState.update((prev) => {
             if (this.isOverlay()) {
                 return { ...prev, overlayMenuActive: !prev.overlayMenuActive };
             }
@@ -88,7 +82,7 @@ export class LayoutService {
     }
 
     closeSidebar() {
-        this.layoutState.update(prev => ({
+        this.layoutState.update((prev) => ({
             ...prev,
             overlayMenuActive: false,
             mobileMenuActive: false

@@ -1,5 +1,4 @@
 export interface Tenant {
-
     id?: string;
 
     // =========================
@@ -35,8 +34,6 @@ export interface Tenant {
     // =========================
     status?: TenantStatus;
 }
-
-
 
 export enum TenantStatus {
     ACTIVE = 'ACTIVE',

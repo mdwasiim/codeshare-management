@@ -19,11 +19,11 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 
 import { MessageService, ConfirmationService } from 'primeng/api';
-import {ProductService} from "@features/settings/products/services/product.service";
-import {Product} from "@features/settings/model/product.model";
-import {ToolbarActionComponent} from "@shared/components/toolbar/toolbar-action.component";
-import {ProductFormPage} from "@features/settings/products/pages/product-form/product-form.page";
-import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
+import { ProductService } from '@features/settings/products/services/product.service';
+import { Product } from '@features/settings/products/models/product.model';
+import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
+import { ProductFormPage } from '@features/settings/products/pages/product-form/product-form.page';
+import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
 
 interface Column {
     field: string;
@@ -109,7 +109,7 @@ export class ProductListPage implements OnInit {
             { field: 'category', header: 'Category' }
         ];
 
-        this.exportColumns = this.cols.map(col => ({
+        this.exportColumns = this.cols.map((col) => ({
             title: col.header,
             dataKey: col.field
         }));
@@ -148,9 +148,7 @@ export class ProductListPage implements OnInit {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.products.set(
-                    this.products().filter(val => !this.selectedProducts?.includes(val))
-                );
+                this.products.set(this.products().filter((val) => !this.selectedProducts?.includes(val)));
 
                 this.selectedProducts = null;
 
@@ -170,7 +168,7 @@ export class ProductListPage implements OnInit {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.products.set(this.products().filter(val => val.id !== product.id));
+                this.products.set(this.products().filter((val) => val.id !== product.id));
                 this.product = {};
 
                 this.messageService.add({
@@ -185,7 +183,7 @@ export class ProductListPage implements OnInit {
 
     /** Helpers */
     findIndexById(id: string): number {
-        return this.products().findIndex(p => p.id === id);
+        return this.products().findIndex((p) => p.id === id);
     }
 
     createId(): string {
@@ -197,10 +195,14 @@ export class ProductListPage implements OnInit {
 
     getSeverity(status: string) {
         switch (status) {
-            case 'INSTOCK': return 'success';
-            case 'LOWSTOCK': return 'warn';
-            case 'OUTOFSTOCK': return 'danger';
-            default: return 'info';
+            case 'INSTOCK':
+                return 'success';
+            case 'LOWSTOCK':
+                return 'warn';
+            case 'OUTOFSTOCK':
+                return 'danger';
+            default:
+                return 'info';
         }
     }
 

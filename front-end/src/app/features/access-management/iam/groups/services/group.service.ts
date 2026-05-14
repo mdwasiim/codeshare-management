@@ -7,7 +7,6 @@ import { tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService {
-
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
@@ -42,25 +41,29 @@ export class GroupService {
     // UPDATE
     // -----------------------------
     update(id: string, group: Group) {
-        return this.api.put<Group>(API_ENDPOINTS.accessManagement.groups.byId, group, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('Group updated successfully');
+        return this.api
+            .put<Group>(API_ENDPOINTS.accessManagement.groups.byId, group, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('Group updated successfully');
+                })
+            );
     }
 
     // -----------------------------
     // DELETE
     // -----------------------------
     delete(id: string) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.groups.byId, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('Group deleted successfully');
+        return this.api
+            .delete<void>(API_ENDPOINTS.accessManagement.groups.byId, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('Group deleted successfully');
+                })
+            );
     }
 }

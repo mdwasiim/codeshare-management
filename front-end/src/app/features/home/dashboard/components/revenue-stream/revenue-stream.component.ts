@@ -1,5 +1,5 @@
 import { LayoutService } from '@layout/services/layout.service';
-import {afterNextRender, Component, effect, inject, signal} from '@angular/core';
+import { afterNextRender, Component, effect, inject, signal } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
 @Component({

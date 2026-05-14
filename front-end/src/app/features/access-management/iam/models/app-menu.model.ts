@@ -1,5 +1,4 @@
 export interface AppMenuModel {
-
     // =========================
     // CORE (BACKEND)
     // =========================
@@ -34,7 +33,6 @@ export interface AppMenuModel {
     badgeClass?: string;
 
     expanded?: boolean;
-
 
     // =========================
     // EXTERNAL LINKS (OPTIONAL)

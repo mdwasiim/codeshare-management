@@ -1,8 +1,8 @@
-import {Component, effect, ElementRef, inject, OnDestroy, OnInit} from '@angular/core';
-import {AppMenuComponent} from "@layout/components/sidebar-menu/app-menu/app-menu.component";
-import {LayoutService} from "@layout/services/layout.service";
-import {NavigationEnd, Router} from "@angular/router";
-import {filter, Subject, takeUntil} from "rxjs";
+import { Component, effect, ElementRef, inject, OnDestroy, OnInit } from '@angular/core';
+import { AppMenuComponent } from '@layout/components/sidebar-menu/app-menu/app-menu.component';
+import { LayoutService } from '@layout/services/layout.service';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-sidebar',
@@ -72,7 +72,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
                     this.layoutService.layoutState.update((val) => ({
                         ...val,
                         overlayMenuActive: false,
-                        mobileMenuActive: false,
+                        mobileMenuActive: false
                     }));
                 }
             };
@@ -92,11 +92,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         const topbarButtonEl = document.querySelector('.layout-menu-button');
         const sidebarEl = this.el.nativeElement;
 
-        return !(
-            sidebarEl?.isSameNode(event.target as Node) ||
-            sidebarEl?.contains(event.target as Node) ||
-            topbarButtonEl?.isSameNode(event.target as Node) ||
-            topbarButtonEl?.contains(event.target as Node)
-        );
+        return !(sidebarEl?.isSameNode(event.target as Node) || sidebarEl?.contains(event.target as Node) || topbarButtonEl?.isSameNode(event.target as Node) || topbarButtonEl?.contains(event.target as Node));
     }
 }

@@ -1,13 +1,12 @@
-import {inject, Injectable} from '@angular/core';
-import {AppApiService} from '@core/api/config/app-api.service';
+import { inject, Injectable } from '@angular/core';
+import { AppApiService } from '@core/api/config/app-api.service';
 import { API_ENDPOINTS } from '@core/api/config/app-api.config';
-import {AppToastService} from '@services/toast/app-toast.service';
-import {tap} from 'rxjs';
-import {Tenant} from "@features/access-management/iam/models/tenant.model";
+import { AppToastService } from '@services/toast/app-toast.service';
+import { tap } from 'rxjs';
+import { Tenant } from '@features/access-management/iam/models/tenant.model';
 
 @Injectable({ providedIn: 'root' })
-export class TenantService  {
-
+export class TenantService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
@@ -30,22 +29,26 @@ export class TenantService  {
     }
 
     update(id: string, tenant: Tenant) {
-        return this.api.put<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, tenant, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('Tenant updated successfully');
+        return this.api
+            .put<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, tenant, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('Tenant updated successfully');
+                })
+            );
     }
 
     delete(id: string) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenants.byId, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('Tenant deleted successfully');
+        return this.api
+            .delete<void>(API_ENDPOINTS.accessManagement.tenants.byId, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('Tenant deleted successfully');
+                })
+            );
     }
 }

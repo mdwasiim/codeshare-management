@@ -1,35 +1,26 @@
-import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import {CommonModule} from '@angular/common';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import {InputTextModule} from 'primeng/inputtext';
-import {ButtonModule} from 'primeng/button';
-import {SelectModule} from 'primeng/select';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
 
-import {Group} from '@features/access-management/iam/models/group.model';
-import {GroupService} from '../../services/group.service';
-import {BaseCrudForm} from '@shared/components/base/base-form.component';
-import {TenantService} from '@features/access-management/iam/tenants/services/tenant.service';
-import {Tenant} from '@features/access-management/iam/models/tenant.model';
-import {CsmFormSectionComponent} from '@shared/components/form-section/csm-form-section.component';
+import { Group } from '@features/access-management/iam/models/group.model';
+import { GroupService } from '../../services/group.service';
+import { BaseCrudForm } from '@shared/components/base/base-form.component';
+import { TenantService } from '@features/access-management/iam/tenants/services/tenant.service';
+import { Tenant } from '@features/access-management/iam/models/tenant.model';
+import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
 
 @Component({
     selector: 'group-form',
     standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        ButtonModule,
-        SelectModule,
-        CsmFormSectionComponent
-    ],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, CsmFormSectionComponent],
     templateUrl: './group-form.page.html'
 })
-export class GroupFormPage
-    extends BaseCrudForm<Group> {
-
+export class GroupFormPage extends BaseCrudForm<Group> {
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
 
@@ -46,7 +37,7 @@ export class GroupFormPage
     override ngOnInit(): void {
         this.buildForm();
         this.tenantService.getAll().subscribe({
-            next: res => this.tenants = res
+            next: (res) => (this.tenants = res)
         });
     }
 

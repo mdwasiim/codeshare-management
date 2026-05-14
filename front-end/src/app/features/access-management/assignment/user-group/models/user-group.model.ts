@@ -1,5 +1,4 @@
 export interface UserGroupModel {
-
     id?: string;
 
     userId?: string;

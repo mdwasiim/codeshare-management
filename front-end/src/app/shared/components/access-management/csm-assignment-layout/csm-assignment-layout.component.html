@@ -1,65 +1,41 @@
-<div class="flex flex-column gap-4">
+<div class="flex flex-column gap-4 assignment-layout">
     <div class="text-900 text-xl font-semibold">
         {{ title }}
     </div>
 
     <!-- CONTENT -->
-    <div class="grid">
-
+    <div [ngClass]="layoutClass">
         <!-- GROUP PANEL -->
-        <div *ngIf="groupTitle" class="col-12 lg:col-3">
-
-            <p-card class="h-full min-h-full">
-
+        <div *ngIf="groupTitle" class="assignment-layout__panel">
+            <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
-
                     {{ groupTitle }}
-
                 </ng-template>
 
-                <ng-content select="[group-panel]">
-                </ng-content>
-
+                <ng-content select="[group-panel]"> </ng-content>
             </p-card>
-
         </div>
 
         <!-- ROLE PANEL -->
-        <div *ngIf="leftTitle" class="col-12 lg:col-4">
-
-            <p-card class="h-full min-h-full">
-
+        <div *ngIf="leftTitle" class="assignment-layout__panel">
+            <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
-
                     {{ leftTitle }}
-
                 </ng-template>
 
-                <ng-content select="[left-panel]">
-                </ng-content>
-
+                <ng-content select="[left-panel]"> </ng-content>
             </p-card>
-
         </div>
 
         <!-- PERMISSION PANEL -->
-        <div *ngIf="rightTitle" class="col-12 lg:col-5">
-
-            <p-card class="h-full min-h-full">
-
+        <div *ngIf="rightTitle" class="assignment-layout__panel">
+            <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
-
                     {{ rightTitle }}
-
                 </ng-template>
 
-                <ng-content select="[right-panel]">
-                </ng-content>
-
+                <ng-content select="[right-panel]"> </ng-content>
             </p-card>
-
         </div>
-
     </div>
-
 </div>

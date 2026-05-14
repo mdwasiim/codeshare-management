@@ -1,5 +1,5 @@
 export interface Group {
-    id?: string;          // optional for create
+    id?: string; // optional for create
     code: string;
     name: string;
     description?: string;

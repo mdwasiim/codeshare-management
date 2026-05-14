@@ -8,4 +8,4 @@ import { ButtonModule } from 'primeng/button';
     imports: [RouterModule, ButtonModule],
     templateUrl: './notfound.page.html'
 })
-export class CSMNotfound {}
+export class CsmNotFoundPage {}

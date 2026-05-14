@@ -20,7 +20,6 @@ import { AuthTokenService } from '@services/auth/auth-token.service';
     styleUrls: ['./topbar.component.scss']
 })
 export class TopbarComponent implements OnInit {
-
     private router = inject(Router);
     private authService = inject(AuthService);
     private menuService = inject(LayoutMenuService);
@@ -41,10 +40,10 @@ export class TopbarComponent implements OnInit {
     initials = computed(() =>
         this.username
             ? this.username
-                .split(' ')
-                .map(x => x[0])
-                .join('')
-                .toUpperCase()
+                  .split(' ')
+                  .map((x) => x[0])
+                  .join('')
+                  .toUpperCase()
             : 'U'
     );
 
@@ -68,7 +67,6 @@ export class TopbarComponent implements OnInit {
 
         const route = this.getFirstNavigableRoute(menu);
 
-        // ✅ avoid unnecessary navigation
         if (route && this.router.url !== route) {
             this.router.navigate([route]).catch(() => {
                 console.warn('Navigation failed:', route);
@@ -91,19 +89,15 @@ export class TopbarComponent implements OnInit {
     // =========================
 
     private buildUserMenu() {
-        const fullName =
-            this.tokenService.username ??
-            this.username ??
-            'User';
+        const fullName = this.tokenService.username ?? this.username ?? 'User';
 
-        const role =
-            this.tokenService.roles?.length
-                ? this.tokenService.roles
-                    .map(r => r.replace('_', ' '))
-                    .map(r => r.toLowerCase())
-                    .map(r => r.charAt(0).toUpperCase() + r.slice(1))
-                    .join(', ')
-                : 'User';
+        const role = this.tokenService.roles?.length
+            ? this.tokenService.roles
+                  .map((r) => r.replace('_', ' '))
+                  .map((r) => r.toLowerCase())
+                  .map((r) => r.charAt(0).toUpperCase() + r.slice(1))
+                  .join(', ')
+            : 'User';
 
         this.userMenuItems = [
             {
@@ -145,7 +139,7 @@ export class TopbarComponent implements OnInit {
         this.authService.logout().subscribe({
             next: () => this.safeRedirectToLogin(),
             error: () => this.safeRedirectToLogin(),
-            complete: () => (this.loggingOut = false) // ✅ reset state
+            complete: () => (this.loggingOut = false)
         });
     }
 
@@ -166,7 +160,6 @@ export class TopbarComponent implements OnInit {
     // =========================
 
     private getFirstNavigableRoute(menu: AppMenuModel): string | null {
-        // ✅ BFS (safer than recursion for deep trees)
         const queue: AppMenuModel[] = [menu];
 
         while (queue.length) {
@@ -183,5 +176,4 @@ export class TopbarComponent implements OnInit {
 
         return null;
     }
-
 }

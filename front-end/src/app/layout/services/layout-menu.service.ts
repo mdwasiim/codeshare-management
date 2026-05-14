@@ -3,8 +3,8 @@ import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
 import { AppMenuModel } from '@features/access-management/iam/models/app-menu.model';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import {AppApiService} from "@core/api/config/app-api.service";
-import {API_ENDPOINTS} from "@core/api/config/app-api.config";
+import { AppApiService } from '@core/api/config/app-api.service';
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 
 type MenuApiItem = Partial<AppMenuModel> & {
     id?: string;
@@ -19,7 +19,6 @@ type MenuApiItem = Partial<AppMenuModel> & {
     providedIn: 'root'
 })
 export class LayoutMenuService {
-
     private sidebarMenuSubject = new BehaviorSubject<AppMenuModel[]>([]);
     sidebarMenu$ = this.sidebarMenuSubject.asObservable();
 
@@ -34,17 +33,15 @@ export class LayoutMenuService {
         private router: Router
     ) {
         // ✅ Keep menu in sync with route changes
-        this.router.events
-            .pipe(filter(event => event instanceof NavigationEnd))
-            .subscribe(() => {
-                const menu = this.menuSubject.value;
-                if (!menu.length) return;
+        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+            const menu = this.menuSubject.value;
+            if (!menu.length) return;
 
-                const root = this.findRootByUrl(menu, this.router.url);
-                if (root) {
-                    this.setSelectedRoot(root);
-                }
-            });
+            const root = this.findRootByUrl(menu, this.router.url);
+            if (root) {
+                this.setSelectedRoot(root);
+            }
+        });
     }
 
     setSelectedRoot(menu: AppMenuModel) {
@@ -58,15 +55,14 @@ export class LayoutMenuService {
      */
     loadMenus(): Observable<AppMenuModel[]> {
         return this.apiService.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base).pipe(
+            map((res) => this.normalizeMenus(res)),
 
-            map(res => this.normalizeMenus(res)),
-
-            map(flat => this.buildTree(flat)),
+            map((flat) => this.buildTree(flat)),
 
             // ✅ assign routerLink ONLY for leaf nodes
-            map(tree => this.assignRouterLinks(tree)),
+            map((tree) => this.assignRouterLinks(tree)),
 
-            tap(menu => {
+            tap((menu) => {
                 this.menuSubject.next(menu);
 
                 const root = this.findRootByUrl(menu, this.router.url);
@@ -84,18 +80,18 @@ export class LayoutMenuService {
     public buildTree(flat: AppMenuModel[]): AppMenuModel[] {
         const map = new Map<string, AppMenuModel>();
 
-        flat.forEach(item => {
+        flat.forEach((item) => {
             const node: AppMenuModel = { ...item, items: [] };
 
             const keys = this.getNodeKeys(item);
             if (!keys.length) return;
 
-            keys.forEach(key => map.set(key, node));
+            keys.forEach((key) => map.set(key, node));
         });
 
         const roots: AppMenuModel[] = [];
 
-        flat.forEach(item => {
+        flat.forEach((item) => {
             const node = this.resolveNode(item, map);
             if (!node) return;
 
@@ -108,12 +104,11 @@ export class LayoutMenuService {
             }
         });
 
-        const sortFn = (a: AppMenuModel, b: AppMenuModel) =>
-            (a.displayOrder ?? 0) - (b.displayOrder ?? 0);
+        const sortFn = (a: AppMenuModel, b: AppMenuModel) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0);
 
         const sortTree = (nodes: AppMenuModel[]) => {
             nodes.sort(sortFn);
-            nodes.forEach(n => n.items && sortTree(n.items));
+            nodes.forEach((n) => n.items && sortTree(n.items));
         };
 
         sortTree(roots);
@@ -125,7 +120,7 @@ export class LayoutMenuService {
      * Normalize backend response (NO routerLink here)
      */
     private normalizeMenus(items: MenuApiItem[]): AppMenuModel[] {
-        return items.map(item => ({
+        return items.map((item) => ({
             id: item.id,
             code: item.code ?? '',
             label: this.normalizeLabel(item.label),
@@ -146,17 +141,13 @@ export class LayoutMenuService {
      * ✅ Assign routerLink ONLY to leaf nodes
      */
     private assignRouterLinks(nodes: AppMenuModel[]): AppMenuModel[] {
-        return nodes.map(node => {
+        return nodes.map((node) => {
             const hasChildren = node.items && node.items.length > 0;
 
             return {
                 ...node,
-                routerLink: (!hasChildren && node.route)
-                    ? [node.route]
-                    : undefined,
-                items: hasChildren
-                    ? this.assignRouterLinks(node.items!)
-                    : []
+                routerLink: !hasChildren && node.route ? [node.route] : undefined,
+                items: hasChildren ? this.assignRouterLinks(node.items!) : []
             };
         });
     }
@@ -189,7 +180,7 @@ export class LayoutMenuService {
             return true;
         }
 
-        return node.items?.some(child => this.containsRoute(child, url)) ?? false;
+        return node.items?.some((child) => this.containsRoute(child, url)) ?? false;
     }
 
     private getNodeKeys(item: AppMenuModel): string[] {
@@ -225,9 +216,9 @@ export class LayoutMenuService {
         const sidebarItems = menu.items ?? [];
         if (!sidebarItems.length) return;
 
-        sidebarItems.forEach(item => this.collapseTree(item));
+        sidebarItems.forEach((item) => this.collapseTree(item));
 
-        const branchWithActiveRoute = sidebarItems.find(item => this.containsRoute(item, currentUrl));
+        const branchWithActiveRoute = sidebarItems.find((item) => this.containsRoute(item, currentUrl));
         if (branchWithActiveRoute) {
             this.expandActivePath(branchWithActiveRoute, currentUrl);
             return;
@@ -238,7 +229,7 @@ export class LayoutMenuService {
 
     private collapseTree(node: AppMenuModel) {
         node.expanded = false;
-        (node.items ?? []).forEach(child => this.collapseTree(child));
+        (node.items ?? []).forEach((child) => this.collapseTree(child));
     }
 
     private expandFirstBranch(node: AppMenuModel) {
@@ -252,7 +243,7 @@ export class LayoutMenuService {
 
     private expandActivePath(node: AppMenuModel, url: string): boolean {
         const selfMatches = !!node.route && this.matchesPath(url, node.route);
-        const childMatches = (node.items ?? []).some(child => this.expandActivePath(child, url));
+        const childMatches = (node.items ?? []).some((child) => this.expandActivePath(child, url));
 
         node.expanded = childMatches;
         return selfMatches || childMatches;

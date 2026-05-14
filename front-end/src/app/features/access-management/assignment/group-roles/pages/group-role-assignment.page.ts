@@ -1,55 +1,40 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {forkJoin} from 'rxjs';
+import { forkJoin } from 'rxjs';
 
-import {AccordionModule} from 'primeng/accordion';
+import { AccordionModule } from 'primeng/accordion';
 
-import {CheckboxModule} from 'primeng/checkbox';
+import { CheckboxModule } from 'primeng/checkbox';
 
-import {TableModule, TableRowSelectEvent} from 'primeng/table';
+import { TableModule, TableRowSelectEvent } from 'primeng/table';
 
-import {
-    CsmAssignmentLayoutComponent
-} from '@shared/components/access-management/csm-assignment-layout/csm-assignment-layout.component';
+import { CsmAssignmentLayoutComponent } from '@shared/components/access-management/csm-assignment-layout/csm-assignment-layout.component';
 
-import {RolePermissionService} from '@features/access-management/assignment/role-permissions/services/role-permission.service';
+import { RolePermissionService } from '@features/access-management/assignment/role-permissions/services/role-permission.service';
 
-import {Permission} from '@features/access-management/iam/models/permission.model';
+import { Permission } from '@features/access-management/iam/models/permission.model';
 
-import {Role} from '@features/access-management/iam/models/role.model';
-import {ToolbarActionComponent} from "@shared/components/toolbar/toolbar-action.component";
-import {AppToastService} from "@services/toast/app-toast.service";
-import {Group} from "@features/access-management/iam/models/group.model";
-import {GroupRoleService} from "@features/access-management/assignment/group-roles/services/group-role.service";
+import { Role } from '@features/access-management/iam/models/role.model';
+import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
+import { AppToastService } from '@services/toast/app-toast.service';
+import { Group } from '@features/access-management/iam/models/group.model';
+import { GroupRoleService } from '@features/access-management/assignment/group-roles/services/group-role.service';
 
 @Component({
     selector: 'group-role-assignment-page',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-
-        AccordionModule,
-        CheckboxModule,
-        TableModule,
-
-        CsmAssignmentLayoutComponent,
-        ToolbarActionComponent
-    ],
-    templateUrl:
-        './group-role-assignment.page.html'
+    imports: [CommonModule, FormsModule, AccordionModule, CheckboxModule, TableModule, CsmAssignmentLayoutComponent, ToolbarActionComponent],
+    templateUrl: './group-role-assignment.page.html'
 })
-export class GroupRoleAssignmentPage
-    implements OnInit {
-
+export class GroupRoleAssignmentPage implements OnInit {
     // =========================
     // SERVICES
     // =========================
-    private groupRoleService =  inject(GroupRoleService);
+    private groupRoleService = inject(GroupRoleService);
     private toast = inject(AppToastService);
 
     // =========================
@@ -71,7 +56,6 @@ export class GroupRoleAssignmentPage
     // INIT
     // =========================
     ngOnInit(): void {
-
         this.loadData();
     }
 
@@ -79,19 +63,14 @@ export class GroupRoleAssignmentPage
     // LOAD INITIAL DATA
     // =========================
     loadData(): void {
-
         this.loading = true;
 
         forkJoin({
-
             groups: this.groupRoleService.getAllGroups(),
 
             roles: this.groupRoleService.getAllRoles()
-
         }).subscribe({
-
             next: (res) => {
-
                 this.groups = res.groups || [];
 
                 this.roles = res.roles || [];
@@ -100,7 +79,6 @@ export class GroupRoleAssignmentPage
             },
 
             error: (err) => {
-
                 console.error(err);
 
                 this.loading = false;
@@ -110,10 +88,7 @@ export class GroupRoleAssignmentPage
     // =========================
     // GROUP SELECT
     // =========================
-    onGroupSelect(
-        group: Group
-    ): void {
-
+    onGroupSelect(group: Group): void {
         this.selectedGroup = group;
 
         this.selectedRoleIds = [];
@@ -124,54 +99,33 @@ export class GroupRoleAssignmentPage
 
         this.loading = true;
 
-        this.groupRoleService
-            .getRolesByGroup(group.id)
-            .subscribe({
+        this.groupRoleService.getRolesByGroup(group.id).subscribe({
+            next: (roles: Role[]) => {
+                this.selectedRoleIds = roles.map((role) => role.id!).filter(Boolean);
 
-                next: (roles: Role[]) => {
+                this.loading = false;
+            },
 
-                    this.selectedRoleIds =
-                        roles
-                            .map(role => role.id!)
-                            .filter(Boolean);
+            error: (err) => {
+                console.error(err);
 
-                    this.loading = false;
-                },
+                this.loading = false;
 
-                error: (err) => {
-
-                    console.error(err);
-
-                    this.loading = false;
-
-                    this.toast.error(
-                        'Failed to load assigned roles'
-                    );
-                }
-            });
+                this.toast.error('Failed to load assigned roles');
+            }
+        });
     }
 
     // =========================
     // TOGGLE PERMISSION
     // =========================
-    toggleRole(
-        roleId: string,
-        checked: boolean
-    ): void {
-
+    toggleRole(roleId: string, checked: boolean): void {
         if (checked) {
-
             if (!this.selectedRoleIds.includes(roleId)) {
-
                 this.selectedRoleIds.push(roleId);
             }
-
         } else {
-
-            this.selectedRoleIds =
-                this.selectedRoleIds.filter(
-                    id => id !== roleId
-                );
+            this.selectedRoleIds = this.selectedRoleIds.filter((id) => id !== roleId);
         }
     }
 
@@ -179,45 +133,29 @@ export class GroupRoleAssignmentPage
     // SAVE
     // =========================
     save(): void {
-
         if (!this.selectedGroup?.id) {
-
-            this.toast.warn(
-                'Please select a group'
-            );
+            this.toast.warn('Please select a group');
 
             return;
         }
 
         this.saving = true;
 
-        this.groupRoleService
-            .replaceGroupRoles(
-                this.selectedGroup.id,
-                this.selectedRoleIds
-            )
-            .subscribe({
+        this.groupRoleService.replaceGroupRoles(this.selectedGroup.id, this.selectedRoleIds).subscribe({
+            next: () => {
+                this.toast.success('Roles updated successfully');
 
-                next: () => {
+                this.saving = false;
+            },
 
-                    this.toast.success(
-                        'Roles updated successfully'
-                    );
+            error: (err) => {
+                console.error(err);
 
-                    this.saving = false;
-                },
+                this.toast.error('Failed to update roles');
 
-                error: (err) => {
-
-                    console.error(err);
-
-                    this.toast.error(
-                        'Failed to update roles'
-                    );
-
-                    this.saving = false;
-                }
-            });
+                this.saving = false;
+            }
+        });
     }
 
     reset(): void {

@@ -1,53 +1,24 @@
 <div class="p-fluid w-full block">
     <csm-form-section title="Product Details">
         <div class="grid">
-
             <div class="field col-12" *ngIf="product.image">
-                <img
-                    [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image"
-                    [alt]="product.image"
-                    class="block m-auto pb-2"
-                />
+                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.image" class="block m-auto pb-2" />
             </div>
 
             <div class="field col-12 md:col-6">
                 <label for="name">Name</label>
-                <input
-                    id="name"
-                    type="text"
-                    pInputText
-                    [(ngModel)]="product.name"
-                    required
-                    autofocus
-                    class="w-full"
-                />
-                <small *ngIf="submitted && !product.name" class="p-error">
-                    Name is required.
-                </small>
+                <input id="name" type="text" pInputText [(ngModel)]="product.name" required autofocus class="w-full" />
+                <small *ngIf="submitted && !product.name" class="p-error"> Name is required. </small>
             </div>
 
             <div class="field col-12 md:col-6">
                 <label for="inventoryStatus">Inventory Status</label>
-                <p-select
-                    inputId="inventoryStatus"
-                    [(ngModel)]="product.inventoryStatus"
-                    [options]="statuses"
-                    optionLabel="label"
-                    optionValue="label"
-                    placeholder="Select Status"
-                    styleClass="w-full"
-                ></p-select>
+                <p-select inputId="inventoryStatus" [(ngModel)]="product.inventoryStatus" [options]="statuses" optionLabel="label" optionValue="label" placeholder="Select Status" styleClass="w-full"></p-select>
             </div>
 
             <div class="field col-12">
                 <label for="description">Description</label>
-                <textarea
-                    id="description"
-                    pTextarea
-                    [(ngModel)]="product.description"
-                    rows="3"
-                    class="w-full"
-                ></textarea>
+                <textarea id="description" pTextarea [(ngModel)]="product.description" rows="3" class="w-full"></textarea>
             </div>
 
             <div class="field col-12">
@@ -74,25 +45,13 @@
 
             <div class="field col-12 md:col-6">
                 <label for="price">Price</label>
-                <p-inputnumber
-                    inputId="price"
-                    [(ngModel)]="product.price"
-                    mode="currency"
-                    currency="USD"
-                    locale="en-US"
-                    styleClass="w-full"
-                ></p-inputnumber>
+                <p-inputnumber inputId="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US" styleClass="w-full"></p-inputnumber>
             </div>
 
             <div class="field col-12 md:col-6">
                 <label for="quantity">Quantity</label>
-                <p-inputnumber
-                    inputId="quantity"
-                    [(ngModel)]="product.quantity"
-                    styleClass="w-full"
-                ></p-inputnumber>
+                <p-inputnumber inputId="quantity" [(ngModel)]="product.quantity" styleClass="w-full"></p-inputnumber>
             </div>
-
         </div>
 
         <div *ngIf="showActions" class="flex justify-end gap-2 mt-4">

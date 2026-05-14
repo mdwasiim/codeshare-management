@@ -1,125 +1,43 @@
-<p-toolbar
-    *ngIf="hasAnyAction"
-    class="mb-6">
-
+<p-toolbar *ngIf="hasAnyAction" class="mb-6">
     <ng-template pTemplate="left">
-
         <!-- CREATE -->
-        <ng-container
-            *csmHasPermission="permission('create')">
-
-            <p-button
-                *ngIf="hasAction('create')"
-                label="New"
-                icon="pi pi-plus"
-                severity="secondary"
-                class="mr-2"
-                (click)="create.emit()">
-            </p-button>
-
+        <ng-container *csmHasPermission="permission('create')">
+            <p-button *ngIf="hasAction('create')" label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (click)="create.emit()"> </p-button>
         </ng-container>
 
         <!-- DELETE -->
-        <ng-container
-            *csmHasPermission="permission('delete')">
-
-            <p-button
-                *ngIf="hasAction('delete')"
-                label="Delete"
-                icon="pi pi-trash"
-                severity="secondary"
-                outlined
-                class="mr-2"
-                [disabled]="isDeleteDisabled()"
-                (click)="delete.emit()">
-            </p-button>
-
+        <ng-container *csmHasPermission="permission('delete')">
+            <p-button *ngIf="hasAction('delete')" label="Delete" icon="pi pi-trash" severity="secondary" outlined class="mr-2" [disabled]="isDeleteDisabled()" (click)="delete.emit()"> </p-button>
         </ng-container>
 
         <!-- REFRESH -->
-        <ng-container
-            *csmHasPermission="permission('read')">
-
-            <p-button
-                *ngIf="hasAction('refresh')"
-                label="Refresh"
-                icon="pi pi-refresh"
-                severity="secondary"
-                class="mr-2"
-                (click)="refresh.emit()">
-            </p-button>
-
+        <ng-container *csmHasPermission="permission('read')">
+            <p-button *ngIf="hasAction('refresh')" label="Refresh" icon="pi pi-refresh" severity="secondary" class="mr-2" (click)="refresh.emit()"> </p-button>
         </ng-container>
 
         <!-- UPLOAD -->
-        <ng-container
-            *csmHasPermission="permission('upload')">
-
-            <p-button
-                *ngIf="hasAction('upload')"
-                label="Upload"
-                icon="pi pi-upload"
-                severity="secondary"
-                class="mr-2"
-                (click)="uploadFile.emit()">
-            </p-button>
-
+        <ng-container *csmHasPermission="permission('upload')">
+            <p-button *ngIf="hasAction('upload')" label="Upload" icon="pi pi-upload" severity="secondary" class="mr-2" (click)="uploadFile.emit()"> </p-button>
         </ng-container>
-
     </ng-template>
 
     <ng-template pTemplate="right">
         <!-- SEARCH -->
-        <span
-            *ngIf="hasAction('search')"
-            class="p-input-icon-left mr-2">
-
+        <span *ngIf="hasAction('search')" class="p-input-icon-left mr-2">
             <i class="pi pi-search"></i>
 
-            <input
-                pInputText
-                type="text"
-                [ngModel]="searchText"
-                (ngModelChange)="search.emit($event)"
-                placeholder="Search..." />
-
+            <input pInputText type="text" [ngModel]="searchText" (ngModelChange)="search.emit($event)" placeholder="Search..." />
         </span>
 
         <!-- RESET -->
-        <p-button
-            *ngIf="hasAction('reset')"
-            label="Reset"
-            icon="pi pi-replay"
-            severity="contrast"
-            outlined
-            class="mr-2"
-            (click)="reset.emit()">
-        </p-button>
+        <p-button *ngIf="hasAction('reset')" label="Reset" icon="pi pi-replay" severity="contrast" outlined class="mr-2" (click)="reset.emit()"> </p-button>
 
         <!-- SAVE -->
-        <p-button
-            *ngIf="hasAction('save')"
-            label="Save"
-            icon="pi pi-save"
-            [loading]="loading"
-            class="mr-2"
-            (click)="save.emit()">
-        </p-button>
+        <p-button *ngIf="hasAction('save')" label="Save" icon="pi pi-save" [loading]="loading" class="mr-2" (click)="save.emit()"> </p-button>
 
         <!-- EXPORT -->
-        <ng-container
-            *csmHasPermission="permission('export')">
-
-            <p-button
-                *ngIf="hasAction('export')"
-                label="Export"
-                icon="pi pi-download"
-                severity="secondary"
-                (click)="export.emit()">
-            </p-button>
-
+        <ng-container *csmHasPermission="permission('export')">
+            <p-button *ngIf="hasAction('export')" label="Export" icon="pi pi-download" severity="secondary" (click)="export.emit()"> </p-button>
         </ng-container>
-
     </ng-template>
-
 </p-toolbar>

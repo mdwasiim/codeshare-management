@@ -1,103 +1,42 @@
 <form [formGroup]="form" class="p-fluid w-full block csm-form">
-
     <div class="w-full">
-
         <csm-form-section title="Permission Details">
-
             <div class="grid">
-
                 <!-- NAME -->
                 <div class="field col-12 md:col-6">
-
                     <label for="name">Name</label>
 
-                    <input
-                        id="name"
-                        pInputText
-                        formControlName="name"
-                        class="w-full" />
-
+                    <input id="name" pInputText formControlName="name" class="w-full" />
                 </div>
 
                 <!-- TENANT -->
                 <div class="field col-12 md:col-6">
+                    <label for="tenantId"> Tenant </label>
 
-                    <label for="tenantId">
-                        Tenant
-                    </label>
-
-                    <p-select
-                        inputId="tenantId"
-                        appendTo="body"
-                        [options]="tenants"
-                        optionLabel="name"
-                        optionValue="id"
-                        formControlName="tenantId"
-                        placeholder="Select Tenant"
-                        styleClass="w-full">
-                    </p-select>
-
+                    <p-select inputId="tenantId" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full"> </p-select>
                 </div>
 
                 <!-- DOMAIN -->
                 <div class="field col-12 md:col-6">
+                    <label for="domain"> Domain </label>
 
-                    <label for="domain">
-                        Domain
-                    </label>
-
-                    <p-select
-                        inputId="domain"
-                        appendTo="body"
-                        [options]="domains"
-                        optionLabel="name"
-                        optionValue="code"
-                        formControlName="domain"
-                        placeholder="Select Domain"
-                        styleClass="w-full">
-                    </p-select>
-
+                    <p-select inputId="domain" appendTo="body" [options]="domains" optionLabel="name" optionValue="code" formControlName="domain" placeholder="Select Domain" styleClass="w-full"> </p-select>
                 </div>
 
                 <!-- ACTION -->
                 <div class="field col-12 md:col-6">
+                    <label for="action"> Action </label>
 
-                    <label for="action">
-                        Action
-                    </label>
-
-                    <p-select
-                        inputId="action"
-                        appendTo="body"
-                        [options]="actions"
-                        optionLabel="name"
-                        optionValue="code"
-                        formControlName="action"
-                        placeholder="Select Action"
-                        styleClass="w-full">
-                    </p-select>
-
+                    <p-select inputId="action" appendTo="body" [options]="actions" optionLabel="name" optionValue="code" formControlName="action" placeholder="Select Action" styleClass="w-full"> </p-select>
                 </div>
 
                 <!-- DESCRIPTION -->
                 <div class="field col-12">
+                    <label for="description"> Description </label>
 
-                    <label for="description">
-                        Description
-                    </label>
-
-                    <input
-                        id="description"
-                        pInputText
-                        formControlName="description"
-                        class="w-full" />
-
+                    <input id="description" pInputText formControlName="description" class="w-full" />
                 </div>
-
             </div>
-
         </csm-form-section>
-
     </div>
-
 </form>

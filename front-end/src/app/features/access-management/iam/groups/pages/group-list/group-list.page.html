@@ -13,7 +13,8 @@
     (create)="openCreate()"
     (delete)="deleteSelectedGroups()"
     (export)="exportCSV()"
-    (search)="onSearch($event)">
+    (search)="onSearch($event)"
+>
 </csm-crud-toolbar>
 
 <!-- Table -->
@@ -39,14 +40,14 @@
     <!-- Header -->
     <ng-template pTemplate="header">
         <tr>
-            <th style="width:3rem">
+            <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th>Code</th>
             <th>Name</th>
             <th>Description</th>
             <th>Tenant</th>
-            <th style="width:120px"></th>
+            <th style="width: 120px"></th>
         </tr>
     </ng-template>
 
@@ -67,38 +68,15 @@
 
             <td>
                 <div class="flex gap-1 justify-center">
-
                     <!-- EDIT -->
-                    <ng-container
-                        *csmHasPermission="'group:update'">
-
-                        <p-button
-                            icon="pi pi-pencil"
-                            size="small"
-                            text
-                            pTooltip="Edit"
-                            tooltipPosition="top"
-                            (click)="openEdit(group)">
-                        </p-button>
-
+                    <ng-container *csmHasPermission="'group:update'">
+                        <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(group)"> </p-button>
                     </ng-container>
 
                     <!-- DELETE -->
-                    <ng-container
-                        *csmHasPermission="'group:delete'">
-
-                        <p-button
-                            icon="pi pi-trash"
-                            size="small"
-                            text
-                            severity="danger"
-                            pTooltip="Delete"
-                            tooltipPosition="top"
-                            (click)="deleteGroup(group)">
-                        </p-button>
-
+                    <ng-container *csmHasPermission="'group:delete'">
+                        <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteGroup(group)"> </p-button>
                     </ng-container>
-
                 </div>
             </td>
         </tr>
@@ -113,19 +91,8 @@
             </td>
         </tr>
     </ng-template>
-
 </p-table>
 
-<csm-dialog
-    [(visible)]="dialogVisible"
-    [title]="selectedId ? 'Edit Group' : 'Create Group'"
-    [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading"
-    (save)="formRef.submit()">
-
-    <group-form
-        #formRef
-        [id]="selectedId"
-        (saved)="onSaved()">
-    </group-form>
-
+<csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Group' : 'Create Group'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+    <group-form #formRef [id]="selectedId" (saved)="onSaved()"> </group-form>
 </csm-dialog>

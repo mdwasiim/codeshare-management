@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 
-import {forkJoin, tap} from 'rxjs';
+import { forkJoin, tap } from 'rxjs';
 
 import { UserService } from '@features/access-management/iam/users/services/user.service';
 import { User } from '@features/access-management/iam/models/user.model';
@@ -18,29 +18,17 @@ import { UserFormPage } from '@features/access-management/iam/users/pages/user-f
 // ✅ use your wrapper services
 import { CsmConfirmService } from '@services/csm-confirm.service';
 import { AppToastService } from '@services/toast/app-toast.service';
-import {TooltipModule} from "primeng/tooltip";
-import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
-import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
+import { TooltipModule } from 'primeng/tooltip';
+import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
 @Component({
     selector: 'user-list',
     standalone: true,
-    imports: [
-        CommonModule,
-        TableModule,
-        ButtonModule,
-        TagModule,
-        TooltipModule,
-        InputTextModule,
-        ToolbarActionComponent,
-        UserFormPage,
-        CsmDialogComponent,
-        HasPermissionDirective
-    ],
+    imports: [CommonModule, TableModule, ButtonModule, TagModule, TooltipModule, InputTextModule, ToolbarActionComponent, UserFormPage, CsmDialogComponent, HasPermissionDirective],
     templateUrl: './user-list.page.html'
 })
 export class UserListPage extends BaseListComponent<User> {
-
     protected override resourceName = 'USER';
     // =========================
     // Dialog State
@@ -70,14 +58,14 @@ export class UserListPage extends BaseListComponent<User> {
     // =========================
     // Data Fetch
     // =========================
-     override fetch() {
-         /*return this.service.getAll();*/
-         return this.service.getAll().pipe(
-             tap(res => {
-                 console.log('USER API RESPONSE=', res);
-                 console.log('IS ARRAY=', Array.isArray(res));
-             })
-         );
+    override fetch() {
+        /*return this.service.getAll();*/
+        return this.service.getAll().pipe(
+            tap((res) => {
+                console.log('USER API RESPONSE=', res);
+                console.log('IS ARRAY=', Array.isArray(res));
+            })
+        );
     }
 
     // =========================
@@ -93,9 +81,7 @@ export class UserListPage extends BaseListComponent<User> {
         if (!this.selectedUsers.length) return;
 
         this.confirm.delete('Delete selected users?', () => {
-            const requests = this.selectedUsers.map(u =>
-                this.service.delete(u.id!)
-            );
+            const requests = this.selectedUsers.map((u) => this.service.delete(u.id!));
 
             forkJoin(requests).subscribe({
                 next: () => {
@@ -124,20 +110,17 @@ export class UserListPage extends BaseListComponent<User> {
     }
 
     deleteUser(user: User) {
-        this.confirm.delete(
-            `Delete user "${user.username}"?`,
-            () => {
-                this.service.delete(user.id!).subscribe({
-                    next: () => {
-                        this.toast.success('User deleted successfully');
-                        this.refresh();
-                    },
-                    error: () => {
-                        this.toast.error('Failed to delete user');
-                    }
-                });
-            }
-        );
+        this.confirm.delete(`Delete user "${user.username}"?`, () => {
+            this.service.delete(user.id!).subscribe({
+                next: () => {
+                    this.toast.success('User deleted successfully');
+                    this.refresh();
+                },
+                error: () => {
+                    this.toast.error('Failed to delete user');
+                }
+            });
+        });
     }
 
     // =========================

@@ -11,19 +11,11 @@ import { CsmSpinnerOverlayComponent } from '@shared/components/spinner-overlay/c
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [
-        RouterOutlet,
-        ConfirmDialogModule,
-        ToastModule,
-        CsmSpinnerOverlayComponent
-    ],
+    imports: [RouterOutlet, ConfirmDialogModule, ToastModule, CsmSpinnerOverlayComponent],
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-
-    constructor(
-        private authInitializer: AuthInitializerService
-    ) {}
+    constructor(private authInitializer: AuthInitializerService) {}
 
     ngOnInit(): void {
         this.authInitializer.init();

@@ -1,56 +1,29 @@
 <form [formGroup]="form" class="p-fluid w-full block csm-form">
-
     <csm-form-section title="Group Details">
-
         <div class="grid">
-
             <div class="field col-12 md:col-6">
                 <label for="code">Code</label>
 
-                <input
-                    id="code"
-                    pInputText
-                    formControlName="code"
-                    class="w-full" />
+                <input id="code" pInputText formControlName="code" class="w-full" />
             </div>
 
             <div class="field col-12 md:col-6">
                 <label for="name">Name</label>
 
-                <input
-                    id="name"
-                    pInputText
-                    formControlName="name"
-                    class="w-full" />
+                <input id="name" pInputText formControlName="name" class="w-full" />
             </div>
 
             <div class="field col-12">
                 <label for="description">Description</label>
 
-                <input
-                    id="description"
-                    pInputText
-                    formControlName="description"
-                    class="w-full" />
+                <input id="description" pInputText formControlName="description" class="w-full" />
             </div>
 
             <div class="field col-12 md:col-6">
                 <label for="tenant">Tenant</label>
 
-                <p-select
-                    inputId="tenant"
-                    appendTo="body"
-                    [options]="tenants"
-                    optionLabel="name"
-                    optionValue="id"
-                    formControlName="tenantId"
-                    placeholder="Select Tenant"
-                    styleClass="w-full">
-                </p-select>
+                <p-select inputId="tenant" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full"> </p-select>
             </div>
-
         </div>
-
     </csm-form-section>
-
 </form>

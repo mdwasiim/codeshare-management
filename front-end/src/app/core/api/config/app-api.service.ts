@@ -37,7 +37,7 @@ export class AppApiService {
                 if (value === undefined || value === null) return;
 
                 if (Array.isArray(value)) {
-                    value.forEach(item => {
+                    value.forEach((item) => {
                         if (item !== undefined && item !== null) {
                             httpParams = httpParams.append(key, String(item));
                         }
@@ -55,9 +55,7 @@ export class AppApiService {
     private buildHeaders(headers?: HttpHeaders | Record<string, string>): HttpHeaders | undefined {
         if (!headers) return undefined;
 
-        return headers instanceof HttpHeaders
-            ? headers
-            : new HttpHeaders(headers);
+        return headers instanceof HttpHeaders ? headers : new HttpHeaders(headers);
     }
 
     private buildUrl(endpoint: string | AnyApiEndpointFactory, options?: ApiOptions): string {
@@ -75,32 +73,18 @@ export class AppApiService {
     }
 
     get<T>(endpoint: string | AnyApiEndpointFactory, options?: ApiOptions): Observable<T> {
-        return this.http.get<T>(
-            this.buildUrl(endpoint, options),
-            this.buildHttpOptions(options)
-        );
+        return this.http.get<T>(this.buildUrl(endpoint, options), this.buildHttpOptions(options));
     }
 
     post<T>(endpoint: string | AnyApiEndpointFactory, body: any, options?: ApiOptions): Observable<T> {
-        return this.http.post<T>(
-            this.buildUrl(endpoint, options),
-            body,
-            this.buildHttpOptions(options)
-        );
+        return this.http.post<T>(this.buildUrl(endpoint, options), body, this.buildHttpOptions(options));
     }
 
     put<T>(endpoint: string | AnyApiEndpointFactory, body: any, options?: ApiOptions): Observable<T> {
-        return this.http.put<T>(
-            this.buildUrl(endpoint, options),
-            body,
-            this.buildHttpOptions(options)
-        );
+        return this.http.put<T>(this.buildUrl(endpoint, options), body, this.buildHttpOptions(options));
     }
 
     delete<T>(endpoint: string | AnyApiEndpointFactory, options?: ApiOptions): Observable<T> {
-        return this.http.delete<T>(
-            this.buildUrl(endpoint, options),
-            this.buildHttpOptions(options)
-        );
+        return this.http.delete<T>(this.buildUrl(endpoint, options), this.buildHttpOptions(options));
     }
 }

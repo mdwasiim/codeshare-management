@@ -10,14 +10,4 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
 
-export const PRIMENG_IMPORTS = [
-    ButtonModule,
-    TableModule,
-    TagModule,
-    InputTextModule,
-    SelectModule,
-    DialogModule,
-    TooltipModule,
-    CheckboxModule,
-    PasswordModule,
-];
+export const PRIMENG_IMPORTS = [ButtonModule, TableModule, TagModule, InputTextModule, SelectModule, DialogModule, TooltipModule, CheckboxModule, PasswordModule];

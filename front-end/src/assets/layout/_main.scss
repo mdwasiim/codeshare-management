@@ -1,8 +1,7 @@
 .layout-main-container {
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    justify-content: flex-start;
+    min-height: 100vh;
     padding: 5rem 1.5rem 1rem 1.5rem;
     margin-left: 22rem;
     transition: margin-left var(--layout-section-transition-duration);
@@ -10,10 +9,17 @@
 
 .layout-main {
     flex: 0 0 auto;
+    min-height: calc(100vh - 6.25rem);
     padding-bottom: 1rem;
     width: 100%;
     max-width: 1620px;
     margin: 0 auto;
+}
+
+.layout-main-container > app-footer {
+    display: block;
+    width: 100%;
+    margin-top: 0;
 }
 
 img {
@@ -25,4 +31,5 @@ img {
     .layout-main-container {
         margin-left: 7rem;
     }
+
 }

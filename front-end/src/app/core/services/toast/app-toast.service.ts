@@ -4,16 +4,9 @@ import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
 export class AppToastService {
-
     private messageService = inject(MessageService);
 
-    private show(
-        severity: 'success' | 'error' | 'warn' | 'info',
-        detail?: string,
-        summary?: string,
-        life = 3000,
-        sticky = false
-    ) {
+    private show(severity: 'success' | 'error' | 'warn' | 'info', detail?: string, summary?: string, life = 3000, sticky = false) {
         if (!detail?.trim()) return;
 
         this.messageService.add({
@@ -27,11 +20,16 @@ export class AppToastService {
 
     private getDefaultSummary(severity: string) {
         switch (severity) {
-            case 'success': return 'Success';
-            case 'error': return 'Error';
-            case 'warn': return 'Warning';
-            case 'info': return 'Info';
-            default: return '';
+            case 'success':
+                return 'Success';
+            case 'error':
+                return 'Error';
+            case 'warn':
+                return 'Warning';
+            case 'info':
+                return 'Info';
+            default:
+                return '';
         }
     }
 

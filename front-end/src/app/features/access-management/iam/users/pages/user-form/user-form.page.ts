@@ -1,39 +1,28 @@
-import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 
-import {CommonModule} from '@angular/common';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
-import {InputTextModule} from 'primeng/inputtext';
-import {PasswordModule} from 'primeng/password';
-import {CheckboxModule} from 'primeng/checkbox';
-import {ButtonModule} from 'primeng/button';
-import {SelectModule} from 'primeng/select';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
 
-import {UserService} from '@features/access-management/iam/users/services/user.service';
-import {User} from '@features/access-management/iam/models/user.model';
-import {BaseCrudForm} from '@shared/components/base/base-form.component';
-import {Tenant} from "@features/access-management/iam/models/tenant.model";
-import {TenantService} from "@features/access-management/iam/tenants/services/tenant.service";
-import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
+import { UserService } from '@features/access-management/iam/users/services/user.service';
+import { User } from '@features/access-management/iam/models/user.model';
+import { BaseCrudForm } from '@shared/components/base/base-form.component';
+import { Tenant } from '@features/access-management/iam/models/tenant.model';
+import { TenantService } from '@features/access-management/iam/tenants/services/tenant.service';
+import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
 
 @Component({
     selector: 'user-form',
     standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        PasswordModule,
-        CheckboxModule,
-        SelectModule,
-        ButtonModule,
-        CsmFormSectionComponent
-    ],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, PasswordModule, CheckboxModule, SelectModule, ButtonModule, CsmFormSectionComponent],
     templateUrl: './user-form.page.html'
 })
-export class UserFormPage
-    extends BaseCrudForm<User> {
-
+export class UserFormPage extends BaseCrudForm<User> {
     // =========================
     // Dialog Inputs
     // =========================
@@ -49,7 +38,7 @@ export class UserFormPage
     override ngOnInit(): void {
         super.ngOnInit();
         this.tenantService.getAll().subscribe({
-            next: res => this.tenants = res
+            next: (res) => (this.tenants = res)
         });
     }
     // =========================

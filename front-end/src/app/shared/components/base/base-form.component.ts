@@ -1,11 +1,10 @@
-import {Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Directive()
 export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
-
     @Input() data: T | null = null;
     @Input() id: string | null = null;
 
@@ -28,12 +27,7 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-
-        if (
-            changes['id'] ||
-            changes['data']
-        ) {
-
+        if (changes['id'] || changes['data']) {
             // skip first change before form exists
             if (!this.initialized) {
                 return;
@@ -71,7 +65,6 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
             this.isEdit = true;
             this.form.reset();
             this.patchForm(this.data);
-
         } else if (this.id) {
             this.isEdit = true;
             this.loading = true;
@@ -83,9 +76,8 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
                         this.patchForm(res);
                         this.loading = false;
                     },
-                    error: () => this.loading = false
+                    error: () => (this.loading = false)
                 });
-
         } else {
             this.isEdit = false;
             this.form.reset(this.getDefaultValues());
@@ -104,22 +96,18 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
 
         const payload = this.form.value;
 
-        const request = this.isEdit
-            ? this.update(this.id!, payload)
-            : this.create(payload);
+        const request = this.isEdit ? this.update(this.id!, payload) : this.create(payload);
 
-        request
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: () => {
-                    this.loading = false;
-                    this.saved.emit();
-                },
-                error: (err) => {
-                    this.loading = false;
-                    this.onError(err);
-                }
-            });
+        request.pipe(takeUntil(this.destroy$)).subscribe({
+            next: () => {
+                this.loading = false;
+                this.saved.emit();
+            },
+            error: (err) => {
+                this.loading = false;
+                this.onError(err);
+            }
+        });
     }
 
     cancel() {

@@ -3,20 +3,11 @@ import { environment } from '../../../../environments/environment';
 
 type PathParamValue = string | number | boolean;
 
-type ExtractPathParams<T extends string> =
-    T extends `${string}{${infer Param}}${infer Rest}`
-        ? Param | ExtractPathParams<Rest>
-        : never;
+type ExtractPathParams<T extends string> = T extends `${string}{${infer Param}}${infer Rest}` ? Param | ExtractPathParams<Rest> : never;
 
-type ParamsForPath<T extends string> =
-    [ExtractPathParams<T>] extends [never]
-        ? void
-        : Record<ExtractPathParams<T>, PathParamValue>;
+type ParamsForPath<T extends string> = [ExtractPathParams<T>] extends [never] ? void : Record<ExtractPathParams<T>, PathParamValue>;
 
-export type ApiEndpointFactory<P = void> =
-    [P] extends [void]
-        ? () => string
-        : (params: P) => string;
+export type ApiEndpointFactory<P = void> = [P] extends [void] ? () => string : (params: P) => string;
 
 export type AnyApiEndpointFactory = (...args: any[]) => string;
 
@@ -26,10 +17,7 @@ export const API_CONFIG = {
     baseUrl: normalizedBaseUrl
 } as const;
 
-const resolvePathParams = (
-    path: string,
-    params?: Record<string, PathParamValue>
-): string => {
+const resolvePathParams = (path: string, params?: Record<string, PathParamValue>): string => {
     const resolved = path.replace(/\{([^}]+)\}/g, (_, token: string) => {
         const value = params?.[token];
 
@@ -106,10 +94,8 @@ export const API_ENDPOINTS = {
     }
 } as const;
 
-
 export interface ApiOptions {
     params?: Record<string, string | number | boolean | ReadonlyArray<string | number | boolean>>;
     headers?: HttpHeaders | Record<string, string>;
     pathParams?: Record<string, PathParamValue>;
 }
-

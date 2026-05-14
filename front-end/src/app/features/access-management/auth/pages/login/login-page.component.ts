@@ -9,25 +9,16 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 
 import { AuthService } from '@features/access-management/auth/services/auth.service';
-import {AuthTenantService} from "@services/auth/auth-tenant.service";
+import { AuthTenantService } from '@services/auth/auth-tenant.service';
 
 @Component({
     selector: 'csm-login',
     standalone: true,
-    imports: [
-        ButtonModule,
-        CheckboxModule,
-        InputTextModule,
-        PasswordModule,
-        FormsModule,
-        RouterModule,
-        RippleModule
-    ],
+    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule],
     templateUrl: './login-page.component.html',
     styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent {
-
     username = '';
     password = '';
     checked = false;
@@ -44,12 +35,10 @@ export class LoginPageComponent {
 
     ngOnInit() {
         // ✅ Get returnUrl or fallback to dashboard
-        this.returnUrl =
-            this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
+        this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
     }
 
     login() {
-
         if (!this.tenantCode || !this.username || !this.password || this.loggingIn) {
             return;
         }
@@ -57,16 +46,12 @@ export class LoginPageComponent {
         // =========================
         // SET TENANT BEFORE LOGIN
         // =========================
-        this.authTenantService.setTenant(
-            '',
-            this.tenantCode
-        );
+        this.authTenantService.setTenant('', this.tenantCode);
 
         this.loggingIn = true;
 
         this.authService.login(this.username, this.password).subscribe({
             next: (response) => {
-
                 // ✅ Only tenant here (token already handled in service)
                 // (keep this only if required in your system)
                 if (response?.tenant_code) {
@@ -78,11 +63,9 @@ export class LoginPageComponent {
                 void this.router.navigateByUrl(this.returnUrl);
             },
             error: (err: unknown) => {
-
                 console.error('Login failed:', err);
 
-                const message =
-                    err instanceof Error ? err.message : 'Login failed';
+                const message = err instanceof Error ? err.message : 'Login failed';
 
                 alert(message);
 

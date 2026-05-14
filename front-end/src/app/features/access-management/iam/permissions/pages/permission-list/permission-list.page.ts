@@ -1,40 +1,30 @@
-import {Component, inject, ViewChild} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { Component, inject, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import {Table, TableModule} from 'primeng/table';
-import {ButtonModule} from 'primeng/button';
-import {TagModule} from 'primeng/tag';
+import { Table, TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 
-import {forkJoin} from 'rxjs';
+import { forkJoin } from 'rxjs';
 
-import {Permission} from '@features/access-management/iam/models/permission.model';
-import {BaseListComponent} from '@shared/components/base/base-list.component';
-import {PermissionApiService} from '@features/access-management/iam/permissions/services/permission-api.service';
+import { Permission } from '@features/access-management/iam/models/permission.model';
+import { BaseListComponent } from '@shared/components/base/base-list.component';
+import { PermissionApiService } from '@features/access-management/iam/permissions/services/permission-api.service';
 
-import {ToolbarActionComponent} from '@shared/components/toolbar/toolbar-action.component';
+import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
 
 // ✅ use wrapper services
-import {AppToastService} from '@services/toast/app-toast.service';
-import {CsmConfirmService} from '@services/csm-confirm.service';
-import {TooltipModule} from "primeng/tooltip";
-import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
-import {PermissionFormPage} from "@features/access-management/iam/permissions/pages/permission-form/permission-form.page";
-import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
+import { AppToastService } from '@services/toast/app-toast.service';
+import { CsmConfirmService } from '@services/csm-confirm.service';
+import { TooltipModule } from 'primeng/tooltip';
+import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { PermissionFormPage } from '@features/access-management/iam/permissions/pages/permission-form/permission-form.page';
+import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
 @Component({
     selector: 'permission-list',
     standalone: true,
-    imports: [
-        CommonModule,
-        TableModule,
-        ButtonModule,
-        TagModule,
-        ToolbarActionComponent,
-        TooltipModule,
-        CsmDialogComponent,
-        PermissionFormPage,
-        HasPermissionDirective
-    ],
+    imports: [CommonModule, TableModule, ButtonModule, TagModule, ToolbarActionComponent, TooltipModule, CsmDialogComponent, PermissionFormPage, HasPermissionDirective],
     templateUrl: './permission-list.page.html'
 })
 export class PermissionListPage extends BaseListComponent<Permission> {
@@ -72,9 +62,7 @@ export class PermissionListPage extends BaseListComponent<Permission> {
         if (!this.selectedPermissions.length) return;
 
         this.confirm.delete('Delete selected permissions?', () => {
-            const requests = this.selectedPermissions.map(p =>
-                this.service.delete(p.id!)
-            );
+            const requests = this.selectedPermissions.map((p) => this.service.delete(p.id!));
 
             forkJoin(requests).subscribe({
                 next: () => {
@@ -90,20 +78,17 @@ export class PermissionListPage extends BaseListComponent<Permission> {
     }
 
     deletePermission(permission: Permission) {
-        this.confirm.delete(
-            `Delete "${permission.name}"?`,
-            () => {
-                this.service.delete(permission.id!).subscribe({
-                    next: () => {
-                        this.toast.success('Permission deleted');
-                        this.refresh();
-                    },
-                    error: () => {
-                        this.toast.error('Delete failed');
-                    }
-                });
-            }
-        );
+        this.confirm.delete(`Delete "${permission.name}"?`, () => {
+            this.service.delete(permission.id!).subscribe({
+                next: () => {
+                    this.toast.success('Permission deleted');
+                    this.refresh();
+                },
+                error: () => {
+                    this.toast.error('Delete failed');
+                }
+            });
+        });
     }
 
     onSaved() {

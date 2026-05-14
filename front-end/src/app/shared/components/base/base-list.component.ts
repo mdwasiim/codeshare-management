@@ -1,32 +1,17 @@
-import {
-    Directive,
-    inject,
-    OnDestroy,
-    OnInit
-} from '@angular/core';
+import { Directive, inject, OnDestroy, OnInit } from '@angular/core';
 
-import {
-    Observable,
-    Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {
-    takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-    PermissionService
-} from '@core/security/permission.service';
+import { PermissionService } from '@core/security/permission.service';
 
 @Directive()
-export abstract class BaseListComponent<T>
-    implements OnInit, OnDestroy {
-
+export abstract class BaseListComponent<T> implements OnInit, OnDestroy {
     // =========================
     // DEPENDENCIES
     // =========================
-    protected permissionService =
-        inject(PermissionService);
+    protected permissionService = inject(PermissionService);
 
     // =========================
     // RBAC
@@ -49,8 +34,7 @@ export abstract class BaseListComponent<T>
     // =========================
     // RXJS
     // =========================
-    protected readonly destroy$ =
-        new Subject<void>();
+    protected readonly destroy$ = new Subject<void>();
 
     // =========================
     // ABSTRACT API
@@ -61,12 +45,10 @@ export abstract class BaseListComponent<T>
     // LIFECYCLE
     // =========================
     ngOnInit(): void {
-
         this.loadData();
     }
 
     ngOnDestroy(): void {
-
         this.destroy$.next();
 
         this.destroy$.complete();
@@ -76,76 +58,54 @@ export abstract class BaseListComponent<T>
     // RBAC HELPERS
     // =========================
     can(action: string): boolean {
-
         if (!this.resourceName) {
             return true;
         }
 
-        return this.permissionService.hasPermission(
-            this.resourceName.toLowerCase(),
-            action.toLowerCase()
-        );
+        return this.permissionService.hasPermission(this.resourceName.toLowerCase(), action.toLowerCase());
     }
 
     // =========================
     // LIST LOGIC
     // =========================
     loadData(): void {
-
         // READ permission required
         if (!this.can('READ')) {
             return;
         }
 
-        this.handleObservable(
-            this.fetch(),
-            (res) => {
+        this.handleObservable(this.fetch(), (res) => {
+            this.data = res ?? [];
 
-                this.data = res ?? [];
-
-                this.afterLoad();
-            }
-        );
+            this.afterLoad();
+        });
     }
 
     refresh(): void {
-
         this.loadData();
     }
 
     // =========================
     // CORE OBSERVABLE HANDLER
     // =========================
-    protected handleObservable<R>(
-        obs$: Observable<R>,
-        onSuccess: (value: R) => void,
-        onError?: (err: any) => void
-    ): void {
-
+    protected handleObservable<R>(obs$: Observable<R>, onSuccess: (value: R) => void, onError?: (err: any) => void): void {
         this.startLoading();
 
-        obs$
-            .pipe(
-                takeUntil(this.destroy$)
-            )
-            .subscribe({
+        obs$.pipe(takeUntil(this.destroy$)).subscribe({
+            next: (res) => {
+                onSuccess(res);
 
-                next: (res) => {
+                this.stopLoading();
+            },
 
-                    onSuccess(res);
+            error: (err) => {
+                this.stopLoading();
 
-                    this.stopLoading();
-                },
+                this.onError(err);
 
-                error: (err) => {
-
-                    this.stopLoading();
-
-                    this.onError(err);
-
-                    onError?.(err);
-                }
-            });
+                onError?.(err);
+            }
+        });
     }
 
     // =========================
@@ -153,10 +113,7 @@ export abstract class BaseListComponent<T>
     // =========================
     protected afterLoad(): void {}
 
-    protected onError(
-        err: any
-    ): void {
-
+    protected onError(err: any): void {
         console.error(err);
     }
 
@@ -164,12 +121,10 @@ export abstract class BaseListComponent<T>
     // LOADING HELPERS
     // =========================
     protected startLoading(): void {
-
         this.loading = true;
     }
 
     protected stopLoading(): void {
-
         this.loading = false;
     }
 }

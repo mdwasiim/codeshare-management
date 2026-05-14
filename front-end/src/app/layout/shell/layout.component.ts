@@ -1,4 +1,4 @@
-import {Component, inject,effect, computed} from '@angular/core';
+import { Component, inject, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LayoutService } from '@layout/services/layout.service';
@@ -37,5 +37,5 @@ export class LayoutComponent {
             'layout-overlay-active': state.overlayMenuActive,
             'layout-mobile-active': state.mobileMenuActive
         };
-    })
+    });
 }

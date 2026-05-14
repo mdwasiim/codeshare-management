@@ -1,9 +1,9 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import {AppMenuItemComponent} from "@layout/components/sidebar-menu/app-menu-item/app-menu-item.component";
-import {AppMenuModel} from "@features/access-management/iam/models/app-menu.model";
-import {LayoutMenuService} from "@layout/services/layout-menu.service";
-import {combineLatest, startWith} from "rxjs";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import { AppMenuItemComponent } from '@layout/components/sidebar-menu/app-menu-item/app-menu-item.component';
+import { AppMenuModel } from '@features/access-management/iam/models/app-menu.model';
+import { LayoutMenuService } from '@layout/services/layout-menu.service';
+import { combineLatest, startWith } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-menu',
@@ -24,15 +24,9 @@ export class AppMenuComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.menuService
-            .loadMenus()
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe();
+        this.menuService.loadMenus().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
 
-        combineLatest([
-            this.menuService.getMenu(),
-            this.menuService.selectedRootMenu$.pipe(startWith(null))
-        ])
+        combineLatest([this.menuService.getMenu(), this.menuService.selectedRootMenu$.pipe(startWith(null))])
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(([menu, selectedRoot]) => {
                 if (!menu.length) {

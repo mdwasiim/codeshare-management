@@ -1,24 +1,15 @@
-import {
-    HttpInterceptorFn,
-    HttpResponse,
-    HttpErrorResponse
-} from '@angular/common/http';
+import { HttpInterceptorFn, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { map, catchError, throwError } from 'rxjs';
 import { ApiServiceResponse } from '@core/api/models/api-service-response.model';
 
 export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
-
     return next(req).pipe(
-
         map((event) => {
-
             if (event instanceof HttpResponse) {
-
                 const body = event.body;
 
                 if (body && typeof body === 'object' && 'success' in body) {
-
                     const response = body as ApiServiceResponse<any>;
 
                     if (!response.success) {
@@ -40,23 +31,13 @@ export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
         }),
 
         catchError((error: unknown) => {
-
             if (error instanceof HttpErrorResponse) {
-
-                const message =
-                    error.error?.error?.message ||
-                    error.error?.message ||
-                    error.message ||
-                    'Server error';
+                const message = error.error?.error?.message || error.error?.message || error.message || 'Server error';
 
                 return throwError(() => new Error(message));
             }
 
-            return throwError(() =>
-                error instanceof Error
-                    ? error
-                    : new Error('Unknown error')
-            );
+            return throwError(() => (error instanceof Error ? error : new Error('Unknown error')));
         })
     );
 };

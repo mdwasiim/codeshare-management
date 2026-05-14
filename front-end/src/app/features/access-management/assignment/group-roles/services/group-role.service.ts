@@ -1,22 +1,19 @@
-import {inject, Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
-import {AppApiService} from '@core/api/config/app-api.service';
+import { AppApiService } from '@core/api/config/app-api.service';
 import { API_ENDPOINTS } from '@core/api/config/app-api.config';
-import {Role} from "@features/access-management/iam/models/role.model";
-import {GroupService} from "@features/access-management/iam/groups/services/group.service";
-import {RoleService} from "@features/access-management/iam/roles/services/role.service";
-import {GroupRoleModel} from "@features/access-management/assignment/group-roles/models/group-role.model";
-
+import { Role } from '@features/access-management/iam/models/role.model';
+import { GroupService } from '@features/access-management/iam/groups/services/group.service';
+import { RoleService } from '@features/access-management/iam/roles/services/role.service';
+import { GroupRoleModel } from '@features/access-management/assignment/group-roles/models/group-role.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GroupRoleService {
-
     private api = inject(AppApiService);
     private groupService = inject(GroupService);
     private roleService = inject(RoleService);
-
 
     // =====================================================
     // ROLES By Group
@@ -34,19 +31,11 @@ export class GroupRoleService {
     getAllRoles() {
         return this.roleService.getAll();
     }
-    replaceGroupRoles(groupId: string,
-                      roleId: string[]
-    ) {
-
-        return this.api.put<GroupRoleModel []>(
-            API_ENDPOINTS.accessManagement.groupRole.byGroupId,
-            roleId,
-            {
-                pathParams: {
-                    groupId
-                }
+    replaceGroupRoles(groupId: string, roleId: string[]) {
+        return this.api.put<GroupRoleModel[]>(API_ENDPOINTS.accessManagement.groupRole.byGroupId, roleId, {
+            pathParams: {
+                groupId
             }
-        );
+        });
     }
-
 }

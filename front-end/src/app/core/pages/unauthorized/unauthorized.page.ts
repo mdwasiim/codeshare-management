@@ -10,7 +10,6 @@ import { ButtonModule } from 'primeng/button';
     templateUrl: './unauthorized.page.html'
 })
 export class UnauthorizedPage {
-
     constructor(private router: Router) {}
 
     goHome() {

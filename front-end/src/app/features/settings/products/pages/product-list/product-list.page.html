@@ -1,15 +1,7 @@
 <!-- ============================= -->
 <!--  Toolbar (Top Actions)        -->
 <!-- ============================= -->
-<csm-crud-toolbar
-    [actions]="['create','delete','export','search']"
-    [hasSelection]="!selectedProducts?.length"
-    (create)="openNew()"
-    (delete)="deleteSelectedProducts()"
-    (export)="exportCSV()"
-    (search)="onGlobalFilter(dt, $event)">
-</csm-crud-toolbar>
-
+<csm-crud-toolbar [actions]="['create','delete','export','search']" [hasSelection]="!selectedProducts?.length" (create)="openNew()" (delete)="deleteSelectedProducts()" (export)="exportCSV()" (search)="onGlobalFilter(dt, $event)"> </csm-crud-toolbar>
 
 <!-- ============================= -->
 <!--  Products Table               -->
@@ -36,13 +28,7 @@
 
             <p-iconfield>
                 <p-inputicon styleClass="pi pi-search" />
-                <input
-                    #searchInput
-                    pInputText
-                    type="text"
-                    (input)="onGlobalFilter(dt, searchInput.value)"
-                    placeholder="Search..."
-                />
+                <input #searchInput pInputText type="text" (input)="onGlobalFilter(dt, searchInput.value)" placeholder="Search..." />
             </p-iconfield>
         </div>
     </ng-template>
@@ -91,12 +77,7 @@
             <td style="min-width: 16rem">{{ product.name }}</td>
 
             <td>
-                <img
-                    [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image"
-                    [alt]="product.name"
-                    style="width: 64px"
-                    class="rounded"
-                />
+                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" style="width: 64px" class="rounded" />
             </td>
 
             <td>{{ product.price | currency: 'USD' }}</td>
@@ -108,27 +89,12 @@
             </td>
 
             <td>
-                <p-tag
-                    [value]="product.inventoryStatus"
-                    [severity]="getSeverity(product.inventoryStatus)"
-                />
+                <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product.inventoryStatus)" />
             </td>
 
             <td>
-                <p-button
-                    icon="pi pi-pencil"
-                    class="mr-2"
-                    [rounded]="true"
-                    [outlined]="true"
-                    (click)="editProduct(product)"
-                />
-                <p-button
-                    icon="pi pi-trash"
-                    severity="danger"
-                    [rounded]="true"
-                    [outlined]="true"
-                    (click)="deleteProduct(product)"
-                />
+                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editProduct(product)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteProduct(product)" />
             </td>
         </tr>
     </ng-template>
@@ -137,21 +103,8 @@
 <!-- ============================= -->
 <!--  Dialog: Product Details      -->
 <!-- ============================= -->
-<csm-dialog
-    [(visible)]="productDialog"
-    title="Product Details"
-    [width]="'450px'"
-    [disableSave]="!product.name?.trim()"
-    (save)="saveProduct()"
-    (cancel)="hideDialog()">
-
-    <product-form
-        [product]="product"
-        [submitted]="submitted"
-        [statuses]="statuses"
-        [showActions]="false"
-    ></product-form>
-
+<csm-dialog [(visible)]="productDialog" title="Product Details" [width]="'450px'" [disableSave]="!product.name?.trim()" (save)="saveProduct()" (cancel)="hideDialog()">
+    <product-form [product]="product" [submitted]="submitted" [statuses]="statuses" [showActions]="false"></product-form>
 </csm-dialog>
 
 <!-- ============================= -->

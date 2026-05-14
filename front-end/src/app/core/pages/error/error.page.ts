@@ -6,13 +6,8 @@ import { RippleModule } from 'primeng/ripple';
 @Component({
     selector: 'csm-error',
     standalone: true,
-    imports: [
-        ButtonModule,
-        RippleModule,
-        RouterModule,
-        ButtonModule
-    ],
-    templateUrl: './error.component.html',
-    styleUrls: ['./error.component.scss']
+    imports: [ButtonModule, RippleModule, RouterModule],
+    templateUrl: './error.page.html',
+    styleUrls: ['./error.page.scss']
 })
-export class ErrorComponent {}
+export class ErrorPage {}
