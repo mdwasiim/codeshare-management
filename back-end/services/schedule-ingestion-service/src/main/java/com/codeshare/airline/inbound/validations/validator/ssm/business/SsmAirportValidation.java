@@ -2,6 +2,7 @@ package com.codeshare.airline.inbound.validations.validator.ssm.business;
 
 import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.context.SsmIngestionContext;
+import com.codeshare.airline.inbound.domain.enums.ValidationStage;
 import com.codeshare.airline.inbound.validations.model.ValidationResult;
 import com.codeshare.airline.inbound.validations.validator.BusinessValidation;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +15,6 @@ import java.util.Set;
 @Component
 @Order(2)
 public class SsmAirportValidation implements BusinessValidation<SsmIngestionContext> {
-
-    private static final String AIRPORT_REGEX = "^[A-Z]{3}$";
 
     @Override
     public Set<MessageType> supportedTypes() {
@@ -31,28 +30,41 @@ public class SsmAirportValidation implements BusinessValidation<SsmIngestionCont
             return result;
         }
 
-        /*var messages = context.getParsedData().getMessages();
-
-        BaseScheduleValidationHelper.forEachSegment(messages, (msg, flight, leg, seg) -> {
-
-            String origin = seg.getBoardPoint();
-            String dest = seg.getOffPoint();
-
-            if (ScheduleValidationUtils.isInvalidAirport(seg)) {
-                result.addError("ASM_APT_001",
-                        "Invalid airport",
-                        flight.getFlightNumber(),
-                        ""+seg.getSegmentSequenceNumber(), ValidationStage.BUSINESS);
-            }
-
-            if (origin != null && origin.equals(dest)) {
-                result.addError("ASM_APT_002",
-                        "Same board/off airport",
-                        flight.getFlightNumber(),
-                        ""+seg.getSegmentSequenceNumber(), ValidationStage.BUSINESS);
-            }
-        });*/
+        context.getParsedData().getMessages().forEach(message ->
+                message.getFlights().forEach(flight ->
+                        flight.getLegs().forEach(leg -> {
+                            validateAirport(result, "SSM_APT_001", leg.getBoardPoint(), flight.getFlightNumber(), "BOARD");
+                            validateAirport(result, "SSM_APT_002", leg.getOffPoint(), flight.getFlightNumber(), "OFF");
+                            if (isAirport(leg.getBoardPoint())
+                                    && leg.getBoardPoint().equalsIgnoreCase(leg.getOffPoint())) {
+                                result.addError(
+                                        "SSM_APT_003",
+                                        "Same board/off airport",
+                                        "FLIGHT",
+                                        flight.getFlightNumber() + ":" + leg.getBoardPoint() + "-" + leg.getOffPoint(),
+                                        ValidationStage.BUSINESS
+                                );
+                            }
+                        })
+                )
+        );
 
         return result;
+    }
+
+    private void validateAirport(ValidationResult result, String code, String value, String flightNumber, String role) {
+        if (!isAirport(value)) {
+            result.addError(
+                    code,
+                    "Invalid " + role.toLowerCase() + " airport",
+                    "FLIGHT",
+                    flightNumber + ":" + role + ":" + value,
+                    ValidationStage.BUSINESS
+            );
+        }
+    }
+
+    private boolean isAirport(String value) {
+        return value != null && value.matches("^[A-Z]{3}$");
     }
 }

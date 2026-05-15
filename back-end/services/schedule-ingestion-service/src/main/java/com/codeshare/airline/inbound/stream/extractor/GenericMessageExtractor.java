@@ -74,7 +74,6 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
                     header.clear();
                     current = new ArrayList<>();
 
-                    // 🔥 CONVERT TYPE B → ASM/SSM
                     List<String> normalizedAsm =
                             TypeBToAsmConverter.convert(rawTypeB);
 

@@ -8,20 +8,33 @@ import com.codeshare.airline.inbound.domain.context.SsmIngestionContext;
 import com.codeshare.airline.inbound.domain.enums.AsmMessageType;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
+import com.codeshare.airline.inbound.domain.enums.TimeMode;
+import com.codeshare.airline.inbound.dto.common.base.ScheduleEquipmentDTO;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleMessageDTO;
 import com.codeshare.airline.inbound.orchestration.handler.parser.AsmContextBuilder;
+import com.codeshare.airline.inbound.orchestration.parsers.AsmMessageParser;
+import com.codeshare.airline.inbound.orchestration.parsers.SsmMessageParser;
 import com.codeshare.airline.inbound.orchestration.parsers.ScheduleParser;
+import com.codeshare.airline.inbound.orchestration.parsers.shared.EquipmentParser;
+import com.codeshare.airline.inbound.orchestration.parsers.shared.FlightIdentityParser;
 import com.codeshare.airline.inbound.orchestration.processor.ScheduleChapterProcessor;
 import com.codeshare.airline.inbound.source.inbound.ExchangeConstants;
 import com.codeshare.airline.inbound.source.inbound.ScheduleSourceFile;
 import com.codeshare.airline.inbound.validations.model.ValidationResult;
+import com.codeshare.airline.inbound.validations.validator.asm.business.AsmAirportValidation;
 import com.codeshare.airline.inbound.validations.validator.asm.structural.AsmStructuralValidator;
+import com.codeshare.airline.inbound.validations.validator.ssm.business.SsmAirportValidation;
 import com.codeshare.airline.inbound.validations.validator.ssm.structural.SsmStructuralValidator;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,8 +83,154 @@ class IngestionProcessorRegressionTest {
 
         assertThat(result.hasErrors()).isTrue();
         assertThat(result.getMessages())
-                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("ASM_061"))
                 .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("ASM_070"));
+    }
+
+    @Test
+    void asmStructuralValidationDoesNotRequireOptionalTimeModeReferenceOrPeriod() {
+        List<String> lines = List.of(
+                "ASM",
+                "NEW",
+                "QR1234/12MAY03",
+                "G M80 FCML .FCM",
+                "DOH LHR 0800 1400"
+        );
+
+        AsmIngestionContext context = AsmIngestionContext.builder()
+                .messageType(MessageType.ASM)
+                .messageLines(lines)
+                .build();
+
+        ValidationResult result = new AsmStructuralValidator().validate(context);
+
+        assertThat(result.getMessages())
+                .noneSatisfy(message -> assertThat(message.getRuleCode()).isIn("ASM_002", "ASM_003", "ASM_061"));
+    }
+
+    @Test
+    void ssmStructuralValidationDoesNotRequireOptionalTimeModeOrReference() {
+        List<String> lines = List.of(
+                "SSM",
+                "NEW",
+                "QR1234",
+                "12MAY 30MAY 1234567",
+                "G M80 FCML .FCM",
+                "DOH LHR 0800 1400"
+        );
+
+        SsmIngestionContext context = SsmIngestionContext.builder()
+                .messageType(MessageType.SSM)
+                .messageLines(lines)
+                .build();
+
+        ValidationResult result = new SsmStructuralValidator().validate(context);
+
+        assertThat(result.getMessages())
+                .noneSatisfy(message -> assertThat(message.getRuleCode()).isIn("SSM_002", "SSM_003"));
+    }
+
+    @Test
+    void equipmentParserFollowsIataServiceTypeThenAircraftTypeOrder() {
+        ScheduleEquipmentDTO equipment = EquipmentParser.parse("G M80 FCML .FCM");
+
+        assertThat(equipment.getServiceType()).isEqualTo("G");
+        assertThat(equipment.getAircraftType()).isEqualTo("M80");
+        assertThat(equipment.getBookingDesignator()).isEqualTo("FCML");
+        assertThat(equipment.getAircraftConfiguration()).isEqualTo("FCM");
+    }
+
+    @Test
+    void asmFlightIdentityParserSupportsSlashDateIdentifier() {
+        var identity = FlightIdentityParser.parseAsm("LX544A/12MAY03");
+
+        assertThat(identity.getAirlineDesignator()).isEqualTo("LX");
+        assertThat(identity.getFlightNumber()).isEqualTo("544");
+        assertThat(identity.getOperationalSuffix()).isEqualTo("A");
+        assertThat(identity.getOperationDate()).isEqualTo("12MAY03");
+    }
+
+    @Test
+    void ssmParserDefaultsMissingTimeModeToUtcAndPersistsEquipmentFields() {
+        SsmMessageParser parser = new SsmMessageParser();
+        ScheduleMessageDTO message = parser.parseMessage(parser.groupMessage(List.of(
+                "SSM",
+                "NEW",
+                "QR1234",
+                "12MAY 30MAY 1234567",
+                "G M80 FCML .FCM",
+                "DOH LHR 0800 1400"
+        )));
+
+        var subMessage = message.getMessages().getFirst();
+        var flight = subMessage.getFlights().getFirst();
+
+        assertThat(subMessage.getTimeMode()).isEqualTo(TimeMode.UTC);
+        assertThat(flight.getServiceType()).isEqualTo("G");
+        assertThat(flight.getAircraftType()).isEqualTo("M80");
+        assertThat(flight.getAircraftConfiguration()).isEqualTo("FCM");
+        assertThat(flight.getBookingDesignator()).isEqualTo("FCML");
+    }
+
+    @Test
+    void ssmQrResourceMessagesAreStructurallyBusinessValidAndParseable() throws IOException, URISyntaxException {
+        List<List<String>> blocks = resourceMessageBlocks("100_SSM_QR_Test_Messages.txt");
+        SsmStructuralValidator structuralValidator = new SsmStructuralValidator();
+        SsmAirportValidation airportValidation = new SsmAirportValidation();
+        SsmMessageParser parser = new SsmMessageParser();
+
+        assertThat(blocks).hasSize(100);
+
+        for (int i = 0; i < blocks.size(); i++) {
+            List<String> block = blocks.get(i);
+            SsmIngestionContext structuralContext = SsmIngestionContext.builder()
+                    .messageType(MessageType.SSM)
+                    .messageLines(block)
+                    .build();
+
+            assertValidationHasNoErrors("SSM structural block " + (i + 1),
+                    structuralValidator.validate(structuralContext));
+
+            ScheduleMessageDTO parsed = parser.parseMessage(parser.groupMessage(block));
+            SsmIngestionContext businessContext = SsmIngestionContext.builder()
+                    .messageType(MessageType.SSM)
+                    .messageLines(block)
+                    .parsedData(parsed)
+                    .build();
+
+            assertValidationHasNoErrors("SSM business block " + (i + 1),
+                    airportValidation.validate(businessContext));
+        }
+    }
+
+    @Test
+    void asmQrResourceMessagesAreStructurallyBusinessValidAndParseable() throws IOException, URISyntaxException {
+        List<List<String>> blocks = resourceMessageBlocks("100_ASM_QR_Test_Messages.txt");
+        AsmStructuralValidator structuralValidator = new AsmStructuralValidator();
+        AsmAirportValidation airportValidation = new AsmAirportValidation();
+        AsmMessageParser parser = new AsmMessageParser();
+
+        assertThat(blocks).hasSize(100);
+
+        for (int i = 0; i < blocks.size(); i++) {
+            List<String> block = blocks.get(i);
+            AsmIngestionContext structuralContext = AsmIngestionContext.builder()
+                    .messageType(MessageType.ASM)
+                    .messageLines(block)
+                    .build();
+
+            assertValidationHasNoErrors("ASM structural block " + (i + 1),
+                    structuralValidator.validate(structuralContext));
+
+            ScheduleMessageDTO parsed = parser.parseMessage(parser.groupMessage(block));
+            AsmIngestionContext businessContext = AsmIngestionContext.builder()
+                    .messageType(MessageType.ASM)
+                    .messageLines(block)
+                    .parsedData(parsed)
+                    .build();
+
+            assertValidationHasNoErrors("ASM business block " + (i + 1),
+                    airportValidation.validate(businessContext));
+        }
     }
 
     @Test
@@ -233,5 +392,41 @@ class IngestionProcessorRegressionTest {
 
     private static String padRight(String value, int length) {
         return String.format("%-" + length + "s", value);
+    }
+
+    private static List<List<String>> resourceMessageBlocks(String fileName) throws IOException, URISyntaxException {
+        var resource = IngestionProcessorRegressionTest.class.getClassLoader().getResource(fileName);
+        assertThat(resource).as(fileName + " classpath resource").isNotNull();
+        Path path = Path.of(resource.toURI());
+        List<List<String>> blocks = new ArrayList<>();
+        List<String> current = new ArrayList<>();
+
+        for (String line : Files.readAllLines(path)) {
+            if (line.isBlank()) {
+                continue;
+            }
+            if ("//".equals(line.trim())) {
+                if (!current.isEmpty()) {
+                    blocks.add(List.copyOf(current));
+                    current.clear();
+                }
+                continue;
+            }
+            current.add(line);
+        }
+
+        if (!current.isEmpty()) {
+            blocks.add(List.copyOf(current));
+        }
+
+        return blocks;
+    }
+
+    private static void assertValidationHasNoErrors(String label, ValidationResult result) {
+        assertThat(result.getMessages())
+                .as(label)
+                .filteredOn(message -> message.getSeverity().name().equals("ERROR"))
+                .map(message -> message.getRuleCode() + ":" + message.getRecordKey() + ":" + message.getMessage())
+                .isEmpty();
     }
 }

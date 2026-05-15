@@ -218,12 +218,6 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
         if (!hasHeader)
             result.addError("SSM_001", "Missing HEADER", null, "HEADER", ValidationStage.STRUCTURAL);
 
-        if (!hasTimeMode)
-            result.addError("SSM_002", "Missing TIME MODE", null, "TIME_MODE", ValidationStage.STRUCTURAL);
-
-        if (!hasRef)
-            result.addError("SSM_003", "Missing REFERENCE", null, "REF", ValidationStage.STRUCTURAL);
-
         if (!hasAction)
             result.addError("SSM_040", "Missing ACTION", null, "ACTION", ValidationStage.STRUCTURAL);
 

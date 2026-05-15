@@ -32,12 +32,8 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
         ValidationResult result = new ValidationResult();
 
         boolean hasHeader = false;
-        boolean hasTimeMode = false;
-        boolean hasRef = false;
-
         boolean hasAction = false;
         boolean hasFlight = false;
-        boolean hasPeriod = false;
         boolean hasLeg = false;
 
         boolean inBlock = false;
@@ -67,9 +63,13 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                 // ================= HEADER =================
                 case HEADER -> hasHeader = true;
 
-                case TIME_MODE -> hasTimeMode = true;
+                case TIME_MODE -> {
+                    // Optional; absent time mode defaults to UTC per IATA Chapter 5.
+                }
 
-                case MESSAGE_REFERENCE -> hasRef = true;
+                case MESSAGE_REFERENCE -> {
+                    // Optional for ASM.
+                }
 
                 // ================= ACTION =================
                 case ACTION -> {
@@ -78,7 +78,6 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
 
                     // reset per block
                     hasFlight = false;
-                    hasPeriod = false;
                     hasLeg = false;
                     legToDeiMap.clear();
                 }
@@ -108,12 +107,6 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
-                    if (hasPeriod) {
-                        result.addError("ASM_061", "Duplicate PERIOD",
-                                line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
-                    }
-
-                    hasPeriod = true;
                 }
 
                 // ================= LEG =================
@@ -189,11 +182,10 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                 case SUB_MESSAGE_SEPARATOR -> {
 
                     // 🔥 VALIDATE BLOCK BEFORE RESET
-                    validateBlock(result, hasFlight, hasPeriod, hasLeg, legToDeiMap, lineNo);
+                    validateBlock(result, hasFlight, hasLeg, legToDeiMap, lineNo);
 
                     inBlock = false;
                     hasFlight = false;
-                    hasPeriod = false;
                     hasLeg = false;
                     legToDeiMap.clear();
                 }
@@ -205,17 +197,11 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
         if (!hasHeader)
             result.addError("ASM_001", "Missing HEADER", null, "HEADER", ValidationStage.STRUCTURAL);
 
-        if (!hasTimeMode)
-            result.addError("ASM_002", "Missing TIME MODE", null, "TIME_MODE", ValidationStage.STRUCTURAL);
-
-        if (!hasRef)
-            result.addError("ASM_003", "Missing REFERENCE", null, "REF", ValidationStage.STRUCTURAL);
-
         if (!hasAction)
             result.addError("ASM_040", "Missing ACTION", null, "ACTION", ValidationStage.STRUCTURAL);
 
         if (inBlock) {
-            validateBlock(result, hasFlight, hasPeriod, hasLeg, legToDeiMap, lineNo);
+            validateBlock(result, hasFlight, hasLeg, legToDeiMap, lineNo);
         }
 
         return result;
@@ -225,18 +211,12 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
 
     private void validateBlock(ValidationResult result,
                                boolean hasFlight,
-                               boolean hasPeriod,
                                boolean hasLeg,
                                Map<String, List<String>> legToDeiMap,
                                int lineNo) {
 
         if (!hasFlight) {
             result.addError("ASM_050", "Missing FLIGHT in block", null,
-                    "BLOCK", ValidationStage.STRUCTURAL);
-        }
-
-        if (!hasPeriod) {
-            result.addError("ASM_061", "Missing PERIOD in block", null,
                     "BLOCK", ValidationStage.STRUCTURAL);
         }
 
