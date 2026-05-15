@@ -3,7 +3,9 @@ package com.codeshare.airline.inbound.repositories.ssim;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.entities.ssim.SsimFileMetaDataEntity;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +19,10 @@ public interface SsimFileMetaDataRepository
 
 
     Optional<SsimFileMetaDataEntity> findByFileId(UUID fileId);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select f from SsimFileMetaDataEntity f where f.id = :id")
+    Optional<SsimFileMetaDataEntity> findByIdForUpdate(@Param("id") UUID id);
 
     Optional<SsimFileMetaDataEntity> findFirstByLoadIdAndAirlineCodeAndChecksum(UUID loadId, String airlineCode, String checksum);
 

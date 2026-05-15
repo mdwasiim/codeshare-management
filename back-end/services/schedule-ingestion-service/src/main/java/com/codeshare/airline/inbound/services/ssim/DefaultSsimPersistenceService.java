@@ -83,7 +83,7 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
     }
 
     private SsimFileMetaDataEntity resolveTargetFile(SSIMMessageDTO message, SsimMetaDataDTO metadata) {
-        SsimFileMetaDataEntity root = fileRepository.findById(metadata.getId())
+        SsimFileMetaDataEntity root = fileRepository.findByIdForUpdate(metadata.getId())
                 .orElseThrow(() -> new IllegalStateException("SSIM file not found for id=" + metadata.getId()));
 
         String airlineCode = resolveAirlineCode(message, metadata);

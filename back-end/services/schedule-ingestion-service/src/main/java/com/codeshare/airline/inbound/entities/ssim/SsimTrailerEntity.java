@@ -37,14 +37,6 @@ public class SsimTrailerEntity extends CSMDataAbstractEntity {
     )
     private SsimFileMetaDataEntity file;
 
-    @OneToOne(
-            mappedBy = "trailer",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private SsimCarrierEntity carrier;
-
     /* =======================================================
        SSIM RECORD TYPE 5 (T5) – 200 BYTES
        ======================================================= */

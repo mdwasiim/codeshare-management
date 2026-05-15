@@ -47,10 +47,6 @@ public class SsimCarrierEntity extends CSMDataAbstractEntity {
     @OrderBy("flightNumber ASC")
     private List<SsimFlightEntity> flights = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "trailer_id")
-    private SsimTrailerEntity trailer;
-
     /* =======================================================
        SSIM RECORD TYPE 2 (T2) – 200 BYTES
        ======================================================= */

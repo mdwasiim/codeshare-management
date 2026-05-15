@@ -26,6 +26,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class SsimIngestionRegressionTest {
 
     @Test
+    void ssimCarrierSectionsAreProcessedSequentiallyBecauseTheyShareFileMetadata() {
+        SsimMessageExtractor extractor = new SsimMessageExtractor(MessageType.SSIM);
+
+        assertThat(extractor.isParallelSafe()).isFalse();
+    }
+
+    @Test
     void extractsValidatesAndParsesSampleSsimAsCarrierSectionBatchWithFileMetadata() throws Exception {
         SsimMessageExtractor extractor = new SsimMessageExtractor(MessageType.SSIM);
         List<List<String>> blocks = new ArrayList<>();

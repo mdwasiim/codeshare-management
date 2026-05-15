@@ -41,7 +41,6 @@ public class GenericStreamLoader {
     private final ProcessingStrategyFactory strategyFactory;
     private final ErrorPersistenceService errorService;
 
-    // 🔥 Thread pool (DO NOT shutdown per request)
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private static final int MAX_PARALLEL_TASKS = 200;

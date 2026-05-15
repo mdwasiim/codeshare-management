@@ -17,7 +17,11 @@ import java.util.List;
         indexes = {
                 @Index(name = "idx_ssim_flight_carrier", columnList = "carrier_id"),
                 @Index(name = "idx_ssim_flight_number", columnList = "airline_code,flight_number"),
-                @Index(name = "idx_ssim_flight_route", columnList = "departure_station,arrival_station")
+                @Index(name = "idx_ssim_flight_route", columnList = "departure_station,arrival_station"),
+                @Index(
+                        name = "idx_ssim_flight_identity",
+                        columnList = "carrier_id,airline_code,flight_number,itinerary_variation_identifier,leg_sequence_number"
+                )
         },
         uniqueConstraints = {
                 @UniqueConstraint(

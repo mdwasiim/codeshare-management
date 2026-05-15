@@ -11,7 +11,10 @@ import lombok.Setter;
         name = "ssim_segment_dei",
         indexes = {
                 @Index(name = "idx_ssim_dei_flight", columnList = "flight_id"),
-                @Index(name = "idx_ssim_dei_route", columnList = "board_point,off_point")
+                @Index(name = "idx_ssim_dei_route", columnList = "board_point,off_point"),
+                @Index(name = "idx_ssim_dei_code", columnList = "data_element_identifier"),
+                @Index(name = "idx_ssim_dei_flight_code", columnList = "flight_id,data_element_identifier"),
+                @Index(name = "idx_ssim_dei_segment_code", columnList = "board_point,off_point,data_element_identifier")
         }
 )
 @Getter
