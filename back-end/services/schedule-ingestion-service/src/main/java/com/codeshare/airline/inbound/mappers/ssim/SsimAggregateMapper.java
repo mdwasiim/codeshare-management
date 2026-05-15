@@ -10,6 +10,10 @@ import com.codeshare.airline.inbound.entities.ssim.SsimTrailerEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class SsimAggregateMapper {
@@ -39,8 +43,13 @@ public class SsimAggregateMapper {
         }
 
         if (carrier != null && context.getFlights() != null) {
+            Set<String> existingFlightKeys = carrier.getFlights() == null
+                    ? new HashSet<>()
+                    : carrier.getFlights().stream()
+                    .map(this::flightKey)
+                    .collect(Collectors.toSet());
             for (SsimFlightDTO flightDTO : context.getFlights()) {
-                if (flightExists(carrier, flightDTO)) {
+                if (!existingFlightKeys.add(flightKey(flightDTO))) {
                     continue;
                 }
                 SsimFlightEntity flight = flightMapper.toEntity(flightDTO, carrier);
@@ -57,29 +66,37 @@ public class SsimAggregateMapper {
         return fileMetaDataEntity;
     }
 
-    private boolean flightExists(SsimCarrierEntity carrier, SsimFlightDTO dto) {
-        if (carrier.getFlights() == null || dto == null) {
-            return false;
+    private String flightKey(SsimFlightEntity flight) {
+        if (flight == null) {
+            return "";
         }
-
-        return carrier.getFlights().stream().anyMatch(existing ->
-                same(existing.getAirlineCode(), dto.getAirlineCode())
-                        && same(existing.getFlightNumber(), dto.getFlightNumber())
-                        && same(existing.getOperationalSuffix(), dto.getOperationalSuffix())
-                        && same(existing.getItineraryVariationIdentifier(), dto.getItineraryVariationIdentifier())
-                        && same(existing.getLegSequenceNumber(), dto.getLegSequenceNumber())
+        return String.join("|",
+                normalize(flight.getAirlineCode()),
+                normalize(flight.getFlightNumber()),
+                normalize(flight.getOperationalSuffix()),
+                normalize(flight.getItineraryVariationIdentifier()),
+                normalize(flight.getLegSequenceNumber())
         );
     }
 
-    private boolean same(String left, String right) {
-        return normalize(left).equals(normalize(right));
-    }
-
-    private boolean same(Integer left, Integer right) {
-        return left == null ? right == null : left.equals(right);
+    private String flightKey(SsimFlightDTO flight) {
+        if (flight == null) {
+            return "";
+        }
+        return String.join("|",
+                normalize(flight.getAirlineCode()),
+                normalize(flight.getFlightNumber()),
+                normalize(flight.getOperationalSuffix()),
+                normalize(flight.getItineraryVariationIdentifier()),
+                normalize(flight.getLegSequenceNumber())
+        );
     }
 
     private String normalize(String value) {
         return value == null ? "" : value.trim();
+    }
+
+    private String normalize(Integer value) {
+        return value == null ? "" : value.toString();
     }
 }

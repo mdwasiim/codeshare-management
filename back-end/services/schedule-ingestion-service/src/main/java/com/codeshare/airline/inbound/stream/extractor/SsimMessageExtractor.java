@@ -13,6 +13,8 @@ import java.util.function.Consumer;
 @Slf4j
 public final class SsimMessageExtractor implements StreamExtractorHandler {
 
+    private static final int MAX_FLIGHT_GROUPS_PER_BATCH = 5_000;
+
     public SsimMessageExtractor(MessageType messageType) {
     }
 
@@ -73,6 +75,10 @@ public final class SsimMessageExtractor implements StreamExtractorHandler {
                         String flightKey = flightKey(line);
                         if (!currentFlightGroup.isEmpty() && !flightKey.equals(currentFlightKey)) {
                             currentFlightGroups.add(currentFlightGroup);
+                            if (currentFlightGroups.size() >= MAX_FLIGHT_GROUPS_PER_BATCH) {
+                                flushCompleteGroups(header, currentCarrier, currentFlightGroups, consumer);
+                                currentFlightGroups = new ArrayList<>();
+                            }
                             currentFlightGroup = new ArrayList<>();
                         }
                         currentFlightKey = flightKey;
@@ -120,14 +126,35 @@ public final class SsimMessageExtractor implements StreamExtractorHandler {
             return;
         }
 
+        int flightLineCount = flightGroups.stream().mapToInt(List::size).sum();
+        List<String> batch = new ArrayList<>(header.size() + carrier.size() + flightLineCount + trailer.size());
+        batch.addAll(header);
+        batch.addAll(carrier);
         for (List<String> flightGroup : flightGroups) {
-            List<String> batch = new ArrayList<>(header.size() + carrier.size() + flightGroup.size() + trailer.size());
-            batch.addAll(header);
-            batch.addAll(carrier);
             batch.addAll(flightGroup);
-            batch.addAll(trailer);
-            consumer.accept(batch);
         }
+        batch.addAll(trailer);
+        consumer.accept(batch);
+    }
+
+    private void flushCompleteGroups(
+            List<String> header,
+            List<String> carrier,
+            List<List<String>> flightGroups,
+            Consumer<List<String>> consumer
+    ) {
+        if (flightGroups.isEmpty()) {
+            return;
+        }
+
+        int flightLineCount = flightGroups.stream().mapToInt(List::size).sum();
+        List<String> batch = new ArrayList<>(header.size() + carrier.size() + flightLineCount);
+        batch.addAll(header);
+        batch.addAll(carrier);
+        for (List<String> flightGroup : flightGroups) {
+            batch.addAll(flightGroup);
+        }
+        consumer.accept(batch);
     }
 
     private String flightKey(String line) {

@@ -26,7 +26,8 @@ import java.util.List;
                                 "carrier_id",
                                 "flight_number",
                                 "operational_suffix",
-                                "itinerary_variation_identifier"
+                                "itinerary_variation_identifier",
+                                "leg_sequence_number"
                         }
                 )
         }

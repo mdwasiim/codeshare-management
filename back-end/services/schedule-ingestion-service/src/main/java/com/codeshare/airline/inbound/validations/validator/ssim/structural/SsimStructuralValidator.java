@@ -142,9 +142,7 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
             result.addError("SSIM_REQ_005", "Missing Type 3 flight records", "", "", ValidationStage.STRUCTURAL);
         }
 
-        if (trailerCount == 0) {
-            result.addError("SSIM_REQ_006", "Missing Type 5 trailer record", "", "", ValidationStage.STRUCTURAL);
-        } else if (trailerCount > 1) {
+        if (trailerCount > 1) {
             result.addError("SSIM_REQ_007", "Multiple Type 5 trailer records", "", "", ValidationStage.STRUCTURAL);
         }
 

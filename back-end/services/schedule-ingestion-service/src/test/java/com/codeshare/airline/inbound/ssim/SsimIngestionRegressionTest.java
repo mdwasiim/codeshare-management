@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SsimIngestionRegressionTest {
 
     @Test
-    void extractsValidatesAndParsesSampleSsimAsFlightLevelBatchesWithFileMetadata() throws Exception {
+    void extractsValidatesAndParsesSampleSsimAsCarrierSectionBatchWithFileMetadata() throws Exception {
         SsimMessageExtractor extractor = new SsimMessageExtractor(MessageType.SSIM);
         List<List<String>> blocks = new ArrayList<>();
 
@@ -28,15 +28,15 @@ class SsimIngestionRegressionTest {
             extractor.extract(inputStream, blocks::add);
         }
 
-        assertThat(blocks).hasSize(2);
+        assertThat(blocks).hasSize(1);
 
         for (List<String> lines : blocks) {
-            assertThat(lines).hasSize(9);
+            assertThat(lines).hasSize(15);
             assertThat(lines).allSatisfy(line -> assertThat(line).hasSize(200));
             assertThat(lines).filteredOn(line -> line.charAt(0) == '1').hasSize(1);
             assertThat(lines).filteredOn(line -> line.charAt(0) == '2').hasSize(1);
-            assertThat(lines).filteredOn(line -> line.charAt(0) == '3').hasSize(1);
-            assertThat(lines).filteredOn(line -> line.charAt(0) == '4').hasSize(5);
+            assertThat(lines).filteredOn(line -> line.charAt(0) == '3').hasSize(2);
+            assertThat(lines).filteredOn(line -> line.charAt(0) == '4').hasSize(10);
             assertThat(lines).filteredOn(line -> line.charAt(0) == '5').hasSize(1);
 
             SsimIngestionContext context = SsimIngestionContext.builder()
@@ -52,7 +52,7 @@ class SsimIngestionRegressionTest {
             assertThat(dto.getHeader()).isNotNull();
             assertThat(dto.getCarrier()).isNotNull();
             assertThat(dto.getTrailer()).isNotNull();
-            assertThat(dto.getFlights()).hasSize(1);
+            assertThat(dto.getFlights()).hasSize(2);
             assertThat(dto.getFlights().getFirst().getDeis()).hasSize(5);
         }
     }
@@ -67,13 +67,13 @@ class SsimIngestionRegressionTest {
             extractor.extract(inputStream, blocks::add);
         }
 
-        assertThat(blocks).hasSize(6);
+        assertThat(blocks).hasSize(3);
 
         for (List<String> lines : blocks) {
             assertThat(lines).allSatisfy(line -> assertThat(line).hasSize(200));
             assertThat(lines).filteredOn(line -> line.charAt(0) == '1').hasSize(1);
             assertThat(lines).filteredOn(line -> line.charAt(0) == '2').hasSize(1);
-            assertThat(lines).filteredOn(line -> line.charAt(0) == '3').hasSize(1);
+            assertThat(lines).filteredOn(line -> line.charAt(0) == '3').hasSizeGreaterThan(1);
             assertThat(lines).filteredOn(line -> line.charAt(0) == '5').hasSize(1);
 
             SsimIngestionContext context = SsimIngestionContext.builder()
@@ -88,7 +88,7 @@ class SsimIngestionRegressionTest {
             assertThat(dto.getHeader()).isNotNull();
             assertThat(dto.getCarrier()).isNotNull();
             assertThat(dto.getTrailer()).isNotNull();
-            assertThat(dto.getFlights()).hasSize(1);
+            assertThat(dto.getFlights()).isNotEmpty();
         }
     }
 }

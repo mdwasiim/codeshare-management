@@ -1,10 +1,15 @@
 package com.codeshare.airline.inbound.services.ssim;
 
+import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;
 import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.inbound.dto.ssim.SsimMetaDataDTO;
+import com.codeshare.airline.inbound.entities.ssim.SsimCarrierEntity;
 import com.codeshare.airline.inbound.entities.ssim.SsimFileMetaDataEntity;
+import com.codeshare.airline.inbound.entities.ssim.SsimFlightEntity;
 import com.codeshare.airline.inbound.mappers.ssim.SsimAggregateMapper;
+import com.codeshare.airline.inbound.mappers.ssim.SsimFlightMapper;
 import com.codeshare.airline.inbound.repositories.ssim.SsimFileMetaDataRepository;
+import com.codeshare.airline.inbound.repositories.ssim.SsimFlightRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +18,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,7 +29,9 @@ import java.util.UUID;
 public class DefaultSsimPersistenceService implements SsimPersistenceService {
 
     private final SsimFileMetaDataRepository fileRepository;
+    private final SsimFlightRepository flightRepository;
     private final SsimAggregateMapper aggregateMapper;
+    private final SsimFlightMapper flightMapper;
 
     @Override
     public void saveBatch(SSIMMessageDTO context, SsimMetaDataDTO metadata) {
@@ -31,8 +40,33 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
         }
 
         SsimFileMetaDataEntity logicalFile = resolveLogicalFile(context, metadata);
-        aggregateMapper.toEntity(context, logicalFile);
+        aggregateMapper.toEntity(metadataOnly(context), logicalFile);
         fileRepository.save(logicalFile);
+
+        saveFlights(context.getFlights(), logicalFile.getCarrier());
+    }
+
+    private void saveFlights(List<SsimFlightDTO> flights, SsimCarrierEntity carrier) {
+        if (flights == null || flights.isEmpty() || carrier == null) {
+            return;
+        }
+
+        List<SsimFlightEntity> entities = new ArrayList<>(flights.size());
+        for (SsimFlightDTO flight : flights) {
+            entities.add(flightMapper.toEntity(flight, carrier));
+        }
+        flightRepository.saveAll(entities);
+    }
+
+    private SSIMMessageDTO metadataOnly(SSIMMessageDTO source) {
+        return SSIMMessageDTO.builder()
+                .airlineCode(source.getAirlineCode())
+                .flightNumber(source.getFlightNumber())
+                .header(source.getHeader())
+                .carrier(source.getCarrier())
+                .trailer(source.getTrailer())
+                .flights(List.of())
+                .build();
     }
 
     private SsimFileMetaDataEntity resolveLogicalFile(SSIMMessageDTO context, SsimMetaDataDTO metadata) {
@@ -97,8 +131,7 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
         String value = String.join("|",
                 text(metadata.getChecksum()),
                 text(airlineCode),
-                context.getCarrier() != null ? text(context.getCarrier().getRecordSerialNumber()) : "",
-                context.getTrailer() != null ? text(context.getTrailer().getRecordSerialNumber()) : ""
+                context.getCarrier() != null ? text(context.getCarrier().getRecordSerialNumber()) : ""
         );
         return sha256(value);
     }
