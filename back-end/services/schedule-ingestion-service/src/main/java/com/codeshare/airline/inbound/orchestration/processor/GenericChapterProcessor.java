@@ -1,6 +1,7 @@
 package com.codeshare.airline.inbound.orchestration.processor;
 
 import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.orchestration.pipelines.GenericIngestionPipeline;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.inbound.services.common.ScheduleFileService;
@@ -38,15 +39,32 @@ public class GenericChapterProcessor implements ScheduleChapterProcessor {
             throw new IllegalStateException("Metadata creation failed for file=" + scheduleSourceFile.getFileName());
         }
 
+        if (isAlreadyProcessed(metadata.getProcessingStatus())) {
+            log.info(" Skipping already processed file={} type={} fileId={} checksum={}",
+                    scheduleSourceFile.getFileName(),
+                    type,
+                    metadata.getFileId(),
+                    metadata.getChecksum());
+            return;
+        }
+
         try {
 
-            pipeline.execute(scheduleSourceFile, metadata, type);
+            ProcessingStatus finalStatus = pipeline.execute(scheduleSourceFile, metadata, type);
 
-            log.info(" Ingestion completed | file={} type={}", scheduleSourceFile.getFileName(), type);
+            if (finalStatus == ProcessingStatus.FAILED) {
+                throw new IllegalStateException("Ingestion failed for file=" + scheduleSourceFile.getFileName());
+            }
+
+            log.info(" Ingestion completed | file={} type={} status={}", scheduleSourceFile.getFileName(), type, finalStatus);
 
         } catch (Exception ex) {
             log.error(" Ingestion failed | file={} type={}", scheduleSourceFile.getFileName(), type, ex);
             throw ex;
         }
+    }
+
+    private boolean isAlreadyProcessed(ProcessingStatus status) {
+        return status == ProcessingStatus.COMPLETED || status == ProcessingStatus.SUCCESS;
     }
 }

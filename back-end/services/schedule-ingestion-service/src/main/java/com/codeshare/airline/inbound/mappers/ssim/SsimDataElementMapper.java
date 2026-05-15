@@ -29,7 +29,7 @@ public class SsimDataElementMapper {
 
         /* ================= HEADER ================= */
 
-        entity.setRecordType(dto.getRecordType());
+        entity.setRecordType(SsimRecordTypeMapper.toCode(dto.getRecordType()));
         entity.setOperationalSuffix(trim(dto.getOperationalSuffix(), 1));
         entity.setAirlineCode(trim(dto.getAirlineCode(), 3));
         entity.setFlightNumber(trim(dto.getFlightNumber(), 4));
@@ -79,7 +79,7 @@ public class SsimDataElementMapper {
                         : null
         );
 
-        dto.setRecordType(entity.getRecordType());
+        dto.setRecordType(SsimRecordTypeMapper.fromCode(entity.getRecordType()));
         dto.setOperationalSuffix(entity.getOperationalSuffix());
         dto.setAirlineCode(entity.getAirlineCode());
         dto.setFlightNumber(entity.getFlightNumber());

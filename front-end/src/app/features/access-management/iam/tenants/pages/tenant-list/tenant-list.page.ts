@@ -28,7 +28,7 @@ import { HasPermissionDirective } from '@shared/directives/permission/has-permis
     providers: [ConfirmationService, MessageService]
 })
 export class TenantListPage extends BaseListComponent<Tenant> {
-    protected override resourceName = 'tenant';
+    protected override resourceName = 'tenants';
     dialogVisible = false;
     selectedId: string | null = null;
 

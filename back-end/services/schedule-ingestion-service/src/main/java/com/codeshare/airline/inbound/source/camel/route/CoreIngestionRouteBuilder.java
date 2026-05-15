@@ -10,8 +10,6 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.security.MessageDigest;
-
 @Slf4j
 @Component
 @Order(1)
@@ -53,8 +51,6 @@ public class CoreIngestionRouteBuilder extends RouteBuilder {
         from(endpoint)
                 .routeId(routeId)
                 .log(" [${header.AIRLINE_CODE}] " + type + " PROCESSING file=${header.CamelFileName}")
-                .process(exchange -> exchange.setProperty("CHECKSUM_DIGEST",
-                        MessageDigest.getInstance("SHA-256")))
                 .process(this::map)
                 .process(scheduleIngestionProcessor)
                 .log(" [${header.AIRLINE_CODE}] " + type + " completed file=${header.CamelFileName}");

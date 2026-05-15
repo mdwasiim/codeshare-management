@@ -23,7 +23,7 @@ public class SsimHeaderMapper {
 
         /* ================= SSIM FIELDS ================= */
 
-        entity.setRecordType(dto.getRecordType());
+        entity.setRecordType(SsimRecordTypeMapper.toCode(dto.getRecordType()));
         entity.setTitleOfContents(trim(dto.getTitleOfContents(), 34));
         entity.setSpare36To40(trim(dto.getSpare36To40(), 5));
         entity.setNumberOfSeasons(dto.getNumberOfSeasons());
@@ -52,7 +52,7 @@ public class SsimHeaderMapper {
                         : null
         );
 
-        dto.setRecordType(entity.getRecordType());
+        dto.setRecordType(SsimRecordTypeMapper.fromCode(entity.getRecordType()));
         dto.setTitleOfContents(entity.getTitleOfContents());
         dto.setSpare36To40(entity.getSpare36To40());
         dto.setNumberOfSeasons(entity.getNumberOfSeasons());

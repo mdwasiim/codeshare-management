@@ -31,7 +31,7 @@ public class GenericIngestionPipeline {
     protected final FileValidatorOrchestrator fileValidatorOrchestrator;
     protected final ErrorPersistenceService errorPersistenceService;
 
-    public void execute(ScheduleSourceFile scheduleSourceFile, ScheduleFileMetaDataDTO metadata, MessageType type) {
+    public ProcessingStatus execute(ScheduleSourceFile scheduleSourceFile, ScheduleFileMetaDataDTO metadata, MessageType type) {
 
         log.info(" Starting ingestion | fileId={} | type={}", metadata.getId(), type);
 
@@ -50,8 +50,7 @@ public class GenericIngestionPipeline {
                         result.getMessages()
                 );
 
-                updateStatus(metadata, ProcessingStatus.FAILED);
-                return;
+                return updateStatus(metadata, ProcessingStatus.FAILED);
             }
 
             // =========================
@@ -67,16 +66,16 @@ public class GenericIngestionPipeline {
 
             long duration = System.currentTimeMillis() - start;
 
-            log.info("📊 Processing done | fileId={} | durationMs={} | hasErrors={}",  metadata.getId(), duration, hasErrors);
+            log.info("Processing done | fileId={} | durationMs={} | hasErrors={}", metadata.getId(), duration, hasErrors);
 
             // =========================
             // 3. FINAL STATUS
             // =========================
             if (hasErrors) {
-                updateStatus(metadata, ProcessingStatus.PARTIAL);
-            } else {
-                updateStatus(metadata, ProcessingStatus.COMPLETED);
+                return updateStatus(metadata, ProcessingStatus.PARTIAL);
             }
+
+            return updateStatus(metadata, ProcessingStatus.COMPLETED);
 
         } catch (Exception ex) {
 
@@ -87,16 +86,17 @@ public class GenericIngestionPipeline {
     }
 
     /**
-     * 🔥 KEY EXTENSION POINT
+     * Stream processing extension point.
      */
     protected boolean processStream(InputStream is, ScheduleFileMetaDataDTO metadata, MessageType type) {
         return genericStreamLoader.processStream(is, metadata, type);
     }
 
-    private void updateStatus(ScheduleFileMetaDataDTO metadata, ProcessingStatus status) {
+    private ProcessingStatus updateStatus(ScheduleFileMetaDataDTO metadata, ProcessingStatus status) {
         if (metadata.getProcessingStatus() != status) {
             scheduleService.updateScheduleStatus(metadata, status);
         }
+        return metadata.getProcessingStatus();
     }
 
     private AbstractIngestionContext<?, ?> buildFileContext(ScheduleFileMetaDataDTO metadata, MessageType type) {

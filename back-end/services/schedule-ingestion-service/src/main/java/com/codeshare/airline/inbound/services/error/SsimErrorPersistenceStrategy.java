@@ -39,7 +39,7 @@ public class SsimErrorPersistenceStrategy implements ErrorPersistenceStrategy {
 
                     e.setFileId(ctx.getMetadata().getFileId());
                     e.setLoadId(ctx.getMetadata().getLoadId());
-                    e.setRecordType(msg.getRecordType());
+                    e.setRecordType(msg.getRecordType() != null ? msg.getRecordType() : "NA");
                     e.setRecordKey(msg.getRecordKey());
 
                     e.setSeverity(msg.getSeverity());

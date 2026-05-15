@@ -20,78 +20,36 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
         String uri = buildUri(channel);
         String routeId = buildRouteId(channel);
 
-        log.info(" Creating route [{}] → {}", routeId, uri);
+        log.info("Creating route [{}] -> {}", routeId, uri);
 
         rb.from(uri)
                 .routeId(routeId)
-
-                // 🔥 VERY IMPORTANT (FIX STREAM ISSUE)
                 .streamCaching()
-
-                /* =========================
-                   INBOUND LOGGING
-                   ========================= */
-                .log("📥 Received file=${header.CamelFileName} | source=" + supports())
-
-                /* =========================
-                   DEBUG BODY
-                   ========================= */
+                .log("Received file=${header.CamelFileName} | source=" + supports())
                 .process(exchange -> {
                     Object body = exchange.getMessage().getBody();
-                    log.info("📦 Body type: {}", body != null ? body.getClass() : "NULL");
+                    log.info("Inbound body type: {}", body != null ? body.getClass() : "NULL");
                 })
-
-                /* =========================
-                   CONTEXT INIT
-                   ========================= */
                 .process(this::initializeContext)
-
-                /* =========================
-                   EXTENSION HOOK
-                   ========================= */
                 .process(this::beforeProcessing)
-
-                /* =========================
-                   HEADERS
-                   ========================= */
                 .setHeader("AIRLINE_CODE", constant(channel.getProfile().getAirlineCode()))
                 .setHeader("SOURCE_TYPE", constant(channel.getSourceType().name()))
                 .setHeader("MESSAGE_TYPE", constant(channel.getMessageType().name()))
-
-                /* =========================
-                   FORWARD
-                   ========================= */
-                .log("➡️ Forwarding to processing route file=${header.CamelFileName}")
+                .log("Forwarding to processing route file=${header.CamelFileName}")
                 .toD("seda:${header.MESSAGE_TYPE.toLowerCase()}-processing")
-
-                /* =========================
-                   COMPLETE
-                   ========================= */
-                .log("➡️ Routing airline=${header.AIRLINE_CODE} type=${header.MESSAGE_TYPE}");
+                .log("Routed airline=${header.AIRLINE_CODE} type=${header.MESSAGE_TYPE}");
     }
-
-    /* ======================================================
-       ABSTRACT METHODS
-       ====================================================== */
 
     protected abstract String buildUri(ScheduleIngestionChannelEntity channel);
 
     protected abstract void validate(ScheduleIngestionChannelEntity channel);
 
-    /* ======================================================
-       HOOKS
-       ====================================================== */
-
     protected void beforeProcessing(Exchange exchange) throws Exception {
         // optional override
     }
 
-    /* ======================================================
-       INTERNAL HELPERS
-       ====================================================== */
-
     private void initializeContext(Exchange exchange) {
-        exchange.setProperty("LOAD_ID", UUID.randomUUID().toString());
+        exchange.setProperty("LOAD_ID", UUID.randomUUID());
     }
 
     protected String buildRouteId(ScheduleIngestionChannelEntity c) {

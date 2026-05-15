@@ -29,7 +29,7 @@ public class MessageTypeHandlerConfig {
 
     @Bean
     public StreamExtractorHandler ssimExtractor() {
-        return new SsimMessageExtractor(MessageType.ASM);
+        return new SsimMessageExtractor(MessageType.SSIM);
     }
 
     // 🔥 Auto collect all extractors

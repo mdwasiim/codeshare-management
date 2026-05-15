@@ -1,6 +1,5 @@
 package com.codeshare.airline.inbound.entities.ssim;
 
-import com.codeshare.airline.inbound.domain.enums.RecordType;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,9 +37,8 @@ public class SsimDataElementEntity extends CSMDataAbstractEntity {
        ======================================================= */
 
     // SSIM DEI: Byte 1
-    @Enumerated(EnumType.STRING)
     @Column(name = "record_type", length = 1)
-    private RecordType recordType;
+    private String recordType;
 
     // SSIM DEI: Byte 2
     @Column(name = "operational_suffix", length = 1)

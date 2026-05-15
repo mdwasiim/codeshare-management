@@ -12,14 +12,17 @@ import com.codeshare.airline.inbound.repositories.schedule.ScheduleFileMetaDataR
 import com.codeshare.airline.inbound.repositories.ssim.SsimFileMetaDataRepository;
 import com.codeshare.airline.inbound.source.inbound.ScheduleSourceFile;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class DefaultScheduleFileService implements ScheduleFileService {
 
     private final SsimFileMetaDataRepository ssimFileRepository;
@@ -79,6 +82,7 @@ public class DefaultScheduleFileService implements ScheduleFileService {
 
         SsimFileMetaDataEntity entity =
                 ssimFileRepository.findByFileId(sourceFile.getFileId())
+                        .or(() -> findExistingSsimByChecksum(sourceFile))
                         .orElseGet(() -> ssimFileRepository.save(
                                 ssimMapper.toEntity(sourceFile) //  FIXED
                         ));
@@ -86,8 +90,34 @@ public class DefaultScheduleFileService implements ScheduleFileService {
         return ssimMapper.toDTO(entity); //  FIXED
     }
 
+    private Optional<SsimFileMetaDataEntity> findExistingSsimByChecksum(ScheduleSourceFile sourceFile) {
+        if (isBlank(sourceFile.getAirlineCode()) || isBlank(sourceFile.getChecksum())) {
+            return Optional.empty();
+        }
+
+        Optional<SsimFileMetaDataEntity> existing = ssimFileRepository.findByAirlineCodeAndChecksum(
+                sourceFile.getAirlineCode(),
+                sourceFile.getChecksum()
+        );
+
+        existing.ifPresent(entity -> log.info(
+                "SSIM file already exists for airline={} checksum={} existingFileId={} incomingFileId={} status={}",
+                sourceFile.getAirlineCode(),
+                sourceFile.getChecksum(),
+                entity.getFileId(),
+                sourceFile.getFileId(),
+                entity.getProcessingStatus()
+        ));
+
+        return existing;
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.isBlank();
+    }
+
     /* =========================================================
-       CONVERTERS (🔥 MISSING PIECE YOU NEEDED)
+       CONVERTERS
        ========================================================= */
 
     private ScheduleFileMetaDataDTO convertToSsmDTO(ScheduleSourceFile source) {
@@ -133,7 +163,7 @@ public class DefaultScheduleFileService implements ScheduleFileService {
     }
 
     /* =========================================================
-       STATUS UPDATE (GOOD - KEEP AS IS)
+       STATUS UPDATE
        ========================================================= */
 
     @Override
@@ -186,7 +216,18 @@ public class DefaultScheduleFileService implements ScheduleFileService {
     private boolean shouldUpdate(ProcessingStatus current, ProcessingStatus newStatus) {
 
         if (current == newStatus) return false;
+        if (current == null) return true;
 
-        return current == null || current.ordinal() <= newStatus.ordinal();
+        return switch (current) {
+            case RECEIVED -> newStatus == ProcessingStatus.VALIDATING
+                    || newStatus == ProcessingStatus.FAILED;
+            case VALIDATING -> newStatus == ProcessingStatus.PROCESSING
+                    || newStatus == ProcessingStatus.FAILED;
+            case PROCESSING -> newStatus == ProcessingStatus.COMPLETED
+                    || newStatus == ProcessingStatus.PARTIAL
+                    || newStatus == ProcessingStatus.FAILED;
+            case PARTIAL, FAILED -> newStatus == ProcessingStatus.VALIDATING;
+            case REJECTED, COMPLETED, SUCCESS -> false;
+        };
     }
 }

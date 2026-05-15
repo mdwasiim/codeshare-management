@@ -22,7 +22,7 @@ public class SsimCarrierMapper {
         entity.setId(dto.getId());
         /* ================= SSIM FIELDS ================= */
 
-        entity.setRecordType(dto.getRecordType());
+        entity.setRecordType(SsimRecordTypeMapper.toCode(dto.getRecordType()));
         entity.setTimeMode(dto.getTimeMode());
         entity.setAirlineCode(trim(dto.getAirlineCode(), 3));
 
@@ -69,7 +69,7 @@ public class SsimCarrierMapper {
                         : null
         );
 
-        dto.setRecordType(entity.getRecordType());
+        dto.setRecordType(SsimRecordTypeMapper.fromCode(entity.getRecordType()));
         dto.setTimeMode(entity.getTimeMode());
         dto.setAirlineCode(entity.getAirlineCode());
 
