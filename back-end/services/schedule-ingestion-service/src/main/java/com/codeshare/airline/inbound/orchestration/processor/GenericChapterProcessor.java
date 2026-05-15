@@ -19,7 +19,7 @@ public class GenericChapterProcessor implements ScheduleChapterProcessor {
     private final ScheduleFileService scheduleService;
 
     @Override
-    public void process(ScheduleSourceFile scheduleSourceFile) {
+    public ProcessingStatus process(ScheduleSourceFile scheduleSourceFile) {
 
         MessageType type = scheduleSourceFile.getMessageType();
 
@@ -45,7 +45,7 @@ public class GenericChapterProcessor implements ScheduleChapterProcessor {
                     type,
                     metadata.getFileId(),
                     metadata.getChecksum());
-            return;
+            return metadata.getProcessingStatus();
         }
 
         try {
@@ -57,6 +57,7 @@ public class GenericChapterProcessor implements ScheduleChapterProcessor {
             }
 
             log.info(" Ingestion completed | file={} type={} status={}", scheduleSourceFile.getFileName(), type, finalStatus);
+            return finalStatus;
 
         } catch (Exception ex) {
             log.error(" Ingestion failed | file={} type={}", scheduleSourceFile.getFileName(), type, ex);

@@ -56,12 +56,22 @@ public class AsmContextBuilder implements MessageParser<AsmIngestionContext> {
 
         if (lines == null || lines.isEmpty()) return null;
 
-        String firstLine = lines.get(0);
+        for (String line : lines) {
+            String token = extractFirstToken(line);
+            AsmMessageType type = AsmMessageType.from(token);
 
-        if (firstLine.contains("NEW")) return AsmMessageType.NEW;
-        if (firstLine.contains("CNL")) return AsmMessageType.CNL;
-        if (firstLine.contains("RPL")) return AsmMessageType.RPL;
+            if (type != null && type != AsmMessageType.UNKNOWN) {
+                return type;
+            }
+        }
 
         return null;
+    }
+
+    private String extractFirstToken(String line) {
+        if (line == null) return null;
+        String trimmed = line.trim();
+        int idx = trimmed.indexOf(' ');
+        return idx > 0 ? trimmed.substring(0, idx) : trimmed;
     }
 }

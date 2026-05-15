@@ -36,6 +36,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
         boolean hasPeriod = false;
         boolean hasLeg = false;
         boolean hasEquipment = false;
+        boolean inBlock = false;
 
         Map<String, List<String>> legToDeiMap = new LinkedHashMap<>();
 
@@ -69,6 +70,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                 // ================= ACTION =================
                 case ACTION -> {
                     hasAction = true;
+                    inBlock = true;
 
                     // reset block state
                     hasFlight = false;
@@ -183,6 +185,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                     validateBlock(result, hasFlight, hasPeriod, hasLeg, legToDeiMap);
 
                     // reset block
+                    inBlock = false;
                     hasFlight = false;
                     hasPeriod = false;
                     hasLeg = false;
@@ -205,6 +208,10 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
 
         if (!hasAction)
             result.addError("SSIM_040", "Missing ACTION", null, "ACTION", ValidationStage.STRUCTURAL);
+
+        if (inBlock) {
+            validateBlock(result, hasFlight, hasPeriod, hasLeg, legToDeiMap);
+        }
 
         return result;
     }

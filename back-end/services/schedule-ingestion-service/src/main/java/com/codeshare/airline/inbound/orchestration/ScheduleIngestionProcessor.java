@@ -44,8 +44,8 @@ public class ScheduleIngestionProcessor implements Processor {
                 exchange.getExchangeId());
 
         try {
-            processor.process(sourceFile);
-            exchange.setProperty(ExchangeConstants.PROCESS_STATUS, ProcessingStatus.SUCCESS);
+            ProcessingStatus status = processor.process(sourceFile);
+            exchange.setProperty(ExchangeConstants.PROCESS_STATUS, status);
 
         } catch (Exception ex) {
 

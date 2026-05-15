@@ -196,6 +196,10 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
         if (!hasAction)
             result.addError("ASM_040", "Missing ACTION", null, "ACTION", ValidationStage.STRUCTURAL);
 
+        if (inBlock) {
+            validateBlock(result, hasFlight, hasPeriod, hasLeg, legToDeiMap, lineNo);
+        }
+
         return result;
     }
 
