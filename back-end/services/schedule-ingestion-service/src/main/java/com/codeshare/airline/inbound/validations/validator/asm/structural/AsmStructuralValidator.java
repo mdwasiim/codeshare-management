@@ -15,10 +15,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 @AllArgsConstructor
 public class AsmStructuralValidator implements StructuralValidation<AsmIngestionContext> {
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.ASM);
+    }
 
     @Override
     public ValidationResult validate(AsmIngestionContext context) {

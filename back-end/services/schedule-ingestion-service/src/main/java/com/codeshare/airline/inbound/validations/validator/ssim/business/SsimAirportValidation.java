@@ -1,5 +1,6 @@
 package com.codeshare.airline.inbound.validations.validator.ssim.business;
 
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;
 import com.codeshare.airline.inbound.validations.model.ValidationResult;
 import com.codeshare.airline.inbound.validations.validator.BusinessValidation;
@@ -7,10 +8,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 @Order(4)
 @AllArgsConstructor
 public class SsimAirportValidation implements BusinessValidation<SsimIngestionContext> {
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.SSIM);
+    }
 
     @Override
     public ValidationResult validate(SsimIngestionContext context) {

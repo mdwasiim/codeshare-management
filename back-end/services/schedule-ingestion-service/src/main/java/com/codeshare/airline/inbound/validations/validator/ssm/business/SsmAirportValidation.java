@@ -1,5 +1,6 @@
 package com.codeshare.airline.inbound.validations.validator.ssm.business;
 
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.context.SsmIngestionContext;
 import com.codeshare.airline.inbound.validations.model.ValidationResult;
 import com.codeshare.airline.inbound.validations.validator.BusinessValidation;
@@ -7,12 +8,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Slf4j
 @Component
 @Order(2)
 public class SsmAirportValidation implements BusinessValidation<SsmIngestionContext> {
 
     private static final String AIRPORT_REGEX = "^[A-Z]{3}$";
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.SSM);
+    }
 
     @Override
     public ValidationResult validate(SsmIngestionContext context) {

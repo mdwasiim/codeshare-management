@@ -1,5 +1,6 @@
 package com.codeshare.airline.inbound.validations.validator.ssim.structural;
 
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;
 import com.codeshare.airline.inbound.domain.enums.ValidationStage;
 import com.codeshare.airline.inbound.validations.model.ValidationResult;
@@ -13,6 +14,11 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
 
     private static final int EXPECTED_LENGTH = 200;
     private static final Set<Character> VALID_RECORDS = Set.of('1', '2', '3', '4', '5');
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.SSIM);
+    }
 
     @Override
     public ValidationResult validate(SsimIngestionContext context) {

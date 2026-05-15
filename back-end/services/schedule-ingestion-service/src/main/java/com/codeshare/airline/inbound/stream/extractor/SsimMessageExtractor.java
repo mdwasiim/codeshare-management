@@ -84,7 +84,7 @@ public final class SsimMessageExtractor implements StreamExtractorHandler {
                         String flightKey = flightKey(line);
                         if (!currentFlightGroup.isEmpty() && !flightKey.equals(currentFlightKey)) {
                             currentFlightGroups.add(currentFlightGroup);
-                            if (currentFlightGroups.size() >= maxFlightGroupsPerBatch) {
+                            if (currentFlightGroups.size() > maxFlightGroupsPerBatch) {
                                 flushCompleteGroups(header, currentCarrier, currentFlightGroups, consumer);
                                 currentFlightGroups = new ArrayList<>();
                             }

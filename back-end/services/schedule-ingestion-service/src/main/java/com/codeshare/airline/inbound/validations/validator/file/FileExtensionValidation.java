@@ -9,12 +9,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class FileExtensionValidation implements ScheduleFileExtensionValidation<ScheduleFileMetaDataDTO> {
 
     private final ScheduleIngestionProperties properties;
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.ASM, MessageType.SSM, MessageType.SSIM);
+    }
 
     @Override
     public ValidationResult validate(ScheduleFileMetaDataDTO context) {

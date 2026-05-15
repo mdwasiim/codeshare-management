@@ -1,5 +1,6 @@
 package com.codeshare.airline.inbound.validations.orchestrator;
 
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.context.AbstractIngestionContext;
 import com.codeshare.airline.inbound.domain.context.AsmIngestionContext;
 import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;
@@ -16,9 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BusinessValidationOrchestrator {
 
-    private final List<BusinessValidation<AsmIngestionContext>> asmValidators;
-    private final List<BusinessValidation<SsmIngestionContext>> ssmValidators;
-    private final List<BusinessValidation<SsimIngestionContext>> ssimValidators;
+    private final List<BusinessValidation<?>> validators;
 
     private final ValidationEngine validationEngine;
 
@@ -38,34 +37,33 @@ public class BusinessValidationOrchestrator {
 
     private ValidationResult validateAsm(AsmIngestionContext context) {
 
-        return validationEngine.validate(
-                asmValidators,
-                context,
-                BusinessValidation::validate,
-                false   // collect all errors
-        );
+        return validateByType(MessageType.ASM, context);
     }
 
     /* ================= SSM ================= */
 
     private ValidationResult validateSsm(SsmIngestionContext context) {
 
-        return validationEngine.validate(
-                ssmValidators,
-                context,
-                BusinessValidation::validate,
-                false
-        );
+        return validateByType(MessageType.SSM, context);
     }
 
     /* ================= SSIM ================= */
 
     private ValidationResult validateSsim(SsimIngestionContext context) {
 
+        return validateByType(MessageType.SSIM, context);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends AbstractIngestionContext<?, ?>> ValidationResult validateByType(MessageType type, T context) {
+        List<BusinessValidation<?>> matchingValidators = validators.stream()
+                .filter(validator -> validator.supportedTypes().contains(type))
+                .toList();
+
         return validationEngine.validate(
-                ssimValidators,
+                matchingValidators,
                 context,
-                BusinessValidation::validate,
+                (validator, target) -> ((BusinessValidation<T>) validator).validate(target),
                 false
         );
     }

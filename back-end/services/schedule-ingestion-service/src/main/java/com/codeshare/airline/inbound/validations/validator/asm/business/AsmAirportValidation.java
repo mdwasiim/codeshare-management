@@ -1,14 +1,22 @@
 package com.codeshare.airline.inbound.validations.validator.asm.business;
 
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.context.AsmIngestionContext;
 import com.codeshare.airline.inbound.validations.model.ValidationResult;
 import com.codeshare.airline.inbound.validations.validator.BusinessValidation;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 @Order(3)
 public class AsmAirportValidation implements BusinessValidation<AsmIngestionContext> {
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.ASM);
+    }
 
     @Override
     public ValidationResult validate(AsmIngestionContext context) {

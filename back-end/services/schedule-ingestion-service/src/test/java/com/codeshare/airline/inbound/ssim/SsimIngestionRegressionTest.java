@@ -61,6 +61,29 @@ class SsimIngestionRegressionTest {
     }
 
     @Test
+    void doesNotEmitTrailerOnlyBlockWhenFlightGroupCountEqualsBatchSize() throws Exception {
+        SsimMessageExtractor extractor = new SsimMessageExtractor(MessageType.SSIM, 2);
+        List<List<String>> blocks = new ArrayList<>();
+
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("sample_SSIM.ssim")) {
+            assertThat(inputStream).isNotNull();
+            extractor.extract(inputStream, blocks::add);
+        }
+
+        assertThat(blocks).hasSize(1);
+        assertThat(blocks.getFirst()).filteredOn(line -> line.charAt(0) == '3').hasSize(2);
+        assertThat(blocks.getFirst()).filteredOn(line -> line.charAt(0) == '5').hasSize(1);
+
+        SsimIngestionContext context = SsimIngestionContext.builder()
+                .messageType(MessageType.SSIM)
+                .messageLines(blocks.getFirst())
+                .build();
+
+        ValidationResult result = new SsimStructuralValidator().validate(context);
+        assertThat(result.hasErrors()).isFalse();
+    }
+
+    @Test
     void extractsMultiCarrierSsimFileAsIndependentValidBatches() throws Exception {
         SsimMessageExtractor extractor = new SsimMessageExtractor(MessageType.SSIM);
         List<List<String>> blocks = new ArrayList<>();

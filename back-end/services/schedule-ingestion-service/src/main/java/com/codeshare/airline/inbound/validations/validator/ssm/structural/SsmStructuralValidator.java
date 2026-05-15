@@ -15,10 +15,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 @AllArgsConstructor
 public class SsmStructuralValidator implements StructuralValidation<SsmIngestionContext> {
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.SSM);
+    }
 
     @Override
     public ValidationResult validate(SsmIngestionContext context) {
