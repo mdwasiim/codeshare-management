@@ -91,8 +91,8 @@ class IngestionProcessorRegressionTest {
 
         assertThat(result.hasErrors()).isTrue();
         assertThat(result.getMessages())
-                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSIM_060"))
-                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSIM_070"));
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_060"))
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_070"));
     }
 
     @Test

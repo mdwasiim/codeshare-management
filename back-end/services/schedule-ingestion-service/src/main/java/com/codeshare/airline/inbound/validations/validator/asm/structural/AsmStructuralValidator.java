@@ -125,7 +125,7 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                     }
 
                     // 🔥 TIME VALIDATION
-                    if (!isValidTime(line)) {
+                    if (hasEmbeddedTimeCandidate(line) && !isValidTime(line)) {
                         result.addError("ASM_075", "Invalid time format",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
@@ -134,6 +134,18 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
 
                     String legKey = extractLegKey(line);
                     legToDeiMap.putIfAbsent(legKey, new ArrayList<>());
+                }
+
+                case TIME -> {
+                    if (!hasLeg) {
+                        result.addError("ASM_076", "TIME before LEG",
+                                line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                    }
+
+                    if (!isValidTime(line)) {
+                        result.addError("ASM_075", "Invalid time format",
+                                line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                    }
                 }
 
                 // ================= EQUIPMENT =================
@@ -233,18 +245,18 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                     "BLOCK", ValidationStage.STRUCTURAL);
         }
 
-        for (Map.Entry<String, List<String>> entry : legToDeiMap.entrySet()) {
-            if (entry.getValue().isEmpty()) {
-                result.addError("ASM_095", "LEG without DEI",
-                        entry.getKey(), "BLOCK", ValidationStage.STRUCTURAL);
-            }
-        }
     }
 
     // ================= TIME VALIDATION =================
 
     private boolean isValidTime(String line) {
         return line.matches(".*\\b([01]\\d|2[0-3])[0-5]\\d\\b.*");
+    }
+
+    private boolean hasEmbeddedTimeCandidate(String line) {
+        String[] parts = line.split("\\s+");
+        return parts.length >= 4
+                && (parts[2].matches("\\d{4}.*") || parts[3].matches("\\d{4}.*"));
     }
 
     // ================= LEG KEY =================

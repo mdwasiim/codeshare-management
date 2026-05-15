@@ -59,7 +59,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
             var line = lc.getNormalizedLine();
 
             if (type == ScheduleLineIdentifier.UNKNOWN) {
-                result.addError("SSIM_120", "Unknown line",
+                result.addError("SSM_120", "Unknown line",
                         line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                 continue;
             }
@@ -90,12 +90,12 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                 case FLIGHT -> {
 
                     if (!hasAction) {
-                        result.addError("SSIM_053", "FLIGHT before ACTION",
+                        result.addError("SSM_053", "FLIGHT before ACTION",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
                     if (hasFlight) {
-                        result.addError("SSIM_055", "Multiple FLIGHT in same block",
+                        result.addError("SSM_055", "Multiple FLIGHT in same block",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
@@ -106,12 +106,12 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                 case PERIOD -> {
 
                     if (!hasFlight) {
-                        result.addError("SSIM_062", "PERIOD before FLIGHT",
+                        result.addError("SSM_062", "PERIOD before FLIGHT",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
                     if (hasPeriod) {
-                        result.addError("SSIM_061", "Duplicate PERIOD",
+                        result.addError("SSM_061", "Duplicate PERIOD",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
@@ -122,12 +122,12 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                 case LEG -> {
 
                     if (!hasPeriod) {
-                        result.addError("SSIM_072", "LEG before PERIOD",
+                        result.addError("SSM_072", "LEG before PERIOD",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
-                    if (!isValidTime(line)) {
-                        result.addError("SSIM_075", "Invalid time format",
+                    if (hasEmbeddedTimeCandidate(line) && !isValidTime(line)) {
+                        result.addError("SSM_075", "Invalid time format",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
@@ -137,16 +137,28 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                     legToDeiMap.putIfAbsent(legKey, new ArrayList<>());
                 }
 
+                case TIME -> {
+                    if (!hasLeg) {
+                        result.addError("SSM_076", "TIME before LEG",
+                                line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                    }
+
+                    if (!isValidTime(line)) {
+                        result.addError("SSM_075", "Invalid time format",
+                                line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                    }
+                }
+
                 // ================= EQUIPMENT =================
                 case EQUIPMENT_AND_SERVICE -> {
 
                     if (!hasPeriod) {
-                        result.addError("SSIM_081", "EQUIPMENT before PERIOD",
+                        result.addError("SSM_081", "EQUIPMENT before PERIOD",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
                     if (hasEquipment) {
-                        result.addError("SSIM_082", "Duplicate EQUIPMENT",
+                        result.addError("SSM_082", "Duplicate EQUIPMENT",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
@@ -157,7 +169,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                 case DEI -> {
 
                     if (!hasLeg) {
-                        result.addError("SSIM_091", "DEI before LEG",
+                        result.addError("SSM_091", "DEI before LEG",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                         break;
                     }
@@ -169,7 +181,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                     }
 
                     if (!legToDeiMap.containsKey(deiLeg)) {
-                        result.addError("SSIM_092", "DEI refers to unknown LEG",
+                        result.addError("SSM_092", "DEI refers to unknown LEG",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                         break;
                     }
@@ -180,7 +192,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                 // ================= SUPPLEMENTARY =================
                 case SUPPLEMENTARY -> {
                     if (!hasFlight) {
-                        result.addError("SSIM_100", "SI before FLIGHT",
+                        result.addError("SSM_100", "SI before FLIGHT",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
                 }
@@ -204,16 +216,16 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
         // ================= FINAL CHECK =================
 
         if (!hasHeader)
-            result.addError("SSIM_001", "Missing HEADER", null, "HEADER", ValidationStage.STRUCTURAL);
+            result.addError("SSM_001", "Missing HEADER", null, "HEADER", ValidationStage.STRUCTURAL);
 
         if (!hasTimeMode)
-            result.addError("SSIM_002", "Missing TIME MODE", null, "TIME_MODE", ValidationStage.STRUCTURAL);
+            result.addError("SSM_002", "Missing TIME MODE", null, "TIME_MODE", ValidationStage.STRUCTURAL);
 
         if (!hasRef)
-            result.addError("SSIM_003", "Missing REFERENCE", null, "REF", ValidationStage.STRUCTURAL);
+            result.addError("SSM_003", "Missing REFERENCE", null, "REF", ValidationStage.STRUCTURAL);
 
         if (!hasAction)
-            result.addError("SSIM_040", "Missing ACTION", null, "ACTION", ValidationStage.STRUCTURAL);
+            result.addError("SSM_040", "Missing ACTION", null, "ACTION", ValidationStage.STRUCTURAL);
 
         if (inBlock) {
             validateBlock(result, hasFlight, hasPeriod, hasLeg, legToDeiMap);
@@ -231,32 +243,32 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                                Map<String, List<String>> legToDeiMap) {
 
         if (!hasFlight) {
-            result.addError("SSIM_050", "Missing FLIGHT in block", null,
+            result.addError("SSM_050", "Missing FLIGHT in block", null,
                     "BLOCK", ValidationStage.STRUCTURAL);
         }
 
         if (!hasPeriod) {
-            result.addError("SSIM_060", "Missing PERIOD in block", null,
+            result.addError("SSM_060", "Missing PERIOD in block", null,
                     "BLOCK", ValidationStage.STRUCTURAL);
         }
 
         if (!hasLeg) {
-            result.addError("SSIM_070", "Missing LEG in block", null,
+            result.addError("SSM_070", "Missing LEG in block", null,
                     "BLOCK", ValidationStage.STRUCTURAL);
         }
 
-        for (Map.Entry<String, List<String>> entry : legToDeiMap.entrySet()) {
-            if (entry.getValue().isEmpty()) {
-                result.addError("SSIM_095", "LEG without DEI",
-                        entry.getKey(), "BLOCK", ValidationStage.STRUCTURAL);
-            }
-        }
     }
 
     // ================= TIME VALIDATION =================
 
     private boolean isValidTime(String line) {
         return line.matches(".*\\b([01]\\d|2[0-3])[0-5]\\d\\b.*");
+    }
+
+    private boolean hasEmbeddedTimeCandidate(String line) {
+        String[] parts = line.split("\\s+");
+        return parts.length >= 4
+                && (parts[2].matches("\\d{4}.*") || parts[3].matches("\\d{4}.*"));
     }
 
     // ================= LEG KEY =================

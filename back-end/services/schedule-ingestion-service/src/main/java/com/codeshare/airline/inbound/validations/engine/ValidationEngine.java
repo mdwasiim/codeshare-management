@@ -24,11 +24,11 @@ public class ValidationEngine {
             try {
                 ValidationResult result = executor.execute(validator, target);
 
-                if (result != null && result.hasErrors()) {
+                if (result != null && !result.getMessages().isEmpty()) {
 
                     finalResult.merge(result);
 
-                    if (failFast) break;
+                    if (failFast && result.hasErrors()) break;
                 }
 
             } catch (Exception ex) {
