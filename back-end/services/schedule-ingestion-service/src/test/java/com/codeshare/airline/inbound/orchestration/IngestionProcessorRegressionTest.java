@@ -1,6 +1,9 @@
 package com.codeshare.airline.inbound.orchestration;
 
 import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.inbound.api.controller.ScheduleMessageController;
+import com.codeshare.airline.inbound.api.response.ScheduleMessageValidationResponse;
+import com.codeshare.airline.inbound.api.service.ScheduleMessageApiService;
 import com.codeshare.airline.inbound.domain.context.AsmIngestionContext;
 import com.codeshare.airline.inbound.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;
@@ -29,6 +32,9 @@ import com.codeshare.airline.inbound.validations.validator.ssm.structural.SsmStr
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -42,6 +48,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class IngestionProcessorRegressionTest {
 
@@ -62,6 +69,34 @@ class IngestionProcessorRegressionTest {
         new ScheduleIngestionProcessor(chapterProcessor).process(exchange);
 
         verify(exchange).setProperty(ExchangeConstants.PROCESS_STATUS, ProcessingStatus.PARTIAL);
+    }
+
+    @Test
+    void scheduleMessageApiAcceptsLowercaseAsmTypeForValidationUpload() throws Exception {
+        ScheduleMessageApiService service = mock(ScheduleMessageApiService.class);
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "sample.asm",
+                "text/plain",
+                "ASM\nNEW\nQR701/01AUG\nDOH FRA 0910 1410\nJ 321 Y180\n".getBytes()
+        );
+
+        when(service.validate(MessageType.ASM, "QR", "sample.asm", file.getBytes()))
+                .thenReturn(ScheduleMessageValidationResponse.builder()
+                        .messageType(MessageType.ASM)
+                        .fileName("sample.asm")
+                        .airlineCode("QR")
+                        .valid(true)
+                        .build());
+
+        MockMvcBuilders.standaloneSetup(new ScheduleMessageController(service))
+                .build()
+                .perform(MockMvcRequestBuilders.multipart("/schedule/messages/asm/validate")
+                        .file(file)
+                        .param("airlineCode", "QR"))
+                .andExpect(status().isOk());
+
+        verify(service).validate(MessageType.ASM, "QR", "sample.asm", file.getBytes());
     }
 
     @Test
