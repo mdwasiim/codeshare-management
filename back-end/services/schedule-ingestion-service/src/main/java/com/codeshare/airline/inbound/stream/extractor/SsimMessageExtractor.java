@@ -129,9 +129,7 @@ public final class SsimMessageExtractor implements StreamExtractorHandler {
             metadataOnly.addAll(header);
             metadataOnly.addAll(carrier);
             metadataOnly.addAll(trailer);
-            if (!metadataOnly.isEmpty()) {
-                consumer.accept(metadataOnly);
-            }
+            consumer.accept(metadataOnly);
             return;
         }
 

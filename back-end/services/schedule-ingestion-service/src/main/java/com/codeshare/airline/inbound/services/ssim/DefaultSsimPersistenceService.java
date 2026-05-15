@@ -19,9 +19,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,16 +37,19 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
     private final SsimFlightMapper flightMapper;
 
     @Override
-    public void saveBatch(SSIMMessageDTO context, SsimMetaDataDTO metadata) {
-        if (context == null || metadata == null) {
+    public void saveBatch(SSIMMessageDTO message, SsimMetaDataDTO metadata) {
+        if (message == null || metadata == null) {
             return;
         }
 
-        SsimFileMetaDataEntity logicalFile = resolveLogicalFile(context, metadata);
-        aggregateMapper.toEntity(metadataOnly(context), logicalFile);
-        fileRepository.save(logicalFile);
+        SsimFileMetaDataEntity file = resolveTargetFile(message, metadata);
+        saveFileEnvelope(message, file);
+        saveFlights(message.getFlights(), file.getCarrier());
+    }
 
-        saveFlights(context.getFlights(), logicalFile.getCarrier());
+    private void saveFileEnvelope(SSIMMessageDTO message, SsimFileMetaDataEntity file) {
+        aggregateMapper.toEntity(envelopeOnly(message), file);
+        fileRepository.save(file);
     }
 
     private void saveFlights(List<SsimFlightDTO> flights, SsimCarrierEntity carrier) {
@@ -51,14 +57,21 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
             return;
         }
 
-        List<SsimFlightEntity> entities = new ArrayList<>(flights.size());
+        Set<String> existingFlightKeys = existingFlightKeys(carrier);
+        List<SsimFlightEntity> flightEntities = new ArrayList<>(flights.size());
         for (SsimFlightDTO flight : flights) {
-            entities.add(flightMapper.toEntity(flight, carrier));
+            if (!existingFlightKeys.add(flightKey(flight))) {
+                continue;
+            }
+            flightEntities.add(flightMapper.toEntity(flight, carrier));
         }
-        flightRepository.saveAll(entities);
+
+        if (!flightEntities.isEmpty()) {
+            flightRepository.saveAll(flightEntities);
+        }
     }
 
-    private SSIMMessageDTO metadataOnly(SSIMMessageDTO source) {
+    private SSIMMessageDTO envelopeOnly(SSIMMessageDTO source) {
         return SSIMMessageDTO.builder()
                 .airlineCode(source.getAirlineCode())
                 .flightNumber(source.getFlightNumber())
@@ -69,14 +82,14 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
                 .build();
     }
 
-    private SsimFileMetaDataEntity resolveLogicalFile(SSIMMessageDTO context, SsimMetaDataDTO metadata) {
+    private SsimFileMetaDataEntity resolveTargetFile(SSIMMessageDTO message, SsimMetaDataDTO metadata) {
         SsimFileMetaDataEntity root = fileRepository.findById(metadata.getId())
                 .orElseThrow(() -> new IllegalStateException("SSIM file not found for id=" + metadata.getId()));
 
-        String airlineCode = resolveAirlineCode(context, metadata);
-        String checksum = logicalChecksum(metadata, context, airlineCode);
+        String airlineCode = resolveAirlineCode(message, metadata);
+        String checksum = logicalChecksum(metadata, message, airlineCode);
 
-        if (isEmptyLogicalFile(root)) {
+        if (hasNoSavedEnvelope(root)) {
             applyLogicalMetadata(root, metadata, airlineCode, checksum, root.getFileId());
             return root;
         }
@@ -113,8 +126,44 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
         target.setReceivedTimestamp(source.getReceivedAt() != null ? source.getReceivedAt() : Instant.now());
     }
 
-    private boolean isEmptyLogicalFile(SsimFileMetaDataEntity file) {
+    private boolean hasNoSavedEnvelope(SsimFileMetaDataEntity file) {
         return file.getHeader() == null && file.getCarrier() == null && file.getTrailer() == null;
+    }
+
+    private Set<String> existingFlightKeys(SsimCarrierEntity carrier) {
+        if (carrier.getFlights() == null || carrier.getFlights().isEmpty()) {
+            return new HashSet<>();
+        }
+
+        return carrier.getFlights().stream()
+                .map(this::flightKey)
+                .collect(Collectors.toCollection(HashSet::new));
+    }
+
+    private String flightKey(SsimFlightEntity flight) {
+        if (flight == null) {
+            return "";
+        }
+        return String.join("|",
+                text(flight.getAirlineCode()),
+                text(flight.getFlightNumber()),
+                text(flight.getOperationalSuffix()),
+                text(flight.getItineraryVariationIdentifier()),
+                flight.getLegSequenceNumber() == null ? "" : flight.getLegSequenceNumber().toString()
+        );
+    }
+
+    private String flightKey(SsimFlightDTO flight) {
+        if (flight == null) {
+            return "";
+        }
+        return String.join("|",
+                text(flight.getAirlineCode()),
+                text(flight.getFlightNumber()),
+                text(flight.getOperationalSuffix()),
+                text(flight.getItineraryVariationIdentifier()),
+                flight.getLegSequenceNumber() == null ? "" : flight.getLegSequenceNumber().toString()
+        );
     }
 
     private String resolveAirlineCode(SSIMMessageDTO context, SsimMetaDataDTO metadata) {

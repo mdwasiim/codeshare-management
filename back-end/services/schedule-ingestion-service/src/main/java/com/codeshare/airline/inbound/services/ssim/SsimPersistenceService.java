@@ -4,5 +4,5 @@ import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.inbound.dto.ssim.SsimMetaDataDTO;
 
 public interface SsimPersistenceService {
-    void saveBatch(SSIMMessageDTO ssimMessageDTO, SsimMetaDataDTO ssimInboundFileDTO);
+    void saveBatch(SSIMMessageDTO message, SsimMetaDataDTO metadata);
 }

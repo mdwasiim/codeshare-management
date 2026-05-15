@@ -68,4 +68,11 @@ public class SsimTrailerMapper {
         return entity;
     }
 
+    private String trim(String value, int maxLength) {
+        if (value == null) return null;
+        return value.length() > maxLength
+                ? value.substring(0, maxLength)
+                : value;
+    }
+
 }

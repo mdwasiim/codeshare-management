@@ -183,6 +183,10 @@ public class SsimFlightMapper {
 
         dto.setRecordSerialNumber(entity.getRecordSerialNumber());
 
+        if (entity.getDeis() != null) {
+            entity.getDeis().forEach(dei -> dto.getDeis().add(deiMapper.toDTO(dei)));
+        }
+
         return dto;
     }
 

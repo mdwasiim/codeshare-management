@@ -143,7 +143,7 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
 
         SsimHeaderDTO header = new SsimHeaderDTO();
         header.setRecordType(HEADER);
-        header.setTitleOfContents(line.substring(1, 35).trim());
+        header.setTitleOfContents(line.substring(1, 35));
         header.setSpare36To40(line.substring(35, 40));
         header.setSpare42To191(line.substring(41, 191));
 
@@ -202,7 +202,7 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
         carrier.setInflightServiceInfo(line.substring(169, 188));
         carrier.setElectronicTicketingInfo(line.substring(188, 190));
         carrier.setCreationTimeRaw(line.substring(190, 194));
-        carrier.setRecordSerialNumber(safeNumeric(line.substring(194, 200)));
+        carrier.setRecordSerialNumber(line.substring(194, 200));
 
         return carrier;
     }
@@ -265,8 +265,8 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
         dei.setRecordType(DEI);
 
         dei.setOperationalSuffix(line.substring(1, 2));
-        dei.setAirlineCode(line.substring(2, 5).trim());
-        dei.setFlightNumber(line.substring(5, 9).trim());
+        dei.setAirlineCode(line.substring(2, 5));
+        dei.setFlightNumber(line.substring(5, 9));
         dei.setItineraryVariationIdentifier(line.substring(9, 11));
         dei.setLegSequenceNumber(line.substring(11, 13));
         dei.setServiceType(line.substring(13, 14));
@@ -295,10 +295,6 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
         trailer.setRecordSerialNumber(line.substring(194, 200));
 
         return trailer;
-    }
-
-    private String safeNumeric(String value) {
-        return value.chars().allMatch(Character::isDigit) ? value : null;
     }
 
     private Integer parseLegSequenceNumber(String value) {

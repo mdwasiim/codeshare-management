@@ -63,7 +63,7 @@ public class SsimFlightEntity extends CSMDataAbstractEntity {
     private String airlineCode;
 
     // SSIM T3: Bytes 6–9
-    @Column(name = "flight_number", length = 5, nullable = false)
+    @Column(name = "flight_number", length = 4, nullable = false)
     private String flightNumber;
 
     // SSIM T3: Bytes 10–11
