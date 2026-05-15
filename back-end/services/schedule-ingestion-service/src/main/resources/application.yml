@@ -81,5 +81,7 @@ camel:
 # APP CONFIG
 # ----------------------------------
 app:
+  security:
+    enabled: ${APP_SECURITY_ENABLED:true}
   crypto:
     secret: ${APP_CRYPTO_SECRET:YOUR_16_32_BYTE_SECRET_KEY}
