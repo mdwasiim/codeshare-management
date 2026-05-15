@@ -176,4 +176,11 @@ public class SsimFileMetaDataEntity extends CSMDataAbstractEntity {
             carrier.setFile(this);
         }
     }
+
+    public void setTrailer(SsimTrailerEntity trailer) {
+        this.trailer = trailer;
+        if (trailer != null) {
+            trailer.setFile(this);
+        }
+    }
 }

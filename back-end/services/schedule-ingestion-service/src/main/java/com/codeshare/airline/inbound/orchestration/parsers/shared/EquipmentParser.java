@@ -16,8 +16,7 @@ public final class EquipmentParser {
 
         String aircraft = parts[0];
 
-        // Reject airport codes (3-letter)
-        if (!aircraft.matches("^[A-Z0-9]{2,4}$") || aircraft.matches("^[A-Z]{3}$")) {
+        if (!aircraft.matches("^[A-Z0-9]{2,4}$")) {
             return null;
         }
 

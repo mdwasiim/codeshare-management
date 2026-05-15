@@ -20,7 +20,7 @@ import java.util.List;
                 @Index(name = "idx_ssim_flight_route", columnList = "departure_station,arrival_station"),
                 @Index(
                         name = "idx_ssim_flight_identity",
-                        columnList = "carrier_id,airline_code,flight_number,itinerary_variation_identifier,leg_sequence_number"
+                        columnList = "carrier_id,operational_suffix,airline_code,flight_number,itinerary_variation_identifier,leg_sequence_number,service_type"
                 )
         },
         uniqueConstraints = {
@@ -28,10 +28,12 @@ import java.util.List;
                         name = "uk_ssim_flight",
                         columnNames = {
                                 "carrier_id",
-                                "flight_number",
                                 "operational_suffix",
+                                "airline_code",
+                                "flight_number",
                                 "itinerary_variation_identifier",
-                                "leg_sequence_number"
+                                "leg_sequence_number",
+                                "service_type"
                         }
                 )
         }

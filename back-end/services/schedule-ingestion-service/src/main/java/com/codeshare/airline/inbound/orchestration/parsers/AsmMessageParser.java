@@ -150,7 +150,7 @@ public class AsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
 
         applyRoutingChangeIfNeeded();
 
-        String[] parts = line.split(" ");
+        String[] parts = line.trim().split("\\s+");
 
         // 1️⃣ Parse LEG (first 2 tokens ONLY)
         String legPart = parts[0] + " " + parts[1];
@@ -166,10 +166,12 @@ public class AsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
 
                 var times = TimeParser.parse(timeCandidate);
 
-                leg.setDepartureTime(times.getStd());
-                leg.setArrivalTime(times.getSta());
-                leg.setDepartureDayOffset(times.getDepOffset());
-                leg.setArrivalDayOffset(times.getArrOffset());
+                if (times != null) {
+                    leg.setDepartureTime(times.getStd());
+                    leg.setArrivalTime(times.getSta());
+                    leg.setDepartureDayOffset(times.getDepOffset());
+                    leg.setArrivalDayOffset(times.getArrOffset());
+                }
             }
         }
 

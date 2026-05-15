@@ -21,7 +21,7 @@ import java.util.List;
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "uk_message_sequence",
-                        columnNames = {"message_id", "flight_sequence_number"}
+                        columnNames = {"message_id", "message_sequence_number"}
                 )
         }
 )

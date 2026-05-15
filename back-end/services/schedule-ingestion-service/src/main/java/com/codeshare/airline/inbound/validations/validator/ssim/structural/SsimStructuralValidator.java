@@ -144,7 +144,7 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
                 }
             }
 
-            if (recordType != '5' && previousRecordType != null && previousRecordType != '1') {
+            if (recordType != '5' && previousRecordType != null) {
                 validateSerialSequence(result, line, lineNo, previousRecordSerial);
             }
             previousRecordSerial = serial(line);
@@ -278,6 +278,7 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
         requirePattern(result, "SSIM_T5_006", "Invalid Type 5 continuation/end code", line, 193, 194, "[CE]", lineNo);
         requirePattern(result, "SSIM_T5_007", "Invalid Type 5 record serial number", line, 194, 200, "\\d{6}", lineNo);
         validateTrailerSerialRelation(result, line, lineNo);
+        validateTrailerCheckReference(result, line, lineNo, previousRecordSerial);
     }
 
     private void validateSerialSequence(ValidationResult result, String line, int lineNo, String previousRecordSerial) {
@@ -323,6 +324,19 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
         int actual = Integer.parseInt(trailerSerial);
         if (expected <= 999999 && actual != expected) {
             add(result, "SSIM_T5_008", "Type 5 record serial number must be one greater than serial check reference", line, lineNo);
+        }
+    }
+
+    private void validateTrailerCheckReference(ValidationResult result, String line, int lineNo, String previousRecordSerial) {
+        String checkReference = line.substring(187, 193);
+        if (previousRecordSerial == null
+                || !previousRecordSerial.matches("\\d{6}")
+                || !checkReference.matches("\\d{6}")) {
+            return;
+        }
+
+        if (!checkReference.equals(previousRecordSerial)) {
+            add(result, "SSIM_T5_009", "Type 5 serial check reference must equal previous record serial number", line, lineNo);
         }
     }
 

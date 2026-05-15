@@ -135,6 +135,6 @@ public final class LineClassifierUtil {
     }
 
     public static boolean isLegWithTime(String line) {
-        return line.matches("^[A-Z]{3}\\s+[A-Z]{3}\\s+\\d{4}\\s+\\d{4}$");
+        return line.matches("^[A-Z]{3}\\s+[A-Z]{3}\\s+\\d{4}(\\+\\d)?\\s+\\d{4}(\\+\\d)?$");
     }
 }

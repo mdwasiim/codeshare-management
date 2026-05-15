@@ -65,4 +65,5 @@ public class SsimHeaderEntity extends CSMDataAbstractEntity {
     // SSIM T1: Bytes 195–200
     @Column(name = "record_serial_number", length = 6)
     private String recordSerialNumber;
+
 }
