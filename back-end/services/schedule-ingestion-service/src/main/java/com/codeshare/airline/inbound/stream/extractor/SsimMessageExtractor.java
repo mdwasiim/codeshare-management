@@ -13,9 +13,18 @@ import java.util.function.Consumer;
 @Slf4j
 public final class SsimMessageExtractor implements StreamExtractorHandler {
 
-    private static final int MAX_FLIGHT_GROUPS_PER_BATCH = 5_000;
+    private static final int DEFAULT_FLIGHT_GROUPS_PER_BATCH = 5_000;
+
+    private final int maxFlightGroupsPerBatch;
 
     public SsimMessageExtractor(MessageType messageType) {
+        this(messageType, DEFAULT_FLIGHT_GROUPS_PER_BATCH);
+    }
+
+    public SsimMessageExtractor(MessageType messageType, int maxFlightGroupsPerBatch) {
+        this.maxFlightGroupsPerBatch = maxFlightGroupsPerBatch > 0
+                ? maxFlightGroupsPerBatch
+                : DEFAULT_FLIGHT_GROUPS_PER_BATCH;
     }
 
     @Override
@@ -75,7 +84,7 @@ public final class SsimMessageExtractor implements StreamExtractorHandler {
                         String flightKey = flightKey(line);
                         if (!currentFlightGroup.isEmpty() && !flightKey.equals(currentFlightKey)) {
                             currentFlightGroups.add(currentFlightGroup);
-                            if (currentFlightGroups.size() >= MAX_FLIGHT_GROUPS_PER_BATCH) {
+                            if (currentFlightGroups.size() >= maxFlightGroupsPerBatch) {
                                 flushCompleteGroups(header, currentCarrier, currentFlightGroups, consumer);
                                 currentFlightGroups = new ArrayList<>();
                             }

@@ -1,7 +1,9 @@
 package com.codeshare.airline.inbound.orchestration.parsers;
 
+import com.codeshare.airline.inbound.config.ScheduleIngestionProperties;
 import com.codeshare.airline.inbound.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.inbound.domain.enums.RecordType;
+import com.codeshare.airline.inbound.domain.enums.SsimValidationMode;
 import com.codeshare.airline.inbound.domain.enums.TimeMode;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimCarrierDTO;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimDataElementDTO;
@@ -10,6 +12,7 @@ import com.codeshare.airline.inbound.dto.common.ssim.SsimHeaderDTO;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimTrailerDTO;
 import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,6 +27,19 @@ import static com.codeshare.airline.inbound.domain.enums.RecordType.LEG;
 public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
 
     private static final int SSIM_RECORD_LENGTH = 200;
+
+    private final SsimValidationMode validationMode;
+
+    public SsimMessageParser() {
+        this.validationMode = SsimValidationMode.RELAXED;
+    }
+
+    @Autowired
+    public SsimMessageParser(ScheduleIngestionProperties properties) {
+        this.validationMode = properties.getSsim().getValidationMode() == null
+                ? SsimValidationMode.RELAXED
+                : properties.getSsim().getValidationMode();
+    }
 
     @Override
     public SSIMMessageDTO parseMessage(ScheduleGroupedMessage scheduleGroupedMessage) {
@@ -73,7 +89,7 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
 
     private void attachDei(String line, List<SsimFlightDTO> legs) {
         if (legs.isEmpty()) {
-            log.warn("DEI without leg: {}", line);
+            handleInvalidDei("DEI without previous leg: " + line);
             return;
         }
 
@@ -94,6 +110,9 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
             }
         }
 
+        if (isStrict()) {
+            throw new IllegalArgumentException("DEI did not match a previous leg by full identity: " + dei);
+        }
         log.warn("DEI did not match a previous leg by full identity; attaching to latest leg: {}", dei);
         return legs.getLast();
     }
@@ -162,6 +181,8 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
             timeMode = TimeMode.LT;
         } else if ("U".equals(timeModeStr)) {
             timeMode = TimeMode.UTC;
+        } else if (isStrict()) {
+            throw new IllegalArgumentException("Invalid SSIM Type 2 time mode: [" + timeModeStr + "]");
         }
         carrier.setTimeMode(timeMode);
 
@@ -194,7 +215,7 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
         leg.setAirlineCode(line.substring(2, 5));
         leg.setFlightNumber(line.substring(5, 9));
         leg.setItineraryVariationIdentifier(line.substring(9, 11));
-        leg.setLegSequenceNumber(Integer.valueOf(line.substring(11, 13)));
+        leg.setLegSequenceNumber(parseLegSequenceNumber(line.substring(11, 13)));
         leg.setServiceType(line.substring(13, 14));
         leg.setOperatingPeriodStartRaw(line.substring(14, 21));
         leg.setOperatingPeriodEndRaw(line.substring(21, 28));
@@ -278,6 +299,24 @@ public class SsimMessageParser implements ScheduleParser<SSIMMessageDTO> {
 
     private String safeNumeric(String value) {
         return value.chars().allMatch(Character::isDigit) ? value : null;
+    }
+
+    private Integer parseLegSequenceNumber(String value) {
+        if (value == null || !value.matches("\\d{2}")) {
+            throw new IllegalArgumentException("Invalid SSIM Type 3 leg sequence number: [" + value + "]");
+        }
+        return Integer.valueOf(value);
+    }
+
+    private void handleInvalidDei(String message) {
+        if (isStrict()) {
+            throw new IllegalArgumentException(message);
+        }
+        log.warn(message);
+    }
+
+    private boolean isStrict() {
+        return validationMode == SsimValidationMode.STRICT;
     }
 
     private void validateRecordLength(String line) {

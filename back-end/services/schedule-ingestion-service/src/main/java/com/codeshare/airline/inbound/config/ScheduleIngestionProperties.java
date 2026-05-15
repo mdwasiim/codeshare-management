@@ -2,6 +2,7 @@ package com.codeshare.airline.inbound.config;
 
 import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
+import com.codeshare.airline.inbound.domain.enums.SsimValidationMode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,4 +21,12 @@ public class ScheduleIngestionProperties {
 
     private Map<MessageType, List<String>> allowedExtensions;
 
+    private Ssim ssim = new Ssim();
+
+    @Getter
+    @Setter
+    public static class Ssim {
+        private int flightBatchSize = 5_000;
+        private SsimValidationMode validationMode = SsimValidationMode.RELAXED;
+    }
 }

@@ -61,6 +61,10 @@ logging:
 ingestion:
   local-root: ${INGESTION_LOCAL_ROOT:C:/Users/mdwas/Projects/messages}
 
+  ssim:
+    flight-batch-size: ${SSIM_FLIGHT_BATCH_SIZE:5000}
+    validation-mode: ${SSIM_VALIDATION_MODE:RELAXED}
+
   allowed-extensions:
     SSIM: [txt, ssim]
     SSM: [txt, ssim]

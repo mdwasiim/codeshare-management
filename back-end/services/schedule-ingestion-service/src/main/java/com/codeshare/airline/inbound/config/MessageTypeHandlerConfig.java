@@ -28,8 +28,8 @@ public class MessageTypeHandlerConfig {
     }
 
     @Bean
-    public StreamExtractorHandler ssimExtractor() {
-        return new SsimMessageExtractor(MessageType.SSIM);
+    public StreamExtractorHandler ssimExtractor(ScheduleIngestionProperties properties) {
+        return new SsimMessageExtractor(MessageType.SSIM, properties.getSsim().getFlightBatchSize());
     }
 
     // 🔥 Auto collect all extractors
