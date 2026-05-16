@@ -16,15 +16,50 @@
 .page-header {
     justify-content: space-between;
     align-items: center;
+    padding: 0.25rem 0;
 
     h1 {
         margin: 0 0 0.35rem;
-        font-size: 1.5rem;
+        font-size: 1.625rem;
+        font-weight: 700;
     }
 
     p {
         margin: 0;
         color: var(--text-color-secondary);
+    }
+}
+
+.summary-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+
+    div {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.75rem 0.875rem;
+        border: 1px solid var(--surface-border);
+        border-radius: 8px;
+        background: var(--surface-card);
+        box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+    }
+
+    span {
+        color: var(--text-color-secondary);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    strong {
+        overflow: hidden;
+        color: var(--text-color);
+        font-size: 1.05rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 
@@ -37,6 +72,7 @@
     border: 1px solid var(--surface-border);
     border-radius: 8px;
     background: var(--surface-card);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
 }
 
 .filter-actions {
@@ -74,6 +110,39 @@
     gap: 0.25rem;
 }
 
+.row-actions--visible {
+    justify-content: flex-start;
+    gap: 0.35rem;
+}
+
+.file-col {
+    width: 20rem;
+}
+
+.date-col {
+    width: 9rem;
+}
+
+.status-col {
+    width: 8rem;
+}
+
+.code-col,
+.size-col {
+    width: 5rem;
+}
+
+.actions-col {
+    width: 6.25rem;
+}
+
+.truncate-cell {
+    max-width: 20rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 label {
     display: flex;
     flex: 0 0 7rem;
@@ -109,6 +178,72 @@ label {
     }
 }
 
+:host ::ng-deep .metadata-table,
+:host ::ng-deep .flight-data-table {
+    .p-datatable-wrapper {
+        overflow: auto;
+        border: 1px solid var(--surface-border);
+        border-radius: 8px;
+    }
+
+    .p-datatable-thead > tr > th {
+        background: var(--surface-ground);
+        color: var(--text-color-secondary);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .p-datatable-tbody > tr {
+        cursor: pointer;
+        transition:
+            background-color 0.15s ease,
+            box-shadow 0.15s ease;
+    }
+
+    .p-datatable-tbody > tr:hover {
+        background: var(--surface-hover);
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+        vertical-align: top;
+    }
+
+    td {
+        max-width: 18rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .metadata-action-button.p-button.p-button-sm {
+        width: auto;
+        min-width: 5rem;
+        height: 2rem;
+        padding: 0 0.45rem;
+        border-radius: 6px;
+        color: var(--text-color);
+        background: var(--surface-ground);
+
+        &:hover {
+            background: var(--surface-hover);
+        }
+
+        .p-button-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+    }
+}
+
+:host ::ng-deep .metadata-table {
+    .p-datatable-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+}
+
 @media (max-width: 1250px) {
     .filter-actions {
         margin-left: 0;
@@ -120,19 +255,35 @@ label {
     border-radius: 8px;
     background: var(--surface-card);
     padding: 1rem;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
 }
 
 .panel-header {
     justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 1rem;
 
     h2 {
-        margin: 0;
+        margin: 0 0 0.25rem;
         font-size: 1rem;
+        font-weight: 700;
     }
 
-    span {
+    p {
+        margin: 0;
         color: var(--text-color-secondary);
+        font-size: 0.8125rem;
+    }
+
+    > span {
+        flex: 0 0 auto;
+        padding: 0.25rem 0.5rem;
+        border: 1px solid var(--surface-border);
+        border-radius: 999px;
+        background: var(--surface-ground);
+        color: var(--text-color-secondary);
+        font-size: 0.75rem;
+        font-weight: 700;
     }
 }
 
@@ -166,7 +317,6 @@ label {
     min-width: 0;
 }
 
-:host ::ng-deep .flight-table,
 :host ::ng-deep .dei-dialog-content {
     .p-datatable-wrapper {
         overflow: auto;
@@ -192,24 +342,31 @@ label {
 }
 
 .selected-row {
-    background: var(--highlight-bg);
+    background: var(--highlight-bg) !important;
+    box-shadow: inset 3px 0 0 var(--primary-color);
 }
 
 .empty-state {
     color: var(--text-color-secondary);
 }
 
-pre {
-    max-height: 30rem;
-    overflow: auto;
-    margin: 0;
-    padding: 1rem;
-    border-radius: 8px;
-    background: var(--surface-ground);
-}
-
 @media (max-width: 1100px) {
     .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .page-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .summary-strip {
         grid-template-columns: 1fr;
     }
 }

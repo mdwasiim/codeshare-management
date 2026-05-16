@@ -37,6 +37,14 @@ export interface LoadedScheduleSummary {
     flightCount: number;
 }
 
+export interface LoadedScheduleMessageSummary {
+    file: ScheduleFileMetaData;
+    messageId: string;
+    messageSequenceNumber: number;
+    message: ScheduleParsedMessage;
+    flightCount: number;
+}
+
 export interface LoadedScheduleDetail {
     file: ScheduleFileMetaData;
     schedule?: unknown;
@@ -114,6 +122,34 @@ export interface ScheduleFlight {
 }
 
 export type AnyScheduleFlight = SsimFlight & ScheduleFlight;
+
+export interface ScheduleParsedMessage {
+    messageType?: ScheduleMessageType;
+    source?: string;
+    sender?: string;
+    recipient?: string;
+    timeMode?: string;
+    creationDate?: string;
+    creationDateRaw?: string;
+    creationTime?: string;
+    creatorReference?: string;
+    messageReference?: string;
+    rawHeader?: string;
+    processingStatus?: string;
+    errorMessage?: string;
+    messages?: ScheduleSubMessage[];
+}
+
+export interface ScheduleSubMessage {
+    actionType?: string;
+    messageSequenceNumber?: number;
+    messageReference?: string;
+    timeMode?: string;
+    rawMessage?: string;
+    processingStatus?: string;
+    errorMessage?: string;
+    flights?: ScheduleFlight[];
+}
 
 export interface SchedulePeriod {
     startDate?: string;

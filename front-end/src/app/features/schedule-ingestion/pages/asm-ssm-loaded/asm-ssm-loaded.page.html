@@ -10,6 +10,25 @@
         </div>
     </section>
 
+    <section class="summary-strip">
+        <div>
+            <span>Message Type</span>
+            <strong>{{ type }}</strong>
+        </div>
+        <div>
+            <span>Loaded Messages</span>
+            <strong>{{ totalMessages }}</strong>
+        </div>
+        <div>
+            <span>Selected Message</span>
+            <strong>{{ selectedMessageRow ? '#' + selectedMessageRow.messageSequenceNumber : '-' }}</strong>
+        </div>
+        <div>
+            <span>Parsed Flights</span>
+            <strong>{{ totalFlights }}</strong>
+        </div>
+    </section>
+
     <section class="filter-bar">
         <label class="type-field">
             Type
@@ -44,99 +63,99 @@
         </div>
     </section>
 
-    <section class="panel">
-        <div class="panel-header">
-            <h2>Loaded Metadata</h2>
-            <span>{{ totalFiles }} files</span>
+    <section class="metadata-detail-layout">
+        <div class="panel metadata-panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Loaded Metadata</h2>
+                    <p>One row per parsed inbound message.</p>
+                </div>
+                <span>{{ totalMessages }} messages</span>
+            </div>
+
+            <p-table [value]="messageRows" [loading]="loadingFiles" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalMessages" responsiveLayout="scroll" styleClass="metadata-table p-datatable-sm" dataKey="messageId" (onLazyLoad)="loadFiles($event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="file-col">File</th>
+                        <th class="message-col">Msg</th>
+                        <th class="code-col">Airline</th>
+                        <th class="code-col">Type</th>
+                        <th class="reference-col">Reference</th>
+                        <th class="status-col">Status</th>
+                        <th class="date-col">Received</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-row>
+                    <tr [class.selected-row]="selectedMessageRow?.messageId === row.messageId" (click)="loadParsedMessage(row)">
+                        <td class="truncate-cell" [pTooltip]="row.file?.fileName || '-'" tooltipPosition="top">{{ row.file?.fileName || '-' }}</td>
+                        <td>#{{ row.messageSequenceNumber || '-' }}</td>
+                        <td>{{ row.file?.airlineCode || '-' }}</td>
+                        <td>{{ row.file?.messageType || type }}</td>
+                        <td class="truncate-cell" [pTooltip]="row.message?.messageReference || row.message?.creatorReference || '-'" tooltipPosition="top">{{ row.message?.messageReference || row.message?.creatorReference || '-' }}</td>
+                        <td><p-tag [value]="row.file?.processingStatus || '-'" [severity]="statusSeverity(row.file?.processingStatus)"></p-tag></td>
+                        <td>{{ row.file?.receivedAt | date: 'short' }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7">No metadata loaded.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
 
-        <p-table [value]="files" [loading]="loadingFiles" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalFiles" responsiveLayout="scroll" class="p-datatable-sm" dataKey="fileId" (onLazyLoad)="loadFiles($event)">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>File</th>
-                    <th>Airline</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Size</th>
-                    <th>Received</th>
-                    <th>Processed</th>
-                    <th></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-file>
-                <tr [class.selected-row]="selectedFile?.fileId === file.fileId" (click)="loadFlights(file)">
-                    <td>{{ file.fileName || '-' }}</td>
-                    <td>{{ file.airlineCode || '-' }}</td>
-                    <td>{{ file.messageType || type }}</td>
-                    <td><p-tag [value]="file.processingStatus || '-'" [severity]="statusSeverity(file.processingStatus)"></p-tag></td>
-                    <td>{{ file.fileSizeBytes || '-' }}</td>
-                    <td>{{ file.receivedAt | date: 'short' }}</td>
-                    <td>{{ file.processedAt | date: 'short' }}</td>
-                    <td>
-                        <div class="row-actions">
-                            <p-button icon="pi pi-eye" size="small" text pTooltip="View detail" tooltipPosition="top" (click)="viewDetail(file); $event.stopPropagation()"></p-button>
-                        </div>
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="8">No metadata loaded.</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </section>
+        <aside class="panel parsed-panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Inbound Source Message</h2>
+                    <p>{{ selectedMessageRow?.file?.fileName || 'No message selected' }}</p>
+                </div>
+                <div class="source-header-actions">
+                    <span>{{ selectedMessageRow?.file?.messageType || type }}</span>
+                    <p-button icon="pi pi-list" label="Parsed" size="small" severity="secondary" [disabled]="!selectedMessageRow" (click)="selectedMessageRow && showParsedMessage(selectedMessageRow)"></p-button>
+                    <p-button icon="pi pi-eye" label="Compare" size="small" [disabled]="!selectedMessageRow" (click)="selectedMessageRow && viewDetail(selectedMessageRow)"></p-button>
+                </div>
+            </div>
 
-    <section class="detail-grid">
-        @if (detailVisible) {
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>Detailed Schedule</h2>
-                    <span>{{ selectedFile?.fileName || 'Select metadata' }}</span>
+            @if (selectedMessageRow) {
+                <div class="source-meta">
+                    <div>
+                        <span>File</span>
+                        <strong>{{ selectedMessageRow.file.fileName || '-' }}</strong>
+                    </div>
+                    <div>
+                        <span>Message</span>
+                        <strong>#{{ selectedMessageRow.messageSequenceNumber || '-' }}</strong>
+                    </div>
+                    <div>
+                        <span>Reference</span>
+                        <strong>{{ selectedMessageRow.message.messageReference || selectedMessageRow.message.creatorReference || '-' }}</strong>
+                    </div>
+                    <div>
+                        <span>Time Mode</span>
+                        <strong>{{ selectedMessageRow.message.timeMode || '-' }}</strong>
+                    </div>
                 </div>
 
-                @if (loadingDetail) {
-                    <p>Loading schedule detail...</p>
-                } @else if (selectedDetail) {
-                    <pre>{{ formatDetail() }}</pre>
-                } @else {
-                    <p class="empty-state">Use the view detail action to load the detailed schedule.</p>
-                }
-            </div>
-        }
+                <div class="source-message">
+                    @if (selectedMessageRow.message.rawHeader) {
+                        <div class="raw-block">
+                            <span><i class="pi pi-inbox"></i> Header</span>
+                            <pre>{{ selectedMessageRow.message.rawHeader }}</pre>
+                        </div>
+                    }
 
-        <div class="panel flights-panel" [class.flights-panel--wide]="!detailVisible">
-            <div class="panel-header">
-                <h2>Flights</h2>
-                <span>{{ totalFlights }} flights</span>
-            </div>
-
-            <p class="selection-hint">Select a flight row to view DEI information.</p>
-
-            <div class="flight-table">
-                <p-table [value]="flights" [loading]="loadingFlights" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalFlights" responsiveLayout="scroll" class="p-datatable-sm" (onLazyLoad)="selectedFile && loadFlights(selectedFile, $event)">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            @for (column of flightColumns; track column.field) {
-                                <th>{{ column.header }}</th>
-                            }
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-flight>
-                        <tr [class.selected-row]="selectedFlight === flight" (click)="selectFlight(flight)">
-                            @for (column of flightColumns; track column.field) {
-                                <td>{{ flightValue(flight, column.field) }}</td>
-                            }
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td [attr.colspan]="flightColumns.length">No flights loaded.</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-        </div>
+                    @for (message of rawMessageBlocks(selectedMessageRow); track message.messageSequenceNumber) {
+                        <div class="raw-block">
+                            <span><i class="pi pi-file"></i> {{ message.actionType || 'Message' }} #{{ message.messageSequenceNumber || '-' }}</span>
+                            <pre>{{ message.rawMessage || '-' }}</pre>
+                        </div>
+                    }
+                </div>
+            } @else {
+                <p class="empty-state">Select a metadata row to view the inbound source message.</p>
+            }
+        </aside>
     </section>
 
     <p-dialog [(visible)]="deiDialogVisible" [modal]="true" [draggable]="false" [resizable]="false" [style]="{ width: 'min(92vw, 72rem)' }" [contentStyle]="{ overflow: 'hidden' }">
@@ -170,5 +189,96 @@
                 </ng-template>
             </p-table>
         </div>
+    </p-dialog>
+
+    <p-dialog [(visible)]="parsedDialogVisible" [modal]="true" [draggable]="false" [resizable]="false" styleClass="parsed-message-dialog" [style]="{ width: 'min(94vw, 76rem)' }" [contentStyle]="{ overflow: 'auto', maxHeight: '78vh' }">
+        <ng-template pTemplate="header">
+            <div class="dialog-title">
+                <span>Parsed Message Details</span>
+                <small>{{ selectedMessageRow?.file?.fileName || 'Selected message' }}</small>
+            </div>
+        </ng-template>
+
+        @if (selectedMessageRow && firstFlight(); as flight) {
+            <div class="parsed-dialog-content">
+                <div class="parsed-summary">
+                    <div class="summary-card summary-card--primary">
+                        <span>Flight</span>
+                        <strong>{{ flight.airlineDesignator || '-' }} {{ flight.flightNumber || '-' }}{{ flight.operationalSuffix || '' }}</strong>
+                    </div>
+                    <div class="summary-card">
+                        <span>Route</span>
+                        <strong>{{ flight.boardPoint || '-' }} - {{ flight.offPoint || '-' }}</strong>
+                    </div>
+                    <div class="summary-card">
+                        <span>Operation Date</span>
+                        <strong>{{ flight.operationDate || '-' }}</strong>
+                    </div>
+                    <div class="summary-card">
+                        <span>Equipment</span>
+                        <strong>{{ flight.aircraftType || '-' }} / {{ flight.serviceType || '-' }}</strong>
+                    </div>
+                </div>
+
+                <div class="parsed-detail-grid parsed-detail-grid--dialog">
+                    <div class="detail-section">
+                        <h3>Periods</h3>
+                        @if (flight.periods?.length) {
+                            @for (period of flight.periods; track period.startDate + '-' + period.endDate) {
+                                <div class="detail-row">
+                                    <span>{{ period.startDate || '-' }} to {{ period.endDate || '-' }}</span>
+                                    <strong>{{ period.daysOfOperation || '-' }}</strong>
+                                </div>
+                            }
+                        } @else {
+                            <p class="empty-state">No period data.</p>
+                        }
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Legs</h3>
+                        @if (flight.legs?.length) {
+                            @for (leg of flight.legs; track leg.legSequenceNumber) {
+                                <div class="detail-row">
+                                    <span>{{ leg.legSequenceNumber || '-' }}: {{ leg.boardPoint || '-' }} - {{ leg.offPoint || '-' }}</span>
+                                    <strong>{{ leg.departureTime || '-' }} / {{ leg.arrivalTime || '-' }}</strong>
+                                </div>
+                            }
+                        } @else {
+                            <p class="empty-state">No leg data.</p>
+                        }
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Supplementary</h3>
+                        @if (flight.supplementaryInfo?.length) {
+                            @for (info of flight.supplementaryInfo; track info) {
+                                <div class="detail-row detail-row--wide">
+                                    <span>{{ info }}</span>
+                                </div>
+                            }
+                        } @else {
+                            <p class="empty-state">No supplementary information.</p>
+                        }
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>DEI Information</h3>
+                        @if (selectedFlightDeis().length) {
+                            @for (dei of selectedFlightDeis(); track dei['sequenceOrder'] || dei['deiCode']) {
+                                <div class="detail-row">
+                                    <span>{{ dei['scope'] || '-' }} / {{ dei['deiCode'] || '-' }}</span>
+                                    <strong>{{ dei['value'] || '-' }}</strong>
+                                </div>
+                            }
+                        } @else {
+                            <p class="empty-state">No DEI information.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        } @else {
+            <p class="empty-state">No parsed details available.</p>
+        }
     </p-dialog>
 </div>

@@ -87,12 +87,14 @@ public class ScheduleLegMapper {
 
                 .departureTime(entity.getDepartureTime())
                 .arrivalTime(entity.getArrivalTime())
+                .departureDayOffset(entity.getDepartureDayOffset())
                 .arrivalDayOffset(entity.getArrivalDayOffset())
 
                 /* ================= EQUIPMENT ================= */
 
                 .aircraftType(entity.getAircraftType())
                 .aircraftConfiguration(entity.getAircraftConfiguration())
+                .serviceType(entity.getServiceType())
 
                 /* ================= DEI ================= */
 

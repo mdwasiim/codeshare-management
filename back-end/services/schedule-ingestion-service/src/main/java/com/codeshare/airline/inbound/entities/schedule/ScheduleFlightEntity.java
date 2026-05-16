@@ -48,6 +48,15 @@ public class ScheduleFlightEntity extends CSMDataAbstractEntity {
     @Column(name = "suffix", length = 1)
     private String suffix;
 
+    @Column(name = "operation_date_raw", length = 20)
+    private String operationDateRaw;
+
+    @Column(name = "board_point", length = 3)
+    private String boardPoint;
+
+    @Column(name = "off_point", length = 3)
+    private String offPoint;
+
     /* ================= EQUIPMENT ================= */
 
     @Column(name = "aircraft_type", length = 4)

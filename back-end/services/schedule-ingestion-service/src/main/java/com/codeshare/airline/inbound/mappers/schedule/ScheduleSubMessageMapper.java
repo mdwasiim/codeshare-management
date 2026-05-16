@@ -26,6 +26,8 @@ public class ScheduleSubMessageMapper {
 
         // 🔥 DO NOT default here — handled by parent
         entity.setMessageSequenceNumber(dto.getMessageSequenceNumber());
+        entity.setMessageReference(dto.getMessageReference());
+        entity.setTimeMode(dto.getTimeMode());
 
         entity.setRawMessage(
                 dto.getRawMessage() != null && !dto.getRawMessage().isBlank()
@@ -65,7 +67,11 @@ public class ScheduleSubMessageMapper {
 
                 .actionType(entity.getActionType())
                 .messageSequenceNumber(entity.getMessageSequenceNumber())
+                .messageReference(entity.getMessageReference())
+                .timeMode(entity.getTimeMode())
                 .rawMessage(entity.getRawMessage())
+                .processingStatus(entity.getProcessingStatus() != null ? entity.getProcessingStatus().name() : null)
+                .errorMessage(entity.getErrorMessage())
 
                 .flights(
                         entity.getFlights() != null

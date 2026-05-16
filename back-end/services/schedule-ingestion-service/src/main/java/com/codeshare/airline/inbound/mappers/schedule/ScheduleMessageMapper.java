@@ -89,12 +89,16 @@ public class ScheduleMessageMapper {
                 .recipient(entity.getRecipient())
 
                 .creationDate(entity.getCreationDate())
+                .creationDateRaw(entity.getCreationDateRaw())
                 .creationTime(entity.getCreationTime())
+                .timeMode(entity.getTimeMode())
 
                 .messageReference(entity.getMessageReference())
                 .creatorReference(entity.getCreatorReference())
 
                 .rawHeader(entity.getRawHeader())
+                .processingStatus(entity.getProcessingStatus() != null ? entity.getProcessingStatus().name() : null)
+                .errorMessage(entity.getErrorMessage())
 
                 /* ================= SUB-MESSAGES ================= */
 

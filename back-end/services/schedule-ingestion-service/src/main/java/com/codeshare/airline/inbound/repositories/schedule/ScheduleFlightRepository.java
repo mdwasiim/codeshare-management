@@ -11,4 +11,6 @@ public interface ScheduleFlightRepository
         JpaSpecificationExecutor<ScheduleFlightEntity> {
 
     long countBySubMessage_Message_File_FileId(UUID fileId);
+
+    long countBySubMessage_Message_Id(UUID messageId);
 }

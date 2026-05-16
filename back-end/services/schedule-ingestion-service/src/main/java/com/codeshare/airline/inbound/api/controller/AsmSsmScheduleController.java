@@ -4,6 +4,7 @@ import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.api.response.ScheduleFileMessageResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleDetailResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleSummaryResponse;
+import com.codeshare.airline.inbound.api.response.ScheduleLoadedMessageSummaryResponse;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
@@ -64,6 +65,29 @@ public class AsmSsmScheduleController {
             Pageable pageable
     ) {
         return queryService.searchFiles(
+                messageType(type),
+                airlineCode,
+                processingStatus,
+                receivedFrom,
+                receivedTo,
+                fileName,
+                sourceType,
+                pageable
+        );
+    }
+
+    @GetMapping("/{type}/messages")
+    public Page<ScheduleLoadedMessageSummaryResponse> searchMessages(
+            @PathVariable String type,
+            @RequestParam(required = false) String airlineCode,
+            @RequestParam(required = false) ProcessingStatus processingStatus,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant receivedFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant receivedTo,
+            @RequestParam(required = false) String fileName,
+            @RequestParam(required = false) SourceType sourceType,
+            Pageable pageable
+    ) {
+        return queryService.searchLoadedMessages(
                 messageType(type),
                 airlineCode,
                 processingStatus,

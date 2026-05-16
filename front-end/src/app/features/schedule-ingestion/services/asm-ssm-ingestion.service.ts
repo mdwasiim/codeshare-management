@@ -5,6 +5,7 @@ import { AppToastService } from '@services/toast/app-toast.service';
 import {
     AnyScheduleFlight,
     LoadedScheduleDetail,
+    LoadedScheduleMessageSummary,
     LoadedScheduleSummary,
     PageResponse,
     ScheduleAction,
@@ -52,6 +53,13 @@ export class AsmSsmIngestionService {
 
     searchFiles(type: ScheduleMessageType, params: Record<string, string | number | boolean> = {}) {
         return this.api.get<PageResponse<ScheduleFileMetaData>>(API_ENDPOINTS.scheduleIngestion.asmSsm.files, {
+            pathParams: { type: type.toLowerCase() },
+            params
+        });
+    }
+
+    searchMessages(type: ScheduleMessageType, params: Record<string, string | number | boolean> = {}) {
+        return this.api.get<PageResponse<LoadedScheduleMessageSummary>>(API_ENDPOINTS.scheduleIngestion.asmSsm.messages, {
             pathParams: { type: type.toLowerCase() },
             params
         });

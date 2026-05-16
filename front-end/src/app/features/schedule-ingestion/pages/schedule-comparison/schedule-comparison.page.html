@@ -1,0 +1,48 @@
+<div class="schedule-comparison-page">
+    <section class="page-header">
+        <div>
+            <h1>Schedule Comparison</h1>
+            <p>Review schedule changes after comparison with the current master schedule.</p>
+        </div>
+        <div class="page-actions">
+            <p-button icon="pi pi-arrow-left" label="Back" severity="secondary" [routerLink]="backRoute"></p-button>
+        </div>
+    </section>
+
+    <section class="panel metadata-panel">
+        <div>
+            <span>Type</span>
+            <p-tag [value]="type"></p-tag>
+        </div>
+        <div>
+            <span>Carrier</span>
+            <strong>{{ airlineCode }}</strong>
+        </div>
+        <div>
+            <span>File</span>
+            <strong>{{ fileName }}</strong>
+        </div>
+        <div>
+            <span>File ID</span>
+            <strong>{{ fileId }}</strong>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-header">
+            <h2>Comparison Result</h2>
+            <span>Pending</span>
+        </div>
+
+        <p class="empty-state">Comparison output will be shown here after ingestion is connected with the master schedule update flow.</p>
+
+        <div class="metric-grid">
+            @for (metric of metrics; track metric.label) {
+                <div class="metric">
+                    <span>{{ metric.label }}</span>
+                    <strong>{{ metric.value }}</strong>
+                </div>
+            }
+        </div>
+    </section>
+</div>

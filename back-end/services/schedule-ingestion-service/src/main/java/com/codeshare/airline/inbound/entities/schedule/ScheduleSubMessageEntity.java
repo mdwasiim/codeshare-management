@@ -2,6 +2,7 @@ package com.codeshare.airline.inbound.entities.schedule;
 
 import com.codeshare.airline.inbound.domain.enums.ActionType;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
+import com.codeshare.airline.inbound.domain.enums.TimeMode;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -37,6 +38,13 @@ public class ScheduleSubMessageEntity extends CSMDataAbstractEntity {
 
     @Column(name = "message_sequence_number", nullable = false)
     private Integer messageSequenceNumber;
+
+    @Column(name = "message_reference", length = 50)
+    private String messageReference;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "time_mode", length = 5)
+    private TimeMode timeMode;
 
     @Lob
     @Column(name = "raw_message", columnDefinition = "TEXT")

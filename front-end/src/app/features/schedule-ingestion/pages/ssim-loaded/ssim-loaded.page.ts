@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,7 +9,7 @@ import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { AnyScheduleFlight, LoadedScheduleDetail, LoadedScheduleSummary, ScheduleFileMetaData } from '@features/schedule-ingestion/models/schedule-ingestion.model';
+import { AnyScheduleFlight, LoadedScheduleSummary, ScheduleFileMetaData } from '@features/schedule-ingestion/models/schedule-ingestion.model';
 import { SsimIngestionService } from '@features/schedule-ingestion/services/ssim-ingestion.service';
 
 interface Column {
@@ -26,6 +26,7 @@ interface Column {
 })
 export class SsimLoadedPage implements OnInit {
     private service = inject(SsimIngestionService);
+    private router = inject(Router);
 
     readonly statuses = ['RECEIVED', 'VALIDATED', 'PARSED', 'LOADED', 'PARTIALLY_LOADED', 'FAILED'];
     readonly sourceTypes = ['LOCAL', 'SFTP', 'EMAIL', 'MQ', 'REST', 'CLOUD'];
@@ -40,16 +41,13 @@ export class SsimLoadedPage implements OnInit {
     files: ScheduleFileMetaData[] = [];
     flights: AnyScheduleFlight[] = [];
     selectedFile: ScheduleFileMetaData | null = null;
-    selectedDetail: LoadedScheduleDetail | unknown | null = null;
     selectedFlight: AnyScheduleFlight | null = null;
     selectedDeis: Record<string, unknown>[] = [];
     deiDialogVisible = false;
-    detailVisible = false;
 
     loadingSchedules = false;
     loadingFiles = false;
     loadingFlights = false;
-    loadingDetail = false;
     totalSchedules = 0;
     totalFiles = 0;
     totalFlights = 0;
@@ -162,26 +160,8 @@ export class SsimLoadedPage implements OnInit {
     }
 
     viewDetail(file: ScheduleFileMetaData) {
-        this.selectedFile = file;
-        this.detailVisible = true;
-        this.loadingDetail = true;
-        this.service.getLoadedScheduleDetail(file.fileId).subscribe({
-            next: (detail) => {
-                this.selectedDetail = detail;
-                this.loadingDetail = false;
-            },
-            error: () => {
-                this.service.getFileSchedule(file.fileId).subscribe({
-                    next: (detail) => {
-                        this.selectedDetail = detail;
-                        this.loadingDetail = false;
-                    },
-                    error: () => {
-                        this.selectedDetail = null;
-                        this.loadingDetail = false;
-                    }
-                });
-            }
+        this.router.navigate(['/schedule-comparison', file.messageType || 'SSIM', file.fileId], {
+            queryParams: { fileName: file.fileName || '', airlineCode: file.airlineCode || '' }
         });
     }
 
@@ -215,10 +195,6 @@ export class SsimLoadedPage implements OnInit {
         return value === undefined || value === null || value === '' ? '-' : value;
     }
 
-    formatDetail() {
-        return JSON.stringify(this.selectedDetail, null, 2);
-    }
-
     statusSeverity(status?: string): 'success' | 'secondary' | 'danger' | 'info' | 'warn' {
         switch (status) {
             case 'LOADED':
@@ -242,8 +218,6 @@ export class SsimLoadedPage implements OnInit {
         this.selectedFlight = null;
         this.selectedDeis = [];
         this.deiDialogVisible = false;
-        this.selectedDetail = null;
-        this.detailVisible = false;
     }
 
     private pageParams(event?: TableLazyLoadEvent) {

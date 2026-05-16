@@ -4,6 +4,7 @@ import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.api.response.ScheduleFileMessageResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleDetailResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleSummaryResponse;
+import com.codeshare.airline.inbound.api.response.ScheduleLoadedMessageSummaryResponse;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
@@ -11,6 +12,7 @@ import com.codeshare.airline.inbound.dto.schedule.ScheduleFlightDTO;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleMessageDTO;
 import com.codeshare.airline.inbound.entities.schedule.ScheduleFileMetaDataEntity;
 import com.codeshare.airline.inbound.entities.schedule.ScheduleFlightEntity;
+import com.codeshare.airline.inbound.entities.schedule.ScheduleMessageEntity;
 import com.codeshare.airline.inbound.mappers.schedule.ScheduleFileMetaDataMapper;
 import com.codeshare.airline.inbound.mappers.schedule.ScheduleFlightMapper;
 import com.codeshare.airline.inbound.mappers.schedule.ScheduleMessageMapper;
@@ -76,6 +78,32 @@ public class ScheduleQueryService {
                 .messageCount(messageRepository.countByFile_FileId(file.getFileId()))
                 .flightCount(flightRepository.countBySubMessage_Message_File_FileId(file.getFileId()))
                 .build());
+    }
+
+    public Page<ScheduleLoadedMessageSummaryResponse> searchLoadedMessages(
+            MessageType messageType,
+            String airlineCode,
+            ProcessingStatus processingStatus,
+            Instant receivedFrom,
+            Instant receivedTo,
+            String fileName,
+            SourceType sourceType,
+            Pageable pageable
+    ) {
+        assertScheduleType(messageType);
+        return messageRepository.findAll(
+                messageSpec(messageType, airlineCode, processingStatus, receivedFrom, receivedTo, fileName, sourceType),
+                pageable
+        ).map(message -> {
+            ScheduleFileMetaDataEntity file = message.getFile();
+            return ScheduleLoadedMessageSummaryResponse.builder()
+                    .file(fileMapper.toDto(file))
+                    .messageId(message.getId())
+                    .messageSequenceNumber(sequenceNumber(message))
+                    .message(messageMapper.toDTO(message))
+                    .flightCount(flightRepository.countBySubMessage_Message_Id(message.getId()))
+                    .build();
+        });
     }
 
     public ScheduleFileMetaDataDTO getFile(MessageType messageType, UUID fileId) {
@@ -252,6 +280,57 @@ public class ScheduleQueryService {
 
             return cb.and(predicates.toArray(Predicate[]::new));
         };
+    }
+
+    private Specification<ScheduleMessageEntity> messageSpec(
+            MessageType messageType,
+            String airlineCode,
+            ProcessingStatus processingStatus,
+            Instant receivedFrom,
+            Instant receivedTo,
+            String fileName,
+            SourceType sourceType
+    ) {
+        return (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            Join<Object, Object> file = root.join("file");
+
+            predicates.add(cb.equal(file.get("messageType"), messageType));
+            if (hasText(airlineCode)) {
+                predicates.add(cb.equal(file.get("airlineCode"), airlineCode.trim()));
+            }
+            if (processingStatus != null) {
+                predicates.add(cb.equal(file.get("processingStatus"), processingStatus));
+            }
+            if (receivedFrom != null) {
+                predicates.add(cb.greaterThanOrEqualTo(file.get("receivedAt"), receivedFrom));
+            }
+            if (receivedTo != null) {
+                predicates.add(cb.lessThanOrEqualTo(file.get("receivedAt"), receivedTo));
+            }
+            if (hasText(fileName)) {
+                predicates.add(cb.like(cb.lower(file.get("fileName")), "%" + fileName.trim().toLowerCase() + "%"));
+            }
+            if (sourceType != null) {
+                predicates.add(cb.equal(file.get("sourceType"), sourceType));
+            }
+
+            return cb.and(predicates.toArray(Predicate[]::new));
+        };
+    }
+
+    private int sequenceNumber(ScheduleMessageEntity message) {
+        ScheduleFileMetaDataEntity file = message.getFile();
+        if (file == null || file.getSafeEnvelopes().isEmpty()) {
+            return 1;
+        }
+        List<ScheduleMessageEntity> envelopes = file.getSafeEnvelopes();
+        for (int i = 0; i < envelopes.size(); i++) {
+            if (message.equals(envelopes.get(i))) {
+                return i + 1;
+            }
+        }
+        return 1;
     }
 
     private void assertScheduleType(MessageType messageType) {

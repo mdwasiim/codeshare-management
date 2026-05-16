@@ -18,6 +18,10 @@ export const SCHEDULE_INGESTION_ROUTES: Routes = [
         loadComponent: () => import('./pages/asm-ssm-actions/asm-ssm-actions.page').then((m) => m.AsmSsmActionsPage)
     },
     {
+        path: 'schedule-comparison/:type/:fileId',
+        loadComponent: () => import('./pages/schedule-comparison/schedule-comparison.page').then((m) => m.ScheduleComparisonPage)
+    },
+    {
         path: 'upload',
         redirectTo: 'ssim-ingestion',
         pathMatch: 'full'

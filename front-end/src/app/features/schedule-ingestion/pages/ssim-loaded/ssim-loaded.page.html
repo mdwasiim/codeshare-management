@@ -10,6 +10,25 @@
         </div>
     </section>
 
+    <section class="summary-strip">
+        <div>
+            <span>Message Type</span>
+            <strong>SSIM</strong>
+        </div>
+        <div>
+            <span>Loaded Files</span>
+            <strong>{{ totalFiles }}</strong>
+        </div>
+        <div>
+            <span>Selected File</span>
+            <strong>{{ selectedFile?.fileName || '-' }}</strong>
+        </div>
+        <div>
+            <span>Loaded Flights</span>
+            <strong>{{ totalFlights }}</strong>
+        </div>
+    </section>
+
     <section class="filter-bar">
         <label>
             Carrier
@@ -42,37 +61,40 @@
 
     <section class="panel">
         <div class="panel-header">
-            <h2>Loaded Metadata</h2>
+            <div>
+                <h2>Loaded Metadata</h2>
+                <p>One row per ingested SSIM file.</p>
+            </div>
             <span>{{ totalFiles }} files</span>
         </div>
 
-        <p-table [value]="files" [loading]="loadingFiles" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalFiles" responsiveLayout="scroll" class="p-datatable-sm" dataKey="fileId" (onLazyLoad)="loadFiles($event)">
+        <p-table [value]="files" [loading]="loadingFiles" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalFiles" responsiveLayout="scroll" styleClass="metadata-table p-datatable-sm" dataKey="fileId" (onLazyLoad)="loadFiles($event)">
             <ng-template pTemplate="header">
                 <tr>
-                    <th>File</th>
-                    <th>Airline</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Size</th>
-                    <th>Received</th>
-                    <th>Processed</th>
-                    <th></th>
+                    <th class="file-col">File</th>
+                    <th class="actions-col">Actions</th>
+                    <th class="code-col">Airline</th>
+                    <th class="code-col">Type</th>
+                    <th class="status-col">Status</th>
+                    <th class="size-col">Size</th>
+                    <th class="date-col">Received</th>
+                    <th class="date-col">Processed</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-file>
                 <tr [class.selected-row]="selectedFile?.fileId === file.fileId" (click)="loadFlights(file)">
-                    <td>{{ file.fileName || '-' }}</td>
+                    <td class="truncate-cell" [pTooltip]="file.fileName || '-'" tooltipPosition="top">{{ file.fileName || '-' }}</td>
+                    <td>
+                        <div class="row-actions row-actions--visible">
+                            <p-button icon="pi pi-eye" label="Compare" size="small" text styleClass="metadata-action-button" pTooltip="Open comparison" tooltipPosition="top" (click)="viewDetail(file); $event.stopPropagation()"></p-button>
+                        </div>
+                    </td>
                     <td>{{ file.airlineCode || '-' }}</td>
                     <td>{{ file.messageType || 'SSIM' }}</td>
                     <td><p-tag [value]="file.processingStatus || '-'" [severity]="statusSeverity(file.processingStatus)"></p-tag></td>
                     <td>{{ file.fileSizeBytes || '-' }}</td>
                     <td>{{ file.receivedAt | date: 'short' }}</td>
                     <td>{{ file.processedAt | date: 'short' }}</td>
-                    <td>
-                        <div class="row-actions">
-                            <p-button icon="pi pi-eye" size="small" text pTooltip="View detail" tooltipPosition="top" (click)="viewDetail(file); $event.stopPropagation()"></p-button>
-                        </div>
-                    </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
@@ -84,33 +106,17 @@
     </section>
 
     <section class="detail-grid">
-        @if (detailVisible) {
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>Detailed SSIM Schedule</h2>
-                    <span>{{ selectedFile?.fileName || 'Select metadata' }}</span>
-                </div>
-
-                @if (loadingDetail) {
-                    <p>Loading schedule detail...</p>
-                } @else if (selectedDetail) {
-                    <pre>{{ formatDetail() }}</pre>
-                } @else {
-                    <p class="empty-state">Use the view detail action to load the detailed schedule.</p>
-                }
-            </div>
-        }
-
-        <div class="panel flights-panel" [class.flights-panel--wide]="!detailVisible">
+        <div class="panel flights-panel flights-panel--wide">
             <div class="panel-header">
-                <h2>Flights</h2>
+                <div>
+                    <h2>Flights</h2>
+                    <p>Select a flight row to inspect DEI information.</p>
+                </div>
                 <span>{{ totalFlights }} flights</span>
             </div>
 
-            <p class="selection-hint">Select a flight row to view DEI information.</p>
-
             <div class="flight-table">
-                <p-table [value]="flights" [loading]="loadingFlights" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalFlights" responsiveLayout="scroll" class="p-datatable-sm" (onLazyLoad)="selectedFile && loadFlights(selectedFile, $event)">
+                <p-table [value]="flights" [loading]="loadingFlights" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalFlights" responsiveLayout="scroll" styleClass="flight-data-table p-datatable-sm" (onLazyLoad)="selectedFile && loadFlights(selectedFile, $event)">
                     <ng-template pTemplate="header">
                         <tr>
                             @for (column of flightColumns; track column.field) {

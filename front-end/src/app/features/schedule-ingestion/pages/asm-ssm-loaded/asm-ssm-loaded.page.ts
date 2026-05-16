@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,7 +9,14 @@ import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { AnyScheduleFlight, LoadedScheduleDetail, LoadedScheduleSummary, ScheduleFileMetaData, ScheduleMessageType } from '@features/schedule-ingestion/models/schedule-ingestion.model';
+import {
+    AnyScheduleFlight,
+    LoadedScheduleMessageSummary,
+    LoadedScheduleSummary,
+    ScheduleFileMetaData,
+    ScheduleMessageType,
+    ScheduleSubMessage
+} from '@features/schedule-ingestion/models/schedule-ingestion.model';
 import { AsmSsmIngestionService } from '@features/schedule-ingestion/services/asm-ssm-ingestion.service';
 
 interface Column {
@@ -26,6 +33,7 @@ interface Column {
 })
 export class AsmSsmLoadedPage implements OnInit {
     private service = inject(AsmSsmIngestionService);
+    private router = inject(Router);
 
     readonly messageTypes: ScheduleMessageType[] = ['ASM', 'SSM'];
     readonly statuses = ['RECEIVED', 'VALIDATED', 'PARSED', 'LOADED', 'PARTIALLY_LOADED', 'FAILED'];
@@ -39,21 +47,19 @@ export class AsmSsmLoadedPage implements OnInit {
     receivedDate = '';
 
     schedules: LoadedScheduleSummary[] = [];
-    files: ScheduleFileMetaData[] = [];
+    messageRows: LoadedScheduleMessageSummary[] = [];
     flights: AnyScheduleFlight[] = [];
     selectedFile: ScheduleFileMetaData | null = null;
-    selectedDetail: LoadedScheduleDetail | unknown | null = null;
+    selectedMessageRow: LoadedScheduleMessageSummary | null = null;
     selectedFlight: AnyScheduleFlight | null = null;
     selectedDeis: Record<string, unknown>[] = [];
     deiDialogVisible = false;
-    detailVisible = false;
+    parsedDialogVisible = false;
 
     loadingSchedules = false;
     loadingFiles = false;
-    loadingFlights = false;
-    loadingDetail = false;
     totalSchedules = 0;
-    totalFiles = 0;
+    totalMessages = 0;
     totalFlights = 0;
 
     readonly flightColumns: Column[] = [
@@ -85,7 +91,6 @@ export class AsmSsmLoadedPage implements OnInit {
     ];
 
     ngOnInit(): void {
-        this.loadSchedules();
         this.loadFiles();
     }
 
@@ -118,66 +123,43 @@ export class AsmSsmLoadedPage implements OnInit {
             receivedTo: receivedRange.to
         });
 
-        this.service.searchFiles(this.type, { ...filters, ...this.pageParams(event) }).subscribe({
+        this.service.searchMessages(this.type, { ...filters, ...this.pageParams(event) }).subscribe({
             next: (page) => {
-                this.files = page.content ?? [];
-                this.totalFiles = page.totalElements ?? 0;
+                this.messageRows = page.content ?? [];
+                this.totalMessages = page.totalElements ?? 0;
                 this.loadingFiles = false;
             },
             error: () => {
-                this.files = [];
-                this.totalFiles = 0;
+                this.messageRows = [];
+                this.totalMessages = 0;
                 this.loadingFiles = false;
             }
         });
     }
 
-    loadFlights(file: ScheduleFileMetaData, event?: TableLazyLoadEvent) {
-        this.selectedFile = file;
-        this.loadingFlights = true;
-        this.service.searchFlights(this.type, file.fileId, this.pageParams(event)).subscribe({
-            next: (page) => {
-                this.flights = page.content ?? [];
-                this.selectedFlight = null;
-                this.selectedDeis = [];
-                this.deiDialogVisible = false;
-                this.totalFlights = page.totalElements ?? 0;
-                this.loadingFlights = false;
-            },
-            error: () => {
-                this.flights = [];
-                this.totalFlights = 0;
-                this.loadingFlights = false;
-            }
-        });
+    loadParsedMessage(row: LoadedScheduleMessageSummary) {
+        this.selectedMessageRow = row;
+        this.selectedFile = row.file;
+        this.flights = this.messageFlights(row);
+        this.selectedFlight = null;
+        this.selectedDeis = [];
+        this.deiDialogVisible = false;
+        this.totalFlights = this.flights.length;
     }
 
-    viewDetail(file: ScheduleFileMetaData) {
-        this.selectedFile = file;
-        this.detailVisible = true;
-        this.loadingDetail = true;
-        this.service.getLoadedScheduleDetail(this.type, file.fileId).subscribe({
-            next: (detail) => {
-                this.selectedDetail = detail;
-                this.loadingDetail = false;
-            },
-            error: () => {
-                this.service.getFileSchedule(this.type, file.fileId).subscribe({
-                    next: (detail) => {
-                        this.selectedDetail = detail;
-                        this.loadingDetail = false;
-                    },
-                    error: () => {
-                        this.selectedDetail = null;
-                        this.loadingDetail = false;
-                    }
-                });
+    viewDetail(row: LoadedScheduleMessageSummary) {
+        const file = row.file;
+        this.router.navigate(['/schedule-comparison', file.messageType || this.type, file.fileId], {
+            queryParams: {
+                fileName: file.fileName || '',
+                airlineCode: file.airlineCode || '',
+                messageId: row.messageId,
+                messageSequenceNumber: row.messageSequenceNumber
             }
         });
     }
 
     refreshAll() {
-        this.loadSchedules();
         this.loadFiles();
     }
 
@@ -200,6 +182,30 @@ export class AsmSsmLoadedPage implements OnInit {
         this.deiDialogVisible = true;
     }
 
+    showRawMessage(row: LoadedScheduleMessageSummary) {
+        this.selectedMessageRow = row;
+        this.flights = this.messageFlights(row);
+        this.totalFlights = this.flights.length;
+    }
+
+    showParsedMessage(row: LoadedScheduleMessageSummary) {
+        this.loadParsedMessage(row);
+        this.parsedDialogVisible = true;
+    }
+
+    rawMessageBlocks(row: LoadedScheduleMessageSummary | null): ScheduleSubMessage[] {
+        return row?.message?.messages ?? [];
+    }
+
+    firstFlight(): AnyScheduleFlight | null {
+        return this.flights[0] ?? null;
+    }
+
+    selectedFlightDeis(): Record<string, unknown>[] {
+        const flight = this.firstFlight();
+        return flight ? this.collectDeis(flight) : [];
+    }
+
     flightValue(flight: AnyScheduleFlight, field: string) {
         switch (field) {
             case 'periodSummary':
@@ -218,10 +224,6 @@ export class AsmSsmLoadedPage implements OnInit {
     deiValue(dei: Record<string, unknown>, field: string) {
         const value = dei[field];
         return value === undefined || value === null || value === '' ? '-' : value;
-    }
-
-    formatDetail() {
-        return JSON.stringify(this.selectedDetail, null, 2);
     }
 
     statusSeverity(status?: string): 'success' | 'secondary' | 'danger' | 'info' | 'warn' {
@@ -268,12 +270,16 @@ export class AsmSsmLoadedPage implements OnInit {
 
     private clearSelection() {
         this.selectedFile = null;
+        this.selectedMessageRow = null;
         this.flights = [];
         this.selectedFlight = null;
         this.selectedDeis = [];
         this.deiDialogVisible = false;
-        this.selectedDetail = null;
-        this.detailVisible = false;
+        this.parsedDialogVisible = false;
+    }
+
+    private messageFlights(row: LoadedScheduleMessageSummary): AnyScheduleFlight[] {
+        return (row.message?.messages ?? []).flatMap((message) => message.flights ?? []) as AnyScheduleFlight[];
     }
 
     private pageParams(event?: TableLazyLoadEvent) {

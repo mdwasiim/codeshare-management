@@ -29,6 +29,10 @@ public class ScheduleFlightMapper {
         entity.setCarrier(dto.getAirlineDesignator());
         entity.setFlightNumber(dto.getFlightNumber());
         entity.setSuffix(dto.getOperationalSuffix());
+        entity.setFlightSequenceNumber(dto.getFlightSequenceNumber());
+        entity.setOperationDateRaw(dto.getOperationDate());
+        entity.setBoardPoint(dto.getBoardPoint());
+        entity.setOffPoint(dto.getOffPoint());
 
         /* ================= EQUIPMENT ================= */
 
@@ -109,6 +113,10 @@ public class ScheduleFlightMapper {
                 .airlineDesignator(entity.getCarrier())
                 .flightNumber(entity.getFlightNumber())
                 .operationalSuffix(entity.getSuffix())
+                .flightSequenceNumber(entity.getFlightSequenceNumber())
+                .operationDate(entity.getOperationDateRaw())
+                .boardPoint(entity.getBoardPoint())
+                .offPoint(entity.getOffPoint())
 
                 /* ================= EQUIPMENT ================= */
 
@@ -120,10 +128,12 @@ public class ScheduleFlightMapper {
                 /* ================= PERIODS ================= */
 
                 .periods(
-                        entity.getPeriods()
+                        entity.getPeriods() != null
+                                ? entity.getPeriods()
                                 .stream()
                                 .map(periodMapper::toDTO)
                                 .toList()
+                                : java.util.List.of()
                 )
 
                 /* ================= LEGS ================= */
@@ -146,7 +156,11 @@ public class ScheduleFlightMapper {
 
                 /* ================= SUPPLEMENTARY ================= */
 
-                .supplementaryInfo(entity.getSupplementaryInfo())
+                .supplementaryInfo(
+                        entity.getSupplementaryInfo() != null
+                                ? new java.util.ArrayList<>(entity.getSupplementaryInfo())
+                                : java.util.List.of()
+                )
 
                 .build();
     }

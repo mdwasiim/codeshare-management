@@ -109,6 +109,7 @@ export const API_ENDPOINTS = {
         },
         asmSsm: {
             files: makeEndpoint('/schedule/asm-ssm/{type}/files'),
+            messages: makeEndpoint('/schedule/asm-ssm/{type}/messages'),
             loadedScheduleById: makeEndpoint('/schedule/asm-ssm/loaded-schedules/{fileId}'),
             scheduleByFileId: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/schedule'),
             fileFlights: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/flights'),

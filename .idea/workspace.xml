@@ -6,17 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/loaded-schedules/loaded-schedules.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/loaded-schedules/loaded-schedules.page.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/loaded-schedules/loaded-schedules.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/schedule-actions/schedule-actions.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/schedule-actions/schedule-actions.page.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/schedule-actions/schedule-actions.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/schedule-upload/schedule-upload.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/schedule-upload/schedule-upload.page.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/schedule-upload/schedule-upload.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/api/controller/AsmSsmScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/api/controller/AsmSsmScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/entities/schedule/ScheduleFlightEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/entities/schedule/ScheduleFlightEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/entities/schedule/ScheduleSubMessageEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/entities/schedule/ScheduleSubMessageEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/mappers/schedule/ScheduleFlightMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/mappers/schedule/ScheduleFlightMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/mappers/schedule/ScheduleLegMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/mappers/schedule/ScheduleLegMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/mappers/schedule/ScheduleMessageMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/mappers/schedule/ScheduleMessageMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/mappers/schedule/ScheduleSubMessageMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/mappers/schedule/ScheduleSubMessageMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/repositories/schedule/ScheduleFlightRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/repositories/schedule/ScheduleFlightRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/repositories/schedule/ScheduleMessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/repositories/schedule/ScheduleMessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/services/schedule/ScheduleQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/inbound/services/schedule/ScheduleQueryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/models/schedule-ingestion.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/models/schedule-ingestion.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/asm-ssm-loaded/asm-ssm-loaded.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/asm-ssm-loaded/asm-ssm-loaded.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/asm-ssm-loaded/asm-ssm-loaded.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/asm-ssm-loaded/asm-ssm-loaded.page.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/asm-ssm-loaded/asm-ssm-loaded.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/asm-ssm-loaded/asm-ssm-loaded.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/ssim-loaded/ssim-loaded.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/ssim-loaded/ssim-loaded.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/ssim-loaded/ssim-loaded.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/ssim-loaded/ssim-loaded.page.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/ssim-loaded/ssim-loaded.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/pages/ssim-loaded/ssim-loaded.page.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/schedule-ingestion.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/schedule-ingestion.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/services/schedule-ingestion.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/services/asm-ssm-ingestion.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/services/asm-ssm-ingestion.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +93,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763230214823</updated>
-      <workItem from="1778918094946" duration="11616000" />
+      <workItem from="1778918094946" duration="15635000" />
     </task>
     <servers />
   </component>
