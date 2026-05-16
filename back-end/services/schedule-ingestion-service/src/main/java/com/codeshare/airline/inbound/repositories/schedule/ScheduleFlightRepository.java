@@ -10,4 +10,5 @@ public interface ScheduleFlightRepository
         extends CSMDataBaseRepository<ScheduleFlightEntity, UUID>,
         JpaSpecificationExecutor<ScheduleFlightEntity> {
 
+    long countBySubMessage_Message_File_FileId(UUID fileId);
 }

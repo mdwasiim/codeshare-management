@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface ScheduleMessageRepository
         extends CSMDataBaseRepository<ScheduleMessageEntity, UUID> {
 
+    long countByFile_FileId(UUID fileId);
 }

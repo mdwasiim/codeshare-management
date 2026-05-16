@@ -1,6 +1,8 @@
 package com.codeshare.airline.inbound.api.controller;
 
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
+import com.codeshare.airline.inbound.api.response.SsimLoadedScheduleDetailResponse;
+import com.codeshare.airline.inbound.api.response.SsimLoadedScheduleSummaryResponse;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;
 import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.inbound.dto.ssim.SsimMetaDataDTO;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +47,22 @@ public class SsimScheduleController {
                 checksum,
                 pageable
         );
+    }
+
+    @GetMapping("/loaded-schedules")
+    public Page<SsimLoadedScheduleSummaryResponse> searchLoadedSchedules(
+            @RequestHeader("X-Tenant-Id") String tenantCode,
+            Pageable pageable
+    ) {
+        return queryService.searchLoadedSchedules(tenantCode, pageable);
+    }
+
+    @GetMapping("/loaded-schedules/{fileId}")
+    public SsimLoadedScheduleDetailResponse getLoadedSchedule(
+            @RequestHeader("X-Tenant-Id") String tenantCode,
+            @PathVariable UUID fileId
+    ) {
+        return queryService.getLoadedSchedule(tenantCode, fileId);
     }
 
     @GetMapping("/files/{fileId}")

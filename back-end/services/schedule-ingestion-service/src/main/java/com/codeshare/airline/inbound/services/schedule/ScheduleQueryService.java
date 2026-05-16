@@ -2,6 +2,8 @@ package com.codeshare.airline.inbound.services.schedule;
 
 import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.api.response.ScheduleFileMessageResponse;
+import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleDetailResponse;
+import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleSummaryResponse;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFlightDTO;
@@ -13,6 +15,7 @@ import com.codeshare.airline.inbound.mappers.schedule.ScheduleFlightMapper;
 import com.codeshare.airline.inbound.mappers.schedule.ScheduleMessageMapper;
 import com.codeshare.airline.inbound.repositories.schedule.ScheduleFileMetaDataRepository;
 import com.codeshare.airline.inbound.repositories.schedule.ScheduleFlightRepository;
+import com.codeshare.airline.inbound.repositories.schedule.ScheduleMessageRepository;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,7 @@ public class ScheduleQueryService {
 
     private final ScheduleFileMetaDataRepository fileRepository;
     private final ScheduleFlightRepository flightRepository;
+    private final ScheduleMessageRepository messageRepository;
     private final ScheduleFileMetaDataMapper fileMapper;
     private final ScheduleMessageMapper messageMapper;
     private final ScheduleFlightMapper flightMapper;
@@ -57,6 +61,22 @@ public class ScheduleQueryService {
         ).map(fileMapper::toDto);
     }
 
+    public Page<ScheduleLoadedScheduleSummaryResponse> searchLoadedSchedules(
+            MessageType messageType,
+            String tenantCode,
+            Pageable pageable
+    ) {
+        assertScheduleTypeIfPresent(messageType);
+        return fileRepository.findAll(
+                fileSpec(messageType, normalizeTenantCode(tenantCode), null, null, null, null, null),
+                pageable
+        ).map(file -> ScheduleLoadedScheduleSummaryResponse.builder()
+                .file(fileMapper.toDto(file))
+                .messageCount(messageRepository.countByFile_FileId(file.getFileId()))
+                .flightCount(flightRepository.countBySubMessage_Message_File_FileId(file.getFileId()))
+                .build());
+    }
+
     public ScheduleFileMetaDataDTO getFile(MessageType messageType, UUID fileId) {
         return fileMapper.toDto(findFile(messageType, fileId));
     }
@@ -71,6 +91,21 @@ public class ScheduleQueryService {
         return ScheduleFileMessageResponse.builder()
                 .file(fileMapper.toDto(file))
                 .messages(messages)
+                .build();
+    }
+
+    public ScheduleLoadedScheduleDetailResponse getLoadedSchedule(MessageType messageType, String tenantCode, UUID fileId) {
+        ScheduleFileMetaDataEntity file = findFile(messageType, tenantCode, fileId);
+        List<ScheduleMessageDTO> messages = file.getSafeEnvelopes()
+                .stream()
+                .map(messageMapper::toDTO)
+                .toList();
+
+        return ScheduleLoadedScheduleDetailResponse.builder()
+                .file(fileMapper.toDto(file))
+                .messages(messages)
+                .messageCount(messages.size())
+                .flightCount(flightRepository.countBySubMessage_Message_File_FileId(fileId))
                 .build();
     }
 
@@ -108,12 +143,28 @@ public class ScheduleQueryService {
     }
 
     private ScheduleFileMetaDataEntity findFile(MessageType messageType, UUID fileId) {
-        assertScheduleType(messageType);
+        assertScheduleTypeIfPresent(messageType);
         return fileRepository.findByFileId(fileId)
-                .filter(file -> messageType.equals(file.getMessageType()))
+                .filter(file -> messageType == null
+                        ? file.getMessageType() == MessageType.ASM || file.getMessageType() == MessageType.SSM
+                        : messageType.equals(file.getMessageType()))
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        messageType + " file not found: " + fileId
+                        (messageType == null ? "ASM/SSM" : messageType) + " file not found: " + fileId
+                ));
+    }
+
+    private ScheduleFileMetaDataEntity findFile(MessageType messageType, String tenantCode, UUID fileId) {
+        assertScheduleTypeIfPresent(messageType);
+        String normalizedTenantCode = normalizeTenantCode(tenantCode);
+        return fileRepository.findByFileId(fileId)
+                .filter(file -> normalizedTenantCode.equals(file.getAirlineCode()))
+                .filter(file -> messageType == null
+                        ? file.getMessageType() == MessageType.ASM || file.getMessageType() == MessageType.SSM
+                        : messageType.equals(file.getMessageType()))
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        (messageType == null ? "ASM/SSM" : messageType) + " file not found: " + fileId
                 ));
     }
 
@@ -129,7 +180,11 @@ public class ScheduleQueryService {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            predicates.add(cb.equal(root.get("messageType"), messageType));
+            if (messageType != null) {
+                predicates.add(cb.equal(root.get("messageType"), messageType));
+            } else {
+                predicates.add(root.get("messageType").in(MessageType.ASM, MessageType.SSM));
+            }
             if (hasText(airlineCode)) {
                 predicates.add(cb.equal(root.get("airlineCode"), airlineCode.trim()));
             }
@@ -204,7 +259,20 @@ public class ScheduleQueryService {
         }
     }
 
+    private void assertScheduleTypeIfPresent(MessageType messageType) {
+        if (messageType != null) {
+            assertScheduleType(messageType);
+        }
+    }
+
     private boolean hasText(String value) {
         return value != null && !value.isBlank();
+    }
+
+    private String normalizeTenantCode(String tenantCode) {
+        if (!hasText(tenantCode)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing tenant code");
+        }
+        return tenantCode.trim().toUpperCase();
     }
 }

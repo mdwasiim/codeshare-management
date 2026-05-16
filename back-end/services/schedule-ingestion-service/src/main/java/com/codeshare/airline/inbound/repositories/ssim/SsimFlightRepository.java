@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface SsimFlightRepository
         extends CSMDataBaseRepository<SsimFlightEntity, UUID>,
         JpaSpecificationExecutor<SsimFlightEntity> {
+
+    long countByCarrier_File_FileId(UUID fileId);
 }

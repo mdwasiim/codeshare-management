@@ -1,6 +1,8 @@
 package com.codeshare.airline.inbound.services.ssim;
 
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
+import com.codeshare.airline.inbound.api.response.SsimLoadedScheduleDetailResponse;
+import com.codeshare.airline.inbound.api.response.SsimLoadedScheduleSummaryResponse;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimDataElementDTO;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;
 import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
@@ -59,31 +61,36 @@ public class SsimScheduleQueryService {
         ).map(fileMapper::toDTO);
     }
 
+    public Page<SsimLoadedScheduleSummaryResponse> searchLoadedSchedules(
+            String tenantCode,
+            Pageable pageable
+    ) {
+        return fileRepository.findAll(
+                fileSpec(normalizeTenantCode(tenantCode), null, null, null, null, null),
+                pageable
+        ).map(file -> SsimLoadedScheduleSummaryResponse.builder()
+                .file(fileMapper.toDTO(file))
+                .flightCount(flightRepository.countByCarrier_File_FileId(file.getFileId()))
+                .build());
+    }
+
     public SsimMetaDataDTO getFile(UUID fileId) {
         return fileMapper.toDTO(findFile(fileId));
     }
 
     public SSIMMessageDTO getMessage(UUID fileId) {
         SsimFileMetaDataEntity file = findFile(fileId);
-        SSIMMessageDTO message = new SSIMMessageDTO();
+        return toMessage(file);
+    }
 
-        message.setHeader(headerMapper.toDTO(file.getHeader()));
-        message.setCarrier(carrierMapper.toDTO(file.getCarrier()));
-        message.setTrailer(SsimTrailerMapper.toDto(file.getTrailer()));
+    public SsimLoadedScheduleDetailResponse getLoadedSchedule(String tenantCode, UUID fileId) {
+        SsimFileMetaDataEntity file = findFile(tenantCode, fileId);
 
-        if (file.getCarrier() != null && file.getCarrier().getFlights() != null) {
-            List<SsimFlightDTO> flights = file.getCarrier().getFlights()
-                    .stream()
-                    .map(this::toFlightWithDeis)
-                    .toList();
-            message.setFlights(flights);
-            if (!flights.isEmpty()) {
-                message.setAirlineCode(flights.getFirst().getAirlineCode());
-                message.setFlightNumber(flights.getFirst().getFlightNumber());
-            }
-        }
-
-        return message;
+        return SsimLoadedScheduleDetailResponse.builder()
+                .file(fileMapper.toDTO(file))
+                .schedule(toMessage(file))
+                .flightCount(flightRepository.countByCarrier_File_FileId(fileId))
+                .build();
     }
 
     public Page<SsimFlightDTO> searchFlights(
@@ -122,6 +129,35 @@ public class SsimScheduleQueryService {
     private SsimFileMetaDataEntity findFile(UUID fileId) {
         return fileRepository.findByFileId(fileId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SSIM file not found: " + fileId));
+    }
+
+    private SsimFileMetaDataEntity findFile(String tenantCode, UUID fileId) {
+        String normalizedTenantCode = normalizeTenantCode(tenantCode);
+        return fileRepository.findByFileId(fileId)
+                .filter(file -> normalizedTenantCode.equals(file.getAirlineCode()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SSIM file not found: " + fileId));
+    }
+
+    private SSIMMessageDTO toMessage(SsimFileMetaDataEntity file) {
+        SSIMMessageDTO message = new SSIMMessageDTO();
+
+        message.setHeader(headerMapper.toDTO(file.getHeader()));
+        message.setCarrier(carrierMapper.toDTO(file.getCarrier()));
+        message.setTrailer(SsimTrailerMapper.toDto(file.getTrailer()));
+
+        if (file.getCarrier() != null && file.getCarrier().getFlights() != null) {
+            List<SsimFlightDTO> flights = file.getCarrier().getFlights()
+                    .stream()
+                    .map(this::toFlightWithDeis)
+                    .toList();
+            message.setFlights(flights);
+            if (!flights.isEmpty()) {
+                message.setAirlineCode(flights.getFirst().getAirlineCode());
+                message.setFlightNumber(flights.getFirst().getFlightNumber());
+            }
+        }
+
+        return message;
     }
 
     private SsimFlightDTO toFlightWithDeis(SsimFlightEntity flight) {
@@ -215,5 +251,12 @@ public class SsimScheduleQueryService {
 
     private boolean hasText(String value) {
         return value != null && !value.isBlank();
+    }
+
+    private String normalizeTenantCode(String tenantCode) {
+        if (!hasText(tenantCode)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing tenant code");
+        }
+        return tenantCode.trim().toUpperCase();
     }
 }
