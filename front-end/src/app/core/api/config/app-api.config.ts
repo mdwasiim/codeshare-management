@@ -91,6 +91,28 @@ export const API_ENDPOINTS = {
             base: makeEndpoint('/identity/menus'),
             byId: makeEndpoint('/identity/menus/{id}')
         }
+    },
+    scheduleIngestion: {
+        upload: makeEndpoint('/schedule/upload'),
+        messages: {
+            validate: makeEndpoint('/schedule/messages/{type}/validate'),
+            parse: makeEndpoint('/schedule/messages/{type}/parse'),
+            ingest: makeEndpoint('/schedule/messages/{type}/ingest')
+        },
+        ssim: {
+            files: makeEndpoint('/schedule/ssim/files'),
+            loadedScheduleById: makeEndpoint('/schedule/ssim/loaded-schedules/{fileId}'),
+            messageByFileId: makeEndpoint('/schedule/ssim/files/{fileId}/message'),
+            fileFlights: makeEndpoint('/schedule/ssim/files/{fileId}/flights'),
+            loadedSchedules: makeEndpoint('/schedule/ssim/loaded-schedules')
+        },
+        asmSsm: {
+            files: makeEndpoint('/schedule/asm-ssm/{type}/files'),
+            loadedScheduleById: makeEndpoint('/schedule/asm-ssm/loaded-schedules/{fileId}'),
+            scheduleByFileId: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/schedule'),
+            fileFlights: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/flights'),
+            loadedSchedules: makeEndpoint('/schedule/asm-ssm/loaded-schedules')
+        }
     }
 } as const;
 

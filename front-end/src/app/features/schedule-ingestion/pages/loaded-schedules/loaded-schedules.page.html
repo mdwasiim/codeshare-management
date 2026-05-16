@@ -1,0 +1,206 @@
+<div class="loaded-schedules-page">
+    <section class="page-header">
+        <div>
+            <h1>{{ title }}</h1>
+            <p>{{ subtitle }}</p>
+        </div>
+        <p-button icon="pi pi-refresh" label="Refresh" severity="secondary" (click)="refreshAll()"></p-button>
+    </section>
+
+    <section class="upload-grid">
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Upload</h2>
+                @if (mode === 'ASM_SSM') {
+                    <p-select [options]="asmSsmTypes" [(ngModel)]="type" appendTo="body" (onChange)="onTypeChange()"></p-select>
+                }
+            </div>
+
+            <div class="upload-fields">
+                <label>
+                    Airline
+                    <input pInputText [(ngModel)]="airlineCode" maxlength="3" placeholder="QR" />
+                </label>
+                <label>
+                    Action
+                    <p-select [options]="actions" optionLabel="label" optionValue="value" [(ngModel)]="action" appendTo="body"></p-select>
+                </label>
+                <label>
+                    File Name
+                    <input pInputText [(ngModel)]="messageFileName" />
+                </label>
+            </div>
+
+            <textarea pTextarea [(ngModel)]="content" rows="8" spellcheck="false" placeholder="Paste a schedule message"></textarea>
+
+            <div class="file-row">
+                <input type="file" (change)="onMessageFileSelected($event)" />
+                <span>{{ selectedMessageFile?.name || 'Optional file for validate/parse/ingest' }}</span>
+            </div>
+
+            <div class="actions">
+                <p-button icon="pi pi-play" label="Run Action" [loading]="loadingUpload" [disabled]="!airlineCode.trim() || (!content.trim() && !selectedMessageFile)" (click)="submitMessage()"></p-button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Queue File</h2>
+            </div>
+            <div class="queue-box">
+                <i class="pi pi-upload"></i>
+                <input type="file" (change)="onQueueFileSelected($event)" />
+                <strong>{{ queueFile?.name || 'No file selected' }}</strong>
+            </div>
+            <p-button icon="pi pi-send" label="Upload" [loading]="loadingUpload" [disabled]="!airlineCode.trim() || !queueFile" (click)="queueUpload()"></p-button>
+        </div>
+    </section>
+
+    @if (uploadResult) {
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Upload Result</h2>
+            </div>
+
+            @if (validationMessages.length) {
+                <p-table [value]="validationMessages" class="p-datatable-sm" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Severity</th>
+                            <th>Code</th>
+                            <th>Line</th>
+                            <th>Field</th>
+                            <th>Message</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-message>
+                        <tr>
+                            <td>{{ message.severity || '-' }}</td>
+                            <td>{{ message.code || '-' }}</td>
+                            <td>{{ message.lineNumber || '-' }}</td>
+                            <td>{{ message.field || '-' }}</td>
+                            <td>{{ message.message || '-' }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            }
+
+            <pre>{{ formatUploadResult() }}</pre>
+        </section>
+    }
+
+    <section class="filter-bar">
+        <label>
+            Airline
+            <input pInputText [(ngModel)]="airlineCode" maxlength="3" placeholder="QR" />
+        </label>
+        <label>
+            File Name
+            <input pInputText [(ngModel)]="fileName" placeholder="contains" />
+        </label>
+        <label>
+            Status
+            <p-select [options]="statuses" [(ngModel)]="processingStatus" [showClear]="true" appendTo="body"></p-select>
+        </label>
+        <p-button icon="pi pi-search" label="Apply" (click)="loadFiles()"></p-button>
+    </section>
+
+    <section class="panel">
+        <div class="panel-header">
+            <h2>Loaded Metadata</h2>
+            <span>{{ totalFiles }} files</span>
+        </div>
+
+        <p-table [value]="files" [loading]="loadingFiles" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalFiles" responsiveLayout="scroll" class="p-datatable-sm" dataKey="fileId" (onLazyLoad)="loadFiles($event)">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>File</th>
+                    <th>Airline</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Size</th>
+                    <th>Received</th>
+                    <th>Processed</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-file>
+                <tr [class.selected-row]="selectedFile?.fileId === file.fileId" (click)="loadFlights(file)">
+                    <td>{{ file.fileName || '-' }}</td>
+                    <td>{{ file.airlineCode || '-' }}</td>
+                    <td>{{ file.messageType || type }}</td>
+                    <td><p-tag [value]="file.processingStatus || '-'" [severity]="statusSeverity(file.processingStatus)"></p-tag></td>
+                    <td>{{ file.fileSizeBytes || '-' }}</td>
+                    <td>{{ file.receivedAt | date: 'short' }}</td>
+                    <td>{{ file.processedAt | date: 'short' }}</td>
+                    <td>
+                        <p-button icon="pi pi-eye" size="small" text pTooltip="View schedule" tooltipPosition="top" (click)="loadFlights(file); $event.stopPropagation()"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No metadata loaded.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </section>
+
+    <section class="detail-grid">
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Detailed Schedule</h2>
+                <span>{{ selectedFile?.fileName || 'Select metadata' }}</span>
+            </div>
+
+            @if (loadingDetail) {
+                <p>Loading schedule detail...</p>
+            } @else if (selectedDetail) {
+                <pre>{{ formatDetail() }}</pre>
+            } @else {
+                <p class="empty-state">Select a metadata row to load the detailed schedule.</p>
+            }
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Flights</h2>
+                <span>{{ totalFlights }} flights</span>
+            </div>
+
+            <p-table [value]="flights" [loading]="loadingFlights" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalFlights" responsiveLayout="scroll" class="p-datatable-sm" (onLazyLoad)="selectedFile && loadFlights(selectedFile, $event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Airline</th>
+                        <th>Flight</th>
+                        <th>Origin</th>
+                        <th>Destination</th>
+                        <th>Aircraft</th>
+                        <th>Service</th>
+                        <th>Days / Date</th>
+                        <th>STD</th>
+                        <th>STA</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-flight>
+                    <tr>
+                        <td>{{ flightAirline(flight) }}</td>
+                        <td>{{ flight.flightNumber || '-' }}</td>
+                        <td>{{ flightOrigin(flight) }}</td>
+                        <td>{{ flightDestination(flight) }}</td>
+                        <td>{{ flight.aircraftType || '-' }}</td>
+                        <td>{{ flight.serviceType || '-' }}</td>
+                        <td>{{ flight.operatingDays || flight.operationDate || '-' }}</td>
+                        <td>{{ flight.passengerStd || '-' }}</td>
+                        <td>{{ flight.passengerSta || '-' }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="9">No flights loaded.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</div>

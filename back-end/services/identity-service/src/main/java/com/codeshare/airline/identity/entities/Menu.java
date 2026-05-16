@@ -28,7 +28,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Menu extends CSMDataAbstractEntity {
