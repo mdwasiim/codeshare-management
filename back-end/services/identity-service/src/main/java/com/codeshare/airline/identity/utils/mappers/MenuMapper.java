@@ -19,6 +19,7 @@ public interface MenuMapper extends CSMGenericMapper<Menu, MenuDTO> {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "tenant", ignore = true)
     @Mapping(target = "parentMenu", ignore = true)
+    @Mapping(target = "permission", ignore = true)
     void updateEntityFromDto(MenuDTO dto, @MappingTarget Menu entity);
 
     @AfterMapping
