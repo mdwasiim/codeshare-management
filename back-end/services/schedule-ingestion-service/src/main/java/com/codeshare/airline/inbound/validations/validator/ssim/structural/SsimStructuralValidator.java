@@ -1,10 +1,13 @@
 package com.codeshare.airline.inbound.validations.validator.ssim.structural;
 
 import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.inbound.config.ScheduleIngestionProperties;
 import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;
+import com.codeshare.airline.inbound.domain.enums.SsimValidationMode;
 import com.codeshare.airline.inbound.domain.enums.ValidationStage;
 import com.codeshare.airline.inbound.validations.model.ValidationResult;
 import com.codeshare.airline.inbound.validations.validator.StructuralValidation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -14,6 +17,18 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
 
     private static final int EXPECTED_LENGTH = 200;
     private static final Set<Character> VALID_RECORDS = Set.of('1', '2', '3', '4', '5');
+    private final SsimValidationMode validationMode;
+
+    public SsimStructuralValidator() {
+        this.validationMode = SsimValidationMode.STRICT;
+    }
+
+    @Autowired
+    public SsimStructuralValidator(ScheduleIngestionProperties properties) {
+        this.validationMode = properties.getSsim().getValidationMode() == null
+                ? SsimValidationMode.RELAXED
+                : properties.getSsim().getValidationMode();
+    }
 
     @Override
     public Set<MessageType> supportedTypes() {
@@ -170,7 +185,7 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
 
         if (trailerCount > 1) {
             result.addError("SSIM_REQ_007", "Multiple Type 5 trailer records", "", "", ValidationStage.STRUCTURAL);
-        } else if (trailerCount == 0) {
+        } else if (trailerCount == 0 && isStrict()) {
             result.addError("SSIM_REQ_006", "Missing Type 5 trailer record", "", "", ValidationStage.STRUCTURAL);
         }
 
@@ -231,7 +246,7 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
         requireBlankOrPattern(result, "SSIM_T3_031", "Invalid Type 3 joint operation airline designators", line, 110, 119, "[A-Z0-9 ]{9}", lineNo);
         requireBlankOrPattern(result, "SSIM_T3_032", "Invalid Type 3 minimum connecting time status", line, 119, 121, "[A-Z0-9 ]{2}", lineNo);
         requireBlankOrPattern(result, "SSIM_T3_033", "Invalid Type 3 secure flight indicator", line, 121, 122, "[A-Z]", lineNo);
-        if (isBlank(line, 75, 95) && isBlank(line, 172, 192)) {
+        if (isStrict() && isBlank(line, 75, 95) && isBlank(line, 172, 192)) {
             add(result, "SSIM_T3_018", "Type 3 requires PRBD or aircraft configuration/version", line, lineNo);
         }
         requireOverflowReference(result, "SSIM_T3_034", "Invalid Type 3 PRBD overflow marker", line, 75, 95, lineNo);
@@ -248,7 +263,9 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
         requireBlankOrPattern(result, "SSIM_T3_042", "Invalid Type 3 traffic restriction overflow", line, 160, 161, "[A-Z0-9]", lineNo);
         requireBlankOrPattern(result, "SSIM_T3_043", "Invalid Type 3 aircraft configuration/version", line, 172, 192, "[A-Z0-9 ]{20}", lineNo);
         requireOverflowReference(result, "SSIM_T3_044", "Invalid Type 3 aircraft configuration/version overflow marker", line, 172, 192, lineNo);
-        requireBlankOrPattern(result, "SSIM_T3_045", "Invalid Type 3 date variation", line, 192, 194, "\\d{2}|[+-]\\d", lineNo);
+        if (isStrict()) {
+            requireBlankOrPattern(result, "SSIM_T3_045", "Invalid Type 3 date variation", line, 192, 194, "\\d{2}|[+-]\\d", lineNo);
+        }
         requirePattern(result, "SSIM_T3_022", "Invalid Type 3 record serial number", line, 194, 200, "\\d{6}", lineNo);
     }
 
@@ -282,6 +299,9 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
     }
 
     private void validateSerialSequence(ValidationResult result, String line, int lineNo, String previousRecordSerial) {
+        if (!isStrict()) {
+            return;
+        }
         String current = serial(line);
         if (!current.matches("\\d{6}") || previousRecordSerial == null || !previousRecordSerial.matches("\\d{6}")) {
             return;
@@ -314,6 +334,9 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
     }
 
     private void validateTrailerSerialRelation(ValidationResult result, String line, int lineNo) {
+        if (!isStrict()) {
+            return;
+        }
         String checkReference = line.substring(187, 193);
         String trailerSerial = line.substring(194, 200);
         if (!checkReference.matches("\\d{6}") || !trailerSerial.matches("\\d{6}")) {
@@ -328,6 +351,9 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
     }
 
     private void validateTrailerCheckReference(ValidationResult result, String line, int lineNo, String previousRecordSerial) {
+        if (!isStrict()) {
+            return;
+        }
         String checkReference = line.substring(187, 193);
         if (previousRecordSerial == null
                 || !previousRecordSerial.matches("\\d{6}")
@@ -428,6 +454,10 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
     }
 
     private static final String AIRLINE_DESIGNATOR_PATTERN = "[A-Z0-9]{2}[A-Z0-9 ]";
+
+    private boolean isStrict() {
+        return validationMode == SsimValidationMode.STRICT;
+    }
 
     private void add(ValidationResult result, String code, String message, String line, int lineNo) {
         result.addError(code, message, line, "line:" + lineNo, ValidationStage.STRUCTURAL);
