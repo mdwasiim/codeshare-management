@@ -1,58 +1,57 @@
 <div class="schedule-actions-page">
     <section class="page-header">
         <div>
-            <h1>{{ title }}</h1>
-            <p>Run upload, validation, parsing, or ingestion actions separately from loaded schedule review.</p>
+            <h1>SSIM Actions</h1>
+            <p>Upload SSIM files or run validate, parse, and ingest actions against a selected SSIM file.</p>
         </div>
-        <p-button icon="pi pi-list" label="Loaded Metadata" severity="secondary" [routerLink]="listRoute"></p-button>
+        <p-button icon="pi pi-list" label="Loaded Metadata" severity="secondary" routerLink="/ssim-ingestion"></p-button>
     </section>
 
     <section class="action-grid">
         <div class="panel">
             <div class="panel-header">
-                <h2>Message Action</h2>
-                @if (mode === 'ASM_SSM') {
-                    <p-select [options]="asmSsmTypes" [(ngModel)]="type" appendTo="body"></p-select>
-                }
+                <h2>SSIM File Action</h2>
             </div>
 
             <div class="form-grid">
                 <label>
-                    Airline
+                    Carrier
                     <input pInputText [(ngModel)]="airlineCode" maxlength="3" placeholder="QR" />
                 </label>
                 <label>
                     Action
                     <p-select [options]="actions" optionLabel="label" optionValue="value" [(ngModel)]="action" appendTo="body"></p-select>
                 </label>
-                <label>
-                    File Name
-                    <input pInputText [(ngModel)]="messageFileName" />
-                </label>
             </div>
 
-            @if (canUseTextPayload) {
-                <textarea pTextarea [(ngModel)]="content" rows="12" spellcheck="false" placeholder="Paste an ASM or SSM message"></textarea>
-            }
-
-            <div class="file-row">
-                <input type="file" (change)="onMessageFileSelected($event)" />
-                <span>{{ selectedMessageFile?.name || (canUseTextPayload ? 'Optional file for validate/parse/ingest' : 'Select an SSIM file') }}</span>
+            <div class="file-picker">
+                <input id="ssim-action-file" type="file" (change)="onActionFileSelected($event)" />
+                <label for="ssim-action-file">
+                    <i class="pi pi-file-arrow-up"></i>
+                    <span>{{ actionFile?.name || 'Choose SSIM file' }}</span>
+                </label>
+                @if (actionFile) {
+                    <small>{{ actionFile.size / 1024 | number: '1.0-1' }} KB</small>
+                }
             </div>
 
             <div class="actions">
-                <p-button icon="pi pi-play" label="Run Action" [loading]="loading" [disabled]="!airlineCode.trim() || (!selectedMessageFile && (!canUseTextPayload || !content.trim()))" (click)="submitMessage()"></p-button>
+                <p-button icon="pi pi-play" label="Run Action" [loading]="loading" [disabled]="!airlineCode.trim() || !actionFile" (click)="runAction()"></p-button>
             </div>
         </div>
 
         <div class="panel">
             <div class="panel-header">
-                <h2>Queue File</h2>
+                <h2>Queue SSIM File</h2>
             </div>
             <div class="queue-box">
                 <i class="pi pi-upload"></i>
-                <input type="file" (change)="onQueueFileSelected($event)" />
-                <strong>{{ queueFile?.name || 'No file selected' }}</strong>
+                <strong>{{ queueFile?.name || 'Select SSIM file to queue' }}</strong>
+                @if (queueFile) {
+                    <small>{{ queueFile.size / 1024 | number: '1.0-1' }} KB</small>
+                }
+                <input id="ssim-queue-file" type="file" (change)="onQueueFileSelected($event)" />
+                <label for="ssim-queue-file">Choose File</label>
             </div>
             <p-button icon="pi pi-send" label="Upload" [loading]="loading" [disabled]="!airlineCode.trim() || !queueFile" (click)="queueUpload()"></p-button>
         </div>

@@ -1,22 +1,16 @@
 <div class="loaded-schedules-page">
     <section class="page-header">
         <div>
-            <h1>{{ title }}</h1>
-            <p>{{ subtitle }}</p>
+            <h1>SSIM</h1>
+            <p>List SSIM metadata and inspect loaded SSIM schedules.</p>
         </div>
         <div class="page-actions">
-            <p-button icon="pi pi-play" label="Actions" [routerLink]="actionRoute"></p-button>
+            <p-button icon="pi pi-play" label="Actions" routerLink="/ssim-ingestion/actions"></p-button>
             <p-button icon="pi pi-refresh" label="Refresh" severity="secondary" (click)="refreshAll()"></p-button>
         </div>
     </section>
 
     <section class="filter-bar">
-        @if (mode === 'ASM_SSM') {
-            <label>
-                Type
-                <p-select [options]="asmSsmTypes" [(ngModel)]="type" appendTo="body" (onChange)="onTypeChange()"></p-select>
-            </label>
-        }
         <label>
             Carrier
             <input pInputText [(ngModel)]="airlineCode" maxlength="3" placeholder="QR" />
@@ -69,7 +63,7 @@
                 <tr [class.selected-row]="selectedFile?.fileId === file.fileId" (click)="loadFlights(file)">
                     <td>{{ file.fileName || '-' }}</td>
                     <td>{{ file.airlineCode || '-' }}</td>
-                    <td>{{ file.messageType || type }}</td>
+                    <td>{{ file.messageType || 'SSIM' }}</td>
                     <td><p-tag [value]="file.processingStatus || '-'" [severity]="statusSeverity(file.processingStatus)"></p-tag></td>
                     <td>{{ file.fileSizeBytes || '-' }}</td>
                     <td>{{ file.receivedAt | date: 'short' }}</td>
@@ -93,7 +87,7 @@
         @if (detailVisible) {
             <div class="panel">
                 <div class="panel-header">
-                    <h2>Detailed Schedule</h2>
+                    <h2>Detailed SSIM Schedule</h2>
                     <span>{{ selectedFile?.fileName || 'Select metadata' }}</span>
                 </div>
 
@@ -107,7 +101,7 @@
             </div>
         }
 
-        <div class="panel flights-panel" [class.flights-panel--wide]="mode === 'SSIM' && !detailVisible">
+        <div class="panel flights-panel" [class.flights-panel--wide]="!detailVisible">
             <div class="panel-header">
                 <h2>Flights</h2>
                 <span>{{ totalFlights }} flights</span>

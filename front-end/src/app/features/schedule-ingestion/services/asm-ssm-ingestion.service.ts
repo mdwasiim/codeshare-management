@@ -17,29 +17,26 @@ import {
 import { tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ScheduleIngestionService {
+export class AsmSsmIngestionService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
-    upload(file: File, airlineCode: string, expectedType?: ScheduleMessageType) {
+    upload(type: ScheduleMessageType, file: File, airlineCode: string) {
         const body = new FormData();
         body.append('file', file);
         body.append('airlineCode', airlineCode);
-        if (expectedType) {
-            body.append('expectedType', expectedType);
-        }
+        body.append('expectedType', type);
 
-        return this.api.post<UploadResponse>(API_ENDPOINTS.scheduleIngestion.upload, body).pipe(tap(() => this.toast.success('Schedule file queued for processing')));
+        return this.api.post<UploadResponse>(API_ENDPOINTS.scheduleIngestion.upload, body).pipe(tap(() => this.toast.success(`${type} file queued for processing`)));
     }
 
     submitMessage(action: ScheduleAction, type: ScheduleMessageType, airlineCode: string, fileName: string, content: string) {
         const endpoint = API_ENDPOINTS.scheduleIngestion.messages[action];
         const body = { airlineCode, fileName, content };
-        const request = this.api.post<ScheduleValidationResponse | ScheduleIngestionResponse>(endpoint, body, {
+
+        return this.api.post<ScheduleValidationResponse | ScheduleIngestionResponse>(endpoint, body, {
             pathParams: { type: type.toLowerCase() }
         });
-
-        return request.pipe(tap(() => this.toast.success(`Schedule ${action} completed`)));
     }
 
     submitFile(action: ScheduleAction, type: ScheduleMessageType, airlineCode: string, file: File) {
@@ -54,10 +51,6 @@ export class ScheduleIngestionService {
     }
 
     searchFiles(type: ScheduleMessageType, params: Record<string, string | number | boolean> = {}) {
-        if (type === 'SSIM') {
-            return this.api.get<PageResponse<ScheduleFileMetaData>>(API_ENDPOINTS.scheduleIngestion.ssim.files, { params });
-        }
-
         return this.api.get<PageResponse<ScheduleFileMetaData>>(API_ENDPOINTS.scheduleIngestion.asmSsm.files, {
             pathParams: { type: type.toLowerCase() },
             params
@@ -65,22 +58,12 @@ export class ScheduleIngestionService {
     }
 
     searchLoadedSchedules(type: ScheduleMessageType, params: Record<string, string | number | boolean> = {}) {
-        if (type === 'SSIM') {
-            return this.api.get<PageResponse<LoadedScheduleSummary>>(API_ENDPOINTS.scheduleIngestion.ssim.loadedSchedules, { params });
-        }
-
         return this.api.get<PageResponse<LoadedScheduleSummary>>(API_ENDPOINTS.scheduleIngestion.asmSsm.loadedSchedules, {
             params: { ...params, type }
         });
     }
 
     getLoadedScheduleDetail(type: ScheduleMessageType, fileId: string) {
-        if (type === 'SSIM') {
-            return this.api.get<LoadedScheduleDetail>(API_ENDPOINTS.scheduleIngestion.ssim.loadedScheduleById, {
-                pathParams: { fileId }
-            });
-        }
-
         return this.api.get<LoadedScheduleDetail>(API_ENDPOINTS.scheduleIngestion.asmSsm.loadedScheduleById, {
             pathParams: { fileId },
             params: { type }
@@ -88,25 +71,12 @@ export class ScheduleIngestionService {
     }
 
     getFileSchedule(type: ScheduleMessageType, fileId: string) {
-        if (type === 'SSIM') {
-            return this.api.get<unknown>(API_ENDPOINTS.scheduleIngestion.ssim.messageByFileId, {
-                pathParams: { fileId }
-            });
-        }
-
         return this.api.get<unknown>(API_ENDPOINTS.scheduleIngestion.asmSsm.scheduleByFileId, {
             pathParams: { type: type.toLowerCase(), fileId }
         });
     }
 
     searchFlights(type: ScheduleMessageType, fileId: string, params: Record<string, string | number | boolean> = {}) {
-        if (type === 'SSIM') {
-            return this.api.get<PageResponse<AnyScheduleFlight>>(API_ENDPOINTS.scheduleIngestion.ssim.fileFlights, {
-                pathParams: { fileId },
-                params
-            });
-        }
-
         return this.api.get<PageResponse<AnyScheduleFlight>>(API_ENDPOINTS.scheduleIngestion.asmSsm.fileFlights, {
             pathParams: { type: type.toLowerCase(), fileId },
             params
