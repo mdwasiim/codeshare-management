@@ -7,13 +7,13 @@ import { ToastModule } from 'primeng/toast';
 
 import { AuthInitializerService } from '@services/auth/auth-initializer.service';
 
-import { CsmSpinnerOverlayComponent } from '@shared/components/spinner-overlay/csm-spinner-overlay.component';
-import { CsmSpinnerService } from '@services/spinner/csm-spinner.service';
+import { AppSpinnerOverlayComponent } from '@shared/components/spinner-overlay/app-spinner-overlay.component';
+import { AppSpinnerService } from '@services/spinner/app-spinner.service';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, ConfirmDialogModule, ToastModule, CsmSpinnerOverlayComponent],
+    imports: [RouterOutlet, ConfirmDialogModule, ToastModule, AppSpinnerOverlayComponent],
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(
         private authInitializer: AuthInitializerService,
         private router: Router,
-        private spinner: CsmSpinnerService
+        private spinner: AppSpinnerService
     ) {}
 
     ngOnInit(): void {

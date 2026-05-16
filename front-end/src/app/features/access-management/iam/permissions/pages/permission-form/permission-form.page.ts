@@ -12,12 +12,12 @@ import { PermissionApiService } from '@features/access-management/iam/permission
 import { TenantService } from '@features/access-management/iam/tenants/services/tenant.service';
 
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
-import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
     selector: 'permission-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, CsmFormSectionComponent],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, AppFormSectionComponent],
     templateUrl: './permission-form.page.html'
 })
 export class PermissionFormPage extends BaseCrudForm<Permission> {

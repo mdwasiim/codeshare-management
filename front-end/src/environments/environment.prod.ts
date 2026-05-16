@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    CSMBaseUrl: 'https://api.yourcompany.com'
+    apiBaseUrl: 'https://api.yourcompany.com'
 };

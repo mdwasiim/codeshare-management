@@ -16,23 +16,23 @@ import { RoleFormPage } from '@features/access-management/iam/roles/pages/role-f
 
 // ✅ wrapper services
 import { AppToastService } from '@services/toast/app-toast.service';
-import { CsmConfirmService } from '@services/csm-confirm.service';
+import { AppConfirmService } from '@services/app-confirm.service';
 import { Tooltip, TooltipModule } from 'primeng/tooltip';
 import { PRIMENG_IMPORTS } from '@shared/primeng/primeng.imports';
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
 @Component({
     selector: 'role-list',
     standalone: true,
-    imports: [CommonModule, ToolbarActionComponent, RoleFormPage, CsmDialogComponent, RoleFormPage, HasPermissionDirective, PRIMENG_IMPORTS],
+    imports: [CommonModule, ToolbarActionComponent, RoleFormPage, AppDialogComponent, RoleFormPage, HasPermissionDirective, PRIMENG_IMPORTS],
     templateUrl: './role-list.page.html'
 })
 export class RoleListPage extends BaseListComponent<Role> {
     protected override resourceName = 'role';
     private service = inject(RoleService);
     private toast = inject(AppToastService);
-    private confirm = inject(CsmConfirmService);
+    private confirm = inject(AppConfirmService);
 
     dialogVisible = false;
     selectedId: string | null = null;

@@ -14,12 +14,12 @@ import { User } from '@features/access-management/iam/models/user.model';
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { Tenant } from '@features/access-management/iam/models/tenant.model';
 import { TenantService } from '@features/access-management/iam/tenants/services/tenant.service';
-import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
     selector: 'user-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, InputTextModule, PasswordModule, CheckboxModule, SelectModule, ButtonModule, CsmFormSectionComponent],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, PasswordModule, CheckboxModule, SelectModule, ButtonModule, AppFormSectionComponent],
     templateUrl: './user-form.page.html'
 })
 export class UserFormPage extends BaseCrudForm<User> {

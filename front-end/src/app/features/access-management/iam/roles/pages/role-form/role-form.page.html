@@ -1,6 +1,6 @@
-<form [formGroup]="form" class="p-fluid w-full block csm-form">
+<form [formGroup]="form" class="p-fluid w-full block app-form">
     <div class="w-full">
-        <csm-form-section title="Role Details">
+        <app-form-section title="Role Details">
             <div class="grid">
                 <!-- CODE -->
                 <div class="field col-12 md:col-6">
@@ -30,6 +30,6 @@
                     <p-select inputId="tenantId" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full"> </p-select>
                 </div>
             </div>
-        </csm-form-section>
+        </app-form-section>
     </div>
 </form>

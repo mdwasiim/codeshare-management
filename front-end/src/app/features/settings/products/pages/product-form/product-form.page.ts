@@ -10,12 +10,12 @@ import { ButtonModule } from 'primeng/button';
 
 import { Product } from '@features/settings/products/models/product.model';
 import { SelectModule } from 'primeng/select';
-import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
     selector: 'product-form',
     standalone: true,
-    imports: [CommonModule, FormsModule, InputTextModule, TextareaModule, RadioButtonModule, InputNumberModule, SelectModule, ButtonModule, CsmFormSectionComponent],
+    imports: [CommonModule, FormsModule, InputTextModule, TextareaModule, RadioButtonModule, InputNumberModule, SelectModule, ButtonModule, AppFormSectionComponent],
     templateUrl: './product-form.page.html'
 })
 export class ProductFormPage {

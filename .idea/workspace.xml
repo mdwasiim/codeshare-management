@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/security/interceptors/app-auth.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/security/interceptors/app-auth.interceptor.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-initializer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-initializer.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-tenant.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-tenant.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/pages/role-permission-assignment.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/pages/role-permission-assignment.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/services/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/services/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/settings/products/services/product.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/spinner-overlay/csm-spinner-overlay.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/spinner-overlay/csm-spinner-overlay.component.ts" afterDir="false" />
-    </list>
+    <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763230214823</updated>
-      <workItem from="1778918094946" duration="17889000" />
+      <workItem from="1778918094946" duration="18301000" />
     </task>
     <servers />
   </component>

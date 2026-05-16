@@ -3,7 +3,7 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { PermissionService } from '@core/security/permission.service';
 
 @Directive({
-    selector: '[csmHasPermission]',
+    selector: '[appHasPermission]',
     standalone: true
 })
 export class HasPermissionDirective {
@@ -19,7 +19,7 @@ export class HasPermissionDirective {
     // SINGLE PERMISSION
     // =========================
     @Input()
-    set csmHasPermission(permission: string | null) {
+    set appHasPermission(permission: string | null) {
         if (!permission) {
             this.hide();
             return;
@@ -34,7 +34,7 @@ export class HasPermissionDirective {
     // ANY PERMISSION
     // =========================
     @Input()
-    set csmHasAnyPermission(permissions: string[] | null) {
+    set appHasAnyPermission(permissions: string[] | null) {
         if (!permissions?.length) {
             this.hide();
             return;
@@ -49,7 +49,7 @@ export class HasPermissionDirective {
     // ALL PERMISSIONS
     // =========================
     @Input()
-    set csmHasAllPermissions(permissions: string[] | null) {
+    set appHasAllPermissions(permissions: string[] | null) {
         if (!permissions?.length) {
             this.hide();
             return;

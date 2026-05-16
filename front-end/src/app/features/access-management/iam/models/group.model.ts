@@ -5,7 +5,7 @@ export interface Group {
     description?: string;
     tenantId: string;
 
-    // inherited from CSMAuditableDTO (optional)
+    // inherited from AppAuditableDTO (optional)
     createdAt?: string;
     updatedAt?: string;
     createdBy?: string;

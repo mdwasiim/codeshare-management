@@ -38,7 +38,7 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'notfound',
-                loadComponent: () => import('@core/pages/notfound/notfound.page').then((m) => m.CsmNotFoundPage)
+                loadComponent: () => import('@core/pages/notfound/notfound.page').then((m) => m.AppNotFoundPage)
             }
         ]
     },

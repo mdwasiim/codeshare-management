@@ -9,13 +9,13 @@ import { FormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
-import { CsmAssignmentLayoutComponent } from '@shared/components/access-management/csm-assignment-layout/csm-assignment-layout.component';
+import { AppAssignmentLayoutComponent } from '@shared/components/access-management/app-assignment-layout/app-assignment-layout.component';
 import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
 
 @Component({
     selector: 'app-user-group',
     standalone: true,
-    imports: [CommonModule, FormsModule, AccordionModule, CheckboxModule, TableModule, CsmAssignmentLayoutComponent, ToolbarActionComponent],
+    imports: [CommonModule, FormsModule, AccordionModule, CheckboxModule, TableModule, AppAssignmentLayoutComponent, ToolbarActionComponent],
     templateUrl: './user-group.page.html'
 })
 export class UserGroupPage implements OnInit {

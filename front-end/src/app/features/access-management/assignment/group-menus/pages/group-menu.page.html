@@ -1,4 +1,4 @@
-<csm-assignment-layout leftTitle="Groups" rightTitle="Menus">
+<app-assignment-layout leftTitle="Groups" rightTitle="Menus">
     <div left-panel>
         <p-table [value]="groups" [loading]="loading" selectionMode="single" [(selection)]="selectedGroup" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onGroupSelect($any($event.data))">
             <ng-template pTemplate="header">
@@ -17,7 +17,7 @@
 
     <div right-panel>
         <div class="mb-4">
-            <csm-crud-toolbar
+            <app-crud-toolbar
                 [actions]="[
                     'refresh',
                     'reset',
@@ -28,7 +28,7 @@
                 (reset)="reset()"
                 (save)="save()"
             >
-            </csm-crud-toolbar>
+            </app-crud-toolbar>
         </div>
 
         <div *ngIf="!selectedGroup" class="flex align-items-center justify-content-center p-6 text-500">Select a group to manage menus</div>
@@ -37,4 +37,4 @@
             <p-tree [value]="menuTree" selectionMode="checkbox" [(selection)]="selectedMenus" class="w-full"></p-tree>
         </div>
     </div>
-</csm-assignment-layout>
+</app-assignment-layout>

@@ -3,9 +3,9 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-    selector: 'csm-notfound',
+    selector: 'app-notfound',
     standalone: true,
     imports: [RouterModule, ButtonModule],
     templateUrl: './notfound.page.html'
 })
-export class CsmNotFoundPage {}
+export class AppNotFoundPage {}

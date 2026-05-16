@@ -3,7 +3,7 @@ import { BehaviorSubject, from, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class CsmSpinnerService {
+export class AppSpinnerService {
     private pendingCount = 0;
     private readonly loadingSubject = new BehaviorSubject<boolean>(false);
 

@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 
 @Component({
-    selector: 'csm-access-denied',
+    selector: 'app-access-denied',
     standalone: true,
     imports: [ButtonModule, RouterModule, RippleModule],
     templateUrl: './access-denied.page.html',

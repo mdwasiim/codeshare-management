@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<csm-crud-toolbar
+<app-crud-toolbar
     [actions]="['create','delete','search','export']"
     [resource]="resourceName"
     [hasSelection]="selectedPermissions.length > 0"
@@ -16,7 +16,7 @@
     (export)="exportCSV()"
     (search)="onSearch($event)"
 >
-</csm-crud-toolbar>
+</app-crud-toolbar>
 
 <p-table #dt [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" [(selection)]="selectedPermissions" dataKey="id" [rowHover]="true" responsiveLayout="scroll" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '70rem' }" [globalFilterFields]="['name','domain','action','code','tenantName']">
     <ng-template pTemplate="caption">
@@ -66,11 +66,11 @@
 
             <td class="access-row-actions">
                 <div>
-                    <ng-container *csmHasPermission="'permission:update'">
+                    <ng-container *appHasPermission="'permission:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(p)"> </p-button>
                     </ng-container>
 
-                    <ng-container *csmHasPermission="'permission:delete'">
+                    <ng-container *appHasPermission="'permission:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deletePermission(p)"> </p-button>
                     </ng-container>
                 </div>
@@ -88,7 +88,7 @@
 <!-- ============================= -->
 <!-- Dialog                       -->
 <!-- ============================= -->
-<csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Permission' : 'Create Permission'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Permission' : 'Create Permission'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <permission-form #formRef [id]="selectedId" (saved)="onSaved()"> </permission-form>
-</csm-dialog>
+</app-dialog>
 </div>

@@ -1,5 +1,5 @@
 <div class="p-fluid w-full block">
-    <csm-form-section title="Product Details">
+    <app-form-section title="Product Details">
         <div class="grid">
             <div class="field col-12" *ngIf="product.image">
                 <img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.image" class="block m-auto pb-2" />
@@ -58,5 +58,5 @@
             <p-button label="Cancel" icon="pi pi-times" text (click)="cancel.emit()"></p-button>
             <p-button label="Save" icon="pi pi-check" (click)="save.emit()"></p-button>
         </div>
-    </csm-form-section>
+    </app-form-section>
 </div>

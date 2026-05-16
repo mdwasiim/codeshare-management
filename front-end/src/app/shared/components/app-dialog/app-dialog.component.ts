@@ -5,12 +5,12 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-    selector: 'csm-dialog',
+    selector: 'app-dialog',
     standalone: true,
     imports: [CommonModule, DialogModule, ButtonModule],
-    templateUrl: './csm-dialog.component.html'
+    templateUrl: './app-dialog.component.html'
 })
-export class CsmDialogComponent {
+export class AppDialogComponent {
     // =========================
     // Visibility Control
     // =========================

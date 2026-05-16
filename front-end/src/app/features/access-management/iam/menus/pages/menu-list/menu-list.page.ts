@@ -14,24 +14,24 @@ import { forkJoin, Observable } from 'rxjs';
 
 // ✅ wrapper services
 import { AppToastService } from '@services/toast/app-toast.service';
-import { CsmConfirmService } from '@services/csm-confirm.service';
+import { AppConfirmService } from '@services/app-confirm.service';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuFormPage } from '@features/access-management/iam/menus/pages/menu-form/menu-form.page';
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
 
 @Component({
     selector: 'menu-list',
     standalone: true,
-    imports: [CommonModule, TreeTableModule, ButtonModule, ToolbarActionComponent, TooltipModule, MenuFormPage, CsmDialogComponent, HasPermissionDirective],
+    imports: [CommonModule, TreeTableModule, ButtonModule, ToolbarActionComponent, TooltipModule, MenuFormPage, AppDialogComponent, HasPermissionDirective],
     templateUrl: './menu-list.page.html'
 })
 export class MenuListPage extends BaseListComponent<AppMenuModel> {
     protected override resourceName = 'menu';
     private service = inject(MenuManagementService);
     private toast = inject(AppToastService);
-    private confirm = inject(CsmConfirmService);
+    private confirm = inject(AppConfirmService);
     private layoutMenuService = inject(LayoutMenuService);
 
     @ViewChild('dt') dt!: TreeTable;

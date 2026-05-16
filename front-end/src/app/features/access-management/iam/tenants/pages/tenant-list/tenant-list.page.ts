@@ -17,13 +17,13 @@ import { TenantService } from '../../services/tenant.service';
 import { TenantFormPage } from '@features/access-management/iam/tenants/pages/tenant-form/tenant-form.page';
 import { Tenant } from '@features/access-management/iam/models/tenant.model';
 import { TooltipModule } from 'primeng/tooltip';
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
 @Component({
     selector: 'tenant-list',
     standalone: true,
-    imports: [CommonModule, TableModule, ButtonModule, TagModule, InputTextModule, ConfirmDialogModule, ToastModule, ToolbarActionComponent, TenantFormPage, TooltipModule, TenantFormPage, CsmDialogComponent, HasPermissionDirective],
+    imports: [CommonModule, TableModule, ButtonModule, TagModule, InputTextModule, ConfirmDialogModule, ToastModule, ToolbarActionComponent, TenantFormPage, TooltipModule, TenantFormPage, AppDialogComponent, HasPermissionDirective],
     templateUrl: './tenant-list.page.html',
     providers: [ConfirmationService, MessageService]
 })

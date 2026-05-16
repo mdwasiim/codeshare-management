@@ -1,4 +1,4 @@
-<csm-assignment-layout leftTitle="Users" rightTitle="Groups">
+<app-assignment-layout leftTitle="Users" rightTitle="Groups">
     <div left-panel>
         <p-table [value]="users" [loading]="loading" selectionMode="single" [(selection)]="selectedUser" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onUserSelect($any($event.data))">
             <ng-template pTemplate="header">
@@ -21,7 +21,7 @@
 
     <div right-panel>
         <div class="mb-4">
-            <csm-crud-toolbar
+            <app-crud-toolbar
                 [actions]="[
                     'refresh',
                     'reset',
@@ -32,7 +32,7 @@
                 (reset)="reset()"
                 (save)="save()"
             >
-            </csm-crud-toolbar>
+            </app-crud-toolbar>
         </div>
 
         <div *ngIf="!selectedUser" class="flex align-items-center justify-content-center p-6 text-500">Select a user to manage groups</div>
@@ -45,4 +45,4 @@
             </div>
         </div>
     </div>
-</csm-assignment-layout>
+</app-assignment-layout>

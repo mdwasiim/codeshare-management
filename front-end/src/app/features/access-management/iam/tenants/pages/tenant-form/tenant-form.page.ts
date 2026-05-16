@@ -10,12 +10,12 @@ import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { TenantService } from '../../services/tenant.service';
 import { Tenant } from '@features/access-management/iam/models/tenant.model';
 import { SelectModule } from 'primeng/select';
-import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
     selector: 'tenant-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, DialogModule, SelectModule, CsmFormSectionComponent],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, DialogModule, SelectModule, AppFormSectionComponent],
     templateUrl: './tenant-form.page.html'
 })
 export class TenantFormPage extends BaseCrudForm<Tenant> {

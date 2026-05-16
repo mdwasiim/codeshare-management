@@ -7,8 +7,8 @@
     </div>
 </div>
 
-<csm-crud-toolbar [actions]="['create','delete','search','export']" [resource]="resourceName" [hasSelection]="selectedRoles.length > 0" (create)="openCreate()" (delete)="deleteSelectedRoles()" (export)="exportCSV()" (search)="onSearch($event)">
-</csm-crud-toolbar>
+<app-crud-toolbar [actions]="['create','delete','search','export']" [resource]="resourceName" [hasSelection]="selectedRoles.length > 0" (create)="openCreate()" (delete)="deleteSelectedRoles()" (export)="exportCSV()" (search)="onSearch($event)">
+</app-crud-toolbar>
 
 <p-table
     #dt
@@ -64,11 +64,11 @@
 
             <td class="access-row-actions">
                 <div>
-                    <ng-container *csmHasPermission="'role:update'">
+                    <ng-container *appHasPermission="'role:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(role)"> </p-button>
                     </ng-container>
 
-                    <ng-container *csmHasPermission="'role:delete'">
+                    <ng-container *appHasPermission="'role:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteRole(role)"> </p-button>
                     </ng-container>
                 </div>
@@ -88,7 +88,7 @@
 </p-table>
 
 <!-- Dialog -->
-<csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Role' : 'Create Role'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Role' : 'Create Role'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <role-form #formRef [id]="selectedId" (saved)="onSaved()"> </role-form>
-</csm-dialog>
+</app-dialog>
 </div>

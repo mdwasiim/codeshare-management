@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 
 @Component({
-    selector: 'csm-error',
+    selector: 'app-error',
     standalone: true,
     imports: [ButtonModule, RippleModule, RouterModule],
     templateUrl: './error.page.html',

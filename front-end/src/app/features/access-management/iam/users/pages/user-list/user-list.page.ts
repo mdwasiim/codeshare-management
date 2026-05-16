@@ -16,16 +16,16 @@ import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-actio
 import { UserFormPage } from '@features/access-management/iam/users/pages/user-form/user-form.page';
 
 // ✅ use your wrapper services
-import { CsmConfirmService } from '@services/csm-confirm.service';
+import { AppConfirmService } from '@services/app-confirm.service';
 import { AppToastService } from '@services/toast/app-toast.service';
 import { TooltipModule } from 'primeng/tooltip';
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
 @Component({
     selector: 'user-list',
     standalone: true,
-    imports: [CommonModule, TableModule, ButtonModule, TagModule, TooltipModule, InputTextModule, ToolbarActionComponent, UserFormPage, CsmDialogComponent, HasPermissionDirective],
+    imports: [CommonModule, TableModule, ButtonModule, TagModule, TooltipModule, InputTextModule, ToolbarActionComponent, UserFormPage, AppDialogComponent, HasPermissionDirective],
     templateUrl: './user-list.page.html'
 })
 export class UserListPage extends BaseListComponent<User> {
@@ -41,7 +41,7 @@ export class UserListPage extends BaseListComponent<User> {
     // =========================
     private service = inject(UserService);
     private toast = inject(AppToastService);
-    private confirm = inject(CsmConfirmService); // or use ConfirmationService if you prefer
+    private confirm = inject(AppConfirmService); // or use ConfirmationService if you prefer
 
     // =========================
     // Table

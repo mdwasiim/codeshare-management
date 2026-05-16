@@ -12,7 +12,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 import { TableModule, TableRowSelectEvent } from 'primeng/table';
 
-import { CsmAssignmentLayoutComponent } from '@shared/components/access-management/csm-assignment-layout/csm-assignment-layout.component';
+import { AppAssignmentLayoutComponent } from '@shared/components/access-management/app-assignment-layout/app-assignment-layout.component';
 
 import { RolePermissionService } from '@features/access-management/assignment/role-permissions/services/role-permission.service';
 
@@ -27,7 +27,7 @@ import { GroupRoleService } from '@features/access-management/assignment/group-r
 @Component({
     selector: 'role-permission-assignment-page',
     standalone: true,
-    imports: [CommonModule, FormsModule, AccordionModule, CheckboxModule, TableModule, CsmAssignmentLayoutComponent, ToolbarActionComponent],
+    imports: [CommonModule, FormsModule, AccordionModule, CheckboxModule, TableModule, AppAssignmentLayoutComponent, ToolbarActionComponent],
     templateUrl: './role-permission-assignment.page.html'
 })
 export class RolePermissionAssignmentPage implements OnInit {

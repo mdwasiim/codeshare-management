@@ -7,8 +7,8 @@
     </div>
 </div>
 
-<csm-crud-toolbar [actions]="['create','delete','search','export']" [resource]="resourceName" [hasSelection]="selectedMenus.length > 0" (create)="openCreate()" (delete)="deleteSelectedMenus()" (export)="exportCSV()" (search)="onSearch($event)">
-</csm-crud-toolbar>
+<app-crud-toolbar [actions]="['create','delete','search','export']" [resource]="resourceName" [hasSelection]="selectedMenus.length > 0" (create)="openCreate()" (delete)="deleteSelectedMenus()" (export)="exportCSV()" (search)="onSearch($event)">
+</app-crud-toolbar>
 
 <p-treeTable #dt [value]="data" [(selection)]="selectedMenus" dataKey="key" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]" styleClass="access-table" [tableStyle]="{ 'min-width': '60rem' }">
     <ng-template pTemplate="caption">
@@ -46,11 +46,11 @@
 
             <td class="access-row-actions">
                 <div>
-                    <ng-container *csmHasPermission="'menu:update'">
+                    <ng-container *appHasPermission="'menu:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(rowData)"> </p-button>
                     </ng-container>
 
-                    <ng-container *csmHasPermission="'menu:delete'">
+                    <ng-container *appHasPermission="'menu:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteMenu(rowData)"> </p-button>
                     </ng-container>
                 </div>
@@ -72,7 +72,7 @@
 <!-- ============================= -->
 <!-- Dialog -->
 <!-- ============================= -->
-<csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Menu' : 'Create Menu'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Menu' : 'Create Menu'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <menu-form #formRef [id]="selectedId" (saved)="onSaved()"> </menu-form>
-</csm-dialog>
+</app-dialog>
 </div>

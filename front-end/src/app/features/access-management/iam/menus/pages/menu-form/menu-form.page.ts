@@ -11,14 +11,14 @@ import { AppMenuModel } from '@features/access-management/iam/models/app-menu.mo
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { MenuManagementService } from '@features/access-management/iam/menus/services/menu-management.service';
 import { SelectModule } from 'primeng/select';
-import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 import { GroupService } from '@features/access-management/iam/groups/services/group.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
     selector: 'menu-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, DialogModule, SelectModule, MultiSelectModule, CsmFormSectionComponent],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, DialogModule, SelectModule, MultiSelectModule, AppFormSectionComponent],
     templateUrl: './menu-form.page.html'
 })
 export class MenuFormPage extends BaseCrudForm<AppMenuModel> {

@@ -15,16 +15,16 @@ import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-actio
 
 // ✅ use wrapper services
 import { AppToastService } from '@services/toast/app-toast.service';
-import { CsmConfirmService } from '@services/csm-confirm.service';
+import { AppConfirmService } from '@services/app-confirm.service';
 import { TooltipModule } from 'primeng/tooltip';
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { PermissionFormPage } from '@features/access-management/iam/permissions/pages/permission-form/permission-form.page';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
 @Component({
     selector: 'permission-list',
     standalone: true,
-    imports: [CommonModule, TableModule, ButtonModule, TagModule, ToolbarActionComponent, TooltipModule, CsmDialogComponent, PermissionFormPage, HasPermissionDirective],
+    imports: [CommonModule, TableModule, ButtonModule, TagModule, ToolbarActionComponent, TooltipModule, AppDialogComponent, PermissionFormPage, HasPermissionDirective],
     templateUrl: './permission-list.page.html'
 })
 export class PermissionListPage extends BaseListComponent<Permission> {
@@ -32,7 +32,7 @@ export class PermissionListPage extends BaseListComponent<Permission> {
 
     private service = inject(PermissionApiService);
     private toast = inject(AppToastService);
-    private confirm = inject(CsmConfirmService);
+    private confirm = inject(AppConfirmService);
 
     dialogVisible = false;
     selectedId: string | null = null;

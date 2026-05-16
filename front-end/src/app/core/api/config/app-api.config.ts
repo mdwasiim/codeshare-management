@@ -11,7 +11,7 @@ export type ApiEndpointFactory<P = void> = [P] extends [void] ? () => string : (
 
 export type AnyApiEndpointFactory = (...args: any[]) => string;
 
-const normalizedBaseUrl = environment.CSMBaseUrl.replace(/\/$/, '');
+const normalizedBaseUrl = environment.apiBaseUrl.replace(/\/$/, '');
 
 export const API_CONFIG = {
     baseUrl: normalizedBaseUrl

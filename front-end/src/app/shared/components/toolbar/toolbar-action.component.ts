@@ -14,7 +14,7 @@ import { HasPermissionDirective } from '@shared/directives/permission/has-permis
 export type CrudAction = 'create' | 'delete' | 'export' | 'refresh' | 'upload' | 'search' | 'reset' | 'save';
 
 @Component({
-    selector: 'csm-crud-toolbar',
+    selector: 'app-crud-toolbar',
     standalone: true,
     imports: [CommonModule, FormsModule, ToolbarModule, ButtonModule, InputTextModule, HasPermissionDirective],
     templateUrl: './toolbar-action.component.html'

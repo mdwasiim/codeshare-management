@@ -1,22 +1,22 @@
 <p-toolbar *ngIf="hasAnyAction" class="mb-6">
     <ng-template pTemplate="left">
         <!-- CREATE -->
-        <ng-container *csmHasPermission="permission('create')">
+        <ng-container *appHasPermission="permission('create')">
             <p-button *ngIf="hasAction('create')" label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (click)="create.emit()"> </p-button>
         </ng-container>
 
         <!-- DELETE -->
-        <ng-container *csmHasPermission="permission('delete')">
+        <ng-container *appHasPermission="permission('delete')">
             <p-button *ngIf="hasAction('delete')" label="Delete" icon="pi pi-trash" severity="secondary" outlined class="mr-2" [disabled]="isDeleteDisabled()" (click)="delete.emit()"> </p-button>
         </ng-container>
 
         <!-- REFRESH -->
-        <ng-container *csmHasPermission="permission('read')">
+        <ng-container *appHasPermission="permission('read')">
             <p-button *ngIf="hasAction('refresh')" label="Refresh" icon="pi pi-refresh" severity="secondary" class="mr-2" (click)="refresh.emit()"> </p-button>
         </ng-container>
 
         <!-- UPLOAD -->
-        <ng-container *csmHasPermission="permission('upload')">
+        <ng-container *appHasPermission="permission('upload')">
             <p-button *ngIf="hasAction('upload')" label="Upload" icon="pi pi-upload" severity="secondary" class="mr-2" (click)="uploadFile.emit()"> </p-button>
         </ng-container>
     </ng-template>
@@ -36,7 +36,7 @@
         <p-button *ngIf="hasAction('save')" label="Save" icon="pi pi-save" [loading]="loading" class="mr-2" (click)="save.emit()"> </p-button>
 
         <!-- EXPORT -->
-        <ng-container *csmHasPermission="permission('export')">
+        <ng-container *appHasPermission="permission('export')">
             <p-button *ngIf="hasAction('export')" label="Export" icon="pi pi-download" severity="secondary" (click)="export.emit()"> </p-button>
         </ng-container>
     </ng-template>

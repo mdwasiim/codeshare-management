@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<csm-crud-toolbar
+<app-crud-toolbar
     [actions]="[
         'create',
         'delete',
@@ -23,7 +23,7 @@
     (export)="exportCSV()"
     (search)="onSearch($event)"
 >
-</csm-crud-toolbar>
+</app-crud-toolbar>
 
 <p-table
     #dt
@@ -80,11 +80,11 @@
 
             <td class="access-row-actions">
                 <div>
-                    <ng-container *csmHasPermission="'group:update'">
+                    <ng-container *appHasPermission="'group:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(group)"> </p-button>
                     </ng-container>
 
-                    <ng-container *csmHasPermission="'group:delete'">
+                    <ng-container *appHasPermission="'group:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteGroup(group)"> </p-button>
                     </ng-container>
                 </div>
@@ -103,7 +103,7 @@
     </ng-template>
 </p-table>
 
-<csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Group' : 'Create Group'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Group' : 'Create Group'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <group-form #formRef [id]="selectedId" (saved)="onSaved()"> </group-form>
-</csm-dialog>
+</app-dialog>
 </div>

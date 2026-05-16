@@ -2,10 +2,10 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { finalize } from 'rxjs';
 
-import { CsmSpinnerService } from '@services/spinner/csm-spinner.service';
+import { AppSpinnerService } from '@services/spinner/app-spinner.service';
 
 export const AppSpinnerInterceptor: HttpInterceptorFn = (req, next) => {
-    const spinner = inject(CsmSpinnerService);
+    const spinner = inject(AppSpinnerService);
 
     spinner.show();
 

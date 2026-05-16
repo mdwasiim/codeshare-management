@@ -1,5 +1,5 @@
-<form [formGroup]="form" class="p-fluid w-full block csm-form">
-    <csm-form-section title="Group Details">
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Group Details">
         <div class="grid">
             <div class="field col-12 md:col-6">
                 <label for="code">Code</label>
@@ -25,5 +25,5 @@
                 <p-select inputId="tenant" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full"> </p-select>
             </div>
         </div>
-    </csm-form-section>
+    </app-form-section>
 </form>

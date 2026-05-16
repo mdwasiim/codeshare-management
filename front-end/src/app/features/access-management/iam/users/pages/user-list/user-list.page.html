@@ -7,8 +7,8 @@
     </div>
 </div>
 
-<csm-crud-toolbar [actions]="['create','delete','export','search']" [resource]="resourceName" [hasSelection]="selectedUsers.length > 0" (create)="openCreate()" (delete)="deleteSelectedUsers()" (export)="exportCSV()" (search)="onSearch($event)">
-</csm-crud-toolbar>
+<app-crud-toolbar [actions]="['create','delete','export','search']" [resource]="resourceName" [hasSelection]="selectedUsers.length > 0" (create)="openCreate()" (delete)="deleteSelectedUsers()" (export)="exportCSV()" (search)="onSearch($event)">
+</app-crud-toolbar>
 
 <p-table
     #dt
@@ -71,11 +71,11 @@
 
             <td class="access-row-actions">
                 <div>
-                    <ng-container *csmHasPermission="'user:update'">
+                    <ng-container *appHasPermission="'user:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(user)"> </p-button>
                     </ng-container>
 
-                    <ng-container *csmHasPermission="'user:delete'">
+                    <ng-container *appHasPermission="'user:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteUser(user)"> </p-button>
                     </ng-container>
                 </div>
@@ -94,7 +94,7 @@
     </ng-template>
 </p-table>
 
-<csm-dialog [(visible)]="dialogVisible" [title]="selectedUserId ? 'Edit User' : 'Create User'" [disableSave]="!!userForm?.form?.invalid || !!userForm?.loading" (save)="userForm.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedUserId ? 'Edit User' : 'Create User'" [disableSave]="!!userForm?.form?.invalid || !!userForm?.loading" (save)="userForm.submit()">
     <user-form #userForm [id]="selectedUserId" (saved)="onSaved()"> </user-form>
-</csm-dialog>
+</app-dialog>
 </div>

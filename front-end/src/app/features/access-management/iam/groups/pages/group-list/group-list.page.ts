@@ -15,16 +15,16 @@ import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-actio
 
 // ✅ wrapper services
 import { AppToastService } from '@services/toast/app-toast.service';
-import { CsmConfirmService } from '@services/csm-confirm.service';
+import { AppConfirmService } from '@services/app-confirm.service';
 import { Tooltip } from 'primeng/tooltip';
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { GroupFormPage } from '@features/access-management/iam/groups/pages/group-form/group-form.page';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
 @Component({
     selector: 'app-group-list',
     standalone: true,
-    imports: [CommonModule, TableModule, ButtonModule, TagModule, ToolbarActionComponent, Tooltip, GroupFormPage, CsmDialogComponent, HasPermissionDirective],
+    imports: [CommonModule, TableModule, ButtonModule, TagModule, ToolbarActionComponent, Tooltip, GroupFormPage, AppDialogComponent, HasPermissionDirective],
     templateUrl: './group-list.page.html'
 })
 export class GroupListPage extends BaseListComponent<Group> {
@@ -32,7 +32,7 @@ export class GroupListPage extends BaseListComponent<Group> {
 
     private service = inject(GroupService);
     private toast = inject(AppToastService);
-    private confirm = inject(CsmConfirmService);
+    private confirm = inject(AppConfirmService);
 
     dialogVisible = false;
     selectedId: string | null = null;

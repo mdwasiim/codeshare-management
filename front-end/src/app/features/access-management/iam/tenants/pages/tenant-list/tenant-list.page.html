@@ -7,8 +7,8 @@
     </div>
 </div>
 
-<csm-crud-toolbar [actions]="['create','delete','export','search']" [resource]="resourceName" [hasSelection]="selectedTenants.length > 0" (create)="openCreate()" (delete)="deleteSelectedTenants()" (export)="exportCSV()" (search)="onSearch($event)">
-</csm-crud-toolbar>
+<app-crud-toolbar [actions]="['create','delete','export','search']" [resource]="resourceName" [hasSelection]="selectedTenants.length > 0" (create)="openCreate()" (delete)="deleteSelectedTenants()" (export)="exportCSV()" (search)="onSearch($event)">
+</app-crud-toolbar>
 
 <p-table
     #dt
@@ -76,11 +76,11 @@
 
             <td class="access-row-actions">
                 <div>
-                    <ng-container *csmHasPermission="'tenant:update'">
+                    <ng-container *appHasPermission="'tenant:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(tenant)"> </p-button>
                     </ng-container>
 
-                    <ng-container *csmHasPermission="'tenant:delete'">
+                    <ng-container *appHasPermission="'tenant:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteTenant(tenant)"> </p-button>
                     </ng-container>
                 </div>
@@ -89,7 +89,7 @@
     </ng-template>
 </p-table>
 
-<csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Tenant' : 'Create Tenant'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Tenant' : 'Create Tenant'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <tenant-form #formRef [id]="selectedId" (saved)="onSaved()"> </tenant-form>
-</csm-dialog>
+</app-dialog>
 </div>

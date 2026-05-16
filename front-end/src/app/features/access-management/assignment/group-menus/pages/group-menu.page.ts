@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
-import { CsmAssignmentLayoutComponent } from '@shared/components/access-management/csm-assignment-layout/csm-assignment-layout.component';
+import { AppAssignmentLayoutComponent } from '@shared/components/access-management/app-assignment-layout/app-assignment-layout.component';
 import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
 import { TreeNode } from 'primeng/api';
 import { Tree } from 'primeng/tree';
@@ -18,7 +18,7 @@ import { LayoutMenuService } from '@layout/services/layout-menu.service';
 @Component({
     selector: 'app-group-menu',
     standalone: true,
-    imports: [CommonModule, FormsModule, AccordionModule, CheckboxModule, TableModule, CsmAssignmentLayoutComponent, ToolbarActionComponent, Tree],
+    imports: [CommonModule, FormsModule, AccordionModule, CheckboxModule, TableModule, AppAssignmentLayoutComponent, ToolbarActionComponent, Tree],
     templateUrl: './group-menu.page.html'
 })
 export class GroupMenuPage implements OnInit {

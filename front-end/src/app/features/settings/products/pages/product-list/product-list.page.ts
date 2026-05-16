@@ -23,7 +23,7 @@ import { ProductService } from '@features/settings/products/services/product.ser
 import { Product } from '@features/settings/products/models/product.model';
 import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
 import { ProductFormPage } from '@features/settings/products/pages/product-form/product-form.page';
-import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
+import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 
 interface Column {
     field: string;
@@ -59,7 +59,7 @@ interface ExportColumn {
         InputIconModule,
         ToolbarActionComponent,
         ProductFormPage,
-        CsmDialogComponent
+        AppDialogComponent
     ],
     templateUrl: './product-list.page.html',
     providers: [MessageService, ProductService, ConfirmationService]

@@ -1,17 +1,17 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { CsmSpinnerService } from '@services/spinner/csm-spinner.service';
+import { AppSpinnerService } from '@services/spinner/app-spinner.service';
 
 @Component({
-    selector: 'csm-spinner-overlay',
+    selector: 'app-spinner-overlay',
     standalone: true,
     imports: [NgIf, AsyncPipe],
     template: `
-        <div class="csm-spinner-overlay" *ngIf="spinner.loading$ | async" aria-live="polite" aria-busy="true">
-            <div class="csm-spinner-overlay__backdrop"></div>
-            <div class="csm-spinner-overlay__content">
-                <div class="csm-spinner-overlay__panel">
-                    <div class="csm-spinner-overlay__ring"></div>
+        <div class="app-spinner-overlay" *ngIf="spinner.loading$ | async" aria-live="polite" aria-busy="true">
+            <div class="app-spinner-overlay__backdrop"></div>
+            <div class="app-spinner-overlay__content">
+                <div class="app-spinner-overlay__panel">
+                    <div class="app-spinner-overlay__ring"></div>
                     <span>Loading</span>
                 </div>
             </div>
@@ -19,28 +19,28 @@ import { CsmSpinnerService } from '@services/spinner/csm-spinner.service';
     `,
     styles: [
         `
-            .csm-spinner-overlay {
+            .app-spinner-overlay {
                 position: fixed;
                 inset: 0;
                 z-index: 1200;
                 pointer-events: auto;
             }
 
-            .csm-spinner-overlay__backdrop {
+            .app-spinner-overlay__backdrop {
                 position: absolute;
                 inset: 0;
                 background: rgba(248, 250, 252, 0.58);
                 backdrop-filter: blur(1.5px);
             }
 
-            .csm-spinner-overlay__content {
+            .app-spinner-overlay__content {
                 position: absolute;
                 inset: 0;
                 display: grid;
                 place-items: center;
             }
 
-            .csm-spinner-overlay__panel {
+            .app-spinner-overlay__panel {
                 display: flex;
                 align-items: center;
                 gap: 0.75rem;
@@ -54,16 +54,16 @@ import { CsmSpinnerService } from '@services/spinner/csm-spinner.service';
                 font-weight: 700;
             }
 
-            .csm-spinner-overlay__ring {
+            .app-spinner-overlay__ring {
                 width: 28px;
                 height: 28px;
                 border: 3px solid rgba(30, 41, 59, 0.2);
                 border-top-color: #2563eb;
                 border-radius: 9999px;
-                animation: csm-spin 0.7s linear infinite;
+                animation: app-spin 0.7s linear infinite;
             }
 
-            @keyframes csm-spin {
+            @keyframes app-spin {
                 to {
                     transform: rotate(360deg);
                 }
@@ -71,6 +71,6 @@ import { CsmSpinnerService } from '@services/spinner/csm-spinner.service';
         `
     ]
 })
-export class CsmSpinnerOverlayComponent {
-    readonly spinner = inject(CsmSpinnerService);
+export class AppSpinnerOverlayComponent {
+    readonly spinner = inject(AppSpinnerService);
 }

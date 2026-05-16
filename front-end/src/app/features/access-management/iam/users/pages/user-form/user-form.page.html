@@ -1,7 +1,7 @@
-<form [formGroup]="form" class="p-fluid w-full block csm-form">
+<form [formGroup]="form" class="p-fluid w-full block app-form">
     <div class="w-full">
         <!-- USER INFORMATION -->
-        <csm-form-section title="User Information">
+        <app-form-section title="User Information">
             <div class="grid">
                 <div class="field col-12 md:col-6">
                     <label for="username">Username</label>
@@ -39,10 +39,10 @@
                     <p-select inputId="tenant" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full"> </p-select>
                 </div>
             </div>
-        </csm-form-section>
+        </app-form-section>
 
         <!-- ACCOUNT SETTINGS -->
-        <csm-form-section title="Account Settings">
+        <app-form-section title="Account Settings">
             <div class="grid">
                 <div class="col-12 md:col-6">
                     <div class="flex align-items-center gap-2">
@@ -76,10 +76,10 @@
                     </div>
                 </div>
             </div>
-        </csm-form-section>
+        </app-form-section>
 
         <!-- AUTHENTICATION & SYSTEM -->
-        <csm-form-section title="Authentication & System">
+        <app-form-section title="Authentication & System">
             <div class="grid">
                 <div class="field col-12 md:col-6">
                     <label for="authSource"> Authentication Source </label>
@@ -126,6 +126,6 @@
                     <input id="lastLoginProvider" pInputText formControlName="lastLoginProvider" class="w-full" />
                 </div>
             </div>
-        </csm-form-section>
+        </app-form-section>
     </div>
 </form>

@@ -7,7 +7,7 @@ import { SidebarComponent } from '@layout/components/sidebar/sidebar.component';
 import { FooterComponent } from '@layout/components/footer/footer.component';
 
 @Component({
-    selector: 'csm-layout',
+    selector: 'app-layout',
     standalone: true,
     imports: [CommonModule, TopbarComponent, SidebarComponent, RouterModule, FooterComponent],
     templateUrl: './layout.component.html',

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
-export class CsmConfirmService {
+export class AppConfirmService {
     private confirmService = inject(ConfirmationService);
 
     // =========================

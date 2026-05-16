@@ -5,12 +5,12 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 
 @Component({
-    selector: 'csm-assignment-layout',
+    selector: 'app-assignment-layout',
     standalone: true,
     imports: [CommonModule, CardModule],
-    templateUrl: './csm-assignment-layout.component.html'
+    templateUrl: './app-assignment-layout.component.html'
 })
-export class CsmAssignmentLayoutComponent {
+export class AppAssignmentLayoutComponent {
     @Input()
     groupTitle?: string;
 

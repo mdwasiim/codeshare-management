@@ -1,7 +1,7 @@
-<form [formGroup]="form" class="p-fluid w-full block csm-form">
+<form [formGroup]="form" class="p-fluid w-full block app-form">
     <div class="w-full">
         <!-- BASIC INFORMATION -->
-        <csm-form-section title="Basic Information">
+        <app-form-section title="Basic Information">
             <div class="grid">
                 <!-- NAME -->
                 <div class="field col-12 md:col-6">
@@ -24,10 +24,10 @@
                     <input id="description" pInputText formControlName="description" class="w-full" />
                 </div>
             </div>
-        </csm-form-section>
+        </app-form-section>
 
         <!-- CONFIGURATION -->
-        <csm-form-section title="Configuration">
+        <app-form-section title="Configuration">
             <div class="grid">
                 <!-- STATUS -->
                 <div class="field col-12 md:col-6">
@@ -43,6 +43,6 @@
                     <p-select inputId="plan" appendTo="body" formControlName="plan" [options]="planOptions" placeholder="Select Plan" styleClass="w-full"> </p-select>
                 </div>
             </div>
-        </csm-form-section>
+        </app-form-section>
     </div>
 </form>

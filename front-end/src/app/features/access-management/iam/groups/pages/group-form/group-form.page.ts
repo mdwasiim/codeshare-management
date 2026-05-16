@@ -12,12 +12,12 @@ import { GroupService } from '../../services/group.service';
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { TenantService } from '@features/access-management/iam/tenants/services/tenant.service';
 import { Tenant } from '@features/access-management/iam/models/tenant.model';
-import { CsmFormSectionComponent } from '@shared/components/form-section/csm-form-section.component';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
     selector: 'group-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, CsmFormSectionComponent],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, AppFormSectionComponent],
     templateUrl: './group-form.page.html'
 })
 export class GroupFormPage extends BaseCrudForm<Group> {

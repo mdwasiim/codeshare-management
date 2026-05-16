@@ -1,4 +1,4 @@
-<csm-assignment-layout groupTitle="Groups" leftTitle="Roles" rightTitle="Permissions">
+<app-assignment-layout groupTitle="Groups" leftTitle="Roles" rightTitle="Permissions">
     <div group-panel>
         <p-table [value]="groups" [loading]="loading" selectionMode="single" [(selection)]="selectedGroup" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onGroupSelect($any($event.data))">
             <ng-template pTemplate="header">
@@ -39,7 +39,7 @@
 
     <div right-panel>
         <div class="mb-4">
-            <csm-crud-toolbar
+            <app-crud-toolbar
                 [actions]="[
                     'refresh',
                     'reset',
@@ -50,7 +50,7 @@
                 (reset)="reset()"
                 (save)="save()"
             >
-            </csm-crud-toolbar>
+            </app-crud-toolbar>
         </div>
 
         <div *ngIf="!selectedRole" class="flex align-items-center justify-content-center p-6 text-500">Select a role to manage permissions</div>
@@ -75,4 +75,4 @@
             </p-accordion>
         </div>
     </div>
-</csm-assignment-layout>
+</app-assignment-layout>

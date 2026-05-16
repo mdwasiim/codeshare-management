@@ -13,7 +13,7 @@ import { AuthTenantService } from '@services/auth/auth-tenant.service';
 import { AppToastService } from '@services/toast/app-toast.service';
 
 @Component({
-    selector: 'csm-login',
+    selector: 'app-login',
     standalone: true,
     imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule],
     templateUrl: './login-page.component.html',

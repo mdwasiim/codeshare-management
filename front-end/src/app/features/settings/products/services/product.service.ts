@@ -1240,7 +1240,7 @@ export class ProductService {
         'Yoga Set'
     ];
 
-    constructor(private csmApiService: AppApiService) {}
+    constructor(private appApiService: AppApiService) {}
 
     getProductsData() {
         return this.products;

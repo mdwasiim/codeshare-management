@@ -2,12 +2,12 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'csm-form-section',
+    selector: 'app-form-section',
     standalone: true,
     imports: [CommonModule],
-    templateUrl: './csm-form-section.component.html',
-    styleUrls: ['./csm-form-section.component.scss']
+    templateUrl: './app-form-section.component.html',
+    styleUrls: ['./app-form-section.component.scss']
 })
-export class CsmFormSectionComponent {
+export class AppFormSectionComponent {
     @Input() title = '';
 }
