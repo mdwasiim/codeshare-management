@@ -35,7 +35,10 @@
             </app-crud-toolbar>
         </div>
 
-        <div *ngIf="!selectedUser" class="flex align-items-center justify-content-center p-6 text-500">Select a user to manage groups</div>
+        <div *ngIf="!selectedUser" class="assignment-empty-state">
+            <i class="pi pi-users"></i>
+            <span>Select a user to manage groups</span>
+        </div>
 
         <div *ngIf="selectedUser" class="assignment-selector-list">
             <div *ngFor="let group of groups" class="assignment-selector-list__item">

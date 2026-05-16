@@ -16,7 +16,10 @@
     </div>
 
     <div left-panel>
-        <div *ngIf="!selectedGroup" class="flex align-items-center justify-content-center p-6 text-500">Select a group to view roles</div>
+        <div *ngIf="!selectedGroup" class="assignment-empty-state">
+            <i class="pi pi-list-check"></i>
+            <span>Select a group to view roles</span>
+        </div>
 
         <p-table *ngIf="selectedGroup" [value]="roles" [loading]="loading" selectionMode="single" [(selection)]="selectedRole" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onRoleSelect($event)">
             <ng-template pTemplate="header">
@@ -53,7 +56,10 @@
             </app-crud-toolbar>
         </div>
 
-        <div *ngIf="!selectedRole" class="flex align-items-center justify-content-center p-6 text-500">Select a role to manage permissions</div>
+        <div *ngIf="!selectedRole" class="assignment-empty-state">
+            <i class="pi pi-lock"></i>
+            <span>Select a role to manage permissions</span>
+        </div>
 
         <div *ngIf="selectedRole" class="assignment-selector-list">
             <p-accordion>

@@ -23,7 +23,7 @@
 
     <ng-template pTemplate="right">
         <!-- SEARCH -->
-        <span *ngIf="hasAction('search')" class="p-input-icon-left mr-2">
+        <span *ngIf="hasAction('search')" class="toolbar-search p-input-icon-left mr-2">
             <i class="pi pi-search"></i>
 
             <input pInputText type="text" [ngModel]="searchText" (ngModelChange)="search.emit($event)" placeholder="Search..." />

@@ -1,9 +1,9 @@
 <div class="assignment-layout access-page">
-    <div class="access-page-header">
+    <div class="access-page-header assignment-page-header">
         <div>
             <span class="access-eyebrow">Access Management</span>
             <h1>{{ title }}</h1>
-            <p>Choose the source item on the left, then maintain its assigned access on the right.</p>
+            <p>Select a record and maintain the assigned access in the connected panel.</p>
         </div>
     </div>
 
@@ -12,7 +12,10 @@
             <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
                     <div class="assignment-card-title">
-                        <span>{{ groupTitle }}</span>
+                        <div>
+                            <span>{{ groupTitle }}</span>
+                            <small>Source context</small>
+                        </div>
                     </div>
                 </ng-template>
 
@@ -24,7 +27,10 @@
             <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
                     <div class="assignment-card-title">
-                        <span>{{ leftTitle }}</span>
+                        <div>
+                            <span>{{ leftTitle }}</span>
+                            <small>Selection</small>
+                        </div>
                     </div>
                 </ng-template>
 
@@ -36,7 +42,10 @@
             <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
                     <div class="assignment-card-title">
-                        <span>{{ rightTitle }}</span>
+                        <div>
+                            <span>{{ rightTitle }}</span>
+                            <small>Assigned access</small>
+                        </div>
                     </div>
                 </ng-template>
 

@@ -31,7 +31,10 @@
             </app-crud-toolbar>
         </div>
 
-        <div *ngIf="!selectedGroup" class="flex align-items-center justify-content-center p-6 text-500">Select a group to manage menus</div>
+        <div *ngIf="!selectedGroup" class="assignment-empty-state">
+            <i class="pi pi-sitemap"></i>
+            <span>Select a group to manage menus</span>
+        </div>
 
         <div *ngIf="selectedGroup" class="assignment-selector-list">
             <p-tree [value]="menuTree" selectionMode="checkbox" [(selection)]="selectedMenus" class="w-full"></p-tree>

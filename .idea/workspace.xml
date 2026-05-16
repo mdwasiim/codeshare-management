@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/front-end/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/footer/footer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/footer/footer.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-menus/pages/group-menu.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-menus/pages/group-menu.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-roles/pages/group-role-assignment.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-roles/pages/group-role-assignment.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/pages/role-permission-assignment.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/pages/role-permission-assignment.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/user-group/pages/user-group.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/user-group/pages/user-group.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/access-management/app-assignment-layout/app-assignment-layout.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/access-management/app-assignment-layout/app-assignment-layout.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/toolbar/toolbar-action.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/toolbar/toolbar-action.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/assets/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763230214823</updated>
-      <workItem from="1778918094946" duration="18734000" />
+      <workItem from="1778918094946" duration="19872000" />
     </task>
     <servers />
   </component>

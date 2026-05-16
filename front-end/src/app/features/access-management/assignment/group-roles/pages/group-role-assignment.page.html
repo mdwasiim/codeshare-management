@@ -31,7 +31,10 @@
             </app-crud-toolbar>
         </div>
 
-        <div *ngIf="!selectedGroup" class="flex align-items-center justify-content-center p-6 text-500">Select a group to manage roles</div>
+        <div *ngIf="!selectedGroup" class="assignment-empty-state">
+            <i class="pi pi-shield"></i>
+            <span>Select a group to manage roles</span>
+        </div>
 
         <div *ngIf="selectedGroup" class="assignment-selector-list">
             <div *ngFor="let role of roles" class="assignment-selector-list__item">
