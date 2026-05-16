@@ -10,6 +10,7 @@ import { RippleModule } from 'primeng/ripple';
 
 import { AuthService } from '@features/access-management/auth/services/auth.service';
 import { AuthTenantService } from '@services/auth/auth-tenant.service';
+import { AppToastService } from '@services/toast/app-toast.service';
 
 @Component({
     selector: 'csm-login',
@@ -29,6 +30,7 @@ export class LoginPageComponent {
     private router = inject(Router);
     private route = inject(ActivatedRoute);
     private authTenantService = inject(AuthTenantService);
+    private toast = inject(AppToastService);
 
     private returnUrl = '/dashboard';
     private tenantCode = 'QR';
@@ -63,11 +65,9 @@ export class LoginPageComponent {
                 void this.router.navigateByUrl(this.returnUrl);
             },
             error: (err: unknown) => {
-                console.error('Login failed:', err);
-
                 const message = err instanceof Error ? err.message : 'Login failed';
 
-                alert(message);
+                this.toast.error(message);
 
                 this.loggingIn = false;
             }

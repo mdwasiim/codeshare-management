@@ -12,8 +12,6 @@ export class AuthTenantService {
     // SET TENANT
     // =========================
     setTenant(tenantId: string, tenantCode: string): void {
-        console.log('tenantId  after login ', tenantId);
-        console.log('tenantcode  after login ', tenantCode);
         this.tenantId = tenantId;
         this.tenantCode = tenantCode;
     }

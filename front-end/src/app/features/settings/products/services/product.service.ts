@@ -1243,7 +1243,6 @@ export class ProductService {
     constructor(private csmApiService: AppApiService) {}
 
     getProductsData() {
-        console.log(this.products);
         return this.products;
     }
 

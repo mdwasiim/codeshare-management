@@ -1,5 +1,6 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, filter, finalize, switchMap, take, throwError } from 'rxjs';
 
 import { AuthTokenService } from '@services/auth/auth-token.service';
@@ -13,12 +14,9 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
     const tokenService = inject(AuthTokenService);
     const authService = inject(AuthService);
     const authTenantService = inject(AuthTenantService);
+    const router = inject(Router);
 
     const tenantCode = authTenantService.getTenantCode();
-
-    if (!tenantCode) {
-        console.warn('Tenant code missing on frontend');
-    }
 
     const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/logout');
 
@@ -58,7 +56,9 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
             // 🚫 No refresh token → logout scenario
             if (!tokenService.refreshToken) {
                 tokenService.clear();
-                window.location.href = '/auth/login';
+                router.navigate(['/auth/login'], {
+                    queryParams: { returnUrl: router.url }
+                });
                 return throwError(() => error);
             }
 
@@ -115,7 +115,9 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
                     refreshTokenSubject.next(null);
 
                     // 🔥 FORCE logout
-                    window.location.href = '/auth/login';
+                    router.navigate(['/auth/login'], {
+                        queryParams: { returnUrl: router.url }
+                    });
 
                     return throwError(() => err);
                 }),

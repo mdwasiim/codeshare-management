@@ -106,8 +106,3 @@
 <csm-dialog [(visible)]="productDialog" title="Product Details" [width]="'450px'" [disableSave]="!product.name?.trim()" (save)="saveProduct()" (cancel)="hideDialog()">
     <product-form [product]="product" [submitted]="submitted" [statuses]="statuses" [showActions]="false"></product-form>
 </csm-dialog>
-
-<!-- ============================= -->
-<!--  Global Confirm Dialog        -->
-<!-- ============================= -->
-<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

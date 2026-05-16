@@ -26,7 +26,5 @@ export class AuthInitializerService {
         this.permissionService.setPermissions(this.tokenService.permissions || []);
 
         this.permissionService.setRoles(this.tokenService.roles || []);
-
-        console.log('RBAC RESTORED');
     }
 }

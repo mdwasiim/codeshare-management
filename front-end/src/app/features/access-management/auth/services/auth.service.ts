@@ -10,6 +10,7 @@ import { AppApiService } from '@core/api/config/app-api.service';
 import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 import { PermissionService } from '@core/security/permission.service';
 import { AuthTenantService } from '@services/auth/auth-tenant.service';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -18,7 +19,8 @@ export class AuthService {
         private tenantService: AuthTenantService,
         private permissionService: PermissionService,
         private tokenService: AuthTokenService,
-        private menuService: LayoutMenuService
+        private menuService: LayoutMenuService,
+        private router: Router
     ) {}
 
     login(username: string, password: string): Observable<LoginResponse> {
@@ -84,6 +86,6 @@ export class AuthService {
         this.menuService.clear();
 
         // 🔥 redirect to login
-        window.location.href = '/auth/login';
+        this.router.navigate(['/auth/login']);
     }
 }

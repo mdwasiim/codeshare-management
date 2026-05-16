@@ -86,10 +86,6 @@ export class RolePermissionAssignmentPage implements OnInit {
 
                 this.groupedPermissions = this.groupPermissions(this.permissions);
 
-                console.log('GROUPS RESPONSE=', res.groups);
-
-                console.log('PERMISSIONS RESPONSE=', res.permissions);
-
                 this.loading = false;
             },
 
@@ -211,14 +207,12 @@ export class RolePermissionAssignmentPage implements OnInit {
             this.selectedPermissionIds = this.selectedPermissionIds.filter((id) => id !== permissionId);
         }
 
-        console.log('SELECTED IDS', this.selectedPermissionIds);
     }
 
     // =========================
     // SAVE
     // =========================
     save(): void {
-        console.log('SELECTED IDS', this.selectedPermissionIds);
         if (!this.selectedRole?.id) {
             return;
         }

@@ -41,7 +41,6 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
     }
 
     buildForm(): void {
-        console.log('BUILD FORM CALLED');
         this.form = this.fb.group({
             id: [null],
             name: ['', Validators.required],

@@ -6,14 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-list/group-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-list/group-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-list/permission-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-list/permission-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-list/role-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-list/role-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-list/tenant-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-list/tenant-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/access-management/csm-assignment-layout/csm-assignment-layout.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/access-management/csm-assignment-layout/csm-assignment-layout.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/assets/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/security/interceptors/app-auth.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/security/interceptors/app-auth.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-initializer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-initializer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-tenant.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-tenant.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/pages/role-permission-assignment.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/pages/role-permission-assignment.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/services/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/services/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/settings/products/services/product.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/spinner-overlay/csm-spinner-overlay.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/spinner-overlay/csm-spinner-overlay.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,28 +48,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "codex__14My__from__main",
-    "javascript.preferred.runtime.type.id": "node",
-    "last_opened_file_path": "C:/Users/mdwas/Projects/codeBase/codeshare-management",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\front-end\\node_modules\\prettier",
-    "ts.external.directory.path": "C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\front-end\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;codex__14My__from__main&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mdwas/Projects/codeBase/codeshare-management&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\front-end\\node_modules\\prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\front-end\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -81,7 +84,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763230214823</updated>
-      <workItem from="1778918094946" duration="17198000" />
+      <workItem from="1778918094946" duration="17889000" />
     </task>
     <servers />
   </component>

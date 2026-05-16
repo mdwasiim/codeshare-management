@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { forkJoin, tap } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 import { UserService } from '@features/access-management/iam/users/services/user.service';
 import { User } from '@features/access-management/iam/models/user.model';
@@ -50,22 +50,11 @@ export class UserListPage extends BaseListComponent<User> {
 
     @ViewChild('dt') dt!: Table;
 
-    override ngOnInit(): void {
-        console.log('UserListPage INIT');
-        super.ngOnInit();
-    }
-
     // =========================
     // Data Fetch
     // =========================
     override fetch() {
-        /*return this.service.getAll();*/
-        return this.service.getAll().pipe(
-            tap((res) => {
-                console.log('USER API RESPONSE=', res);
-                console.log('IS ARRAY=', Array.isArray(res));
-            })
-        );
+        return this.service.getAll();
     }
 
     // =========================
