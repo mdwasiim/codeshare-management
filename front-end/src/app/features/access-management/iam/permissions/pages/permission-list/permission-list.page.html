@@ -1,4 +1,12 @@
-<!-- TOOLBAR -->
+<div class="access-page access-page--list">
+<div class="access-page-header">
+    <div>
+        <span class="access-eyebrow">Authorization</span>
+        <h1>Permissions</h1>
+        <p>Define domain actions used by role permission assignment.</p>
+    </div>
+</div>
+
 <csm-crud-toolbar
     [actions]="['create','delete','search','export']"
     [resource]="resourceName"
@@ -10,10 +18,14 @@
 >
 </csm-crud-toolbar>
 
-<p-table #dt [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" [(selection)]="selectedPermissions" dataKey="id" [rowHover]="true" [globalFilterFields]="['name','domain','action','code','tenantName']">
+<p-table #dt [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" [(selection)]="selectedPermissions" dataKey="id" [rowHover]="true" responsiveLayout="scroll" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '70rem' }" [globalFilterFields]="['name','domain','action','code','tenantName']">
     <ng-template pTemplate="caption">
-        <div class="flex justify-between items-center">
-            <h5 class="m-0">Manage Permission</h5>
+        <div class="access-table-caption">
+            <div>
+                <h2>Manage Permissions</h2>
+                <p>{{ data.length || 0 }} permissions loaded</p>
+            </div>
+            <span class="access-count">{{ selectedPermissions.length || 0 }} selected</span>
         </div>
     </ng-template>
 
@@ -29,7 +41,7 @@
             <th pSortableColumn="action">Action <p-sortIcon field="action"></p-sortIcon></th>
             <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
             <th>Description</th>
-            <th></th>
+            <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
 
@@ -52,14 +64,12 @@
 
             <td>{{ p.description }}</td>
 
-            <td class="flex gap-2">
-                <div class="flex gap-1 justify-center">
-                    <!-- EDIT -->
+            <td class="access-row-actions">
+                <div>
                     <ng-container *csmHasPermission="'permission:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(p)"> </p-button>
                     </ng-container>
 
-                    <!-- DELETE -->
                     <ng-container *csmHasPermission="'permission:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deletePermission(p)"> </p-button>
                     </ng-container>
@@ -81,3 +91,4 @@
 <csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Permission' : 'Create Permission'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <permission-form #formRef [id]="selectedId" (saved)="onSaved()"> </permission-form>
 </csm-dialog>
+</div>

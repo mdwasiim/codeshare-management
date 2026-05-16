@@ -1,3 +1,12 @@
+<div class="access-page access-page--list">
+<div class="access-page-header">
+    <div>
+        <span class="access-eyebrow">Identity</span>
+        <h1>Tenants</h1>
+        <p>Manage tenant records, subscription status, and plan details.</p>
+    </div>
+</div>
+
 <csm-crud-toolbar [actions]="['create','delete','export','search']" [resource]="resourceName" [hasSelection]="selectedTenants.length > 0" (create)="openCreate()" (delete)="deleteSelectedTenants()" (export)="exportCSV()" (search)="onSearch($event)">
 </csm-crud-toolbar>
 
@@ -12,13 +21,16 @@
     dataKey="id"
     [rowHover]="true"
     responsiveLayout="scroll"
-    class="p-datatable-sm"
+    styleClass="access-table p-datatable-sm"
     [globalFilterFields]="['name','code','plan','status']"
 >
-    <!-- Caption -->
     <ng-template pTemplate="caption">
-        <div class="flex justify-between items-center">
-            <h5 class="m-0">Manage Tenants</h5>
+        <div class="access-table-caption">
+            <div>
+                <h2>Manage Tenants</h2>
+                <p>{{ data.length || 0 }} tenants loaded</p>
+            </div>
+            <span class="access-count">{{ selectedTenants.length || 0 }} selected</span>
         </div>
     </ng-template>
 
@@ -42,7 +54,7 @@
             <th>Status</th>
             <th>Plan</th>
 
-            <th style="width: 10rem"></th>
+            <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
 
@@ -62,14 +74,12 @@
 
             <td>{{ tenant.plan || '-' }}</td>
 
-            <td class="flex gap-2">
-                <div class="flex gap-1 justify-center">
-                    <!-- EDIT -->
+            <td class="access-row-actions">
+                <div>
                     <ng-container *csmHasPermission="'tenant:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(tenant)"> </p-button>
                     </ng-container>
 
-                    <!-- DELETE -->
                     <ng-container *csmHasPermission="'tenant:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteTenant(tenant)"> </p-button>
                     </ng-container>
@@ -82,3 +92,4 @@
 <csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Tenant' : 'Create Tenant'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <tenant-form #formRef [id]="selectedId" (saved)="onSaved()"> </tenant-form>
 </csm-dialog>
+</div>

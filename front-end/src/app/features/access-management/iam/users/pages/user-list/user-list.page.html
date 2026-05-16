@@ -1,8 +1,15 @@
-<!-- Toolbar -->
+<div class="access-page access-page--list">
+<div class="access-page-header">
+    <div>
+        <span class="access-eyebrow">Identity</span>
+        <h1>Users</h1>
+        <p>Manage user accounts, login status, and tenant ownership.</p>
+    </div>
+</div>
+
 <csm-crud-toolbar [actions]="['create','delete','export','search']" [resource]="resourceName" [hasSelection]="selectedUsers.length > 0" (create)="openCreate()" (delete)="deleteSelectedUsers()" (export)="exportCSV()" (search)="onSearch($event)">
 </csm-crud-toolbar>
 
-<!-- Table -->
 <p-table
     #dt
     [value]="data"
@@ -14,13 +21,17 @@
     dataKey="id"
     [rowHover]="true"
     responsiveLayout="scroll"
-    class="p-datatable-sm"
+    styleClass="access-table p-datatable-sm"
     [tableStyle]="{ 'min-width': '60rem' }"
     [globalFilterFields]="['username','email','firstName','lastName']"
 >
     <ng-template pTemplate="caption">
-        <div class="flex justify-between items-center">
-            <h5 class="m-0">Manage Users</h5>
+        <div class="access-table-caption">
+            <div>
+                <h2>Manage Users</h2>
+                <p>{{ data.length || 0 }} users loaded</p>
+            </div>
+            <span class="access-count">{{ selectedUsers.length || 0 }} selected</span>
         </div>
     </ng-template>
 
@@ -39,7 +50,7 @@
             <th>Name</th>
             <th>Tenant</th>
             <th>Status</th>
-            <th style="width: 10rem"></th>
+            <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
 
@@ -58,14 +69,12 @@
                 <p-tag [value]="user.enabled ? 'Active' : 'Disabled'" [severity]="user.enabled ? 'success' : 'danger'"> </p-tag>
             </td>
 
-            <td>
-                <div class="flex gap-1 justify-center">
-                    <!-- EDIT -->
+            <td class="access-row-actions">
+                <div>
                     <ng-container *csmHasPermission="'user:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(user)"> </p-button>
                     </ng-container>
 
-                    <!-- DELETE -->
                     <ng-container *csmHasPermission="'user:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteUser(user)"> </p-button>
                     </ng-container>
@@ -88,3 +97,4 @@
 <csm-dialog [(visible)]="dialogVisible" [title]="selectedUserId ? 'Edit User' : 'Create User'" [disableSave]="!!userForm?.form?.invalid || !!userForm?.loading" (save)="userForm.submit()">
     <user-form #userForm [id]="selectedUserId" (saved)="onSaved()"> </user-form>
 </csm-dialog>
+</div>

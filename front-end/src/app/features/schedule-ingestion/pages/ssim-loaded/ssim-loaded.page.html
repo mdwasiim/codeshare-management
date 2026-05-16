@@ -72,29 +72,29 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th class="file-col">File</th>
-                    <th class="actions-col">Actions</th>
                     <th class="code-col">Airline</th>
                     <th class="code-col">Type</th>
                     <th class="status-col">Status</th>
                     <th class="size-col">Size</th>
                     <th class="date-col">Received</th>
                     <th class="date-col">Processed</th>
+                    <th class="actions-col">Actions</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-file>
                 <tr [class.selected-row]="selectedFile?.fileId === file.fileId" (click)="loadFlights(file)">
                     <td class="truncate-cell" [pTooltip]="file.fileName || '-'" tooltipPosition="top">{{ file.fileName || '-' }}</td>
-                    <td>
-                        <div class="row-actions row-actions--visible">
-                            <p-button icon="pi pi-eye" label="Compare" size="small" text styleClass="metadata-action-button" pTooltip="Open comparison" tooltipPosition="top" (click)="viewDetail(file); $event.stopPropagation()"></p-button>
-                        </div>
-                    </td>
                     <td>{{ file.airlineCode || '-' }}</td>
                     <td>{{ file.messageType || 'SSIM' }}</td>
                     <td><p-tag [value]="file.processingStatus || '-'" [severity]="statusSeverity(file.processingStatus)"></p-tag></td>
                     <td>{{ file.fileSizeBytes || '-' }}</td>
                     <td>{{ file.receivedAt | date: 'short' }}</td>
                     <td>{{ file.processedAt | date: 'short' }}</td>
+                    <td>
+                        <div class="row-actions row-actions--right">
+                            <p-button icon="pi pi-eye" label="Compare" size="small" text styleClass="metadata-action-button" pTooltip="Open comparison" tooltipPosition="top" (click)="viewDetail(file); $event.stopPropagation()"></p-button>
+                        </div>
+                    </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">

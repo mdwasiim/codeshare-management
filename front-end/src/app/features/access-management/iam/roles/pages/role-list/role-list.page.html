@@ -1,8 +1,15 @@
-<!-- Toolbar -->
+<div class="access-page access-page--list">
+<div class="access-page-header">
+    <div>
+        <span class="access-eyebrow">Authorization</span>
+        <h1>Roles</h1>
+        <p>Maintain reusable role definitions for groups and permissions.</p>
+    </div>
+</div>
+
 <csm-crud-toolbar [actions]="['create','delete','search','export']" [resource]="resourceName" [hasSelection]="selectedRoles.length > 0" (create)="openCreate()" (delete)="deleteSelectedRoles()" (export)="exportCSV()" (search)="onSearch($event)">
 </csm-crud-toolbar>
 
-<!-- Table -->
 <p-table
     #dt
     [value]="data"
@@ -13,12 +20,17 @@
     [(selection)]="selectedRoles"
     dataKey="id"
     [rowHover]="true"
+    styleClass="access-table p-datatable-sm"
     [tableStyle]="{ 'min-width': '60rem' }"
     [globalFilterFields]="['code','name','description']"
 >
     <ng-template pTemplate="caption">
-        <div class="flex justify-between items-center">
-            <h5 class="m-0">Manage Roles</h5>
+        <div class="access-table-caption">
+            <div>
+                <h2>Manage Roles</h2>
+                <p>{{ data.length || 0 }} roles loaded</p>
+            </div>
+            <span class="access-count">{{ selectedRoles.length || 0 }} selected</span>
         </div>
     </ng-template>
     <!-- Header -->
@@ -31,7 +43,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Tenant</th>
-            <th style="width: 120px"></th>
+            <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
 
@@ -50,14 +62,12 @@
                 <p-tag [value]="role.tenantId" severity="info"></p-tag>
             </td>
 
-            <td>
-                <div class="flex gap-1 justify-center">
-                    <!-- EDIT -->
+            <td class="access-row-actions">
+                <div>
                     <ng-container *csmHasPermission="'role:update'">
                         <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(role)"> </p-button>
                     </ng-container>
 
-                    <!-- DELETE -->
                     <ng-container *csmHasPermission="'role:delete'">
                         <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteRole(role)"> </p-button>
                     </ng-container>
@@ -81,3 +91,4 @@
 <csm-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Role' : 'Create Role'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <role-form #formRef [id]="selectedId" (saved)="onSaved()"> </role-form>
 </csm-dialog>
+</div>

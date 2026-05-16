@@ -1,37 +1,43 @@
-<div class="flex flex-column gap-4 assignment-layout">
-    <div class="text-900 text-xl font-semibold">
-        {{ title }}
+<div class="assignment-layout access-page">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Access Management</span>
+            <h1>{{ title }}</h1>
+            <p>Choose the source item on the left, then maintain its assigned access on the right.</p>
+        </div>
     </div>
 
-    <!-- CONTENT -->
     <div [ngClass]="layoutClass">
-        <!-- GROUP PANEL -->
         <div *ngIf="groupTitle" class="assignment-layout__panel">
             <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
-                    {{ groupTitle }}
+                    <div class="assignment-card-title">
+                        <span>{{ groupTitle }}</span>
+                    </div>
                 </ng-template>
 
                 <ng-content select="[group-panel]"> </ng-content>
             </p-card>
         </div>
 
-        <!-- ROLE PANEL -->
         <div *ngIf="leftTitle" class="assignment-layout__panel">
             <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
-                    {{ leftTitle }}
+                    <div class="assignment-card-title">
+                        <span>{{ leftTitle }}</span>
+                    </div>
                 </ng-template>
 
                 <ng-content select="[left-panel]"> </ng-content>
             </p-card>
         </div>
 
-        <!-- PERMISSION PANEL -->
         <div *ngIf="rightTitle" class="assignment-layout__panel">
             <p-card class="assignment-layout__card">
                 <ng-template pTemplate="title">
-                    {{ rightTitle }}
+                    <div class="assignment-card-title">
+                        <span>{{ rightTitle }}</span>
+                    </div>
                 </ng-template>
 
                 <ng-content select="[right-panel]"> </ng-content>
