@@ -1,6 +1,6 @@
-# CodeShare Management
+# Schedverse
 
-This project is a code sharing and management platform built with [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+This project is the Schedverse frontend built with [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
 
 ## Development server
 
