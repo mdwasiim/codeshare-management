@@ -89,6 +89,7 @@ export const API_ENDPOINTS = {
         },
         menu: {
             base: makeEndpoint('/identity/menus'),
+            manage: makeEndpoint('/identity/menus/manage/all'),
             byId: makeEndpoint('/identity/menus/{id}')
         }
     },

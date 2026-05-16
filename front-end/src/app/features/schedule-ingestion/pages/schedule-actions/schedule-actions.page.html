@@ -1,0 +1,93 @@
+<div class="schedule-actions-page">
+    <section class="page-header">
+        <div>
+            <h1>{{ title }}</h1>
+            <p>Run upload, validation, parsing, or ingestion actions separately from loaded schedule review.</p>
+        </div>
+        <p-button icon="pi pi-list" label="Loaded Metadata" severity="secondary" [routerLink]="listRoute"></p-button>
+    </section>
+
+    <section class="action-grid">
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Message Action</h2>
+                @if (mode === 'ASM_SSM') {
+                    <p-select [options]="asmSsmTypes" [(ngModel)]="type" appendTo="body"></p-select>
+                }
+            </div>
+
+            <div class="form-grid">
+                <label>
+                    Airline
+                    <input pInputText [(ngModel)]="airlineCode" maxlength="3" placeholder="QR" />
+                </label>
+                <label>
+                    Action
+                    <p-select [options]="actions" optionLabel="label" optionValue="value" [(ngModel)]="action" appendTo="body"></p-select>
+                </label>
+                <label>
+                    File Name
+                    <input pInputText [(ngModel)]="messageFileName" />
+                </label>
+            </div>
+
+            @if (canUseTextPayload) {
+                <textarea pTextarea [(ngModel)]="content" rows="12" spellcheck="false" placeholder="Paste an ASM or SSM message"></textarea>
+            }
+
+            <div class="file-row">
+                <input type="file" (change)="onMessageFileSelected($event)" />
+                <span>{{ selectedMessageFile?.name || (canUseTextPayload ? 'Optional file for validate/parse/ingest' : 'Select an SSIM file') }}</span>
+            </div>
+
+            <div class="actions">
+                <p-button icon="pi pi-play" label="Run Action" [loading]="loading" [disabled]="!airlineCode.trim() || (!selectedMessageFile && (!canUseTextPayload || !content.trim()))" (click)="submitMessage()"></p-button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Queue File</h2>
+            </div>
+            <div class="queue-box">
+                <i class="pi pi-upload"></i>
+                <input type="file" (change)="onQueueFileSelected($event)" />
+                <strong>{{ queueFile?.name || 'No file selected' }}</strong>
+            </div>
+            <p-button icon="pi pi-send" label="Upload" [loading]="loading" [disabled]="!airlineCode.trim() || !queueFile" (click)="queueUpload()"></p-button>
+        </div>
+    </section>
+
+    @if (result) {
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Result</h2>
+            </div>
+
+            @if (validationMessages.length) {
+                <p-table [value]="validationMessages" class="p-datatable-sm" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Severity</th>
+                            <th>Code</th>
+                            <th>Line</th>
+                            <th>Field</th>
+                            <th>Message</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-message>
+                        <tr>
+                            <td>{{ message.severity || '-' }}</td>
+                            <td>{{ message.code || '-' }}</td>
+                            <td>{{ message.lineNumber || '-' }}</td>
+                            <td>{{ message.field || '-' }}</td>
+                            <td>{{ message.message || '-' }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            }
+
+            <pre>{{ formatResult() }}</pre>
+        </section>
+    }
+</div>

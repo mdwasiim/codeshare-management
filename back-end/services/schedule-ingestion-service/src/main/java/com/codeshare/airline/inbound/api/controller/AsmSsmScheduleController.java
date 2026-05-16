@@ -5,6 +5,7 @@ import com.codeshare.airline.inbound.api.response.ScheduleFileMessageResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleDetailResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleSummaryResponse;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
+import com.codeshare.airline.inbound.domain.enums.SourceType;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFlightDTO;
 import com.codeshare.airline.inbound.services.schedule.ScheduleQueryService;
@@ -59,7 +60,7 @@ public class AsmSsmScheduleController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant receivedFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant receivedTo,
             @RequestParam(required = false) String fileName,
-            @RequestParam(required = false) String checksum,
+            @RequestParam(required = false) SourceType sourceType,
             Pageable pageable
     ) {
         return queryService.searchFiles(
@@ -69,7 +70,7 @@ public class AsmSsmScheduleController {
                 receivedFrom,
                 receivedTo,
                 fileName,
-                checksum,
+                sourceType,
                 pageable
         );
     }

@@ -125,9 +125,20 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional(readOnly = true)
     public List<MenuDTO> getRootMenus() {
-        TenantContext tenant = TenantContextHolder.getTenant();
         Tenant tenantByTenantCode = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
         return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNull(tenantByTenantCode.getId()));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MenuDTO> getAllForManagement() {
+        TenantContext ctx = TenantContextHolder.getTenant();
+
+        return repository.findByTenant_TenantCode(ctx.getTenantCode())
+                .stream()
+                .sorted(Comparator.comparing(Menu::getDisplayOrder, Comparator.nullsLast(Integer::compareTo)))
+                .map(this::toDtoWithGroups)
+                .toList();
     }
 
 

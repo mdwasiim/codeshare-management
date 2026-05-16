@@ -19,6 +19,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MenuFormPage } from '@features/access-management/iam/menus/pages/menu-form/menu-form.page';
 import { CsmDialogComponent } from '@shared/components/csm-dialog/csm-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
+import { LayoutMenuService } from '@layout/services/layout-menu.service';
 
 @Component({
     selector: 'menu-list',
@@ -31,6 +32,7 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
     private service = inject(MenuManagementService);
     private toast = inject(AppToastService);
     private confirm = inject(CsmConfirmService);
+    private layoutMenuService = inject(LayoutMenuService);
 
     @ViewChild('dt') dt!: TreeTable;
 
@@ -99,6 +101,7 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
         this.toast.success('Menu saved successfully');
         this.dialogVisible = false;
         this.refresh();
+        this.layoutMenuService.loadMenus().subscribe();
     }
 
     onSearch(value: string) {

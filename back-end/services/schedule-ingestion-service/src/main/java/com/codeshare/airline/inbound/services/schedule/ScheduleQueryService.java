@@ -5,6 +5,7 @@ import com.codeshare.airline.inbound.api.response.ScheduleFileMessageResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleDetailResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleSummaryResponse;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
+import com.codeshare.airline.inbound.domain.enums.SourceType;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleFlightDTO;
 import com.codeshare.airline.inbound.dto.schedule.ScheduleMessageDTO;
@@ -51,12 +52,12 @@ public class ScheduleQueryService {
             Instant receivedFrom,
             Instant receivedTo,
             String fileName,
-            String checksum,
+            SourceType sourceType,
             Pageable pageable
     ) {
         assertScheduleType(messageType);
         return fileRepository.findAll(
-                fileSpec(messageType, airlineCode, processingStatus, receivedFrom, receivedTo, fileName, checksum),
+                fileSpec(messageType, airlineCode, processingStatus, receivedFrom, receivedTo, fileName, sourceType),
                 pageable
         ).map(fileMapper::toDto);
     }
@@ -175,7 +176,7 @@ public class ScheduleQueryService {
             Instant receivedFrom,
             Instant receivedTo,
             String fileName,
-            String checksum
+            SourceType sourceType
     ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -200,8 +201,8 @@ public class ScheduleQueryService {
             if (hasText(fileName)) {
                 predicates.add(cb.like(cb.lower(root.get("fileName")), "%" + fileName.trim().toLowerCase() + "%"));
             }
-            if (hasText(checksum)) {
-                predicates.add(cb.equal(root.get("checksum"), checksum.trim()));
+            if (sourceType != null) {
+                predicates.add(cb.equal(root.get("sourceType"), sourceType));
             }
 
             return cb.and(predicates.toArray(Predicate[]::new));

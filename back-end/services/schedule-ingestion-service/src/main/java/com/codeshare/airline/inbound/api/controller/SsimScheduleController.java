@@ -1,6 +1,7 @@
 package com.codeshare.airline.inbound.api.controller;
 
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
+import com.codeshare.airline.inbound.domain.enums.SourceType;
 import com.codeshare.airline.inbound.api.response.SsimLoadedScheduleDetailResponse;
 import com.codeshare.airline.inbound.api.response.SsimLoadedScheduleSummaryResponse;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;
@@ -35,7 +36,7 @@ public class SsimScheduleController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant receivedFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant receivedTo,
             @RequestParam(required = false) String fileName,
-            @RequestParam(required = false) String checksum,
+            @RequestParam(required = false) SourceType sourceType,
             Pageable pageable
     ) {
         return queryService.searchFiles(
@@ -44,7 +45,7 @@ public class SsimScheduleController {
                 receivedFrom,
                 receivedTo,
                 fileName,
-                checksum,
+                sourceType,
                 pageable
         );
     }

@@ -14,6 +14,10 @@ export class MenuManagementService {
     // GET ALL
     // -----------------------------
     getAll() {
+        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.manage);
+    }
+
+    getAuthorized() {
         return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base);
     }
 

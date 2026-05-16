@@ -1,6 +1,7 @@
 package com.codeshare.airline.inbound.services.ssim;
 
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
+import com.codeshare.airline.inbound.domain.enums.SourceType;
 import com.codeshare.airline.inbound.api.response.SsimLoadedScheduleDetailResponse;
 import com.codeshare.airline.inbound.api.response.SsimLoadedScheduleSummaryResponse;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimDataElementDTO;
@@ -52,11 +53,11 @@ public class SsimScheduleQueryService {
             Instant receivedFrom,
             Instant receivedTo,
             String fileName,
-            String checksum,
+            SourceType sourceType,
             Pageable pageable
     ) {
         return fileRepository.findAll(
-                fileSpec(airlineCode, processingStatus, receivedFrom, receivedTo, fileName, checksum),
+                fileSpec(airlineCode, processingStatus, receivedFrom, receivedTo, fileName, sourceType),
                 pageable
         ).map(fileMapper::toDTO);
     }
@@ -178,7 +179,7 @@ public class SsimScheduleQueryService {
             Instant receivedFrom,
             Instant receivedTo,
             String fileName,
-            String checksum
+            SourceType sourceType
     ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -198,8 +199,8 @@ public class SsimScheduleQueryService {
             if (hasText(fileName)) {
                 predicates.add(cb.like(cb.lower(root.get("fileName")), "%" + fileName.trim().toLowerCase() + "%"));
             }
-            if (hasText(checksum)) {
-                predicates.add(cb.equal(root.get("checksum"), checksum.trim()));
+            if (sourceType != null) {
+                predicates.add(cb.equal(root.get("sourceType"), sourceType));
             }
 
             return cb.and(predicates.toArray(Predicate[]::new));

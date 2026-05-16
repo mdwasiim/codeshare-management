@@ -18,6 +18,8 @@ public interface MenuService {
 
     List<MenuDTO> getAllByTenant();
 
+    List<MenuDTO> getAllForManagement();
+
     void delete(UUID id);
 
     List<MenuBackupDTO> getAllMenuBackup();

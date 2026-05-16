@@ -45,19 +45,13 @@
                     <p-select inputId="parentId" appendTo="body" [options]="menuOptions" optionLabel="label" optionValue="value" formControlName="parentId" placeholder="Select Parent" [showClear]="true" styleClass="w-full"> </p-select>
                 </div>
 
-                <!-- PERMISSION -->
-                <div class="field col-12 md:col-6">
-                    <label for="permission"> Permission </label>
-
-                    <p-select inputId="permission" appendTo="body" formControlName="permission" [options]="permissionOptions" optionLabel="label" optionValue="value" placeholder="Select Permission" styleClass="w-full"> </p-select>
-                </div>
-
                 <!-- GROUPS -->
-                <div class="field col-12 md:col-6">
+                <div class="field col-12">
                     <label for="groupIds"> Groups </label>
 
-                    <p-multiSelect inputId="groupIds" appendTo="body" formControlName="groupIds" [options]="groups" optionLabel="label" optionValue="value" placeholder="Select Groups" display="chip" styleClass="w-full"> </p-multiSelect>
+                    <p-multiSelect inputId="groupIds" appendTo="body" formControlName="groupIds" [options]="groups" optionLabel="label" optionValue="value" placeholder="Select groups that can see this menu" display="chip" styleClass="w-full"> </p-multiSelect>
                 </div>
+
             </div>
         </csm-form-section>
     </div>

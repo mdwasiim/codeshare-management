@@ -92,6 +92,7 @@ export interface SsimFlight {
     operatingPeriodEndRaw?: string;
     passengerStd?: string;
     passengerSta?: string;
+    deis?: SsimDataElement[];
 }
 
 export interface ScheduleFlight {
@@ -102,6 +103,68 @@ export interface ScheduleFlight {
     offPoint?: string;
     aircraftType?: string;
     serviceType?: string;
+    flightSequenceNumber?: number;
+    operationalSuffix?: string;
+    aircraftConfiguration?: string;
+    bookingDesignator?: string;
+    periods?: SchedulePeriod[];
+    legs?: ScheduleLeg[];
+    deis?: ScheduleDataElement[];
+    supplementaryInfo?: string[];
 }
 
 export type AnyScheduleFlight = SsimFlight & ScheduleFlight;
+
+export interface SchedulePeriod {
+    startDate?: string;
+    endDate?: string;
+    daysOfOperation?: string;
+    frequencyRate?: number;
+}
+
+export interface ScheduleLeg {
+    legSequenceNumber?: number;
+    boardPoint?: string;
+    offPoint?: string;
+    departureTime?: string;
+    arrivalTime?: string;
+    departureDayOffset?: number;
+    arrivalDayOffset?: number;
+    aircraftType?: string;
+    aircraftConfiguration?: string;
+    serviceType?: string;
+    deis?: ScheduleDataElement[];
+}
+
+export interface ScheduleDataElement {
+    deiCode?: number;
+    value?: string;
+    scope?: string;
+    sequenceOrder?: number;
+    legSequenceNumber?: number;
+    boardPoint?: string;
+    offPoint?: string;
+    rawLine?: string;
+    [key: string]: unknown;
+}
+
+export interface SsimDataElement {
+    flightLegId?: string;
+    recordType?: string;
+    operationalSuffix?: string;
+    airlineCode?: string;
+    flightNumber?: string;
+    itineraryVariationIdentifier?: string;
+    legSequenceNumber?: string;
+    serviceType?: string;
+    spare15To27?: string;
+    itineraryVariationOverflow?: string;
+    boardPointIndicator?: string;
+    offPointIndicator?: string;
+    dataElementIdentifier?: string;
+    boardPoint?: string;
+    offPoint?: string;
+    deiData?: string;
+    recordSerialNumber?: string;
+    [key: string]: unknown;
+}

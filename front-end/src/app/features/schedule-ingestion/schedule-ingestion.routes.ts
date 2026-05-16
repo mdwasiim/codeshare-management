@@ -7,8 +7,18 @@ export const SCHEDULE_INGESTION_ROUTES: Routes = [
         data: { mode: 'SSIM' }
     },
     {
+        path: 'ssim-ingestion/actions',
+        loadComponent: () => import('./pages/schedule-actions/schedule-actions.page').then((m) => m.ScheduleActionsPage),
+        data: { mode: 'SSIM' }
+    },
+    {
         path: 'asm-ssm-ingestion',
         loadComponent: () => import('./pages/loaded-schedules/loaded-schedules.page').then((m) => m.LoadedSchedulesPage),
+        data: { mode: 'ASM_SSM' }
+    },
+    {
+        path: 'asm-ssm-ingestion/actions',
+        loadComponent: () => import('./pages/schedule-actions/schedule-actions.page').then((m) => m.ScheduleActionsPage),
         data: { mode: 'ASM_SSM' }
     },
     {
