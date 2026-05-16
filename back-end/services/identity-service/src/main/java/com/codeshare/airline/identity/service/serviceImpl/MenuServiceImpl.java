@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.service.serviceImpl;
 
+import com.codeshare.airline.core.dto.tenant.MenuBackupDTO;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
@@ -12,11 +13,18 @@ import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.MenuService;
 import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.MenuMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -35,7 +43,7 @@ public class MenuServiceImpl implements MenuService {
     private final TenantRepository tenantRepository;
     private final TenantService tenantService;
 
-
+    private final ObjectMapper objectMapper;
 
     // ---------------------------------------------------------
     // CREATE NEW MENU FOR TENANT
@@ -206,5 +214,61 @@ public class MenuServiceImpl implements MenuService {
                 );
 
         repository.delete(menu);
+    }
+
+    @Override
+    public List<MenuBackupDTO> getAllMenuBackup() {
+
+        try {
+
+            List<MenuBackupDTO> menus = repository.findAll()
+                    .stream()
+                    .map(menu -> {
+                        MenuBackupDTO dto = new MenuBackupDTO();
+                        dto.setCode(menu.getCode());
+                        dto.setParentCode(
+                                menu.getParentMenu() != null
+                                        ? menu.getParentMenu().getCode()
+                                        : null
+                        );
+                        dto.setLabel(menu.getLabel());
+                        dto.setIcon(menu.getIcon());
+                        dto.setRoute(menu.getRoute());
+                        dto.setPermission(menu.getPermission());
+                        dto.setDisplayOrder(menu.getDisplayOrder());
+                        dto.setVisible(menu.getVisible());
+                        return dto;
+                    })
+                    .toList();
+
+            // backup folder
+            String backupDir = "backup/menu-backup";
+
+            Path backupPath = Paths.get(backupDir);
+
+            if (!Files.exists(backupPath)) {
+                Files.createDirectories(backupPath);
+            }
+
+            // filename with timestamp
+            String fileName = "menu-backup-" +
+                    LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"))
+                    + ".json";
+
+            File backupFile = backupPath.resolve(fileName).toFile();
+
+            // write json
+            objectMapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(backupFile, menus);
+
+            log.info("Menu backup created: {}", backupFile.getAbsolutePath());
+
+            return menus;
+
+        } catch (Exception e) {
+            log.error("Failed to create menu backup", e);
+            throw new RuntimeException("Menu backup failed", e);
+        }
     }
 }

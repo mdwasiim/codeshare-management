@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.service;
 
+import com.codeshare.airline.core.dto.tenant.MenuBackupDTO;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
 
 import java.util.List;
@@ -18,5 +19,7 @@ public interface MenuService {
     List<MenuDTO> getAllByTenant();
 
     void delete(UUID id);
+
+    List<MenuBackupDTO> getAllMenuBackup();
 }
 
