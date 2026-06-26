@@ -12,7 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,7 +30,6 @@ public class MenuLoader {
     private final TenantRepository tenantRepository;
     private final ObjectMapper objectMapper;
 
-    // Preload JSON once
     private List<MenuDTO> loadMenuDefinitions() {
 
         try (InputStream is = getClass()
@@ -50,23 +55,31 @@ public class MenuLoader {
 
     public void load(UUID tenantId) {
 
-        log.info("⏳ MenuLoader: ensuring menus for {} tenants...", tenantId);
+        log.info("MenuLoader: ensuring menus for tenant {}", tenantId);
 
         Tenant tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() ->
                         new IllegalStateException("Tenant not found: " + tenantId));
 
         Set<String> existingCodes = menuRepository.findCodesByTenant(tenant);
+        List<MenuDTO> menuDefinitions = loadMenuDefinitions();
 
         List<Menu> toSave = new ArrayList<>();
-
+        List<Menu> toUpdate = new ArrayList<>();
         Map<String, Menu> codeMap = new HashMap<>();
+        Map<String, Menu> allMenus = menuRepository.findByTenant(tenant)
+                .stream()
+                .collect(Collectors.toMap(Menu::getCode, m -> m));
 
-        List<MenuDTO> MENU_DEFS = loadMenuDefinitions();
-        // 1. Create missing menus
-        for (MenuDTO dto : MENU_DEFS) {
+        for (MenuDTO dto : menuDefinitions) {
 
-            if (existingCodes.contains(dto.getCode())) continue;
+            if (existingCodes.contains(dto.getCode())) {
+                Menu existing = allMenus.get(dto.getCode());
+                if (existing != null && updateMenuDefinition(existing, dto)) {
+                    toUpdate.add(existing);
+                }
+                continue;
+            }
 
             Menu menu = Menu.builder()
                     .code(dto.getCode())
@@ -82,36 +95,64 @@ public class MenuLoader {
             codeMap.put(dto.getCode(), menu);
         }
 
-        // 2. Fetch already existing menus (for parent mapping)
-        Map<String, Menu> allMenus = menuRepository.findByTenant(tenant)
-                .stream()
-                .collect(Collectors.toMap(Menu::getCode, m -> m));
-
         allMenus.putAll(codeMap);
 
-        // 3. Assign parents
-        for (MenuDTO dto : MENU_DEFS) {
+        for (MenuDTO dto : menuDefinitions) {
             if (dto.getParentCode() != null) {
                 Menu child = allMenus.get(dto.getCode());
                 Menu parent = allMenus.get(dto.getParentCode());
 
-                if (child != null && parent != null) {
+                if (child != null && parent != null && !Objects.equals(child.getParentMenu(), parent)) {
                     child.setParentMenu(parent);
+                    if (!toSave.contains(child) && !toUpdate.contains(child)) {
+                        toUpdate.add(child);
+                    }
                 }
             }
         }
 
-        if (!toSave.isEmpty()) {
-            menuRepository.saveAll(toSave);
-            log.info("✅ MenuLoader: {} menus created for {}", toSave.size(), tenant.getTenantCode());
+        if (!toSave.isEmpty() || !toUpdate.isEmpty()) {
+            List<Menu> changes = new ArrayList<>();
+            changes.addAll(toSave);
+            changes.addAll(toUpdate);
+
+            menuRepository.saveAll(changes);
+            log.info("MenuLoader: {} menus created and {} menus updated for {}", toSave.size(), toUpdate.size(), tenant.getTenantCode());
         }
+    }
+
+    private boolean updateMenuDefinition(Menu menu, MenuDTO dto) {
+        boolean changed = false;
+
+        if (!Objects.equals(menu.getLabel(), dto.getLabel())) {
+            menu.setLabel(dto.getLabel());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getIcon(), dto.getIcon())) {
+            menu.setIcon(dto.getIcon());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getRoute(), dto.getRoute())) {
+            menu.setRoute(dto.getRoute());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getPermission(), dto.getPermission())) {
+            menu.setPermission(dto.getPermission());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getDisplayOrder(), dto.getDisplayOrder())) {
+            menu.setDisplayOrder(dto.getDisplayOrder());
+            changed = true;
+        }
+
+        return changed;
     }
 
     public boolean isLoaded(UUID tenantId) {
 
         long actual = menuRepository.countByTenantId(tenantId);
+        long expected = loadMenuDefinitions().size();
 
-        return actual >= 0;
+        return actual >= expected;
     }
-
 }

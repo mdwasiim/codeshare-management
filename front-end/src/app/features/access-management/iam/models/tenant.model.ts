@@ -33,6 +33,15 @@ export interface Tenant {
     // STATUS
     // =========================
     status?: TenantStatus;
+
+    // =========================
+    // AUDIT
+    // =========================
+    createdAt?: string;
+    createdBy?: string;
+    updatedAt?: string;
+    updatedBy?: string;
+    active?: boolean;
 }
 
 export enum TenantStatus {

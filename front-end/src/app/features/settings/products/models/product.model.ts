@@ -16,5 +16,9 @@ export interface Product {
     rating?: number;
 
     active?: boolean;
+    createdAt?: string;
+    createdBy?: string;
+    updatedAt?: string;
+    updatedBy?: string;
     orders?: any[];
 }

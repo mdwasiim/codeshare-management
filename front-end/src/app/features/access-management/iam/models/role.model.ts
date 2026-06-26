@@ -7,5 +7,8 @@ export interface Role {
     tenantId: string;
 
     createdAt?: string;
+    createdBy?: string;
     updatedAt?: string;
+    updatedBy?: string;
+    active?: boolean;
 }

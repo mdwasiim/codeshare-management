@@ -10,4 +10,5 @@ export interface Group {
     updatedAt?: string;
     createdBy?: string;
     updatedBy?: string;
+    active?: boolean;
 }

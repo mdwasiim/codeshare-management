@@ -36,6 +36,7 @@ public class RolePermissionLoader {
                     "group:read",
                     "group:update",
                     "role:read",
+                    "tenant:read",
                     "dashboard:read",
                     "settings:read"
             )),
@@ -58,6 +59,8 @@ public class RolePermissionLoader {
                     "role:read",
                     "role:update",
                     "role:assign",
+
+                    "tenant:read",
 
                     "permission:read",
                     "permission:assign"

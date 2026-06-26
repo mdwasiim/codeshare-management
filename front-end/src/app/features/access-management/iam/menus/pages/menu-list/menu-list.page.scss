@@ -1,0 +1,15 @@
+:host ::ng-deep .access-tree-table {
+    overflow: visible;
+}
+
+:host ::ng-deep .access-tree-table .p-treetable-wrapper,
+:host ::ng-deep .access-tree-table .p-treetable-scrollable-wrapper,
+:host ::ng-deep .access-tree-table .p-treetable-scrollable-view,
+:host ::ng-deep .access-tree-table .p-treetable-scrollable-body {
+    overflow: auto;
+}
+
+:host ::ng-deep .access-tree-table .p-treetable-tbody > tr > td,
+:host ::ng-deep .access-tree-table .p-treetable-thead > tr > th {
+    white-space: nowrap;
+}

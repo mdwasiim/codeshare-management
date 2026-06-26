@@ -10,7 +10,19 @@
 <app-crud-toolbar [actions]="['create','delete','search','export']" [resource]="resourceName" [hasSelection]="selectedMenus.length > 0" (create)="openCreate()" (delete)="deleteSelectedMenus()" (export)="exportCSV()" (search)="onSearch($event)">
 </app-crud-toolbar>
 
-<p-treeTable #dt [value]="data" [(selection)]="selectedMenus" dataKey="key" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]" styleClass="access-table" [tableStyle]="{ 'min-width': '60rem' }">
+<p-treeTable
+    #dt
+    [value]="data"
+    [(selection)]="selectedMenus"
+    dataKey="key"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10,20,30]"
+    [scrollable]="true"
+    scrollHeight="60vh"
+    styleClass="access-table access-tree-table"
+    [tableStyle]="{ 'min-width': '95rem' }"
+>
     <ng-template pTemplate="caption">
         <div class="access-table-caption">
             <div>
@@ -28,6 +40,11 @@
             <th>Icon</th>
             <th>Route</th>
             <th>Order</th>
+            <th>Created At</th>
+            <th>Created By</th>
+            <th>Updated At</th>
+            <th>Updated By</th>
+            <th>Active</th>
             <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
@@ -43,6 +60,11 @@
             <td>{{ rowData?.icon || '-' }}</td>
             <td>{{ rowData?.route || '-' }}</td>
             <td>{{ rowData?.displayOrder }}</td>
+            <td>{{ (rowData?.createdAt | date: 'short') || '-' }}</td>
+            <td>{{ rowData?.createdBy || '-' }}</td>
+            <td>{{ (rowData?.updatedAt | date: 'short') || '-' }}</td>
+            <td>{{ rowData?.updatedBy || '-' }}</td>
+            <td>{{ rowData?.active === undefined || rowData?.active === null ? '-' : rowData?.active ? 'Yes' : 'No' }}</td>
 
             <td class="access-row-actions">
                 <div>
@@ -61,7 +83,7 @@
     <!-- Empty State -->
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="6" class="text-center py-6 text-gray-500">
+            <td colspan="11" class="text-center py-6 text-gray-500">
                 <i class="pi pi-sitemap text-2xl mb-2"></i>
                 <div>No menus found</div>
             </td>

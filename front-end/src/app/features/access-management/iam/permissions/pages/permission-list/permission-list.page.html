@@ -18,7 +18,7 @@
 >
 </app-crud-toolbar>
 
-<p-table #dt [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" [(selection)]="selectedPermissions" dataKey="id" [rowHover]="true" responsiveLayout="scroll" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '70rem' }" [globalFilterFields]="['name','domain','action','code','tenantName']">
+<p-table #dt [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" [(selection)]="selectedPermissions" dataKey="id" [rowHover]="true" responsiveLayout="scroll" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '105rem' }" [globalFilterFields]="['name','domain','action','code','tenantName','createdBy','updatedBy']">
     <ng-template pTemplate="caption">
         <div class="access-table-caption">
             <div>
@@ -41,6 +41,11 @@
             <th pSortableColumn="action">Action <p-sortIcon field="action"></p-sortIcon></th>
             <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
             <th>Description</th>
+            <th>Created At</th>
+            <th>Created By</th>
+            <th>Updated At</th>
+            <th>Updated By</th>
+            <th>Active</th>
             <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
@@ -63,6 +68,11 @@
             </td>
 
             <td>{{ p.description }}</td>
+            <td>{{ (p.createdAt | date: 'short') || '-' }}</td>
+            <td>{{ p.createdBy || '-' }}</td>
+            <td>{{ (p.updatedAt | date: 'short') || '-' }}</td>
+            <td>{{ p.updatedBy || '-' }}</td>
+            <td>{{ p.active === undefined || p.active === null ? '-' : p.active ? 'Yes' : 'No' }}</td>
 
             <td class="access-row-actions">
                 <div>
@@ -80,7 +90,7 @@
 
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="8" class="text-center py-4">No permissions found</td>
+            <td colspan="13" class="text-center py-4">No permissions found</td>
         </tr>
     </ng-template>
 </p-table>

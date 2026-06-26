@@ -39,4 +39,10 @@ export interface AppMenuModel {
     // =========================
     url?: string;
     target?: string;
+
+    createdAt?: string;
+    createdBy?: string;
+    updatedAt?: string;
+    updatedBy?: string;
+    active?: boolean;
 }

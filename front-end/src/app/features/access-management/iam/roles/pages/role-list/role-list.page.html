@@ -21,8 +21,8 @@
     dataKey="id"
     [rowHover]="true"
     styleClass="access-table p-datatable-sm"
-    [tableStyle]="{ 'min-width': '60rem' }"
-    [globalFilterFields]="['code','name','description']"
+    [tableStyle]="{ 'min-width': '95rem' }"
+    [globalFilterFields]="['code','name','description','createdBy','updatedBy']"
 >
     <ng-template pTemplate="caption">
         <div class="access-table-caption">
@@ -43,6 +43,11 @@
             <th>Name</th>
             <th>Description</th>
             <th>Tenant</th>
+            <th>Created At</th>
+            <th>Created By</th>
+            <th>Updated At</th>
+            <th>Updated By</th>
+            <th>Active</th>
             <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
@@ -61,6 +66,11 @@
             <td>
                 <p-tag [value]="role.tenantId" severity="info"></p-tag>
             </td>
+            <td>{{ (role.createdAt | date: 'short') || '-' }}</td>
+            <td>{{ role.createdBy || '-' }}</td>
+            <td>{{ (role.updatedAt | date: 'short') || '-' }}</td>
+            <td>{{ role.updatedBy || '-' }}</td>
+            <td>{{ role.active === undefined || role.active === null ? '-' : role.active ? 'Yes' : 'No' }}</td>
 
             <td class="access-row-actions">
                 <div>
@@ -79,7 +89,7 @@
     <!-- Empty -->
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="6" class="text-center py-6 text-gray-500">
+            <td colspan="11" class="text-center py-6 text-gray-500">
                 <i class="pi pi-id-card text-2xl mb-2"></i>
                 <div>No roles found</div>
             </td>

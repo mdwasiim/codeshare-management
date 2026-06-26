@@ -10,5 +10,8 @@ export interface Permission {
     action: string;
 
     createdAt?: string;
+    createdBy?: string;
     updatedAt?: string;
+    updatedBy?: string;
+    active?: boolean;
 }

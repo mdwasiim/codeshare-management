@@ -36,8 +36,8 @@
     dataKey="id"
     [rowHover]="true"
     styleClass="access-table p-datatable-sm"
-    [tableStyle]="{ 'min-width': '60rem' }"
-    [globalFilterFields]="['code','name','description']"
+    [tableStyle]="{ 'min-width': '95rem' }"
+    [globalFilterFields]="['code','name','description','createdBy','updatedBy']"
 >
     <ng-template pTemplate="caption">
         <div class="access-table-caption">
@@ -59,6 +59,11 @@
             <th>Name</th>
             <th>Description</th>
             <th>Tenant</th>
+            <th>Created At</th>
+            <th>Created By</th>
+            <th>Updated At</th>
+            <th>Updated By</th>
+            <th>Active</th>
             <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
@@ -77,6 +82,11 @@
             <td>
                 <p-tag [value]="group.tenantId" severity="info"></p-tag>
             </td>
+            <td>{{ (group.createdAt | date: 'short') || '-' }}</td>
+            <td>{{ group.createdBy || '-' }}</td>
+            <td>{{ (group.updatedAt | date: 'short') || '-' }}</td>
+            <td>{{ group.updatedBy || '-' }}</td>
+            <td>{{ group.active === undefined || group.active === null ? '-' : group.active ? 'Yes' : 'No' }}</td>
 
             <td class="access-row-actions">
                 <div>
@@ -95,7 +105,7 @@
     <!-- Empty -->
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="6" class="text-center py-6 text-gray-500">
+            <td colspan="11" class="text-center py-6 text-gray-500">
                 <i class="pi pi-users text-2xl mb-2"></i>
                 <div>No groups found</div>
             </td>

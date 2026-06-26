@@ -25,7 +25,8 @@ import { LayoutMenuService } from '@layout/services/layout-menu.service';
     selector: 'menu-list',
     standalone: true,
     imports: [CommonModule, TreeTableModule, ButtonModule, ToolbarActionComponent, TooltipModule, MenuFormPage, AppDialogComponent, HasPermissionDirective],
-    templateUrl: './menu-list.page.html'
+    templateUrl: './menu-list.page.html',
+    styleUrl: './menu-list.page.scss'
 })
 export class MenuListPage extends BaseListComponent<AppMenuModel> {
     protected override resourceName = 'menu';
@@ -120,7 +121,8 @@ export class MenuListPage extends BaseListComponent<AppMenuModel> {
             map.set(item.id, {
                 key: item.id,
                 data: { ...item },
-                children: []
+                children: [],
+                expanded: true
             });
         });
 
