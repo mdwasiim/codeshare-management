@@ -1,7 +1,6 @@
-export interface AppMenuModel {
-    // =========================
-    // CORE (BACKEND)
-    // =========================
+import { AuditableModel } from '@shared/models/auditable.model';
+
+export interface AppMenuModel extends AuditableModel {
     id?: string;
 
     code: string;
@@ -10,7 +9,7 @@ export interface AppMenuModel {
 
     route?: string;
 
-    routerLink?: string | string[]; //front-end use only
+    routerLink?: string | string[];
 
     parentId?: string;
     displayOrder?: number;
@@ -18,14 +17,8 @@ export interface AppMenuModel {
     groupIds?: string[];
     permission?: string;
 
-    // =========================
-    // TREE (FRONTEND GENERATED)
-    // =========================
     items?: AppMenuModel[];
 
-    // =========================
-    // UI (OPTIONAL)
-    // =========================
     visible?: boolean;
     separator?: boolean;
 
@@ -34,15 +27,6 @@ export interface AppMenuModel {
 
     expanded?: boolean;
 
-    // =========================
-    // EXTERNAL LINKS (OPTIONAL)
-    // =========================
     url?: string;
     target?: string;
-
-    createdAt?: string;
-    createdBy?: string;
-    updatedAt?: string;
-    updatedBy?: string;
-    active?: boolean;
 }

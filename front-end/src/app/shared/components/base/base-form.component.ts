@@ -18,21 +18,18 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
     private initialized = false;
     private readonly destroy$ = new Subject<void>();
 
-    // =========================
-    // Lifecycle
-    // =========================
+    abstract buildForm(): void;
+    abstract patchForm(data: T): void;
+    abstract fetchById(id: string): Observable<T>;
+    abstract create(payload: unknown): Observable<unknown>;
+    abstract update(id: string, payload: unknown): Observable<unknown>;
 
     ngOnInit(): void {
         this.init();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['id'] || changes['data']) {
-            // skip first change before form exists
-            if (!this.initialized) {
-                return;
-            }
-
+        if ((changes['id'] || changes['data']) && this.initialized) {
             this.init();
         }
     }
@@ -41,19 +38,8 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
         this.destroy$.next();
         this.destroy$.complete();
     }
-    // =========================
-    // Abstracts
-    // =========================
-    abstract buildForm(): void;
-    abstract patchForm(data: T): void;
-    abstract fetchById(id: string): Observable<T>;
-    abstract create(payload: any): Observable<any>;
-    abstract update(id: string, payload: any): Observable<any>;
-    // =========================
-    // Init
-    // =========================
 
-    init() {
+    init(): void {
         if (!this.initialized) {
             this.buildForm();
             this.initialized = true;
@@ -76,7 +62,10 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
                         this.patchForm(res);
                         this.loading = false;
                     },
-                    error: () => (this.loading = false)
+                    error: (err) => {
+                        this.loading = false;
+                        this.onError(err);
+                    }
                 });
         } else {
             this.isEdit = false;
@@ -86,16 +75,15 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
         this.form.markAsPristine();
         this.form.markAsUntouched();
     }
-    // =========================
-    // Submit
-    // =========================
-    submit() {
-        if (this.form.invalid || this.loading) return;
+
+    submit(): void {
+        if (this.form.invalid || this.loading) {
+            return;
+        }
 
         this.loading = true;
 
         const payload = this.form.value;
-
         const request = this.isEdit ? this.update(this.id!, payload) : this.create(payload);
 
         request.pipe(takeUntil(this.destroy$)).subscribe({
@@ -110,15 +98,15 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
         });
     }
 
-    cancel() {
+    cancel(): void {
         this.cancelled.emit();
     }
 
-    protected getDefaultValues(): any {
+    protected getDefaultValues(): Record<string, unknown> {
         return {};
     }
 
-    protected onError(err: any) {
+    protected onError(err: unknown): void {
         console.error(err);
     }
 }

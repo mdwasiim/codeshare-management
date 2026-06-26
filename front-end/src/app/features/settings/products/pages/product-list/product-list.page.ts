@@ -68,8 +68,8 @@ export class ProductListPage implements OnInit {
     productDialog: boolean = false;
 
     products = signal<Product[]>([]);
-    product!: Product;
-    selectedProducts!: Product[] | null;
+    product: Product = {};
+    selectedProducts: Product[] | null = null;
 
     submitted = false;
 

@@ -1,47 +1,25 @@
-export interface Tenant {
+import { AuditableModel } from '@shared/models/auditable.model';
+
+export interface Tenant extends AuditableModel {
     id?: string;
 
-    // =========================
-    // BASIC INFO
-    // =========================
     name: string;
     code: string;
     description?: string;
 
-    // =========================
-    // CONFIG
-    // =========================
     databaseConfigId?: string;
 
-    // =========================
-    // SUBSCRIPTION
-    // =========================
-    plan?: string; // later → enum
+    plan?: string;
     subscriptionStart?: string;
     subscriptionEnd?: string;
     trial?: boolean;
 
-    // =========================
-    // CONTACT
-    // =========================
     contactEmail?: string;
     contactPhone?: string;
     logoUrl?: string;
     region?: string;
 
-    // =========================
-    // STATUS
-    // =========================
     status?: TenantStatus;
-
-    // =========================
-    // AUDIT
-    // =========================
-    createdAt?: string;
-    createdBy?: string;
-    updatedAt?: string;
-    updatedBy?: string;
-    active?: boolean;
 }
 
 export enum TenantStatus {

@@ -1,17 +1,13 @@
-export interface Permission {
+import { AuditableModel } from '@shared/models/auditable.model';
+
+export interface Permission extends AuditableModel {
     id?: string;
 
     name: string;
-    code?: string; // backend may auto-generate
+    code?: string;
 
     description?: string;
 
     domain: string;
     action: string;
-
-    createdAt?: string;
-    createdBy?: string;
-    updatedAt?: string;
-    updatedBy?: string;
-    active?: boolean;
 }

@@ -1,4 +1,6 @@
-export interface User {
+import { AuditableModel } from '@shared/models/auditable.model';
+
+export interface User extends AuditableModel {
     id?: string;
 
     username: string;
@@ -32,10 +34,4 @@ export interface User {
         id: string;
         name: string;
     }[];
-
-    createdAt?: string;
-    createdBy?: string;
-    updatedAt?: string;
-    updatedBy?: string;
-    active?: boolean;
 }
