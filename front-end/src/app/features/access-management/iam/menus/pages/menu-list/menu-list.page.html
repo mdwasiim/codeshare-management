@@ -1,100 +1,169 @@
-<div class="access-page access-page--list">
-<div class="access-page-header">
-    <div>
-        <span class="access-eyebrow">Navigation</span>
-        <h1>Menus</h1>
-        <p>Configure application navigation, routes, icons, and group visibility.</p>
-    </div>
-</div>
-
-<app-crud-toolbar [actions]="['create','delete','search','export']" [resource]="resourceName" [hasSelection]="selectedMenus.length > 0" (create)="openCreate()" (delete)="deleteSelectedMenus()" (export)="exportCSV()" (search)="onSearch($event)">
-</app-crud-toolbar>
-
-<p-treeTable
-    #dt
-    [value]="data"
-    [(selection)]="selectedMenus"
-    dataKey="key"
-    [paginator]="true"
-    [rows]="10"
-    [rowsPerPageOptions]="[10,20,30]"
-    [scrollable]="true"
-    scrollHeight="60vh"
-    styleClass="access-table access-tree-table"
-    [tableStyle]="{ 'min-width': '95rem' }"
->
-    <ng-template pTemplate="caption">
-        <div class="access-table-caption">
-            <div>
-                <h2>Manage Menus</h2>
-                <p>{{ data.length || 0 }} root menu rows loaded</p>
-            </div>
-            <span class="access-count">{{ selectedMenus.length || 0 }} selected</span>
+<div class="access-page access-page--list menu-split-page">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Navigation</span>
+            <h1>Menus</h1>
+            <p>Configure application navigation, routes, icons, and group visibility.</p>
         </div>
-    </ng-template>
-    <!-- Header -->
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width: 3rem"></th>
-            <th>Label</th>
-            <th>Icon</th>
-            <th>Route</th>
-            <th>Order</th>
-            <th>Created At</th>
-            <th>Created By</th>
-            <th>Updated At</th>
-            <th>Updated By</th>
-            <th>Active</th>
-            <th class="access-actions-col">Actions</th>
-        </tr>
-    </ng-template>
+    </div>
 
-    <!-- Body -->
-    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-        <tr>
-            <td>
-                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-            </td>
+    <app-crud-toolbar
+        [actions]="['create','delete','search','export']"
+        [resource]="resourceName"
+        [hasSelection]="selectedMenus.length > 0"
+        (create)="openCreate()"
+        (delete)="deleteSelectedMenus()"
+        (export)="exportCSV()"
+        (search)="onSearch($event)"
+    >
+    </app-crud-toolbar>
 
-            <td>{{ rowData?.label }}</td>
-            <td>{{ rowData?.icon || '-' }}</td>
-            <td>{{ rowData?.route || '-' }}</td>
-            <td>{{ rowData?.displayOrder }}</td>
-            <td>{{ (rowData?.createdAt | date: 'short') || '-' }}</td>
-            <td>{{ rowData?.createdBy || '-' }}</td>
-            <td>{{ (rowData?.updatedAt | date: 'short') || '-' }}</td>
-            <td>{{ rowData?.updatedBy || '-' }}</td>
-            <td>{{ rowData?.active === undefined || rowData?.active === null ? '-' : rowData?.active ? 'Yes' : 'No' }}</td>
-
-            <td class="access-row-actions">
+    <section class="menu-split">
+        <aside class="menu-browser" aria-label="Menu hierarchy">
+            <div class="menu-browser__header">
                 <div>
-                    <ng-container *appHasPermission="'menu:update'">
-                        <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(rowData)"> </p-button>
-                    </ng-container>
-
-                    <ng-container *appHasPermission="'menu:delete'">
-                        <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteMenu(rowData)"> </p-button>
-                    </ng-container>
+                    <h2>Navigation Tree</h2>
+                    <p>{{ totalMenus }} menu items</p>
                 </div>
-            </td>
-        </tr>
+                <span>{{ selectedMenus.length }} selected</span>
+            </div>
+
+            <div class="menu-tree" *ngIf="data.length; else emptyTree">
+                <ng-container *ngTemplateOutlet="menuNodes; context: { $implicit: data, level: 0 }"></ng-container>
+            </div>
+
+            <ng-template #emptyTree>
+                <div class="menu-empty-state">
+                    <i class="pi pi-sitemap"></i>
+                    <strong>No menus found</strong>
+                    <span>Create a menu item to start building the navigation tree.</span>
+                </div>
+            </ng-template>
+        </aside>
+
+        <main class="menu-detail" aria-label="Selected menu details">
+            <ng-container *ngIf="selectedMenu; else noSelection">
+                <div class="menu-detail__header">
+                    <div class="menu-detail__title">
+                        <span class="menu-icon">
+                            <i [class]="selectedMenu.icon || 'pi pi-circle'"></i>
+                        </span>
+                        <div>
+                            <h2>{{ selectedMenu.label || '-' }}</h2>
+                            <p>Code: {{ formatCode(selectedMenu.code) }}</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-detail__actions">
+                        <ng-container *appHasPermission="'menu:update'">
+                            <p-button icon="pi pi-pencil" label="Edit" size="small" severity="secondary" outlined (click)="openEdit(selectedMenu)"></p-button>
+                        </ng-container>
+                        <ng-container *appHasPermission="'menu:delete'">
+                            <p-button icon="pi pi-trash" label="Delete" size="small" severity="danger" outlined (click)="deleteMenu(selectedMenu)"></p-button>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div class="menu-detail__status">
+                    <p-tag [value]="getActiveLabel(selectedMenu.active)" [severity]="getActiveSeverity(selectedMenu.active)"></p-tag>
+                    <span>{{ getChildCountLabel(selectedChildrenCount) }}</span>
+                </div>
+
+                <div class="menu-detail__grid">
+                    <div>
+                        <span>Route</span>
+                        <code>{{ displayValue(selectedMenu.route) }}</code>
+                    </div>
+                    <div>
+                        <span>Parent</span>
+                        <strong>{{ displayValue(selectedMenu.parentId) }}</strong>
+                    </div>
+                    <div>
+                        <span>Display order</span>
+                        <strong>{{ displayValue(selectedMenu.displayOrder) }}</strong>
+                    </div>
+                    <div>
+                        <span>Permission</span>
+                        <strong>{{ displayValue(selectedMenu.permission) }}</strong>
+                    </div>
+                    <div>
+                        <span>Icon</span>
+                        <strong>{{ getIconSummary(selectedMenu.icon) }}</strong>
+                    </div>
+                    <div>
+                        <span>Groups</span>
+                        <strong [title]="selectedMenu.groupIds?.join(', ') || ''">{{ getGroupSummary(selectedMenu) }}</strong>
+                    </div>
+                </div>
+
+                <div class="menu-detail__section">
+                    <h3>Audit</h3>
+                    <div class="menu-audit-grid">
+                        <div>
+                            <span>Created At</span>
+                            <strong>{{ displayDate(selectedMenu.createdAt) }}</strong>
+                        </div>
+                        <div>
+                            <span>Created By</span>
+                            <strong>{{ displayValue(selectedMenu.createdBy) }}</strong>
+                        </div>
+                        <div>
+                            <span>Updated At</span>
+                            <strong>{{ displayDate(selectedMenu.updatedAt) }}</strong>
+                        </div>
+                        <div>
+                            <span>Updated By</span>
+                            <strong>{{ displayValue(selectedMenu.updatedBy) }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-template #noSelection>
+                <div class="menu-empty-state menu-empty-state--detail">
+                    <i class="pi pi-arrow-left"></i>
+                    <strong>Select a menu item</strong>
+                    <span>Choose an item from the tree to view route, permissions, groups, and audit details.</span>
+                </div>
+            </ng-template>
+        </main>
+    </section>
+
+    <ng-template #menuNodes let-nodes let-level="level">
+        <ng-container *ngFor="let node of nodes">
+            <div class="menu-tree__node" [style.--menu-level]="level">
+                <div class="menu-tree__row" [class.is-active]="selectedMenu?.id === node.data.id">
+                    <button class="menu-tree__toggle" type="button" [disabled]="!node.children.length" (click)="toggleNode(node, nodes)" [attr.aria-label]="node.expanded ? 'Collapse menu' : 'Expand menu'">
+                        <i class="pi" [ngClass]="node.children.length ? (node.expanded ? 'pi-chevron-down' : 'pi-chevron-right') : 'pi-minus'"></i>
+                    </button>
+
+                    <input
+                        class="menu-tree__checkbox"
+                        type="checkbox"
+                        [checked]="isNodeSelected(node)"
+                        [indeterminate]="isNodePartiallySelected(node)"
+                        (change)="toggleSelection(node, $any($event.target).checked)"
+                    />
+
+                    <button class="menu-tree__item" type="button" (click)="selectMenu(node.data)">
+                        <span class="menu-tree__icon">
+                            <i [class]="node.data.icon || 'pi pi-circle'"></i>
+                        </span>
+                        <span>
+                            <strong>{{ node.data.label || '-' }}</strong>
+                            <small>{{ getMenuSubtitle(node.data) }}</small>
+                        </span>
+                    </button>
+                </div>
+
+                <div class="menu-tree__children" *ngIf="node.expanded && node.children.length">
+                    <ng-container *ngTemplateOutlet="menuNodes; context: { $implicit: node.children, level: level + 1 }"></ng-container>
+                </div>
+            </div>
+        </ng-container>
     </ng-template>
 
-    <!-- Empty State -->
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td colspan="11" class="text-center py-6 text-gray-500">
-                <i class="pi pi-sitemap text-2xl mb-2"></i>
-                <div>No menus found</div>
-            </td>
-        </tr>
-    </ng-template>
-</p-treeTable>
-
-<!-- ============================= -->
-<!-- Dialog -->
-<!-- ============================= -->
-<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Menu' : 'Create Menu'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
-    <menu-form #formRef [id]="selectedId" (saved)="onSaved()"> </menu-form>
-</app-dialog>
+    <app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Menu' : 'Create Menu'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+        <menu-form #formRef [id]="selectedId" (saved)="onSaved()"> </menu-form>
+    </app-dialog>
 </div>
