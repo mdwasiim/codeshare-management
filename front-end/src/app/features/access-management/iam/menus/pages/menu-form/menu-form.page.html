@@ -4,17 +4,11 @@
             <div class="grid">
                 <!-- LABEL -->
                 <div class="field col-12 md:col-6">
-                    <label for="label">Label</label>
+                    <label for="label" class="required">Label</label>
 
-                    <input id="label" pInputText formControlName="label" class="w-full" />
+                    <input id="label" pInputText formControlName="label" class="w-full" aria-required="true" />
 
-                    <small
-                        class="p-error"
-                        *ngIf="form.controls['label'].invalid
-                            && form.controls['label'].touched"
-                    >
-                        Label is required
-                    </small>
+                    <small class="p-error" *ngIf="form.controls['label'].hasError('required') && form.controls['label'].touched">Label is required.</small>
                 </div>
 
                 <!-- ICON -->
@@ -25,7 +19,7 @@
                 </div>
 
                 <!-- ROUTE -->
-                <div class="field col-12">
+                <div class="field col-12 md:col-6">
                     <label for="route">Route</label>
 
                     <input id="route" pInputText formControlName="route" placeholder="/dashboard" class="w-full" />
@@ -46,7 +40,7 @@
                 </div>
 
                 <!-- GROUPS -->
-                <div class="field col-12">
+                <div class="field col-12 md:col-6">
                     <label for="groupIds"> Groups </label>
 
                     <p-multiSelect inputId="groupIds" appendTo="body" formControlName="groupIds" [options]="groups" optionLabel="label" optionValue="value" placeholder="Select groups that can see this menu" display="chip" styleClass="w-full"> </p-multiSelect>

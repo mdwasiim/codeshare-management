@@ -113,6 +113,6 @@
 <!-- ============================= -->
 <!--  Dialog: Product Details      -->
 <!-- ============================= -->
-<app-dialog [(visible)]="productDialog" title="Product Details" [width]="'450px'" [disableSave]="!product.name?.trim()" (save)="saveProduct()" (cancel)="hideDialog()">
+<app-dialog [(visible)]="productDialog" title="Product Details" width="min(92vw, 640px)" [disableSave]="!product.name?.trim()" (save)="saveProduct()" (cancel)="hideDialog()">
     <product-form [product]="product" [submitted]="submitted" [statuses]="statuses" [showActions]="false"></product-form>
 </app-dialog>

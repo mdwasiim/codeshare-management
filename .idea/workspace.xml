@@ -6,9 +6,28 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-form/group-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-form/group-form.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-list/group-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-list/group-list.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-form/permission-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-form/permission-form.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-form/permission-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-form/permission-form.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-list/permission-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-list/permission-list.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-form/role-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-form/role-form.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-list/role-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-list/role-list.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-list/tenant-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-list/tenant-list.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-form/user-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-form/user-form.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-form/user-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-form/user-form.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-form/product-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-form/product-form.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/app-dialog/app-dialog.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/app-dialog/app-dialog.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/app-dialog/app-dialog.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/app-dialog/app-dialog.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/base/base-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/base/base-form.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/form-section/app-form-section.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/form-section/app-form-section.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/form-section/app-form-section.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/form-section/app-form-section.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/assets/layout/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/layout/_forms.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +35,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1975" />
+    <option name="cachedIndexableFilesCount" value="1978" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />

@@ -98,7 +98,7 @@
 <!-- ============================= -->
 <!-- Dialog                       -->
 <!-- ============================= -->
-<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Permission' : 'Create Permission'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Permission' : 'Create Permission'" width="min(92vw, 640px)" [loading]="!!formRef?.loading" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <permission-form #formRef [id]="selectedId" (saved)="onSaved()"> </permission-form>
 </app-dialog>
 </div>

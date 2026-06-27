@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -67,11 +67,11 @@ export class PermissionFormPage extends BaseCrudForm<Permission> {
     override buildForm(): void {
         this.form = this.fb.group({
             id: [null],
-            name: [''],
-            domain: [''],
-            action: [''],
+            name: ['', Validators.required],
+            domain: ['', Validators.required],
+            action: ['', Validators.required],
             description: [''],
-            tenantId: ['']
+            tenantId: ['', Validators.required]
         });
     }
 

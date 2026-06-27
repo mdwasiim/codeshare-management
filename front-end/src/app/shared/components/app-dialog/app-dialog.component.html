@@ -1,34 +1,40 @@
 <p-dialog
+    styleClass="app-dialog"
     [visible]="visible"
     (visibleChange)="onVisibleChange($event)"
     [modal]="true"
     appendTo="body"
     [style]="{
-        width: width,
-        maxWidth: '95vw'
+        width: width
     }"
     [contentStyle]="{
-        overflow: 'auto',
-        padding: '1.25rem',
-        maxHeight: '75vh'
+        overflow: 'visible',
+        padding: '0',
+        maxHeight: 'calc(100vh - 7rem)'
     }"
+    [dismissableMask]="dismissableMask"
     [draggable]="false"
     [resizable]="false"
     [closable]="closable"
-    [header]="title"
+    [closeOnEscape]="closable"
     (onHide)="onHide()"
 >
-    <!-- CONTENT -->
-    <div class="w-full block">
+    <ng-template pTemplate="header">
+        <div class="app-dialog__header">
+            <span class="app-dialog__title">{{ title }}</span>
+            <span *ngIf="subtitle" class="app-dialog__subtitle">{{ subtitle }}</span>
+        </div>
+    </ng-template>
+
+    <div class="app-dialog__content">
         <ng-content></ng-content>
     </div>
 
-    <!-- FOOTER -->
     <ng-template pTemplate="footer">
-        <div class="flex justify-end align-items-center gap-2">
-            <button pButton label="Cancel" class="p-button-text" type="button" (click)="onCancel()"></button>
+        <div class="app-dialog__footer">
+            <button pButton [label]="cancelLabel" severity="secondary" outlined type="button" [disabled]="loading" (click)="onCancel()"></button>
 
-            <button pButton label="Save" icon="pi pi-check" type="button" [disabled]="disableSave" [loading]="loading" (click)="onSave()"></button>
+            <button pButton [label]="saveLabel" icon="pi pi-check" type="button" [disabled]="disableSave || loading" [loading]="loading" (click)="onSave()"></button>
         </div>
     </ng-template>
 </p-dialog>

@@ -5,20 +5,22 @@
             <div class="grid">
                 <!-- NAME -->
                 <div class="field col-12 md:col-6">
-                    <label for="name">Name</label>
+                    <label for="name" class="required">Name</label>
 
-                    <input id="name" pInputText formControlName="name" class="w-full" />
+                    <input id="name" pInputText formControlName="name" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">Name is required.</small>
                 </div>
 
                 <!-- CODE -->
                 <div class="field col-12 md:col-6">
-                    <label for="code">Code</label>
+                    <label for="code" class="required">Code</label>
 
-                    <input id="code" pInputText formControlName="code" class="w-full" />
+                    <input id="code" pInputText formControlName="code" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['code'].hasError('required') && form.controls['code'].touched">Code is required.</small>
                 </div>
 
                 <!-- DESCRIPTION -->
-                <div class="field col-12">
+                <div class="field col-12 md:col-6">
                     <label for="description"> Description </label>
 
                     <input id="description" pInputText formControlName="description" class="w-full" />

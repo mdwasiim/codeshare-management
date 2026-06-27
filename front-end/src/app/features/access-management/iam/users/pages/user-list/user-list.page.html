@@ -104,7 +104,7 @@
     </ng-template>
 </p-table>
 
-<app-dialog [(visible)]="dialogVisible" [title]="selectedUserId ? 'Edit User' : 'Create User'" [disableSave]="!!userForm?.form?.invalid || !!userForm?.loading" (save)="userForm.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedUserId ? 'Edit User' : 'Create User'" width="min(92vw, 760px)" [loading]="!!userForm?.loading" [disableSave]="!!userForm?.form?.invalid || !!userForm?.loading" (save)="userForm.submit()">
     <user-form #userForm [id]="selectedUserId" (saved)="onSaved()"> </user-form>
 </app-dialog>
 </div>

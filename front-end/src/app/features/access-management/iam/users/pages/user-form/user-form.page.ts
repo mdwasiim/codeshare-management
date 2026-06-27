@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -48,12 +48,12 @@ export class UserFormPage extends BaseCrudForm<User> {
         this.form = this.fb.group({
             id: [null as string | null],
 
-            username: [''],
-            email: [''],
-            password: [''],
+            username: ['', [Validators.required, Validators.maxLength(80)]],
+            email: ['', [Validators.required, Validators.email, Validators.maxLength(160)]],
+            password: ['', [Validators.minLength(8)]],
 
-            firstName: [''],
-            lastName: [''],
+            firstName: ['', Validators.maxLength(80)],
+            lastName: ['', Validators.maxLength(80)],
 
             enabled: [true],
             accountNonLocked: [true],
@@ -68,7 +68,7 @@ export class UserFormPage extends BaseCrudForm<User> {
             authSource: ['INTERNAL'],
             recordStatus: ['ACTIVE'],
 
-            tenantId: [''],
+            tenantId: ['', Validators.required],
             roleIds: [[]]
         });
     }

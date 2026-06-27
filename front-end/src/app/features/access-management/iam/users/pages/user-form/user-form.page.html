@@ -4,15 +4,18 @@
         <app-form-section title="User Information">
             <div class="grid">
                 <div class="field col-12 md:col-6">
-                    <label for="username">Username</label>
+                    <label for="username" class="required">Username</label>
 
-                    <input id="username" pInputText formControlName="username" class="w-full" />
+                    <input id="username" pInputText formControlName="username" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['username'].hasError('required') && form.controls['username'].touched">Username is required.</small>
                 </div>
 
                 <div class="field col-12 md:col-6">
-                    <label for="email">Email Address</label>
+                    <label for="email" class="required">Email Address</label>
 
-                    <input id="email" pInputText formControlName="email" class="w-full" />
+                    <input id="email" pInputText formControlName="email" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">Email address is required.</small>
+                    <small class="p-error" *ngIf="form.controls['email'].hasError('email') && form.controls['email'].touched">Enter a valid email address.</small>
                 </div>
 
                 <div class="field col-12 md:col-6">
@@ -31,12 +34,14 @@
                     <label for="password">Password</label>
 
                     <p-password inputId="password" formControlName="password" [toggleMask]="true" [feedback]="false" styleClass="w-full"> </p-password>
+                    <small class="p-error" *ngIf="form.controls['password'].hasError('minlength') && form.controls['password'].touched">Password must be at least 8 characters.</small>
                 </div>
 
                 <div class="field col-12 md:col-6">
-                    <label for="tenant">Tenant</label>
+                    <label for="tenant" class="required">Tenant</label>
 
-                    <p-select inputId="tenant" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full"> </p-select>
+                    <p-select inputId="tenant" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full" aria-required="true"> </p-select>
+                    <small class="p-error" *ngIf="form.controls['tenantId'].hasError('required') && form.controls['tenantId'].touched">Tenant is required.</small>
                 </div>
             </div>
         </app-form-section>

@@ -122,7 +122,7 @@
     </ng-template>
 </p-table>
 
-<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Tenant' : 'Create Tenant'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Tenant' : 'Create Tenant'" width="min(92vw, 560px)" [loading]="!!formRef?.loading" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <tenant-form #formRef [id]="selectedId" (saved)="onSaved()"> </tenant-form>
 </app-dialog>
 </div>

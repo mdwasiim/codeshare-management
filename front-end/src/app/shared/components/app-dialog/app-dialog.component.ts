@@ -8,34 +8,26 @@ import { ButtonModule } from 'primeng/button';
     selector: 'app-dialog',
     standalone: true,
     imports: [CommonModule, DialogModule, ButtonModule],
-    templateUrl: './app-dialog.component.html'
+    templateUrl: './app-dialog.component.html',
+    styleUrl: './app-dialog.component.scss'
 })
 export class AppDialogComponent {
-    // =========================
-    // Visibility Control
-    // =========================
     @Input() visible: boolean = false;
     @Output() visibleChange = new EventEmitter<boolean>();
 
-    // =========================
-    // Dialog Config
-    // =========================
     @Input() title: string = '';
-    @Input() width: string = '520px';
+    @Input() subtitle: string = '';
+    @Input() width: string = 'min(92vw, 640px)';
     @Input() closable: boolean = true;
+    @Input() dismissableMask: boolean = false;
 
-    // =========================
-    // Actions
-    // =========================
     @Input() disableSave: boolean = false;
     @Input() loading: boolean = false;
+    @Input() saveLabel: string = 'Save';
+    @Input() cancelLabel: string = 'Cancel';
 
     @Output() save = new EventEmitter<void>();
     @Output() cancel = new EventEmitter<void>();
-
-    // =========================
-    // Methods
-    // =========================
 
     onCancel(): void {
         this.visible = false;
@@ -43,7 +35,7 @@ export class AppDialogComponent {
         this.cancel.emit();
     }
     onSave(): void {
-        if (!this.disableSave) {
+        if (!this.disableSave && !this.loading) {
             this.save.emit();
         }
     }

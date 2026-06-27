@@ -19,6 +19,14 @@
     text-transform: uppercase;
   }
 
+  .field > label.required::after,
+  .field > label[required]::after {
+    color: #ef4444;
+    content: '*';
+    font-weight: 800;
+    margin-left: 0.25rem;
+  }
+
   .p-inputtext,
   .p-password-input,
   .p-select,
@@ -51,6 +59,15 @@
   textarea.p-inputtextarea:enabled:focus {
     border-color: #3b82f6;
     box-shadow: 0 0 0 1px #3b82f6;
+  }
+
+  .ng-invalid.ng-touched:not(form).p-inputtext,
+  input.ng-invalid.ng-touched,
+  textarea.ng-invalid.ng-touched,
+  .p-select.ng-invalid.ng-touched,
+  .p-multiselect.ng-invalid.ng-touched,
+  .p-password.ng-invalid.ng-touched .p-password-input {
+    border-color: #ef4444;
   }
 
   .flex.align-items-center.gap-2 > label,

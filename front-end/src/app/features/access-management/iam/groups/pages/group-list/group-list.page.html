@@ -113,7 +113,7 @@
     </ng-template>
 </p-table>
 
-<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Group' : 'Create Group'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Group' : 'Create Group'" width="min(92vw, 560px)" [loading]="!!formRef?.loading" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <group-form #formRef [id]="selectedId" (saved)="onSaved()"> </group-form>
 </app-dialog>
 </div>

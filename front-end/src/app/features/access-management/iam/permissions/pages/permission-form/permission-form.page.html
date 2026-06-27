@@ -4,34 +4,38 @@
             <div class="grid">
                 <!-- NAME -->
                 <div class="field col-12 md:col-6">
-                    <label for="name">Name</label>
+                    <label for="name" class="required">Name</label>
 
-                    <input id="name" pInputText formControlName="name" class="w-full" />
+                    <input id="name" pInputText formControlName="name" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">Name is required.</small>
                 </div>
 
                 <!-- TENANT -->
                 <div class="field col-12 md:col-6">
-                    <label for="tenantId"> Tenant </label>
+                    <label for="tenantId" class="required"> Tenant </label>
 
-                    <p-select inputId="tenantId" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full"> </p-select>
+                    <p-select inputId="tenantId" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full" aria-required="true"> </p-select>
+                    <small class="p-error" *ngIf="form.controls['tenantId'].hasError('required') && form.controls['tenantId'].touched">Tenant is required.</small>
                 </div>
 
                 <!-- DOMAIN -->
                 <div class="field col-12 md:col-6">
-                    <label for="domain"> Domain </label>
+                    <label for="domain" class="required"> Domain </label>
 
-                    <p-select inputId="domain" appendTo="body" [options]="domains" optionLabel="name" optionValue="code" formControlName="domain" placeholder="Select Domain" styleClass="w-full"> </p-select>
+                    <p-select inputId="domain" appendTo="body" [options]="domains" optionLabel="name" optionValue="code" formControlName="domain" placeholder="Select Domain" styleClass="w-full" aria-required="true"> </p-select>
+                    <small class="p-error" *ngIf="form.controls['domain'].hasError('required') && form.controls['domain'].touched">Domain is required.</small>
                 </div>
 
                 <!-- ACTION -->
                 <div class="field col-12 md:col-6">
-                    <label for="action"> Action </label>
+                    <label for="action" class="required"> Action </label>
 
-                    <p-select inputId="action" appendTo="body" [options]="actions" optionLabel="name" optionValue="code" formControlName="action" placeholder="Select Action" styleClass="w-full"> </p-select>
+                    <p-select inputId="action" appendTo="body" [options]="actions" optionLabel="name" optionValue="code" formControlName="action" placeholder="Select Action" styleClass="w-full" aria-required="true"> </p-select>
+                    <small class="p-error" *ngIf="form.controls['action'].hasError('required') && form.controls['action'].touched">Action is required.</small>
                 </div>
 
                 <!-- DESCRIPTION -->
-                <div class="field col-12">
+                <div class="field col-12 md:col-6">
                     <label for="description"> Description </label>
 
                     <input id="description" pInputText formControlName="description" class="w-full" />

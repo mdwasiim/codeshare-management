@@ -98,7 +98,7 @@
 </p-table>
 
 <!-- Dialog -->
-<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Role' : 'Create Role'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Role' : 'Create Role'" width="min(92vw, 560px)" [loading]="!!formRef?.loading" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
     <role-form #formRef [id]="selectedId" (saved)="onSaved()"> </role-form>
 </app-dialog>
 </div>

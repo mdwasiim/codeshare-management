@@ -1,4 +1,4 @@
-<div class="p-fluid w-full block">
+<div class="p-fluid w-full block app-form">
     <app-form-section title="Product Details">
         <div class="grid">
             <div class="field col-12" *ngIf="product.image">
@@ -6,8 +6,8 @@
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="name">Name</label>
-                <input id="name" type="text" pInputText [(ngModel)]="product.name" required autofocus class="w-full" />
+                <label for="name" class="required">Name</label>
+                <input id="name" type="text" pInputText [(ngModel)]="product.name" required autofocus class="w-full" aria-required="true" />
                 <small *ngIf="submitted && !product.name" class="p-error"> Name is required. </small>
             </div>
 
@@ -16,12 +16,12 @@
                 <p-select inputId="inventoryStatus" [(ngModel)]="product.inventoryStatus" [options]="statuses" optionLabel="label" optionValue="label" placeholder="Select Status" styleClass="w-full"></p-select>
             </div>
 
-            <div class="field col-12">
+            <div class="field col-12 md:col-6">
                 <label for="description">Description</label>
                 <textarea id="description" pTextarea [(ngModel)]="product.description" rows="3" class="w-full"></textarea>
             </div>
 
-            <div class="field col-12">
+            <div class="field col-12 md:col-6">
                 <label class="block mb-3">Category</label>
                 <div class="grid">
                     <div class="col-12 md:col-6 flex align-items-center gap-2">

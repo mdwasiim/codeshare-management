@@ -163,7 +163,7 @@
         </ng-container>
     </ng-template>
 
-    <app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Menu' : 'Create Menu'" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+    <app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Menu' : 'Create Menu'" width="min(92vw, 680px)" [loading]="!!formRef?.loading" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
         <menu-form #formRef [id]="selectedId" (saved)="onSaved()"> </menu-form>
     </app-dialog>
 </div>
