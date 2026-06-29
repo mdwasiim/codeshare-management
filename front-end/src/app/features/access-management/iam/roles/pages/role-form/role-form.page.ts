@@ -1,36 +1,27 @@
-import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import {CommonModule} from '@angular/common';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import {InputTextModule} from 'primeng/inputtext';
-import {ButtonModule} from 'primeng/button';
-import {SelectModule} from 'primeng/select';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
 
-import {Role} from '@features/access-management/iam/models/role.model';
-import {RoleService} from '../../services/role.service';
-import {BaseCrudForm} from '@shared/components/base/base-form.component';
+import { Role } from '@features/access-management/iam/models/role.model';
+import { RoleService } from '../../services/role.service';
+import { BaseCrudForm } from '@shared/components/base/base-form.component';
 
-import {TenantService} from '@features/access-management/iam/tenants/services/tenant.service';
-import {Tenant} from '@features/access-management/iam/models/tenant.model';
-import {CsmFormSectionComponent} from '@shared/components/form-section/csm-form-section.component';
+import { TenantService } from '@features/access-management/iam/tenants/services/tenant.service';
+import { Tenant } from '@features/access-management/iam/models/tenant.model';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
     selector: 'role-form',
     standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        ButtonModule,
-        SelectModule,
-        CsmFormSectionComponent
-    ],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, AppFormSectionComponent],
     templateUrl: './role-form.page.html'
 })
-export class RoleFormPage
-    extends BaseCrudForm<Role> {
-
+export class RoleFormPage extends BaseCrudForm<Role> {
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
 
@@ -48,7 +39,7 @@ export class RoleFormPage
         this.buildForm();
 
         this.tenantService.getAll().subscribe({
-            next: res => this.tenants = res
+            next: (res) => (this.tenants = res)
         });
     }
 

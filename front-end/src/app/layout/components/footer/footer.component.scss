@@ -1,0 +1,19 @@
+.layout-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #64748b;
+    font-size: 0.8125rem;
+}
+
+.layout-footer span:first-child {
+    color: #334155;
+    font-weight: 700;
+}
+
+.layout-footer-divider {
+    width: 1px;
+    height: 1rem;
+    background: #cbd5e1;
+}

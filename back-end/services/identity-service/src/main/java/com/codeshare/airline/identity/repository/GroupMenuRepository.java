@@ -47,4 +47,8 @@ public interface GroupMenuRepository extends CSMDataBaseRepository<GroupMenu, UU
 
     void deleteByGroup_Id(UUID groupId);
 
+    List<GroupMenu> findByMenu_Id(UUID menuId);
+
+    void deleteByMenu_Id(UUID menuId);
+
 }

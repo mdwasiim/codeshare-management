@@ -1,102 +1,50 @@
-<form [formGroup]="form" class="p-fluid w-full block csm-form">
-
+<form [formGroup]="form" class="p-fluid w-full block app-form">
     <div class="w-full">
-
         <!-- BASIC INFORMATION -->
-        <csm-form-section title="Basic Information">
-
+        <app-form-section title="Basic Information">
             <div class="grid">
-
                 <!-- NAME -->
                 <div class="field col-12 md:col-6">
+                    <label for="name" class="required">Name</label>
 
-                    <label for="name">Name</label>
-
-                    <input
-                        id="name"
-                        pInputText
-                        formControlName="name"
-                        class="w-full" />
-
+                    <input id="name" pInputText formControlName="name" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">Name is required.</small>
                 </div>
 
                 <!-- CODE -->
                 <div class="field col-12 md:col-6">
+                    <label for="code" class="required">Code</label>
 
-                    <label for="code">Code</label>
-
-                    <input
-                        id="code"
-                        pInputText
-                        formControlName="code"
-                        class="w-full" />
-
+                    <input id="code" pInputText formControlName="code" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['code'].hasError('required') && form.controls['code'].touched">Code is required.</small>
                 </div>
 
                 <!-- DESCRIPTION -->
-                <div class="field col-12">
+                <div class="field col-12 md:col-6">
+                    <label for="description"> Description </label>
 
-                    <label for="description">
-                        Description
-                    </label>
-
-                    <input
-                        id="description"
-                        pInputText
-                        formControlName="description"
-                        class="w-full" />
-
+                    <input id="description" pInputText formControlName="description" class="w-full" />
                 </div>
-
             </div>
-
-        </csm-form-section>
+        </app-form-section>
 
         <!-- CONFIGURATION -->
-        <csm-form-section title="Configuration">
-
+        <app-form-section title="Configuration">
             <div class="grid">
-
                 <!-- STATUS -->
                 <div class="field col-12 md:col-6">
+                    <label for="status"> Status </label>
 
-                    <label for="status">
-                        Status
-                    </label>
-
-                    <p-select
-                        inputId="status"
-                        appendTo="body"
-                        formControlName="status"
-                        [options]="statusOptions"
-                        placeholder="Select Status"
-                        styleClass="w-full">
-                    </p-select>
-
+                    <p-select inputId="status" appendTo="body" formControlName="status" [options]="statusOptions" placeholder="Select Status" styleClass="w-full"> </p-select>
                 </div>
 
                 <!-- PLAN -->
                 <div class="field col-12 md:col-6">
+                    <label for="plan"> Plan </label>
 
-                    <label for="plan">
-                        Plan
-                    </label>
-
-                    <p-select
-                        inputId="plan"
-                        appendTo="body"
-                        formControlName="plan"
-                        [options]="planOptions"
-                        placeholder="Select Plan"
-                        styleClass="w-full">
-                    </p-select>
-
+                    <p-select inputId="plan" appendTo="body" formControlName="plan" [options]="planOptions" placeholder="Select Plan" styleClass="w-full"> </p-select>
                 </div>
-
             </div>
-
-        </csm-form-section>
-
+        </app-form-section>
     </div>
-
 </form>

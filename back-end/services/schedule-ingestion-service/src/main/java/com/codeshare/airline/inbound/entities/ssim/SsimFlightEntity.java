@@ -1,6 +1,5 @@
 package com.codeshare.airline.inbound.entities.ssim;
 
-import com.codeshare.airline.inbound.domain.enums.RecordType;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -18,16 +17,23 @@ import java.util.List;
         indexes = {
                 @Index(name = "idx_ssim_flight_carrier", columnList = "carrier_id"),
                 @Index(name = "idx_ssim_flight_number", columnList = "airline_code,flight_number"),
-                @Index(name = "idx_ssim_flight_route", columnList = "departure_station,arrival_station")
+                @Index(name = "idx_ssim_flight_route", columnList = "departure_station,arrival_station"),
+                @Index(
+                        name = "idx_ssim_flight_identity",
+                        columnList = "carrier_id,operational_suffix,airline_code,flight_number,itinerary_variation_identifier,leg_sequence_number,service_type"
+                )
         },
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "uk_ssim_flight",
                         columnNames = {
                                 "carrier_id",
-                                "flight_number",
                                 "operational_suffix",
-                                "itinerary_variation_identifier"
+                                "airline_code",
+                                "flight_number",
+                                "itinerary_variation_identifier",
+                                "leg_sequence_number",
+                                "service_type"
                         }
                 )
         }
@@ -51,9 +57,8 @@ public class SsimFlightEntity extends CSMDataAbstractEntity {
        ======================================================= */
 
     // SSIM T3: Byte 1
-    @Enumerated(EnumType.STRING)
     @Column(name = "record_type", length = 1, nullable = false)
-    private RecordType recordType;
+    private String recordType;
 
     // SSIM T3: Byte 2
     @Column(name = "operational_suffix", length = 1)
@@ -64,7 +69,7 @@ public class SsimFlightEntity extends CSMDataAbstractEntity {
     private String airlineCode;
 
     // SSIM T3: Bytes 6–9
-    @Column(name = "flight_number", length = 5, nullable = false)
+    @Column(name = "flight_number", length = 4, nullable = false)
     private String flightNumber;
 
     // SSIM T3: Bytes 10–11

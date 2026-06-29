@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.service.serviceImpl;
 
+import com.codeshare.airline.core.dto.tenant.MenuBackupDTO;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.identity.authentication.domain.TenantContext;
 import com.codeshare.airline.identity.authentication.domain.TenantContextHolder;
@@ -12,11 +13,18 @@ import com.codeshare.airline.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.service.MenuService;
 import com.codeshare.airline.identity.service.TenantService;
 import com.codeshare.airline.identity.utils.mappers.MenuMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -35,7 +43,7 @@ public class MenuServiceImpl implements MenuService {
     private final TenantRepository tenantRepository;
     private final TenantService tenantService;
 
-
+    private final ObjectMapper objectMapper;
 
     // ---------------------------------------------------------
     // CREATE NEW MENU FOR TENANT
@@ -64,28 +72,10 @@ public class MenuServiceImpl implements MenuService {
                     .orElseThrow(() -> new RuntimeException("Parent menu not found"));
             entity.setParentMenu(parent);
         }
-        Menu menu = repository.save(entity);
-        if (dto.getGroupIds() != null) {
+        Menu saved = repository.save(entity);
+        replaceMenuGroups(saved, dto.getGroupIds(), tenant);
 
-            List<GroupMenu> mappings = new ArrayList<>();
-
-            for (UUID groupId : dto.getGroupIds()) {
-
-                Group group = groupRepository.findById(groupId)
-                        .orElseThrow();
-
-                mappings.add(
-                        GroupMenu.builder()
-                                .tenant(tenant)
-                                .group(group)
-                                .menu(menu)
-                                .build()
-                );
-            }
-
-            groupMenuRepository.saveAll(mappings);
-        }
-        return mapper.toDTO(menu);
+        return toDtoWithGroups(saved);
     }
 
 
@@ -110,7 +100,10 @@ public class MenuServiceImpl implements MenuService {
             entity.setParentMenu(null);
         }
 
-        return mapper.toDTO(repository.save(entity));
+        Menu saved = repository.save(entity);
+        replaceMenuGroups(saved, dto.getGroupIds(), saved.getTenant());
+
+        return toDtoWithGroups(saved);
     }
 
 
@@ -121,7 +114,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(readOnly = true)
     public MenuDTO getById(UUID id) {
         return repository.findById(id)
-                .map(mapper::toDTO)
+                .map(this::toDtoWithGroups)
                 .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
     }
 
@@ -132,9 +125,20 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional(readOnly = true)
     public List<MenuDTO> getRootMenus() {
-        TenantContext tenant = TenantContextHolder.getTenant();
         Tenant tenantByTenantCode = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
         return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNull(tenantByTenantCode.getId()));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MenuDTO> getAllForManagement() {
+        TenantContext ctx = TenantContextHolder.getTenant();
+
+        return repository.findByTenant_TenantCode(ctx.getTenantCode())
+                .stream()
+                .sorted(Comparator.comparing(Menu::getDisplayOrder, Comparator.nullsLast(Integer::compareTo)))
+                .map(this::toDtoWithGroups)
+                .toList();
     }
 
 
@@ -206,5 +210,102 @@ public class MenuServiceImpl implements MenuService {
                 );
 
         repository.delete(menu);
+    }
+
+    @Override
+    public List<MenuBackupDTO> getAllMenuBackup() {
+
+        try {
+
+            List<MenuBackupDTO> menus = repository.findAll()
+                    .stream()
+                    .map(menu -> {
+                        MenuBackupDTO dto = new MenuBackupDTO();
+                        dto.setCode(menu.getCode());
+                        dto.setParentCode(
+                                menu.getParentMenu() != null
+                                        ? menu.getParentMenu().getCode()
+                                        : null
+                        );
+                        dto.setLabel(menu.getLabel());
+                        dto.setIcon(menu.getIcon());
+                        dto.setRoute(menu.getRoute());
+                        dto.setPermission(menu.getPermission());
+                        dto.setDisplayOrder(menu.getDisplayOrder());
+                        dto.setVisible(menu.getVisible());
+                        return dto;
+                    })
+                    .toList();
+
+            // backup folder
+            String backupDir = "backup/menu-backup";
+
+            Path backupPath = Paths.get(backupDir);
+
+            if (!Files.exists(backupPath)) {
+                Files.createDirectories(backupPath);
+            }
+
+            // filename with timestamp
+            String fileName = "menu-backup-" +
+                    LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"))
+                    + ".json";
+
+            File backupFile = backupPath.resolve(fileName).toFile();
+
+            // write json
+            objectMapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(backupFile, menus);
+
+            log.info("Menu backup created: {}", backupFile.getAbsolutePath());
+
+            return menus;
+
+        } catch (Exception e) {
+            log.error("Failed to create menu backup", e);
+            throw new RuntimeException("Menu backup failed", e);
+        }
+    }
+
+    private void replaceMenuGroups(Menu menu, List<UUID> groupIds, Tenant tenant) {
+        groupMenuRepository.deleteByMenu_Id(menu.getId());
+        groupMenuRepository.flush();
+
+        if (groupIds == null || groupIds.isEmpty()) {
+            return;
+        }
+
+        List<GroupMenu> mappings = groupIds.stream()
+                .distinct()
+                .map(groupId -> {
+                    Group group = groupRepository.findById(groupId)
+                            .orElseThrow(() -> new RuntimeException("Group not found: " + groupId));
+
+                    if (!Objects.equals(group.getTenant().getId(), tenant.getId())) {
+                        throw new RuntimeException("Group does not belong to current tenant: " + groupId);
+                    }
+
+                    GroupMenu mapping = GroupMenu.builder()
+                            .tenant(tenant)
+                            .group(group)
+                            .menu(menu)
+                            .build();
+                    return mapping;
+                })
+                .toList();
+
+        groupMenuRepository.saveAll(mappings);
+    }
+
+    private MenuDTO toDtoWithGroups(Menu menu) {
+        MenuDTO dto = mapper.toDTO(menu);
+        dto.setGroupIds(
+                groupMenuRepository.findByMenu_Id(menu.getId())
+                        .stream()
+                        .map(groupMenu -> groupMenu.getGroup().getId())
+                        .toList()
+        );
+        return dto;
     }
 }

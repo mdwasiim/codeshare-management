@@ -41,7 +41,6 @@ public class GenericStreamLoader {
     private final ProcessingStrategyFactory strategyFactory;
     private final ErrorPersistenceService errorService;
 
-    // 🔥 Thread pool (DO NOT shutdown per request)
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private static final int MAX_PARALLEL_TASKS = 200;
@@ -72,7 +71,8 @@ public class GenericStreamLoader {
                     semaphore.acquire();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
-                    return;
+                    hasErrors.set(true);
+                    throw new IllegalStateException("Interrupted while scheduling " + type + " block", e);
                 }
 
                 CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
@@ -158,15 +158,16 @@ public class GenericStreamLoader {
 
         /* ================= 4️⃣ PROCESS ================= */
 
-        ProcessingStrategy<AbstractIngestionContext<?, ?>> strategy = strategyFactory.get(context);
-
-        if (strategy == null) {
+        ProcessingStrategy<AbstractIngestionContext<?, ?>> strategy;
+        try {
+            strategy = strategyFactory.get(context);
+        } catch (Exception ex) {
             hasErrors.set(true);
 
             errorService.persist(
                     context,
                     ValidationStage.PROCESSING,
-                    List.of(ValidationMessage.systemError("No processing strategy found"))
+                    List.of(ValidationMessage.systemError(ex.getMessage()))
             );
             return;
         }
@@ -213,11 +214,17 @@ public class GenericStreamLoader {
                     .messageLines(lines)
                     .build();
 
-            case SSIM -> SsimIngestionContext.builder()
-                    .messageType(MessageType.SSIM)
-                    .metadata((SsimMetaDataDTO) metadata)
-                    .messageLines(lines)
-                    .build();
+            case SSIM -> {
+                if (!(metadata instanceof SsimMetaDataDTO dto)) {
+                    throw new IllegalArgumentException("Invalid metadata for SSIM context: "
+                            + (metadata == null ? "null" : metadata.getClass().getName()));
+                }
+                yield SsimIngestionContext.builder()
+                        .messageType(MessageType.SSIM)
+                        .metadata(dto)
+                        .messageLines(lines)
+                        .build();
+            }
         };
     }
 

@@ -1,13 +1,9 @@
-export interface Group {
-    id?: string;          // optional for create
+import { AuditableModel } from '@shared/models/auditable.model';
+
+export interface Group extends AuditableModel {
+    id?: string;
     code: string;
     name: string;
     description?: string;
     tenantId: string;
-
-    // inherited from CSMAuditableDTO (optional)
-    createdAt?: string;
-    updatedAt?: string;
-    createdBy?: string;
-    updatedBy?: string;
 }

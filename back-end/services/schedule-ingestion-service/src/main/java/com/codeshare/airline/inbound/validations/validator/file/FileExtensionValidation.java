@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -17,12 +18,39 @@ public class FileExtensionValidation implements ScheduleFileExtensionValidation<
     private final ScheduleIngestionProperties properties;
 
     @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.ASM, MessageType.SSM, MessageType.SSIM);
+    }
+
+    @Override
     public ValidationResult validate(ScheduleFileMetaDataDTO context) {
 
         ValidationResult result = new ValidationResult();
 
+        if (context == null) {
+            result.addError(
+                    "VAL_FILE_META_001",
+                    "Missing file metadata",
+                    null,
+                    "FILE",
+                    ValidationStage.FILE_TYPE
+            );
+            return result;
+        }
+
         String fileName = context.getFileName();
         MessageType type = context.getMessageType();
+
+        if (type == null) {
+            result.addError(
+                    "VAL_FILE_TYPE_001",
+                    "Missing message type",
+                    null,
+                    fileName,
+                    ValidationStage.FILE_TYPE
+            );
+            return result;
+        }
 
         if (fileName == null || !fileName.contains(".")) {
             result.addError(

@@ -1,0 +1,56 @@
+<div class="assignment-layout access-page">
+    <div class="access-page-header assignment-page-header">
+        <div>
+            <span class="access-eyebrow">Access Management</span>
+            <h1>{{ title }}</h1>
+            <p>Select a record and maintain the assigned access in the connected panel.</p>
+        </div>
+    </div>
+
+    <div [ngClass]="layoutClass">
+        <div *ngIf="groupTitle" class="assignment-layout__panel">
+            <p-card class="assignment-layout__card">
+                <ng-template pTemplate="title">
+                    <div class="assignment-card-title">
+                        <div>
+                            <span>{{ groupTitle }}</span>
+                            <small>Source context</small>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-content select="[group-panel]"> </ng-content>
+            </p-card>
+        </div>
+
+        <div *ngIf="leftTitle" class="assignment-layout__panel">
+            <p-card class="assignment-layout__card">
+                <ng-template pTemplate="title">
+                    <div class="assignment-card-title">
+                        <div>
+                            <span>{{ leftTitle }}</span>
+                            <small>Selection</small>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-content select="[left-panel]"> </ng-content>
+            </p-card>
+        </div>
+
+        <div *ngIf="rightTitle" class="assignment-layout__panel">
+            <p-card class="assignment-layout__card">
+                <ng-template pTemplate="title">
+                    <div class="assignment-card-title">
+                        <div>
+                            <span>{{ rightTitle }}</span>
+                            <small>Assigned access</small>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-content select="[right-panel]"> </ng-content>
+            </p-card>
+        </div>
+    </div>
+</div>

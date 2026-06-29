@@ -1,0 +1,51 @@
+<app-assignment-layout leftTitle="Users" rightTitle="Groups">
+    <div left-panel>
+        <p-table [value]="users" [loading]="loading" selectionMode="single" [(selection)]="selectedUser" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onUserSelect($any($event.data))">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Username</th>
+
+                    <th>Name</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-user>
+                <tr [pSelectableRow]="user">
+                    <td>{{ user.username }}</td>
+
+                    <td>{{ user.name }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div right-panel>
+        <div class="mb-4">
+            <app-crud-toolbar
+                [actions]="[
+                    'refresh',
+                    'reset',
+                    'save'
+                ]"
+                [loading]="saving"
+                (refresh)="loadData()"
+                (reset)="reset()"
+                (save)="save()"
+            >
+            </app-crud-toolbar>
+        </div>
+
+        <div *ngIf="!selectedUser" class="assignment-empty-state">
+            <i class="pi pi-users"></i>
+            <span>Select a user to manage groups</span>
+        </div>
+
+        <div *ngIf="selectedUser" class="assignment-selector-list">
+            <div *ngFor="let group of groups" class="assignment-selector-list__item">
+                <p-checkbox [binary]="true" [ngModel]="selectedGroupIds.includes(group.id!)" (onChange)="toggleGroup(group.id!, $event.checked)"></p-checkbox>
+
+                <label>{{ group.name }}</label>
+            </div>
+        </div>
+    </div>
+</app-assignment-layout>

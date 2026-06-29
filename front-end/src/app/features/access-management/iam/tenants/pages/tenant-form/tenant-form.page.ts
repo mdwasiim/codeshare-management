@@ -1,32 +1,24 @@
-import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import {CommonModule} from '@angular/common';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import {InputTextModule} from 'primeng/inputtext';
-import {ButtonModule} from 'primeng/button';
-import {DialogModule} from 'primeng/dialog';
-import {BaseCrudForm} from '@shared/components/base/base-form.component';
-import {TenantService} from "../../services/tenant.service";
-import {Tenant} from "@features/access-management/iam/models/tenant.model";
-import {SelectModule} from "primeng/select";
-import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { BaseCrudForm } from '@shared/components/base/base-form.component';
+import { TenantService } from '../../services/tenant.service';
+import { Tenant } from '@features/access-management/iam/models/tenant.model';
+import { SelectModule } from 'primeng/select';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
     selector: 'tenant-form',
     standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        ButtonModule,
-        DialogModule,
-        SelectModule,CsmFormSectionComponent
-    ],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, DialogModule, SelectModule, AppFormSectionComponent],
     templateUrl: './tenant-form.page.html'
 })
 export class TenantFormPage extends BaseCrudForm<Tenant> {
-
     private fb = inject(FormBuilder);
     private service = inject(TenantService);
 
@@ -44,13 +36,11 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
         { label: 'Enterprise', value: 'ENTERPRISE' }
     ];
 
-
     override ngOnInit() {
         this.buildForm();
     }
 
     buildForm(): void {
-        console.log('BUILD FORM CALLED');
         this.form = this.fb.group({
             id: [null],
             name: ['', Validators.required],

@@ -1,183 +1,93 @@
-<form [formGroup]="form" class="p-fluid w-full block csm-form">
-
+<form [formGroup]="form" class="p-fluid w-full block app-form">
     <div class="w-full">
-
         <!-- USER INFORMATION -->
-        <csm-form-section title="User Information">
-
+        <app-form-section title="User Information">
             <div class="grid">
-
                 <div class="field col-12 md:col-6">
-                    <label for="username">Username</label>
+                    <label for="username" class="required">Username</label>
 
-                    <input
-                        id="username"
-                        pInputText
-                        formControlName="username"
-                        class="w-full" />
+                    <input id="username" pInputText formControlName="username" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['username'].hasError('required') && form.controls['username'].touched">Username is required.</small>
                 </div>
 
                 <div class="field col-12 md:col-6">
-                    <label for="email">Email Address</label>
+                    <label for="email" class="required">Email Address</label>
 
-                    <input
-                        id="email"
-                        pInputText
-                        formControlName="email"
-                        class="w-full" />
+                    <input id="email" pInputText formControlName="email" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">Email address is required.</small>
+                    <small class="p-error" *ngIf="form.controls['email'].hasError('email') && form.controls['email'].touched">Enter a valid email address.</small>
                 </div>
 
                 <div class="field col-12 md:col-6">
                     <label for="firstName">First Name</label>
 
-                    <input
-                        id="firstName"
-                        pInputText
-                        formControlName="firstName"
-                        class="w-full" />
+                    <input id="firstName" pInputText formControlName="firstName" class="w-full" />
                 </div>
 
                 <div class="field col-12 md:col-6">
                     <label for="lastName">Last Name</label>
 
-                    <input
-                        id="lastName"
-                        pInputText
-                        formControlName="lastName"
-                        class="w-full" />
+                    <input id="lastName" pInputText formControlName="lastName" class="w-full" />
                 </div>
 
                 <div class="field col-12 md:col-6">
                     <label for="password">Password</label>
 
-                    <p-password
-                        inputId="password"
-                        formControlName="password"
-                        [toggleMask]="true"
-                        [feedback]="false"
-                        styleClass="w-full">
-                    </p-password>
+                    <p-password inputId="password" formControlName="password" [toggleMask]="true" [feedback]="false" styleClass="w-full"> </p-password>
+                    <small class="p-error" *ngIf="form.controls['password'].hasError('minlength') && form.controls['password'].touched">Password must be at least 8 characters.</small>
                 </div>
 
                 <div class="field col-12 md:col-6">
-                    <label for="tenant">Tenant</label>
+                    <label for="tenant" class="required">Tenant</label>
 
-                    <p-select
-                        inputId="tenant"
-                        appendTo="body"
-                        [options]="tenants"
-                        optionLabel="name"
-                        optionValue="id"
-                        formControlName="tenantId"
-                        placeholder="Select Tenant"
-                        styleClass="w-full">
-                    </p-select>
+                    <p-select inputId="tenant" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full" aria-required="true"> </p-select>
+                    <small class="p-error" *ngIf="form.controls['tenantId'].hasError('required') && form.controls['tenantId'].touched">Tenant is required.</small>
                 </div>
-
             </div>
-
-        </csm-form-section>
+        </app-form-section>
 
         <!-- ACCOUNT SETTINGS -->
-        <csm-form-section title="Account Settings">
-
+        <app-form-section title="Account Settings">
             <div class="grid">
-
                 <div class="col-12 md:col-6">
-
                     <div class="flex align-items-center gap-2">
+                        <p-checkbox inputId="enabled" formControlName="enabled" binary="true"> </p-checkbox>
 
-                        <p-checkbox
-                            inputId="enabled"
-                            formControlName="enabled"
-                            binary="true">
-                        </p-checkbox>
-
-                        <label for="enabled" class="mb-0">
-                            Enabled
-                        </label>
-
+                        <label for="enabled" class="mb-0"> Enabled </label>
                     </div>
-
                 </div>
 
                 <div class="col-12 md:col-6">
-
                     <div class="flex align-items-center gap-2">
+                        <p-checkbox inputId="accountNonLocked" formControlName="accountNonLocked" binary="true"> </p-checkbox>
 
-                        <p-checkbox
-                            inputId="accountNonLocked"
-                            formControlName="accountNonLocked"
-                            binary="true">
-                        </p-checkbox>
-
-                        <label
-                            for="accountNonLocked"
-                            class="mb-0">
-
-                            Account Unlocked
-                        </label>
-
+                        <label for="accountNonLocked" class="mb-0"> Account Unlocked </label>
                     </div>
-
                 </div>
 
                 <div class="col-12 md:col-6">
-
                     <div class="flex align-items-center gap-2">
+                        <p-checkbox inputId="accountNonExpired" formControlName="accountNonExpired" binary="true"> </p-checkbox>
 
-                        <p-checkbox
-                            inputId="accountNonExpired"
-                            formControlName="accountNonExpired"
-                            binary="true">
-                        </p-checkbox>
-
-                        <label
-                            for="accountNonExpired"
-                            class="mb-0">
-
-                            Account Active
-                        </label>
-
+                        <label for="accountNonExpired" class="mb-0"> Account Active </label>
                     </div>
-
                 </div>
 
                 <div class="col-12 md:col-6">
-
                     <div class="flex align-items-center gap-2">
+                        <p-checkbox inputId="credentialsNonExpired" formControlName="credentialsNonExpired" binary="true"> </p-checkbox>
 
-                        <p-checkbox
-                            inputId="credentialsNonExpired"
-                            formControlName="credentialsNonExpired"
-                            binary="true">
-                        </p-checkbox>
-
-                        <label
-                            for="credentialsNonExpired"
-                            class="mb-0">
-
-                            Credentials Valid
-                        </label>
-
+                        <label for="credentialsNonExpired" class="mb-0"> Credentials Valid </label>
                     </div>
-
                 </div>
-
             </div>
-
-        </csm-form-section>
+        </app-form-section>
 
         <!-- AUTHENTICATION & SYSTEM -->
-        <csm-form-section title="Authentication & System">
-
+        <app-form-section title="Authentication & System">
             <div class="grid">
-
                 <div class="field col-12 md:col-6">
-
-                    <label for="authSource">
-                        Authentication Source
-                    </label>
+                    <label for="authSource"> Authentication Source </label>
 
                     <p-select
                         inputId="authSource"
@@ -188,16 +98,13 @@
                             { label: 'OAuth', value: 'OAUTH' }
                         ]"
                         formControlName="authSource"
-                        styleClass="w-full">
+                        styleClass="w-full"
+                    >
                     </p-select>
-
                 </div>
 
                 <div class="field col-12 md:col-6">
-
-                    <label for="recordStatus">
-                        Record Status
-                    </label>
+                    <label for="recordStatus"> Record Status </label>
 
                     <p-select
                         inputId="recordStatus"
@@ -207,43 +114,23 @@
                             { label: 'Inactive', value: 'INACTIVE' }
                         ]"
                         formControlName="recordStatus"
-                        styleClass="w-full">
+                        styleClass="w-full"
+                    >
                     </p-select>
-
                 </div>
 
                 <div class="field col-12 md:col-6">
+                    <label for="externalId"> External ID </label>
 
-                    <label for="externalId">
-                        External ID
-                    </label>
-
-                    <input
-                        id="externalId"
-                        pInputText
-                        formControlName="externalId"
-                        class="w-full" />
-
+                    <input id="externalId" pInputText formControlName="externalId" class="w-full" />
                 </div>
 
                 <div class="field col-12 md:col-6">
+                    <label for="lastLoginProvider"> Last Login Provider </label>
 
-                    <label for="lastLoginProvider">
-                        Last Login Provider
-                    </label>
-
-                    <input
-                        id="lastLoginProvider"
-                        pInputText
-                        formControlName="lastLoginProvider"
-                        class="w-full" />
-
+                    <input id="lastLoginProvider" pInputText formControlName="lastLoginProvider" class="w-full" />
                 </div>
-
             </div>
-
-        </csm-form-section>
-
+        </app-form-section>
     </div>
-
 </form>

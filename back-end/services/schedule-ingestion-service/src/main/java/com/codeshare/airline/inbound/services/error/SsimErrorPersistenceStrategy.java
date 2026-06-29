@@ -39,8 +39,8 @@ public class SsimErrorPersistenceStrategy implements ErrorPersistenceStrategy {
 
                     e.setFileId(ctx.getMetadata().getFileId());
                     e.setLoadId(ctx.getMetadata().getLoadId());
-                    e.setRecordType(msg.getRecordType());
-                    e.setRecordKey(msg.getRecordKey());
+                    e.setRecordType(recordType(msg.getRecordType()));
+                    e.setRecordKey(truncate(msg.getRecordKey(), 200));
 
                     e.setSeverity(msg.getSeverity());
                     e.setRuleCode(msg.getRuleCode());
@@ -53,5 +53,30 @@ public class SsimErrorPersistenceStrategy implements ErrorPersistenceStrategy {
                 }).toList();
 
         repository.saveAll(entities);
+    }
+
+    private String recordType(String value) {
+        if (value == null || value.isBlank()) {
+            return "NA";
+        }
+
+        String trimmed = value.trim();
+        if (trimmed.length() <= 2) {
+            return trimmed;
+        }
+
+        char first = trimmed.charAt(0);
+        if (first >= '1' && first <= '5') {
+            return "T" + first;
+        }
+
+        return trimmed.substring(0, 2);
+    }
+
+    private String truncate(String value, int maxLength) {
+        if (value == null || value.length() <= maxLength) {
+            return value;
+        }
+        return value.substring(0, maxLength);
     }
 }

@@ -14,9 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileValidatorOrchestrator {
 
-    private final List<ScheduleFileExtensionValidation<ScheduleFileMetaDataDTO>> asmValidators;
-    private final List<ScheduleFileExtensionValidation<ScheduleFileMetaDataDTO>> ssmValidators;
-    private final List<ScheduleFileExtensionValidation<ScheduleFileMetaDataDTO>> ssimValidators;
+    private final List<ScheduleFileExtensionValidation<ScheduleFileMetaDataDTO>> validators;
 
     private final ValidationEngine validationEngine;
 
@@ -36,32 +34,30 @@ public class FileValidatorOrchestrator {
 
     private ValidationResult validateAsm(ScheduleFileMetaDataDTO scheduleFileMetaDataDTO) {
 
-        return validationEngine.validate(
-                asmValidators,
-                scheduleFileMetaDataDTO,
-                ScheduleFileExtensionValidation::validate,
-                true   // fail fast
-        );
+        return validateByType(MessageType.ASM, scheduleFileMetaDataDTO);
     }
 
     /* ================= SSM ================= */
 
     private ValidationResult validateSsm(ScheduleFileMetaDataDTO scheduleFileMetaDataDTO) {
 
-        return validationEngine.validate(
-                ssmValidators,
-                scheduleFileMetaDataDTO,
-                ScheduleFileExtensionValidation::validate,
-                true
-        );
+        return validateByType(MessageType.SSM, scheduleFileMetaDataDTO);
     }
 
     /* ================= SSIM ================= */
 
     private ValidationResult validateSsim(ScheduleFileMetaDataDTO scheduleFileMetaDataDTO) {
 
+        return validateByType(MessageType.SSIM, scheduleFileMetaDataDTO);
+    }
+
+    private ValidationResult validateByType(MessageType type, ScheduleFileMetaDataDTO scheduleFileMetaDataDTO) {
+        List<ScheduleFileExtensionValidation<ScheduleFileMetaDataDTO>> matchingValidators = validators.stream()
+                .filter(validator -> validator.supportedTypes().contains(type))
+                .toList();
+
         return validationEngine.validate(
-                ssimValidators,
+                matchingValidators,
                 scheduleFileMetaDataDTO,
                 ScheduleFileExtensionValidation::validate,
                 true

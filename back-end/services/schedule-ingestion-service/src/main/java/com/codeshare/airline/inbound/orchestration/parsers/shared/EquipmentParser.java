@@ -12,22 +12,28 @@ public final class EquipmentParser {
 
         String[] parts = line.trim().split("\\s+");
 
-        if (parts.length == 0) return null;
+        if (parts.length < 2) return null;
 
-        String aircraft = parts[0];
+        String serviceType = parts[0];
+        String aircraft = parts[1];
 
-        // Reject airport codes (3-letter)
-        if (!aircraft.matches("^[A-Z0-9]{2,4}$") || aircraft.matches("^[A-Z]{3}$")) {
+        if (!serviceType.matches("^[A-Z]$") || !aircraft.matches("^[A-Z0-9]{2,4}$")) {
             return null;
         }
 
         ScheduleEquipmentDTO equipment = new ScheduleEquipmentDTO();
+        equipment.setServiceType(serviceType);
         equipment.setAircraftType(aircraft);
 
-        if (parts.length > 1) {
-            // join remaining tokens safely
-            String service = String.join("", java.util.Arrays.copyOfRange(parts, 1, parts.length));
-            equipment.setServiceType(service);
+        for (int i = 2; i < parts.length; i++) {
+            String token = parts[i];
+            if (token.startsWith(".")) {
+                equipment.setAircraftConfiguration(token.substring(1));
+            } else if (token.startsWith("/")) {
+                equipment.setBookingDesignator(token);
+            } else if (equipment.getBookingDesignator() == null && token.matches("^[A-Z0-9]{1,20}$")) {
+                equipment.setBookingDesignator(token);
+            }
         }
 
         return equipment;

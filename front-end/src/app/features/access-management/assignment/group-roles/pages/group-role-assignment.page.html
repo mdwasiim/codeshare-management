@@ -1,58 +1,23 @@
-<csm-assignment-layout
-    groupTitle="Groups"
-    rightTitle="Roles">
-
-    <!-- GROUP PANEL -->
+<app-assignment-layout groupTitle="Groups" rightTitle="Roles">
     <div group-panel>
-
-        <p-table
-            [value]="groups"
-            [loading]="loading"
-            selectionMode="single"
-            [(selection)]="selectedGroup"
-            dataKey="id"
-            responsiveLayout="scroll"
-            (onRowSelect)="onGroupSelect($any($event.data))">
-
-            <!-- HEADER -->
+        <p-table [value]="groups" [loading]="loading" selectionMode="single" [(selection)]="selectedGroup" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onGroupSelect($any($event.data))">
             <ng-template pTemplate="header">
-
                 <tr>
-
-                    <th>
-                        Group Name
-                    </th>
-
+                    <th>Group Name</th>
                 </tr>
-
             </ng-template>
 
-            <!-- BODY -->
-            <ng-template
-                pTemplate="body"
-                let-group>
-
+            <ng-template pTemplate="body" let-group>
                 <tr [pSelectableRow]="group">
-
-                    <td>
-                        {{ group.name }}
-                    </td>
-
+                    <td>{{ group.name }}</td>
                 </tr>
-
             </ng-template>
-
         </p-table>
-
     </div>
 
-    <!-- ROLE PANEL -->
     <div right-panel>
-
-        <!-- TOOLBAR -->
         <div class="mb-4">
-
-            <csm-crud-toolbar
+            <app-crud-toolbar
                 [actions]="[
                     'refresh',
                     'reset',
@@ -61,48 +26,22 @@
                 [loading]="saving"
                 (refresh)="loadData()"
                 (reset)="reset()"
-                (save)="save()">
-            </csm-crud-toolbar>
-
+                (save)="save()"
+            >
+            </app-crud-toolbar>
         </div>
 
-        <!-- EMPTY -->
-        <div
-            *ngIf="!selectedGroup"
-            class="p-4 text-500">
-
-            Select a group to manage roles
-
+        <div *ngIf="!selectedGroup" class="assignment-empty-state">
+            <i class="pi pi-shield"></i>
+            <span>Select a group to manage roles</span>
         </div>
 
-        <!-- ROLES -->
-        <div *ngIf="selectedGroup">
+        <div *ngIf="selectedGroup" class="assignment-selector-list">
+            <div *ngFor="let role of roles" class="assignment-selector-list__item">
+                <p-checkbox [binary]="true" [ngModel]="selectedRoleIds.includes(role.id!)" (onChange)="toggleRole(role.id!, $event.checked)"></p-checkbox>
 
-            <div
-                *ngFor="let role of roles"
-                class="mb-3">
-
-                <div
-                    class="flex align-items-center gap-2">
-
-                    <p-checkbox
-                        [binary]="true"
-                        [ngModel]="selectedRoleIds.includes(role.id!)"
-                        (onChange)="toggleRole(role.id!, $event.checked)">
-                    </p-checkbox>
-
-                    <label>
-
-                        {{ role.name }}
-
-                    </label>
-
-                </div>
-
+                <label>{{ role.name }}</label>
             </div>
-
         </div>
-
     </div>
-
-</csm-assignment-layout>
+</app-assignment-layout>

@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 
-import {forkJoin, tap} from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 import { UserService } from '@features/access-management/iam/users/services/user.service';
 import { User } from '@features/access-management/iam/models/user.model';
@@ -16,31 +16,19 @@ import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-actio
 import { UserFormPage } from '@features/access-management/iam/users/pages/user-form/user-form.page';
 
 // ✅ use your wrapper services
-import { CsmConfirmService } from '@services/csm-confirm.service';
+import { AppConfirmService } from '@services/app-confirm.service';
 import { AppToastService } from '@services/toast/app-toast.service';
-import {TooltipModule} from "primeng/tooltip";
-import {CsmDialogComponent} from "@shared/components/csm-dialog/csm-dialog.component";
-import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
+import { TooltipModule } from 'primeng/tooltip';
+import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
+import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
 @Component({
     selector: 'user-list',
     standalone: true,
-    imports: [
-        CommonModule,
-        TableModule,
-        ButtonModule,
-        TagModule,
-        TooltipModule,
-        InputTextModule,
-        ToolbarActionComponent,
-        UserFormPage,
-        CsmDialogComponent,
-        HasPermissionDirective
-    ],
+    imports: [CommonModule, TableModule, ButtonModule, TagModule, TooltipModule, InputTextModule, ToolbarActionComponent, UserFormPage, AppDialogComponent, HasPermissionDirective],
     templateUrl: './user-list.page.html'
 })
 export class UserListPage extends BaseListComponent<User> {
-
     protected override resourceName = 'USER';
     // =========================
     // Dialog State
@@ -53,7 +41,7 @@ export class UserListPage extends BaseListComponent<User> {
     // =========================
     private service = inject(UserService);
     private toast = inject(AppToastService);
-    private confirm = inject(CsmConfirmService); // or use ConfirmationService if you prefer
+    private confirm = inject(AppConfirmService); // or use ConfirmationService if you prefer
 
     // =========================
     // Table
@@ -62,22 +50,11 @@ export class UserListPage extends BaseListComponent<User> {
 
     @ViewChild('dt') dt!: Table;
 
-    override ngOnInit(): void {
-        console.log('UserListPage INIT');
-        super.ngOnInit();
-    }
-
     // =========================
     // Data Fetch
     // =========================
-     override fetch() {
-         /*return this.service.getAll();*/
-         return this.service.getAll().pipe(
-             tap(res => {
-                 console.log('USER API RESPONSE=', res);
-                 console.log('IS ARRAY=', Array.isArray(res));
-             })
-         );
+    override fetch() {
+        return this.service.getAll();
     }
 
     // =========================
@@ -93,9 +70,7 @@ export class UserListPage extends BaseListComponent<User> {
         if (!this.selectedUsers.length) return;
 
         this.confirm.delete('Delete selected users?', () => {
-            const requests = this.selectedUsers.map(u =>
-                this.service.delete(u.id!)
-            );
+            const requests = this.selectedUsers.map((u) => this.service.delete(u.id!));
 
             forkJoin(requests).subscribe({
                 next: () => {
@@ -124,20 +99,17 @@ export class UserListPage extends BaseListComponent<User> {
     }
 
     deleteUser(user: User) {
-        this.confirm.delete(
-            `Delete user "${user.username}"?`,
-            () => {
-                this.service.delete(user.id!).subscribe({
-                    next: () => {
-                        this.toast.success('User deleted successfully');
-                        this.refresh();
-                    },
-                    error: () => {
-                        this.toast.error('Failed to delete user');
-                    }
-                });
-            }
-        );
+        this.confirm.delete(`Delete user "${user.username}"?`, () => {
+            this.service.delete(user.id!).subscribe({
+                next: () => {
+                    this.toast.success('User deleted successfully');
+                    this.refresh();
+                },
+                error: () => {
+                    this.toast.error('Failed to delete user');
+                }
+            });
+        });
     }
 
     // =========================

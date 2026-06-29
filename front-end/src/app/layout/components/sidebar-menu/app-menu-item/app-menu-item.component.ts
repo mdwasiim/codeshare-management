@@ -17,7 +17,6 @@ import { AppMenuModel } from '@features/access-management/iam/models/app-menu.mo
     styleUrls: ['./app-menu-item.component.scss']
 })
 export class AppMenuItemComponent {
-
     private router = inject(Router);
     layoutService = inject(LayoutService);
 
@@ -53,9 +52,7 @@ export class AppMenuItemComponent {
         if (!item) return;
 
         if (item.routerLink) {
-            const link = Array.isArray(item.routerLink)
-                ? item.routerLink
-                : [item.routerLink];
+            const link = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink];
 
             this.router.navigate(link);
         }
@@ -94,15 +91,13 @@ export class AppMenuItemComponent {
     private hasActiveDescendant(item: AppMenuModel): boolean {
         const children = item.items ?? [];
 
-        return children.some(child => this.isRouteMatch(child) || this.hasActiveDescendant(child));
+        return children.some((child) => this.isRouteMatch(child) || this.hasActiveDescendant(child));
     }
 
     private isRouteMatch(item: AppMenuModel | undefined): boolean {
         if (!item) return false;
 
-        const link = Array.isArray(item.routerLink)
-            ? item.routerLink[0]
-            : item.routerLink ?? item.route;
+        const link = Array.isArray(item.routerLink) ? item.routerLink[0] : (item.routerLink ?? item.route);
 
         if (!link) return false;
 

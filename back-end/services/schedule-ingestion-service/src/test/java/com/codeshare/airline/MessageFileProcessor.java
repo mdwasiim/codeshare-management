@@ -23,7 +23,7 @@ public class MessageFileProcessor {
     public static void main(String[] args) throws IOException {
 
         // 🔥 SWITCH HERE
-        MessageType type = MessageType.ASM;
+        MessageType type = MessageType.SSM;
 
         String filePath = switch (type) {
             case SSM -> "C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\back-end\\services\\schedule-ingestion-service\\src\\main\\resources\\100_SSM_QR_Test_Messages.txt";

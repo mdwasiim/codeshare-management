@@ -78,6 +78,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
         // Encode password
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+
             entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
 

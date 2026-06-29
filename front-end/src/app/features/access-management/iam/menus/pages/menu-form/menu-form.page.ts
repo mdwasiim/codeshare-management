@@ -1,39 +1,27 @@
-import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import {CommonModule} from '@angular/common';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import {ButtonModule} from 'primeng/button';
-import {InputTextModule} from 'primeng/inputtext';
-import {DialogModule} from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
 
-import {AppMenuModel} from "@features/access-management/iam/models/app-menu.model";
-import {BaseCrudForm} from "@shared/components/base/base-form.component";
-import {MenuManagementService} from "@features/access-management/iam/menus/services/menu-management.service";
-import {SelectModule} from "primeng/select";
-import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
-import {GroupService} from "@features/access-management/iam/groups/services/group.service";
-import {MultiSelectModule} from "primeng/multiselect";
-import {PermissionApiService} from "@features/access-management/iam/permissions/services/permission-api.service";
-import {Permission} from "@features/access-management/iam/models/permission.model";
+import { AppMenuModel } from '@features/access-management/iam/models/app-menu.model';
+import { BaseCrudForm } from '@shared/components/base/base-form.component';
+import { MenuManagementService } from '@features/access-management/iam/menus/services/menu-management.service';
+import { SelectModule } from 'primeng/select';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
+import { GroupService } from '@features/access-management/iam/groups/services/group.service';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
     selector: 'menu-form',
     standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        ButtonModule,
-        DialogModule,
-        SelectModule,
-        MultiSelectModule,
-        CsmFormSectionComponent
-    ],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, DialogModule, SelectModule, MultiSelectModule, AppFormSectionComponent],
     templateUrl: './menu-form.page.html'
 })
 export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
-
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
 
@@ -42,37 +30,22 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
     private fb = inject(FormBuilder);
     private service = inject(MenuManagementService);
     private groupService = inject(GroupService);
-    private permissionApiService = inject(PermissionApiService);
+
+    groups: { label: string; value: string }[] = [];
 
     override ngOnInit(): void {
-
         super.ngOnInit();
 
         this.loadGroups();
         this.loadMenuOptions();
-        this.loadPermissions();
     }
-
-    groups: { label: string; value: string }[] = [];
-    permissionOptions: { label: string; value: string }[] = [];
 
     loadGroups() {
         this.groupService.getAll().subscribe({
-            next: res => {
-                this.groups = res.map(g => ({
+            next: (res) => {
+                this.groups = res.map((g) => ({
                     label: g.name,
                     value: g.id!
-                }));
-            }
-        });
-    }
-
-    loadPermissions() {
-        this.permissionApiService.getAll().subscribe({
-            next: (res: Permission[]) => {
-                this.permissionOptions = res.map(p => ({
-                    label: p.code!,
-                    value: p.code!
                 }));
             }
         });
@@ -89,7 +62,6 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
             label: ['', Validators.required],
             icon: [''],
             route: [''],
-            permission: [''],
             displayOrder: [0],
             parentId: [null],
             groupIds: [[]]
@@ -122,15 +94,15 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
 
     loadMenuOptions() {
         this.service.getAll().subscribe({
-            next: res => {
-                this.menuOptions = res.map(m => ({
+            next: (res) => {
+                this.menuOptions = res.map((m) => ({
                     label: m.label,
                     value: m.id!
                 }));
                 // prevent self-parent
                 const currentId = this.form.get('id')?.value;
                 if (currentId) {
-                    this.menuOptions = this.menuOptions.filter(m => m.value !== this.id);
+                    this.menuOptions = this.menuOptions.filter((m) => m.value !== this.id);
                 }
             }
         });
@@ -147,7 +119,6 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
             label: formValue.label,
             icon: formValue.icon || undefined,
             route: formValue.route?.trim() || undefined,
-            permission: formValue.permission?.trim() || undefined,
             displayOrder: formValue.displayOrder ?? 0,
             parentId: formValue.parentId ?? undefined,
             groupIds: formValue.groupIds || []

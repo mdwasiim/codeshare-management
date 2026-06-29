@@ -7,7 +7,6 @@ import { tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MenuManagementService {
-
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
@@ -15,6 +14,10 @@ export class MenuManagementService {
     // GET ALL
     // -----------------------------
     getAll() {
+        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.manage);
+    }
+
+    getAuthorized() {
         return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base);
     }
 
@@ -42,25 +45,29 @@ export class MenuManagementService {
     // UPDATE
     // -----------------------------
     update(id: string, menuModel: AppMenuModel) {
-        return this.api.put<AppMenuModel>(API_ENDPOINTS.accessManagement.menu.byId, menuModel, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('Menu updated successfully');
+        return this.api
+            .put<AppMenuModel>(API_ENDPOINTS.accessManagement.menu.byId, menuModel, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('Menu updated successfully');
+                })
+            );
     }
 
     // -----------------------------
     // DELETE
     // -----------------------------
     delete(id: string) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.menu.byId, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('Menu deleted successfully');
+        return this.api
+            .delete<void>(API_ENDPOINTS.accessManagement.menu.byId, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('Menu deleted successfully');
+                })
+            );
     }
 }

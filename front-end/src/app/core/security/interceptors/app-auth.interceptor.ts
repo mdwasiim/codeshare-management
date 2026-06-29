@@ -1,17 +1,7 @@
-import {
-    HttpInterceptorFn,
-    HttpErrorResponse
-} from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import {
-    BehaviorSubject,
-    catchError,
-    filter,
-    finalize,
-    switchMap,
-    take,
-    throwError,
-} from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, catchError, filter, finalize, switchMap, take, throwError } from 'rxjs';
 
 import { AuthTokenService } from '@services/auth/auth-token.service';
 import { AuthService } from '@features/access-management/auth/services/auth.service';
@@ -21,19 +11,14 @@ let isRefreshing = false;
 const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
 export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
-
     const tokenService = inject(AuthTokenService);
     const authService = inject(AuthService);
     const authTenantService = inject(AuthTenantService);
+    const router = inject(Router);
 
     const tenantCode = authTenantService.getTenantCode();
 
-    if (!tenantCode) {
-        console.warn('Tenant code missing on frontend');
-    }
-
-
-    const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/logout'); ;
+    const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/logout');
 
     // =========================
     // Build headers ONCE
@@ -52,7 +37,6 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
             // ✅ normal flow
             headers['Authorization'] = `Bearer ${tokenService.accessToken}`;
         }
-
     }
 
     const authReq = req.clone({ setHeaders: headers });
@@ -64,7 +48,6 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(authReq).pipe(
         catchError((error: HttpErrorResponse) => {
-
             // 🔐 ONLY handle 401
             if (error.status !== 401) {
                 return throwError(() => error);
@@ -73,7 +56,9 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
             // 🚫 No refresh token → logout scenario
             if (!tokenService.refreshToken) {
                 tokenService.clear();
-                window.location.href = '/auth/login';
+                router.navigate(['/auth/login'], {
+                    queryParams: { returnUrl: router.url }
+                });
                 return throwError(() => error);
             }
 
@@ -82,9 +67,9 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
             // =========================
             if (isRefreshing) {
                 return refreshTokenSubject.pipe(
-                    filter(token => token !== null),
+                    filter((token) => token !== null),
                     take(1),
-                    switchMap(token =>
+                    switchMap((token) =>
                         next(
                             req.clone({
                                 setHeaders: {
@@ -104,16 +89,11 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
             refreshTokenSubject.next(null);
 
             return authService.refresh().pipe(
-                switchMap(response => {
-
+                switchMap((response) => {
                     isRefreshing = false;
 
                     // ✅ update tokens
-                    tokenService.setSession(
-                        response.access_token,
-                        response.refresh_token,
-                        response.expires_in
-                    );
+                    tokenService.setSession(response.access_token, response.refresh_token, response.expires_in);
 
                     refreshTokenSubject.next(response.access_token);
 
@@ -128,14 +108,16 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
                     );
                 }),
 
-                catchError(err => {
+                catchError((err) => {
                     isRefreshing = false;
 
                     tokenService.clear();
                     refreshTokenSubject.next(null);
 
                     // 🔥 FORCE logout
-                    window.location.href = '/auth/login';
+                    router.navigate(['/auth/login'], {
+                        queryParams: { returnUrl: router.url }
+                    });
 
                     return throwError(() => err);
                 }),
@@ -145,6 +127,5 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
                 })
             );
         })
-
     );
 };

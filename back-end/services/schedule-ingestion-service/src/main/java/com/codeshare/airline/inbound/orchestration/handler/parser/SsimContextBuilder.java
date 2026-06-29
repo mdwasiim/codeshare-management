@@ -32,8 +32,13 @@ public class SsimContextBuilder implements MessageParser<SsimIngestionContext> {
     @Override
     public SsimIngestionContext parse(List<String> lines, ScheduleFileMetaDataDTO metadata) {
 
+        if (lines == null || lines.isEmpty()) {
+            throw new IllegalArgumentException("SSIM lines are empty");
+        }
+
         if (!(metadata instanceof SsimMetaDataDTO dto)) {
-            throw new IllegalArgumentException("Invalid metadata for SSIM parser");
+            throw new IllegalArgumentException("Invalid metadata for SSIM parser: "
+                    + (metadata == null ? "null" : metadata.getClass().getName()));
         }
         ScheduleGroupedMessage scheduleGroupedMessage = scheduleParser.groupMessage(lines);
         // 🔥 SSIM parses FULL batch
@@ -43,6 +48,7 @@ public class SsimContextBuilder implements MessageParser<SsimIngestionContext> {
                 .messageType(MessageType.SSIM)
                 .parsedData(parsed)
                 .metadata(dto)
+                .profile(dto.getScheduleProfile())
                 .messageLines(lines)
                 .build();
     }

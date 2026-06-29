@@ -3,33 +3,21 @@ import { environment } from '../../../../environments/environment';
 
 type PathParamValue = string | number | boolean;
 
-type ExtractPathParams<T extends string> =
-    T extends `${string}{${infer Param}}${infer Rest}`
-        ? Param | ExtractPathParams<Rest>
-        : never;
+type ExtractPathParams<T extends string> = T extends `${string}{${infer Param}}${infer Rest}` ? Param | ExtractPathParams<Rest> : never;
 
-type ParamsForPath<T extends string> =
-    [ExtractPathParams<T>] extends [never]
-        ? void
-        : Record<ExtractPathParams<T>, PathParamValue>;
+type ParamsForPath<T extends string> = [ExtractPathParams<T>] extends [never] ? void : Record<ExtractPathParams<T>, PathParamValue>;
 
-export type ApiEndpointFactory<P = void> =
-    [P] extends [void]
-        ? () => string
-        : (params: P) => string;
+export type ApiEndpointFactory<P = void> = [P] extends [void] ? () => string : (params: P) => string;
 
 export type AnyApiEndpointFactory = (...args: any[]) => string;
 
-const normalizedBaseUrl = environment.CSMBaseUrl.replace(/\/$/, '');
+const normalizedBaseUrl = environment.apiBaseUrl.replace(/\/$/, '');
 
 export const API_CONFIG = {
     baseUrl: normalizedBaseUrl
 } as const;
 
-const resolvePathParams = (
-    path: string,
-    params?: Record<string, PathParamValue>
-): string => {
+const resolvePathParams = (path: string, params?: Record<string, PathParamValue>): string => {
     const resolved = path.replace(/\{([^}]+)\}/g, (_, token: string) => {
         const value = params?.[token];
 
@@ -101,15 +89,37 @@ export const API_ENDPOINTS = {
         },
         menu: {
             base: makeEndpoint('/identity/menus'),
+            manage: makeEndpoint('/identity/menus/manage/all'),
             byId: makeEndpoint('/identity/menus/{id}')
+        }
+    },
+    scheduleIngestion: {
+        upload: makeEndpoint('/schedule/upload'),
+        messages: {
+            validate: makeEndpoint('/schedule/messages/{type}/validate'),
+            parse: makeEndpoint('/schedule/messages/{type}/parse'),
+            ingest: makeEndpoint('/schedule/messages/{type}/ingest')
+        },
+        ssim: {
+            files: makeEndpoint('/schedule/ssim/files'),
+            loadedScheduleById: makeEndpoint('/schedule/ssim/loaded-schedules/{fileId}'),
+            messageByFileId: makeEndpoint('/schedule/ssim/files/{fileId}/message'),
+            fileFlights: makeEndpoint('/schedule/ssim/files/{fileId}/flights'),
+            loadedSchedules: makeEndpoint('/schedule/ssim/loaded-schedules')
+        },
+        asmSsm: {
+            files: makeEndpoint('/schedule/asm-ssm/{type}/files'),
+            messages: makeEndpoint('/schedule/asm-ssm/{type}/messages'),
+            loadedScheduleById: makeEndpoint('/schedule/asm-ssm/loaded-schedules/{fileId}'),
+            scheduleByFileId: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/schedule'),
+            fileFlights: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/flights'),
+            loadedSchedules: makeEndpoint('/schedule/asm-ssm/loaded-schedules')
         }
     }
 } as const;
-
 
 export interface ApiOptions {
     params?: Record<string, string | number | boolean | ReadonlyArray<string | number | boolean>>;
     headers?: HttpHeaders | Record<string, string>;
     pathParams?: Record<string, PathParamValue>;
 }
-

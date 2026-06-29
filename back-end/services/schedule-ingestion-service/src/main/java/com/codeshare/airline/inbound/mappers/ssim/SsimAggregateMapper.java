@@ -1,72 +1,102 @@
 package com.codeshare.airline.inbound.mappers.ssim;
 
-import com.codeshare.airline.inbound.dto.common.ssim.SsimDataElementDTO;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;
 import com.codeshare.airline.inbound.dto.ssim.SSIMMessageDTO;
-import com.codeshare.airline.inbound.entities.ssim.*;
+import com.codeshare.airline.inbound.entities.ssim.SsimCarrierEntity;
+import com.codeshare.airline.inbound.entities.ssim.SsimFileMetaDataEntity;
+import com.codeshare.airline.inbound.entities.ssim.SsimFlightEntity;
+import com.codeshare.airline.inbound.entities.ssim.SsimHeaderEntity;
+import com.codeshare.airline.inbound.entities.ssim.SsimTrailerEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class SsimAggregateMapper {
 
-    private final SsimFileMetaDataMapper metaDataMapper;
     private final SsimHeaderMapper headerMapper;
     private final SsimCarrierMapper carrierMapper;
     private final SsimFlightMapper flightMapper;
-    private final SsimDataElementMapper deiMapper;
     private final SsimTrailerMapper trailerMapper;
 
-    public SsimFileMetaDataEntity toEntity(SSIMMessageDTO context,SsimFileMetaDataEntity fileMetaDataEntity) {
+    public SsimFileMetaDataEntity toEntity(SSIMMessageDTO context, SsimFileMetaDataEntity fileMetaDataEntity) {
 
-        if (context == null || fileMetaDataEntity == null) return null;
-
-        /* ================= T1: HEADER ================= */
-
-        if (context.getHeader() != null) {
-            SsimHeaderEntity header =   headerMapper.toEntity(context.getHeader());
-            fileMetaDataEntity.setHeader(header);
-            header.setFile(fileMetaDataEntity); // 🔥 IMPORTANT
+        if (context == null || fileMetaDataEntity == null) {
+            return null;
         }
 
-        /* ================= T2: CARRIER ================= */
+        if (context.getHeader() != null && fileMetaDataEntity.getHeader() == null) {
+            SsimHeaderEntity header = headerMapper.toEntity(context.getHeader());
+            fileMetaDataEntity.setHeader(header);
+            header.setFile(fileMetaDataEntity);
+        }
 
-        SsimCarrierEntity carrier = null;
-
-        if (context.getCarrier() != null) {
+        SsimCarrierEntity carrier = fileMetaDataEntity.getCarrier();
+        if (carrier == null && context.getCarrier() != null) {
             carrier = carrierMapper.toEntity(context.getCarrier());
             fileMetaDataEntity.setCarrier(carrier);
             carrier.setFile(fileMetaDataEntity);
         }
 
-        /* ================= T3 + T4: FLIGHTS + DEI ================= */
-
         if (carrier != null && context.getFlights() != null) {
-
+            Set<String> existingFlightKeys = carrier.getFlights() == null
+                    ? new HashSet<>()
+                    : carrier.getFlights().stream()
+                    .map(this::flightKey)
+                    .collect(Collectors.toSet());
             for (SsimFlightDTO flightDTO : context.getFlights()) {
-
-                SsimFlightEntity flight = flightMapper.toEntity(flightDTO, carrier);
-                /* ===== DEI ===== */
-                if (flightDTO.getDeis() != null) {
-                    for (SsimDataElementDTO deiDTO : flightDTO.getDeis()) {
-                        SsimDataElementEntity dei = deiMapper.toEntity(deiDTO, flight);
-                        flight.getDeis().add(dei);
-                    }
+                if (!existingFlightKeys.add(flightKey(flightDTO))) {
+                    continue;
                 }
+                SsimFlightEntity flight = flightMapper.toEntity(flightDTO, carrier);
                 carrier.addFlight(flight);
             }
         }
 
-        /* ================= T5: TRAILER ================= */
-
-        if (context.getTrailer() != null) {
+        if (context.getTrailer() != null && fileMetaDataEntity.getTrailer() == null) {
             SsimTrailerEntity trailer = trailerMapper.toEntity(context.getTrailer());
             fileMetaDataEntity.setTrailer(trailer);
             trailer.setFile(fileMetaDataEntity);
-
         }
 
         return fileMetaDataEntity;
+    }
+
+    private String flightKey(SsimFlightEntity flight) {
+        if (flight == null) {
+            return "";
+        }
+        return String.join("|",
+                normalize(flight.getAirlineCode()),
+                normalize(flight.getFlightNumber()),
+                normalize(flight.getOperationalSuffix()),
+                normalize(flight.getItineraryVariationIdentifier()),
+                normalize(flight.getLegSequenceNumber())
+        );
+    }
+
+    private String flightKey(SsimFlightDTO flight) {
+        if (flight == null) {
+            return "";
+        }
+        return String.join("|",
+                normalize(flight.getAirlineCode()),
+                normalize(flight.getFlightNumber()),
+                normalize(flight.getOperationalSuffix()),
+                normalize(flight.getItineraryVariationIdentifier()),
+                normalize(flight.getLegSequenceNumber())
+        );
+    }
+
+    private String normalize(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    private String normalize(Integer value) {
+        return value == null ? "" : value.toString();
     }
 }

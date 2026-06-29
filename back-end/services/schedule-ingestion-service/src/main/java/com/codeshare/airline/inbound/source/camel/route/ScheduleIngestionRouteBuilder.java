@@ -1,9 +1,9 @@
 package com.codeshare.airline.inbound.source.camel.route;
 
-import com.codeshare.airline.inbound.source.camel.channel.ChannelRouteBuilder;
 import com.codeshare.airline.inbound.entities.source.ScheduleIngestionChannelEntity;
 import com.codeshare.airline.inbound.entities.source.ScheduleIngestionProfileEntity;
 import com.codeshare.airline.inbound.repositories.source.ScheduleIngestionProfileRepository;
+import com.codeshare.airline.inbound.source.camel.channel.ChannelRouteBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.CamelContext;
@@ -35,7 +35,7 @@ public class ScheduleIngestionRouteBuilder {
             return;
         }
 
-        log.info(" Initializing dynamic ingestion routes...");
+        log.info("Initializing dynamic ingestion routes...");
 
         List<ScheduleIngestionProfileEntity> profiles = profileRepository.findAllWithChannels();
 
@@ -43,38 +43,41 @@ public class ScheduleIngestionRouteBuilder {
                 .filter(p -> Boolean.TRUE.equals(p.getEnabled()))
                 .forEach(this::buildRoutesForProfile);
 
-        //  FIX: Start ALL routes (not per route)
         try {
             camelContext.getRouteController().startAllRoutes();
-            log.info(" All routes started successfully");
+            log.info("All routes started successfully");
         } catch (Exception e) {
-            log.error(" Failed to start routes", e);
+            log.error("Failed to start routes", e);
         }
 
         initialized = true;
     }
 
-    /* ======================================================
-       PROFILE PROCESSING
-       ====================================================== */
-
     private void buildRoutesForProfile(ScheduleIngestionProfileEntity profile) {
 
-        profile.getChannels().forEach(channel -> {
-
-            channelBuilders.stream()
-                    .filter(b -> b.supports() == channel.getSourceType())
-                    .findFirst()
-                    .ifPresentOrElse(
-                            builder -> buildRoute(channel, builder),
-                            () -> log.warn("⚠️ No builder for sourceType={}", channel.getSourceType())
-                    );
-        });
+        profile.getChannels().stream()
+                .filter(channel -> isChannelEnabled(profile, channel))
+                .forEach(channel -> channelBuilders.stream()
+                        .filter(b -> b.supports() == channel.getSourceType())
+                        .findFirst()
+                        .ifPresentOrElse(
+                                builder -> buildRoute(channel, builder),
+                                () -> log.warn("No builder for sourceType={}", channel.getSourceType())
+                        ));
     }
 
-    /* ======================================================
-       ROUTE CREATION
-       ====================================================== */
+    private boolean isChannelEnabled(ScheduleIngestionProfileEntity profile, ScheduleIngestionChannelEntity channel) {
+        boolean enabled = Boolean.TRUE.equals(channel.getEnabled());
+        if (!enabled) {
+            log.info(
+                    "Skipping disabled ingestion channel airline={} sourceType={} messageType={}",
+                    profile.getAirlineCode(),
+                    channel.getSourceType(),
+                    channel.getMessageType()
+            );
+        }
+        return enabled;
+    }
 
     private void buildRoute(ScheduleIngestionChannelEntity channel, ChannelRouteBuilder builder) {
 
@@ -84,12 +87,12 @@ public class ScheduleIngestionRouteBuilder {
                 channel.getMessageType());
 
         if (camelContext.getRoute(routeId) != null) {
-            log.warn("⚠️ Route already exists: {}", routeId);
+            log.warn("Route already exists: {}", routeId);
             return;
         }
 
         try {
-            log.info("🔥 Creating route: {}", routeId);
+            log.info("Creating route: {}", routeId);
 
             camelContext.addRoutes(new RouteBuilder() {
                 @Override
@@ -98,13 +101,11 @@ public class ScheduleIngestionRouteBuilder {
                 }
             });
 
-            // 🔥 Start ALL routes to ensure SEDA consumer is active
-            //camelContext.getRouteController().startAllRoutes();
             camelContext.getRouteController().startRoute(routeId);
-            log.info(" All routes started");
+            log.info("Route started: {}", routeId);
 
         } catch (Exception e) {
-            log.error(" Failed to create route: {}", routeId, e);
+            log.error("Failed to create route: {}", routeId, e);
         }
     }
 }

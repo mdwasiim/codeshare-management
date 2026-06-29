@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.entities.ssim;
 
-import com.codeshare.airline.inbound.domain.enums.RecordType;
 import com.codeshare.airline.inbound.domain.enums.TimeMode;
+import com.codeshare.airline.inbound.entities.converter.TimeModeCodeConverter;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -47,21 +47,16 @@ public class SsimCarrierEntity extends CSMDataAbstractEntity {
     @OrderBy("flightNumber ASC")
     private List<SsimFlightEntity> flights = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "trailer_id")
-    private SsimTrailerEntity trailer;
-
     /* =======================================================
        SSIM RECORD TYPE 2 (T2) – 200 BYTES
        ======================================================= */
 
     // SSIM T2: Byte 1
-    @Enumerated(EnumType.STRING)
     @Column(name = "record_type", length = 1, nullable = false)
-    private RecordType recordType;
+    private String recordType;
 
     // SSIM T2: Byte 2
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = TimeModeCodeConverter.class)
     @Column(name = "time_mode", length = 1, nullable = false)
     private TimeMode timeMode;
 

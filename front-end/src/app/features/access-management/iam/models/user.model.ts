@@ -1,4 +1,6 @@
-export interface User {
+import { AuditableModel } from '@shared/models/auditable.model';
+
+export interface User extends AuditableModel {
     id?: string;
 
     username: string;

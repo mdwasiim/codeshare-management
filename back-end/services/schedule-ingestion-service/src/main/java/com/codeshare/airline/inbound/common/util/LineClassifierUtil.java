@@ -9,13 +9,13 @@ public final class LineClassifierUtil {
 
     /* ================= PATTERNS ================= */
     private static final Pattern MESSAGE_REF =
-            Pattern.compile("^\\d{2}[A-Z]{3}.*REF.*$");
+            Pattern.compile("^\\d{2}[A-Z]{3}\\d{5}[A-Z]\\d{3}(/.*)?$");
 
     private static final Pattern PERIOD =
             Pattern.compile("^\\d{2}[A-Z]{3}\\s?\\d{2}[A-Z]{3}(\\s+[1-7]{1,7})?$");
 
     private static final Pattern FLIGHT =
-            Pattern.compile("^[A-Z]{2}\\d{1,4}[A-Z]?$");
+            Pattern.compile("^[A-Z0-9]{2}\\d{1,4}[A-Z]?$");
 
     private static final Pattern LEG =
             Pattern.compile("^[A-Z]{3}\\s+[A-Z]{3}(\\s+[A-Z0-9]{1,5})*$");
@@ -24,7 +24,7 @@ public final class LineClassifierUtil {
             Pattern.compile("^\\d{4}(\\+\\d)?\\s+\\d{4}(\\+\\d)?$");
 
     private static final Pattern EQUIPMENT =
-            Pattern.compile("^[A-Z0-9]{2,3}\\s+[A-Z0-9]{1,6}$");
+            Pattern.compile("^[A-Z]\\s+[A-Z0-9]{2,4}(\\s+\\S+)*$");
 
     private static final Pattern DEI_1 =
             Pattern.compile("^[A-Z]{3}/[A-Z]{3}/\\d{1,3}.*$");
@@ -59,7 +59,7 @@ public final class LineClassifierUtil {
         // Guard: must be single token (no spaces)
         if (line.contains(" ")) return false;
 
-        return FLIGHT.matcher(line).matches();
+        return FLIGHT.matcher(line).matches() || isAsmFlightIdentifier(line);
     }
 
     /* ================= LEG ================= */
@@ -91,6 +91,10 @@ public final class LineClassifierUtil {
         if (isLeg(line)) return false;
 
         return EQUIPMENT.matcher(line).matches();
+    }
+
+    public static boolean isAsmFlightIdentifier(String line) {
+        return line.matches("^[A-Z0-9]{2}\\d{1,4}[A-Z]?/\\d{2}([A-Z]{3})?(\\d{2})?$");
     }
 
     /* ================= DEI ================= */
@@ -131,10 +135,11 @@ public final class LineClassifierUtil {
     }
 
     public static boolean isFlightWithRoute(String line) {
-        return line.matches("^[A-Z]{2}\\d{1,4}[A-Z]?\\s+[A-Z]{6}\\s+\\d{2}[A-Z]{3}$");
+        return line.matches("^[A-Z0-9]{2}\\d{1,4}[A-Z]?\\s+[A-Z]{6}\\s+\\d{2}[A-Z]{3}(\\d{2})?$")
+                || line.matches("^[A-Z0-9]{2}\\d{1,4}[A-Z]?/\\d{2}([A-Z]{3})?(\\d{2})?(\\s+[A-Z]{3}/[A-Z]{3}(/[A-Z]{3})*)?$");
     }
 
     public static boolean isLegWithTime(String line) {
-        return line.matches("^[A-Z]{3}\\s+[A-Z]{3}\\s+\\d{4}\\s+\\d{4}$");
+        return line.matches("^[A-Z]{3}\\s+[A-Z]{3}\\s+\\d{4}(\\+\\d)?\\s+\\d{4}(\\+\\d)?$");
     }
 }

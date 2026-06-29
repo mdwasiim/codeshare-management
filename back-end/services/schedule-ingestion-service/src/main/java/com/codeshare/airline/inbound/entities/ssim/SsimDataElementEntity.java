@@ -1,6 +1,5 @@
 package com.codeshare.airline.inbound.entities.ssim;
 
-import com.codeshare.airline.inbound.domain.enums.RecordType;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,7 +11,10 @@ import lombok.Setter;
         name = "ssim_segment_dei",
         indexes = {
                 @Index(name = "idx_ssim_dei_flight", columnList = "flight_id"),
-                @Index(name = "idx_ssim_dei_route", columnList = "board_point,off_point")
+                @Index(name = "idx_ssim_dei_route", columnList = "board_point,off_point"),
+                @Index(name = "idx_ssim_dei_code", columnList = "data_element_identifier"),
+                @Index(name = "idx_ssim_dei_flight_code", columnList = "flight_id,data_element_identifier"),
+                @Index(name = "idx_ssim_dei_segment_code", columnList = "board_point,off_point,data_element_identifier")
         }
 )
 @Getter
@@ -38,9 +40,8 @@ public class SsimDataElementEntity extends CSMDataAbstractEntity {
        ======================================================= */
 
     // SSIM DEI: Byte 1
-    @Enumerated(EnumType.STRING)
     @Column(name = "record_type", length = 1)
-    private RecordType recordType;
+    private String recordType;
 
     // SSIM DEI: Byte 2
     @Column(name = "operational_suffix", length = 1)

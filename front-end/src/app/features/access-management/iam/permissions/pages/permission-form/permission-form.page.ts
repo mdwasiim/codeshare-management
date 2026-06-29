@@ -1,35 +1,26 @@
-import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import {CommonModule} from '@angular/common';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import {InputTextModule} from 'primeng/inputtext';
-import {ButtonModule} from 'primeng/button';
-import {SelectModule} from 'primeng/select';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
 
-import {Permission} from '@features/access-management/iam/models/permission.model';
-import {PermissionApiService} from '@features/access-management/iam/permissions/services/permission-api.service';
-import {TenantService} from '@features/access-management/iam/tenants/services/tenant.service';
+import { Permission } from '@features/access-management/iam/models/permission.model';
+import { PermissionApiService } from '@features/access-management/iam/permissions/services/permission-api.service';
+import { TenantService } from '@features/access-management/iam/tenants/services/tenant.service';
 
-import {BaseCrudForm} from '@shared/components/base/base-form.component';
-import {CsmFormSectionComponent} from "@shared/components/form-section/csm-form-section.component";
+import { BaseCrudForm } from '@shared/components/base/base-form.component';
+import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
     selector: 'permission-form',
     standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        ButtonModule,
-        SelectModule,
-        CsmFormSectionComponent
-    ],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, AppFormSectionComponent],
     templateUrl: './permission-form.page.html'
 })
-export class PermissionFormPage
-    extends BaseCrudForm<Permission> {
-
+export class PermissionFormPage extends BaseCrudForm<Permission> {
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
 
@@ -45,7 +36,7 @@ export class PermissionFormPage
         this.buildForm();
 
         this.tenantService.getAll().subscribe({
-            next: res => this.tenants = res
+            next: (res) => (this.tenants = res)
         });
 
         this.domains = [
@@ -61,11 +52,14 @@ export class PermissionFormPage
             { name: 'Delete', code: 'DELETE' }
         ];
 
-        this.form.valueChanges.subscribe(val => {
+        this.form.valueChanges.subscribe((val) => {
             if (val.domain && val.action) {
-                this.form.patchValue({
-                    name: `${val.domain} ${val.action}`
-                }, { emitEvent: false });
+                this.form.patchValue(
+                    {
+                        name: `${val.domain} ${val.action}`
+                    },
+                    { emitEvent: false }
+                );
             }
         });
     }
@@ -73,11 +67,11 @@ export class PermissionFormPage
     override buildForm(): void {
         this.form = this.fb.group({
             id: [null],
-            name: [''],
-            domain: [''],
-            action: [''],
+            name: ['', Validators.required],
+            domain: ['', Validators.required],
+            action: ['', Validators.required],
             description: [''],
-            tenantId: ['']
+            tenantId: ['', Validators.required]
         });
     }
 

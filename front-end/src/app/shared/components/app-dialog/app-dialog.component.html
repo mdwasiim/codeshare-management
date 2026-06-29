@@ -1,0 +1,40 @@
+<p-dialog
+    styleClass="app-dialog"
+    [visible]="visible"
+    (visibleChange)="onVisibleChange($event)"
+    [modal]="true"
+    appendTo="body"
+    [style]="{
+        width: width
+    }"
+    [contentStyle]="{
+        overflow: 'visible',
+        padding: '0',
+        maxHeight: 'calc(100vh - 7rem)'
+    }"
+    [dismissableMask]="dismissableMask"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="closable"
+    [closeOnEscape]="closable"
+    (onHide)="onHide()"
+>
+    <ng-template pTemplate="header">
+        <div class="app-dialog__header">
+            <span class="app-dialog__title">{{ title }}</span>
+            <span *ngIf="subtitle" class="app-dialog__subtitle">{{ subtitle }}</span>
+        </div>
+    </ng-template>
+
+    <div class="app-dialog__content">
+        <ng-content></ng-content>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="app-dialog__footer">
+            <button pButton [label]="cancelLabel" severity="secondary" outlined type="button" [disabled]="loading" (click)="onCancel()"></button>
+
+            <button pButton [label]="saveLabel" icon="pi pi-check" type="button" [disabled]="disableSave || loading" [loading]="loading" (click)="onSave()"></button>
+        </div>
+    </ng-template>
+</p-dialog>

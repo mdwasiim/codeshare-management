@@ -1,14 +1,8 @@
 @if (root() && isVisible()) {
-    <div
-        class="layout-menuitem-root-text flex items-center justify-between cursor-pointer"
-        (click)="item().expanded = !item().expanded"
-    >
+    <div class="layout-menuitem-root-text flex items-center justify-between cursor-pointer" (click)="item().expanded = !item().expanded">
         {{ item().label }}
 
-        <i
-            class="pi text-xs"
-            [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'">
-        </i>
+        <i class="pi text-xs" [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'"> </i>
     </div>
 }
 
@@ -16,32 +10,13 @@
 <!-- MENU ITEM (LEAF ONLY) -->
 <!-- ========================= -->
 @if (isVisible()) {
-    <a
-        *ngIf="hasChildren() && !root()"
-        href="#"
-        [ngClass]="item().styleClass"
-        (click)="onBranchClick($event)"
-        tabindex="0"
-        pRipple
-    >
+    <a *ngIf="hasChildren() && !root()" href="#" [ngClass]="item().styleClass" (click)="onBranchClick($event)" tabindex="0" pRipple>
         <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
         <span class="layout-menuitem-text">{{ item().label }}</span>
-        <i
-            class="layout-submenu-toggler pi"
-            [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'"
-        ></i>
+        <i class="layout-submenu-toggler pi" [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
     </a>
 
-    <a
-        *ngIf="item().routerLink && !hasChildren()"
-        [routerLink]="item().routerLink"
-        routerLinkActive="active-route"
-        [routerLinkActiveOptions]="{ exact: false }"
-        [ngClass]="item().styleClass"
-        (click)="itemClick()"
-        tabindex="0"
-        pRipple
-    >
+    <a *ngIf="item().routerLink && !hasChildren()" [routerLink]="item().routerLink" routerLinkActive="active-route" [routerLinkActiveOptions]="{ exact: false }" [ngClass]="item().styleClass" (click)="itemClick()" tabindex="0" pRipple>
         <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
         <span class="layout-menuitem-text">{{ item().label }}</span>
     </a>
@@ -51,17 +26,9 @@
 <!-- CHILDREN -->
 <!-- ========================= -->
 @if (shouldRenderChildren()) {
-
     <ul [class.layout-root-submenulist]="root()">
-
         @for (child of item().items ?? []; track childTrackKey(child, $index)) {
-            <li
-                app-menuitem
-                [item]="child"
-                [root]="false"
-                [class]="child['badgeClass']"
-            ></li>
+            <li app-menuitem [item]="child" [root]="false" [class]="child['badgeClass']"></li>
         }
-
     </ul>
 }

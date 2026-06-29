@@ -40,6 +40,11 @@ public class MenuController  {
         return service.getById(id);
     }
 
+    @GetMapping("/manage/all")
+    public List<MenuDTO> getAllForManagement() {
+        return service.getAllForManagement();
+    }
+
     // -----------------------------------------------------------
     // DELETE MENU (Soft delete recommended)
     // -----------------------------------------------------------

@@ -42,8 +42,6 @@ spring:
           uri: ${SCHEDULE_INGESTION_SERVICE_URL:http://localhost:8082}
           predicates:
             - Path=/schedule/**
-          filters:
-            - StripPrefix=1
 
         - id: codeshare-service
           uri: ${CODESHARE_SERVICE_URL:http://localhost:8083}

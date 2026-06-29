@@ -1,5 +1,4 @@
 export interface RolePermissionModel {
-
     id?: string;
 
     roleId: string;

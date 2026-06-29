@@ -4,9 +4,7 @@ import { AppAuthGuard } from '@core/security/guards/app-auth.guard';
 export const APP_ROUTES: Routes = [
     {
         path: 'auth',
-        loadChildren: () =>
-            import('@features/access-management/auth/auth.routes')
-                .then(m => m.AUTH_ROUTES)
+        loadChildren: () => import('@features/access-management/auth/auth.routes').then((m) => m.AUTH_ROUTES)
     },
     {
         path: '',
@@ -16,45 +14,31 @@ export const APP_ROUTES: Routes = [
     {
         path: '',
         canActivate: [AppAuthGuard],
-        loadComponent: () =>
-            import('./app/layout/shell/layout.component')
-                .then(m => m.LayoutComponent),
+        loadComponent: () => import('./app/layout/shell/layout.component').then((m) => m.LayoutComponent),
         children: [
             {
                 path: 'dashboard',
-                loadChildren: () =>
-                    import('@features/home/dashboard/dashboard.routes')
-                        .then(m => m.DASHBOARD_ROUTES)
+                loadChildren: () => import('@features/home/dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTES)
             },
             {
                 path: '',
-                loadChildren: () =>
-                    import('@features/feature.routes')
-                        .then(m => m.FEATURE_ROUTES)
+                loadChildren: () => import('@features/feature.routes').then((m) => m.FEATURE_ROUTES)
             },
             {
                 path: 'unauthorized',
-                loadComponent: () =>
-                    import('@core/pages/unauthorized/unauthorized.page')
-                        .then(m => m.UnauthorizedPage)
+                loadComponent: () => import('@core/pages/unauthorized/unauthorized.page').then((m) => m.UnauthorizedPage)
             },
             {
                 path: 'access-denied',
-                loadComponent: () =>
-                    import('@core/pages/access-denied/access-denied.component')
-                        .then(m => m.AccessDeniedComponent)
+                loadComponent: () => import('@core/pages/access-denied/access-denied.page').then((m) => m.AccessDeniedPage)
             },
             {
                 path: 'error',
-                loadComponent: () =>
-                    import('@core/pages/error/error.component')
-                        .then(m => m.ErrorComponent)
+                loadComponent: () => import('@core/pages/error/error.page').then((m) => m.ErrorPage)
             },
             {
                 path: 'notfound',
-                loadComponent: () =>
-                    import('@core/pages/notfound/notfound.page')
-                        .then(m => m.CSMNotfound)
+                loadComponent: () => import('@core/pages/notfound/notfound.page').then((m) => m.AppNotFoundPage)
             }
         ]
     },

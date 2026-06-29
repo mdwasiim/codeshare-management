@@ -1,24 +1,20 @@
-import {
-    HttpInterceptorFn,
-    HttpResponse,
-    HttpErrorResponse
-} from '@angular/common/http';
+import { HttpInterceptorFn, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
 
 import { map, catchError, throwError } from 'rxjs';
 import { ApiServiceResponse } from '@core/api/models/api-service-response.model';
+import { AppToastService } from '@services/toast/app-toast.service';
+import { SKIP_GLOBAL_ERROR_TOAST } from '@core/security/interceptors/http-context.tokens';
 
 export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
+    const toast = inject(AppToastService);
 
     return next(req).pipe(
-
         map((event) => {
-
             if (event instanceof HttpResponse) {
-
                 const body = event.body;
 
                 if (body && typeof body === 'object' && 'success' in body) {
-
                     const response = body as ApiServiceResponse<any>;
 
                     if (!response.success) {
@@ -40,23 +36,24 @@ export const AppResponseInterceptor: HttpInterceptorFn = (req, next) => {
         }),
 
         catchError((error: unknown) => {
-
             if (error instanceof HttpErrorResponse) {
+                const message = error.error?.error?.message || error.error?.message || error.message || 'Server error';
+                const shouldToast = !req.context.get(SKIP_GLOBAL_ERROR_TOAST) && !req.url.includes('/auth/refresh');
 
-                const message =
-                    error.error?.error?.message ||
-                    error.error?.message ||
-                    error.message ||
-                    'Server error';
+                if (shouldToast) {
+                    toast.error(message);
+                }
 
                 return throwError(() => new Error(message));
             }
 
-            return throwError(() =>
-                error instanceof Error
-                    ? error
-                    : new Error('Unknown error')
-            );
+            const normalizedError = error instanceof Error ? error : new Error('Unknown error');
+
+            if (!req.context.get(SKIP_GLOBAL_ERROR_TOAST)) {
+                toast.error(normalizedError.message);
+            }
+
+            return throwError(() => normalizedError);
         })
     );
 };

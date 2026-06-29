@@ -53,10 +53,9 @@ public final class TypeBToAsmConverter {
         String creator = safeGet(raw, i++); // QRH
         String seq     = safeGet(raw, i++); // 001
 
-        // Normalize reference
-        String ref = date + time + creator + seq;
+        String ref = date + leftPadDigits(seq, 5) + "E001/REF " + creator;
 
-        result.add("LT");     // default time mode
+        result.add("UTC");    // IATA default when time mode is omitted
         result.add(ref);
 
         /* =========================================================
@@ -141,5 +140,13 @@ public final class TypeBToAsmConverter {
             throw new IllegalStateException("Invalid Type B header structure");
         }
         return raw.get(index).trim();
+    }
+
+    private static String leftPadDigits(String value, int length) {
+        String digits = value == null ? "" : value.replaceAll("\\D", "");
+        if (digits.length() > length) {
+            return digits.substring(digits.length() - length);
+        }
+        return "0".repeat(length - digits.length()) + digits;
     }
 }

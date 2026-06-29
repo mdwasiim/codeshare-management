@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class PermissionService {
-
     private permissions = new Set<string>();
 
     private roles = new Set<string>();
@@ -15,28 +14,18 @@ export class PermissionService {
     // INITIALIZATION
     // =========================
     setPermissions(permissions: string[] = []): void {
-
-        this.permissions = new Set(
-            permissions.map(p => p.toUpperCase())
-        );
+        this.permissions = new Set(permissions.map((p) => p.toUpperCase()));
     }
 
     setRoles(roles: string[] = []): void {
-
-        this.roles = new Set(
-            roles.map(r => r.toUpperCase())
-        );
+        this.roles = new Set(roles.map((r) => r.toUpperCase()));
     }
 
     setGroups(groups: string[] = []): void {
-
-        this.groups = new Set(
-            groups.map(g => g.toUpperCase())
-        );
+        this.groups = new Set(groups.map((g) => g.toUpperCase()));
     }
 
     clear(): void {
-
         this.permissions.clear();
         this.roles.clear();
         this.groups.clear();
@@ -45,20 +34,12 @@ export class PermissionService {
     // =========================
     // PERMISSION CHECKS
     // =========================
-    hasPermission(
-        resource: string,
-        action: string
-    ): boolean {
-
-        return this.hasRawPermission(
-            `${resource}:${action}`
-        );
+    hasPermission(resource: string, action: string): boolean {
+        return this.hasRawPermission(`${resource}:${action}`);
     }
 
     hasRawPermission(permission: string): boolean {
-
-        const normalized =
-            permission.toUpperCase();
+        const normalized = permission.toUpperCase();
 
         // direct permission
         if (this.permissions.has(normalized)) {
@@ -66,81 +47,53 @@ export class PermissionService {
         }
 
         // wildcard support
-        const [resource] =
-            normalized.split(':');
+        const [resource] = normalized.split(':');
 
-        return this.permissions.has(
-            `${resource}:*`
-        );
+        return this.permissions.has(`${resource}:*`);
     }
 
-    hasAnyPermission(
-        permissions: string[]
-    ): boolean {
-
-        return permissions.some(permission =>
-            this.hasRawPermission(permission)
-        );
+    hasAnyPermission(permissions: string[]): boolean {
+        return permissions.some((permission) => this.hasRawPermission(permission));
     }
 
-    hasAllPermissions(
-        permissions: string[]
-    ): boolean {
-
-        return permissions.every(permission =>
-            this.hasRawPermission(permission)
-        );
+    hasAllPermissions(permissions: string[]): boolean {
+        return permissions.every((permission) => this.hasRawPermission(permission));
     }
 
     // =========================
     // ROLE CHECKS
     // =========================
     hasRole(role: string): boolean {
-
-        return this.roles.has(
-            role.toUpperCase()
-        );
+        return this.roles.has(role.toUpperCase());
     }
 
     hasAnyRole(roles: string[]): boolean {
-
-        return roles.some(role =>
-            this.hasRole(role)
-        );
+        return roles.some((role) => this.hasRole(role));
     }
 
     // =========================
     // GROUP CHECKS
     // =========================
     hasGroup(group: string): boolean {
-
-        return this.groups.has(
-            group.toUpperCase()
-        );
+        return this.groups.has(group.toUpperCase());
     }
 
     hasAnyGroup(groups: string[]): boolean {
-
-        return groups.some(group =>
-            this.hasGroup(group)
-        );
+        return groups.some((group) => this.hasGroup(group));
     }
 
     // =========================
     // GETTERS
     // =========================
     getPermissions(): string[] {
-
         return [...this.permissions];
     }
 
     getRoles(): string[] {
-
         return [...this.roles];
     }
 
     getGroups(): string[] {
-
         return [...this.groups];
     }
 

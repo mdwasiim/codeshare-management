@@ -1,14 +1,23 @@
 package com.codeshare.airline.inbound.validations.validator.asm.business;
 
+import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.context.AsmIngestionContext;
+import com.codeshare.airline.inbound.domain.enums.ValidationStage;
 import com.codeshare.airline.inbound.validations.model.ValidationResult;
 import com.codeshare.airline.inbound.validations.validator.BusinessValidation;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 @Order(3)
 public class AsmAirportValidation implements BusinessValidation<AsmIngestionContext> {
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.ASM);
+    }
 
     @Override
     public ValidationResult validate(AsmIngestionContext context) {
@@ -19,42 +28,41 @@ public class AsmAirportValidation implements BusinessValidation<AsmIngestionCont
             return result;
         }
 
-        /*ScheduleMessageDTO message = context.getParsedData();
-
-        BaseScheduleValidationHelper.forEachSegment(message, (msg, flight, leg, seg) -> {
-
-            if (seg == null) return;
-
-            String origin = seg.getBoardPoint();
-            String dest = seg.getOffPoint();
-            String flightNo = flight != null ? flight.getFlightNumber() : "UNKNOWN";
-            String segmentKey = seg.getSegmentSequenceNumber() != null
-                    ? String.valueOf(seg.getSegmentSequenceNumber())
-                    : "UNKNOWN";
-
-            // Invalid airport format
-            if (ScheduleValidationUtils.isInvalidAirport(seg)) {
-                result.addError(
-                        "ASM_APT_001",
-                        "Invalid airport",
-                        "SEGMENT",
-                        flightNo + "-" + segmentKey,
-                        ValidationStage.BUSINESS
-                );
-            }
-
-            // Same origin/destination
-            if (origin != null && origin.equals(dest)) {
-                result.addError(
-                        "ASM_APT_002",
-                        "Same board/off airport",
-                        "SEGMENT",
-                        flightNo + "-" + segmentKey,
-                        ValidationStage.BUSINESS
-                );
-            }
-        });*/
+        context.getParsedData().getMessages().forEach(message ->
+                message.getFlights().forEach(flight ->
+                        flight.getLegs().forEach(leg -> {
+                            validateAirport(result, "ASM_APT_001", leg.getBoardPoint(), flight.getFlightNumber(), "BOARD");
+                            validateAirport(result, "ASM_APT_002", leg.getOffPoint(), flight.getFlightNumber(), "OFF");
+                            if (isAirport(leg.getBoardPoint())
+                                    && leg.getBoardPoint().equalsIgnoreCase(leg.getOffPoint())) {
+                                result.addError(
+                                        "ASM_APT_003",
+                                        "Same board/off airport",
+                                        "FLIGHT",
+                                        flight.getFlightNumber() + ":" + leg.getBoardPoint() + "-" + leg.getOffPoint(),
+                                        ValidationStage.BUSINESS
+                                );
+                            }
+                        })
+                )
+        );
 
         return result;
+    }
+
+    private void validateAirport(ValidationResult result, String code, String value, String flightNumber, String role) {
+        if (!isAirport(value)) {
+            result.addError(
+                    code,
+                    "Invalid " + role.toLowerCase() + " airport",
+                    "FLIGHT",
+                    flightNumber + ":" + role + ":" + value,
+                    ValidationStage.BUSINESS
+            );
+        }
+    }
+
+    private boolean isAirport(String value) {
+        return value != null && value.matches("^[A-Z]{3}$");
     }
 }

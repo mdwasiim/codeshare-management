@@ -9,7 +9,7 @@ public final class FlightIdentityParser {
     private FlightIdentityParser() {}
 
     // Strict flight pattern (common)
-    private static final Pattern FLIGHT_PATTERN = Pattern.compile("^([A-Z]{2})(\\d{1,4})([A-Z]?)$");
+    private static final Pattern FLIGHT_PATTERN = Pattern.compile("^([A-Z0-9]{2})(\\d{1,4})([A-Z]?)$");
 
     /* =========================================================
        ✈️ ASM PARSER
@@ -26,7 +26,11 @@ public final class FlightIdentityParser {
         if (parts.length == 0) return dto;
 
         // 1️⃣ Flight (MANDATORY)
-        parseFlight(parts[0], dto);
+        if (parts[0].contains("/")) {
+            parseAsmFlightIdentifier(parts[0], dto);
+        } else {
+            parseFlight(parts[0], dto);
+        }
 
         // 2️⃣ Flexible parsing (order-independent)
         for (int i = 1; i < parts.length; i++) {
@@ -36,7 +40,7 @@ public final class FlightIdentityParser {
             if (part.matches("^[A-Z]{6}$")) {
                 parseRoute(part, dto);
             }
-            else if (part.matches("^\\d{2}[A-Z]{3}$")) {
+            else if (part.matches("^\\d{2}[A-Z]{3}(\\d{2})?$")) {
                 dto.setOperationDate(part);
             }
         }
@@ -82,6 +86,14 @@ public final class FlightIdentityParser {
         String suffix = matcher.group(3);
         if (suffix != null && !suffix.isBlank()) {
             dto.setOperationalSuffix(suffix);
+        }
+    }
+
+    private static void parseAsmFlightIdentifier(String value, ScheduleIdentityDTO dto) {
+        String[] split = value.split("/", 2);
+        parseFlight(split[0], dto);
+        if (split.length == 2 && !split[1].isBlank()) {
+            dto.setOperationDate(split[1]);
         }
     }
 

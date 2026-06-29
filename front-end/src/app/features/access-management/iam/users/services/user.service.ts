@@ -7,7 +7,6 @@ import { tap, catchError, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
@@ -26,7 +25,7 @@ export class UserService {
             tap(() => {
                 this.toast.success('User created successfully');
             }),
-            catchError(err => {
+            catchError((err) => {
                 this.toast.error(err.message || 'Failed to create user');
                 return throwError(() => err);
             })
@@ -34,30 +33,34 @@ export class UserService {
     }
 
     update(id: string, user: User) {
-        return this.api.put<User>(API_ENDPOINTS.accessManagement.users.byId, user, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('User updated successfully');
-            }),
-            catchError(err => {
-                this.toast.error(err.message || 'Failed to update user');
-                return throwError(() => err);
+        return this.api
+            .put<User>(API_ENDPOINTS.accessManagement.users.byId, user, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('User updated successfully');
+                }),
+                catchError((err) => {
+                    this.toast.error(err.message || 'Failed to update user');
+                    return throwError(() => err);
+                })
+            );
     }
 
     delete(id: string) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.users.byId, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('User deleted successfully');
-            }),
-            catchError(err => {
-                this.toast.error(err.message || 'Failed to delete user');
-                return throwError(() => err);
+        return this.api
+            .delete<void>(API_ENDPOINTS.accessManagement.users.byId, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('User deleted successfully');
+                }),
+                catchError((err) => {
+                    this.toast.error(err.message || 'Failed to delete user');
+                    return throwError(() => err);
+                })
+            );
     }
 }

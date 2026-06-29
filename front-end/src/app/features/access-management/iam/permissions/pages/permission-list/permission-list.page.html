@@ -1,35 +1,37 @@
-<!-- TOOLBAR -->
-<csm-crud-toolbar
+<div class="access-page access-page--list">
+<div class="access-page-header">
+    <div>
+        <span class="access-eyebrow">Authorization</span>
+        <h1>Permissions</h1>
+        <p>Define domain actions used by role permission assignment.</p>
+    </div>
+</div>
+
+<app-crud-toolbar
     [actions]="['create','delete','search','export']"
     [resource]="resourceName"
     [hasSelection]="selectedPermissions.length > 0"
     (create)="openCreate()"
     (delete)="deleteSelectedPermissions()"
     (export)="exportCSV()"
-    (search)="onSearch($event)">
-</csm-crud-toolbar>
-
-<p-table
-    #dt
-    [value]="data"
-    [loading]="loading"
-    [paginator]="true"
-    [rows]="10"
-    [rowsPerPageOptions]="[10,20,50]"
-    [(selection)]="selectedPermissions"
-    dataKey="id"
-    [rowHover]="true"
-    [globalFilterFields]="['name','domain','action','code','tenantName']"
+    (search)="onSearch($event)"
 >
+</app-crud-toolbar>
+
+<p-table #dt [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" [(selection)]="selectedPermissions" dataKey="id" [rowHover]="true" responsiveLayout="scroll" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '105rem' }" [globalFilterFields]="['name','domain','action','code','tenantName','createdBy','updatedBy']">
     <ng-template pTemplate="caption">
-        <div class="flex justify-between items-center">
-            <h5 class="m-0">Manage Permission</h5>
+        <div class="access-table-caption">
+            <div>
+                <h2>Manage Permissions</h2>
+                <p>{{ data.length || 0 }} permissions loaded</p>
+            </div>
+            <span class="access-count">{{ selectedPermissions.length || 0 }} selected</span>
         </div>
     </ng-template>
 
     <ng-template pTemplate="header">
         <tr>
-            <th style="width:3rem">
+            <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
 
@@ -39,7 +41,12 @@
             <th pSortableColumn="action">Action <p-sortIcon field="action"></p-sortIcon></th>
             <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
             <th>Description</th>
-            <th></th>
+            <th>Created At</th>
+            <th>Created By</th>
+            <th>Updated At</th>
+            <th>Updated By</th>
+            <th>Active</th>
+            <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
 
@@ -61,41 +68,21 @@
             </td>
 
             <td>{{ p.description }}</td>
+            <td>{{ (p.createdAt | date: 'short') || '-' }}</td>
+            <td>{{ p.createdBy || '-' }}</td>
+            <td>{{ (p.updatedAt | date: 'short') || '-' }}</td>
+            <td>{{ p.updatedBy || '-' }}</td>
+            <td>{{ p.active === undefined || p.active === null ? '-' : p.active ? 'Yes' : 'No' }}</td>
 
-            <td class="flex gap-2">
-                <div class="flex gap-1 justify-center">
-
-                    <!-- EDIT -->
-                    <ng-container
-                        *csmHasPermission="'permission:update'">
-
-                        <p-button
-                            icon="pi pi-pencil"
-                            size="small"
-                            text
-                            pTooltip="Edit"
-                            tooltipPosition="top"
-                            (click)="openEdit(p)">
-                        </p-button>
-
+            <td class="access-row-actions">
+                <div>
+                    <ng-container *appHasPermission="'permission:update'">
+                        <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(p)"> </p-button>
                     </ng-container>
 
-                    <!-- DELETE -->
-                    <ng-container
-                        *csmHasPermission="'permission:delete'">
-
-                        <p-button
-                            icon="pi pi-trash"
-                            size="small"
-                            text
-                            severity="danger"
-                            pTooltip="Delete"
-                            tooltipPosition="top"
-                            (click)="deletePermission(p)">
-                        </p-button>
-
+                    <ng-container *appHasPermission="'permission:delete'">
+                        <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deletePermission(p)"> </p-button>
                     </ng-container>
-
                 </div>
             </td>
         </tr>
@@ -103,28 +90,15 @@
 
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="8" class="text-center py-4">
-                No permissions found
-            </td>
+            <td colspan="13" class="text-center py-4">No permissions found</td>
         </tr>
     </ng-template>
-
 </p-table>
 
 <!-- ============================= -->
 <!-- Dialog                       -->
 <!-- ============================= -->
-<csm-dialog
-    [(visible)]="dialogVisible"
-    [title]="selectedId ? 'Edit Permission' : 'Create Permission'"
-    [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading"
-    (save)="formRef.submit()">
-
-    <permission-form
-        #formRef
-        [id]="selectedId"
-        (saved)="onSaved()">
-    </permission-form>
-
-</csm-dialog>
-
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Permission' : 'Create Permission'" width="min(92vw, 640px)" [loading]="!!formRef?.loading" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+    <permission-form #formRef [id]="selectedId" (saved)="onSaved()"> </permission-form>
+</app-dialog>
+</div>

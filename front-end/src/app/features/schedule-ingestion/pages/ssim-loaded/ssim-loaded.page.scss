@@ -1,0 +1,373 @@
+.loaded-schedules-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.page-header,
+.page-actions,
+.panel-header,
+.filter-actions,
+.row-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.page-header {
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+
+    h1 {
+        margin: 0 0 0.35rem;
+        font-size: 1.625rem;
+        font-weight: 700;
+    }
+
+    p {
+        margin: 0;
+        color: var(--text-color-secondary);
+    }
+}
+
+.summary-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+
+    div {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.75rem 0.875rem;
+        border: 1px solid var(--surface-border);
+        border-radius: 8px;
+        background: var(--surface-card);
+        box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+    }
+
+    span {
+        color: var(--text-color-secondary);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    strong {
+        overflow: hidden;
+        color: var(--text-color);
+        font-size: 1.05rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.filter-bar {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    background: var(--surface-card);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+}
+
+.filter-actions {
+    display: flex;
+    flex: 0 0 auto;
+    min-width: max-content;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.filter-actions-label {
+    color: var(--text-color-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1rem;
+}
+
+.filter-button-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(20rem, 1fr);
+    gap: 1rem;
+}
+
+.flights-panel--wide {
+    grid-column: 1 / -1;
+}
+
+.row-actions {
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.row-actions--right {
+    justify-content: flex-end;
+    gap: 0.35rem;
+}
+
+.file-col {
+    width: 20rem;
+}
+
+.date-col {
+    width: 9rem;
+}
+
+.status-col {
+    width: 8rem;
+}
+
+.code-col,
+.size-col {
+    width: 5rem;
+}
+
+.actions-col {
+    width: 6.25rem;
+    text-align: right;
+}
+
+.truncate-cell {
+    max-width: 20rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+label {
+    display: flex;
+    flex: 0 0 7rem;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+    color: var(--text-color-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.wide-field {
+    flex-basis: 12rem;
+}
+
+.date-field {
+    flex-basis: 9rem;
+}
+
+:host ::ng-deep .filter-bar {
+    .p-inputtext,
+    .p-select {
+        width: 100%;
+        min-height: 2.25rem;
+        font-size: 0.875rem;
+    }
+
+    .p-button {
+        height: 2.25rem;
+        min-height: 2.25rem;
+        padding: 0 0.75rem;
+    }
+}
+
+:host ::ng-deep .metadata-table,
+:host ::ng-deep .flight-data-table {
+    .p-datatable-wrapper {
+        overflow: auto;
+        border: 1px solid var(--surface-border);
+        border-radius: 8px;
+    }
+
+    .p-datatable-thead > tr > th {
+        background: var(--surface-ground);
+        color: var(--text-color-secondary);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .p-datatable-tbody > tr {
+        cursor: pointer;
+        transition:
+            background-color 0.15s ease,
+            box-shadow 0.15s ease;
+    }
+
+    .p-datatable-tbody > tr:hover {
+        background: var(--surface-hover);
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+        vertical-align: top;
+    }
+
+    td {
+        max-width: 18rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .metadata-action-button.p-button.p-button-sm {
+        width: auto;
+        min-width: 5rem;
+        height: 2rem;
+        padding: 0 0.45rem;
+        border-radius: 6px;
+        color: var(--text-color);
+        background: var(--surface-ground);
+
+        &:hover {
+            background: var(--surface-hover);
+        }
+
+        .p-button-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+    }
+}
+
+:host ::ng-deep .metadata-table {
+    .p-datatable-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+}
+
+@media (max-width: 1250px) {
+    .filter-actions {
+        margin-left: 0;
+    }
+}
+
+.panel {
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    background: var(--surface-card);
+    padding: 1rem;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+}
+
+.panel-header {
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+
+    h2 {
+        margin: 0 0 0.25rem;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    p {
+        margin: 0;
+        color: var(--text-color-secondary);
+        font-size: 0.8125rem;
+    }
+
+    > span {
+        flex: 0 0 auto;
+        padding: 0.25rem 0.5rem;
+        border: 1px solid var(--surface-border);
+        border-radius: 999px;
+        background: var(--surface-ground);
+        color: var(--text-color-secondary);
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+}
+
+.selection-hint {
+    margin: -0.35rem 0 0.75rem;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+}
+
+.flight-table {
+    min-width: 0;
+    width: 100%;
+}
+
+.dialog-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    span {
+        font-weight: 700;
+    }
+
+    small {
+        color: var(--text-color-secondary);
+        font-weight: 400;
+    }
+}
+
+.dei-dialog-content {
+    min-width: 0;
+}
+
+:host ::ng-deep .dei-dialog-content {
+    .p-datatable-wrapper {
+        overflow: auto;
+        border: 1px solid var(--surface-border);
+        border-radius: 8px;
+    }
+
+    .p-datatable-table {
+        min-width: max-content;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+        vertical-align: top;
+    }
+
+    td {
+        max-width: 18rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.selected-row {
+    background: var(--highlight-bg) !important;
+    box-shadow: inset 3px 0 0 var(--primary-color);
+}
+
+.empty-state {
+    color: var(--text-color-secondary);
+}
+
+@media (max-width: 1100px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .page-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .summary-strip {
+        grid-template-columns: 1fr;
+    }
+}

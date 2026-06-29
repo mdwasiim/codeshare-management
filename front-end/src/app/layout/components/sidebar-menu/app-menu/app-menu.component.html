@@ -1,18 +1,11 @@
 <ul class="layout-menu p-3 space-y-2">
-    @for (item of model; track rootTrackKey(item, $index);) {
-
+    @for (item of model; track rootTrackKey(item, $index)) {
         @if (!item.separator) {
-            <li
-                class="px-2"
-                app-menuitem
-                [item]="item"
-                [root]="(item.items?.length ?? 0) > 0">
-            </li>
+            <li class="px-2" app-menuitem [item]="item" [root]="(item.items?.length ?? 0) > 0"></li>
         }
 
         @if (item.separator) {
             <li class="my-3 border-t border-gray-200"></li>
         }
-
     }
 </ul>

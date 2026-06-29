@@ -1,32 +1,178 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Your SCSS modules */
 @use "./layout/layout";
 
-/* Icons only (still CSS-based) */
 @import "primeicons/primeicons.css";
-
-/* Tailwind (if used) */
 @import "./tailwind.css";
 
-/* Enterprise visibility pass for data-heavy screens */
+body {
+  background: #f6f8fb;
+}
+
 .layout-main {
+  color: #0f172a;
+
+  .access-page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .access-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.1rem 0 0.2rem;
+  }
+
+  .access-page-header h1 {
+    margin: 0.08rem 0 0.1rem;
+    color: #0f172a;
+    font-size: 1.18rem;
+    font-weight: 750;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+
+  .access-page-header p {
+    margin: 0;
+    max-width: none;
+    color: #64748b;
+    font-size: 0.82rem;
+  }
+
+  .access-eyebrow {
+    color: #475569;
+    font-size: 0.66rem;
+    font-weight: 750;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .access-page--list .access-page-header {
+    display: none;
+  }
+
+  .access-page--list app-crud-toolbar {
+    display: block;
+  }
+
+  .access-page--list app-crud-toolbar .p-toolbar {
+    padding: 0.55rem 0.65rem;
+  }
+
+  .assignment-page-header {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid #d9e2ec;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  }
+
   .p-toolbar {
     background: #ffffff;
     border: 1px solid #d9e2ec;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-    padding: 0.9rem 1rem;
-    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: none;
+    padding: 0.55rem 0.65rem;
+    margin-bottom: 0;
+  }
+
+  .p-toolbar .p-toolbar-group-start,
+  .p-toolbar .p-toolbar-group-end {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .p-toolbar .mr-2 {
+    margin-right: 0 !important;
+  }
+
+  .p-toolbar .p-input-icon-left,
+  .p-toolbar .toolbar-search {
+    margin-right: 0 !important;
+  }
+
+  .toolbar-search {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .toolbar-search .pi {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    z-index: 1;
+    color: #64748b;
+    font-size: 0.9rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .p-toolbar .p-inputtext {
+    height: 2.25rem;
+    min-width: min(18rem, 58vw);
+    border-radius: 6px;
+    font-size: 0.875rem;
+  }
+
+  .p-toolbar .p-button {
+    min-height: 2.25rem;
+  }
+
+  .toolbar-search .p-inputtext {
+    padding-left: 2.15rem;
   }
 
   .p-datatable,
   .p-treetable {
     background: #ffffff;
     border: 1px solid #d9e2ec;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  }
+
+  .access-table .p-datatable-header,
+  .access-table .p-treetable-header {
+    padding: 0;
+    border-bottom: 1px solid #dbe3ec;
+    background: #ffffff;
+  }
+
+  .access-table-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .access-table-caption h2 {
+    margin: 0 0 0.2rem;
+    color: #0f172a;
+    font-size: 1rem;
+    font-weight: 750;
+  }
+
+  .access-table-caption p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.82rem;
+  }
+
+  .access-count {
+    flex: 0 0 auto;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid #dbe3ec;
+    border-radius: 999px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
   }
 
   .p-datatable-thead > tr > th,
@@ -35,16 +181,293 @@
     color: #1e293b;
     font-weight: 600;
     border-bottom: 1px solid #dbe3ec;
+    white-space: nowrap;
   }
 
   .p-datatable-tbody > tr > td,
   .p-treetable-tbody > tr > td {
     border-bottom: 1px solid #e6edf5;
+    vertical-align: middle;
+  }
+
+  .access-table .p-datatable-tbody > tr,
+  .access-table .p-treetable-tbody > tr {
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .access-table .p-datatable-tbody > tr:hover,
+  .access-table .p-treetable-tbody > tr:hover {
+    background: #f8fafc;
   }
 
   .p-paginator {
     background: #ffffff;
     border-top: 1px solid #dbe3ec;
     padding: 0.75rem 1rem;
+  }
+
+  .p-card,
+  .p-panel,
+  .p-dialog {
+    border-radius: 8px;
+  }
+
+  .p-inputtext,
+  .p-select,
+  .p-inputnumber-input,
+  .p-textarea {
+    border-color: #cbd5e1;
+  }
+
+  .p-button {
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  .access-actions-col {
+    width: 7.5rem;
+    text-align: center;
+  }
+
+  .access-row-actions > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  .access-row-actions .p-button.p-button-sm {
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border-radius: 6px;
+  }
+
+  .access-table .p-tag {
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .assignment-selector-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .assignment-selector-list__item {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.5rem;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid #dbe3ec;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .assignment-selector-list__item:hover {
+    border-color: #94a3b8;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+  }
+
+  .assignment-selector-list__item label {
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .assignment-empty-state {
+    display: flex;
+    min-height: 17rem;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.75rem;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #64748b;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .assignment-empty-state i {
+    display: inline-flex;
+    width: 2.4rem;
+    height: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dbe3ec;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 1rem;
+  }
+
+  .assignment-layout__grid {
+    display: grid;
+    gap: 0.9rem;
+    align-items: stretch;
+  }
+
+  .assignment-layout__grid--two {
+    grid-template-columns: minmax(18rem, 0.82fr) minmax(26rem, 1.6fr);
+  }
+
+  .assignment-layout__grid--three {
+    grid-template-columns: minmax(13rem, 0.75fr) minmax(15rem, 0.9fr) minmax(22rem, 1.45fr);
+  }
+
+  .assignment-layout__panel,
+  .assignment-layout__card,
+  .assignment-layout__card > .p-card,
+  .assignment-layout__card .p-card-body {
+    min-width: 0;
+    height: 100%;
+  }
+
+  .assignment-layout__card .p-card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .assignment-layout__card > .p-card {
+    border: 1px solid #d9e2ec;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.055);
+  }
+
+  .assignment-layout__card .p-card-title {
+    margin: 0;
+    padding: 0.8rem 0.95rem;
+    border-bottom: 1px solid #dbe3ec;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 0.95rem;
+  }
+
+  .assignment-layout__card .p-card-content {
+    flex: 1;
+    padding: 0.85rem;
+    background: #fbfdff;
+  }
+
+  .assignment-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .assignment-card-title > div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .assignment-card-title span {
+    color: #0f172a;
+    font-weight: 750;
+    line-height: 1.15;
+  }
+
+  .assignment-card-title small {
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .assignment-layout .p-datatable,
+  .assignment-layout .p-tree,
+  .assignment-layout .p-accordion {
+    box-shadow: none;
+  }
+
+  .assignment-layout .p-datatable {
+    border-radius: 6px;
+    border-color: #dbe3ec;
+  }
+
+  .assignment-layout .p-datatable-thead > tr > th,
+  .assignment-layout .p-datatable-tbody > tr > td {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.86rem;
+  }
+
+  .assignment-layout .p-selectable-row {
+    cursor: pointer;
+  }
+
+  .assignment-layout .p-selectable-row:hover {
+    background: #f1f5f9;
+  }
+
+  .assignment-layout .p-highlight {
+    background: #e8f1ff;
+    color: #0f172a;
+    box-shadow: inset 3px 0 0 #2563eb;
+  }
+
+  .assignment-layout .p-tree {
+    border: 1px solid #dbe3ec;
+    border-radius: 6px;
+    padding: 0.65rem;
+    background: #ffffff;
+  }
+
+  .assignment-layout .p-accordion {
+    border: 1px solid #dbe3ec;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #ffffff;
+  }
+
+  .assignment-layout .p-accordionheader {
+    padding: 0.75rem 0.85rem;
+    color: #1e293b;
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .assignment-layout .p-accordioncontent-content {
+    padding: 0.75rem;
+    background: #fbfdff;
+  }
+
+  .assignment-layout app-crud-toolbar .p-toolbar {
+    border: 1px solid #dbe3ec;
+    border-radius: 8px;
+    box-shadow: none;
+    padding: 0.5rem;
+    background: #f8fafc;
+  }
+
+  @media (max-width: 1199px) {
+    .assignment-layout__grid--three {
+      grid-template-columns: minmax(16rem, 1fr) minmax(18rem, 1.25fr);
+    }
+
+    .assignment-layout__grid--three .assignment-layout__panel:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .assignment-layout__grid,
+    .assignment-layout__grid--two,
+    .assignment-layout__grid--three {
+      grid-template-columns: 1fr;
+    }
+
+    .assignment-layout__grid--three .assignment-layout__panel:first-child {
+      grid-column: auto;
+    }
   }
 }

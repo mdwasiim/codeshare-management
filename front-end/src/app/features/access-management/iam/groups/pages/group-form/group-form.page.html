@@ -1,56 +1,32 @@
-<form [formGroup]="form" class="p-fluid w-full block csm-form">
-
-    <csm-form-section title="Group Details">
-
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Group Details">
         <div class="grid">
-
             <div class="field col-12 md:col-6">
-                <label for="code">Code</label>
+                <label for="code" class="required">Code</label>
 
-                <input
-                    id="code"
-                    pInputText
-                    formControlName="code"
-                    class="w-full" />
+                <input id="code" pInputText formControlName="code" class="w-full" aria-required="true" />
+                <small class="p-error" *ngIf="form.controls['code'].hasError('required') && form.controls['code'].touched">Code is required.</small>
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="name">Name</label>
+                <label for="name" class="required">Name</label>
 
-                <input
-                    id="name"
-                    pInputText
-                    formControlName="name"
-                    class="w-full" />
+                <input id="name" pInputText formControlName="name" class="w-full" aria-required="true" />
+                <small class="p-error" *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">Name is required.</small>
             </div>
 
-            <div class="field col-12">
+            <div class="field col-12 md:col-6">
                 <label for="description">Description</label>
 
-                <input
-                    id="description"
-                    pInputText
-                    formControlName="description"
-                    class="w-full" />
+                <input id="description" pInputText formControlName="description" class="w-full" />
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="tenant">Tenant</label>
+                <label for="tenant" class="required">Tenant</label>
 
-                <p-select
-                    inputId="tenant"
-                    appendTo="body"
-                    [options]="tenants"
-                    optionLabel="name"
-                    optionValue="id"
-                    formControlName="tenantId"
-                    placeholder="Select Tenant"
-                    styleClass="w-full">
-                </p-select>
+                <p-select inputId="tenant" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full" aria-required="true"> </p-select>
+                <small class="p-error" *ngIf="form.controls['tenantId'].hasError('required') && form.controls['tenantId'].touched">Tenant is required.</small>
             </div>
-
         </div>
-
-    </csm-form-section>
-
+    </app-form-section>
 </form>

@@ -28,7 +28,7 @@ public class SsimFlightMapper {
         entity.setCarrier(carrier);
         /* ================= HEADER ================= */
 
-        entity.setRecordType(dto.getRecordType());
+        entity.setRecordType(SsimRecordTypeMapper.toCode(dto.getRecordType()));
         entity.setOperationalSuffix(trim(dto.getOperationalSuffix(), 1));
         entity.setAirlineCode(trim(dto.getAirlineCode(), 3));
         entity.setFlightNumber(trim(dto.getFlightNumber(), 4));
@@ -127,7 +127,7 @@ public class SsimFlightMapper {
 
         dto.setId(entity.getId());
 
-        dto.setRecordType(entity.getRecordType());
+        dto.setRecordType(SsimRecordTypeMapper.fromCode(entity.getRecordType()));
         dto.setOperationalSuffix(entity.getOperationalSuffix());
         dto.setAirlineCode(entity.getAirlineCode());
         dto.setFlightNumber(entity.getFlightNumber());
@@ -182,6 +182,10 @@ public class SsimFlightMapper {
         dto.setDateVariation(entity.getDateVariation());
 
         dto.setRecordSerialNumber(entity.getRecordSerialNumber());
+
+        if (entity.getDeis() != null) {
+            entity.getDeis().forEach(dei -> dto.getDeis().add(deiMapper.toDTO(dei)));
+        }
 
         return dto;
     }

@@ -3,6 +3,7 @@ package com.codeshare.airline.inbound.source.camel.mapper;
 import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
+import com.codeshare.airline.inbound.source.inbound.ExchangeConstants;
 import com.codeshare.airline.inbound.source.inbound.ScheduleSourceFile;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
@@ -12,11 +13,14 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.time.Instant;
+import java.util.HexFormat;
 import java.util.UUID;
 
 @Slf4j
 @Component
 public class ScheduleSourceExchangeMapper {
+
+    private static final String LOAD_ID = "LOAD_ID";
 
     public ScheduleSourceFile map(Exchange exchange) {
 
@@ -24,13 +28,7 @@ public class ScheduleSourceExchangeMapper {
         String messageTypeStr = optionalHeader(exchange, "MESSAGE_TYPE", "SSM");
         String sourceTypeStr = optionalHeader(exchange, "SOURCE_TYPE", "LOCAL");
 
-        UUID loadId = exchange.getProperty("LOAD_ID", UUID.class);
-        if (loadId == null) {
-            loadId = UUID.randomUUID();
-            exchange.setProperty("LOAD_ID", loadId);
-            log.warn("LOAD_ID missing → generated fallback {}", loadId);
-        }
-
+        UUID loadId = resolveLoadId(exchange);
         MessageType scheduleType = safeParseMessageType(messageTypeStr);
         SourceType sourceType = safeParseSourceType(sourceTypeStr);
 
@@ -41,26 +39,19 @@ public class ScheduleSourceExchangeMapper {
         );
 
         InputStream inputStream = exchange.getMessage().getBody(InputStream.class);
-
         if (inputStream == null) {
             throw new IllegalStateException("InputStream is null");
         }
 
         try (InputStream is = inputStream) {
             byte[] data = is.readAllBytes();
+            String checksum = sha256(data);
 
-            //  compute checksum immediately
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(data);
+            exchange.setProperty(ExchangeConstants.CHECKSUM, checksum);
 
-            //String checksum = java.util.HexFormat.of().formatHex(hash);
-            String checksum = UUID.randomUUID().toString();
-            // optional: store in exchange
-            exchange.setProperty("CHECKSUM", checksum);
+            UUID fileId = UUID.randomUUID();
 
-            UUID fileId = UUID.randomUUID(); // temp ID (checksum later)
-
-            log.debug("Mapped file (streaming+checksum): {}", fileName);
+            log.debug("Mapped source file fileName={} checksum={} sizeBytes={}", fileName, checksum, data.length);
 
             return ScheduleSourceFile.builder()
                     .fileId(fileId)
@@ -70,22 +61,48 @@ public class ScheduleSourceExchangeMapper {
                     .messageType(scheduleType)
                     .sourceType(sourceType)
                     .processingStatus(ProcessingStatus.RECEIVED)
-
-                    //  STREAM SUPPLIER USING DIGEST STREAM
-                    .streamSupplier(() -> new ByteArrayInputStream(data))  //  ALWAYS NEW
-                    //  store checksum directly
+                    .fileSizeBytes((long) data.length)
                     .checksum(checksum)
+                    .streamSupplier(() -> new ByteArrayInputStream(data))
                     .build();
 
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to initialize checksum stream", e);
+            throw new IllegalStateException("Failed to initialize source stream", e);
         }
+    }
+
+    private UUID resolveLoadId(Exchange exchange) {
+        Object existing = exchange.getProperty(LOAD_ID);
+
+        if (existing instanceof UUID uuid) {
+            return uuid;
+        }
+
+        if (existing instanceof String value && !value.isBlank()) {
+            try {
+                UUID uuid = UUID.fromString(value);
+                exchange.setProperty(LOAD_ID, uuid);
+                return uuid;
+            } catch (IllegalArgumentException ex) {
+                log.warn("Invalid LOAD_ID string {}. Generating replacement.", value);
+            }
+        }
+
+        UUID loadId = UUID.randomUUID();
+        exchange.setProperty(LOAD_ID, loadId);
+        log.warn("LOAD_ID missing. Generated fallback {}", loadId);
+        return loadId;
+    }
+
+    private String sha256(byte[] data) throws Exception {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        return HexFormat.of().formatHex(digest.digest(data));
     }
 
     private String optionalHeader(Exchange exchange, String name, String defaultValue) {
         String value = exchange.getMessage().getHeader(name, String.class);
         if (value == null || value.isBlank()) {
-            log.warn("Missing header {} → using default {}", name, defaultValue);
+            log.warn("Missing header {}. Using default {}", name, defaultValue);
             return defaultValue;
         }
         return value.trim().toUpperCase();
@@ -95,7 +112,7 @@ public class ScheduleSourceExchangeMapper {
         try {
             return MessageType.valueOf(value.toUpperCase());
         } catch (Exception e) {
-            log.warn("Invalid MESSAGE_TYPE {} → defaulting to SSM", value);
+            log.warn("Invalid MESSAGE_TYPE {}. Defaulting to SSM", value);
             return MessageType.SSM;
         }
     }
@@ -104,14 +121,16 @@ public class ScheduleSourceExchangeMapper {
         try {
             return SourceType.valueOf(value.toUpperCase());
         } catch (Exception e) {
-            log.warn("Invalid SOURCE_TYPE {} → defaulting to LOCAL", value);
+            log.warn("Invalid SOURCE_TYPE {}. Defaulting to LOCAL", value);
             return SourceType.LOCAL;
         }
     }
 
     private String firstNonNull(String... values) {
-        for (String v : values) {
-            if (v != null && !v.isBlank()) return v;
+        for (String value : values) {
+            if (value != null && !value.isBlank()) {
+                return value;
+            }
         }
         return null;
     }

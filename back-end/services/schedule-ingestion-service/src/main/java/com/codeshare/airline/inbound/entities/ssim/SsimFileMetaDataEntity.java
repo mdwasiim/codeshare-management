@@ -5,6 +5,7 @@ import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.domain.enums.ScheduleProfile;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
 import com.codeshare.airline.inbound.domain.enums.TimeMode;
+import com.codeshare.airline.inbound.entities.converter.TimeModeCodeConverter;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -113,7 +114,7 @@ public class SsimFileMetaDataEntity extends CSMDataAbstractEntity {
     @Column(name = "version")
     private Long version;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = TimeModeCodeConverter.class)
     @Column(name = "time_mode", length = 1)
     private TimeMode timeMode;
 
@@ -173,6 +174,13 @@ public class SsimFileMetaDataEntity extends CSMDataAbstractEntity {
         this.carrier = carrier;
         if (carrier != null) {
             carrier.setFile(this);
+        }
+    }
+
+    public void setTrailer(SsimTrailerEntity trailer) {
+        this.trailer = trailer;
+        if (trailer != null) {
+            trailer.setFile(this);
         }
     }
 }

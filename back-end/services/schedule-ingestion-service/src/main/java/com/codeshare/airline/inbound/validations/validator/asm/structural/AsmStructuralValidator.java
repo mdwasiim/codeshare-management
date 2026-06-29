@@ -15,10 +15,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 @AllArgsConstructor
 public class AsmStructuralValidator implements StructuralValidation<AsmIngestionContext> {
+
+    @Override
+    public Set<MessageType> supportedTypes() {
+        return Set.of(MessageType.ASM);
+    }
 
     @Override
     public ValidationResult validate(AsmIngestionContext context) {
@@ -26,12 +32,8 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
         ValidationResult result = new ValidationResult();
 
         boolean hasHeader = false;
-        boolean hasTimeMode = false;
-        boolean hasRef = false;
-
         boolean hasAction = false;
         boolean hasFlight = false;
-        boolean hasPeriod = false;
         boolean hasLeg = false;
 
         boolean inBlock = false;
@@ -61,9 +63,13 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                 // ================= HEADER =================
                 case HEADER -> hasHeader = true;
 
-                case TIME_MODE -> hasTimeMode = true;
+                case TIME_MODE -> {
+                    // Optional; absent time mode defaults to UTC per IATA Chapter 5.
+                }
 
-                case MESSAGE_REFERENCE -> hasRef = true;
+                case MESSAGE_REFERENCE -> {
+                    // Optional for ASM.
+                }
 
                 // ================= ACTION =================
                 case ACTION -> {
@@ -72,7 +78,6 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
 
                     // reset per block
                     hasFlight = false;
-                    hasPeriod = false;
                     hasLeg = false;
                     legToDeiMap.clear();
                 }
@@ -102,12 +107,6 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
 
-                    if (hasPeriod) {
-                        result.addError("ASM_061", "Duplicate PERIOD",
-                                line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
-                    }
-
-                    hasPeriod = true;
                 }
 
                 // ================= LEG =================
@@ -119,7 +118,7 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                     }
 
                     // 🔥 TIME VALIDATION
-                    if (!isValidTime(line)) {
+                    if (hasEmbeddedTimeCandidate(line) && !isValidTime(line)) {
                         result.addError("ASM_075", "Invalid time format",
                                 line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
@@ -128,6 +127,18 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
 
                     String legKey = extractLegKey(line);
                     legToDeiMap.putIfAbsent(legKey, new ArrayList<>());
+                }
+
+                case TIME -> {
+                    if (!hasLeg) {
+                        result.addError("ASM_076", "TIME before LEG",
+                                line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                    }
+
+                    if (!isValidTime(line)) {
+                        result.addError("ASM_075", "Invalid time format",
+                                line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                    }
                 }
 
                 // ================= EQUIPMENT =================
@@ -171,11 +182,10 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                 case SUB_MESSAGE_SEPARATOR -> {
 
                     // 🔥 VALIDATE BLOCK BEFORE RESET
-                    validateBlock(result, hasFlight, hasPeriod, hasLeg, legToDeiMap, lineNo);
+                    validateBlock(result, hasFlight, hasLeg, legToDeiMap, lineNo);
 
                     inBlock = false;
                     hasFlight = false;
-                    hasPeriod = false;
                     hasLeg = false;
                     legToDeiMap.clear();
                 }
@@ -187,14 +197,12 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
         if (!hasHeader)
             result.addError("ASM_001", "Missing HEADER", null, "HEADER", ValidationStage.STRUCTURAL);
 
-        if (!hasTimeMode)
-            result.addError("ASM_002", "Missing TIME MODE", null, "TIME_MODE", ValidationStage.STRUCTURAL);
-
-        if (!hasRef)
-            result.addError("ASM_003", "Missing REFERENCE", null, "REF", ValidationStage.STRUCTURAL);
-
         if (!hasAction)
             result.addError("ASM_040", "Missing ACTION", null, "ACTION", ValidationStage.STRUCTURAL);
+
+        if (inBlock) {
+            validateBlock(result, hasFlight, hasLeg, legToDeiMap, lineNo);
+        }
 
         return result;
     }
@@ -203,7 +211,6 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
 
     private void validateBlock(ValidationResult result,
                                boolean hasFlight,
-                               boolean hasPeriod,
                                boolean hasLeg,
                                Map<String, List<String>> legToDeiMap,
                                int lineNo) {
@@ -213,28 +220,23 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                     "BLOCK", ValidationStage.STRUCTURAL);
         }
 
-        if (!hasPeriod) {
-            result.addError("ASM_061", "Missing PERIOD in block", null,
-                    "BLOCK", ValidationStage.STRUCTURAL);
-        }
-
         if (!hasLeg) {
             result.addError("ASM_070", "Missing LEG in block", null,
                     "BLOCK", ValidationStage.STRUCTURAL);
         }
 
-        for (Map.Entry<String, List<String>> entry : legToDeiMap.entrySet()) {
-            if (entry.getValue().isEmpty()) {
-                result.addError("ASM_095", "LEG without DEI",
-                        entry.getKey(), "BLOCK", ValidationStage.STRUCTURAL);
-            }
-        }
     }
 
     // ================= TIME VALIDATION =================
 
     private boolean isValidTime(String line) {
         return line.matches(".*\\b([01]\\d|2[0-3])[0-5]\\d\\b.*");
+    }
+
+    private boolean hasEmbeddedTimeCandidate(String line) {
+        String[] parts = line.split("\\s+");
+        return parts.length >= 4
+                && (parts[2].matches("\\d{4}.*") || parts[3].matches("\\d{4}.*"));
     }
 
     // ================= LEG KEY =================

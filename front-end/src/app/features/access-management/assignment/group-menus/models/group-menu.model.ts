@@ -1,5 +1,4 @@
 export interface GroupMenuModel {
-
     id?: string;
 
     groupId?: string;

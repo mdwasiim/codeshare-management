@@ -61,29 +61,20 @@
   },
   {
     "code": "UPLOAD_SCHEDULE",
-    "label": "Upload Schedule",
+    "label": "SSIM",
     "icon": "pi pi-fw pi-upload",
-    "route": "/upload",
+    "route": "/ssim-ingestion",
     "permission": "file:upload",
     "displayOrder": 1,
     "parentCode": "INGESTION"
   },
   {
     "code": "PROCESSING_JOBS",
-    "label": "Processing Jobs",
+    "label": "Schedule (ASM/SSM)",
     "icon": "pi pi-fw pi-cog",
-    "route": "/jobs",
+    "route": "/asm-ssm-ingestion",
     "permission": "flight:read",
     "displayOrder": 2,
-    "parentCode": "INGESTION"
-  },
-  {
-    "code": "VALIDATION_ERRORS",
-    "label": "Validation Errors",
-    "icon": "pi pi-fw pi-exclamation-triangle",
-    "route": "/errors",
-    "permission": "flight:read",
-    "displayOrder": 3,
     "parentCode": "INGESTION"
   },
   {

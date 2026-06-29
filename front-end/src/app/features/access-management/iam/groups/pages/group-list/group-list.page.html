@@ -1,5 +1,13 @@
-<!-- TOOLBAR -->
-<csm-crud-toolbar
+<div class="access-page access-page--list">
+<div class="access-page-header">
+    <div>
+        <span class="access-eyebrow">Authorization</span>
+        <h1>Groups</h1>
+        <p>Manage access groups used for user, role, and menu assignment.</p>
+    </div>
+</div>
+
+<app-crud-toolbar
     [actions]="[
         'create',
         'delete',
@@ -13,10 +21,10 @@
     (create)="openCreate()"
     (delete)="deleteSelectedGroups()"
     (export)="exportCSV()"
-    (search)="onSearch($event)">
-</csm-crud-toolbar>
+    (search)="onSearch($event)"
+>
+</app-crud-toolbar>
 
-<!-- Table -->
 <p-table
     #dt
     [value]="data"
@@ -27,26 +35,36 @@
     [(selection)]="selectedGroups"
     dataKey="id"
     [rowHover]="true"
-    [tableStyle]="{ 'min-width': '60rem' }"
-    [globalFilterFields]="['code','name','description']"
+    styleClass="access-table p-datatable-sm"
+    [tableStyle]="{ 'min-width': '95rem' }"
+    [globalFilterFields]="['code','name','description','createdBy','updatedBy']"
 >
     <ng-template pTemplate="caption">
-        <div class="flex justify-between items-center">
-            <h5 class="m-0">Manage Groups</h5>
+        <div class="access-table-caption">
+            <div>
+                <h2>Manage Groups</h2>
+                <p>{{ data.length || 0 }} groups loaded</p>
+            </div>
+            <span class="access-count">{{ selectedGroups.length || 0 }} selected</span>
         </div>
     </ng-template>
 
     <!-- Header -->
     <ng-template pTemplate="header">
         <tr>
-            <th style="width:3rem">
+            <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th>Code</th>
             <th>Name</th>
             <th>Description</th>
             <th>Tenant</th>
-            <th style="width:120px"></th>
+            <th>Created At</th>
+            <th>Created By</th>
+            <th>Updated At</th>
+            <th>Updated By</th>
+            <th>Active</th>
+            <th class="access-actions-col">Actions</th>
         </tr>
     </ng-template>
 
@@ -64,41 +82,21 @@
             <td>
                 <p-tag [value]="group.tenantId" severity="info"></p-tag>
             </td>
+            <td>{{ (group.createdAt | date: 'short') || '-' }}</td>
+            <td>{{ group.createdBy || '-' }}</td>
+            <td>{{ (group.updatedAt | date: 'short') || '-' }}</td>
+            <td>{{ group.updatedBy || '-' }}</td>
+            <td>{{ group.active === undefined || group.active === null ? '-' : group.active ? 'Yes' : 'No' }}</td>
 
-            <td>
-                <div class="flex gap-1 justify-center">
-
-                    <!-- EDIT -->
-                    <ng-container
-                        *csmHasPermission="'group:update'">
-
-                        <p-button
-                            icon="pi pi-pencil"
-                            size="small"
-                            text
-                            pTooltip="Edit"
-                            tooltipPosition="top"
-                            (click)="openEdit(group)">
-                        </p-button>
-
+            <td class="access-row-actions">
+                <div>
+                    <ng-container *appHasPermission="'group:update'">
+                        <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(group)"> </p-button>
                     </ng-container>
 
-                    <!-- DELETE -->
-                    <ng-container
-                        *csmHasPermission="'group:delete'">
-
-                        <p-button
-                            icon="pi pi-trash"
-                            size="small"
-                            text
-                            severity="danger"
-                            pTooltip="Delete"
-                            tooltipPosition="top"
-                            (click)="deleteGroup(group)">
-                        </p-button>
-
+                    <ng-container *appHasPermission="'group:delete'">
+                        <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteGroup(group)"> </p-button>
                     </ng-container>
-
                 </div>
             </td>
         </tr>
@@ -107,25 +105,15 @@
     <!-- Empty -->
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="6" class="text-center py-6 text-gray-500">
+            <td colspan="11" class="text-center py-6 text-gray-500">
                 <i class="pi pi-users text-2xl mb-2"></i>
                 <div>No groups found</div>
             </td>
         </tr>
     </ng-template>
-
 </p-table>
 
-<csm-dialog
-    [(visible)]="dialogVisible"
-    [title]="selectedId ? 'Edit Group' : 'Create Group'"
-    [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading"
-    (save)="formRef.submit()">
-
-    <group-form
-        #formRef
-        [id]="selectedId"
-        (saved)="onSaved()">
-    </group-form>
-
-</csm-dialog>
+<app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Group' : 'Create Group'" width="min(92vw, 560px)" [loading]="!!formRef?.loading" [disableSave]="!!formRef?.form?.invalid || !!formRef?.loading" (save)="formRef.submit()">
+    <group-form #formRef [id]="selectedId" (saved)="onSaved()"> </group-form>
+</app-dialog>
+</div>

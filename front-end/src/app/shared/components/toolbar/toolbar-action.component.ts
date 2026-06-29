@@ -1,56 +1,25 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import {
-    CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-    FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-    ToolbarModule
-} from 'primeng/toolbar';
+import { ToolbarModule } from 'primeng/toolbar';
 
-import {
-    ButtonModule
-} from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 
-import {
-    InputTextModule
-} from 'primeng/inputtext';
-import {HasPermissionDirective} from "@shared/directives/permission/has-permission.directive";
+import { InputTextModule } from 'primeng/inputtext';
+import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
-export type CrudAction =
-    | 'create'
-    | 'delete'
-    | 'export'
-    | 'refresh'
-    | 'upload'
-    | 'search'
-    | 'reset'
-    | 'save';
+export type CrudAction = 'create' | 'delete' | 'export' | 'refresh' | 'upload' | 'search' | 'reset' | 'save';
 
 @Component({
-    selector: 'csm-crud-toolbar',
+    selector: 'app-crud-toolbar',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ToolbarModule,
-        ButtonModule,
-        InputTextModule,
-        HasPermissionDirective
-    ],
+    imports: [CommonModule, FormsModule, ToolbarModule, ButtonModule, InputTextModule, HasPermissionDirective],
     templateUrl: './toolbar-action.component.html'
 })
 export class ToolbarActionComponent {
-
     // =========================
     // INPUTS
     // =========================
@@ -100,31 +69,22 @@ export class ToolbarActionComponent {
     // HELPERS
     // =========================
     get hasAnyAction(): boolean {
-
         return this.actions.length > 0;
     }
 
-    hasAction(
-        action: CrudAction
-    ): boolean {
-
+    hasAction(action: CrudAction): boolean {
         return this.actions.includes(action);
     }
 
-    permission(
-        action: string
-    ): string {
-
+    permission(action: string): string {
         if (!this.resource) {
             return '';
         }
 
-        return `${this.resource}:${action}`
-            .toLowerCase();
+        return `${this.resource}:${action}`.toLowerCase();
     }
 
     isDeleteDisabled(): boolean {
-
         return !this.hasSelection;
     }
 }

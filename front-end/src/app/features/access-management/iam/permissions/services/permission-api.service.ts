@@ -7,7 +7,6 @@ import { tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionApiService {
-
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
@@ -42,25 +41,29 @@ export class PermissionApiService {
     // UPDATE
     // -----------------------------
     update(id: string, permission: Permission) {
-        return this.api.put<Permission>(API_ENDPOINTS.accessManagement.permissions.byId, permission, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('Permission updated successfully');
+        return this.api
+            .put<Permission>(API_ENDPOINTS.accessManagement.permissions.byId, permission, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('Permission updated successfully');
+                })
+            );
     }
 
     // -----------------------------
     // DELETE
     // -----------------------------
     delete(id: string) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.permissions.byId, {
-            pathParams: { id }
-        }).pipe(
-            tap(() => {
-                this.toast.success('Permission deleted successfully');
+        return this.api
+            .delete<void>(API_ENDPOINTS.accessManagement.permissions.byId, {
+                pathParams: { id }
             })
-        );
+            .pipe(
+                tap(() => {
+                    this.toast.success('Permission deleted successfully');
+                })
+            );
     }
 }

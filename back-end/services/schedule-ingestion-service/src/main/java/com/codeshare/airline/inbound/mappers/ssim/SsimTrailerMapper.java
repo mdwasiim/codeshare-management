@@ -25,7 +25,7 @@ public class SsimTrailerMapper {
                         : null
         );
 
-        dto.setRecordType(entity.getRecordType());
+        dto.setRecordType(SsimRecordTypeMapper.fromCode(entity.getRecordType()));
         dto.setSpareByte2(entity.getSpareByte2());
 
         dto.setAirlineDesignator(entity.getAirlineDesignator());
@@ -52,7 +52,7 @@ public class SsimTrailerMapper {
 
         entity.setId(dto.getId());
 
-        entity.setRecordType(dto.getRecordType());
+        entity.setRecordType(SsimRecordTypeMapper.toCode(dto.getRecordType()));
         entity.setSpareByte2(dto.getSpareByte2());
 
         entity.setAirlineDesignator(dto.getAirlineDesignator());
@@ -66,6 +66,13 @@ public class SsimTrailerMapper {
         entity.setRecordSerialNumber(dto.getRecordSerialNumber());
 
         return entity;
+    }
+
+    private String trim(String value, int maxLength) {
+        if (value == null) return null;
+        return value.length() > maxLength
+                ? value.substring(0, maxLength)
+                : value;
     }
 
 }

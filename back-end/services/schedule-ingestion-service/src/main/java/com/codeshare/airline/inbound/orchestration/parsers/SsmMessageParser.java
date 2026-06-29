@@ -125,7 +125,7 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
 
         message.setActionType(ActionTypeMapper.fromSsm(extractFirstToken(line)));
 
-        message.setTimeMode(pendingTimeMode != null ? pendingTimeMode : TimeMode.LT);
+        message.setTimeMode(pendingTimeMode != null ? pendingTimeMode : TimeMode.UTC);
         pendingTimeMode = null; // ✅ FIXED
 
         message.setRawLines(new ArrayList<>());
@@ -213,9 +213,12 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
         if (currentLeg != null) {
             currentLeg.setAircraftType(eq.getAircraftType());
             currentLeg.setAircraftConfiguration(eq.getAircraftConfiguration());
+            currentLeg.setServiceType(eq.getServiceType());
         } else {
             flight.setAircraftType(eq.getAircraftType());
             flight.setAircraftConfiguration(eq.getAircraftConfiguration());
+            flight.setServiceType(eq.getServiceType());
+            flight.setBookingDesignator(eq.getBookingDesignator());
         }
     }
 

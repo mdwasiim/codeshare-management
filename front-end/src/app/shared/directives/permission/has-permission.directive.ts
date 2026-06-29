@@ -1,19 +1,12 @@
-import {
-    Directive,
-    Input,
-    TemplateRef,
-    ViewContainerRef
-} from '@angular/core';
+import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
-import { PermissionService }
-    from '@core/security/permission.service';
+import { PermissionService } from '@core/security/permission.service';
 
 @Directive({
-    selector: '[csmHasPermission]',
+    selector: '[appHasPermission]',
     standalone: true
 })
 export class HasPermissionDirective {
-
     private rendered = false;
 
     constructor(
@@ -26,18 +19,13 @@ export class HasPermissionDirective {
     // SINGLE PERMISSION
     // =========================
     @Input()
-    set csmHasPermission(
-        permission: string | null
-    ) {
-
+    set appHasPermission(permission: string | null) {
         if (!permission) {
             this.hide();
             return;
         }
 
-        const hasAccess =
-            this.permissionService
-                .hasRawPermission(permission);
+        const hasAccess = this.permissionService.hasRawPermission(permission);
 
         this.updateView(hasAccess);
     }
@@ -46,18 +34,13 @@ export class HasPermissionDirective {
     // ANY PERMISSION
     // =========================
     @Input()
-    set csmHasAnyPermission(
-        permissions: string[] | null
-    ) {
-
+    set appHasAnyPermission(permissions: string[] | null) {
         if (!permissions?.length) {
             this.hide();
             return;
         }
 
-        const hasAccess =
-            this.permissionService
-                .hasAnyPermission(permissions);
+        const hasAccess = this.permissionService.hasAnyPermission(permissions);
 
         this.updateView(hasAccess);
     }
@@ -66,18 +49,13 @@ export class HasPermissionDirective {
     // ALL PERMISSIONS
     // =========================
     @Input()
-    set csmHasAllPermissions(
-        permissions: string[] | null
-    ) {
-
+    set appHasAllPermissions(permissions: string[] | null) {
         if (!permissions?.length) {
             this.hide();
             return;
         }
 
-        const hasAccess =
-            this.permissionService
-                .hasAllPermissions(permissions);
+        const hasAccess = this.permissionService.hasAllPermissions(permissions);
 
         this.updateView(hasAccess);
     }
@@ -85,27 +63,17 @@ export class HasPermissionDirective {
     // =========================
     // INTERNAL
     // =========================
-    private updateView(
-        hasAccess: boolean
-    ): void {
-
+    private updateView(hasAccess: boolean): void {
         if (hasAccess && !this.rendered) {
-
-            this.viewContainer
-                .createEmbeddedView(
-                    this.templateRef
-                );
+            this.viewContainer.createEmbeddedView(this.templateRef);
 
             this.rendered = true;
-
         } else if (!hasAccess && this.rendered) {
-
             this.hide();
         }
     }
 
     private hide(): void {
-
         this.viewContainer.clear();
 
         this.rendered = false;

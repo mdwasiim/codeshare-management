@@ -1,0 +1,43 @@
+<app-assignment-layout leftTitle="Groups" rightTitle="Menus">
+    <div left-panel>
+        <p-table [value]="groups" [loading]="loading" selectionMode="single" [(selection)]="selectedGroup" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onGroupSelect($any($event.data))">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Group Name</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-group>
+                <tr [pSelectableRow]="group">
+                    <td>{{ group.name }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div right-panel>
+        <div class="mb-4">
+            <app-crud-toolbar
+                [actions]="[
+                    'refresh',
+                    'reset',
+                    'save'
+                ]"
+                [loading]="saving"
+                (refresh)="loadData()"
+                (reset)="reset()"
+                (save)="save()"
+            >
+            </app-crud-toolbar>
+        </div>
+
+        <div *ngIf="!selectedGroup" class="assignment-empty-state">
+            <i class="pi pi-sitemap"></i>
+            <span>Select a group to manage menus</span>
+        </div>
+
+        <div *ngIf="selectedGroup" class="assignment-selector-list">
+            <p-tree [value]="menuTree" selectionMode="checkbox" [(selection)]="selectedMenus" class="w-full"></p-tree>
+        </div>
+    </div>
+</app-assignment-layout>

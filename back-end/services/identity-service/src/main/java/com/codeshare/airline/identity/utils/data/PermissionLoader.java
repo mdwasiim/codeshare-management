@@ -35,6 +35,9 @@ public class PermissionLoader {
             Map.entry("role",
                     List.of("create", "read", "update", "delete", "assign")),
 
+            Map.entry("tenant",
+                    List.of("create", "read", "update", "delete")),
+
             Map.entry("permission",
                     List.of("read", "assign")),
 
@@ -136,8 +139,11 @@ public class PermissionLoader {
     // ===============================
     public boolean isLoaded(UUID tenantId) {
         long actual = permissionRepository.countByTenantId(tenantId);
+        long expected = PERMISSION_DEFS.values().stream()
+                .mapToLong(List::size)
+                .sum();
 
-        return actual >= 0;
+        return actual >= expected;
     }
 
     // ===============================

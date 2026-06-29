@@ -1,194 +1,84 @@
-<csm-assignment-layout
-    groupTitle="Groups"
-    leftTitle="Roles"
-    rightTitle="Permissions">
-
-    <!-- GROUP PANEL -->
+<app-assignment-layout groupTitle="Groups" leftTitle="Roles" rightTitle="Permissions">
     <div group-panel>
-
-        <p-table
-            [value]="groups"
-            [loading]="loading"
-            selectionMode="single"
-            [(selection)]="selectedGroup"
-            dataKey="id"
-            responsiveLayout="scroll"
-            (onRowSelect)="onGroupSelect($any($event.data))">
-
-            <!-- HEADER -->
+        <p-table [value]="groups" [loading]="loading" selectionMode="single" [(selection)]="selectedGroup" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onGroupSelect($any($event.data))">
             <ng-template pTemplate="header">
-
                 <tr>
-
-                    <th>
-                        Group Name
-                    </th>
-
+                    <th>Group Name</th>
                 </tr>
-
             </ng-template>
 
-            <!-- BODY -->
-            <ng-template
-                pTemplate="body"
-                let-group>
-
+            <ng-template pTemplate="body" let-group>
                 <tr [pSelectableRow]="group">
-
-                    <td>
-                        {{ group.name }}
-                    </td>
-
+                    <td>{{ group.name }}</td>
                 </tr>
-
             </ng-template>
-
         </p-table>
-
     </div>
 
-    <!-- ROLE PANEL -->
     <div left-panel>
+        <div *ngIf="!selectedGroup" class="assignment-empty-state">
+            <i class="pi pi-list-check"></i>
+            <span>Select a group to view roles</span>
+        </div>
 
-        <p-table
-            [value]="roles"
-            [loading]="loading"
-            selectionMode="single"
-            [(selection)]="selectedRole"
-            dataKey="id"
-            responsiveLayout="scroll"
-            (onRowSelect)="onRoleSelect($event)">
-
-            <!-- HEADER -->
+        <p-table *ngIf="selectedGroup" [value]="roles" [loading]="loading" selectionMode="single" [(selection)]="selectedRole" dataKey="id" responsiveLayout="scroll" (onRowSelect)="onRoleSelect($event)">
             <ng-template pTemplate="header">
-
                 <tr>
+                    <th>Code</th>
 
-                    <th>
-                        Code
-                    </th>
-
-                    <th>
-                        Display Name
-                    </th>
-
+                    <th>Display Name</th>
                 </tr>
-
             </ng-template>
 
-            <!-- BODY -->
-            <ng-template
-                pTemplate="body"
-                let-role>
-
+            <ng-template pTemplate="body" let-role>
                 <tr [pSelectableRow]="role">
+                    <td>{{ role.code }}</td>
 
-                    <td>
-                        {{ role.code }}
-                    </td>
-
-                    <td>
-                        {{ role.name }}
-                    </td>
-
+                    <td>{{ role.name }}</td>
                 </tr>
-
             </ng-template>
-
         </p-table>
-
     </div>
 
     <div right-panel>
-        <!-- PERMISSION PANEL -->
         <div class="mb-4">
-
-            <csm-crud-toolbar
+            <app-crud-toolbar
                 [actions]="[
-                'refresh',
-                'reset',
-                'save'
-            ]"
+                    'refresh',
+                    'reset',
+                    'save'
+                ]"
                 [loading]="saving"
                 (refresh)="loadData()"
                 (reset)="reset()"
-                (save)="save()">
-            </csm-crud-toolbar>
-
-        </div>
-        <!-- EMPTY STATE -->
-        <div
-            *ngIf="!selectedRole"
-            class="flex
-               align-items-center
-               justify-content-center
-               p-6
-               text-500">
-
-            Select a role to manage permissions
-
+                (save)="save()"
+            >
+            </app-crud-toolbar>
         </div>
 
-        <!-- PERMISSIONS -->
-        <div
-            *ngIf="selectedRole"
-            class="mt-4">
+        <div *ngIf="!selectedRole" class="assignment-empty-state">
+            <i class="pi pi-lock"></i>
+            <span>Select a role to manage permissions</span>
+        </div>
 
+        <div *ngIf="selectedRole" class="assignment-selector-list">
             <p-accordion>
+                <p-accordion-panel *ngFor="let group of groupedPermissions" [value]="group.domain">
+                    <p-accordion-header>{{ group.domain }}</p-accordion-header>
 
-                <p-accordion-panel
-                    *ngFor="let group of groupedPermissions"
-                    [value]="group.domain">
-
-                    <!-- HEADER -->
-                    <p-accordion-header>
-
-                        {{ group.domain }}
-
-                    </p-accordion-header>
-
-                    <!-- CONTENT -->
                     <p-accordion-content>
-
                         <div class="grid">
+                            <div *ngFor="let permission of group.permissions" class="col-12 md:col-6 lg:col-4">
+                                <div class="assignment-selector-list__item">
+                                    <p-checkbox [binary]="true" [ngModel]="selectedPermissionIds.includes(permission.id!)" (onChange)="togglePermission(permission.id, $event.checked)"></p-checkbox>
 
-                            <div
-                                *ngFor="let permission of group.permissions"
-                                class="col-12
-                                   md:col-6
-                                   lg:col-4">
-
-                                <div
-                                    class="flex
-                                       align-items-center
-                                       gap-2">
-
-                                    <p-checkbox
-                                        [binary]="true"
-                                        [ngModel]="selectedPermissionIds.includes(permission.id!)"
-                                        (onChange)="togglePermission(permission.id, $event.checked)">
-                                    </p-checkbox>
-
-                                    <label>
-
-                                        {{ permission.action }}
-
-                                    </label>
-
+                                    <label>{{ permission.action }}</label>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </p-accordion-content>
-
                 </p-accordion-panel>
-
             </p-accordion>
-
         </div>
-
     </div>
-
-</csm-assignment-layout>
+</app-assignment-layout>

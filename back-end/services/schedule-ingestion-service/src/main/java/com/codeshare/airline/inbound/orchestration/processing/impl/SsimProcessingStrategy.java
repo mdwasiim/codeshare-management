@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.orchestration.processing.impl;
 
-import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;
 import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;
 import com.codeshare.airline.inbound.orchestration.processing.ProcessingStrategy;
 import com.codeshare.airline.inbound.services.ssim.SsimPersistenceService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,6 @@ public class SsimProcessingStrategy implements ProcessingStrategy<SsimIngestionC
 
     @Override
     public void process(SsimIngestionContext context) {
-
-        // 🔥 batch processing
-        ssimPersistenceService.saveBatch(
-                context.getParsedData(),
-                context.getMetadata()
-        );
+        ssimPersistenceService.saveBatch(context.getParsedData(), context.getMetadata());
     }
 }

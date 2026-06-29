@@ -13,7 +13,7 @@ spring:
 
   datasource:
     driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/csm}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/csm?reWriteBatchedInserts=true}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
     hikari:
@@ -27,13 +27,18 @@ spring:
   jpa:
     defer-datasource-initialization: true
     open-in-view: false
-    show-sql: ${SHOW_SQL:true}
+    show-sql: ${SHOW_SQL:false}
     hibernate:
       ddl-auto: ${HIBERNATE_DDL:update}
     properties:
       hibernate:
-        format_sql: ${FORMAT_SQL:true}
+        format_sql: ${FORMAT_SQL:false}
         default_schema: schedule_ingestion
+        jdbc:
+          batch_size: ${HIBERNATE_JDBC_BATCH_SIZE:1000}
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
 
   activemq:
     broker-url: ${ACTIVEMQ_BROKER_URL:tcp://localhost:61616}
@@ -56,6 +61,10 @@ logging:
 ingestion:
   local-root: ${INGESTION_LOCAL_ROOT:C:/Users/mdwas/Projects/messages}
 
+  ssim:
+    flight-batch-size: ${SSIM_FLIGHT_BATCH_SIZE:5000}
+    validation-mode: ${SSIM_VALIDATION_MODE:RELAXED}
+
   allowed-extensions:
     SSIM: [txt, ssim]
     SSM: [txt, ssim]
@@ -72,5 +81,7 @@ camel:
 # APP CONFIG
 # ----------------------------------
 app:
+  security:
+    enabled: ${APP_SECURITY_ENABLED:true}
   crypto:
     secret: ${APP_CRYPTO_SECRET:YOUR_16_32_BYTE_SECRET_KEY}

@@ -71,6 +71,10 @@
     }
 
     .layout-wrapper {
+        .layout-main {
+            min-height: calc(100vh - 6rem);
+        }
+
         .layout-main-container {
             margin-left: 0;
             padding-left: 1rem;

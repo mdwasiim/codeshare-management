@@ -1,5 +1,4 @@
-export interface GroupRoleModel  {
-
+export interface GroupRoleModel {
     id?: string;
 
     groupId: string;
