@@ -1,22 +1,4 @@
 [ {
-  "code" : "DASHBOARD_OVERVIEW",
-  "parentCode" : "DASHBOARD",
-  "label" : "Overview",
-  "icon" : "pi pi-fw pi-home",
-  "route" : "/dashboard",
-  "permission" : "dashboard:read",
-  "displayOrder" : 1,
-  "visible" : null
-}, {
-  "code" : "DASHBOARD_PRODUCT",
-  "parentCode" : "DASHBOARD",
-  "label" : "Product",
-  "icon" : "pi pi-fw pi-box",
-  "route" : "/products",
-  "permission" : "dashboard:read",
-  "displayOrder" : 3,
-  "visible" : null
-}, {
   "code" : "PARTNER_MGMT",
   "parentCode" : null,
   "label" : "Partner Management",
@@ -44,109 +26,10 @@
   "displayOrder" : 6,
   "visible" : null
 }, {
-  "code" : "PERMISSIONS",
-  "parentCode" : "USER_MGMT",
-  "label" : "Permissions",
-  "icon" : "pi pi-fw pi-lock",
-  "route" : "/permissions",
-  "permission" : "permission:read",
-  "displayOrder" : 4,
-  "visible" : null
-}, {
-  "code" : "GROUPS",
-  "parentCode" : "USER_MGMT",
-  "label" : "Groups",
-  "icon" : "pi pi-users",
-  "route" : "/groups",
-  "permission" : "group:read",
-  "displayOrder" : 2,
-  "visible" : null
-}, {
-  "code" : "USERS",
-  "parentCode" : "USER_MGMT",
-  "label" : "Users",
-  "icon" : "pi pi-user",
-  "route" : "/users",
-  "permission" : "user:read",
-  "displayOrder" : 1,
-  "visible" : null
-}, {
-  "code" : "ROLE_MGMT",
-  "parentCode" : "USER_MGMT",
-  "label" : "Tenants",
-  "icon" : "pi pi-building",
-  "route" : "/tenants",
-  "permission" : null,
-  "displayOrder" : 2,
-  "visible" : null
-}, {
-  "code" : "ROLES",
-  "parentCode" : "USER_MGMT",
-  "label" : "Roles",
-  "icon" : "pi pi-id-card",
-  "route" : "/roles",
-  "permission" : "role:read",
-  "displayOrder" : 3,
-  "visible" : null
-}, {
-  "code" : "MENUS",
-  "parentCode" : "USER_MGMT",
-  "label" : "Menus",
-  "icon" : "pi pi-sitemap",
-  "route" : "/menus",
-  "permission" : "permission:read",
-  "displayOrder" : 5,
-  "visible" : null
-}, {
   "code" : "HOME",
   "parentCode" : null,
   "label" : "Home",
   "icon" : null,
-  "route" : null,
-  "permission" : null,
-  "displayOrder" : 1,
-  "visible" : null
-}, {
-  "code" : "GROUP_ROLES",
-  "parentCode" : "MENU_MGMT",
-  "label" : "Group Roles",
-  "icon" : "pi pi-link",
-  "route" : "/group-roles",
-  "permission" : null,
-  "displayOrder" : 2,
-  "visible" : null
-}, {
-  "code" : "AIRLINE_PARTNERS",
-  "parentCode" : "ALIRLINES",
-  "label" : "Airline Partners",
-  "icon" : "pi pi-fw pi-building",
-  "route" : "/partners",
-  "permission" : "group:read",
-  "displayOrder" : 1,
-  "visible" : null
-}, {
-  "code" : "GROUP_MENUS",
-  "parentCode" : "MENU_MGMT",
-  "label" : "Group Menus",
-  "icon" : "pi pi-share-alt",
-  "route" : "/group-menus",
-  "permission" : null,
-  "displayOrder" : 4,
-  "visible" : null
-}, {
-  "code" : "ROLE_PERMISSIONS",
-  "parentCode" : "MENU_MGMT",
-  "label" : "Role Permissions",
-  "icon" : "pi pi-shield",
-  "route" : "/role-permissions",
-  "permission" : null,
-  "displayOrder" : 3,
-  "visible" : null
-}, {
-  "code" : "USER_MGMT",
-  "parentCode" : "ACCESS_MGMT",
-  "label" : "Identity Management",
-  "icon" : "pi pi-fw pi-users",
   "route" : null,
   "permission" : null,
   "displayOrder" : 1,
@@ -188,15 +71,6 @@
   "displayOrder" : 3,
   "visible" : null
 }, {
-  "code" : "LIVE_SCHEDULES",
-  "parentCode" : "LIVE_SCHEDULE",
-  "label" : "live Schedules",
-  "icon" : "pi pi-fw pi-shield",
-  "route" : "/live-schedule",
-  "permission" : null,
-  "displayOrder" : 1,
-  "visible" : null
-}, {
   "code" : "USER_GROUPS",
   "parentCode" : "MENU_MGMT",
   "label" : "User Groups",
@@ -222,24 +96,6 @@
   "route" : "/update-schedule",
   "permission" : null,
   "displayOrder" : 1,
-  "visible" : null
-}, {
-  "code" : "INBOUND_SCHEDULES",
-  "parentCode" : "SSIM_INBOUND",
-  "label" : "Inbound SSIM",
-  "icon" : "pi pi-fw pi-upload",
-  "route" : "/ssim-ingestion",
-  "permission" : null,
-  "displayOrder" : 1,
-  "visible" : null
-}, {
-  "code" : "INBOUND_ASM/SSM",
-  "parentCode" : "SSIM_INBOUND",
-  "label" : "Inbound ASM/SSM",
-  "icon" : "pi pi-fw pi-cog",
-  "route" : "/asm-ssm-ingestion",
-  "permission" : null,
-  "displayOrder" : 2,
   "visible" : null
 }, {
   "code" : "SCHEDULE_MANAGER",
@@ -321,5 +177,149 @@
   "route" : null,
   "permission" : null,
   "displayOrder" : 1,
+  "visible" : null
+}, {
+  "code" : "DASHBOARD_OVERVIEW",
+  "parentCode" : "DASHBOARD",
+  "label" : "Overview",
+  "icon" : "pi pi-fw pi-home",
+  "route" : "/dashboard",
+  "permission" : "dashboard:read",
+  "displayOrder" : 1,
+  "visible" : null
+}, {
+  "code" : "DASHBOARD_PRODUCT",
+  "parentCode" : "DASHBOARD",
+  "label" : "Product",
+  "icon" : "pi pi-fw pi-box",
+  "route" : "/products",
+  "permission" : "dashboard:read",
+  "displayOrder" : 3,
+  "visible" : null
+}, {
+  "code" : "PERMISSIONS",
+  "parentCode" : "USER_MGMT",
+  "label" : "Permissions",
+  "icon" : "pi pi-fw pi-lock",
+  "route" : "/permissions",
+  "permission" : "permission:read",
+  "displayOrder" : 4,
+  "visible" : null
+}, {
+  "code" : "GROUPS",
+  "parentCode" : "USER_MGMT",
+  "label" : "Groups",
+  "icon" : "pi pi-users",
+  "route" : "/groups",
+  "permission" : "group:read",
+  "displayOrder" : 2,
+  "visible" : null
+}, {
+  "code" : "USERS",
+  "parentCode" : "USER_MGMT",
+  "label" : "Users",
+  "icon" : "pi pi-user",
+  "route" : "/users",
+  "permission" : "user:read",
+  "displayOrder" : 1,
+  "visible" : null
+}, {
+  "code" : "ROLE_MGMT",
+  "parentCode" : "USER_MGMT",
+  "label" : "Tenants",
+  "icon" : "pi pi-building",
+  "route" : "/tenants",
+  "permission" : null,
+  "displayOrder" : 2,
+  "visible" : null
+}, {
+  "code" : "ROLES",
+  "parentCode" : "USER_MGMT",
+  "label" : "Roles",
+  "icon" : "pi pi-id-card",
+  "route" : "/roles",
+  "permission" : "role:read",
+  "displayOrder" : 3,
+  "visible" : null
+}, {
+  "code" : "MENUS",
+  "parentCode" : "USER_MGMT",
+  "label" : "Menus",
+  "icon" : "pi pi-sitemap",
+  "route" : "/menus",
+  "permission" : "permission:read",
+  "displayOrder" : 5,
+  "visible" : null
+}, {
+  "code" : "GROUP_ROLES",
+  "parentCode" : "MENU_MGMT",
+  "label" : "Group Roles",
+  "icon" : "pi pi-link",
+  "route" : "/group-roles",
+  "permission" : null,
+  "displayOrder" : 2,
+  "visible" : null
+}, {
+  "code" : "AIRLINE_PARTNERS",
+  "parentCode" : "ALIRLINES",
+  "label" : "Airline Partners",
+  "icon" : "pi pi-fw pi-building",
+  "route" : "/partners",
+  "permission" : "group:read",
+  "displayOrder" : 1,
+  "visible" : null
+}, {
+  "code" : "GROUP_MENUS",
+  "parentCode" : "MENU_MGMT",
+  "label" : "Group Menus",
+  "icon" : "pi pi-share-alt",
+  "route" : "/group-menus",
+  "permission" : null,
+  "displayOrder" : 4,
+  "visible" : null
+}, {
+  "code" : "ROLE_PERMISSIONS",
+  "parentCode" : "MENU_MGMT",
+  "label" : "Role Permissions",
+  "icon" : "pi pi-shield",
+  "route" : "/role-permissions",
+  "permission" : null,
+  "displayOrder" : 3,
+  "visible" : null
+}, {
+  "code" : "USER_MGMT",
+  "parentCode" : "ACCESS_MGMT",
+  "label" : "Identity Management",
+  "icon" : "pi pi-fw pi-users",
+  "route" : null,
+  "permission" : null,
+  "displayOrder" : 1,
+  "visible" : null
+}, {
+  "code" : "LIVE_SCHEDULES",
+  "parentCode" : "LIVE_SCHEDULE",
+  "label" : "live Schedules",
+  "icon" : "pi pi-fw pi-shield",
+  "route" : "/live-schedule",
+  "permission" : null,
+  "displayOrder" : 1,
+  "visible" : null
+}, {
+  "code" : "INBOUND_SCHEDULES",
+  "parentCode" : "SSIM_INBOUND",
+  "label" : "Inbound SSIM",
+  "icon" : "pi pi-fw pi-upload",
+  "route" : "/ssim-ingestion",
+  "permission" : null,
+  "displayOrder" : 1,
+  "visible" : null
+}, {
+  "code" : "INBOUND_ASM/SSM",
+  "parentCode" : "SSIM_INBOUND",
+  "label" : "Inbound ASM/SSM",
+  "icon" : "pi pi-fw pi-cog",
+  "route" : "/asm-ssm-ingestion",
+  "permission" : null,
+  "displayOrder" : 2,
   "visible" : null
 } ]

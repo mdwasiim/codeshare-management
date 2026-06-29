@@ -76,7 +76,7 @@ public class UserGroupLoader {
         }
 
         Set<String> existingMappings =
-                userGroupRepository.findMappings(tenant);
+                userGroupRepository.findMappingsByTenantId(tenant.getId());
 
         List<UserGroup> toSave =
                 new ArrayList<>();

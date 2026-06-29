@@ -89,37 +89,39 @@ public class PermissionLoader {
 
     public void load(UUID tenantId) {
 
-        log.info("⏳ PermissionLoader: ensuring permissions for {} tenants...", tenantId);
-
-        List<Permission> toSave = new ArrayList<>();
+        log.info("⏳ PermissionLoader: ensuring permissions for tenant {}...", tenantId);
 
         Tenant tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() ->
                         new IllegalStateException("Tenant not found: " + tenantId));
 
-        // 🔥 PERFORMANCE: load existing once
-        Set<String> existingCodes = permissionRepository
-                .findCodesByTenant(tenant);
+        Set<String> existingKeys = permissionRepository.findPermissionKeysByTenantId(tenantId);
+
+        List<Permission> toSave = new ArrayList<>();
 
         PERMISSION_DEFS.forEach((domain, actions) -> {
 
+            String normalizedDomain = domain.toUpperCase();
+
             for (String action : actions) {
 
+                String normalizedAction = action.toUpperCase();
+                String key = normalizedDomain + ":" + normalizedAction;
                 String code = (domain + ":" + action).toLowerCase();
 
-                if (existingCodes.contains(code)) {
+                if (existingKeys.contains(key)) {
                     continue;
                 }
-                // prevent duplicates in current batch
-                existingCodes.add(code);
+
+                existingKeys.add(key);
 
                 toSave.add(
                         Permission.builder()
                                 .tenant(tenant)
                                 .name(buildName(domain, action))
                                 .code(code)
-                                .domain(domain)
-                                .action(action)
+                                .domain(normalizedDomain)
+                                .action(normalizedAction)
                                 .description(buildDescription(domain, action))
                                 .build()
                 );

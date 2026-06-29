@@ -30,4 +30,11 @@ public interface PermissionRepository extends CSMDataBaseRepository<Permission, 
     Set<String> findCodesByTenant(@Param("tenant") Tenant tenant);
 
     long countByTenantId(UUID tenantId);
+
+    @Query("""
+    select concat(p.domain, ':', p.action)
+    from Permission p
+    where p.tenant.id = :tenantId
+""")
+    Set<String> findPermissionKeysByTenantId(UUID tenantId);
 }
