@@ -60,12 +60,18 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
             id: [null],
             code: [null],
             label: ['', Validators.required],
+            topbarLabel: [''],
+            sidebarLabel: [''],
             icon: [''],
             route: [''],
             displayOrder: [0],
             parentId: [null],
             groupIds: [[]]
         });
+    }
+
+    get isRootMenu(): boolean {
+        return !this.form?.get('parentId')?.value;
     }
 
     override patchForm(data: AppMenuModel): void {
@@ -113,10 +119,14 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
     // =========================
 
     private mapToModel(formValue: any): AppMenuModel {
+        const isRootMenu = !formValue.parentId;
+
         return {
             id: formValue.id ?? undefined,
             code: formValue.code,
             label: formValue.label,
+            topbarLabel: isRootMenu ? formValue.topbarLabel?.trim() || undefined : undefined,
+            sidebarLabel: !isRootMenu ? formValue.sidebarLabel?.trim() || undefined : undefined,
             icon: formValue.icon || undefined,
             route: formValue.route?.trim() || undefined,
             displayOrder: formValue.displayOrder ?? 0,

@@ -10,6 +10,10 @@ public class MenuBackupDTO {
 
     private String label;
 
+    private String topbarLabel;
+
+    private String sidebarLabel;
+
     private String icon;
 
     private String route;

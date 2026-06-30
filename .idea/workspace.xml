@@ -6,11 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/PermissionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/PermissionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/UserGroupRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/UserGroupRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/PermissionLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/PermissionLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/UserGroupLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/UserGroupLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/backup/menu-backup/menu-backup-20260629-233029.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/csm-core/src/main/java/com/codeshare/airline/core/dto/tenant/MenuBackupDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/csm-core/src/main/java/com/codeshare/airline/core/dto/tenant/MenuBackupDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/csm-core/src/main/java/com/codeshare/airline/core/dto/tenant/MenuDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/csm-core/src/main/java/com/codeshare/airline/core/dto/tenant/MenuDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/MenuServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/DataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/MenuLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/MenuLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/models/app-menu.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/models/app-menu.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +29,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1978" />
+    <option name="cachedIndexableFilesCount" value="2096" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -80,6 +91,7 @@
       <updated>1763230214823</updated>
       <workItem from="1778918094946" duration="19956000" />
       <workItem from="1782497222667" duration="2743000" />
+      <workItem from="1782845901188" duration="1900000" />
     </task>
     <servers />
   </component>

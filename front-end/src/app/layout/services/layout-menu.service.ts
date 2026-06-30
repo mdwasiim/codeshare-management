@@ -10,6 +10,8 @@ type MenuApiItem = Partial<AppMenuModel> & {
     id?: string;
     code?: string;
     label?: string;
+    topbarLabel?: string | null;
+    sidebarLabel?: string | null;
     parentId?: string | null;
     parentCode?: string | null;
     visible?: boolean | null;
@@ -124,6 +126,8 @@ export class LayoutMenuService {
             id: item.id,
             code: item.code ?? '',
             label: this.normalizeLabel(item.label),
+            topbarLabel: this.normalizeOptionalLabel(item.topbarLabel),
+            sidebarLabel: this.normalizeOptionalLabel(item.sidebarLabel),
             icon: item.icon,
             route: item.route,
             parentId: item.parentId ?? undefined,
@@ -135,6 +139,11 @@ export class LayoutMenuService {
     private normalizeLabel(label?: string): string {
         if (!label) return '';
         return label.trim().replace(/\s+\d+$/, '');
+    }
+
+    private normalizeOptionalLabel(label?: string | null): string | undefined {
+        const normalized = this.normalizeLabel(label ?? undefined);
+        return normalized || undefined;
     }
 
     /**

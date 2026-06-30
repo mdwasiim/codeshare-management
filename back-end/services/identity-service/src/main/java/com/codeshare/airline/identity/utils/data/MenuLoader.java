@@ -84,6 +84,8 @@ public class MenuLoader {
             Menu menu = Menu.builder()
                     .code(dto.getCode())
                     .label(dto.getLabel())
+                    .topbarLabel(dto.getTopbarLabel())
+                    .sidebarLabel(dto.getSidebarLabel())
                     .icon(dto.getIcon())
                     .route(dto.getRoute())
                     .permission(dto.getPermission())
@@ -126,6 +128,14 @@ public class MenuLoader {
 
         if (!Objects.equals(menu.getLabel(), dto.getLabel())) {
             menu.setLabel(dto.getLabel());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getTopbarLabel(), dto.getTopbarLabel())) {
+            menu.setTopbarLabel(dto.getTopbarLabel());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getSidebarLabel(), dto.getSidebarLabel())) {
+            menu.setSidebarLabel(dto.getSidebarLabel());
             changed = true;
         }
         if (!Objects.equals(menu.getIcon(), dto.getIcon())) {

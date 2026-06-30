@@ -1,6 +1,6 @@
 @if (root() && isVisible()) {
     <div class="layout-menuitem-root-text flex items-center justify-between cursor-pointer" (click)="item().expanded = !item().expanded">
-        {{ item().label }}
+        {{ item().sidebarLabel || item().label }}
 
         <i class="pi text-xs" [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'"> </i>
     </div>
@@ -12,13 +12,13 @@
 @if (isVisible()) {
     <a *ngIf="hasChildren() && !root()" href="#" [ngClass]="item().styleClass" (click)="onBranchClick($event)" tabindex="0" pRipple>
         <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
-        <span class="layout-menuitem-text">{{ item().label }}</span>
+        <span class="layout-menuitem-text">{{ item().sidebarLabel || item().label }}</span>
         <i class="layout-submenu-toggler pi" [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
     </a>
 
     <a *ngIf="item().routerLink && !hasChildren()" [routerLink]="item().routerLink" routerLinkActive="active-route" [routerLinkActiveOptions]="{ exact: false }" [ngClass]="item().styleClass" (click)="itemClick()" tabindex="0" pRipple>
         <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
-        <span class="layout-menuitem-text">{{ item().label }}</span>
+        <span class="layout-menuitem-text">{{ item().sidebarLabel || item().label }}</span>
     </a>
 }
 

@@ -72,6 +72,9 @@ public class MenuServiceImpl implements MenuService {
                     .orElseThrow(() -> new RuntimeException("Parent menu not found"));
             entity.setParentMenu(parent);
         }
+
+        normalizePlacementLabels(entity);
+
         Menu saved = repository.save(entity);
         replaceMenuGroups(saved, dto.getGroupIds(), tenant);
 
@@ -100,10 +103,32 @@ public class MenuServiceImpl implements MenuService {
             entity.setParentMenu(null);
         }
 
+        normalizePlacementLabels(entity);
+
         Menu saved = repository.save(entity);
         replaceMenuGroups(saved, dto.getGroupIds(), saved.getTenant());
 
         return toDtoWithGroups(saved);
+    }
+
+    private void normalizePlacementLabels(Menu entity) {
+        entity.setTopbarLabel(trimToNull(entity.getTopbarLabel()));
+        entity.setSidebarLabel(trimToNull(entity.getSidebarLabel()));
+
+        if (entity.getParentMenu() == null) {
+            entity.setSidebarLabel(null);
+        } else {
+            entity.setTopbarLabel(null);
+        }
+    }
+
+    private String trimToNull(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 
 
@@ -228,6 +253,8 @@ public class MenuServiceImpl implements MenuService {
                                         : null
                         );
                         dto.setLabel(menu.getLabel());
+                        dto.setTopbarLabel(menu.getTopbarLabel());
+                        dto.setSidebarLabel(menu.getSidebarLabel());
                         dto.setIcon(menu.getIcon());
                         dto.setRoute(menu.getRoute());
                         dto.setPermission(menu.getPermission());

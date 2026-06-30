@@ -74,6 +74,16 @@
                         <span>Route</span>
                         <code>{{ displayValue(selectedMenu.route) }}</code>
                     </div>
+                    <div *ngIf="!selectedMenu.parentId; else sidebarDisplayLabel">
+                        <span>Topbar display</span>
+                        <strong>{{ displayValue(selectedMenu.topbarLabel || selectedMenu.label) }}</strong>
+                    </div>
+                    <ng-template #sidebarDisplayLabel>
+                        <div>
+                            <span>Sidebar display</span>
+                            <strong>{{ displayValue(selectedMenu.sidebarLabel || selectedMenu.label) }}</strong>
+                        </div>
+                    </ng-template>
                     <div>
                         <span>Parent</span>
                         <strong>{{ displayValue(selectedMenu.parentId) }}</strong>

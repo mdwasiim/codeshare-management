@@ -38,6 +38,12 @@ public class Menu extends CSMDataAbstractEntity {
     @Column(name = "label", nullable = false, length = 200)
     private String label;
 
+    @Column(name = "topbar_label", length = 200)
+    private String topbarLabel;
+
+    @Column(name = "sidebar_label", length = 200)
+    private String sidebarLabel;
+
     @Column(name = "icon", length = 200)
     private String icon;
 

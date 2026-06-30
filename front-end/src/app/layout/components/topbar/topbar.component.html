@@ -16,7 +16,7 @@
 
             @for (menu of rootMenus; track menu.id) {
                 <button type="button" class="enterprise-root-nav__item" [class.enterprise-root-nav__item--active]="isActive(menu, selected)" (click)="selectMenu(menu)">
-                    {{ menu.label }}
+                    {{ menu.topbarLabel || menu.label }}
                 </button>
             }
         </nav>

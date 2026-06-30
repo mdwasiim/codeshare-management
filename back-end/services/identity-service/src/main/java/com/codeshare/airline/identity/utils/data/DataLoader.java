@@ -68,7 +68,7 @@ public class DataLoader {
                 // =============================
                 // CORE LOADERS
                 // =============================
-               /* oidcLoader.load(tenantId);
+                oidcLoader.load(tenantId);
                 roleLoader.load(tenantId);
                 permissionLoader.load(tenantId);
                 groupLoader.load(tenantId);
@@ -85,7 +85,7 @@ public class DataLoader {
                 // USERS
                 // =============================
                 userLoader.loadUser(tenantId);
-                userGroupLoader.load(tenantId);*/
+                userGroupLoader.load(tenantId);
 
                 log.info("✅ Tenant [{}] initialized successfully",
                         tenantId);

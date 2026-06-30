@@ -253,8 +253,8 @@ export class MenuListPage extends BaseListComponent<MenuTreeNode> {
 
     exportCSV(): void {
         const rows = this.flattenMenus(this.originalTree);
-        const header = ['Label', 'Code', 'Route', 'Icon', 'Parent Id', 'Order', 'Active'];
-        const csv = [header, ...rows.map((menu) => [menu.label, menu.code, menu.route, menu.icon, menu.parentId, menu.displayOrder, menu.active])].map((row) => row.map((cell) => `"${this.displayValue(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+        const header = ['Label', 'Topbar Label', 'Sidebar Label', 'Code', 'Route', 'Icon', 'Parent Id', 'Order', 'Active'];
+        const csv = [header, ...rows.map((menu) => [menu.label, menu.topbarLabel, menu.sidebarLabel, menu.code, menu.route, menu.icon, menu.parentId, menu.displayOrder, menu.active])].map((row) => row.map((cell) => `"${this.displayValue(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -306,7 +306,7 @@ export class MenuListPage extends BaseListComponent<MenuTreeNode> {
             .map((node) => {
                 const children = this.filterTree(node.children, query);
                 const menu = node.data;
-                const selfMatches = [menu.label, menu.code, menu.route, menu.icon].some((value) => value?.toLowerCase().includes(query));
+                const selfMatches = [menu.label, menu.topbarLabel, menu.sidebarLabel, menu.code, menu.route, menu.icon].some((value) => value?.toLowerCase().includes(query));
 
                 if (!selfMatches && !children.length) {
                     return null;

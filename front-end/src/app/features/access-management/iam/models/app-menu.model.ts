@@ -5,6 +5,8 @@ export interface AppMenuModel extends AuditableModel {
 
     code: string;
     label: string;
+    topbarLabel?: string;
+    sidebarLabel?: string;
     icon?: string;
 
     route?: string;
