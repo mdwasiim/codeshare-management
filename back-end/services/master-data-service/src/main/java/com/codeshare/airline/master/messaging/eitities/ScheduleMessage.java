@@ -2,7 +2,7 @@ package com.codeshare.airline.master.messaging.eitities;
 
 import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.scheduling.eitities.ScheduleFlight;
+import com.codeshare.airline.master.schedule.eitities.ScheduleFlight;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

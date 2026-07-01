@@ -28,7 +28,7 @@ spring:
     properties:
       hibernate:
         format_sql: ${FORMAT_SQL:true}
-        default_schema: master_data
+        default_schema: schedule_master_data
 
 server:
   port: ${MASTER_DATA_SERVICE_PORT:8084}

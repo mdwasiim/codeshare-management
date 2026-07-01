@@ -1,0 +1,10 @@
+package com.codeshare.airline.master.georegion.service;
+
+import com.codeshare.airline.core.dto.airport.georegion.SeasonDTO;
+import com.codeshare.airline.master.common.base.BaseService;
+
+import java.util.UUID;
+
+public interface SeasonService extends BaseService<SeasonDTO, UUID> {
+
+}

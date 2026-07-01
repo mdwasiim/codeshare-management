@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.aircraft.eitities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.airport.georegion.eitities.AirlineCarrier;
+import com.codeshare.airline.master.georegion.eitities.AirlineCarrier;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,0 +1,25 @@
+package com.codeshare.airline.master.codeshare.repository;
+
+import com.codeshare.airline.master.codeshare.eitities.CodeshareAgreement;
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface CodeshareAgreementRepository
+        extends CSMDataBaseRepository<CodeshareAgreement, UUID> {
+
+    List<CodeshareAgreement> findByMarketingAirlineId(UUID airlineId);
+
+    List<CodeshareAgreement> findByOperatingAirlineId(UUID airlineId);
+
+    boolean existsByMarketingAirlineIdAndOperatingAirlineIdAndEffectiveFrom(
+            UUID marketingId,
+            UUID operatingId,
+            LocalDate effectiveFrom
+    );
+
+    Optional<CodeshareAgreement> findByAgreementCode(String s);
+}
