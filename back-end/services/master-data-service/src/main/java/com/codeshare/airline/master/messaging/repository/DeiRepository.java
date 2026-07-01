@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.repository;
 
-import com.codeshare.airline.master.messaging.eitities.DeiRegistry;
+import com.codeshare.airline.master.messaging.entities.DeiRegistry;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.Optional;

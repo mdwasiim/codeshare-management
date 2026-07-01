@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.messaging.serviceImpl;
 
 import com.codeshare.airline.core.dto.airport.georegion.ServiceTypeDTO;
-import com.codeshare.airline.master.messaging.eitities.ServiceType;
+import com.codeshare.airline.master.flightcommercial.passenger.entities.ServiceType;
 import com.codeshare.airline.master.messaging.repository.ServiceTypeRepository;
 import com.codeshare.airline.master.messaging.service.ServiceTypeService;
 import com.codeshare.airline.master.messaging.mappers.ServiceTypeMapper;

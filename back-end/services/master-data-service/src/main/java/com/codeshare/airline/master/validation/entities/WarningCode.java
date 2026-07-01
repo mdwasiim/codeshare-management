@@ -1,5 +1,65 @@
 package com.codeshare.airline.master.validation.entities;
 
-public class WarningCode {
+import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate;
+
+@Entity(name = "Warning_Code")
+@Table(
+        name = "WARNING_CODE",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UK_WARNING_CODE", columnNames = "WARNING_CODE")
+        },
+        indexes = {
+                @Index(name = "IDX_WARNING_CODE_STATUS", columnList = "STATUS")
+        }
+)
+@Getter
+@Setter
+@NoArgsConstructor
+public class WarningCode extends CSMDataAbstractEntity {
+    @Column(name = "WARNING_CODE", nullable = false, length = 20)
+    private String warningCode;
+
+    @Column(name = "WARNING_NAME", nullable = false, length = 150)
+    private String warningName;
+
+    @Column(name = "WARNING_MESSAGE", length = 500)
+    private String warningMessage;
+
+
+    @Column(name = "DESCRIPTION", length = 500)
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS", nullable = false, length = 20)
+    private RecordStatus recordStatus;
+
+    @Column(name = "EFFECTIVE_FROM")
+    private LocalDate effectiveFrom;
+
+    @Column(name = "EFFECTIVE_TO")
+    private LocalDate effectiveTo;
+
+    @PrePersist
+    @PreUpdate
+    private void normalizeAndValidate() {
+        if (warningCode != null) {
+            warningCode = warningCode.trim().toUpperCase();
+        }
+
+        if (warningName != null) {
+            warningName = warningName.trim();
+        }
+
+        if (effectiveFrom != null && effectiveTo != null &&
+                effectiveFrom.isAfter(effectiveTo)) {
+            throw new IllegalStateException("Invalid effective period.");
+        }
+    }
 }

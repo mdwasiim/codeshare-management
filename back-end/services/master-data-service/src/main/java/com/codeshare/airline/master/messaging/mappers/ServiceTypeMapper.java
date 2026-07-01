@@ -4,7 +4,7 @@ package com.codeshare.airline.master.messaging.mappers;
 import com.codeshare.airline.core.dto.airport.georegion.ServiceTypeDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.core.mapper.CSMMapperConfig;
-import com.codeshare.airline.master.messaging.eitities.ServiceType;
+import com.codeshare.airline.master.flightcommercial.passenger.entities.ServiceType;
 import org.mapstruct.Mapper;
 
 @Mapper(

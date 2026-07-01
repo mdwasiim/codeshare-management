@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.aircraft.loader;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.aircraft.eitities.AircraftConfiguration;
-import com.codeshare.airline.master.aircraft.eitities.AirlineFleet;
+import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
+import com.codeshare.airline.master.aircraft.entities.AirlineFleetProfile;
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.master.aircraft.repository.AirlineFleetRepository;
 import com.codeshare.airline.master.georegion.eitities.AirlineCarrier;
@@ -36,7 +36,7 @@ public class AirlineFleetDataLoader implements CommandLineRunner {
         AircraftConfiguration qr320 =
                 configurationRepository.findByConfigurationCode("320-ALL-ECO").orElseThrow();
 
-        List<AirlineFleet> fleet = List.of(
+        List<AirlineFleetProfile> fleet = List.of(
 
                 build(qr, qr77w, 25),
                 build(qr, qr320, 40),
@@ -46,11 +46,11 @@ public class AirlineFleetDataLoader implements CommandLineRunner {
         repository.saveAll(fleet);
     }
 
-    private AirlineFleet build(AirlineCarrier airline,
-                               AircraftConfiguration config,
-                               int count) {
+    private AirlineFleetProfile build(AirlineCarrier airline,
+                                      AircraftConfiguration config,
+                                      int count) {
 
-        AirlineFleet fleet = new AirlineFleet();
+        AirlineFleetProfile fleet = new AirlineFleetProfile();
         fleet.setAirline(airline);
         fleet.setAircraftConfiguration(config);
         fleet.setAircraftCount(count);

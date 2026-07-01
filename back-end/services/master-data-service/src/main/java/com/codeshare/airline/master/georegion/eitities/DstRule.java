@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(
-        name = "MASTER_DST_RULE",
+        name = "DST_RULE",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "UK_DST_TZ_EFFECTIVE_FROM",

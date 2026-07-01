@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(
-        name = "MASTER_COUNTRY",
+        name = "COUNTRY",
         uniqueConstraints = {
                 @UniqueConstraint(name = "UK_COUNTRY_ISO2", columnNames = "ISO2_CODE"),
                 @UniqueConstraint(name = "UK_COUNTRY_ISO3", columnNames = "ISO3_CODE")

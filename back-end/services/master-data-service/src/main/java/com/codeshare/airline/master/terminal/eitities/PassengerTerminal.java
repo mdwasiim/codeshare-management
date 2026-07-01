@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Entity
 @Table(
-        name = "MASTER_TERMINAL",
+        name = "TERMINAL",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "UK_AIRPORT_TERMINAL",

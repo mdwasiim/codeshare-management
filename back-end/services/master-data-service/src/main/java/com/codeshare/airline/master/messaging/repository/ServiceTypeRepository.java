@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.repository;
 
-import com.codeshare.airline.master.messaging.eitities.ServiceType;
+import com.codeshare.airline.master.flightcommercial.passenger.entities.ServiceType;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.Optional;

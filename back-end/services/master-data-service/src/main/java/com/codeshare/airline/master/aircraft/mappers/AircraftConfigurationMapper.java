@@ -3,7 +3,7 @@ package com.codeshare.airline.master.aircraft.mappers;
 import com.codeshare.airline.core.dto.aircraft.AircraftConfigurationDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.core.mapper.CSMMapperConfig;
-import com.codeshare.airline.master.aircraft.eitities.AircraftConfiguration;
+import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -12,7 +12,7 @@ import java.time.ZoneOffset;
 
 @Entity
 @Table(
-        name = "MASTER_TIMEZONE",
+        name = "TIMEZONE",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "UK_TIMEZONE_IDENTIFIER",

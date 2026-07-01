@@ -3,7 +3,7 @@ package com.codeshare.airline.master.aircraft.mappers;
 import com.codeshare.airline.core.dto.aircraft.AirlineFleetDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.core.mapper.CSMMapperConfig;
-import com.codeshare.airline.master.aircraft.eitities.AirlineFleet;
+import com.codeshare.airline.master.aircraft.entities.AirlineFleetProfile;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -11,9 +11,9 @@ import org.mapstruct.Mapping;
         config = CSMMapperConfig.class
 )
 public interface AirlineFleetMapper
-        extends CSMGenericMapper<AirlineFleet, AirlineFleetDTO> {
+        extends CSMGenericMapper<AirlineFleetProfile, AirlineFleetDTO> {
 
     @Mapping(source = "airline.id", target = "airlineId")
     @Mapping(source = "aircraftConfiguration.id", target = "aircraftConfigurationId")
-    AirlineFleetDTO toDTO(AirlineFleet entity);
+    AirlineFleetDTO toDTO(AirlineFleetProfile entity);
 }

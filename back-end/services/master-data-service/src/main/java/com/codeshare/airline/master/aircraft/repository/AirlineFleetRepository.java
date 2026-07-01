@@ -1,15 +1,15 @@
 package com.codeshare.airline.master.aircraft.repository;
 
-import com.codeshare.airline.master.aircraft.eitities.AirlineFleet;
+import com.codeshare.airline.master.aircraft.entities.AirlineFleetProfile;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface AirlineFleetRepository
-        extends CSMDataBaseRepository<AirlineFleet, UUID> {
+        extends CSMDataBaseRepository<AirlineFleetProfile, UUID> {
 
-    List<AirlineFleet> findByAirlineId(UUID airlineId);
+    List<AirlineFleetProfile> findByAirlineId(UUID airlineId);
 
-    List<AirlineFleet> findByAircraftConfigurationId(UUID configId);
+    List<AirlineFleetProfile> findByAircraftConfigurationId(UUID configId);
 }

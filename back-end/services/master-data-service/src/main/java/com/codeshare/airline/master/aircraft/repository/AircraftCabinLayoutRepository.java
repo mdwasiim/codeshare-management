@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.aircraft.repository;
 
-import com.codeshare.airline.master.aircraft.eitities.AircraftCabinLayout;
+import com.codeshare.airline.master.aircraft.entities.AircraftCabinLayout;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

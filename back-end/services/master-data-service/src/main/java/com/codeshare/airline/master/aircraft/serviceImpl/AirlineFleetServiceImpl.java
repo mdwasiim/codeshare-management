@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
 import com.codeshare.airline.core.dto.aircraft.AirlineFleetDTO;
-import com.codeshare.airline.master.aircraft.eitities.AircraftConfiguration;
-import com.codeshare.airline.master.aircraft.eitities.AirlineFleet;
+import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
+import com.codeshare.airline.master.aircraft.entities.AirlineFleetProfile;
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.master.aircraft.repository.AirlineFleetRepository;
 import com.codeshare.airline.master.aircraft.service.AirlineFleetService;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Service
 public class AirlineFleetServiceImpl
-        extends BaseServiceImpl<AirlineFleet, AirlineFleetDTO, UUID>
+        extends BaseServiceImpl<AirlineFleetProfile, AirlineFleetDTO, UUID>
         implements AirlineFleetService {
 
     private final AirlineFleetRepository repository;
@@ -60,7 +60,7 @@ public class AirlineFleetServiceImpl
             );
         }
 
-        AirlineFleet fleet = mapper.toEntity(dto);
+        AirlineFleetProfile fleet = mapper.toEntity(dto);
         fleet.setAirline(airline);
         fleet.setAircraftConfiguration(config);
 
@@ -70,7 +70,7 @@ public class AirlineFleetServiceImpl
     @Override
     public AirlineFleetDTO update(UUID id, AirlineFleetDTO dto) {
 
-        AirlineFleet existing = repository.findById(id)
+        AirlineFleetProfile existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Fleet record not found"));
 
         AirlineCarrier airline = getAirline(dto.getAirlineId());

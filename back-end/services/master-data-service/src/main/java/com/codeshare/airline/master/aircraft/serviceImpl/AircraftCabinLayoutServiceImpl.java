@@ -2,8 +2,8 @@ package com.codeshare.airline.master.aircraft.serviceImpl;
 
 
 import com.codeshare.airline.core.dto.aircraft.AircraftCabinLayoutDTO;
-import com.codeshare.airline.master.aircraft.eitities.AircraftCabinLayout;
-import com.codeshare.airline.master.aircraft.eitities.AircraftConfiguration;
+import com.codeshare.airline.master.aircraft.entities.AircraftCabinLayout;
+import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.repository.AircraftCabinLayoutRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.master.aircraft.service.AircraftCabinLayoutService;

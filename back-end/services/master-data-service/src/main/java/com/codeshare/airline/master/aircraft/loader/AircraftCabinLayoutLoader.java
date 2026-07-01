@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.aircraft.loader;
 
 import com.codeshare.airline.core.enums.common.CabinClass;
-import com.codeshare.airline.master.aircraft.eitities.AircraftCabinLayout;
-import com.codeshare.airline.master.aircraft.eitities.AircraftConfiguration;
+import com.codeshare.airline.master.aircraft.entities.AircraftCabinLayout;
+import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.repository.AircraftCabinLayoutRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import lombok.RequiredArgsConstructor;

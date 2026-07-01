@@ -2,7 +2,7 @@ package com.codeshare.airline.master.messaging.data;
 
 import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.messaging.eitities.ActionIdentifier;
+import com.codeshare.airline.master.messaging.entities.ActionIdentifier;
 import com.codeshare.airline.master.messaging.repository.ActionIdentifierRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
