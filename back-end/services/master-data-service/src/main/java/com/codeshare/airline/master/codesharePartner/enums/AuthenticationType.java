@@ -1,4 +1,4 @@
-package com.codeshare.airline.master.codesharePartner.enums;
+package com.codeshare.airline.master.codesharepartner.enums;
 
 public enum AuthenticationType {
 

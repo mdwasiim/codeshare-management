@@ -1,9 +1,9 @@
 package com.codeshare.airline.master.terminal.serviceImpl;
 
-import com.codeshare.airline.core.dto.airport.terminal.PassengerTerminalDTO;
-import com.codeshare.airline.master.georegion.eitities.Airport;
+import com.codeshare.airline.core.dto.master.terminal.PassengerTerminalDTO;
+import com.codeshare.airline.master.georegion.entities.Airport;
 import com.codeshare.airline.master.georegion.repository.AirportRepository;
-import com.codeshare.airline.master.terminal.eitities.PassengerTerminal;
+import com.codeshare.airline.master.terminal.entities.PassengerTerminal;
 import com.codeshare.airline.master.terminal.repository.PassengerTerminalRepository;
 import com.codeshare.airline.master.terminal.service.PassengerTerminalService;
 import com.codeshare.airline.master.terminal.mappers.PassengerTerminalMapper;
@@ -44,7 +44,7 @@ public class PassengerTerminalServiceImpl
     public PassengerTerminalDTO create(PassengerTerminalDTO dto) {
 
         // Validate duplicate terminal per airport
-        if (repository.existsByAirportCodeAndTerminalCode(
+        if (repository.existsByAirport_IataCodeAndTerminalCode(
                 dto.getAirportCode(),
                 dto.getTerminalCode())) {
 

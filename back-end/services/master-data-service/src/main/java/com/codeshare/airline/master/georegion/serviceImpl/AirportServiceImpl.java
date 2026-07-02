@@ -1,10 +1,10 @@
 package com.codeshare.airline.master.georegion.serviceImpl;
 
-import com.codeshare.airline.core.dto.airport.georegion.AirportDTO;
-import com.codeshare.airline.master.georegion.eitities.Airport;
-import com.codeshare.airline.master.georegion.eitities.City;
-import com.codeshare.airline.master.georegion.eitities.Country;
-import com.codeshare.airline.master.georegion.eitities.Timezone;
+import com.codeshare.airline.core.dto.master.georegion.AirportDTO;
+import com.codeshare.airline.master.georegion.entities.Airport;
+import com.codeshare.airline.master.georegion.entities.City;
+import com.codeshare.airline.master.georegion.entities.Country;
+import com.codeshare.airline.master.georegion.entities.Timezone;
 import com.codeshare.airline.master.georegion.repository.AirportRepository;
 import com.codeshare.airline.master.georegion.repository.CityRepository;
 import com.codeshare.airline.master.georegion.repository.CountryRepository;

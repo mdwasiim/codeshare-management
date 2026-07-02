@@ -2,7 +2,7 @@ package com.codeshare.airline.master.terminal.data;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.georegion.repository.AirportRepository;
-import com.codeshare.airline.master.terminal.eitities.PassengerTerminal;
+import com.codeshare.airline.master.terminal.entities.PassengerTerminal;
 import com.codeshare.airline.master.terminal.repository.PassengerTerminalRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class PassengerTerminalDataLoader {
         airportRepository.findAll().forEach(airport -> {
 
             boolean exists = repository
-                    .existsByAirportCodeAndTerminalCode(
+                    .existsByAirport_IataCodeAndTerminalCode(
                             airport.getIataCode(),
                             "T1");
 

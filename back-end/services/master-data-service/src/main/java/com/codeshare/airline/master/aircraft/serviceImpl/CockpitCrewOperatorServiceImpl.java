@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
-import com.codeshare.airline.core.dto.aircraft.CockpitCrewOperatorDTO;
+import com.codeshare.airline.core.dto.master.aircraft.CockpitCrewOperatorDTO;
 import com.codeshare.airline.master.aircraft.entities.CockpitCrewOperator;
 import com.codeshare.airline.master.aircraft.mappers.CockpitCrewOperatorMapper;
 import com.codeshare.airline.master.aircraft.repository.CockpitCrewOperatorRepository;
@@ -8,7 +8,7 @@ import com.codeshare.airline.master.aircraft.service.CockpitCrewOperatorService;
 import com.codeshare.airline.master.airline.entities.AirlineCarrier;
 import com.codeshare.airline.master.airline.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
-import com.codeshare.airline.master.georegion.eitities.Country;
+import com.codeshare.airline.master.georegion.entities.Country;
 import com.codeshare.airline.master.georegion.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

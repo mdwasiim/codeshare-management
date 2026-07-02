@@ -4,7 +4,7 @@ import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.airline.entities.enums.AirlineContactType;
 import com.codeshare.airline.master.airline.entities.enums.CommunicationMethod;
-import com.codeshare.airline.master.georegion.eitities.Timezone;
+import com.codeshare.airline.master.georegion.entities.Timezone;
 import com.codeshare.airline.master.reference.entities.Language;
 import jakarta.persistence.*;
 import lombok.Getter;

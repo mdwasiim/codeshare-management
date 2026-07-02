@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.georegion.repository;
 
-import com.codeshare.airline.master.georegion.eitities.Country;
+import com.codeshare.airline.master.georegion.entities.Country;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.Optional;

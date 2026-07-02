@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.core.dto.ssim.ActionCodeDTO;
+import com.codeshare.airline.core.dto.master.messaging.ActionCodeDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.messaging.entities.ActionCode;
 import com.codeshare.airline.master.messaging.entities.ActionIdentifier;

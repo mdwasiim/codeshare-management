@@ -1,17 +1,17 @@
-package com.codeshare.airline.master.codesharePartner.entities;
+package com.codeshare.airline.master.codesharepartner.entities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.airline.entities.CodesharePartner;
-import com.codeshare.airline.master.codesharePartner.enums.AuthenticationType;
-import com.codeshare.airline.master.codesharePartner.enums.CommunicationProtocol;
-import com.codeshare.airline.master.codesharePartner.enums.TransportType;
+import com.codeshare.airline.master.codesharepartner.enums.AuthenticationType;
+import com.codeshare.airline.master.codesharepartner.enums.CommunicationProtocol;
+import com.codeshare.airline.master.codesharepartner.enums.TransportType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.text.MessageFormat;
+import com.codeshare.airline.master.codesharepartner.enums.MessageFormat;
 import java.time.LocalDate;
 
 @Entity

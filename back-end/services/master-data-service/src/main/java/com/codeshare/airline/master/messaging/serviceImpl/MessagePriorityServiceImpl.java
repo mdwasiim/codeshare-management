@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.core.dto.ssim.MessagePriorityDTO;
+import com.codeshare.airline.core.dto.master.messaging.MessagePriorityDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.messaging.entities.MessagePriority;
 import com.codeshare.airline.master.messaging.mappers.MessagePriorityMapper;

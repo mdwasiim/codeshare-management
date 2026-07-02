@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
-import com.codeshare.airline.core.dto.aircraft.AircraftOwnerDTO;
+import com.codeshare.airline.core.dto.master.aircraft.AircraftOwnerDTO;
 import com.codeshare.airline.master.aircraft.entities.AircraftOwner;
 import com.codeshare.airline.master.aircraft.mappers.AircraftOwnerMapper;
 import com.codeshare.airline.master.aircraft.repository.AircraftOwnerRepository;
 import com.codeshare.airline.master.aircraft.service.AircraftOwnerService;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
-import com.codeshare.airline.master.georegion.eitities.Country;
+import com.codeshare.airline.master.georegion.entities.Country;
 import com.codeshare.airline.master.georegion.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

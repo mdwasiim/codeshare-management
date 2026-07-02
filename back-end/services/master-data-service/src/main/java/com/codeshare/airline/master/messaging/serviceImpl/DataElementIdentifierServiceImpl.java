@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.core.dto.ssim.DataElementIdentifierDTO;
+import com.codeshare.airline.core.dto.master.messaging.DataElementIdentifierDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.messaging.entities.DataElementIdentifier;
 import com.codeshare.airline.master.messaging.entities.StandardMessageIdentifier;

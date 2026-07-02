@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.messaging.controller;
 
 
-import com.codeshare.airline.core.dto.ssim.DeiDTO;
+import com.codeshare.airline.core.dto.master.messaging.DeiDTO;
 import com.codeshare.airline.master.common.base.BaseController;
 import com.codeshare.airline.master.messaging.service.DeiService;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.service;
 
-import com.codeshare.airline.core.dto.ssim.RejectReasonDTO;
+import com.codeshare.airline.core.dto.master.messaging.RejectReasonDTO;
 import com.codeshare.airline.master.common.base.BaseService;
 
 import java.util.UUID;

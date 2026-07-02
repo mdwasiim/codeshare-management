@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.georegion.data;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.georegion.eitities.Region;
+import com.codeshare.airline.master.georegion.entities.Region;
 import com.codeshare.airline.master.georegion.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

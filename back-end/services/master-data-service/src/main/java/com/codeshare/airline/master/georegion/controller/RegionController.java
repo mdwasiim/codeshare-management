@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.georegion.controller;
 
-import com.codeshare.airline.core.dto.airport.georegion.RegionDTO;
+import com.codeshare.airline.core.dto.master.georegion.RegionDTO;
 import com.codeshare.airline.master.common.base.BaseController;
 import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;

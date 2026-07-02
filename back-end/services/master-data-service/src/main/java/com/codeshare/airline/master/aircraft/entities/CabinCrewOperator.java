@@ -4,7 +4,7 @@ import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.enums.CrewEmployerType;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.airline.entities.AirlineCarrier;
-import com.codeshare.airline.master.georegion.eitities.Country;
+import com.codeshare.airline.master.georegion.entities.Country;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

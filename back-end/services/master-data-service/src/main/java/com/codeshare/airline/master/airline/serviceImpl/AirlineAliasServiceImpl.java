@@ -1,0 +1,43 @@
+package com.codeshare.airline.master.airline.serviceImpl;
+
+import com.codeshare.airline.core.dto.master.airline.AirlineAliasDTO;
+import com.codeshare.airline.master.airline.entities.AirlineAlias;
+import com.codeshare.airline.master.airline.entities.AirlineCarrier;
+import com.codeshare.airline.master.airline.mappers.AirlineAliasMapper;
+import com.codeshare.airline.master.airline.repository.AirlineAliasRepository;
+import com.codeshare.airline.master.airline.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airline.service.AirlineAliasService;
+import com.codeshare.airline.master.common.base.BaseServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+public class AirlineAliasServiceImpl extends BaseServiceImpl<AirlineAlias, AirlineAliasDTO, UUID> implements AirlineAliasService {
+    private final AirlineCarrierRepository airlineCarrierRepository;
+
+    public AirlineAliasServiceImpl(AirlineAliasRepository repository, AirlineAliasMapper mapper, AirlineCarrierRepository airlineCarrierRepository) {
+        super(repository, mapper);
+        this.airlineCarrierRepository = airlineCarrierRepository;
+    }
+
+    private AirlineCarrier airline(UUID id) {
+        return id == null ? null : airlineCarrierRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline not found"));
+    }
+
+    @Override
+    public AirlineAliasDTO create(AirlineAliasDTO dto) {
+        AirlineAlias entity = mapper.toEntity(dto);
+        entity.setAirline(airline(dto.getAirlineId()));
+        return mapper.toDTO(repository.save(entity));
+    }
+
+    @Override
+    public AirlineAliasDTO update(UUID id, AirlineAliasDTO dto) {
+        AirlineAlias existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline alias not found"));
+        mapper.updateEntityFromDto(dto, existing);
+        existing.setAirline(airline(dto.getAirlineId()));
+        return mapper.toDTO(repository.save(existing));
+    }
+}

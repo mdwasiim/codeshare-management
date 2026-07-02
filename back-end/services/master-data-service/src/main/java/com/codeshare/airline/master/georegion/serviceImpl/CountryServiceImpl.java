@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.georegion.serviceImpl;
 
-import com.codeshare.airline.core.dto.airport.georegion.CountryDTO;
-import com.codeshare.airline.master.georegion.eitities.Country;
+import com.codeshare.airline.core.dto.master.georegion.CountryDTO;
+import com.codeshare.airline.master.georegion.entities.Country;
 import com.codeshare.airline.master.georegion.repository.CountryRepository;
 import com.codeshare.airline.master.georegion.service.CountryService;
 import com.codeshare.airline.master.georegion.mappers.CountryMapper;

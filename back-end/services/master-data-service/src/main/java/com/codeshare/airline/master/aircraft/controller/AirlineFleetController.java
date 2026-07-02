@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.aircraft.controller;
 
-import com.codeshare.airline.core.dto.aircraft.AirlineFleetDTO;
+import com.codeshare.airline.core.dto.master.aircraft.AirlineFleetDTO;
 import com.codeshare.airline.master.aircraft.service.AirlineFleetService;
 import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;

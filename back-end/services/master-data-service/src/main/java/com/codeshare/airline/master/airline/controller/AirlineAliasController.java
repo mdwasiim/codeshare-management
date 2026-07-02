@@ -1,0 +1,17 @@
+package com.codeshare.airline.master.airline.controller;
+
+import com.codeshare.airline.core.dto.master.airline.AirlineAliasDTO;
+import com.codeshare.airline.master.common.base.BaseController;
+import com.codeshare.airline.master.common.base.BaseService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/airline-aliases")
+public class AirlineAliasController extends BaseController<AirlineAliasDTO, UUID> {
+    protected AirlineAliasController(BaseService<AirlineAliasDTO, UUID> service) {
+        super(service);
+    }
+}

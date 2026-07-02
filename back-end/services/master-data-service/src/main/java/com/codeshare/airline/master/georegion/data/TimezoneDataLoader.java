@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.georegion.data;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.georegion.eitities.Timezone;
+import com.codeshare.airline.master.georegion.entities.Timezone;
 import com.codeshare.airline.master.georegion.repository.TimezoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

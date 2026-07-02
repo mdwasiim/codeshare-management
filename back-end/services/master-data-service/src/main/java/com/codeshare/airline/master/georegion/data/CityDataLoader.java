@@ -1,9 +1,9 @@
 package com.codeshare.airline.master.georegion.data;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.georegion.eitities.City;
-import com.codeshare.airline.master.georegion.eitities.Country;
-import com.codeshare.airline.master.georegion.eitities.State;
+import com.codeshare.airline.master.georegion.entities.City;
+import com.codeshare.airline.master.georegion.entities.Country;
+import com.codeshare.airline.master.georegion.entities.State;
 import com.codeshare.airline.master.georegion.repository.CityRepository;
 import com.codeshare.airline.master.georegion.repository.CountryRepository;
 import com.codeshare.airline.master.georegion.repository.StateRepository;

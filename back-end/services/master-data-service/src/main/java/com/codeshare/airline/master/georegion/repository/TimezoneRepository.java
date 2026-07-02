@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.georegion.repository;
 
-import com.codeshare.airline.master.georegion.eitities.Timezone;
+import com.codeshare.airline.master.georegion.entities.Timezone;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.Optional;

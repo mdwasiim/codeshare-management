@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.core.dto.ssim.DeiDTO;
+import com.codeshare.airline.core.dto.master.messaging.DeiDTO;
 import com.codeshare.airline.master.messaging.entities.DeiRegistry;
 import com.codeshare.airline.master.messaging.repository.DeiRepository;
 import com.codeshare.airline.master.messaging.service.DeiService;

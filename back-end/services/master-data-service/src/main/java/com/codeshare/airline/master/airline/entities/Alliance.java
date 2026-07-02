@@ -2,7 +2,7 @@ package com.codeshare.airline.master.airline.entities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.master.georegion.eitities.City;
+import com.codeshare.airline.master.georegion.entities.City;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

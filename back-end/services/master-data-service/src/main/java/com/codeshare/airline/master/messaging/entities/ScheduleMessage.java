@@ -2,7 +2,6 @@ package com.codeshare.airline.master.messaging.entities;
 
 import com.codeshare.airline.core.enums.MessageType;
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.schedule.entities.ScheduleFlight;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,13 +12,12 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Table(
         name = "SCHEDULE_MESSAGE",
         indexes = {
-                @Index(name = "IDX_MSG_TYPE", columnList = "SCHEDULE_TYPE"),
+                @Index(name = "IDX_MSG_TYPE", columnList = "MESSAGE_TYPE"),
                 @Index(name = "IDX_MSG_SERIAL", columnList = "MESSAGE_SERIAL_NUMBER")
         }
 )
@@ -36,6 +34,7 @@ public class ScheduleMessage extends CSMDataAbstractEntity {
     @Column(name = "STANDARD_MESSAGE_IDENTIFIER", length = 10)
     private String standardMessageIdentifier; // e.g. SSM, ASM
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "MESSAGE_TYPE", nullable = false, length = 10)
     private MessageType messageType; // SSM / ASM
 
@@ -75,13 +74,6 @@ public class ScheduleMessage extends CSMDataAbstractEntity {
 
     @Column(name = "MESSAGE_SOURCE", length = 50)
     private String messageSource;
-
-    // ---------------------------------------------------------
-    // RELATIONSHIP
-    // ---------------------------------------------------------
-
-    @OneToMany(mappedBy = "scheduleMessage", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ScheduleFlight> flights;
 
     // ---------------------------------------------------------
     // RECORD STATUS

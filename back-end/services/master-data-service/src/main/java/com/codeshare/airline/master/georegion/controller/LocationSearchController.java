@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.georegion.controller;
 
-import com.codeshare.airline.core.dto.airport.georegion.LocationSearchDTO;
+import com.codeshare.airline.core.dto.master.georegion.LocationSearchDTO;
 import com.codeshare.airline.master.georegion.service.LocationSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

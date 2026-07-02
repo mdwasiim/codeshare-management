@@ -1,11 +1,11 @@
-package com.codeshare.airline.master.codesharePartner.entities;
+package com.codeshare.airline.master.codesharepartner.entities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.airline.entities.CodesharePartner;
-import com.codeshare.airline.master.codesharePartner.enums.DistributionMode;
-import com.codeshare.airline.master.codesharePartner.enums.ScheduleMessageType;
-import com.codeshare.airline.master.messaging.entities.DistributionChannel;
+import com.codeshare.airline.master.codesharepartner.enums.DistributionMode;
+import com.codeshare.airline.master.codesharepartner.enums.ScheduleMessageType;
+import com.codeshare.airline.master.codesharepartner.enums.DistributionChannel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

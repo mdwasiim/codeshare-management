@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.aircraft.mappers;
 
-import com.codeshare.airline.core.dto.aircraft.AircraftRegistrationDTO;
+import com.codeshare.airline.core.dto.master.aircraft.AircraftRegistrationDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.core.mapper.CSMMapperConfig;
 import com.codeshare.airline.master.aircraft.entities.AircraftRegistration;

@@ -35,6 +35,7 @@ public class ActionIdentifier extends CSMDataAbstractEntity {
     @Column(name = "DESCRIPTION", length = 255)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "MESSAGE_TYPE", length = 20)
     private MessageType messageType;   // ASM, SSM, BOTH
 

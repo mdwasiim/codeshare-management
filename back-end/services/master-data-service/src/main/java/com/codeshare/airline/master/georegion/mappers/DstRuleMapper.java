@@ -1,9 +1,9 @@
 package com.codeshare.airline.master.georegion.mappers;
 
-import com.codeshare.airline.core.dto.airport.georegion.DstRuleDTO;
+import com.codeshare.airline.core.dto.master.georegion.DstRuleDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.core.mapper.CSMMapperConfig;
-import com.codeshare.airline.master.georegion.eitities.TimezoneDLS;
+import com.codeshare.airline.master.georegion.entities.TimezoneDLS;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.mappers;
 
-import com.codeshare.airline.core.dto.ssim.ActionIdentifierDTO;
+import com.codeshare.airline.core.dto.master.messaging.ActionIdentifierDTO;
 import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.core.mapper.CSMMapperConfig;
 import com.codeshare.airline.master.messaging.entities.ActionIdentifier;
