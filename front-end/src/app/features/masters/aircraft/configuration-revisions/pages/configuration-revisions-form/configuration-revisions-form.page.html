@@ -1,0 +1,41 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Configuration Revisions Details">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="configurationId" class="required">Configuration ID</label>
+                <input id="configurationId" pInputText formControlName="configurationId" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['configurationId'].hasError('required') && form.controls['configurationId'].touched">Configuration ID is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="revisionCode" class="required">Revision Code</label>
+                <input id="revisionCode" pInputText formControlName="revisionCode" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['revisionCode'].hasError('required') && form.controls['revisionCode'].touched">Revision Code is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="revisionName">Revision Name</label>
+                <input id="revisionName" pInputText formControlName="revisionName" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveFrom">Effective From</label>
+                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveTo">Effective To</label>
+                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" formControlName="recordStatus" styleClass="w-full"></p-select>
+                
+            </div>
+        </div>
+    </app-form-section>
+</form>

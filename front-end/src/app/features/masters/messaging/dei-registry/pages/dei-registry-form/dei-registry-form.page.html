@@ -1,0 +1,35 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="DEI Registry Details">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="deiNumber" class="required">DEI Number</label>
+                <input id="deiNumber" pInputText formControlName="deiNumber" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['deiNumber'].hasError('required') && form.controls['deiNumber'].touched">DEI Number is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="deiName" class="required">deiName</label>
+                <input id="deiName" pInputText formControlName="deiName" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['deiName'].hasError('required') && form.controls['deiName'].touched">deiName is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="deiCategory">DEI Category</label>
+                <input id="deiCategory" pInputText formControlName="deiCategory" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6 lg:col-12">
+                <label for="description">Description</label>
+                <textarea id="description" pTextarea rows="3" formControlName="description" class="w-full"></textarea>
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" formControlName="recordStatus" styleClass="w-full"></p-select>
+                
+            </div>
+        </div>
+    </app-form-section>
+</form>

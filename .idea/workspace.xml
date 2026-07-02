@@ -6,13 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/SeasonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/schedule/controller/SeasonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/data/SeasonDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/schedule/data/SeasonDataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/entities/Season.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/schedule/entities/Season.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/mappers/SeasonMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/schedule/mappers/SeasonMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/repository/SeasonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/schedule/repository/SeasonRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/SeasonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/schedule/service/SeasonService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/SeasonServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/schedule/serviceImpl/SeasonServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/MenuLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/MenuLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +80,7 @@
       <workItem from="1782497222667" duration="2743000" />
       <workItem from="1782845901188" duration="5246000" />
       <workItem from="1782921813041" duration="6783000" />
-      <workItem from="1783008430459" duration="8833000" />
+      <workItem from="1783008430459" duration="11487000" />
     </task>
     <servers />
   </component>

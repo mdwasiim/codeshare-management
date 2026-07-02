@@ -5,6 +5,7 @@ import { ASSIGNMENT_ROUTES } from '@features/access-management/assignment/assign
 import { AUTH_ROUTES } from '@features/access-management/auth/auth.routes';
 import { DASHBOARD_ROUTES } from '@features/home/dashboard/dashboard.routes';
 import { SCHEDULE_INGESTION_ROUTES } from '@features/schedule-ingestion/schedule-ingestion.routes';
+import { MASTERS_ROUTES } from '@features/masters/masters.routes';
 
 export const FEATURE_ROUTES: Routes = [
     ...ASSIGNMENT_ROUTES,
@@ -12,6 +13,10 @@ export const FEATURE_ROUTES: Routes = [
     ...IAM_ROUTES,
     ...DASHBOARD_ROUTES,
     ...SETTINGS_ROUTES,
+    {
+        path: 'masters',
+        children: MASTERS_ROUTES
+    },
     {
         path: 'settings',
         children: SETTINGS_ROUTES

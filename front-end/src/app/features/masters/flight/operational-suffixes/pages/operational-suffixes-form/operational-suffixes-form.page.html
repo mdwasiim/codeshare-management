@@ -1,0 +1,47 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Operational Suffixes Details">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="suffixCode" class="required">Code</label>
+                <input id="suffixCode" pInputText formControlName="suffixCode" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['suffixCode'].hasError('required') && form.controls['suffixCode'].touched">Code is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="suffixName" class="required">Name</label>
+                <input id="suffixName" pInputText formControlName="suffixName" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['suffixName'].hasError('required') && form.controls['suffixName'].touched">Name is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6 lg:col-12">
+                <label for="description">Description</label>
+                <textarea id="description" pTextarea rows="3" formControlName="description" class="w-full"></textarea>
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" formControlName="recordStatus" styleClass="w-full"></p-select>
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveFrom">Effective From</label>
+                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveTo">Effective To</label>
+                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="active">Active</label>
+                <div class="flex align-items-center gap-2"><p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox><label for="active" class="mb-0">Enabled</label></div>
+                
+            </div>
+        </div>
+    </app-form-section>
+</form>

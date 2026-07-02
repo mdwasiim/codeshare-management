@@ -1,0 +1,22 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header"><div><span class="access-eyebrow">Masters / Messaging</span><h1>Data Element Identifiers</h1><p>Data element identifier definitions.</p></div></div>
+    <app-crud-toolbar [actions]="['create','delete','export','search']" [resource]="resourceName" [hasSelection]="selectedRecords.length > 0" (create)="openCreate()" (delete)="deleteSelectedRecords()" (export)="exportCSV()" (search)="onSearch($event)"></app-crud-toolbar>
+    <p-table #dt [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" [(selection)]="selectedRecords" dataKey="id" [rowHover]="true" responsiveLayout="scroll" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '88rem' }" [globalFilterFields]="['deiCode','deiName','description','recordStatus','active']"><ng-template pTemplate="caption"><div class="access-table-caption"><div><h2>Manage Data Element Identifiers</h2><p>{{ data.length || 0 }} records loaded</p></div><span class="access-count">{{ selectedRecords.length || 0 }} selected</span></div></ng-template>
+        <ng-template pTemplate="header"><tr><th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+            <th pSortableColumn="deiCode">Code<p-sortIcon field="deiCode"></p-sortIcon></th>
+            <th pSortableColumn="deiName">Name<p-sortIcon field="deiName"></p-sortIcon></th>
+            <th pSortableColumn="description">Description<p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="recordStatus">Record Status<p-sortIcon field="recordStatus"></p-sortIcon></th>
+            <th pSortableColumn="active">Active<p-sortIcon field="active"></p-sortIcon></th>
+            <th>Created At</th><th>Updated At</th><th>Active</th><th class="access-actions-col">Actions</th></tr></ng-template>
+        <ng-template pTemplate="body" let-record><tr><td><p-tableCheckbox [value]="record"></p-tableCheckbox></td>
+            <td>{{ record.deiCode || '-' }}</td>
+            <td>{{ record.deiName || '-' }}</td>
+            <td>{{ record.description || '-' }}</td>
+            <td>{{ record.recordStatus || '-' }}</td>
+            <td><p-tag [value]="record.active ? 'Yes' : 'No'" [severity]="record.active ? 'success' : 'secondary'"></p-tag></td>
+            <td>{{ (record.createdAt | date: 'short') || '-' }}</td><td>{{ (record.updatedAt | date: 'short') || '-' }}</td><td>{{ record.active === undefined || record.active === null ? '-' : record.active ? 'Yes' : 'No' }}</td><td class="access-row-actions"><div><ng-container *appHasPermission="resourceName.toLowerCase() + ':update'"><p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(record)"></p-button></ng-container><ng-container *appHasPermission="resourceName.toLowerCase() + ':delete'"><p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteRecord(record)"></p-button></ng-container></div></td></tr></ng-template>
+        <ng-template pTemplate="emptymessage"><tr><td colspan="10" class="text-center py-6 text-gray-500"><i class="pi pi-list text-2xl mb-2"></i><div>No data element identifiers found</div></td></tr></ng-template>
+    </p-table>
+    <app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Data Element Identifiers' : 'Create Data Element Identifiers'" width="min(92vw, 760px)" [loading]="!!dataElementIdentifierForm?.loading" [disableSave]="!!dataElementIdentifierForm?.form?.invalid || !!dataElementIdentifierForm?.loading" (save)="dataElementIdentifierForm.submit()"><data-element-identifiers-form #dataElementIdentifierForm [id]="selectedId" (saved)="onSaved()"></data-element-identifiers-form></app-dialog>
+</div>

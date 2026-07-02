@@ -1,0 +1,14 @@
+[
+    {
+        "code": "SYSTEM_CONFIG",
+        "parentCode": null,
+        "label": "System Configuration",
+        "topbarLabel": "System",
+        "sidebarLabel": null,
+        "icon": "pi pi-fw pi-cog",
+        "route": null,
+        "permission": null,
+        "displayOrder": 6,
+        "visible": null
+    }
+]

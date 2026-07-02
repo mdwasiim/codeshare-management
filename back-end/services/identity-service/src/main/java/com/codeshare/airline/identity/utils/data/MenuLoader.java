@@ -6,13 +6,18 @@ import com.codeshare.airline.identity.entities.Tenant;
 import com.codeshare.airline.identity.repository.MenuRepository;
 import com.codeshare.airline.identity.repository.TenantRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +36,22 @@ public class MenuLoader {
     private final ObjectMapper objectMapper;
 
     private List<MenuDTO> loadMenuDefinitions() {
+        try {
+            Resource[] resources = new PathMatchingResourcePatternResolver()
+                    .getResources("classpath*:bootstrap/menus/*.json");
+
+            if (resources.length > 0) {
+                List<MenuDTO> definitions = new ArrayList<>();
+
+                Arrays.stream(resources)
+                        .sorted(Comparator.comparing(Resource::getFilename, Comparator.nullsLast(String::compareTo)))
+                        .forEach(resource -> definitions.addAll(readMenuResource(resource)));
+
+                return definitions;
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to load split menu definitions", e);
+        }
 
         try (InputStream is = getClass()
                 .getClassLoader()
@@ -39,10 +60,7 @@ public class MenuLoader {
             if (is == null) {
                 throw new IllegalStateException("menus.json not found");
             }
-            return objectMapper.readValue(
-                    is,
-                    new TypeReference<List<MenuDTO>>() {}
-            );
+            return readMenuDefinitions(is);
 
         } catch (Exception e) {
 
@@ -51,6 +69,38 @@ public class MenuLoader {
                     e
             );
         }
+    }
+
+    private List<MenuDTO> readMenuResource(Resource resource) {
+        try (InputStream is = resource.getInputStream()) {
+            return readMenuDefinitions(is);
+        } catch (Exception e) {
+            throw new IllegalStateException(
+                    "Failed to load menu definitions from " + resource.getDescription(),
+                    e
+            );
+        }
+    }
+
+    private List<MenuDTO> readMenuDefinitions(InputStream is) throws java.io.IOException {
+        JsonNode root = objectMapper.readTree(is);
+
+        if (root == null || root.isNull()) {
+            return List.of();
+        }
+
+        if (root.isArray()) {
+            return objectMapper.convertValue(
+                    root,
+                    new TypeReference<List<MenuDTO>>() {}
+            );
+        }
+
+        if (root.isObject()) {
+            return List.of(objectMapper.convertValue(root, MenuDTO.class));
+        }
+
+        throw new IllegalStateException("Menu definitions must be a JSON array or object");
     }
 
     public void load(UUID tenantId) {
@@ -100,15 +150,17 @@ public class MenuLoader {
         allMenus.putAll(codeMap);
 
         for (MenuDTO dto : menuDefinitions) {
-            if (dto.getParentCode() != null) {
-                Menu child = allMenus.get(dto.getCode());
-                Menu parent = allMenus.get(dto.getParentCode());
+            Menu child = allMenus.get(dto.getCode());
+            if (child == null) {
+                continue;
+            }
 
-                if (child != null && parent != null && !Objects.equals(child.getParentMenu(), parent)) {
-                    child.setParentMenu(parent);
-                    if (!toSave.contains(child) && !toUpdate.contains(child)) {
-                        toUpdate.add(child);
-                    }
+            Menu parent = dto.getParentCode() == null ? null : allMenus.get(dto.getParentCode());
+
+            if (!Objects.equals(child.getParentMenu(), parent)) {
+                child.setParentMenu(parent);
+                if (!toSave.contains(child) && !toUpdate.contains(child)) {
+                    toUpdate.add(child);
                 }
             }
         }

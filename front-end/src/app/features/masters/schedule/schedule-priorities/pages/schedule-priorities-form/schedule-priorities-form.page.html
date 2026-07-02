@@ -1,0 +1,47 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Schedule Priorities Details">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="priorityCode" class="required">Code</label>
+                <input id="priorityCode" pInputText formControlName="priorityCode" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['priorityCode'].hasError('required') && form.controls['priorityCode'].touched">Code is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="priorityName" class="required">Name</label>
+                <input id="priorityName" pInputText formControlName="priorityName" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['priorityName'].hasError('required') && form.controls['priorityName'].touched">Name is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6 lg:col-12">
+                <label for="description">Description</label>
+                <textarea id="description" pTextarea rows="3" formControlName="description" class="w-full"></textarea>
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" formControlName="recordStatus" styleClass="w-full"></p-select>
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveFrom">Effective From</label>
+                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveTo">Effective To</label>
+                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="active">Active</label>
+                <div class="flex align-items-center gap-2"><p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox><label for="active" class="mb-0">Enabled</label></div>
+                
+            </div>
+        </div>
+    </app-form-section>
+</form>

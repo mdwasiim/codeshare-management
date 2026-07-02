@@ -1,0 +1,59 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Seasons Details">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="seasonCode" class="required">Season Code</label>
+                <input id="seasonCode" pInputText formControlName="seasonCode" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['seasonCode'].hasError('required') && form.controls['seasonCode'].touched">Season Code is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="seasonName" class="required">Season Name</label>
+                <input id="seasonName" pInputText formControlName="seasonName" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['seasonName'].hasError('required') && form.controls['seasonName'].touched">Season Name is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="seasonType">Season Type</label>
+                <input id="seasonType" pInputText formControlName="seasonType" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="startDate">Start Date</label>
+                <input id="startDate" pInputText type="date" formControlName="startDate" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="endDate">End Date</label>
+                <input id="endDate" pInputText type="date" formControlName="endDate" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" formControlName="recordStatus" styleClass="w-full"></p-select>
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveFrom">Effective From</label>
+                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveTo">Effective To</label>
+                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="active">Active</label>
+                <div class="flex align-items-center gap-2"><p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox><label for="active" class="mb-0">Enabled</label></div>
+                
+            </div>
+        </div>
+    </app-form-section>
+</form>

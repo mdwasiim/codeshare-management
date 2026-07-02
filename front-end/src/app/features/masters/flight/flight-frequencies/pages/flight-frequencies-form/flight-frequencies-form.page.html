@@ -1,0 +1,47 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Flight Frequencies Details">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="frequencyCode" class="required">Frequency Code</label>
+                <input id="frequencyCode" pInputText formControlName="frequencyCode" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['frequencyCode'].hasError('required') && form.controls['frequencyCode'].touched">Frequency Code is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="frequencyName">Frequency Name</label>
+                <input id="frequencyName" pInputText formControlName="frequencyName" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="daysOfOperation">Days Of Operation</label>
+                <input id="daysOfOperation" pInputText formControlName="daysOfOperation" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" formControlName="recordStatus" styleClass="w-full"></p-select>
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveFrom">Effective From</label>
+                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveTo">Effective To</label>
+                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" class="w-full" />
+                
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="active">Active</label>
+                <div class="flex align-items-center gap-2"><p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox><label for="active" class="mb-0">Enabled</label></div>
+                
+            </div>
+        </div>
+    </app-form-section>
+</form>

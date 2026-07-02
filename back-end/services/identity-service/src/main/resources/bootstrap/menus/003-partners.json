@@ -1,0 +1,50 @@
+[
+    {
+        "code":  "PARTNER_MGMT",
+        "parentCode":  null,
+        "label":  "Partner Management",
+        "topbarLabel":  "Partners",
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-users",
+        "route":  null,
+        "permission":  null,
+        "displayOrder":  4,
+        "visible":  null
+    },
+    {
+        "code":  "PARTNERT_PORTFOLIO",
+        "parentCode":  "PARTNER_MGMT",
+        "label":  "Partner Portfolio",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-shield",
+        "route":  null,
+        "permission":  null,
+        "displayOrder":  1,
+        "visible":  null
+    },
+    {
+        "code":  "AGREEMENTS",
+        "parentCode":  "PARTNER_MGMT",
+        "label":  "Agreements",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-file",
+        "route":  "/agreements",
+        "permission":  "group:read",
+        "displayOrder":  2,
+        "visible":  null
+    },
+    {
+        "code":  "PORTFOLIO",
+        "parentCode":  "PARTNERT_PORTFOLIO",
+        "label":  "Portfolio",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-shield",
+        "route":  "/partner-portfolio",
+        "permission":  null,
+        "displayOrder":  1,
+        "visible":  null
+    }
+]
