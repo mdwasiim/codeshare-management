@@ -1,4 +1,4 @@
-package com.codeshare.airline.master.georegion.controller;
+package com.codeshare.airline.master.schedule.controller;
 
 import com.codeshare.airline.core.dto.master.georegion.SeasonDTO;
 import com.codeshare.airline.master.common.base.BaseController;

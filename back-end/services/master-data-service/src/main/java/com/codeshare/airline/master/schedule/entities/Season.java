@@ -1,4 +1,4 @@
-package com.codeshare.airline.master.georegion.entities;
+package com.codeshare.airline.master.schedule.entities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.core.enums.schedule.SeasonType;

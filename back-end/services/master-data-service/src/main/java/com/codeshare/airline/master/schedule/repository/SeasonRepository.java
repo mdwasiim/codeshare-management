@@ -1,6 +1,6 @@
-package com.codeshare.airline.master.georegion.repository;
+package com.codeshare.airline.master.schedule.repository;
 
-import com.codeshare.airline.master.georegion.entities.Season;
+import com.codeshare.airline.master.schedule.entities.Season;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 
 import java.util.Optional;

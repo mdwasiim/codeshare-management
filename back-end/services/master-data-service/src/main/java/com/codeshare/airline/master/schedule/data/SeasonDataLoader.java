@@ -1,9 +1,9 @@
-package com.codeshare.airline.master.georegion.data;
+package com.codeshare.airline.master.schedule.data;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.core.enums.schedule.SeasonType;
-import com.codeshare.airline.master.georegion.entities.Season;
-import com.codeshare.airline.master.georegion.repository.SeasonRepository;
+import com.codeshare.airline.master.schedule.entities.Season;
+import com.codeshare.airline.master.schedule.repository.SeasonRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
