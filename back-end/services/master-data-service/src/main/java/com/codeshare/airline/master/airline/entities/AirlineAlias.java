@@ -48,7 +48,7 @@ public class AirlineAlias extends CSMDataAbstractEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_AIRLINE_ALIAS_AIRLINE")
     )
-    private Airline airline;
+    private AirlineCarrier airline;
 
     /**
      * Business Key

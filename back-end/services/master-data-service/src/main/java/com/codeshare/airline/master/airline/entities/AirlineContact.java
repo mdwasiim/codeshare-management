@@ -4,6 +4,7 @@ import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.airline.entities.enums.AirlineContactType;
 import com.codeshare.airline.master.airline.entities.enums.CommunicationMethod;
+import com.codeshare.airline.master.georegion.eitities.Timezone;
 import com.codeshare.airline.master.reference.entities.Language;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -53,7 +54,7 @@ public class AirlineContact extends CSMDataAbstractEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_AIRLINE_CONTACT_AIRLINE")
     )
-    private Airline airline;
+    private AirlineCarrier airline;
 
     /**
      * Business Key
@@ -119,7 +120,7 @@ public class AirlineContact extends CSMDataAbstractEntity {
             name = "TIMEZONE_ID",
             foreignKey = @ForeignKey(name = "FK_AIRLINE_CONTACT_TIMEZONE")
     )
-    private TimeZone timeZone;
+    private Timezone timeZone;
 
     @Column(name = "AVAILABLE_24X7", nullable = false)
     private Boolean available24x7 = Boolean.FALSE;

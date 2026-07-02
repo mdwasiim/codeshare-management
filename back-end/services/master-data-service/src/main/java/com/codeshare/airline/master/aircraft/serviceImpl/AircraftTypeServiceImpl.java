@@ -35,7 +35,7 @@ public class AircraftTypeServiceImpl
 
     @Override
     public AircraftTypeDTO getByModel(String model) {
-        return repository.findByModelCode(model.toUpperCase())
+        return repository.findByModel(model.toUpperCase())
                 .map(mapper::toDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft not found"));
     }

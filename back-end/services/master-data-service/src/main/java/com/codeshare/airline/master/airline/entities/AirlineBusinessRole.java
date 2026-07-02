@@ -52,7 +52,7 @@ public class AirlineBusinessRole extends CSMDataAbstractEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_AIRLINE_BUSINESS_ROLE_AIRLINE")
     )
-    private Airline airline;
+    private AirlineCarrier airline;
 
     @Column(name = "ROLE_CODE", nullable = false, length = 30)
     private String roleCode;

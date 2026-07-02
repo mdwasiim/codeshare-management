@@ -9,13 +9,14 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Entity(name = "Language")
+@Entity
 @Table(
         name = "LANGUAGE",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UK_LANGUAGE", columnNames = "LANGUAGE_CODE")
+                @UniqueConstraint(name = "UK_LANGUAGE_CODE", columnNames = "LANGUAGE_CODE")
         },
         indexes = {
+                @Index(name = "IDX_LANGUAGE_CODE", columnList = "LANGUAGE_CODE"),
                 @Index(name = "IDX_LANGUAGE_STATUS", columnList = "STATUS")
         }
 )
@@ -23,22 +24,19 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class Language extends CSMDataAbstractEntity {
-    @Column(name = "LANGUAGE_CODE", nullable = false, length = 3)
+
+    @Column(name = "LANGUAGE_CODE", nullable = false, length = 10)
     private String languageCode;
 
     @Column(name = "LANGUAGE_NAME", nullable = false, length = 100)
     private String languageName;
-
-    @Column(name = "ISO639_1_CODE", length = 2)
-    private String iso6391Code;
-
 
     @Column(name = "DESCRIPTION", length = 500)
     private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false, length = 20)
-    private RecordStatus recordStatus;
+    private RecordStatus recordStatus = RecordStatus.ACTIVE;
 
     @Column(name = "EFFECTIVE_FROM")
     private LocalDate effectiveFrom;
@@ -49,17 +47,23 @@ public class Language extends CSMDataAbstractEntity {
     @PrePersist
     @PreUpdate
     private void normalizeAndValidate() {
-        if (languageCode != null) {
-            languageCode = languageCode.trim().toUpperCase();
+        if (languageCode == null || languageCode.isBlank()) {
+            throw new IllegalStateException("Language code is mandatory.");
         }
 
-        if (languageName != null) {
-            languageName = languageName.trim();
+        if (languageName == null || languageName.isBlank()) {
+            throw new IllegalStateException("Language name is mandatory.");
         }
 
-        if (effectiveFrom != null && effectiveTo != null &&
-                effectiveFrom.isAfter(effectiveTo)) {
-            throw new IllegalStateException("Invalid effective period.");
+        languageCode = languageCode.trim().toUpperCase();
+        languageName = languageName.trim();
+
+        if (description != null) {
+            description = description.trim();
+        }
+
+        if (effectiveFrom != null && effectiveTo != null && effectiveFrom.isAfter(effectiveTo)) {
+            throw new IllegalStateException("Effective From cannot be after Effective To.");
         }
     }
 }

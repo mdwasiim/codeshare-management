@@ -2,13 +2,14 @@ package com.codeshare.airline.master.aircraft.entities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.master.aircraft.entities.enums.AircraftRegistrationStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import com.codeshare.airline.master.georegion.eitities.AirlineCarrier;
+import com.codeshare.airline.master.airline.entities.AirlineCarrier;
 
 @Entity
 @Table(
@@ -34,6 +35,9 @@ import com.codeshare.airline.master.georegion.eitities.AirlineCarrier;
                 )
         }
 )
+@Getter
+@Setter
+@NoArgsConstructor
 public class AircraftRegistration extends CSMDataAbstractEntity {
 
     @Column(name = "REGISTRATION_NUMBER", nullable = false, length = 20)

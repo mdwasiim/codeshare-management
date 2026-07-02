@@ -7,8 +7,8 @@ import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRep
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
 import com.codeshare.airline.master.aircraft.service.AircraftConfigurationService;
 import com.codeshare.airline.master.aircraft.mappers.AircraftConfigurationMapper;
-import com.codeshare.airline.master.georegion.eitities.AirlineCarrier;
-import com.codeshare.airline.master.georegion.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airline.entities.AirlineCarrier;
+import com.codeshare.airline.master.airline.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,18 +22,18 @@ public class AircraftConfigurationServiceImpl
 
     private final AircraftConfigurationRepository repository;
     private final AircraftTypeRepository aircraftTypeRepository;
-    private final AirlineCarrierRepository airlineRepository;
+    private final AirlineCarrierRepository airlineCarrierRepository;
 
     public AircraftConfigurationServiceImpl(
             AircraftConfigurationRepository repository,
             AircraftConfigurationMapper mapper,
             AircraftTypeRepository aircraftTypeRepository,
-            AirlineCarrierRepository airlineRepository) {
+            AirlineCarrierRepository airlineCarrierRepository) {
 
         super(repository, mapper);
         this.repository = repository;
         this.aircraftTypeRepository = aircraftTypeRepository;
-        this.airlineRepository = airlineRepository;
+        this.airlineCarrierRepository = airlineCarrierRepository;
     }
 
     private AircraftType getAircraftType(UUID id) {
@@ -42,7 +42,7 @@ public class AircraftConfigurationServiceImpl
     }
 
     private AirlineCarrier getAirline(UUID id) {
-        return airlineRepository.findById(id)
+        return airlineCarrierRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 

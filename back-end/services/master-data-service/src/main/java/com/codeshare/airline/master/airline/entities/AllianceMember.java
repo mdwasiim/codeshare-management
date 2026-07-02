@@ -66,7 +66,7 @@ public class AllianceMember extends CSMDataAbstractEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_ALLIANCE_MEMBER_AIRLINE")
     )
-    private Airline airline;
+    private AirlineCarrier airline;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "MEMBERSHIP_TYPE", nullable = false, length = 30)

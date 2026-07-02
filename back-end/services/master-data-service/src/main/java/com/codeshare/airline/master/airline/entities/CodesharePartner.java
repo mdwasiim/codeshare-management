@@ -61,7 +61,7 @@ public class CodesharePartner extends CSMDataAbstractEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_CODESHARE_HOME_AIRLINE")
     )
-    private Airline homeAirline;
+    private AirlineCarrier homeAirline;
 
     /**
      * Partner airline.
@@ -72,7 +72,7 @@ public class CodesharePartner extends CSMDataAbstractEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_CODESHARE_PARTNER_AIRLINE")
     )
-    private Airline partnerAirline;
+    private AirlineCarrier partnerAirline;
 
     /**
      * Commercial agreement reference.

@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface CountryRepository
         extends CSMDataBaseRepository<Country, UUID> {
 
-    Optional<Country> findByIsoCode(String isoCode);
+    Optional<Country> findByIso3Code(String iso3Code);
 
     Optional<Country> findByIso2Code(String iso2Code);
 }

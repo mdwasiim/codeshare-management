@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.georegion.serviceImpl;
 
 import com.codeshare.airline.core.dto.airport.georegion.TimezoneDTO;
-import com.codeshare.airline.master.georegion.eitities.DstRule;
+import com.codeshare.airline.master.georegion.eitities.TimezoneDLS;
 import com.codeshare.airline.master.georegion.eitities.Timezone;
 import com.codeshare.airline.master.georegion.repository.DstRuleRepository;
 import com.codeshare.airline.master.georegion.repository.TimezoneRepository;
@@ -27,7 +27,7 @@ public class TimezoneServiceImpl
         this.dstRuleRepository = dstRuleRepository;
     }
 
-    private DstRule getDstRule(UUID dstRuleId) {
+    private TimezoneDLS getDstRule(UUID dstRuleId) {
         return dstRuleRepository.findById(dstRuleId)
                 .orElseThrow(() -> new EntityNotFoundException("DST Rule not found"));
     }

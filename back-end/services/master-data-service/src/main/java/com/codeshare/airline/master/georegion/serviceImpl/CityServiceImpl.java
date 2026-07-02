@@ -40,18 +40,29 @@ public class CityServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("State not found"));
     }
 
+    private Country getCountry(UUID countryId) {
+        return countryRepository.findById(countryId)
+                .orElseThrow(() -> new EntityNotFoundException("Country not found"));
+    }
+
+    private void validateStateCountry(State state, Country country) {
+        if (state != null && !state.getCountry().getId().equals(country.getId())) {
+            throw new IllegalStateException("City state must belong to the selected country.");
+        }
+    }
+
     @Override
     public CityDTO create(CityDTO dto) {
 
-        Country country = countryRepository.findById(dto.getCountryId())
-                .orElseThrow(() -> new EntityNotFoundException("Country not found"));
+        Country country = getCountry(dto.getCountryId());
 
         State state = null;
 
         if (dto.getStateId() != null) {
-            state = stateRepository.findById(dto.getStateId())
-                    .orElseThrow(() -> new EntityNotFoundException("State not found"));
+            state = getState(dto.getStateId());
         }
+
+        validateStateCountry(state, country);
 
         City city = mapper.toEntity(dto);
         city.setCountry(country);
@@ -65,9 +76,13 @@ public class CityServiceImpl
 
         City existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("City not found"));
 
-        State state = getState(dto.getStateId());
+        Country country = getCountry(dto.getCountryId());
+        State state = dto.getStateId() == null ? null : getState(dto.getStateId());
+
+        validateStateCountry(state, country);
 
         mapper.updateEntityFromDto(dto, existing);
+        existing.setCountry(country);
         existing.setState(state);
 
         return mapper.toDTO(repository.save(existing));

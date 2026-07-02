@@ -1,0 +1,18 @@
+package com.codeshare.airline.master.messaging.controller;
+
+import com.codeshare.airline.core.dto.ssim.MessagePriorityDTO;
+import com.codeshare.airline.master.common.base.BaseController;
+import com.codeshare.airline.master.common.base.BaseService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/message-priorities")
+public class MessagePriorityController extends BaseController<MessagePriorityDTO, UUID> {
+
+    protected MessagePriorityController(BaseService<MessagePriorityDTO, UUID> service) {
+        super(service);
+    }
+}

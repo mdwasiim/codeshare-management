@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.georegion.serviceImpl;
 
 import com.codeshare.airline.core.dto.airport.georegion.DstRuleDTO;
-import com.codeshare.airline.master.georegion.eitities.DstRule;
+import com.codeshare.airline.master.georegion.eitities.TimezoneDLS;
 import com.codeshare.airline.master.georegion.eitities.Timezone;
 import com.codeshare.airline.master.georegion.repository.DstRuleRepository;
 import com.codeshare.airline.master.georegion.repository.TimezoneRepository;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Service
 public class DstRuleServiceImpl
-        extends BaseServiceImpl<DstRule, DstRuleDTO, UUID>
+        extends BaseServiceImpl<TimezoneDLS, DstRuleDTO, UUID>
         implements DstRuleService {
 
     private final TimezoneRepository timezoneRepository;
@@ -37,7 +37,7 @@ public class DstRuleServiceImpl
 
         Timezone timezone = getTimezone(dto.getTimezoneId());
 
-        DstRule rule = mapper.toEntity(dto);
+        TimezoneDLS rule = mapper.toEntity(dto);
         rule.setTimezone(timezone);
 
         return mapper.toDTO(repository.save(rule));
@@ -46,7 +46,7 @@ public class DstRuleServiceImpl
     @Override
     public DstRuleDTO update(UUID id, DstRuleDTO dto) {
 
-        DstRule existing = repository.findById(id)
+        TimezoneDLS existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("DST Rule not found"));
 
         Timezone timezone = getTimezone(dto.getTimezoneId());

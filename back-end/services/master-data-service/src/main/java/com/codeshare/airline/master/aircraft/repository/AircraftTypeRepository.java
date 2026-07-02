@@ -11,7 +11,7 @@ public interface AircraftTypeRepository
 
     Optional<AircraftType> findByIcaoCode(String icaoCode);
 
-    Optional<AircraftType> findByModelCode(String modelCode);
+    Optional<AircraftType> findByModel(String model);
 
     Optional<AircraftType> findByIataCode(String s);
 }

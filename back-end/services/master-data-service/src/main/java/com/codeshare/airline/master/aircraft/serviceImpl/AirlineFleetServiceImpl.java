@@ -7,8 +7,8 @@ import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRep
 import com.codeshare.airline.master.aircraft.repository.AirlineFleetRepository;
 import com.codeshare.airline.master.aircraft.service.AirlineFleetService;
 import com.codeshare.airline.master.aircraft.mappers.AirlineFleetMapper;
-import com.codeshare.airline.master.georegion.eitities.AirlineCarrier;
-import com.codeshare.airline.master.georegion.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airline.entities.AirlineCarrier;
+import com.codeshare.airline.master.airline.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,23 +22,23 @@ public class AirlineFleetServiceImpl
         implements AirlineFleetService {
 
     private final AirlineFleetRepository repository;
-    private final AirlineCarrierRepository airlineRepository;
+    private final AirlineCarrierRepository airlineCarrierRepository;
     private final AircraftConfigurationRepository configRepository;
 
     public AirlineFleetServiceImpl(
             AirlineFleetRepository repository,
             AirlineFleetMapper mapper,
-            AirlineCarrierRepository airlineRepository,
+            AirlineCarrierRepository airlineCarrierRepository,
             AircraftConfigurationRepository configRepository) {
 
         super(repository, mapper);
         this.repository = repository;
-        this.airlineRepository = airlineRepository;
+        this.airlineCarrierRepository = airlineCarrierRepository;
         this.configRepository = configRepository;
     }
 
     private AirlineCarrier getAirline(UUID id) {
-        return airlineRepository.findById(id)
+        return airlineCarrierRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 
