@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.dto.source;
 
-import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
+import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
 import lombok.Getter;
 import lombok.Setter;
 

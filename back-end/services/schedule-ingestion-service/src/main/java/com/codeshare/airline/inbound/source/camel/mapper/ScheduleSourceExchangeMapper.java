@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.source.camel.mapper;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
 import com.codeshare.airline.inbound.source.inbound.ExchangeConstants;

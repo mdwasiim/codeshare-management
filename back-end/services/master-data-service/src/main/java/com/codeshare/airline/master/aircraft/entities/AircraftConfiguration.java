@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.aircraft.entities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.aircraft.entities.enums.ConfigurationSource;
+import com.codeshare.airline.core.enums.master.aircraft.ConfigurationSource;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.airline.entities.AirlineCarrier;
 import jakarta.persistence.*;

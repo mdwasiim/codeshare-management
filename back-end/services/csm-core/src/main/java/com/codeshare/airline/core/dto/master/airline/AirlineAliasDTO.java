@@ -1,6 +1,7 @@
 package com.codeshare.airline.core.dto.master.airline;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.airline.AirlineAliasType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,7 @@ public class AirlineAliasDTO {
     private UUID airlineId;
     private String aliasCode;
     private String aliasName;
-    private String aliasType;
+    private AirlineAliasType aliasType;
     private Boolean active;
     private Integer displayOrder;
     private String description;

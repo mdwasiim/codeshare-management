@@ -11,17 +11,14 @@ import org.mapstruct.MappingTarget;
 @Mapper(config = CSMMapperConfig.class)
 public interface AirlineContactMapper extends CSMGenericMapper<AirlineContact, AirlineContactDTO> {
     @Mapping(source = "airline.id", target = "airlineId")
-    @Mapping(source = "language.id", target = "languageId")
     @Mapping(source = "timeZone.id", target = "timeZoneId")
     AirlineContactDTO toDTO(AirlineContact entity);
 
     @Mapping(target = "airline", ignore = true)
-    @Mapping(target = "language", ignore = true)
     @Mapping(target = "timeZone", ignore = true)
     AirlineContact toEntity(AirlineContactDTO dto);
 
     @Mapping(target = "airline", ignore = true)
-    @Mapping(target = "language", ignore = true)
     @Mapping(target = "timeZone", ignore = true)
     void updateEntityFromDto(AirlineContactDTO dto, @MappingTarget AirlineContact entity);
 }

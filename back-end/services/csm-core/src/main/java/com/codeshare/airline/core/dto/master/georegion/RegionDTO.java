@@ -1,6 +1,6 @@
 package com.codeshare.airline.core.dto.master.georegion;
 
-import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
+import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

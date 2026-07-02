@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.entities;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;

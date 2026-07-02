@@ -3,9 +3,9 @@ package com.codeshare.airline.master.codesharepartner.entities;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.airline.entities.CodesharePartner;
-import com.codeshare.airline.master.codesharepartner.enums.DistributionMode;
-import com.codeshare.airline.master.codesharepartner.enums.ScheduleMessageType;
-import com.codeshare.airline.master.codesharepartner.enums.DistributionChannel;
+import com.codeshare.airline.core.enums.master.codesharepartner.DistributionMode;
+import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.core.enums.master.codesharepartner.CommunicationProtocol;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,7 +70,7 @@ public class CodesharePartnerDistributionProfile extends CSMDataAbstractEntity {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "DISTRIBUTION_CHANNEL", nullable = false, length = 30)
-    private DistributionChannel distributionChannel;
+    private CommunicationProtocol distributionChannel;
 
     /**
      * REAL_TIME / SCHEDULED / MANUAL
@@ -84,7 +84,7 @@ public class CodesharePartnerDistributionProfile extends CSMDataAbstractEntity {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "MESSAGE_TYPE", nullable = false, length = 30)
-    private ScheduleMessageType messageType;
+    private MessageType messageType;
 
     @Column(name = "REAL_TIME_ENABLED", nullable = false)
     private Boolean realTimeEnabled = Boolean.TRUE;

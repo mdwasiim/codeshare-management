@@ -2,7 +2,7 @@ package com.codeshare.airline.master.aircraft.loader;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.CabinCrewOperator;
-import com.codeshare.airline.master.aircraft.entities.enums.CrewEmployerType;
+import com.codeshare.airline.core.enums.master.aircraft.CrewEmployerType;
 import com.codeshare.airline.master.aircraft.repository.CabinCrewOperatorRepository;
 import com.codeshare.airline.master.airline.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.georegion.repository.CountryRepository;

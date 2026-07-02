@@ -2,10 +2,9 @@ package com.codeshare.airline.master.airline.entities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.master.airline.entities.enums.AirlineContactType;
-import com.codeshare.airline.master.airline.entities.enums.CommunicationMethod;
+import com.codeshare.airline.core.enums.master.airline.AirlineContactType;
+import com.codeshare.airline.core.enums.master.airline.CommunicationMethod;
 import com.codeshare.airline.master.georegion.entities.Timezone;
-import com.codeshare.airline.master.reference.entities.Language;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -107,13 +106,6 @@ public class AirlineContact extends CSMDataAbstractEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "PREFERRED_COMMUNICATION", length = 30)
     private CommunicationMethod preferredCommunication;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "LANGUAGE_ID",
-            foreignKey = @ForeignKey(name = "FK_AIRLINE_CONTACT_LANGUAGE")
-    )
-    private Language language;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(

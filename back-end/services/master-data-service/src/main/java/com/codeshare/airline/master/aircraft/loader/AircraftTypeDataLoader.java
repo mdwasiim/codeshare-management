@@ -3,7 +3,7 @@ package com.codeshare.airline.master.aircraft.loader;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.AircraftFamily;
 import com.codeshare.airline.master.aircraft.entities.AircraftType;
-import com.codeshare.airline.master.aircraft.entities.enums.AircraftCategory;
+import com.codeshare.airline.core.enums.master.aircraft.AircraftCategory;
 import com.codeshare.airline.master.aircraft.repository.AircraftFamilyRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,7 @@
 package com.codeshare.airline.core.dto.master.aircraft;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.aircraft.CrewEmployerType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ public class CabinCrewOperatorDTO {
     private UUID id;
     private String employerCode;
     private String employerName;
-    private String employerType;
+    private CrewEmployerType employerType;
     private String iataCode;
     private String icaoCode;
     private UUID countryId;

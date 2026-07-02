@@ -1,6 +1,7 @@
 package com.codeshare.airline.core.dto.master.aircraft;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.aircraft.ConfigurationRevisionStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ public class AircraftConfigurationRevisionDTO {
     private Integer revisionNumber;
     private String revisionCode;
     private String revisionName;
-    private String revisionStatus;
+    private ConfigurationRevisionStatus revisionStatus;
     private String changeReason;
     private LocalDate publishedDate;
     private String publishedBy;

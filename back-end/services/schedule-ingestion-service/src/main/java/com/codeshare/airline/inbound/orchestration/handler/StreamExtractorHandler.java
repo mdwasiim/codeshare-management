@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.orchestration.handler;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 
 import java.io.InputStream;
 import java.util.List;

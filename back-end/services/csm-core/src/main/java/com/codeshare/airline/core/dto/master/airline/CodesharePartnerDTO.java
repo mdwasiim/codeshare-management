@@ -1,6 +1,8 @@
 package com.codeshare.airline.core.dto.master.airline;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.airline.CodeshareAgreementStatus;
+import com.codeshare.airline.core.enums.master.airline.CodeshareAgreementType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +16,8 @@ public class CodesharePartnerDTO {
     private UUID homeAirlineId;
     private UUID partnerAirlineId;
     private String agreementNumber;
-    private String agreementType;
-    private String agreementStatus;
+    private CodeshareAgreementType agreementType;
+    private CodeshareAgreementStatus agreementStatus;
     private Boolean active;
     private Integer displayOrder;
     private String description;

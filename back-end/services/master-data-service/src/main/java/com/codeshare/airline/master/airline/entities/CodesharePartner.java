@@ -2,8 +2,8 @@ package com.codeshare.airline.master.airline.entities;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.master.airline.entities.enums.CodeshareAgreementStatus;
-import com.codeshare.airline.master.airline.entities.enums.CodeshareAgreementType;
+import com.codeshare.airline.core.enums.master.airline.CodeshareAgreementStatus;
+import com.codeshare.airline.core.enums.master.airline.CodeshareAgreementType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

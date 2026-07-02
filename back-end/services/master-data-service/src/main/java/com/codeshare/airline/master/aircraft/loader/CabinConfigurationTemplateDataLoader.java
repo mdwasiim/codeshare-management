@@ -2,7 +2,7 @@ package com.codeshare.airline.master.aircraft.loader;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.CabinConfigurationTemplate;
-import com.codeshare.airline.master.aircraft.entities.enums.CabinConfigurationType;
+import com.codeshare.airline.core.enums.master.aircraft.CabinConfigurationType;
 import com.codeshare.airline.master.aircraft.repository.CabinConfigurationTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

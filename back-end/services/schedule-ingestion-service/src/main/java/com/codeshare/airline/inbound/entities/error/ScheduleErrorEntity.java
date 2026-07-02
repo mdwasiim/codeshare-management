@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.entities.error;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.domain.enums.ValidationStage;
 import com.codeshare.airline.inbound.validations.model.ValidationSeverity;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;

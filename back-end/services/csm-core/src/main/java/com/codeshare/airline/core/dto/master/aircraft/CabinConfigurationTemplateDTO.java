@@ -1,6 +1,7 @@
 package com.codeshare.airline.core.dto.master.aircraft;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.aircraft.CabinConfigurationType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ public class CabinConfigurationTemplateDTO {
     private UUID id;
     private String configurationCode;
     private String configurationName;
-    private String configurationType;
+    private CabinConfigurationType configurationType;
     private Boolean active;
     private Integer displayOrder;
     private String description;

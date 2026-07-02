@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.entities.ssim;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import com.codeshare.airline.inbound.domain.enums.ScheduleProfile;
 import com.codeshare.airline.inbound.domain.enums.SourceType;

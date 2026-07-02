@@ -1,6 +1,8 @@
 package com.codeshare.airline.core.dto.master.airline;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.airline.AirlineContactType;
+import com.codeshare.airline.core.enums.master.airline.CommunicationMethod;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,13 +18,12 @@ public class AirlineContactDTO {
     private String contactName;
     private String designation;
     private String department;
-    private String contactType;
+    private AirlineContactType contactType;
     private String email;
     private String phone;
     private String mobile;
     private String fax;
-    private String preferredCommunication;
-    private UUID languageId;
+    private CommunicationMethod preferredCommunication;
     private UUID timeZoneId;
     private Boolean available24x7;
     private Boolean emergencyContact;

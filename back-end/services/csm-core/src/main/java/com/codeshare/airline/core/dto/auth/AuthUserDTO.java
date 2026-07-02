@@ -1,6 +1,6 @@
 package com.codeshare.airline.core.dto.auth;
 
-import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
+import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
 import com.codeshare.airline.core.dto.tenant.TenantDTO;
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.RecordStatus;

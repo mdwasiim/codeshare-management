@@ -1,6 +1,8 @@
 package com.codeshare.airline.core.dto.master.airline;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.airline.AirlineRoleCategory;
+import com.codeshare.airline.core.enums.master.airline.AirlineRoleScope;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +16,8 @@ public class AirlineBusinessRoleDTO {
     private UUID airlineId;
     private String roleCode;
     private String roleName;
-    private String roleScope;
-    private String roleCategory;
+    private AirlineRoleScope roleScope;
+    private AirlineRoleCategory roleCategory;
     private Boolean active;
     private Integer displayOrder;
     private String description;

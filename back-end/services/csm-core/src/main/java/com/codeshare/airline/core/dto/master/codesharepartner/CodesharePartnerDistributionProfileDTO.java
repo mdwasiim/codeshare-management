@@ -1,6 +1,9 @@
 package com.codeshare.airline.core.dto.master.codesharepartner;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.core.enums.master.codesharepartner.CommunicationProtocol;
+import com.codeshare.airline.core.enums.master.codesharepartner.DistributionMode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +17,9 @@ public class CodesharePartnerDistributionProfileDTO {
     private UUID partnerId;
     private String profileCode;
     private String profileName;
-    private String distributionChannel;
-    private String distributionMode;
-    private String messageType;
+    private CommunicationProtocol distributionChannel;
+    private DistributionMode distributionMode;
+    private MessageType messageType;
     private Boolean realTimeEnabled;
     private Boolean acknowledgementRequired;
     private Boolean retryEnabled;

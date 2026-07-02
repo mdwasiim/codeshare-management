@@ -1,6 +1,6 @@
 package com.codeshare.airline;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.inbound.orchestration.parsers.SsimMessageParser;
 import com.codeshare.airline.inbound.dto.common.ssim.SsimFlightDTO;

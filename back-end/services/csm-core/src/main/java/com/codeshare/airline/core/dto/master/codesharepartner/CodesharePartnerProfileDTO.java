@@ -1,6 +1,9 @@
 package com.codeshare.airline.core.dto.master.codesharepartner;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.codesharepartner.CodeshareAgreementCategory;
+import com.codeshare.airline.core.enums.master.codesharepartner.InventorySharingType;
+import com.codeshare.airline.core.enums.master.codesharepartner.PartnerType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +17,9 @@ public class CodesharePartnerProfileDTO {
     private UUID partnerId;
     private String profileCode;
     private String profileName;
-    private String partnerType;
-    private String agreementCategory;
-    private String inventorySharingType;
+    private PartnerType partnerType;
+    private CodeshareAgreementCategory agreementCategory;
+    private InventorySharingType inventorySharingType;
     private Integer priority;
     private Boolean autoAcceptScheduleChanges;
     private Boolean prorationApplicable;

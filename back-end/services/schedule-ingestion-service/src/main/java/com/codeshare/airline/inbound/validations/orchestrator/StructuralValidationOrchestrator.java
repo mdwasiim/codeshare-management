@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.validations.orchestrator;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.domain.context.AbstractIngestionContext;
 import com.codeshare.airline.inbound.domain.context.AsmIngestionContext;
 import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;

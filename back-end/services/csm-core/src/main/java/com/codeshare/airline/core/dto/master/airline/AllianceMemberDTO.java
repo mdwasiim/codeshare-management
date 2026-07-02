@@ -1,6 +1,8 @@
 package com.codeshare.airline.core.dto.master.airline;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.airline.AllianceMembershipStatus;
+import com.codeshare.airline.core.enums.master.airline.AllianceMembershipType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +15,8 @@ public class AllianceMemberDTO {
     private UUID id;
     private UUID allianceId;
     private UUID airlineId;
-    private String membershipType;
-    private String membershipStatus;
+    private AllianceMembershipType membershipType;
+    private AllianceMembershipStatus membershipStatus;
     private LocalDate joinDate;
     private LocalDate leaveDate;
     private Boolean primaryMember;

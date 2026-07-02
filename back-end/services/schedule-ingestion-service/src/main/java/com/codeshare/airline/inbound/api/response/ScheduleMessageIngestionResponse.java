@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.api.response;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.domain.enums.ProcessingStatus;
 import lombok.Builder;
 import lombok.Getter;

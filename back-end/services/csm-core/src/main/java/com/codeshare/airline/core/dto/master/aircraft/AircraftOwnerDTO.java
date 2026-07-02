@@ -1,6 +1,7 @@
 package com.codeshare.airline.core.dto.master.aircraft;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.aircraft.AircraftOwnerType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ public class AircraftOwnerDTO {
     private UUID id;
     private String ownerCode;
     private String ownerName;
-    private String ownerType;
+    private AircraftOwnerType ownerType;
     private String iataCode;
     private String icaoCode;
     private UUID countryId;

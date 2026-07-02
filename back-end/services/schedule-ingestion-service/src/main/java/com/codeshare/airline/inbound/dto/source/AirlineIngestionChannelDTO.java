@@ -1,7 +1,7 @@
 package com.codeshare.airline.inbound.dto.source;
 
-import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.domain.enums.SourceType;
 import lombok.Getter;
 import lombok.Setter;

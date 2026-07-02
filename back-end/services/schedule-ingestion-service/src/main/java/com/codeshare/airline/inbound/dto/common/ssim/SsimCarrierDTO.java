@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.dto.common.ssim;
 
-import com.codeshare.airline.core.dto.audit.dto.CSMAuditableDTO;
+import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
 import com.codeshare.airline.inbound.domain.enums.RecordType;
 import com.codeshare.airline.inbound.domain.enums.TimeMode;
 import lombok.*;

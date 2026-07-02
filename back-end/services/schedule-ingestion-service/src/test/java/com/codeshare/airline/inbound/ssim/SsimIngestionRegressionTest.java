@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.ssim;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.config.ScheduleIngestionProperties;
 import com.codeshare.airline.inbound.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.inbound.domain.context.SsimIngestionContext;

@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.services.schedule;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.api.response.ScheduleFileMessageResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleDetailResponse;
 import com.codeshare.airline.inbound.api.response.ScheduleLoadedScheduleSummaryResponse;

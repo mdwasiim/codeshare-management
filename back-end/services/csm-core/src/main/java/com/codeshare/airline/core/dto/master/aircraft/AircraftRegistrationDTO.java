@@ -1,6 +1,7 @@
 package com.codeshare.airline.core.dto.master.aircraft;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.aircraft.AircraftRegistrationStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +24,7 @@ public class AircraftRegistrationDTO {
     private LocalDate deliveryDate;
     private LocalDate retirementDate;
     private LocalDate leaseExpiryDate;
-    private String registrationStatus;
+    private AircraftRegistrationStatus registrationStatus;
     private Boolean active;
     private Integer displayOrder;
     private String description;

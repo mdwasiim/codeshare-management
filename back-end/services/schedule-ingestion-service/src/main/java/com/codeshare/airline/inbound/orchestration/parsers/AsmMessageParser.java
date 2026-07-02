@@ -1,6 +1,6 @@
 package com.codeshare.airline.inbound.orchestration.parsers;
 
-import com.codeshare.airline.core.enums.MessageType;
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.inbound.common.classifier.LineClassifier;
 import com.codeshare.airline.inbound.common.classifier.LineClassifierFactory;
 import com.codeshare.airline.inbound.common.util.LineClassifierUtil;

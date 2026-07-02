@@ -1,6 +1,10 @@
 package com.codeshare.airline.core.dto.master.codesharepartner;
 
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.core.enums.master.codesharepartner.AuthenticationType;
+import com.codeshare.airline.core.enums.master.codesharepartner.CommunicationProtocol;
+import com.codeshare.airline.core.enums.master.codesharepartner.MessageFormat;
+import com.codeshare.airline.core.enums.master.codesharepartner.TransportType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +18,10 @@ public class CodesharePartnerCommunicationProfileDTO {
     private UUID partnerId;
     private String profileCode;
     private String profileName;
-    private String protocol;
-    private String transportType;
-    private String messageFormat;
-    private String authenticationType;
+    private CommunicationProtocol protocol;
+    private TransportType transportType;
+    private MessageFormat messageFormat;
+    private AuthenticationType authenticationType;
     private String endpointUrl;
     private String username;
     private String credentialAlias;
