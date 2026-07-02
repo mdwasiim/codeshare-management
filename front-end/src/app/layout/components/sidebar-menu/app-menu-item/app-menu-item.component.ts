@@ -67,7 +67,14 @@ export class AppMenuItemComponent {
         const item = this.item();
         if (!item || !this.hasChildren()) return;
 
-        item.expanded = !item.expanded;
+        item.expanded = true;
+
+        const link = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink ?? item.route];
+        const target = link[0];
+
+        if (target) {
+            this.router.navigate(link.filter(Boolean) as string[]);
+        }
     }
 
     shouldRenderChildren(): boolean {

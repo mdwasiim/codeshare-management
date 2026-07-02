@@ -1,6 +1,9 @@
 @if (root() && isVisible()) {
     <div class="layout-menuitem-root-text flex items-center justify-between cursor-pointer" (click)="item().expanded = !item().expanded">
-        {{ item().sidebarLabel || item().label }}
+        <span class="layout-menuitem-root-text__label">
+            <i *ngIf="item().icon" [ngClass]="item().icon"></i>
+            <span>{{ item().sidebarLabel || item().label }}</span>
+        </span>
 
         <i class="pi text-xs" [ngClass]="item().expanded ? 'pi-chevron-down' : 'pi-chevron-right'"> </i>
     </div>

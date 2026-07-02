@@ -61,7 +61,7 @@ export class LayoutMenuService {
 
             map((flat) => this.buildTree(flat)),
 
-            // ✅ assign routerLink ONLY for leaf nodes
+            // Assign routerLink to every routable node; branch nodes can still expand.
             map((tree) => this.assignRouterLinks(tree)),
 
             tap((menu) => {
@@ -147,7 +147,7 @@ export class LayoutMenuService {
     }
 
     /**
-     * ✅ Assign routerLink ONLY to leaf nodes
+     * Assign routerLink to every routable node; branch nodes can still expand.
      */
     private assignRouterLinks(nodes: AppMenuModel[]): AppMenuModel[] {
         return nodes.map((node) => {
@@ -155,7 +155,7 @@ export class LayoutMenuService {
 
             return {
                 ...node,
-                routerLink: !hasChildren && node.route ? [node.route] : undefined,
+                routerLink: node.route ? [node.route] : undefined,
                 items: hasChildren ? this.assignRouterLinks(node.items!) : []
             };
         });
@@ -230,10 +230,7 @@ export class LayoutMenuService {
         const branchWithActiveRoute = sidebarItems.find((item) => this.containsRoute(item, currentUrl));
         if (branchWithActiveRoute) {
             this.expandActivePath(branchWithActiveRoute, currentUrl);
-            return;
         }
-
-        this.expandFirstBranch(sidebarItems[0]);
     }
 
     private collapseTree(node: AppMenuModel) {
@@ -241,20 +238,11 @@ export class LayoutMenuService {
         (node.items ?? []).forEach((child) => this.collapseTree(child));
     }
 
-    private expandFirstBranch(node: AppMenuModel) {
-        node.expanded = true;
-
-        const children = node.items ?? [];
-        if (!children.length) return;
-
-        this.expandFirstBranch(children[0]);
-    }
-
     private expandActivePath(node: AppMenuModel, url: string): boolean {
         const selfMatches = !!node.route && this.matchesPath(url, node.route);
         const childMatches = (node.items ?? []).some((child) => this.expandActivePath(child, url));
 
-        node.expanded = childMatches;
+        node.expanded = selfMatches || childMatches;
         return selfMatches || childMatches;
     }
 

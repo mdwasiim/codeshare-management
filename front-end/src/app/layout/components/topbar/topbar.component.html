@@ -11,7 +11,7 @@
 
         @let rootMenus = rootMenus$ | async;
 
-        <nav class="enterprise-root-nav" [class.enterprise-root-nav--scrollable]="(rootMenus?.length ?? 0) > 5" aria-label="Primary navigation">
+        <nav class="enterprise-root-nav" aria-label="Primary navigation">
             @let selected = selectedRoot$ | async;
 
             @for (menu of rootMenus; track menu.id) {

@@ -37,13 +37,13 @@
 .layout-menu a {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 
-    padding: 10px 16px;
+    padding: 9px 12px;
     border-radius: 8px;
 
     color: var(--text-color);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
 
     transition: background 0.2s ease, color 0.2s ease;
@@ -93,12 +93,61 @@
    ROOT TITLE
 ========================= */
 .layout-menuitem-root-text {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-color-secondary);
-    padding: 14px 16px 6px;
-    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.5rem;
+    padding: 0.625rem 0.75rem;
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #334155;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease;
+}
+
+.layout-menuitem-root-text__label {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    gap: 0.625rem;
+
+    i {
+        color: #64748b;
+        font-size: 0.95rem;
+    }
+
+    span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.layout-menuitem-root-text:hover {
+    border-color: #dbeafe;
+    background: #eff6ff;
+    color: #1e40af;
+
+    .layout-menuitem-root-text__label i {
+        color: #2563eb;
+    }
+}
+
+ul.layout-root-submenulist {
+    padding: 0.125rem 0 0.4rem 0.25rem;
+    margin: 0;
+    border-left: 1px solid #e2e8f0;
+}
+
+ul.layout-root-submenulist li + li {
+    margin-top: 0.125rem;
 }
 
 /* =========================

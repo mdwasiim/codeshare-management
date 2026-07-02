@@ -2,13 +2,13 @@
 
 .layout-sidebar {
     position: fixed;
-    width: 20rem;
+    width: 18rem;
     height: calc(100vh - 6.25rem);
     z-index: 999;
     overflow-y: auto;
     user-select: none;
     top: 5rem;
-    left: 1.5rem;
+    left: 1rem;
     transition:
         transform var(--layout-section-transition-duration),
         left var(--layout-section-transition-duration);
@@ -16,7 +16,9 @@
     border: 1px solid #d9e2ec;
     border-radius: var(--content-border-radius);
     box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-    padding: 0.5rem 1.5rem;
+    padding: 0.75rem;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
 }
 
 .layout-menu {
@@ -25,12 +27,14 @@
     list-style-type: none;
 
     .layout-root-menuitem {
+        margin: 0;
+
         > .layout-menuitem-root-text {
-            font-size: 0.84rem;
+            font-size: 0.78rem;
             text-transform: uppercase;
             font-weight: 700;
             color: #334155;
-            margin: 0.75rem 0;
+            margin: 0;
         }
 
         > a {
@@ -69,7 +73,7 @@
             color: var(--text-color);
             font-weight: 500;
             cursor: pointer;
-            padding: 0.75rem 1rem;
+            padding: 0.625rem 0.75rem;
             border-radius: var(--content-border-radius);
             transition:
                 background-color var(--element-transition-duration),
@@ -107,32 +111,32 @@
 
             li {
                 a {
-                    margin-left: 0.75rem;
+                    margin-left: 0.35rem;
                 }
 
                 li {
                     a {
-                        margin-left: 2rem;
+                        margin-left: 1rem;
                     }
 
                     li {
                         a {
-                            margin-left: 2.5rem;
+                            margin-left: 1.5rem;
                         }
 
                         li {
                             a {
-                                margin-left: 3rem;
+                                margin-left: 2rem;
                             }
 
                             li {
                                 a {
-                                    margin-left: 3.5rem;
+                                    margin-left: 2.5rem;
                                 }
 
                                 li {
                                     a {
-                                        margin-left: 4rem;
+                                        margin-left: 3rem;
                                     }
                                 }
                             }

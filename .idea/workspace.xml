@@ -6,9 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/MenuLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/MenuLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/006-masters.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/006-masters.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/assets/layout/_main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/layout/_main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/assets/layout/_menu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/layout/_menu.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/assets/layout/_topbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/layout/_topbar.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +90,7 @@
       <workItem from="1782497222667" duration="2743000" />
       <workItem from="1782845901188" duration="5246000" />
       <workItem from="1782921813041" duration="6783000" />
-      <workItem from="1783008430459" duration="11487000" />
+      <workItem from="1783008430459" duration="14245000" />
     </task>
     <servers />
   </component>

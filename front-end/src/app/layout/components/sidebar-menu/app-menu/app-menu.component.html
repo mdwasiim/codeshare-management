@@ -1,7 +1,16 @@
-<ul class="layout-menu p-3 space-y-2">
+@if (selectedRoot) {
+    <div class="layout-menu-context">
+        <div>
+            <span class="layout-menu-context__eyebrow">Navigation</span>
+            <h2>{{ selectedRoot.sidebarLabel || selectedRoot.topbarLabel || selectedRoot.label }}</h2>
+        </div>
+    </div>
+}
+
+<ul class="layout-menu">
     @for (item of model; track rootTrackKey(item, $index)) {
         @if (!item.separator) {
-            <li class="px-2" app-menuitem [item]="item" [root]="(item.items?.length ?? 0) > 0"></li>
+            <li app-menuitem [item]="item" [root]="(item.items?.length ?? 0) > 0"></li>
         }
 
         @if (item.separator) {

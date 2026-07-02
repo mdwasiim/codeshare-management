@@ -97,7 +97,7 @@
     },
     {
         "code":  "M_GEO_COUNTRIES",
-        "parentCode":  "M_GEOGRAPHY",
+        "parentCode":  "M_GEO_REGIONS",
         "label":  "Countries",
         "topbarLabel":  null,
         "sidebarLabel":  null,
@@ -116,43 +116,43 @@
         "icon":  "pi pi-fw pi-map",
         "route":  "/masters/geography/regions",
         "permission":  null,
-        "displayOrder":  2,
+        "displayOrder":  1,
         "visible":  null
     },
     {
         "code":  "M_GEO_STATES",
-        "parentCode":  "M_GEOGRAPHY",
+        "parentCode":  "M_GEO_COUNTRIES",
         "label":  "States",
         "topbarLabel":  null,
         "sidebarLabel":  null,
         "icon":  "pi pi-fw pi-map-marker",
         "route":  "/masters/geography/states",
         "permission":  null,
-        "displayOrder":  3,
+        "displayOrder":  1,
         "visible":  null
     },
     {
         "code":  "M_GEO_CITIES",
-        "parentCode":  "M_GEOGRAPHY",
+        "parentCode":  "M_GEO_STATES",
         "label":  "Cities",
         "topbarLabel":  null,
         "sidebarLabel":  null,
         "icon":  "pi pi-fw pi-building",
         "route":  "/masters/geography/cities",
         "permission":  null,
-        "displayOrder":  4,
+        "displayOrder":  1,
         "visible":  null
     },
     {
         "code":  "M_GEO_AIRPORTS",
-        "parentCode":  "M_GEOGRAPHY",
+        "parentCode":  "M_GEO_CITIES",
         "label":  "Airports",
         "topbarLabel":  null,
         "sidebarLabel":  null,
         "icon":  "pi pi-fw pi-send",
         "route":  "/masters/geography/airports",
         "permission":  null,
-        "displayOrder":  5,
+        "displayOrder":  1,
         "visible":  null
     },
     {
@@ -164,7 +164,7 @@
         "icon":  "pi pi-fw pi-clock",
         "route":  "/masters/geography/timezones",
         "permission":  null,
-        "displayOrder":  6,
+        "displayOrder":  2,
         "visible":  null
     },
     {

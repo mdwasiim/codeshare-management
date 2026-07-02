@@ -16,6 +16,7 @@ export class AppMenuComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
 
     model: AppMenuModel[] = [];
+    selectedRoot: AppMenuModel | null = null;
 
     constructor(private menuService: LayoutMenuService) {}
 
@@ -39,6 +40,7 @@ export class AppMenuComponent implements OnInit {
                     this.menuService.setSelectedRoot(root);
                 }
 
+                this.selectedRoot = root;
                 this.model = root.items ?? [];
             });
     }
