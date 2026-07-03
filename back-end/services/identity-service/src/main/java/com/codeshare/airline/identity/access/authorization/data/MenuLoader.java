@@ -1,0 +1,220 @@
+package com.codeshare.airline.identity.access.authorization.data;
+
+import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.identity.access.authorization.entities.Menu;
+import com.codeshare.airline.identity.access.identity.entities.Tenant;
+import com.codeshare.airline.identity.access.authorization.repository.MenuRepository;
+import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.stereotype.Component;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class MenuLoader {
+
+    private final MenuRepository menuRepository;
+    private final TenantRepository tenantRepository;
+    private final ObjectMapper objectMapper;
+
+    private List<MenuDTO> loadMenuDefinitions() {
+        try {
+            Resource[] resources = new PathMatchingResourcePatternResolver()
+                    .getResources("classpath*:bootstrap/menus/*.json");
+
+            if (resources.length > 0) {
+                List<MenuDTO> definitions = new ArrayList<>();
+
+                Arrays.stream(resources)
+                        .sorted(Comparator.comparing(Resource::getFilename, Comparator.nullsLast(String::compareTo)))
+                        .forEach(resource -> definitions.addAll(readMenuResource(resource)));
+
+                return definitions;
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to load split menu definitions", e);
+        }
+
+        try (InputStream is = getClass()
+                .getClassLoader()
+                .getResourceAsStream("bootstrap/menus.json")) {
+
+            if (is == null) {
+                throw new IllegalStateException("menus.json not found");
+            }
+            return readMenuDefinitions(is);
+
+        } catch (Exception e) {
+
+            throw new IllegalStateException(
+                    "Failed to load menu definitions",
+                    e
+            );
+        }
+    }
+
+    private List<MenuDTO> readMenuResource(Resource resource) {
+        try (InputStream is = resource.getInputStream()) {
+            return readMenuDefinitions(is);
+        } catch (Exception e) {
+            throw new IllegalStateException(
+                    "Failed to load menu definitions from " + resource.getDescription(),
+                    e
+            );
+        }
+    }
+
+    private List<MenuDTO> readMenuDefinitions(InputStream is) throws java.io.IOException {
+        JsonNode root = objectMapper.readTree(is);
+
+        if (root == null || root.isNull()) {
+            return List.of();
+        }
+
+        if (root.isArray()) {
+            return objectMapper.convertValue(
+                    root,
+                    new TypeReference<List<MenuDTO>>() {}
+            );
+        }
+
+        if (root.isObject()) {
+            return List.of(objectMapper.convertValue(root, MenuDTO.class));
+        }
+
+        throw new IllegalStateException("Menu definitions must be a JSON array or object");
+    }
+
+    public void load(UUID tenantId) {
+
+        log.info("MenuLoader: ensuring menus for tenant {}", tenantId);
+
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() ->
+                        new IllegalStateException("Tenant not found: " + tenantId));
+
+        Set<String> existingCodes = menuRepository.findCodesByTenant(tenant);
+        List<MenuDTO> menuDefinitions = loadMenuDefinitions();
+
+        List<Menu> toSave = new ArrayList<>();
+        List<Menu> toUpdate = new ArrayList<>();
+        Map<String, Menu> codeMap = new HashMap<>();
+        Map<String, Menu> allMenus = menuRepository.findByTenant(tenant)
+                .stream()
+                .collect(Collectors.toMap(Menu::getCode, m -> m));
+
+        for (MenuDTO dto : menuDefinitions) {
+
+            if (existingCodes.contains(dto.getCode())) {
+                Menu existing = allMenus.get(dto.getCode());
+                if (existing != null && updateMenuDefinition(existing, dto)) {
+                    toUpdate.add(existing);
+                }
+                continue;
+            }
+
+            Menu menu = Menu.builder()
+                    .code(dto.getCode())
+                    .label(dto.getLabel())
+                    .topbarLabel(dto.getTopbarLabel())
+                    .sidebarLabel(dto.getSidebarLabel())
+                    .icon(dto.getIcon())
+                    .route(dto.getRoute())
+                    .permission(dto.getPermission())
+                    .displayOrder(dto.getDisplayOrder())
+                    .tenant(tenant)
+                    .build();
+
+            toSave.add(menu);
+            codeMap.put(dto.getCode(), menu);
+        }
+
+        allMenus.putAll(codeMap);
+
+        for (MenuDTO dto : menuDefinitions) {
+            Menu child = allMenus.get(dto.getCode());
+            if (child == null) {
+                continue;
+            }
+
+            Menu parent = dto.getParentCode() == null ? null : allMenus.get(dto.getParentCode());
+
+            if (!Objects.equals(child.getParentMenu(), parent)) {
+                child.setParentMenu(parent);
+                if (!toSave.contains(child) && !toUpdate.contains(child)) {
+                    toUpdate.add(child);
+                }
+            }
+        }
+
+        if (!toSave.isEmpty() || !toUpdate.isEmpty()) {
+            List<Menu> changes = new ArrayList<>();
+            changes.addAll(toSave);
+            changes.addAll(toUpdate);
+
+            menuRepository.saveAll(changes);
+            log.info("MenuLoader: {} menus created and {} menus updated for {}", toSave.size(), toUpdate.size(), tenant.getTenantCode());
+        }
+    }
+
+    private boolean updateMenuDefinition(Menu menu, MenuDTO dto) {
+        boolean changed = false;
+
+        if (!Objects.equals(menu.getLabel(), dto.getLabel())) {
+            menu.setLabel(dto.getLabel());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getTopbarLabel(), dto.getTopbarLabel())) {
+            menu.setTopbarLabel(dto.getTopbarLabel());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getSidebarLabel(), dto.getSidebarLabel())) {
+            menu.setSidebarLabel(dto.getSidebarLabel());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getIcon(), dto.getIcon())) {
+            menu.setIcon(dto.getIcon());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getRoute(), dto.getRoute())) {
+            menu.setRoute(dto.getRoute());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getPermission(), dto.getPermission())) {
+            menu.setPermission(dto.getPermission());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getDisplayOrder(), dto.getDisplayOrder())) {
+            menu.setDisplayOrder(dto.getDisplayOrder());
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    public boolean isLoaded(UUID tenantId) {
+
+        long actual = menuRepository.countByTenantId(tenantId);
+        long expected = loadMenuDefinitions().size();
+
+        return actual >= expected;
+    }
+}

@@ -3,7 +3,7 @@ package com.codeshare.airline.master.aircraft.loader;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.AircraftManufacturer;
 import com.codeshare.airline.master.aircraft.repository.AircraftManufacturerRepository;
-import com.codeshare.airline.master.georegion.repository.CountryRepository;
+import com.codeshare.airline.master.geography.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;

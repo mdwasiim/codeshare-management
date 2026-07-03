@@ -10,8 +10,8 @@ import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRep
 import com.codeshare.airline.master.aircraft.repository.AircraftOwnerRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftRegistrationRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
-import com.codeshare.airline.master.airline.entities.AirlineCarrier;
-import com.codeshare.airline.master.airline.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
+import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;

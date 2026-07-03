@@ -2,8 +2,8 @@ package com.codeshare.airline.master.terminal.serviceImpl;
 
 import com.codeshare.airline.core.dto.master.terminal.UtcOffsetDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
-import com.codeshare.airline.master.georegion.entities.Timezone;
-import com.codeshare.airline.master.georegion.repository.TimezoneRepository;
+import com.codeshare.airline.master.geography.entities.Timezone;
+import com.codeshare.airline.master.geography.repository.TimezoneRepository;
 import com.codeshare.airline.master.terminal.entities.UtcOffset;
 import com.codeshare.airline.master.terminal.mappers.UtcOffsetMapper;
 import com.codeshare.airline.master.terminal.repository.UtcOffsetRepository;

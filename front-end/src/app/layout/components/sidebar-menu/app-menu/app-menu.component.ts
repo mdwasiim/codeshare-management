@@ -1,6 +1,6 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { AppMenuItemComponent } from '@layout/components/sidebar-menu/app-menu-item/app-menu-item.component';
-import { AppMenuModel } from '@features/access-management/iam/models/app-menu.model';
+import { AppMenuModel } from '@features/access-management/models/app-menu.model';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
 import { combineLatest, startWith } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

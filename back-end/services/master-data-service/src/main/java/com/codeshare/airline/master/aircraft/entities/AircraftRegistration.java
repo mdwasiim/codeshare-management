@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import com.codeshare.airline.master.airline.entities.AirlineCarrier;
+import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
 
 @Entity
 @Table(

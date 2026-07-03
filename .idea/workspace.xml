@@ -6,19 +6,448 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/api/request/LoginRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/api/request/OidcTokenExchangeRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/api/response/LoginResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/api/response/RefreshTokenResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/api/response/TokenPairResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/config/JwtConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/config/PasswordEncoderConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/config/RestClientConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/config/SecurityProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/config/WebSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/domain/IdentityProviderConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/domain/OidcAuthenticatedUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/domain/OidcConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/domain/OidcState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/domain/TenantContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/domain/TenantContextHolder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/domain/TokenPair.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/exception/AuthenticationFailedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/exception/RefreshTokenInvalidException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/exception/TenantResolutionException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/exception/TokenValidationException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/exception/UnsupportedAuthenticationFlowException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/exception/UserAccountLockedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/AuthenticationProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/AuthorizationRedirectCapable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/ldap/LdapAuthenticationProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/local/InternalAuthenticationProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/oidc/azure/AzureAudienceClaimValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/oidc/azure/AzureOidcAuthenticationProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/oidc/azure/AzureOidcClientAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/oidc/base/AbstractOidcAuthenticationProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/oidc/base/OidcClientAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/provider/oidc/base/OidcStateManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/security/SecurityUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/security/adapter/UserDetailsAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/security/crypto/HmacSigner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/security/filter/TenantHeaderFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/security/jwt/AudienceValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/security/jwt/JwtAuthenticationClaims.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/security/key/RsaSigningKeyProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/security/key/SigningKeyProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/service/core/AuthenticationProviderResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/service/core/AuthenticationResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/service/core/AuthenticationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/service/core/TenantContextResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/service/core/TokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/service/core/UserContextService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/service/source/TenantIdentityProviderSelector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/state/OidcNonceStore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/state/OidcStatePayload.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/authentication/state/OidcStateSigner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/GroupController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/InternalUserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/MenuController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/PermissionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/RoleController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/TenantController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/UserDeviceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/api/JwksController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/api/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/api/OidcDiscoveryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/assignment/GroupMenuAssignmentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/assignment/GroupRoleAssignmentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/assignment/RolePermissionAssignmentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/controller/assignment/UserGroupAssignmentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/AuthTokenExchangeEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/Group.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/GroupMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/GroupRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/LoginAuditEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/Menu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/OidcConfigEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/OidcIdentityProviderEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/OidcStateEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/Permission.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/RefreshToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/RolePermission.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/Tenant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/UserDeviceEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/entities/UserGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/exception/AuthExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/exception/AuthExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/AuthTokenExchangeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/GroupMenuRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/GroupRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/GroupRoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/MenuRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/OidcConfigRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/OidcIdentityProviderRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/OidcStateRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/PermissionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/RefreshTokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/RolePermissionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/RoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/TenantRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/UserDeviceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/UserGroupRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/AuthCustomUserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/AuthIdentityProviderService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/AuthUserDeviceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/AuthUserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/GroupService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/MenuService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/PermissionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/RoleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/TenantService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/assignment/GroupMenuAssignmentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/assignment/GroupRoleAssignmentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/assignment/RolePermissionAssignmentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/assignment/UserGroupAssignmentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/assignment/impl/GroupMenuAssignmentServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/assignment/impl/GroupRoleAssignmentServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/assignment/impl/RolePermissionAssignmentServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/assignment/impl/UserGroupAssignmentServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/AuthIdentityProviderServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/AuthUserDeviceServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/AuthUserServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/GroupServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/MenuServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/PermissionServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/RoleServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/service/serviceImpl/TenantServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/DataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/GroupLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/GroupMenuLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/GroupRoleLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/MenuBackupRunner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/MenuLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/OidcIdentityProviderDataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/PermissionLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/RoleLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/RolePermissionLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/TenantLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/UserGroupLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/data/UserLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/AuthUserDeviceMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/AuthUserMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/GroupMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/GroupMenuMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/GroupRoleMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/MenuMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/PermissionMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/RoleMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/RolePermissionMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/TenantMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/UserGroupMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/utils/mappers/UserMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/005-access.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/005-access.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/006-masters.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/006-masters.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AircraftConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AircraftConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AircraftManufacturer.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AircraftManufacturer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AircraftOwner.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AircraftOwner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AircraftRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AircraftRegistration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AirlineFleetProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/AirlineFleetProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/CabinCrewOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/CabinCrewOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/CockpitCrewOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/entities/CockpitCrewOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AircraftConfigurationLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AircraftConfigurationLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AircraftManufacturerDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AircraftManufacturerDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AircraftOwnerDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AircraftOwnerDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AircraftRegistrationDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AircraftRegistrationDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AirlineFleetDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/AirlineFleetDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/CabinCrewOperatorDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/CabinCrewOperatorDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/CockpitCrewOperatorDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/loader/CockpitCrewOperatorDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AircraftConfigurationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AircraftConfigurationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AircraftManufacturerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AircraftManufacturerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AircraftOwnerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AircraftOwnerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AircraftRegistrationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AircraftRegistrationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AirlineFleetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/AirlineFleetServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/CabinCrewOperatorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/CabinCrewOperatorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/CockpitCrewOperatorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/aircraft/serviceImpl/CockpitCrewOperatorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/controller/AirlineAliasController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/controller/AirlineBusinessRoleController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/controller/AirlineCarrierController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/controller/AirlineContactController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/controller/AllianceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/controller/AllianceMemberController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/controller/CodesharePartnerController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/entities/AirlineAlias.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/entities/AirlineBusinessRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/entities/AirlineCarrier.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/entities/AirlineContact.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/entities/Alliance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/entities/AllianceMember.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/entities/CodesharePartner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/loader/AirlineCarrierDataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/mappers/AirlineAliasMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/mappers/AirlineBusinessRoleMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/mappers/AirlineCarrierMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/mappers/AirlineContactMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/mappers/AllianceMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/mappers/AllianceMemberMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/mappers/CodesharePartnerMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/repository/AirlineAliasRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/repository/AirlineBusinessRoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/repository/AirlineCarrierRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/repository/AirlineContactRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/repository/AllianceMemberRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/repository/AllianceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/repository/CodesharePartnerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/service/AirlineAliasService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/service/AirlineBusinessRoleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/service/AirlineCarrierService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/service/AirlineContactService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/service/AllianceMemberService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/service/AllianceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/service/CodesharePartnerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/serviceImpl/AirlineAliasServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/serviceImpl/AirlineBusinessRoleServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/serviceImpl/AirlineCarrierServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/serviceImpl/AirlineContactServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/serviceImpl/AllianceMemberServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/serviceImpl/AllianceServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airline/serviceImpl/CodesharePartnerServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/entities/CodesharePartnerCommunicationProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/entities/CodesharePartnerCommunicationProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/entities/CodesharePartnerDistributionProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/entities/CodesharePartnerDistributionProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/entities/CodesharePartnerProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/entities/CodesharePartnerProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/serviceImpl/CodesharePartnerCommunicationProfileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/serviceImpl/CodesharePartnerCommunicationProfileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/serviceImpl/CodesharePartnerDistributionProfileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/serviceImpl/CodesharePartnerDistributionProfileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/serviceImpl/CodesharePartnerProfileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/codesharePartner/serviceImpl/CodesharePartnerProfileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/controller/ElectronicTicketIndicatorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/controller/MealServiceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/controller/ReservationBookingDesignatorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/controller/ReservationBookingModifierController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/controller/SecureFlightIndicatorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/controller/ServiceTypeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/entities/CabinServiceLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/entities/ElectronicTicketIndicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/entities/MealService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/entities/ReservationBookingDesignator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/entities/ReservationBookingModifier.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/entities/SecureFlightIndicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/entities/ServiceType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/mappers/ElectronicTicketIndicatorMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/mappers/MealServiceMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/mappers/ReservationBookingDesignatorMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/mappers/ReservationBookingModifierMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/mappers/SecureFlightIndicatorMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/mappers/ServiceTypeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/repository/ElectronicTicketIndicatorRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/repository/MealServiceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/repository/ReservationBookingDesignatorRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/repository/ReservationBookingModifierRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/repository/SecureFlightIndicatorRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/repository/ServiceTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/service/ElectronicTicketIndicatorService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/service/MealServiceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/service/ReservationBookingDesignatorService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/service/ReservationBookingModifierService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/service/SecureFlightIndicatorService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/service/ServiceTypeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/serviceImpl/ElectronicTicketIndicatorServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/serviceImpl/MealServiceServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/serviceImpl/ReservationBookingDesignatorServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/serviceImpl/ReservationBookingModifierServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/serviceImpl/SecureFlightIndicatorServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/passenger/serviceImpl/ServiceTypeServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/controller/FlightFrequencyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/controller/FlightSuffixController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/controller/TimeModeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/controller/TrafficRestrictionCodeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/controller/TrafficRestrictionQualifierController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/entities/FlightFrequency.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/entities/FlightSuffix.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/entities/ScheduleVariationType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/entities/TimeMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/entities/TrafficRestrictionCode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/entities/TrafficRestrictionQualifier.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/mappers/FlightFrequencyMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/mappers/FlightSuffixMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/mappers/TimeModeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/mappers/TrafficRestrictionCodeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/mappers/TrafficRestrictionQualifierMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/repository/FlightFrequencyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/repository/FlightSuffixRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/repository/TimeModeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/repository/TrafficRestrictionCodeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/repository/TrafficRestrictionQualifierRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/service/FlightFrequencyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/service/FlightSuffixService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/service/TimeModeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/service/TrafficRestrictionCodeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/service/TrafficRestrictionQualifierService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/serviceImpl/FlightFrequencyServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/serviceImpl/FlightSuffixServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/serviceImpl/TimeModeServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/serviceImpl/TrafficRestrictionCodeServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/flightcommercial/schedule/serviceImpl/TrafficRestrictionQualifierServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/AirportController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/CityController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/CountryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/DstRuleController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/LocationSearchController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/RegionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/StateController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/controller/TimezoneController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/data/AirportDataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/data/CityDataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/data/CountryDataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/data/RegionDataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/data/StateDataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/data/TimezoneDataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/entities/Airport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/entities/City.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/entities/Country.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/entities/Region.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/entities/State.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/entities/Timezone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/entities/TimezoneDLS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/mappers/AirportMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/mappers/CityMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/mappers/CountryMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/mappers/DstRuleMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/mappers/RegionMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/mappers/StateMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/mappers/TimezoneMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/repository/AirportRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/repository/CityRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/repository/CountryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/repository/DstRuleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/repository/RegionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/repository/StateRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/repository/TimezoneRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/AirportService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/CityService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/CountryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/DstRuleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/LocationSearchService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/RegionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/StateService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/service/TimezoneService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/AirportServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/CityServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/CountryServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/DstRuleServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/LocationSearchServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/RegionServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/StateServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/georegion/serviceImpl/TimezoneServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/messaging/data/ServiceTypeDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/messaging/data/ServiceTypeDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/messaging/mappers/ServiceTypeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/messaging/mappers/ServiceTypeMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/messaging/repository/ServiceTypeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/messaging/repository/ServiceTypeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/messaging/serviceImpl/ServiceTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/messaging/serviceImpl/ServiceTypeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/data/PassengerTerminalDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/data/PassengerTerminalDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/AirportTerminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/AirportTerminal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/DaylightSavingRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/DaylightSavingRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/PassengerTerminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/PassengerTerminal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/TrafficConferenceArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/TrafficConferenceArea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/UtcOffset.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/entities/UtcOffset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/AirportTerminalServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/AirportTerminalServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/DaylightSavingRuleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/DaylightSavingRuleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/PassengerTerminalServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/PassengerTerminalServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/TrafficConferenceAreaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/TrafficConferenceAreaServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/UtcOffsetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/terminal/serviceImpl/UtcOffsetServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/security/interceptors/app-auth.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/security/interceptors/app-auth.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/assignment.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-menus/models/group-menu.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-menus/pages/group-menu.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-menus/pages/group-menu.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-menus/services/group-menu.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-roles/models/group-role.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-roles/pages/group-role-assignment.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-roles/pages/group-role-assignment.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/group-roles/services/group-role.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/models/role-permission.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/pages/role-permission-assignment.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/pages/role-permission-assignment.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/role-permissions/services/role-permission.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/user-group/models/user-group.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/user-group/pages/user-group.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/user-group/pages/user-group.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignment/user-group/services/user-group.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/auth.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/models/login-response.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/models/refresh-token-response.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/pages/login/login-page.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/pages/login/login-page.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/pages/login/login-page.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/auth/services/auth.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/groups.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-form/group-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-form/group-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-form/group-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-list/group-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-list/group-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/pages/group-list/group-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/groups/services/group.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/iam.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/menus.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-form/menu-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/pages/menu-list/menu-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/menus/services/menu-management.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/models/app-menu.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/models/group.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/models/permission.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/models/role.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/models/tenant.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/models/user.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-form/permission-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-form/permission-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-form/permission-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-list/permission-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-list/permission-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/pages/permission-list/permission-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/permissions.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/permissions/services/permission-api.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-form/role-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-form/role-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-form/role-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-list/role-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-list/role-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/pages/role-list/role-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/roles.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/roles/services/role.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-form/tenant-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-list/tenant-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-list/tenant-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/pages/tenant-list/tenant-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/services/tenant.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/tenants/tenants.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-form/user-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-form/user-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-form/user-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/pages/user-list/user-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/services/user.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/iam/users/users.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/assets/layout/_main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/layout/_main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/assets/layout/_menu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/layout/_menu.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/assets/layout/_topbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/layout/_topbar.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +455,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="2245" />
+    <option name="cachedIndexableFilesCount" value="3127" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -90,7 +519,8 @@
       <workItem from="1782497222667" duration="2743000" />
       <workItem from="1782845901188" duration="5246000" />
       <workItem from="1782921813041" duration="6783000" />
-      <workItem from="1783008430459" duration="14245000" />
+      <workItem from="1783008430459" duration="14460000" />
+      <workItem from="1783077818410" duration="3554000" />
     </task>
     <servers />
   </component>

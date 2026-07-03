@@ -1,9 +1,0 @@
-package com.codeshare.airline.master.flightcommercial.schedule.service;
-
-import com.codeshare.airline.core.dto.master.flightcommercial.schedule.FlightSuffixDTO;
-import com.codeshare.airline.master.common.base.BaseService;
-
-import java.util.UUID;
-
-public interface FlightSuffixService extends BaseService<FlightSuffixDTO, UUID> {
-}

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, filter, finalize, switchMap, take, throwError } from 'rxjs';
 
 import { AuthTokenService } from '@services/auth/auth-token.service';
-import { AuthService } from '@features/access-management/auth/services/auth.service';
+import { AuthService } from '@features/access-management/authentication/services/auth.service';
 import { AuthTenantService } from '@services/auth/auth-tenant.service';
 
 let isRefreshing = false;

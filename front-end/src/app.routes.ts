@@ -4,7 +4,7 @@ import { AppAuthGuard } from '@core/security/guards/app-auth.guard';
 export const APP_ROUTES: Routes = [
     {
         path: 'auth',
-        loadChildren: () => import('@features/access-management/auth/auth.routes').then((m) => m.AUTH_ROUTES)
+        loadChildren: () => import('@features/access-management/authentication/authentication.routes').then((m) => m.AUTHENTICATION_ROUTES)
     },
     {
         path: '',

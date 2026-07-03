@@ -5,11 +5,11 @@ import com.codeshare.airline.master.aircraft.entities.CockpitCrewOperator;
 import com.codeshare.airline.master.aircraft.mappers.CockpitCrewOperatorMapper;
 import com.codeshare.airline.master.aircraft.repository.CockpitCrewOperatorRepository;
 import com.codeshare.airline.master.aircraft.service.CockpitCrewOperatorService;
-import com.codeshare.airline.master.airline.entities.AirlineCarrier;
-import com.codeshare.airline.master.airline.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
+import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
-import com.codeshare.airline.master.georegion.entities.Country;
-import com.codeshare.airline.master.georegion.repository.CountryRepository;
+import com.codeshare.airline.master.geography.entities.Country;
+import com.codeshare.airline.master.geography.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
