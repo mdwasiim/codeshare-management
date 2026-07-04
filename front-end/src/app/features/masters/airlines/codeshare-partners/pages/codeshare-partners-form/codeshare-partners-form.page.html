@@ -1,27 +1,33 @@
 <form [formGroup]="form" class="p-fluid w-full block app-form">
-    <app-form-section title="Codeshare Partners Details">
+    <app-form-section title="Codeshare Partner Details">
         <div class="grid">
             <div class="field col-12 md:col-6">
-                <label for="airlineId" class="required">Airline ID</label>
-                <input id="airlineId" pInputText formControlName="airlineId" class="w-full" />
-                <small class="p-error" *ngIf="form.controls['airlineId'].hasError('required') && form.controls['airlineId'].touched">Airline ID is required.</small>
+                <label for="homeAirlineId" class="required">Home Airline ID</label>
+                <input id="homeAirlineId" pInputText formControlName="homeAirlineId" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['homeAirlineId'].hasError('required') && form.controls['homeAirlineId'].touched">Home Airline ID is required.</small>
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="partnerCode">Partner Code</label>
-                <input id="partnerCode" pInputText formControlName="partnerCode" class="w-full" />
+                <label for="partnerAirlineId" class="required">Partner Airline ID</label>
+                <input id="partnerAirlineId" pInputText formControlName="partnerAirlineId" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['partnerAirlineId'].hasError('required') && form.controls['partnerAirlineId'].touched">Partner Airline ID is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="agreementNumber">Agreement No</label>
+                <input id="agreementNumber" pInputText formControlName="agreementNumber" class="w-full" />
                 
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="partnerName">Partner Name</label>
-                <input id="partnerName" pInputText formControlName="partnerName" class="w-full" />
+                <label for="agreementType">Agreement Type</label>
+                <input id="agreementType" pInputText formControlName="agreementType" class="w-full" />
                 
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="partnerType">Partner Type</label>
-                <input id="partnerType" pInputText formControlName="partnerType" class="w-full" />
+                <label for="agreementStatus">Agreement Status</label>
+                <input id="agreementStatus" pInputText formControlName="agreementStatus" class="w-full" />
                 
             </div>
 

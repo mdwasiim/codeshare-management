@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/airport-terminal-masters")
+@RequestMapping("/airport-terminals")
 public class AirportTerminalController extends BaseController<AirportTerminalDTO, UUID> {
 
     protected AirportTerminalController(BaseService<AirportTerminalDTO, UUID> service) {

@@ -6,4 +6,5 @@ import com.codeshare.airline.master.flight.passenger.entities.ServiceType;
 import java.util.UUID;
 
 public interface ServiceTypeRepository extends CSMDataBaseRepository<ServiceType, UUID> {
+    boolean existsByServiceTypeCode(String serviceTypeCode);
 }

@@ -6,4 +6,7 @@ import com.codeshare.airline.master.flight.schedule.entities.TrafficRestrictionC
 import java.util.UUID;
 
 public interface TrafficRestrictionCodeRepository extends CSMDataBaseRepository<TrafficRestrictionCode, UUID> {
+    boolean existsByRestrictionCode(String restrictionCode);
+
+    java.util.Optional<TrafficRestrictionCode> findByRestrictionCode(String restrictionCode);
 }

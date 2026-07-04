@@ -8,7 +8,7 @@ import { PassengerTerminal } from '@features/masters/terminal/passenger-terminal
 export class PassengerTerminalService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
-    private readonly baseUrl = '/master/airport-terminals';
+    private readonly baseUrl = '/master/passenger-terminals';
 
     getAll() { return this.api.get<PassengerTerminal[]>(this.baseUrl); }
     getById(id: string) { return this.api.get<PassengerTerminal>(this.baseUrl + '/' + encodeURIComponent(id)); }

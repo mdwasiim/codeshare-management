@@ -4,6 +4,7 @@ import com.codeshare.airline.identity.access.assignments.entities.RolePermission
 import com.codeshare.airline.identity.access.assignments.repository.RolePermissionRepository;
 import com.codeshare.airline.identity.access.authorization.entities.Permission;
 import com.codeshare.airline.identity.access.authorization.repository.PermissionRepository;
+import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.identity.entities.Role;
 import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.RoleRepository;
@@ -12,7 +13,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -23,272 +29,85 @@ public class RolePermissionLoader {
     private final RoleRepository roleRepo;
     private final RolePermissionRepository repo;
     private final TenantRepository tenantRepository;
-
-    private static final Map<String, List<String>> ROLE_PERMISSION_MAP = Map.ofEntries(
-
-            // =========================
-            // SUPER ADMIN
-            // =========================
-            Map.entry("SUPER_ADMIN", List.of("*")),
-
-            // =========================
-            // TENANT ADMIN
-            // =========================
-            Map.entry("TENANT_ADMIN", List.of(
-                    "user:create",
-                    "user:read",
-                    "user:update",
-                    "group:create",
-                    "group:read",
-                    "group:update",
-                    "role:read",
-                    "tenant:read",
-                    "dashboard:read",
-                    "settings:read"
-            )),
-
-            // =========================
-            // IAM ADMIN
-            // =========================
-            Map.entry("IAM_ADMIN", List.of(
-                    "user:create",
-                    "user:read",
-                    "user:update",
-                    "user:unlock",
-
-                    "group:create",
-                    "group:read",
-                    "group:update",
-                    "group:assign",
-
-                    "role:create",
-                    "role:read",
-                    "role:update",
-                    "role:assign",
-
-                    "tenant:read",
-
-                    "permission:read",
-                    "permission:assign"
-            )),
-
-            // =========================
-            // OPS MANAGER
-            // =========================
-            Map.entry("OPS_MANAGER", List.of(
-                    "flight:create",
-                    "flight:read",
-                    "flight:update",
-                    "booking:read",
-                    "report:read",
-                    "dashboard:read"
-            )),
-
-            // =========================
-            // FLIGHT OPERATOR
-            // =========================
-            Map.entry("FLIGHT_OPERATOR", List.of(
-                    "flight:read",
-                    "flight:update"
-            )),
-
-            // =========================
-            // BOOKING AGENT
-            // =========================
-            Map.entry("BOOKING_AGENT", List.of(
-                    "booking:create",
-                    "booking:read",
-                    "booking:update",
-                    "booking:cancel"
-            )),
-
-            // =========================
-            // CUSTOMER SUPPORT
-            // =========================
-            Map.entry("CUSTOMER_SUPPORT", List.of(
-                    "booking:read",
-                    "booking:update",
-                    "user:read"
-            )),
-
-            // =========================
-            // REPORT ANALYST
-            // =========================
-            Map.entry("REPORT_ANALYST", List.of(
-                    "report:read",
-                    "report:export",
-                    "dashboard:read"
-            )),
-
-            // =========================
-            // AUDITOR
-            // =========================
-            Map.entry("AUDITOR", List.of(
-                    "audit:read",
-                    "report:read"
-            )),
-
-            // =========================
-            // DEFAULT USER
-            // =========================
-            Map.entry("USER", List.of(
-                    "dashboard:read"
-            ))
-    );
-
+    private final IdentityBootstrapData bootstrapData;
 
     public void load(UUID tenantId) {
-
-        log.info("⏳ RolePermissionLoader: Assigning permissions to roles...");
-
+        log.info("RolePermissionLoader: assigning permissions to roles for tenant {}", tenantId);
         assignTenantPermissions(tenantId);
-
-        log.info(" RolePermissionLoader: Completed. mappings created.");
     }
 
     private void assignTenantPermissions(UUID tenantId) {
-
         Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() ->
-                        new IllegalStateException("Tenant not found: " + tenantId));
+                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
 
-        List<Permission> permissions =
-                permRepo.findByTenantId(tenantId);
+        List<Permission> permissions = permRepo.findByTenantId(tenantId);
+        List<Role> roles = roleRepo.findByTenantId(tenantId);
 
-        List<Role> roles =
-                roleRepo.findByTenantId(tenantId);
-
-        if (permissions.isEmpty()) {
-            log.warn("⚠ No permissions found for tenant {} — skipping", tenantId);
+        if (permissions.isEmpty() || roles.isEmpty()) {
+            log.warn("Skipping tenant [{}] because roles or permissions are missing", tenant.getTenantCode());
             return;
         }
 
-        if (roles.isEmpty()) {
-            log.warn("⚠ No roles found for tenant {} — skipping", tenantId);
-            return;
-        }
+        Set<String> existingMappings = repo.findMappings(tenant);
+        List<RolePermission> toSave = new ArrayList<>();
 
-        // Existing mappings
-        Set<String> existingMappings =
-                repo.findMappings(tenant);
+        Map<String, Permission> permissionByCode = new HashMap<>();
+        permissions.forEach(permission -> permissionByCode.put(permission.getCode(), permission));
 
-        List<RolePermission> toSave =
-                new ArrayList<>();
+        Map<String, Role> roleByCode = new HashMap<>();
+        roles.forEach(role -> roleByCode.put(role.getCode(), role));
 
-        // Permission lookup
-        Map<String, Permission> permissionByCode =
-                new HashMap<>();
-
-        for (Permission permission : permissions) {
-            permissionByCode.put(
-                    permission.getCode(),
-                    permission
-            );
-        }
-
-        for (Role role : roles) {
-
-            List<String> allowedPermissions =
-                    ROLE_PERMISSION_MAP.getOrDefault(
-                            role.getCode(),
-                            List.of()
-                    );
-
-            // SUPER_ADMIN => ALL PERMISSIONS
-            if (allowedPermissions.contains("*")) {
-
-                for (Permission permission : permissions) {
-
-                    saveRolePermission(
-                            tenant,
-                            role,
-                            permission,
-                            existingMappings,
-                            toSave
-                    );
-                }
-
-                continue;
+        bootstrapData.rolePermissions().forEach((roleCode, permissionCodes) -> {
+            Role role = roleByCode.get(roleCode);
+            if (role == null) {
+                log.warn("Role [{}] not found for role-permission bootstrap", roleCode);
+                return;
             }
 
-            for (String permissionCode : allowedPermissions) {
+            if (permissionCodes.contains("*")) {
+                permissions.forEach(permission -> saveRolePermission(tenant, role, permission, existingMappings, toSave));
+                return;
+            }
 
-                Permission permission =
-                        permissionByCode.get(permissionCode);
-
+            for (String permissionCode : permissionCodes) {
+                Permission permission = permissionByCode.get(permissionCode);
                 if (permission == null) {
-
-                    log.warn(
-                            "⚠ Permission [{}] not found for role [{}]",
-                            permissionCode,
-                            role.getCode()
-                    );
-
+                    log.warn("Permission [{}] not found for role [{}]", permissionCode, roleCode);
                     continue;
                 }
 
-                saveRolePermission(
-                        tenant,
-                        role,
-                        permission,
-                        existingMappings,
-                        toSave
-                );
+                saveRolePermission(tenant, role, permission, existingMappings, toSave);
             }
-        }
+        });
 
         if (!toSave.isEmpty()) {
-
             repo.saveAll(toSave);
-
-            log.info(
-                    "✅ Tenant [{}]: {} role-permission mappings created.",
-                    tenant.getTenantCode(),
-                    toSave.size()
-            );
-
+            log.info("Tenant [{}]: {} role-permission mappings created.", tenant.getTenantCode(), toSave.size());
         } else {
-
-            log.info(
-                    "✅ Tenant [{}]: role-permission mappings already exist.",
-                    tenant.getTenantCode()
-            );
+            log.info("Tenant [{}]: role-permission mappings already exist.", tenant.getTenantCode());
         }
     }
 
-    private void saveRolePermission(
-            Tenant tenant,
-            Role role,
-            Permission permission,
-            Set<String> existingMappings,
-            List<RolePermission> toSave
-    ) {
-
-        String key =
-                role.getCode() + ":" + permission.getCode();
-
+    private void saveRolePermission(Tenant tenant,
+                                    Role role,
+                                    Permission permission,
+                                    Set<String> existingMappings,
+                                    List<RolePermission> toSave) {
+        String key = role.getCode() + ":" + permission.getCode();
         if (existingMappings.contains(key)) {
             return;
         }
 
         existingMappings.add(key);
-
-        toSave.add(
-                RolePermission.builder()
-                        .tenant(tenant)
-                        .role(role)
-                        .permission(permission)
-                        .build()
-        );
+        toSave.add(RolePermission.builder()
+                .tenant(tenant)
+                .role(role)
+                .permission(permission)
+                .build());
     }
 
-    // ===============================
-    // 🔥 TENANT-AWARE CHECK
-    // ===============================
     public boolean isLoaded(UUID tenantId) {
-
         long actual = repo.countByTenantId(tenantId);
-
-        return actual >= 0;
+        return actual >= bootstrapData.rolePermissions().size();
     }
 }

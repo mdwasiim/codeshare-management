@@ -1,22 +1,16 @@
 <form [formGroup]="form" class="p-fluid w-full block app-form">
-    <app-form-section title="Cities Details">
+    <app-form-section title="City Details">
         <div class="grid">
             <div class="field col-12 md:col-6">
-                <label for="cityCode" class="required">Code</label>
-                <input id="cityCode" pInputText formControlName="cityCode" class="w-full" />
-                <small class="p-error" *ngIf="form.controls['cityCode'].hasError('required') && form.controls['cityCode'].touched">Code is required.</small>
+                <label for="iataCode" class="required">IATA Code</label>
+                <input id="iataCode" pInputText formControlName="iataCode" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['iataCode'].hasError('required') && form.controls['iataCode'].touched">IATA Code is required.</small>
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="cityName" class="required">Name</label>
-                <input id="cityName" pInputText formControlName="cityName" class="w-full" />
-                <small class="p-error" *ngIf="form.controls['cityName'].hasError('required') && form.controls['cityName'].touched">Name is required.</small>
-            </div>
-
-            <div class="field col-12 md:col-6 lg:col-12">
-                <label for="description">Description</label>
-                <textarea id="description" pTextarea rows="3" formControlName="description" class="w-full"></textarea>
-                
+                <label for="name" class="required">Name</label>
+                <input id="name" pInputText formControlName="name" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">Name is required.</small>
             </div>
 
             <div class="field col-12 md:col-6">

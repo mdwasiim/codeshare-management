@@ -35,11 +35,26 @@ export class PermissionService {
     // PERMISSION CHECKS
     // =========================
     hasPermission(resource: string, action: string): boolean {
-        return this.hasRawPermission(`${resource}:${action}`);
+        const normalizedResource = this.normalize(resource);
+        const normalizedAction = this.normalize(action);
+
+        if (!normalizedResource || !normalizedAction) {
+            return false;
+        }
+
+        return this.hasRawPermission(`${normalizedResource}:${normalizedAction}`);
     }
 
     hasRawPermission(permission: string): boolean {
-        const normalized = permission.toUpperCase();
+        const normalized = this.normalize(permission);
+
+        if (!normalized) {
+            return false;
+        }
+
+        if (this.permissions.has('*')) {
+            return true;
+        }
 
         // direct permission
         if (this.permissions.has(normalized)) {
@@ -101,5 +116,9 @@ export class PermissionService {
         this.setRoles(roles);
         this.setPermissions(permissions);
         this.setGroups(groups);
+    }
+
+    private normalize(value: string | null | undefined): string {
+        return (value ?? '').trim().toUpperCase();
     }
 }

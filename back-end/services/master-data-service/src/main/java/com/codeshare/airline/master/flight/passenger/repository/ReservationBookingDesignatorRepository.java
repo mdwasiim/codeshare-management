@@ -6,4 +6,5 @@ import com.codeshare.airline.master.flight.passenger.entities.ReservationBooking
 import java.util.UUID;
 
 public interface ReservationBookingDesignatorRepository extends CSMDataBaseRepository<ReservationBookingDesignator, UUID> {
+    boolean existsByBookingDesignator(String bookingDesignator);
 }

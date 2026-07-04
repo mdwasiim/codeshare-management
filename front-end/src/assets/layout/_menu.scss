@@ -2,7 +2,7 @@
 
 .layout-sidebar {
     position: fixed;
-    width: 18rem;
+    width: 17rem;
     height: calc(100vh - 6.25rem);
     z-index: 999;
     overflow-y: auto;
@@ -12,11 +12,11 @@
     transition:
         transform var(--layout-section-transition-duration),
         left var(--layout-section-transition-duration);
-    background-color: var(--surface-overlay);
-    border: 1px solid #d9e2ec;
-    border-radius: var(--content-border-radius);
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-    padding: 0.75rem;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    padding: 0.625rem;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;
 }

@@ -5,12 +5,14 @@ import com.codeshare.airline.master.geography.entities.Region;
 import com.codeshare.airline.master.geography.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Component
+@Order(100)
 @RequiredArgsConstructor
 public class RegionDataLoader implements CommandLineRunner {
 

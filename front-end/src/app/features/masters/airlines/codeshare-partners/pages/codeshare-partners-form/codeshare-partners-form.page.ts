@@ -25,11 +25,12 @@ export class CodesharePartnerFormPage extends BaseCrudForm<CodesharePartner> {
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],
-            airlineId: ['', [Validators.required]],
-            partnerCode: [''],
-            partnerName: [''],
-            partnerType: [''],
-            recordStatus: [''],
+            homeAirlineId: ['', [Validators.required]],
+            partnerAirlineId: ['', [Validators.required]],
+            agreementNumber: [''],
+            agreementType: ['BILATERAL'],
+            agreementStatus: ['ACTIVE'],
+            recordStatus: ['ACTIVE'],
             effectiveFrom: [''],
             effectiveTo: [''],
             active: [true]

@@ -25,10 +25,9 @@ export class CityFormPage extends BaseCrudForm<City> {
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],
-            cityCode: ['', [Validators.required]],
-            cityName: ['', [Validators.required]],
-            description: [''],
-            recordStatus: [''],
+            iataCode: ['', [Validators.required]],
+            name: ['', [Validators.required]],
+            recordStatus: ['ACTIVE'],
             effectiveFrom: [''],
             effectiveTo: [''],
             active: [true],

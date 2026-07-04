@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface RegionRepository extends CSMDataBaseRepository<Region, UUID> {
 
-    boolean existsByCode(String code);
+    boolean existsByRegionCode(String regionCode);
 
-    Optional<Region> findByRegionCode(String mea);
+    Optional<Region> findByRegionCode(String regionCode);
 }

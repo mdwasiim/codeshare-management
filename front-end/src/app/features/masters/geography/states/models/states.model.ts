@@ -2,9 +2,8 @@ import { AuditableModel } from '@shared/models/auditable.model';
 
 export interface State extends AuditableModel {
     id?: string;
-    stateCode?: string;
-    stateName?: string;
-    description?: string;
+    code?: string;
+    name?: string;
     recordStatus?: string;
     effectiveFrom?: string;
     effectiveTo?: string;

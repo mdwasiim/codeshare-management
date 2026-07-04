@@ -63,6 +63,9 @@ export class AuthService {
         return this.apiService.post<RefreshTokenResponse>(API_ENDPOINTS.auth.refresh, {}).pipe(
             tap((res) => {
                 this.tokenService.setSession(res.access_token, this.tokenService.refreshToken || '', res.expires_in);
+                this.permissionService.setPermissions(this.tokenService.permissions || []);
+                this.permissionService.setRoles(this.tokenService.roles || []);
+                this.permissionService.setGroups(this.tokenService.groups || []);
             })
         );
     }

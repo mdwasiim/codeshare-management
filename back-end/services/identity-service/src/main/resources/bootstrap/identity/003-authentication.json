@@ -1,0 +1,51 @@
+{
+  "group": "authentication",
+  "sections": [
+    {
+      "type": "identity-providers",
+      "items": [
+        {
+          "authSource": "INTERNAL",
+          "enabled": true,
+          "priority": 1,
+          "oidc": {
+            "issuerUri": "https://auth.codeshare.local",
+            "authorizationUri": "https://auth.codeshare.local/oauth2/authorize",
+            "tokenUri": "https://auth.codeshare.local/oauth2/token",
+            "jwkSetUri": "https://auth.codeshare.local/.well-known/jwks.json",
+            "clientId": "codeshare-internal-gateway",
+            "clientSecretRef": "vault:internal-oidc-gateway-secret",
+            "redirectUri": "https://app.codeshare.com/auth/oidc/callback",
+            "grantType": "authorization_code",
+            "clientAuthMethod": "client_secret_basic",
+            "scopes": "openid profile email",
+            "enforceRedirectUri": false
+          }
+        },
+        {
+          "authSource": "AZURE",
+          "enabled": true,
+          "priority": 2,
+          "oidc": {
+            "issuerUri": "https://login.microsoftonline.com/{tenant-id}/v2.0",
+            "authorizationUri": "https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/authorize",
+            "tokenUri": "https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/token",
+            "jwkSetUri": "https://login.microsoftonline.com/common/discovery/v2.0/keys",
+            "clientId": "azure-gateway-id",
+            "clientSecretRef": "vault:azure-gateway-secret",
+            "redirectUri": "https://app.codeshare.com/auth/oidc/callback",
+            "grantType": "authorization_code",
+            "clientAuthMethod": "client_secret_post",
+            "scopes": "openid profile email offline_access",
+            "enforceRedirectUri": true
+          }
+        },
+        {
+          "authSource": "LDAP",
+          "enabled": false,
+          "priority": 3
+        }
+      ]
+    }
+  ]
+}

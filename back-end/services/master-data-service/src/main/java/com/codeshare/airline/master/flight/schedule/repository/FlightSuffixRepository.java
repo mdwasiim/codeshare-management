@@ -6,4 +6,5 @@ import com.codeshare.airline.master.flight.schedule.entities.FlightSuffix;
 import java.util.UUID;
 
 public interface FlightSuffixRepository extends CSMDataBaseRepository<FlightSuffix, UUID> {
+    boolean existsBySuffixCode(String suffixCode);
 }

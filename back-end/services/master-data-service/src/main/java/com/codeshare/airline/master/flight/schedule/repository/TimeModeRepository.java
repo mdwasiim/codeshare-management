@@ -6,4 +6,5 @@ import com.codeshare.airline.master.flight.schedule.entities.TimeMode;
 import java.util.UUID;
 
 public interface TimeModeRepository extends CSMDataBaseRepository<TimeMode, UUID> {
+    boolean existsByTimeModeCode(String timeModeCode);
 }

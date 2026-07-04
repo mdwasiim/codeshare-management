@@ -34,6 +34,8 @@ spring:
       hibernate:
         format_sql: true
         default_schema: auth_identity
+        hbm2ddl:
+          create_namespaces: true
 
   activemq:
     broker-url: ${ACTIVEMQ_BROKER_URL:tcp://localhost:61616}

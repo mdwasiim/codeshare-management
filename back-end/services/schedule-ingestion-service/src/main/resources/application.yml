@@ -34,6 +34,8 @@ spring:
       hibernate:
         format_sql: ${FORMAT_SQL:false}
         default_schema: schedule_ingestion
+        hbm2ddl:
+          create_namespaces: true
         jdbc:
           batch_size: ${HIBERNATE_JDBC_BATCH_SIZE:1000}
           batch_versioned_data: true

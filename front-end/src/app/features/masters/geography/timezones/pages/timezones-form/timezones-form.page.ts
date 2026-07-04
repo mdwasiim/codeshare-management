@@ -25,13 +25,12 @@ export class TimezoneFormPage extends BaseCrudForm<Timezone> {
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],
-            timezoneCode: ['', [Validators.required]],
-            timezoneName: ['', [Validators.required]],
+            zoneId: ['', [Validators.required]],
             utcOffset: [''],
-            recordStatus: [''],
+            isDstSupported: [false],
+            recordStatus: ['ACTIVE'],
             effectiveFrom: [''],
-            effectiveTo: [''],
-            active: [true]
+            effectiveTo: ['']
         });
     }
     patchForm(data: Timezone): void { this.form.patchValue(data); }

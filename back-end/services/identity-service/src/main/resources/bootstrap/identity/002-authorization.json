@@ -1,0 +1,1570 @@
+﻿{
+    "group":  "authorization",
+    "sections":  [
+                     {
+                         "type":  "permissions",
+                         "items":  [
+                                       {
+                                           "domain":  "user",
+                                           "action":  "create",
+                                           "description":  "Allows creating user accounts."
+                                       },
+                                       {
+                                           "domain":  "user",
+                                           "action":  "read",
+                                           "description":  "Allows viewing user accounts."
+                                       },
+                                       {
+                                           "domain":  "user",
+                                           "action":  "update",
+                                           "description":  "Allows updating user accounts."
+                                       },
+                                       {
+                                           "domain":  "user",
+                                           "action":  "delete",
+                                           "description":  "Allows deleting user accounts."
+                                       },
+                                       {
+                                           "domain":  "user",
+                                           "action":  "unlock",
+                                           "description":  "Allows unlocking user accounts."
+                                       },
+                                       {
+                                           "domain":  "group",
+                                           "action":  "create",
+                                           "description":  "Allows creating access groups."
+                                       },
+                                       {
+                                           "domain":  "group",
+                                           "action":  "read",
+                                           "description":  "Allows viewing access groups."
+                                       },
+                                       {
+                                           "domain":  "group",
+                                           "action":  "update",
+                                           "description":  "Allows updating access groups."
+                                       },
+                                       {
+                                           "domain":  "group",
+                                           "action":  "delete",
+                                           "description":  "Allows deleting access groups."
+                                       },
+                                       {
+                                           "domain":  "group",
+                                           "action":  "assign",
+                                           "description":  "Allows assigning users and roles to groups."
+                                       },
+                                       {
+                                           "domain":  "role",
+                                           "action":  "create",
+                                           "description":  "Allows creating roles."
+                                       },
+                                       {
+                                           "domain":  "role",
+                                           "action":  "read",
+                                           "description":  "Allows viewing roles."
+                                       },
+                                       {
+                                           "domain":  "role",
+                                           "action":  "update",
+                                           "description":  "Allows updating roles."
+                                       },
+                                       {
+                                           "domain":  "role",
+                                           "action":  "delete",
+                                           "description":  "Allows deleting roles."
+                                       },
+                                       {
+                                           "domain":  "role",
+                                           "action":  "assign",
+                                           "description":  "Allows assigning permissions to roles."
+                                       },
+                                       {
+                                           "domain":  "tenant",
+                                           "action":  "create",
+                                           "description":  "Allows creating tenants."
+                                       },
+                                       {
+                                           "domain":  "tenant",
+                                           "action":  "read",
+                                           "description":  "Allows viewing tenant settings."
+                                       },
+                                       {
+                                           "domain":  "tenant",
+                                           "action":  "update",
+                                           "description":  "Allows updating tenant settings."
+                                       },
+                                       {
+                                           "domain":  "tenant",
+                                           "action":  "delete",
+                                           "description":  "Allows deleting tenants."
+                                       },
+                                       {
+                                           "domain":  "permission",
+                                           "action":  "read",
+                                           "description":  "Allows viewing permissions."
+                                       },
+                                       {
+                                           "domain":  "permission",
+                                           "action":  "assign",
+                                           "description":  "Allows assigning permissions."
+                                       },
+                                       {
+                                           "domain":  "menu",
+                                           "action":  "create",
+                                           "description":  "Allows creating menu entries."
+                                       },
+                                       {
+                                           "domain":  "menu",
+                                           "action":  "read",
+                                           "description":  "Allows viewing menu entries."
+                                       },
+                                       {
+                                           "domain":  "menu",
+                                           "action":  "update",
+                                           "description":  "Allows updating menu entries."
+                                       },
+                                       {
+                                           "domain":  "menu",
+                                           "action":  "delete",
+                                           "description":  "Allows deleting menu entries."
+                                       },
+                                       {
+                                           "domain":  "dashboard",
+                                           "action":  "read",
+                                           "description":  "Allows viewing dashboard metrics."
+                                       },
+                                       {
+                                           "domain":  "flight",
+                                           "action":  "create",
+                                           "description":  "Allows creating flight schedules."
+                                       },
+                                       {
+                                           "domain":  "flight",
+                                           "action":  "read",
+                                           "description":  "Allows viewing flight schedules."
+                                       },
+                                       {
+                                           "domain":  "flight",
+                                           "action":  "update",
+                                           "description":  "Allows updating flight schedules."
+                                       },
+                                       {
+                                           "domain":  "flight",
+                                           "action":  "cancel",
+                                           "description":  "Allows cancelling flight schedules."
+                                       },
+                                       {
+                                           "domain":  "master-data",
+                                           "action":  "create",
+                                           "description":  "Allows creating master data records."
+                                       },
+                                       {
+                                           "domain":  "master-data",
+                                           "action":  "read",
+                                           "description":  "Allows viewing master data records."
+                                       },
+                                       {
+                                           "domain":  "master-data",
+                                           "action":  "update",
+                                           "description":  "Allows updating master data records."
+                                       },
+                                       {
+                                           "domain":  "master-data",
+                                           "action":  "delete",
+                                           "description":  "Allows deleting master data records."
+                                       },
+                                       {
+                                           "domain":  "master-data",
+                                           "action":  "import",
+                                           "description":  "Allows importing master data files."
+                                       },
+                                       {
+                                           "domain":  "master-data",
+                                           "action":  "export",
+                                           "description":  "Allows exporting master data records."
+                                       },
+                                       {
+                                           "domain":  "booking",
+                                           "action":  "create",
+                                           "description":  "Allows creating bookings."
+                                       },
+                                       {
+                                           "domain":  "booking",
+                                           "action":  "read",
+                                           "description":  "Allows viewing bookings."
+                                       },
+                                       {
+                                           "domain":  "booking",
+                                           "action":  "update",
+                                           "description":  "Allows updating bookings."
+                                       },
+                                       {
+                                           "domain":  "booking",
+                                           "action":  "cancel",
+                                           "description":  "Allows cancelling bookings."
+                                       },
+                                       {
+                                           "domain":  "booking",
+                                           "action":  "refund",
+                                           "description":  "Allows processing booking refunds."
+                                       },
+                                       {
+                                           "domain":  "report",
+                                           "action":  "read",
+                                           "description":  "Allows viewing reports."
+                                       },
+                                       {
+                                           "domain":  "report",
+                                           "action":  "export",
+                                           "description":  "Allows exporting reports."
+                                       },
+                                       {
+                                           "domain":  "audit",
+                                           "action":  "read",
+                                           "description":  "Allows viewing audit records."
+                                       },
+                                       {
+                                           "domain":  "settings",
+                                           "action":  "read",
+                                           "description":  "Allows viewing system settings."
+                                       },
+                                       {
+                                           "domain":  "settings",
+                                           "action":  "update",
+                                           "description":  "Allows updating system settings."
+                                       },
+                                       {
+                                           "domain":  "notification",
+                                           "action":  "create",
+                                           "description":  "Allows creating notifications."
+                                       },
+                                       {
+                                           "domain":  "notification",
+                                           "action":  "read",
+                                           "description":  "Allows viewing notifications."
+                                       },
+                                       {
+                                           "domain":  "notification",
+                                           "action":  "send",
+                                           "description":  "Allows sending notifications."
+                                       },
+                                       {
+                                           "domain":  "file",
+                                           "action":  "upload",
+                                           "description":  "Allows uploading files."
+                                       },
+                                       {
+                                           "domain":  "file",
+                                           "action":  "read",
+                                           "description":  "Allows viewing files."
+                                       },
+                                       {
+                                           "domain":  "file",
+                                           "action":  "delete",
+                                           "description":  "Allows deleting files."
+                                       },
+                                       {
+                                           "domain":  "actioncode",
+                                           "action":  "create",
+                                           "description":  "Allows create access for actioncode master records."
+                                       },
+                                       {
+                                           "domain":  "actioncode",
+                                           "action":  "read",
+                                           "description":  "Allows read access for actioncode master records."
+                                       },
+                                       {
+                                           "domain":  "actioncode",
+                                           "action":  "update",
+                                           "description":  "Allows update access for actioncode master records."
+                                       },
+                                       {
+                                           "domain":  "actioncode",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for actioncode master records."
+                                       },
+                                       {
+                                           "domain":  "actioncode",
+                                           "action":  "export",
+                                           "description":  "Allows export access for actioncode master records."
+                                       },
+                                       {
+                                           "domain":  "actionidentifier",
+                                           "action":  "create",
+                                           "description":  "Allows create access for actionidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "actionidentifier",
+                                           "action":  "read",
+                                           "description":  "Allows read access for actionidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "actionidentifier",
+                                           "action":  "update",
+                                           "description":  "Allows update access for actionidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "actionidentifier",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for actionidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "actionidentifier",
+                                           "action":  "export",
+                                           "description":  "Allows export access for actionidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftcabinlayout",
+                                           "action":  "create",
+                                           "description":  "Allows create access for aircraftcabinlayout master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftcabinlayout",
+                                           "action":  "read",
+                                           "description":  "Allows read access for aircraftcabinlayout master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftcabinlayout",
+                                           "action":  "update",
+                                           "description":  "Allows update access for aircraftcabinlayout master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftcabinlayout",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for aircraftcabinlayout master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftcabinlayout",
+                                           "action":  "export",
+                                           "description":  "Allows export access for aircraftcabinlayout master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfiguration",
+                                           "action":  "create",
+                                           "description":  "Allows create access for aircraftconfiguration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfiguration",
+                                           "action":  "read",
+                                           "description":  "Allows read access for aircraftconfiguration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfiguration",
+                                           "action":  "update",
+                                           "description":  "Allows update access for aircraftconfiguration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfiguration",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for aircraftconfiguration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfiguration",
+                                           "action":  "export",
+                                           "description":  "Allows export access for aircraftconfiguration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfigurationrevision",
+                                           "action":  "create",
+                                           "description":  "Allows create access for aircraftconfigurationrevision master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfigurationrevision",
+                                           "action":  "read",
+                                           "description":  "Allows read access for aircraftconfigurationrevision master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfigurationrevision",
+                                           "action":  "update",
+                                           "description":  "Allows update access for aircraftconfigurationrevision master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfigurationrevision",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for aircraftconfigurationrevision master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftconfigurationrevision",
+                                           "action":  "export",
+                                           "description":  "Allows export access for aircraftconfigurationrevision master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftfamily",
+                                           "action":  "create",
+                                           "description":  "Allows create access for aircraftfamily master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftfamily",
+                                           "action":  "read",
+                                           "description":  "Allows read access for aircraftfamily master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftfamily",
+                                           "action":  "update",
+                                           "description":  "Allows update access for aircraftfamily master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftfamily",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for aircraftfamily master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftfamily",
+                                           "action":  "export",
+                                           "description":  "Allows export access for aircraftfamily master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftmanufacturer",
+                                           "action":  "create",
+                                           "description":  "Allows create access for aircraftmanufacturer master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftmanufacturer",
+                                           "action":  "read",
+                                           "description":  "Allows read access for aircraftmanufacturer master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftmanufacturer",
+                                           "action":  "update",
+                                           "description":  "Allows update access for aircraftmanufacturer master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftmanufacturer",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for aircraftmanufacturer master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftmanufacturer",
+                                           "action":  "export",
+                                           "description":  "Allows export access for aircraftmanufacturer master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftowner",
+                                           "action":  "create",
+                                           "description":  "Allows create access for aircraftowner master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftowner",
+                                           "action":  "read",
+                                           "description":  "Allows read access for aircraftowner master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftowner",
+                                           "action":  "update",
+                                           "description":  "Allows update access for aircraftowner master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftowner",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for aircraftowner master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftowner",
+                                           "action":  "export",
+                                           "description":  "Allows export access for aircraftowner master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftregistration",
+                                           "action":  "create",
+                                           "description":  "Allows create access for aircraftregistration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftregistration",
+                                           "action":  "read",
+                                           "description":  "Allows read access for aircraftregistration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftregistration",
+                                           "action":  "update",
+                                           "description":  "Allows update access for aircraftregistration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftregistration",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for aircraftregistration master records."
+                                       },
+                                       {
+                                           "domain":  "aircraftregistration",
+                                           "action":  "export",
+                                           "description":  "Allows export access for aircraftregistration master records."
+                                       },
+                                       {
+                                           "domain":  "aircrafttype",
+                                           "action":  "create",
+                                           "description":  "Allows create access for aircrafttype master records."
+                                       },
+                                       {
+                                           "domain":  "aircrafttype",
+                                           "action":  "read",
+                                           "description":  "Allows read access for aircrafttype master records."
+                                       },
+                                       {
+                                           "domain":  "aircrafttype",
+                                           "action":  "update",
+                                           "description":  "Allows update access for aircrafttype master records."
+                                       },
+                                       {
+                                           "domain":  "aircrafttype",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for aircrafttype master records."
+                                       },
+                                       {
+                                           "domain":  "aircrafttype",
+                                           "action":  "export",
+                                           "description":  "Allows export access for aircrafttype master records."
+                                       },
+                                       {
+                                           "domain":  "airlinealias",
+                                           "action":  "create",
+                                           "description":  "Allows create access for airlinealias master records."
+                                       },
+                                       {
+                                           "domain":  "airlinealias",
+                                           "action":  "read",
+                                           "description":  "Allows read access for airlinealias master records."
+                                       },
+                                       {
+                                           "domain":  "airlinealias",
+                                           "action":  "update",
+                                           "description":  "Allows update access for airlinealias master records."
+                                       },
+                                       {
+                                           "domain":  "airlinealias",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for airlinealias master records."
+                                       },
+                                       {
+                                           "domain":  "airlinealias",
+                                           "action":  "export",
+                                           "description":  "Allows export access for airlinealias master records."
+                                       },
+                                       {
+                                           "domain":  "airlinebusinessrole",
+                                           "action":  "create",
+                                           "description":  "Allows create access for airlinebusinessrole master records."
+                                       },
+                                       {
+                                           "domain":  "airlinebusinessrole",
+                                           "action":  "read",
+                                           "description":  "Allows read access for airlinebusinessrole master records."
+                                       },
+                                       {
+                                           "domain":  "airlinebusinessrole",
+                                           "action":  "update",
+                                           "description":  "Allows update access for airlinebusinessrole master records."
+                                       },
+                                       {
+                                           "domain":  "airlinebusinessrole",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for airlinebusinessrole master records."
+                                       },
+                                       {
+                                           "domain":  "airlinebusinessrole",
+                                           "action":  "export",
+                                           "description":  "Allows export access for airlinebusinessrole master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecarrier",
+                                           "action":  "create",
+                                           "description":  "Allows create access for airlinecarrier master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecarrier",
+                                           "action":  "read",
+                                           "description":  "Allows read access for airlinecarrier master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecarrier",
+                                           "action":  "update",
+                                           "description":  "Allows update access for airlinecarrier master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecarrier",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for airlinecarrier master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecarrier",
+                                           "action":  "export",
+                                           "description":  "Allows export access for airlinecarrier master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecontact",
+                                           "action":  "create",
+                                           "description":  "Allows create access for airlinecontact master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecontact",
+                                           "action":  "read",
+                                           "description":  "Allows read access for airlinecontact master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecontact",
+                                           "action":  "update",
+                                           "description":  "Allows update access for airlinecontact master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecontact",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for airlinecontact master records."
+                                       },
+                                       {
+                                           "domain":  "airlinecontact",
+                                           "action":  "export",
+                                           "description":  "Allows export access for airlinecontact master records."
+                                       },
+                                       {
+                                           "domain":  "airport",
+                                           "action":  "create",
+                                           "description":  "Allows create access for airport master records."
+                                       },
+                                       {
+                                           "domain":  "airport",
+                                           "action":  "read",
+                                           "description":  "Allows read access for airport master records."
+                                       },
+                                       {
+                                           "domain":  "airport",
+                                           "action":  "update",
+                                           "description":  "Allows update access for airport master records."
+                                       },
+                                       {
+                                           "domain":  "airport",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for airport master records."
+                                       },
+                                       {
+                                           "domain":  "airport",
+                                           "action":  "export",
+                                           "description":  "Allows export access for airport master records."
+                                       },
+                                       {
+                                           "domain":  "airportterminal",
+                                           "action":  "create",
+                                           "description":  "Allows create access for airportterminal master records."
+                                       },
+                                       {
+                                           "domain":  "airportterminal",
+                                           "action":  "read",
+                                           "description":  "Allows read access for airportterminal master records."
+                                       },
+                                       {
+                                           "domain":  "airportterminal",
+                                           "action":  "update",
+                                           "description":  "Allows update access for airportterminal master records."
+                                       },
+                                       {
+                                           "domain":  "airportterminal",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for airportterminal master records."
+                                       },
+                                       {
+                                           "domain":  "airportterminal",
+                                           "action":  "export",
+                                           "description":  "Allows export access for airportterminal master records."
+                                       },
+                                       {
+                                           "domain":  "alliance",
+                                           "action":  "create",
+                                           "description":  "Allows create access for alliance master records."
+                                       },
+                                       {
+                                           "domain":  "alliance",
+                                           "action":  "read",
+                                           "description":  "Allows read access for alliance master records."
+                                       },
+                                       {
+                                           "domain":  "alliance",
+                                           "action":  "update",
+                                           "description":  "Allows update access for alliance master records."
+                                       },
+                                       {
+                                           "domain":  "alliance",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for alliance master records."
+                                       },
+                                       {
+                                           "domain":  "alliance",
+                                           "action":  "export",
+                                           "description":  "Allows export access for alliance master records."
+                                       },
+                                       {
+                                           "domain":  "alliancemember",
+                                           "action":  "create",
+                                           "description":  "Allows create access for alliancemember master records."
+                                       },
+                                       {
+                                           "domain":  "alliancemember",
+                                           "action":  "read",
+                                           "description":  "Allows read access for alliancemember master records."
+                                       },
+                                       {
+                                           "domain":  "alliancemember",
+                                           "action":  "update",
+                                           "description":  "Allows update access for alliancemember master records."
+                                       },
+                                       {
+                                           "domain":  "alliancemember",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for alliancemember master records."
+                                       },
+                                       {
+                                           "domain":  "alliancemember",
+                                           "action":  "export",
+                                           "description":  "Allows export access for alliancemember master records."
+                                       },
+                                       {
+                                           "domain":  "city",
+                                           "action":  "create",
+                                           "description":  "Allows create access for city master records."
+                                       },
+                                       {
+                                           "domain":  "city",
+                                           "action":  "read",
+                                           "description":  "Allows read access for city master records."
+                                       },
+                                       {
+                                           "domain":  "city",
+                                           "action":  "update",
+                                           "description":  "Allows update access for city master records."
+                                       },
+                                       {
+                                           "domain":  "city",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for city master records."
+                                       },
+                                       {
+                                           "domain":  "city",
+                                           "action":  "export",
+                                           "description":  "Allows export access for city master records."
+                                       },
+                                       {
+                                           "domain":  "codesharepartner",
+                                           "action":  "create",
+                                           "description":  "Allows create access for codesharepartner master records."
+                                       },
+                                       {
+                                           "domain":  "codesharepartner",
+                                           "action":  "read",
+                                           "description":  "Allows read access for codesharepartner master records."
+                                       },
+                                       {
+                                           "domain":  "codesharepartner",
+                                           "action":  "update",
+                                           "description":  "Allows update access for codesharepartner master records."
+                                       },
+                                       {
+                                           "domain":  "codesharepartner",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for codesharepartner master records."
+                                       },
+                                       {
+                                           "domain":  "codesharepartner",
+                                           "action":  "export",
+                                           "description":  "Allows export access for codesharepartner master records."
+                                       },
+                                       {
+                                           "domain":  "country",
+                                           "action":  "create",
+                                           "description":  "Allows create access for country master records."
+                                       },
+                                       {
+                                           "domain":  "country",
+                                           "action":  "read",
+                                           "description":  "Allows read access for country master records."
+                                       },
+                                       {
+                                           "domain":  "country",
+                                           "action":  "update",
+                                           "description":  "Allows update access for country master records."
+                                       },
+                                       {
+                                           "domain":  "country",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for country master records."
+                                       },
+                                       {
+                                           "domain":  "country",
+                                           "action":  "export",
+                                           "description":  "Allows export access for country master records."
+                                       },
+                                       {
+                                           "domain":  "dataelementidentifier",
+                                           "action":  "create",
+                                           "description":  "Allows create access for dataelementidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "dataelementidentifier",
+                                           "action":  "read",
+                                           "description":  "Allows read access for dataelementidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "dataelementidentifier",
+                                           "action":  "update",
+                                           "description":  "Allows update access for dataelementidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "dataelementidentifier",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for dataelementidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "dataelementidentifier",
+                                           "action":  "export",
+                                           "description":  "Allows export access for dataelementidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "deiregistry",
+                                           "action":  "create",
+                                           "description":  "Allows create access for deiregistry master records."
+                                       },
+                                       {
+                                           "domain":  "deiregistry",
+                                           "action":  "read",
+                                           "description":  "Allows read access for deiregistry master records."
+                                       },
+                                       {
+                                           "domain":  "deiregistry",
+                                           "action":  "update",
+                                           "description":  "Allows update access for deiregistry master records."
+                                       },
+                                       {
+                                           "domain":  "deiregistry",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for deiregistry master records."
+                                       },
+                                       {
+                                           "domain":  "deiregistry",
+                                           "action":  "export",
+                                           "description":  "Allows export access for deiregistry master records."
+                                       },
+                                       {
+                                           "domain":  "distributionchannel",
+                                           "action":  "create",
+                                           "description":  "Allows create access for distributionchannel master records."
+                                       },
+                                       {
+                                           "domain":  "distributionchannel",
+                                           "action":  "read",
+                                           "description":  "Allows read access for distributionchannel master records."
+                                       },
+                                       {
+                                           "domain":  "distributionchannel",
+                                           "action":  "update",
+                                           "description":  "Allows update access for distributionchannel master records."
+                                       },
+                                       {
+                                           "domain":  "distributionchannel",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for distributionchannel master records."
+                                       },
+                                       {
+                                           "domain":  "distributionchannel",
+                                           "action":  "export",
+                                           "description":  "Allows export access for distributionchannel master records."
+                                       },
+                                       {
+                                           "domain":  "electronicticketindicator",
+                                           "action":  "create",
+                                           "description":  "Allows create access for electronicticketindicator master records."
+                                       },
+                                       {
+                                           "domain":  "electronicticketindicator",
+                                           "action":  "read",
+                                           "description":  "Allows read access for electronicticketindicator master records."
+                                       },
+                                       {
+                                           "domain":  "electronicticketindicator",
+                                           "action":  "update",
+                                           "description":  "Allows update access for electronicticketindicator master records."
+                                       },
+                                       {
+                                           "domain":  "electronicticketindicator",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for electronicticketindicator master records."
+                                       },
+                                       {
+                                           "domain":  "electronicticketindicator",
+                                           "action":  "export",
+                                           "description":  "Allows export access for electronicticketindicator master records."
+                                       },
+                                       {
+                                           "domain":  "flightfrequency",
+                                           "action":  "create",
+                                           "description":  "Allows create access for flightfrequency master records."
+                                       },
+                                       {
+                                           "domain":  "flightfrequency",
+                                           "action":  "read",
+                                           "description":  "Allows read access for flightfrequency master records."
+                                       },
+                                       {
+                                           "domain":  "flightfrequency",
+                                           "action":  "update",
+                                           "description":  "Allows update access for flightfrequency master records."
+                                       },
+                                       {
+                                           "domain":  "flightfrequency",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for flightfrequency master records."
+                                       },
+                                       {
+                                           "domain":  "flightfrequency",
+                                           "action":  "export",
+                                           "description":  "Allows export access for flightfrequency master records."
+                                       },
+                                       {
+                                           "domain":  "flightservicetype",
+                                           "action":  "create",
+                                           "description":  "Allows create access for flightservicetype master records."
+                                       },
+                                       {
+                                           "domain":  "flightservicetype",
+                                           "action":  "read",
+                                           "description":  "Allows read access for flightservicetype master records."
+                                       },
+                                       {
+                                           "domain":  "flightservicetype",
+                                           "action":  "update",
+                                           "description":  "Allows update access for flightservicetype master records."
+                                       },
+                                       {
+                                           "domain":  "flightservicetype",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for flightservicetype master records."
+                                       },
+                                       {
+                                           "domain":  "flightservicetype",
+                                           "action":  "export",
+                                           "description":  "Allows export access for flightservicetype master records."
+                                       },
+                                       {
+                                           "domain":  "flightsuffix",
+                                           "action":  "create",
+                                           "description":  "Allows create access for flightsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "flightsuffix",
+                                           "action":  "read",
+                                           "description":  "Allows read access for flightsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "flightsuffix",
+                                           "action":  "update",
+                                           "description":  "Allows update access for flightsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "flightsuffix",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for flightsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "flightsuffix",
+                                           "action":  "export",
+                                           "description":  "Allows export access for flightsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "mealservice",
+                                           "action":  "create",
+                                           "description":  "Allows create access for mealservice master records."
+                                       },
+                                       {
+                                           "domain":  "mealservice",
+                                           "action":  "read",
+                                           "description":  "Allows read access for mealservice master records."
+                                       },
+                                       {
+                                           "domain":  "mealservice",
+                                           "action":  "update",
+                                           "description":  "Allows update access for mealservice master records."
+                                       },
+                                       {
+                                           "domain":  "mealservice",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for mealservice master records."
+                                       },
+                                       {
+                                           "domain":  "mealservice",
+                                           "action":  "export",
+                                           "description":  "Allows export access for mealservice master records."
+                                       },
+                                       {
+                                           "domain":  "messagepriority",
+                                           "action":  "create",
+                                           "description":  "Allows create access for messagepriority master records."
+                                       },
+                                       {
+                                           "domain":  "messagepriority",
+                                           "action":  "read",
+                                           "description":  "Allows read access for messagepriority master records."
+                                       },
+                                       {
+                                           "domain":  "messagepriority",
+                                           "action":  "update",
+                                           "description":  "Allows update access for messagepriority master records."
+                                       },
+                                       {
+                                           "domain":  "messagepriority",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for messagepriority master records."
+                                       },
+                                       {
+                                           "domain":  "messagepriority",
+                                           "action":  "export",
+                                           "description":  "Allows export access for messagepriority master records."
+                                       },
+                                       {
+                                           "domain":  "messagestatus",
+                                           "action":  "create",
+                                           "description":  "Allows create access for messagestatus master records."
+                                       },
+                                       {
+                                           "domain":  "messagestatus",
+                                           "action":  "read",
+                                           "description":  "Allows read access for messagestatus master records."
+                                       },
+                                       {
+                                           "domain":  "messagestatus",
+                                           "action":  "update",
+                                           "description":  "Allows update access for messagestatus master records."
+                                       },
+                                       {
+                                           "domain":  "messagestatus",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for messagestatus master records."
+                                       },
+                                       {
+                                           "domain":  "messagestatus",
+                                           "action":  "export",
+                                           "description":  "Allows export access for messagestatus master records."
+                                       },
+                                       {
+                                           "domain":  "operationalsuffix",
+                                           "action":  "create",
+                                           "description":  "Allows create access for operationalsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "operationalsuffix",
+                                           "action":  "read",
+                                           "description":  "Allows read access for operationalsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "operationalsuffix",
+                                           "action":  "update",
+                                           "description":  "Allows update access for operationalsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "operationalsuffix",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for operationalsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "operationalsuffix",
+                                           "action":  "export",
+                                           "description":  "Allows export access for operationalsuffix master records."
+                                       },
+                                       {
+                                           "domain":  "passengerterminal",
+                                           "action":  "create",
+                                           "description":  "Allows create access for passengerterminal master records."
+                                       },
+                                       {
+                                           "domain":  "passengerterminal",
+                                           "action":  "read",
+                                           "description":  "Allows read access for passengerterminal master records."
+                                       },
+                                       {
+                                           "domain":  "passengerterminal",
+                                           "action":  "update",
+                                           "description":  "Allows update access for passengerterminal master records."
+                                       },
+                                       {
+                                           "domain":  "passengerterminal",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for passengerterminal master records."
+                                       },
+                                       {
+                                           "domain":  "passengerterminal",
+                                           "action":  "export",
+                                           "description":  "Allows export access for passengerterminal master records."
+                                       },
+                                       {
+                                           "domain":  "region",
+                                           "action":  "create",
+                                           "description":  "Allows create access for region master records."
+                                       },
+                                       {
+                                           "domain":  "region",
+                                           "action":  "read",
+                                           "description":  "Allows read access for region master records."
+                                       },
+                                       {
+                                           "domain":  "region",
+                                           "action":  "update",
+                                           "description":  "Allows update access for region master records."
+                                       },
+                                       {
+                                           "domain":  "region",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for region master records."
+                                       },
+                                       {
+                                           "domain":  "region",
+                                           "action":  "export",
+                                           "description":  "Allows export access for region master records."
+                                       },
+                                       {
+                                           "domain":  "rejectreason",
+                                           "action":  "create",
+                                           "description":  "Allows create access for rejectreason master records."
+                                       },
+                                       {
+                                           "domain":  "rejectreason",
+                                           "action":  "read",
+                                           "description":  "Allows read access for rejectreason master records."
+                                       },
+                                       {
+                                           "domain":  "rejectreason",
+                                           "action":  "update",
+                                           "description":  "Allows update access for rejectreason master records."
+                                       },
+                                       {
+                                           "domain":  "rejectreason",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for rejectreason master records."
+                                       },
+                                       {
+                                           "domain":  "rejectreason",
+                                           "action":  "export",
+                                           "description":  "Allows export access for rejectreason master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingdesignator",
+                                           "action":  "create",
+                                           "description":  "Allows create access for reservationbookingdesignator master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingdesignator",
+                                           "action":  "read",
+                                           "description":  "Allows read access for reservationbookingdesignator master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingdesignator",
+                                           "action":  "update",
+                                           "description":  "Allows update access for reservationbookingdesignator master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingdesignator",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for reservationbookingdesignator master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingdesignator",
+                                           "action":  "export",
+                                           "description":  "Allows export access for reservationbookingdesignator master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingmodifier",
+                                           "action":  "create",
+                                           "description":  "Allows create access for reservationbookingmodifier master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingmodifier",
+                                           "action":  "read",
+                                           "description":  "Allows read access for reservationbookingmodifier master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingmodifier",
+                                           "action":  "update",
+                                           "description":  "Allows update access for reservationbookingmodifier master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingmodifier",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for reservationbookingmodifier master records."
+                                       },
+                                       {
+                                           "domain":  "reservationbookingmodifier",
+                                           "action":  "export",
+                                           "description":  "Allows export access for reservationbookingmodifier master records."
+                                       },
+                                       {
+                                           "domain":  "schedulecategory",
+                                           "action":  "create",
+                                           "description":  "Allows create access for schedulecategory master records."
+                                       },
+                                       {
+                                           "domain":  "schedulecategory",
+                                           "action":  "read",
+                                           "description":  "Allows read access for schedulecategory master records."
+                                       },
+                                       {
+                                           "domain":  "schedulecategory",
+                                           "action":  "update",
+                                           "description":  "Allows update access for schedulecategory master records."
+                                       },
+                                       {
+                                           "domain":  "schedulecategory",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for schedulecategory master records."
+                                       },
+                                       {
+                                           "domain":  "schedulecategory",
+                                           "action":  "export",
+                                           "description":  "Allows export access for schedulecategory master records."
+                                       },
+                                       {
+                                           "domain":  "schedulechannel",
+                                           "action":  "create",
+                                           "description":  "Allows create access for schedulechannel master records."
+                                       },
+                                       {
+                                           "domain":  "schedulechannel",
+                                           "action":  "read",
+                                           "description":  "Allows read access for schedulechannel master records."
+                                       },
+                                       {
+                                           "domain":  "schedulechannel",
+                                           "action":  "update",
+                                           "description":  "Allows update access for schedulechannel master records."
+                                       },
+                                       {
+                                           "domain":  "schedulechannel",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for schedulechannel master records."
+                                       },
+                                       {
+                                           "domain":  "schedulechannel",
+                                           "action":  "export",
+                                           "description":  "Allows export access for schedulechannel master records."
+                                       },
+                                       {
+                                           "domain":  "schedulepriority",
+                                           "action":  "create",
+                                           "description":  "Allows create access for schedulepriority master records."
+                                       },
+                                       {
+                                           "domain":  "schedulepriority",
+                                           "action":  "read",
+                                           "description":  "Allows read access for schedulepriority master records."
+                                       },
+                                       {
+                                           "domain":  "schedulepriority",
+                                           "action":  "update",
+                                           "description":  "Allows update access for schedulepriority master records."
+                                       },
+                                       {
+                                           "domain":  "schedulepriority",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for schedulepriority master records."
+                                       },
+                                       {
+                                           "domain":  "schedulepriority",
+                                           "action":  "export",
+                                           "description":  "Allows export access for schedulepriority master records."
+                                       },
+                                       {
+                                           "domain":  "schedulesource",
+                                           "action":  "create",
+                                           "description":  "Allows create access for schedulesource master records."
+                                       },
+                                       {
+                                           "domain":  "schedulesource",
+                                           "action":  "read",
+                                           "description":  "Allows read access for schedulesource master records."
+                                       },
+                                       {
+                                           "domain":  "schedulesource",
+                                           "action":  "update",
+                                           "description":  "Allows update access for schedulesource master records."
+                                       },
+                                       {
+                                           "domain":  "schedulesource",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for schedulesource master records."
+                                       },
+                                       {
+                                           "domain":  "schedulesource",
+                                           "action":  "export",
+                                           "description":  "Allows export access for schedulesource master records."
+                                       },
+                                       {
+                                           "domain":  "schedulestatus",
+                                           "action":  "create",
+                                           "description":  "Allows create access for schedulestatus master records."
+                                       },
+                                       {
+                                           "domain":  "schedulestatus",
+                                           "action":  "read",
+                                           "description":  "Allows read access for schedulestatus master records."
+                                       },
+                                       {
+                                           "domain":  "schedulestatus",
+                                           "action":  "update",
+                                           "description":  "Allows update access for schedulestatus master records."
+                                       },
+                                       {
+                                           "domain":  "schedulestatus",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for schedulestatus master records."
+                                       },
+                                       {
+                                           "domain":  "schedulestatus",
+                                           "action":  "export",
+                                           "description":  "Allows export access for schedulestatus master records."
+                                       },
+                                       {
+                                           "domain":  "scheduletype",
+                                           "action":  "create",
+                                           "description":  "Allows create access for scheduletype master records."
+                                       },
+                                       {
+                                           "domain":  "scheduletype",
+                                           "action":  "read",
+                                           "description":  "Allows read access for scheduletype master records."
+                                       },
+                                       {
+                                           "domain":  "scheduletype",
+                                           "action":  "update",
+                                           "description":  "Allows update access for scheduletype master records."
+                                       },
+                                       {
+                                           "domain":  "scheduletype",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for scheduletype master records."
+                                       },
+                                       {
+                                           "domain":  "scheduletype",
+                                           "action":  "export",
+                                           "description":  "Allows export access for scheduletype master records."
+                                       },
+                                       {
+                                           "domain":  "season",
+                                           "action":  "create",
+                                           "description":  "Allows create access for season master records."
+                                       },
+                                       {
+                                           "domain":  "season",
+                                           "action":  "read",
+                                           "description":  "Allows read access for season master records."
+                                       },
+                                       {
+                                           "domain":  "season",
+                                           "action":  "update",
+                                           "description":  "Allows update access for season master records."
+                                       },
+                                       {
+                                           "domain":  "season",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for season master records."
+                                       },
+                                       {
+                                           "domain":  "season",
+                                           "action":  "export",
+                                           "description":  "Allows export access for season master records."
+                                       },
+                                       {
+                                           "domain":  "secureflightindicator",
+                                           "action":  "create",
+                                           "description":  "Allows create access for secureflightindicator master records."
+                                       },
+                                       {
+                                           "domain":  "secureflightindicator",
+                                           "action":  "read",
+                                           "description":  "Allows read access for secureflightindicator master records."
+                                       },
+                                       {
+                                           "domain":  "secureflightindicator",
+                                           "action":  "update",
+                                           "description":  "Allows update access for secureflightindicator master records."
+                                       },
+                                       {
+                                           "domain":  "secureflightindicator",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for secureflightindicator master records."
+                                       },
+                                       {
+                                           "domain":  "secureflightindicator",
+                                           "action":  "export",
+                                           "description":  "Allows export access for secureflightindicator master records."
+                                       },
+                                       {
+                                           "domain":  "standardmessageidentifier",
+                                           "action":  "create",
+                                           "description":  "Allows create access for standardmessageidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "standardmessageidentifier",
+                                           "action":  "read",
+                                           "description":  "Allows read access for standardmessageidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "standardmessageidentifier",
+                                           "action":  "update",
+                                           "description":  "Allows update access for standardmessageidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "standardmessageidentifier",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for standardmessageidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "standardmessageidentifier",
+                                           "action":  "export",
+                                           "description":  "Allows export access for standardmessageidentifier master records."
+                                       },
+                                       {
+                                           "domain":  "state",
+                                           "action":  "create",
+                                           "description":  "Allows create access for state master records."
+                                       },
+                                       {
+                                           "domain":  "state",
+                                           "action":  "read",
+                                           "description":  "Allows read access for state master records."
+                                       },
+                                       {
+                                           "domain":  "state",
+                                           "action":  "update",
+                                           "description":  "Allows update access for state master records."
+                                       },
+                                       {
+                                           "domain":  "state",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for state master records."
+                                       },
+                                       {
+                                           "domain":  "state",
+                                           "action":  "export",
+                                           "description":  "Allows export access for state master records."
+                                       },
+                                       {
+                                           "domain":  "timezone",
+                                           "action":  "create",
+                                           "description":  "Allows create access for timezone master records."
+                                       },
+                                       {
+                                           "domain":  "timezone",
+                                           "action":  "read",
+                                           "description":  "Allows read access for timezone master records."
+                                       },
+                                       {
+                                           "domain":  "timezone",
+                                           "action":  "update",
+                                           "description":  "Allows update access for timezone master records."
+                                       },
+                                       {
+                                           "domain":  "timezone",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for timezone master records."
+                                       },
+                                       {
+                                           "domain":  "timezone",
+                                           "action":  "export",
+                                           "description":  "Allows export access for timezone master records."
+                                       },
+                                       {
+                                           "domain":  "trafficconferencearea",
+                                           "action":  "create",
+                                           "description":  "Allows create access for trafficconferencearea master records."
+                                       },
+                                       {
+                                           "domain":  "trafficconferencearea",
+                                           "action":  "read",
+                                           "description":  "Allows read access for trafficconferencearea master records."
+                                       },
+                                       {
+                                           "domain":  "trafficconferencearea",
+                                           "action":  "update",
+                                           "description":  "Allows update access for trafficconferencearea master records."
+                                       },
+                                       {
+                                           "domain":  "trafficconferencearea",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for trafficconferencearea master records."
+                                       },
+                                       {
+                                           "domain":  "trafficconferencearea",
+                                           "action":  "export",
+                                           "description":  "Allows export access for trafficconferencearea master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestriction",
+                                           "action":  "create",
+                                           "description":  "Allows create access for trafficrestriction master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestriction",
+                                           "action":  "read",
+                                           "description":  "Allows read access for trafficrestriction master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestriction",
+                                           "action":  "update",
+                                           "description":  "Allows update access for trafficrestriction master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestriction",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for trafficrestriction master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestriction",
+                                           "action":  "export",
+                                           "description":  "Allows export access for trafficrestriction master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestrictionqualifier",
+                                           "action":  "create",
+                                           "description":  "Allows create access for trafficrestrictionqualifier master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestrictionqualifier",
+                                           "action":  "read",
+                                           "description":  "Allows read access for trafficrestrictionqualifier master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestrictionqualifier",
+                                           "action":  "update",
+                                           "description":  "Allows update access for trafficrestrictionqualifier master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestrictionqualifier",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for trafficrestrictionqualifier master records."
+                                       },
+                                       {
+                                           "domain":  "trafficrestrictionqualifier",
+                                           "action":  "export",
+                                           "description":  "Allows export access for trafficrestrictionqualifier master records."
+                                       },
+                                       {
+                                           "domain":  "utcoffset",
+                                           "action":  "create",
+                                           "description":  "Allows create access for utcoffset master records."
+                                       },
+                                       {
+                                           "domain":  "utcoffset",
+                                           "action":  "read",
+                                           "description":  "Allows read access for utcoffset master records."
+                                       },
+                                       {
+                                           "domain":  "utcoffset",
+                                           "action":  "update",
+                                           "description":  "Allows update access for utcoffset master records."
+                                       },
+                                       {
+                                           "domain":  "utcoffset",
+                                           "action":  "delete",
+                                           "description":  "Allows delete access for utcoffset master records."
+                                       },
+                                       {
+                                           "domain":  "utcoffset",
+                                           "action":  "export",
+                                           "description":  "Allows export access for utcoffset master records."
+                                       }
+                                   ]
+                     }
+                 ]
+}

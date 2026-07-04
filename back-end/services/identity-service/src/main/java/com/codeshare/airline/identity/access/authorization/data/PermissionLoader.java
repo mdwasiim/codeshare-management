@@ -1,14 +1,19 @@
 package com.codeshare.airline.identity.access.authorization.data;
 
 import com.codeshare.airline.identity.access.authorization.entities.Permission;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.authorization.repository.PermissionRepository;
+import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
+import com.codeshare.airline.identity.access.data.IdentityBootstrapData.PermissionSeed;
+import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -17,188 +22,45 @@ public class PermissionLoader {
 
     private final PermissionRepository permissionRepository;
     private final TenantRepository tenantRepository;
-
-    // ===============================
-    // 🔥 STANDARD ACTION SETS
-    // ===============================
-    private static final Map<String, List<String>> PERMISSION_DEFS = Map.ofEntries(
-
-            // =========================
-            // IAM
-            // =========================
-            Map.entry("user",
-                    List.of("create", "read", "update", "delete", "unlock")),
-
-            Map.entry("group",
-                    List.of("create", "read", "update", "delete", "assign")),
-
-            Map.entry("role",
-                    List.of("create", "read", "update", "delete", "assign")),
-
-            Map.entry("tenant",
-                    List.of("create", "read", "update", "delete")),
-
-            Map.entry("permission",
-                    List.of("read", "assign")),
-
-            // =========================
-            // MENU / UI
-            // =========================
-            Map.entry("menu",
-                    List.of("create", "read", "update", "delete")),
-
-            Map.entry("dashboard",
-                    List.of("read")),
-
-            // =========================
-            // AIRLINE OPERATIONS
-            // =========================
-            Map.entry("flight",
-                    List.of("create", "read", "update", "cancel")),
-
-            Map.entry("booking",
-                    List.of("create", "read", "update", "cancel", "refund")),
-
-            // =========================
-            // REPORTING / AUDIT
-            // =========================
-            Map.entry("report",
-                    List.of("read", "export")),
-
-            Map.entry("audit",
-                    List.of("read")),
-
-            // =========================
-            // SYSTEM
-            // =========================
-            Map.entry("settings",
-                    List.of("read", "update")),
-
-            Map.entry("notification",
-                    List.of("create", "read", "send")),
-
-            // =========================
-            // FILE MANAGEMENT
-            // =========================
-            Map.entry("file",
-                    List.of("upload", "read", "delete"))
-    );
-
-
-
+    private final IdentityBootstrapData bootstrapData;
 
     public void load(UUID tenantId) {
-
-        log.info("⏳ PermissionLoader: ensuring permissions for tenant {}...", tenantId);
+        log.info("PermissionLoader: ensuring permissions for tenant {}", tenantId);
 
         Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() ->
-                        new IllegalStateException("Tenant not found: " + tenantId));
+                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
 
         Set<String> existingKeys = permissionRepository.findPermissionKeysByTenantId(tenantId);
-
         List<Permission> toSave = new ArrayList<>();
 
-        PERMISSION_DEFS.forEach((domain, actions) -> {
-
-            String normalizedDomain = domain.toUpperCase();
-
-            for (String action : actions) {
-
-                String normalizedAction = action.toUpperCase();
-                String key = normalizedDomain + ":" + normalizedAction;
-                String code = (domain + ":" + action).toLowerCase();
-
-                if (existingKeys.contains(key)) {
-                    continue;
-                }
-
-                existingKeys.add(key);
-
-                toSave.add(
-                        Permission.builder()
-                                .tenant(tenant)
-                                .name(buildName(domain, action))
-                                .code(code)
-                                .domain(normalizedDomain)
-                                .action(normalizedAction)
-                                .description(buildDescription(domain, action))
-                                .build()
-                );
+        for (PermissionSeed seed : bootstrapData.permissions()) {
+            String key = seed.domain() + ":" + seed.action();
+            if (existingKeys.contains(key)) {
+                continue;
             }
-        });
+
+            existingKeys.add(key);
+            toSave.add(Permission.builder()
+                    .tenant(tenant)
+                    .name(seed.name())
+                    .code(seed.code())
+                    .domain(seed.domain())
+                    .action(seed.action())
+                    .description(seed.description())
+                    .build());
+        }
 
         if (!toSave.isEmpty()) {
             permissionRepository.saveAll(toSave);
-            log.info("✅ PermissionLoader: {} permissions created.", toSave.size());
+            log.info("PermissionLoader: {} permissions created.", toSave.size());
         } else {
-            log.info("✅ PermissionLoader: all permissions already exist.");
+            log.info("PermissionLoader: all permissions already exist.");
         }
     }
 
-    // ===============================
-    // 🔥 TENANT-SPECIFIC CHECK
-    // ===============================
     public boolean isLoaded(UUID tenantId) {
         long actual = permissionRepository.countByTenantId(tenantId);
-        long expected = PERMISSION_DEFS.values().stream()
-                .mapToLong(List::size)
-                .sum();
-
+        long expected = bootstrapData.permissions().size();
         return actual >= expected;
-    }
-
-    // ===============================
-    // 🔥 HELPERS
-    // ===============================
-    private String buildName(String domain, String action) {
-        return capitalize(action) + " " + capitalize(domain);
-    }
-
-    private String buildDescription(String domain, String action) {
-
-        return switch (action.toLowerCase()) {
-
-            case "create" ->
-                    "Allows creating " + domain + " records";
-
-            case "read" ->
-                    "Allows viewing " + domain + " records";
-
-            case "update" ->
-                    "Allows updating " + domain + " records";
-
-            case "delete" ->
-                    "Allows deleting " + domain + " records";
-
-            case "assign" ->
-                    "Allows assigning " + domain;
-
-            case "export" ->
-                    "Allows exporting " + domain + " data";
-
-            case "upload" ->
-                    "Allows uploading " + domain + " data";
-
-            case "cancel" ->
-                    "Allows cancelling " + domain;
-
-            case "refund" ->
-                    "Allows processing refunds";
-
-            case "unlock" ->
-                    "Allows unlocking users";
-
-            case "send" ->
-                    "Allows sending notifications";
-
-            default ->
-                    "Allows " + action + " access on " + domain;
-        };
-    }
-
-    private String capitalize(String s) {
-        if (s == null || s.isEmpty()) return s;
-        return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 }

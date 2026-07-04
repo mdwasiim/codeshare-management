@@ -25,10 +25,9 @@ export class StateFormPage extends BaseCrudForm<State> {
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],
-            stateCode: ['', [Validators.required]],
-            stateName: ['', [Validators.required]],
-            description: [''],
-            recordStatus: [''],
+            code: ['', [Validators.required]],
+            name: ['', [Validators.required]],
+            recordStatus: ['ACTIVE'],
             effectiveFrom: [''],
             effectiveTo: [''],
             active: [true],

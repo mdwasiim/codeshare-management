@@ -2,9 +2,8 @@ import { AuditableModel } from '@shared/models/auditable.model';
 
 export interface City extends AuditableModel {
     id?: string;
-    cityCode?: string;
-    cityName?: string;
-    description?: string;
+    iataCode?: string;
+    name?: string;
     recordStatus?: string;
     effectiveFrom?: string;
     effectiveTo?: string;

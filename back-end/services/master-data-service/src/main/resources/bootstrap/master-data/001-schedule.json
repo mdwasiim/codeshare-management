@@ -1,0 +1,76 @@
+{
+  "group": "schedule",
+  "sections": [
+    {
+      "type": "schedule-sources",
+      "items": [
+        { "code": "OAG", "name": "OAG Schedules", "description": "Commercial schedule data received from OAG feeds." },
+        { "code": "CIRIUM", "name": "Cirium Schedules", "description": "Commercial schedule data received from Cirium schedules." },
+        { "code": "AIRLINE", "name": "Airline Direct", "description": "Schedule updates received directly from an operating airline." },
+        { "code": "MANUAL", "name": "Manual Upload", "description": "Schedule files uploaded manually by operations users." }
+      ]
+    },
+    {
+      "type": "schedule-channels",
+      "items": [
+        { "code": "SFTP", "name": "Secure FTP", "description": "Automated schedule file delivery over SFTP." },
+        { "code": "EMAIL", "name": "Email Inbox", "description": "Schedule messages received by mailbox ingestion." },
+        { "code": "MQ", "name": "Message Queue", "description": "Schedule messages delivered through enterprise messaging." },
+        { "code": "API", "name": "REST API", "description": "Schedule data submitted through integration APIs." }
+      ]
+    },
+    {
+      "type": "schedule-statuses",
+      "items": [
+        { "code": "RECEIVED", "name": "Received", "description": "File received and waiting for validation." },
+        { "code": "VALIDATED", "name": "Validated", "description": "File passed structural and business validation." },
+        { "code": "PROCESSING", "name": "Processing", "description": "File is being parsed and persisted." },
+        { "code": "LOADED", "name": "Loaded", "description": "Schedule data loaded successfully." },
+        { "code": "PARTIAL", "name": "Partially Loaded", "description": "File loaded with validation or persistence exceptions." },
+        { "code": "REJECTED", "name": "Rejected", "description": "File rejected because mandatory validation failed." }
+      ]
+    },
+    {
+      "type": "schedule-types",
+      "items": [
+        { "code": "SSIM", "name": "Standard Schedules Information Manual", "description": "IATA SSIM seasonal schedule data." },
+        { "code": "SSM", "name": "Standard Schedule Message", "description": "Incremental schedule change message." },
+        { "code": "ASM", "name": "Ad-hoc Schedule Message", "description": "Operational ad-hoc schedule change message." }
+      ]
+    },
+    {
+      "type": "schedule-priorities",
+      "items": [
+        { "code": "URGENT", "name": "Urgent", "level": 1, "description": "Operationally critical schedule change." },
+        { "code": "HIGH", "name": "High", "level": 2, "description": "High priority schedule update." },
+        { "code": "NORMAL", "name": "Normal", "level": 3, "description": "Standard processing priority." },
+        { "code": "LOW", "name": "Low", "level": 4, "description": "Non-urgent schedule update." }
+      ]
+    },
+    {
+      "type": "schedule-categories",
+      "items": [
+        { "code": "SEASONAL", "name": "Seasonal Schedule", "description": "Full seasonal SSIM schedule load." },
+        { "code": "ADHOC", "name": "Ad-hoc Change", "description": "Single operational schedule change." },
+        { "code": "CANCELLATION", "name": "Cancellation", "description": "Cancellation or suspension schedule update." },
+        { "code": "RETIMING", "name": "Retiming", "description": "Departure or arrival time change." }
+      ]
+    },
+    {
+      "type": "operational-suffixes",
+      "items": [
+        { "code": "A", "name": "Operational Suffix A", "description": "Common suffix for duplicated flight numbers or variants." },
+        { "code": "B", "name": "Operational Suffix B", "description": "Secondary suffix for duplicated flight numbers or variants." },
+        { "code": "D", "name": "Operational Suffix D", "description": "Suffix used for duplicate or extra operation variants." }
+      ]
+    },
+    {
+      "type": "seasons",
+      "items": [
+        { "code": "S25", "name": "Summer 2025", "seasonType": "SUMMER", "year": 2025, "startDate": "2025-03-30", "endDate": "2025-10-25", "displayOrder": 1 },
+        { "code": "W25", "name": "Winter 2025/2026", "seasonType": "WINTER", "year": 2025, "startDate": "2025-10-26", "endDate": "2026-03-28", "displayOrder": 2 },
+        { "code": "S26", "name": "Summer 2026", "seasonType": "SUMMER", "year": 2026, "startDate": "2026-03-29", "endDate": "2026-10-24", "displayOrder": 3 }
+      ]
+    }
+  ]
+}

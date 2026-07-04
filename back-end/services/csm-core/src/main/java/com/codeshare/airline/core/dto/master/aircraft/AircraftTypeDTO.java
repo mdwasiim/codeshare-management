@@ -27,6 +27,7 @@ public class AircraftTypeDTO {
     private Integer maxRangeKm;
     private Integer maxTakeoffWeightKg;
 
+    private Boolean active;
     private RecordStatus recordStatus;
 
     private LocalDate effectiveFrom;

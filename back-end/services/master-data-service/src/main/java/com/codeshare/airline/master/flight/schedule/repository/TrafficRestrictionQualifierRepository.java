@@ -6,4 +6,5 @@ import com.codeshare.airline.master.flight.schedule.entities.TrafficRestrictionQ
 import java.util.UUID;
 
 public interface TrafficRestrictionQualifierRepository extends CSMDataBaseRepository<TrafficRestrictionQualifier, UUID> {
+    boolean existsByTrafficRestrictionCode_RestrictionCodeAndQualifierCode(String restrictionCode, String qualifierCode);
 }

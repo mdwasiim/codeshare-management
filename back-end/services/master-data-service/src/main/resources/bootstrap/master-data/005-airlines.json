@@ -1,0 +1,81 @@
+{
+  "group": "airlines",
+  "sections": [
+    {
+      "type": "alliances",
+      "items": [
+        { "code": "ONEWORLD", "name": "oneworld", "iataCode": "OW", "website": "https://www.oneworld.com", "foundedDate": "1999-02-01", "displayOrder": 1 },
+        { "code": "STAR", "name": "Star Alliance", "iataCode": "SA", "website": "https://www.staralliance.com", "foundedDate": "1997-05-14", "displayOrder": 2 },
+        { "code": "SKYTEAM", "name": "SkyTeam", "iataCode": "ST", "website": "https://www.skyteam.com", "foundedDate": "2000-06-22", "displayOrder": 3 }
+      ]
+    },
+    {
+      "type": "airline-aliases",
+      "items": [
+        { "airline": "QR", "code": "QATAR", "name": "Qatar Airways", "aliasType": "COMMERCIAL_NAME", "displayOrder": 1 },
+        { "airline": "BA", "code": "BRITISH", "name": "British Airways", "aliasType": "COMMERCIAL_NAME", "displayOrder": 2 },
+        { "airline": "EK", "code": "EMIRATES", "name": "Emirates", "aliasType": "COMMERCIAL_NAME", "displayOrder": 3 },
+        { "airline": "LH", "code": "LUFTHANSA", "name": "Lufthansa", "aliasType": "COMMERCIAL_NAME", "displayOrder": 4 },
+        { "airline": "AF", "code": "AIRFRANCE", "name": "Air France", "aliasType": "COMMERCIAL_NAME", "displayOrder": 5 }
+      ]
+    },
+    {
+      "type": "airline-business-roles",
+      "items": [
+        { "airline": "QR", "code": "SCHEDULE_OWNER", "name": "Schedule Owner", "scope": "GLOBAL", "category": "OPERATIONAL", "displayOrder": 1 },
+        { "airline": "QR", "code": "CODESHARE_OWNER", "name": "Codeshare Owner", "scope": "GLOBAL", "category": "COMMERCIAL", "displayOrder": 2 },
+        { "airline": "BA", "code": "SCHEDULE_PARTNER", "name": "Schedule Partner", "scope": "OPERATIONS", "category": "OPERATIONAL", "displayOrder": 3 },
+        { "airline": "EK", "code": "INTERLINE_PARTNER", "name": "Interline Partner", "scope": "GLOBAL", "category": "COMMERCIAL", "displayOrder": 4 }
+      ]
+    },
+    {
+      "type": "airline-contacts",
+      "items": [
+        { "airline": "QR", "code": "QR-SCHED", "name": "Schedule Control Desk", "department": "Schedule Planning", "contactType": "SCHEDULE_PLANNING", "email": "schedule.control@qatarairways.com", "phone": "+974 4022 6000", "available24x7": true, "displayOrder": 1 },
+        { "airline": "BA", "code": "BA-SCHED", "name": "Network Operations Desk", "department": "Network Operations", "contactType": "OPERATIONS_CONTROL", "email": "network.operations@ba.com", "phone": "+44 20 8738 5050", "available24x7": true, "displayOrder": 2 },
+        { "airline": "EK", "code": "EK-CODESHARE", "name": "Codeshare Coordination", "department": "Commercial Partnerships", "contactType": "COMMERCIAL", "email": "codeshare.partners@emirates.com", "phone": "+971 4 708 1111", "available24x7": false, "displayOrder": 3 }
+      ]
+    },
+    {
+      "type": "alliance-members",
+      "items": [
+        { "alliance": "ONEWORLD", "airline": "QR", "membershipType": "FULL_MEMBER", "joinDate": "2013-10-30", "primary": true, "displayOrder": 1 },
+        { "alliance": "ONEWORLD", "airline": "BA", "membershipType": "FULL_MEMBER", "joinDate": "1999-02-01", "primary": true, "displayOrder": 2 },
+        { "alliance": "STAR", "airline": "LH", "membershipType": "FULL_MEMBER", "joinDate": "1997-05-14", "primary": true, "displayOrder": 3 },
+        { "alliance": "SKYTEAM", "airline": "AF", "membershipType": "FULL_MEMBER", "joinDate": "2000-06-22", "primary": true, "displayOrder": 4 }
+      ]
+    },
+    {
+      "type": "codeshare-partners",
+      "items": [
+        { "homeAirline": "QR", "partnerAirline": "BA", "agreementNumber": "QR-BA-2025", "agreementType": "BILATERAL", "displayOrder": 1 },
+        { "homeAirline": "BA", "partnerAirline": "QR", "agreementNumber": "BA-QR-2025", "agreementType": "BILATERAL", "displayOrder": 2 },
+        { "homeAirline": "QR", "partnerAirline": "EK", "agreementNumber": "QR-EK-2025", "agreementType": "INTERLINE", "displayOrder": 3 }
+      ]
+    },
+    {
+      "type": "codeshare-partner-profiles",
+      "items": [
+        { "homeAirline": "QR", "partnerAirline": "BA", "code": "QRBA-OPS", "name": "Qatar Airways British Airways Operating Profile", "partnerType": "RECIPROCAL", "agreementCategory": "BILATERAL", "inventorySharingType": "FREE_SALE", "priority": 1, "autoAcceptScheduleChanges": true, "prorationApplicable": true, "eTicketAllowed": true, "description": "Primary reciprocal codeshare operating profile for Qatar Airways and British Airways.", "displayOrder": 1 },
+        { "homeAirline": "BA", "partnerAirline": "QR", "code": "BAQR-OPS", "name": "British Airways Qatar Airways Operating Profile", "partnerType": "RECIPROCAL", "agreementCategory": "BILATERAL", "inventorySharingType": "FREE_SALE", "priority": 1, "autoAcceptScheduleChanges": true, "prorationApplicable": true, "eTicketAllowed": true, "description": "Reciprocal operating profile for British Airways and Qatar Airways codeshare schedules.", "displayOrder": 2 },
+        { "homeAirline": "QR", "partnerAirline": "EK", "code": "QREK-INT", "name": "Qatar Airways Emirates Interline Profile", "partnerType": "MARKETING", "agreementCategory": "INTERLINE", "inventorySharingType": "SOFT_BLOCK", "priority": 2, "autoAcceptScheduleChanges": false, "prorationApplicable": true, "eTicketAllowed": true, "description": "Commercial interline profile for selected Qatar Airways and Emirates schedule coordination.", "displayOrder": 3 }
+      ]
+    },
+    {
+      "type": "codeshare-partner-communication-profiles",
+      "items": [
+        { "homeAirline": "QR", "partnerAirline": "BA", "code": "QRBA-API", "name": "QR BA Schedule API", "protocol": "API", "transportType": "HTTPS", "messageFormat": "JSON", "authenticationType": "OAUTH2", "endpointUrl": "https://api.ba.example.com/codeshare/schedules", "username": "qr-schedule-api", "credentialAlias": "vault/codeshare/qr-ba-api", "retryCount": 3, "compressionEnabled": true, "encryptionEnabled": true, "description": "Secure API channel for QR and BA schedule exchange.", "displayOrder": 1 },
+        { "homeAirline": "BA", "partnerAirline": "QR", "code": "BAQR-SFTP", "name": "BA QR SSIM SFTP", "protocol": "SFTP", "transportType": "SFTP", "messageFormat": "SSIM", "authenticationType": "SSH_KEY", "endpointUrl": "sftp://sftp.qatarairways.example.com/ssim/inbound", "username": "ba-ssim", "credentialAlias": "vault/codeshare/ba-qr-sftp", "retryCount": 3, "compressionEnabled": true, "encryptionEnabled": true, "description": "SFTP SSIM channel for British Airways to Qatar Airways schedule files.", "displayOrder": 2 },
+        { "homeAirline": "QR", "partnerAirline": "EK", "code": "QREK-EMAIL", "name": "QR EK Notification Email", "protocol": "EMAIL", "transportType": "HTTPS", "messageFormat": "ASM", "authenticationType": "NONE", "endpointUrl": "mailto:codeshare.notifications@emirates.example.com", "username": "qr-codeshare", "credentialAlias": "vault/codeshare/qr-ek-email", "retryCount": 2, "compressionEnabled": false, "encryptionEnabled": true, "description": "Notification channel for QR and EK codeshare schedule changes.", "displayOrder": 3 }
+      ]
+    },
+    {
+      "type": "codeshare-partner-distribution-profiles",
+      "items": [
+        { "homeAirline": "QR", "partnerAirline": "BA", "code": "QRBA-SSM", "name": "QR BA Real-Time SSM Distribution", "distributionChannel": "API", "distributionMode": "REAL_TIME", "messageType": "SSM", "realTimeEnabled": true, "ackRequired": true, "retryEnabled": true, "retryCount": 3, "description": "Real-time SSM schedule distribution between Qatar Airways and British Airways.", "displayOrder": 1 },
+        { "homeAirline": "BA", "partnerAirline": "QR", "code": "BAQR-SSIM", "name": "BA QR Scheduled SSIM Distribution", "distributionChannel": "SFTP", "distributionMode": "SCHEDULED", "messageType": "SSIM", "realTimeEnabled": false, "ackRequired": true, "retryEnabled": true, "retryCount": 3, "description": "Scheduled SSIM file distribution from British Airways to Qatar Airways.", "displayOrder": 2 },
+        { "homeAirline": "QR", "partnerAirline": "EK", "code": "QREK-ASM", "name": "QR EK ASM Distribution", "distributionChannel": "EMAIL", "distributionMode": "MANUAL", "messageType": "ASM", "realTimeEnabled": false, "ackRequired": false, "retryEnabled": false, "retryCount": 1, "description": "Manual ASM distribution profile for selected Qatar Airways and Emirates changes.", "displayOrder": 3 }
+      ]
+    }
+  ]
+}

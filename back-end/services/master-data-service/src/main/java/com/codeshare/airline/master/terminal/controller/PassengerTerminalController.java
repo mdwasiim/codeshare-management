@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/airport-terminals")
+@RequestMapping("/passenger-terminals")
 public class PassengerTerminalController
         extends BaseController<PassengerTerminalDTO, UUID> {
 

@@ -12,6 +12,10 @@ import org.mapstruct.MappingTarget;
 public interface CodesharePartnerMapper extends CSMGenericMapper<CodesharePartner, CodesharePartnerDTO> {
     @Mapping(source = "homeAirline.id", target = "homeAirlineId")
     @Mapping(source = "partnerAirline.id", target = "partnerAirlineId")
+    @Mapping(source = "homeAirline.iataCode", target = "homeAirlineCode")
+    @Mapping(source = "homeAirline.displayName", target = "homeAirlineName")
+    @Mapping(source = "partnerAirline.iataCode", target = "partnerAirlineCode")
+    @Mapping(source = "partnerAirline.displayName", target = "partnerAirlineName")
     CodesharePartnerDTO toDTO(CodesharePartner entity);
 
     @Mapping(target = "homeAirline", ignore = true)

@@ -8,7 +8,7 @@ import { AirportTerminal } from '@features/masters/terminal/airport-terminals/mo
 export class AirportTerminalService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
-    private readonly baseUrl = '/master/airport-terminal-masters';
+    private readonly baseUrl = '/master/airport-terminals';
 
     getAll() { return this.api.get<AirportTerminal[]>(this.baseUrl); }
     getById(id: string) { return this.api.get<AirportTerminal>(this.baseUrl + '/' + encodeURIComponent(id)); }

@@ -1,0 +1,102 @@
+{
+  "group": "flight",
+  "sections": [
+    {
+      "type": "service-types",
+      "items": [
+        { "code": "J", "name": "Scheduled Passenger", "category": "PASSENGER", "description": "Normal scheduled passenger service.", "displayOrder": 1 },
+        { "code": "G", "name": "Additional Passenger", "category": "PASSENGER", "description": "Additional passenger service.", "displayOrder": 2 },
+        { "code": "C", "name": "Passenger Charter", "category": "CHARTER", "description": "Passenger charter operation.", "displayOrder": 3 },
+        { "code": "F", "name": "Freight", "category": "CARGO", "description": "Scheduled freight operation.", "displayOrder": 4 },
+        { "code": "M", "name": "Mail", "category": "CARGO", "description": "Mail-only operation.", "displayOrder": 5 }
+      ]
+    },
+    {
+      "type": "time-modes",
+      "items": [
+        { "code": "L", "name": "Local Time", "description": "Schedule times are expressed in local station time.", "displayOrder": 1 },
+        { "code": "U", "name": "UTC Time", "description": "Schedule times are expressed in coordinated universal time.", "displayOrder": 2 }
+      ]
+    },
+    {
+      "type": "flight-frequencies",
+      "items": [
+        { "code": "1234567", "name": "Daily", "description": "Operates every day of the week.", "displayOrder": 1 },
+        { "code": "12345", "name": "Weekdays", "description": "Operates Monday through Friday.", "displayOrder": 2 },
+        { "code": "67", "name": "Weekend", "description": "Operates Saturday and Sunday.", "displayOrder": 3 },
+        { "code": "135", "name": "Mon Wed Fri", "description": "Operates Monday, Wednesday, and Friday.", "displayOrder": 4 },
+        { "code": "246", "name": "Tue Thu Sat", "description": "Operates Tuesday, Thursday, and Saturday.", "displayOrder": 5 }
+      ]
+    },
+    {
+      "type": "flight-suffixes",
+      "items": [
+        { "code": "A", "name": "Suffix A", "description": "First duplicate or variant operation.", "displayOrder": 1 },
+        { "code": "B", "name": "Suffix B", "description": "Second duplicate or variant operation.", "displayOrder": 2 },
+        { "code": "C", "name": "Suffix C", "description": "Third duplicate or variant operation.", "displayOrder": 3 }
+      ]
+    },
+    {
+      "type": "electronic-ticket-indicators",
+      "items": [
+        { "code": "Y", "name": "Electronic Ticket Supported", "description": "Electronic ticketing is supported.", "displayOrder": 1 },
+        { "code": "N", "name": "Electronic Ticket Not Supported", "description": "Electronic ticketing is not supported.", "displayOrder": 2 }
+      ]
+    },
+    {
+      "type": "secure-flight-indicators",
+      "items": [
+        { "code": "Y", "name": "Secure Flight Required", "authority": "TSA", "description": "Secure Flight passenger data is required.", "displayOrder": 1 },
+        { "code": "N", "name": "Secure Flight Not Required", "authority": "TSA", "description": "Secure Flight passenger data is not required.", "displayOrder": 2 }
+      ]
+    },
+    {
+      "type": "meal-services",
+      "items": [
+        { "code": "B", "name": "Breakfast", "category": "MEAL", "cabinClass": "ECONOMY", "description": "Breakfast meal service.", "displayOrder": 1 },
+        { "code": "L", "name": "Lunch", "category": "MEAL", "cabinClass": "ECONOMY", "description": "Lunch meal service.", "displayOrder": 2 },
+        { "code": "D", "name": "Dinner", "category": "MEAL", "cabinClass": "ECONOMY", "description": "Dinner meal service.", "displayOrder": 3 },
+        { "code": "S", "name": "Snack", "category": "SNACK", "cabinClass": "ECONOMY", "description": "Light snack service.", "displayOrder": 4 },
+        { "code": "R", "name": "Refreshment", "category": "DRINK", "cabinClass": "ECONOMY", "description": "Refreshment or beverage service.", "displayOrder": 5 }
+      ]
+    },
+    {
+      "type": "reservation-booking-designators",
+      "items": [
+        { "code": "F", "name": "First Flexible", "cabinClass": "FIRST", "category": "REVENUE", "displayOrder": 1 },
+        { "code": "A", "name": "First Discounted", "cabinClass": "FIRST", "category": "REVENUE", "displayOrder": 2 },
+        { "code": "J", "name": "Business Flexible", "cabinClass": "BUSINESS", "category": "REVENUE", "displayOrder": 3 },
+        { "code": "C", "name": "Business Discounted", "cabinClass": "BUSINESS", "category": "REVENUE", "displayOrder": 4 },
+        { "code": "W", "name": "Premium Economy", "cabinClass": "PREMIUM_ECONOMY", "category": "REVENUE", "displayOrder": 5 },
+        { "code": "Y", "name": "Economy Flexible", "cabinClass": "ECONOMY", "category": "REVENUE", "displayOrder": 6 },
+        { "code": "M", "name": "Economy Standard", "cabinClass": "ECONOMY", "category": "REVENUE", "displayOrder": 7 },
+        { "code": "Q", "name": "Economy Discounted", "cabinClass": "ECONOMY", "category": "REVENUE", "displayOrder": 8 }
+      ]
+    },
+    {
+      "type": "reservation-booking-modifiers",
+      "items": [
+        { "code": "IN", "name": "Infant", "category": "PASSENGER", "description": "Infant passenger booking modifier.", "displayOrder": 1 },
+        { "code": "CH", "name": "Child", "category": "PASSENGER", "description": "Child passenger booking modifier.", "displayOrder": 2 },
+        { "code": "GP", "name": "Group", "category": "COMMERCIAL", "description": "Group booking modifier.", "displayOrder": 3 },
+        { "code": "ST", "name": "Staff", "category": "COMMERCIAL", "description": "Staff travel booking modifier.", "displayOrder": 4 }
+      ]
+    },
+    {
+      "type": "traffic-restrictions",
+      "items": [
+        { "code": "A", "name": "Boarding Restriction", "category": "BOARDING", "description": "Restriction applies to passenger boarding.", "displayOrder": 1 },
+        { "code": "B", "name": "Booking Restriction", "category": "BOOKING", "description": "Restriction applies to booking acceptance.", "displayOrder": 2 },
+        { "code": "T", "name": "Traffic Restriction", "category": "TRAFFIC", "description": "Restriction applies to carried traffic rights.", "displayOrder": 3 }
+      ]
+    },
+    {
+      "type": "traffic-restriction-qualifiers",
+      "items": [
+        { "restrictionCode": "A", "code": "NA", "name": "No Airport Boarding", "description": "Passengers may not board at the specified airport.", "displayOrder": 1 },
+        { "restrictionCode": "B", "code": "NP", "name": "No Passenger Booking", "description": "Passenger bookings are not accepted for the sector.", "displayOrder": 2 },
+        { "restrictionCode": "T", "code": "NT", "name": "No Local Traffic", "description": "Local traffic is not permitted between specified points.", "displayOrder": 3 }
+      ]
+    }
+  ]
+}

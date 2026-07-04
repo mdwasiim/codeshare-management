@@ -6,4 +6,5 @@ import com.codeshare.airline.master.flight.passenger.entities.SecureFlightIndica
 import java.util.UUID;
 
 public interface SecureFlightIndicatorRepository extends CSMDataBaseRepository<SecureFlightIndicator, UUID> {
+    boolean existsBySecureFlightIndicatorCode(String secureFlightIndicatorCode);
 }

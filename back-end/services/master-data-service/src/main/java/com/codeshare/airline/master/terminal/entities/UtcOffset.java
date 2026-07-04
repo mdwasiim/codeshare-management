@@ -24,7 +24,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class UtcOffset extends CSMDataAbstractEntity {
-    @Column(name = "OFFSET_CODE", nullable = false, length = 10)
+    @Column(name = "OFFSET_CODE", nullable = false, length = 20)
     private String offsetCode;
 
     @Column(name = "OFFSET_VALUE", nullable = false, length = 10)

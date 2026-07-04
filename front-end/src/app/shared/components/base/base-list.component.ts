@@ -36,10 +36,6 @@ export abstract class BaseListComponent<T> implements OnInit, OnDestroy {
     }
 
     loadData(): void {
-        if (!this.can('READ')) {
-            return;
-        }
-
         this.handleObservable(this.fetch(), (res) => {
             this.data = res ?? [];
             this.afterLoad();

@@ -1,0 +1,80 @@
+{
+  "group": "messaging",
+  "sections": [
+    {
+      "type": "standard-message-identifiers",
+      "items": [
+        { "code": "SSM", "name": "Standard Schedule Message", "description": "IATA message for schedule updates." },
+        { "code": "ASM", "name": "Ad-hoc Schedule Message", "description": "Operational message for ad-hoc flight changes." },
+        { "code": "SSQ", "name": "Schedule Query", "description": "Message used to request schedule information." },
+        { "code": "SSR", "name": "Schedule Response", "description": "Message used to respond to schedule queries." }
+      ]
+    },
+    {
+      "type": "action-identifiers",
+      "items": [
+        { "code": "NEW", "name": "New Operation", "description": "Create a new flight operation." },
+        { "code": "CNL", "name": "Cancel Operation", "description": "Cancel an existing flight operation." },
+        { "code": "REV", "name": "Revise Operation", "description": "Revise selected schedule fields." },
+        { "code": "RPL", "name": "Replace Operation", "description": "Replace the existing schedule record." },
+        { "code": "TIM", "name": "Time Change", "description": "Update departure or arrival timing." }
+      ]
+    },
+    {
+      "type": "action-codes",
+      "items": [
+        { "code": "NEW", "name": "New", "description": "New schedule line." },
+        { "code": "CNL", "name": "Cancellation", "description": "Schedule cancellation line." },
+        { "code": "RPL", "name": "Replacement", "description": "Replacement schedule line." },
+        { "code": "REV", "name": "Revision", "description": "Revision schedule line." }
+      ]
+    },
+    {
+      "type": "data-element-identifiers",
+      "items": [
+        { "code": "050", "name": "Aircraft Owner", "scope": "FLIGHT", "description": "Aircraft owner or operating carrier information." },
+        { "code": "070", "name": "Operational Suffix", "scope": "FLIGHT", "description": "Operational suffix associated with the flight number." },
+        { "code": "080", "name": "Service Type Override", "scope": "FLIGHT", "description": "Service type override for the schedule line." },
+        { "code": "127", "name": "Codeshare Disclosure", "scope": "MARKETING", "description": "Codeshare and marketing carrier disclosure." },
+        { "code": "210", "name": "Restriction Text", "scope": "COMMERCIAL", "description": "Commercial traffic restriction text." }
+      ]
+    },
+    {
+      "type": "distribution-channels",
+      "items": [
+        { "code": "SITA", "name": "SITA Network", "channelType": "NETWORK", "protocolType": "TYPE-B", "endpointUrl": "sita://schedule" },
+        { "code": "ARINC", "name": "ARINC Network", "channelType": "NETWORK", "protocolType": "TYPE-B", "endpointUrl": "arinc://schedule" },
+        { "code": "NDC", "name": "NDC API", "channelType": "API", "protocolType": "REST", "endpointUrl": "https://api.example.com/ndc/schedules" },
+        { "code": "INTERNAL", "name": "Internal Workflow", "channelType": "INTERNAL", "protocolType": "EVENT", "endpointUrl": "event://schedule-workflow" }
+      ]
+    },
+    {
+      "type": "message-priorities",
+      "items": [
+        { "code": "FLASH", "name": "Flash", "level": 1, "description": "Immediate operational handling." },
+        { "code": "PRIORITY", "name": "Priority", "level": 2, "description": "Priority operational handling." },
+        { "code": "NORMAL", "name": "Normal", "level": 3, "description": "Normal message handling." },
+        { "code": "DEFERRED", "name": "Deferred", "level": 4, "description": "Deferred non-critical handling." }
+      ]
+    },
+    {
+      "type": "message-statuses",
+      "items": [
+        { "code": "QUEUED", "name": "Queued", "description": "Message is waiting for processing." },
+        { "code": "VALIDATED", "name": "Validated", "description": "Message validation passed." },
+        { "code": "PROCESSED", "name": "Processed", "description": "Message was processed successfully." },
+        { "code": "FAILED", "name": "Failed", "description": "Message processing failed." },
+        { "code": "REJECTED", "name": "Rejected", "description": "Message was rejected by validation." }
+      ]
+    },
+    {
+      "type": "reject-reasons",
+      "items": [
+        { "code": "FMT", "name": "Format Error", "description": "Message format is invalid." },
+        { "code": "DUP", "name": "Duplicate Message", "description": "Message duplicates an already processed transaction." },
+        { "code": "AUTH", "name": "Unauthorized Sender", "description": "Sender is not authorized for the carrier or route." },
+        { "code": "REF", "name": "Reference Not Found", "description": "Referenced flight, carrier, or schedule record was not found." }
+      ]
+    }
+  ]
+}

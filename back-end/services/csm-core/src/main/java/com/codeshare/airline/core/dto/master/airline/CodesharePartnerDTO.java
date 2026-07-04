@@ -15,6 +15,10 @@ public class CodesharePartnerDTO {
     private UUID id;
     private UUID homeAirlineId;
     private UUID partnerAirlineId;
+    private String homeAirlineCode;
+    private String homeAirlineName;
+    private String partnerAirlineCode;
+    private String partnerAirlineName;
     private String agreementNumber;
     private CodeshareAgreementType agreementType;
     private CodeshareAgreementStatus agreementStatus;

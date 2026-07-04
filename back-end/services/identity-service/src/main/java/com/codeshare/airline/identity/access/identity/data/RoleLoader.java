@@ -1,5 +1,7 @@
 package com.codeshare.airline.identity.access.identity.data;
 
+import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
+import com.codeshare.airline.identity.access.data.IdentityBootstrapData.RoleSeed;
 import com.codeshare.airline.identity.access.identity.entities.Role;
 import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.RoleRepository;
@@ -8,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -17,126 +22,41 @@ public class RoleLoader {
 
     private final RoleRepository roleRepository;
     private final TenantRepository tenantRepository;
-
-    private static final List<String> BASE_ROLES = List.of(
-
-            // PLATFORM
-            "SUPER_ADMIN",
-
-            // TENANT
-            "TENANT_ADMIN",
-
-            // IAM / SECURITY
-            "IAM_ADMIN",
-
-            // AIRLINE OPERATIONS
-            "OPS_MANAGER",
-            "FLIGHT_OPERATOR",
-
-            // BOOKING / RESERVATION
-            "BOOKING_AGENT",
-
-            // CUSTOMER SUPPORT
-            "CUSTOMER_SUPPORT",
-
-            // REPORTING / AUDIT
-            "REPORT_ANALYST",
-            "AUDITOR",
-
-            // DEFAULT BUSINESS USER
-            "USER"
-    );
+    private final IdentityBootstrapData bootstrapData;
 
     public void load(UUID tenantId) {
-
-        log.info("⏳ RoleLoader: ensuring base roles for {} tenants...", tenantId);
-
-        List<Role> rolesToSave = new ArrayList<>();
+        log.info("RoleLoader: ensuring roles for tenant {}", tenantId);
 
         Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() ->
-                        new IllegalStateException("Tenant not found: " + tenantId));
+                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
 
-        // 🔥 PERFORMANCE FIX: fetch once
-        Set<String> existingCodes =
-                roleRepository.findCodesByTenant(tenant);
+        Set<String> existingCodes = roleRepository.findCodesByTenant(tenant);
+        List<Role> rolesToSave = new ArrayList<>();
 
-        for (String code : BASE_ROLES) {
+        for (RoleSeed seed : bootstrapData.roles()) {
+            if (existingCodes.contains(seed.code())) {
+                continue;
+            }
 
-            if (existingCodes.contains(code)) continue;
-
-            rolesToSave.add(
-                    Role.builder()
-                            .tenant(tenant)
-                            .code(code)
-                            .name(toReadableName(code))
-                            .description(buildDescription(code))
-                            .build()
-            );
+            rolesToSave.add(Role.builder()
+                    .tenant(tenant)
+                    .code(seed.code())
+                    .name(seed.name())
+                    .description(seed.description())
+                    .build());
         }
-
 
         if (!rolesToSave.isEmpty()) {
             roleRepository.saveAll(rolesToSave);
-            log.info("✅ RoleLoader: {} roles created.", rolesToSave.size());
+            log.info("RoleLoader: {} roles created.", rolesToSave.size());
         } else {
-            log.info("✅ RoleLoader: all roles already exist.");
+            log.info("RoleLoader: all roles already exist.");
         }
     }
-    private String buildDescription(String code) {
 
-        return switch (code) {
-
-            case "SUPER_ADMIN" ->
-                    "Full platform administration access";
-
-            case "TENANT_ADMIN" ->
-                    "Tenant administration and configuration access";
-
-            case "IAM_ADMIN" ->
-                    "Identity and access management administration";
-
-            case "OPS_MANAGER" ->
-                    "Operational management access";
-
-            case "FLIGHT_OPERATOR" ->
-                    "Flight operations management access";
-
-            case "BOOKING_AGENT" ->
-                    "Booking and reservation management access";
-
-            case "CUSTOMER_SUPPORT" ->
-                    "Customer support operations access";
-
-            case "REPORT_ANALYST" ->
-                    "Reporting and analytics access";
-
-            case "AUDITOR" ->
-                    "Audit and compliance read-only access";
-
-            case "USER" ->
-                    "Default authenticated user access";
-
-            default ->
-                    code + " role";
-        };
-    }
-
-    // ===============================
-    // 🔥 TENANT-AWARE VALIDATION
-    // ===============================
     public boolean isLoaded(UUID tenantId) {
-
-        long expected = BASE_ROLES.size();
+        long expected = bootstrapData.roles().size();
         long actual = roleRepository.countByTenantId(tenantId);
-
         return actual >= expected;
-    }
-
-    // ===============================
-    // HELPERS
-    // ===============================
-    private String toReadableName(String code) {
-        return code.replace("_", " ");
     }
 }

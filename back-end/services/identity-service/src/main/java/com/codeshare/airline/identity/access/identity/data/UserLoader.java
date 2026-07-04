@@ -1,7 +1,8 @@
 package com.codeshare.airline.identity.access.identity.data;
 
-import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
+import com.codeshare.airline.identity.access.data.IdentityBootstrapData.UserSeed;
 import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.entities.User;
 import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
@@ -21,105 +22,53 @@ public class UserLoader {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TenantRepository tenantRepository;
+    private final IdentityBootstrapData bootstrapData;
 
     public void loadUser(UUID tenantId) {
-
-        log.info("⏳ Bootstrapping internal users...");
+        log.info("Bootstrapping internal users for tenant {}", tenantId);
 
         Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() ->
-                        new IllegalStateException(
-                                "Tenant not found: " + tenantId
-                        ));
+                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
 
-        createUserIfMissing(
-                tenant,
-                "admin",
-                "admin",
-                "System",
-                "Administrator"
-        );
-
-        createUserIfMissing(
-                tenant,
-                "auditor",
-                "auditor",
-                "Audit",
-                "User"
-        );
+        bootstrapData.users().forEach(seed -> createUserIfMissing(tenant, seed));
     }
 
-    private void createUserIfMissing(
-            Tenant tenant,
-            String username,
-            String password,
-            String firstName,
-            String lastName
-    ) {
-
-        boolean exists =
-                userRepository.existsByUsernameAndTenant(
-                        username,
-                        tenant
-                );
-
+    private void createUserIfMissing(Tenant tenant, UserSeed seed) {
+        String username = seed.username().toLowerCase();
+        boolean exists = userRepository.existsByUsernameAndTenant(username, tenant);
         if (exists) {
-
-            log.info(
-                    "User [{}] already exists for tenant [{}]",
-                    username,
-                    tenant.getTenantCode()
-            );
-
+            log.info("User [{}] already exists for tenant [{}]", username, tenant.getTenantCode());
             return;
         }
 
-        String email =
-                username.toLowerCase()
-                        + "@"
-                        + tenant.getTenantCode().toLowerCase()
-                        + ".codeshare.com";
+        String email = seed.email() == null || seed.email().isBlank()
+                ? username + "@" + tenant.getTenantCode().toLowerCase() + ".codeshare.com"
+                : seed.email();
 
         User user = User.builder()
-
-                .username(username.toLowerCase())
+                .username(username)
                 .email(email)
-
-                .firstName(firstName)
-                .lastName(lastName)
-
-                .password(
-                        passwordEncoder.encode(password)
-                )
-
-                .enabled(true)
-                .active(true)
-
+                .firstName(seed.firstName())
+                .lastName(seed.lastName())
+                .password(passwordEncoder.encode(seed.password()))
+                .enabled(seed.enabled())
+                .active(seed.enabled())
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
-
-                .authSource(AuthSource.INTERNAL)
-
+                .authSource(seed.authSource())
                 .externalId("internal:" + username)
-
                 .recordStatus(RecordStatus.ACTIVE)
-
                 .tenant(tenant)
-
                 .build();
 
         userRepository.save(user);
-
-        log.info(
-                "✅ User [{}] created for tenant [{}]",
-                username,
-                tenant.getTenantCode()
-        );
+        log.info("User [{}] created for tenant [{}]", username, tenant.getTenantCode());
     }
 
     public boolean isLoaded(UUID tenantId) {
-
-         return userRepository.count()>0;
+        long expected = bootstrapData.users().size();
+        long actual = userRepository.findAllByTenant_Id(tenantId).size();
+        return actual >= expected;
     }
 }

@@ -1,16 +1,10 @@
 <form [formGroup]="form" class="p-fluid w-full block app-form">
-    <app-form-section title="Time Zones Details">
+    <app-form-section title="Time Zone Details">
         <div class="grid">
             <div class="field col-12 md:col-6">
-                <label for="timezoneCode" class="required">Timezone Code</label>
-                <input id="timezoneCode" pInputText formControlName="timezoneCode" class="w-full" />
-                <small class="p-error" *ngIf="form.controls['timezoneCode'].hasError('required') && form.controls['timezoneCode'].touched">Timezone Code is required.</small>
-            </div>
-
-            <div class="field col-12 md:col-6">
-                <label for="timezoneName" class="required">Timezone Name</label>
-                <input id="timezoneName" pInputText formControlName="timezoneName" class="w-full" />
-                <small class="p-error" *ngIf="form.controls['timezoneName'].hasError('required') && form.controls['timezoneName'].touched">Timezone Name is required.</small>
+                <label for="zoneId" class="required">Zone ID</label>
+                <input id="zoneId" pInputText formControlName="zoneId" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['zoneId'].hasError('required') && form.controls['zoneId'].touched">Zone ID is required.</small>
             </div>
 
             <div class="field col-12 md:col-6">
@@ -38,8 +32,8 @@
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="active">Active</label>
-                <div class="flex align-items-center gap-2"><p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox><label for="active" class="mb-0">Enabled</label></div>
+                <label for="isDstSupported">DST Supported</label>
+                <div class="flex align-items-center gap-2"><p-checkbox inputId="isDstSupported" formControlName="isDstSupported" binary="true"></p-checkbox><label for="isDstSupported" class="mb-0">Yes</label></div>
                 
             </div>
         </div>

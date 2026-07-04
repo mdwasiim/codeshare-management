@@ -588,18 +588,6 @@
         "visible": null
     },
     {
-        "code": "M_MSG_DEI_REGISTRY",
-        "parentCode": "M_MESSAGING",
-        "label": "DEI Registry",
-        "topbarLabel": null,
-        "sidebarLabel": null,
-        "icon": "pi pi-fw pi-database",
-        "route": "/masters/messaging/dei-registry",
-        "permission": null,
-        "displayOrder": 3,
-        "visible": null
-    },
-    {
         "code": "M_MSG_DATA_ELEMENT_IDENTIFIERS",
         "parentCode": "M_MESSAGING",
         "label": "Data Element Identifiers",

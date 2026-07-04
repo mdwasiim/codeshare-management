@@ -7,12 +7,14 @@ import com.codeshare.airline.master.geography.repository.CountryRepository;
 import com.codeshare.airline.master.geography.repository.StateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Component
+@Order(120)
 @RequiredArgsConstructor
 public class StateDataLoader implements CommandLineRunner {
 
