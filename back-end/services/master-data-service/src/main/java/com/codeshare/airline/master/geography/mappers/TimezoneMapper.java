@@ -18,12 +18,12 @@ public interface TimezoneMapper
     TimezoneDTO toDTO(Timezone entity);
 
     @Mapping(source = "zoneId", target = "tzIdentifier")
-    @Mapping(source = "isDstSupported", target = "observesDst")
+    @Mapping(target = "observesDst", ignore = true)
     @Mapping(target = "standardUtcOffsetMinutes", ignore = true)
     Timezone toEntity(TimezoneDTO dto);
 
     @Mapping(source = "zoneId", target = "tzIdentifier")
-    @Mapping(source = "isDstSupported", target = "observesDst")
+    @Mapping(target = "observesDst", ignore = true)
     @Mapping(target = "standardUtcOffsetMinutes", ignore = true)
     void updateEntityFromDto(TimezoneDTO dto, @MappingTarget Timezone entity);
 

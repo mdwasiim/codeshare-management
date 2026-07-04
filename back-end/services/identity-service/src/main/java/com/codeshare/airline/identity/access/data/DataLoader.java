@@ -44,88 +44,56 @@ public class DataLoader {
 
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
-        log.info("🚀 Tenant-service started. Initializing data...");
+        log.info("Identity service started. Ensuring bootstrap data...");
         init();
     }
 
     @Scheduled(fixedDelay = 30000, initialDelay = 60000)
     public void retryIfNeeded() {
         if (!isInitialized()) {
-            log.warn("🔁 Initialization incomplete. Retrying...");
+            log.warn("Initialization incomplete. Retrying...");
             init();
         }
     }
 
     private synchronized void init() {
-
         try {
+            log.info("Starting identity data initialization");
 
-            log.info("⏳ Starting Tenant Data Initialization");
-
-            // Ensure default tenants exist
             tenantLoader.loadTenants();
 
-            // Fetch all tenants
             List<UUID> tenantIds = tenantLoader.getAllTenantIds();
             for (UUID tenantId : tenantIds) {
+                log.info("Ensuring bootstrap data for tenant [{}]", tenantId);
 
-                if (isTenantInitialized(tenantId)) {
-                    log.info(" Tenant [{}] already initialized — skipping", tenantId);
-                    continue;
-                }
-
-                log.info(" Initializing tenant [{}]", tenantId);
-
-                // =============================
-                // CORE LOADERS
-                // =============================
                 oidcLoader.load(tenantId);
                 roleLoader.load(tenantId);
                 permissionLoader.load(tenantId);
                 groupLoader.load(tenantId);
                 menuLoader.load(tenantId);
 
-                // =============================
-                // MAPPINGS
-                // =============================
                 groupRoleLoader.load(tenantId);
                 rolePermissionLoader.load(tenantId);
                 groupMenuLoader.load(tenantId);
 
-                // =============================
-                // USERS
-                // =============================
                 userLoader.loadUser(tenantId);
                 userGroupLoader.load(tenantId);
 
-                log.info("✅ Tenant [{}] initialized successfully",
-                        tenantId);
+                log.info("Tenant [{}] bootstrap data ensured", tenantId);
             }
 
-            log.info("🎉 Tenant Data Initialization COMPLETED");
-
+            log.info("Identity data initialization completed");
         } catch (Exception ex) {
-            log.error("❌ Initialization failed. Will retry.", ex);
+            log.error("Initialization failed. Will retry.", ex);
         }
     }
 
-    // ===============================
-    // 🔥 GLOBAL CHECK
-    // ===============================
     private boolean isInitialized() {
-
-        List<UUID> tenantIds =
-                tenantLoader.getAllTenantIds();
-
-        return tenantIds.stream()
+        return tenantLoader.getAllTenantIds().stream()
                 .allMatch(this::isTenantInitialized);
     }
 
-    // ===============================
-    // 🔐 TENANT CHECK
-    // ===============================
     private boolean isTenantInitialized(UUID tenantId) {
-
         return roleLoader.isLoaded(tenantId)
                 && permissionLoader.isLoaded(tenantId)
                 && groupLoader.isLoaded(tenantId)

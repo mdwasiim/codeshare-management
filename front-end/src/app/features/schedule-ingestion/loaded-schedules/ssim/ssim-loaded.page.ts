@@ -11,6 +11,7 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { AnyScheduleFlight, LoadedScheduleSummary, ScheduleFileMetaData } from '@features/schedule-ingestion/models/schedule-ingestion.model';
 import { SsimIngestionService } from '@features/schedule-ingestion/api/ssim-ingestion.service';
+import { MasterLookupOption, MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 interface Column {
     field: string;
@@ -27,9 +28,11 @@ interface Column {
 export class SsimLoadedPage implements OnInit {
     private service = inject(SsimIngestionService);
     private router = inject(Router);
+    private lookupService = inject(MasterReferenceLookupService);
 
     readonly statuses = ['RECEIVED', 'VALIDATED', 'PARSED', 'LOADED', 'PARTIALLY_LOADED', 'FAILED'];
     readonly sourceTypes = ['LOCAL', 'SFTP', 'EMAIL', 'MQ', 'REST', 'CLOUD'];
+    airlineOptions: MasterLookupOption[] = [];
 
     airlineCode = '';
     fileName = '';
@@ -92,6 +95,9 @@ export class SsimLoadedPage implements OnInit {
     ];
 
     ngOnInit(): void {
+        this.lookupService.getOptions('airlineCode').subscribe((options) => {
+            this.airlineOptions = options;
+        });
         this.loadSchedules();
         this.loadFiles();
     }

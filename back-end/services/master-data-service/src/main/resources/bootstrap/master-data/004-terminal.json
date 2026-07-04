@@ -10,16 +10,6 @@
       ]
     },
     {
-      "type": "utc-offsets",
-      "items": [
-        { "code": "UTC", "value": "+00:00", "minutes": 0, "description": "Coordinated universal time." },
-        { "code": "UTC_PLUS_03", "value": "+03:00", "minutes": 180, "description": "Arabia Standard Time offset." },
-        { "code": "UTC_PLUS_04", "value": "+04:00", "minutes": 240, "description": "Gulf Standard Time offset." },
-        { "code": "UTC_PLUS_05_30", "value": "+05:30", "minutes": 330, "description": "India Standard Time offset." },
-        { "code": "UTC_MINUS_05", "value": "-05:00", "minutes": -300, "description": "Eastern Standard Time offset." }
-      ]
-    },
-    {
       "type": "airport-terminals",
       "items": [
         { "airport": "DOH", "code": "DOH-T1", "name": "Hamad Passenger Terminal", "iataCode": "1", "description": "Main passenger terminal at Hamad International Airport." },
@@ -35,13 +25,6 @@
         { "airport": "LHR", "code": "T5", "name": "Heathrow Terminal 5", "terminalType": "BOTH", "international": true },
         { "airport": "JFK", "code": "T8", "name": "JFK Terminal 8", "terminalType": "BOTH", "international": true },
         { "airport": "DXB", "code": "T3", "name": "Dubai Terminal 3", "terminalType": "BOTH", "international": true }
-      ]
-    },
-    {
-      "type": "daylight-saving-rules",
-      "items": [
-        { "timezone": "Europe/London", "code": "GB-DST", "name": "United Kingdom Daylight Saving Time", "offsetMinutes": 60, "startRule": "Last Sunday in March at 01:00 UTC", "endRule": "Last Sunday in October at 02:00 local time", "description": "British Summer Time daylight saving rule." },
-        { "timezone": "America/New_York", "code": "US-EASTERN-DST", "name": "US Eastern Daylight Saving Time", "offsetMinutes": 60, "startRule": "Second Sunday in March at 02:00 local time", "endRule": "First Sunday in November at 02:00 local time", "description": "US Eastern daylight saving rule." }
       ]
     },
     {

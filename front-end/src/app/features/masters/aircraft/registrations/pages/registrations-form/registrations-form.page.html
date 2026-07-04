@@ -8,14 +8,14 @@
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="aircraftTypeId">Aircraft Type ID</label>
-                <input id="aircraftTypeId" pInputText formControlName="aircraftTypeId" class="w-full" />
+                <label for="aircraftTypeId">Aircraft Type</label>
+                <p-select inputId="aircraftTypeId" appendTo="body" [options]="lookupOptions['aircraftTypeId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="aircraftTypeId" styleClass="w-full"></p-select>
                 
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="ownerId">Owner ID</label>
-                <input id="ownerId" pInputText formControlName="ownerId" class="w-full" />
+                <label for="ownerId">Owner</label>
+                <p-select inputId="ownerId" appendTo="body" [options]="lookupOptions['ownerId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="ownerId" styleClass="w-full"></p-select>
                 
             </div>
 

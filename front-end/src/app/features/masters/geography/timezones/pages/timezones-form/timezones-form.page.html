@@ -9,7 +9,7 @@
 
             <div class="field col-12 md:col-6">
                 <label for="utcOffset">UTC Offset</label>
-                <input id="utcOffset" pInputText formControlName="utcOffset" class="w-full" />
+                <input id="utcOffset" pInputText formControlName="utcOffset" class="w-full" readonly />
                 
             </div>
 
@@ -33,7 +33,7 @@
 
             <div class="field col-12 md:col-6">
                 <label for="isDstSupported">DST Supported</label>
-                <div class="flex align-items-center gap-2"><p-checkbox inputId="isDstSupported" formControlName="isDstSupported" binary="true"></p-checkbox><label for="isDstSupported" class="mb-0">Yes</label></div>
+                <div class="flex align-items-center gap-2"><p-checkbox inputId="isDstSupported" formControlName="isDstSupported" binary="true" [disabled]="true"></p-checkbox><label for="isDstSupported" class="mb-0">Yes</label></div>
                 
             </div>
         </div>

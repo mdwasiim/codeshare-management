@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -30,17 +32,21 @@ public class UserLoader {
         Tenant tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
 
-        bootstrapData.users().forEach(seed -> createUserIfMissing(tenant, seed));
+        Set<String> existingUsernames = userRepository.findByTenant(tenant).stream()
+                .map(User::getUsername)
+                .collect(Collectors.toSet());
+
+        bootstrapData.users().forEach(seed -> createUserIfMissing(tenant, seed, existingUsernames));
     }
 
-    private void createUserIfMissing(Tenant tenant, UserSeed seed) {
+    private void createUserIfMissing(Tenant tenant, UserSeed seed, Set<String> existingUsernames) {
         String username = seed.username().toLowerCase();
-        boolean exists = userRepository.existsByUsernameAndTenant(username, tenant);
-        if (exists) {
+        if (existingUsernames.contains(username)) {
             log.info("User [{}] already exists for tenant [{}]", username, tenant.getTenantCode());
             return;
         }
 
+        existingUsernames.add(username);
         String email = seed.email() == null || seed.email().isBlank()
                 ? username + "@" + tenant.getTenantCode().toLowerCase() + ".codeshare.com"
                 : seed.email();

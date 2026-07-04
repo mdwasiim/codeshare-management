@@ -44,5 +44,7 @@ public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, UU
 """)
     List<UserGroup> findByUserIdWithGroup(UUID userId);
 
+    long countByTenantId(UUID tenantId);
+
     void deleteByUser_Id(UUID userId);
 }

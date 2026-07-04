@@ -80,7 +80,7 @@ public class IdentityBootstrapData {
                     String domain = text(node, "domain");
                     String action = text(node, "action");
                     return new PermissionSeed(
-                            text(node, "code", (domain + ":" + action).toLowerCase()),
+                            text(node, "code", (domain + ":" + action).toUpperCase()),
                             domain.toUpperCase(),
                             action.toUpperCase(),
                             text(node, "name", capitalize(action) + " " + capitalize(domain)),

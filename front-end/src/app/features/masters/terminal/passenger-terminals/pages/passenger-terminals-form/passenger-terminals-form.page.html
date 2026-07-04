@@ -2,8 +2,8 @@
     <app-form-section title="Passenger Terminal Details">
         <div class="grid">
             <div class="field col-12 md:col-6">
-                <label for="airportId">Airport ID</label>
-                <input id="airportId" pInputText formControlName="airportId" class="w-full" />
+                <label for="airportId">Airport</label>
+                <p-select inputId="airportId" appendTo="body" [options]="lookupOptions['airportId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="airportId" styleClass="w-full"></p-select>
                 
             </div>
 

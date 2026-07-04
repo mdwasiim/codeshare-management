@@ -2,8 +2,12 @@ package com.codeshare.airline.identity.access.authentication.controller.api;
 
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.response.CSMServiceResponse;
+import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
+import com.codeshare.airline.identity.access.assignments.repository.UserGroupRepository;
+import com.codeshare.airline.identity.access.assignments.service.RolePermissionAssignmentService;
 import com.codeshare.airline.identity.access.authentication.core.api.request.LoginRequest;
 import com.codeshare.airline.identity.access.authentication.core.api.request.OidcTokenExchangeRequest;
+import com.codeshare.airline.identity.access.authentication.core.api.response.AuthSessionResponse;
 import com.codeshare.airline.identity.access.authentication.core.api.response.LoginResponse;
 import com.codeshare.airline.identity.access.authentication.core.api.response.RefreshTokenResponse;
 import com.codeshare.airline.identity.access.authentication.core.domain.IdentityProviderConfig;
@@ -15,19 +19,24 @@ import com.codeshare.airline.identity.access.authentication.core.exception.Unsup
 import com.codeshare.airline.identity.access.authentication.core.provider.AuthenticationProvider;
 import com.codeshare.airline.identity.access.authentication.core.provider.AuthorizationRedirectCapable;
 import com.codeshare.airline.identity.access.authentication.core.provider.oidc.base.OidcStateManager;
+import com.codeshare.airline.identity.access.authentication.core.security.adapter.UserDetailsAdapter;
 import com.codeshare.airline.identity.access.authentication.core.service.core.*;
 import com.codeshare.airline.identity.access.authentication.core.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.identity.access.authentication.core.state.OidcStatePayload;
+import com.codeshare.airline.identity.access.identity.service.AuthUserService;
 import com.codeshare.airline.web.response.CSMResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @CSMResponse
@@ -42,6 +51,9 @@ public class LoginController {
     private final TokenService tokenService;
     private final AuthenticationProviderResolver authenticationProviderResolver;
     private final OidcStateManager oidcStateManager;
+    private final AuthUserService authUserService;
+    private final RolePermissionAssignmentService rolePermissionAssignmentService;
+    private final UserGroupRepository userGroupRepository;
 
     // -------------------------------------------------
     // LOGIN
@@ -70,14 +82,42 @@ public class LoginController {
                 .username(authResult.getUsername())
                 .email(authResult.getEmail())
                 .tenantCode(authResult.getTenantCode())
+                .tenantId(authResult.getTenantId().toString())
                 .groups(authResult.getUserGroups())
                 .roles(authResult.getRoles())
-                .permissions(authResult.getPermissions())
                 .accessToken(tokens.getAccessToken())
                 .refreshToken(tokens.getRefreshToken())
                 .expiresIn(tokenService.getAccessTokenTtl())
                 .build();
 
+    }
+
+    @GetMapping("/session")
+    public AuthSessionResponse session(@AuthenticationPrincipal Jwt jwt) {
+        if (jwt == null || !StringUtils.hasText(jwt.getSubject())) {
+            throw new AuthenticationFailedException("Invalid session");
+        }
+
+        UserDetailsAdapter user = authUserService.getAuthUserByUsername(jwt.getSubject());
+        if (user == null || !user.isEnabled()) {
+            throw new AuthenticationFailedException("User session is no longer active");
+        }
+
+        Set<String> groups = userGroupRepository.findByUserIdWithGroup(user.getUserId()).stream()
+                .map(UserGroup::getGroup)
+                .map(group -> group.getCode())
+                .collect(Collectors.toSet());
+
+        return AuthSessionResponse.builder()
+                .userId(user.getUserId().toString())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .tenantId(user.getTenantId().toString())
+                .tenantCode(user.getTenantCode())
+                .groups(groups)
+                .roles(rolePermissionAssignmentService.resolveRoleCodes(user.getUserId()))
+                .permissions(rolePermissionAssignmentService.resolvePermissionCodes(user.getUserId()))
+                .build();
     }
 
     // -------------------------------------------------

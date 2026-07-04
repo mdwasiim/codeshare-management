@@ -48,7 +48,8 @@ export const API_ENDPOINTS = {
     auth: {
         login: makeEndpoint('/identity/auth/login'),
         logout: makeEndpoint('/identity/auth/logout'),
-        refresh: makeEndpoint('/identity/auth/refresh')
+        refresh: makeEndpoint('/identity/auth/refresh'),
+        session: makeEndpoint('/identity/auth/session')
     },
     dashboard: {
         stats: makeEndpoint('/identity/dashboard/stats')

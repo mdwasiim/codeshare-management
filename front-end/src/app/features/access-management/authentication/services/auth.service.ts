@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, catchError, of, switchMap, tap } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
+import { AppApiService } from '@core/api/config/app-api.service';
+import { PermissionService } from '@core/security/permission.service';
+import { LayoutMenuService } from '@layout/services/layout-menu.service';
+import { AuthTenantService } from '@services/auth/auth-tenant.service';
+import { AuthTokenService } from '@services/auth/auth-token.service';
+import { AuthSessionResponse } from '@features/access-management/authentication/models/auth-session-response.model';
 import { LoginResponse } from '@features/access-management/authentication/models/login-response.model';
 import { RefreshTokenResponse } from '@features/access-management/authentication/models/refresh-token-response.model';
-import { catchError, Observable, of, tap } from 'rxjs';
-import { AuthTokenService } from '@services/auth/auth-token.service';
-import { LayoutMenuService } from '@layout/services/layout-menu.service';
-import { map } from 'rxjs/operators';
-import { switchMap } from 'rxjs';
-import { AppApiService } from '@core/api/config/app-api.service';
-import { API_ENDPOINTS } from '@core/api/config/app-api.config';
-import { PermissionService } from '@core/security/permission.service';
-import { AuthTenantService } from '@services/auth/auth-tenant.service';
-import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -26,69 +27,71 @@ export class AuthService {
     login(username: string, password: string): Observable<LoginResponse> {
         return this.apiService.post<LoginResponse>(API_ENDPOINTS.auth.login, { username, password }).pipe(
             tap((res) => {
-                // =========================
-                // STORE SESSION
-                // =========================
                 this.tokenService.setSession(res.access_token, res.refresh_token, res.expires_in);
-
-                // =========================
-                // STORE TENANT
-                // =========================
                 this.tokenService.setTenant(res.tenant_code);
-
-                // =========================
-                // RESTORE RUNTIME TENANT
-                // =========================
                 this.tenantService.setTenant(res.tenant_id, res.tenant_code);
-
-                // =========================
-                // RBAC
-                // =========================
-                this.permissionService.setPermissions(res.permissions || []);
-
-                this.permissionService.setRoles(res.roles || []);
-
-                this.permissionService.setGroups(res.groups || []);
+                this.applyAccess(res.roles || [], [], res.groups || [], res.username);
             }),
-
-            switchMap((res) =>
-                this.menuService.loadMenus().pipe(
-                    map(() => res) // ✅ return original response
-                )
-            )
+            switchMap((res) => this.loadSession().pipe(switchMap(() => this.menuService.loadMenus()), map(() => res)))
         );
     }
 
     refresh(): Observable<RefreshTokenResponse> {
-        return this.apiService.post<RefreshTokenResponse>(API_ENDPOINTS.auth.refresh, {}).pipe(
-            tap((res) => {
-                this.tokenService.setSession(res.access_token, this.tokenService.refreshToken || '', res.expires_in);
-                this.permissionService.setPermissions(this.tokenService.permissions || []);
-                this.permissionService.setRoles(this.tokenService.roles || []);
-                this.permissionService.setGroups(this.tokenService.groups || []);
+        return this.apiService
+            .post<RefreshTokenResponse>(API_ENDPOINTS.auth.refresh, {}, {
+                headers: {
+                    Authorization: `Bearer ${this.tokenService.refreshToken || ''}`
+                }
             })
-        );
+            .pipe(
+                tap((res) => {
+                    this.tokenService.setSession(res.access_token, res.refresh_token, res.expires_in);
+                }),
+                switchMap((res) => this.loadSession().pipe(map(() => res)))
+            );
     }
 
     logout(): Observable<any> {
-        return this.apiService.post<any>(API_ENDPOINTS.auth.logout, {}).pipe(
-            // ✅ Always clear session
-            tap(() => this.handleLogout()),
+        return this.apiService
+            .post<any>(API_ENDPOINTS.auth.logout, {}, {
+                headers: {
+                    Authorization: `Bearer ${this.tokenService.refreshToken || ''}`
+                }
+            })
+            .pipe(
+                tap(() => this.handleLogout()),
+                catchError(() => {
+                    this.handleLogout();
+                    return of(null);
+                })
+            );
+    }
 
-            // ✅ Even if API fails → still logout
-            catchError(() => {
-                this.handleLogout();
-                return of(null);
+    loadSession(): Observable<AuthSessionResponse> {
+        return this.apiService.get<AuthSessionResponse>(API_ENDPOINTS.auth.session).pipe(
+            tap((session) => {
+                if (session.tenant_code) {
+                    this.tokenService.setTenant(session.tenant_code);
+                }
+
+                if (session.tenant_id || session.tenant_code) {
+                    this.tenantService.setTenant(session.tenant_id || '', session.tenant_code || '');
+                }
+
+                this.applyAccess(session.roles || [], session.permissions || [], session.groups || [], session.username);
             })
         );
     }
 
-    private handleLogout() {
+    private applyAccess(roles: string[] = [], permissions: string[] = [], groups: string[] = [], username?: string | null): void {
+        this.tokenService.setUserAccess(roles, permissions, groups, username);
+        this.permissionService.setUserAccess(roles, permissions, groups);
+    }
+
+    private handleLogout(): void {
         this.tokenService.clear();
         this.permissionService.clear();
         this.menuService.clear();
-
-        // 🔥 redirect to login
         this.router.navigate(['/auth/login']);
     }
 }

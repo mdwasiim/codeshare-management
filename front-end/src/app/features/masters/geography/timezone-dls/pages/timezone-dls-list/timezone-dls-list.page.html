@@ -1,0 +1,26 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header"><div><span class="access-eyebrow">Masters / Geography</span><h1>Time Zone Offset Periods</h1><p>Daylight saving periods associated with IANA time zones.</p></div></div>
+    <app-crud-toolbar [actions]="['create','delete','export','search']" [resource]="resourceName" [hasSelection]="selectedRecords.length > 0" (create)="openCreate()" (delete)="deleteSelectedRecords()" (export)="exportCSV()" (search)="onSearch($event)"></app-crud-toolbar>
+    <p-table #dt [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" [(selection)]="selectedRecords" dataKey="id" [rowHover]="true" responsiveLayout="scroll" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '80rem' }" [globalFilterFields]="['timezoneIdentifier','timezoneId','dstStart','dstEnd','dstOffsetMinutes','recordStatus']"><ng-template pTemplate="caption"><div class="access-table-caption"><div><h2>Manage Time Zone Offset Periods</h2><p>{{ data.length || 0 }} records loaded</p></div><span class="access-count">{{ selectedRecords.length || 0 }} selected</span></div></ng-template>
+        <ng-template pTemplate="header"><tr><th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+            <th pSortableColumn="timezoneId">Time Zone<p-sortIcon field="timezoneId"></p-sortIcon></th>
+            <th pSortableColumn="dstStart">Period Start<p-sortIcon field="dstStart"></p-sortIcon></th>
+            <th pSortableColumn="dstEnd">Period End<p-sortIcon field="dstEnd"></p-sortIcon></th>
+            <th pSortableColumn="dstOffsetMinutes">Offset Minutes<p-sortIcon field="dstOffsetMinutes"></p-sortIcon></th>
+            <th pSortableColumn="effectiveFrom">Effective From<p-sortIcon field="effectiveFrom"></p-sortIcon></th>
+            <th pSortableColumn="effectiveTo">Effective To<p-sortIcon field="effectiveTo"></p-sortIcon></th>
+            <th pSortableColumn="recordStatus">Record Status<p-sortIcon field="recordStatus"></p-sortIcon></th>
+            <th class="access-actions-col">Actions</th></tr></ng-template>
+        <ng-template pTemplate="body" let-record><tr><td><p-tableCheckbox [value]="record"></p-tableCheckbox></td>
+            <td>{{ record.timezoneIdentifier || record.timezoneId || '-' }}</td>
+            <td>{{ record.dstStart || '-' }}</td>
+            <td>{{ record.dstEnd || '-' }}</td>
+            <td>{{ record.dstOffsetMinutes || '-' }}</td>
+            <td>{{ record.effectiveFrom || '-' }}</td>
+            <td>{{ record.effectiveTo || '-' }}</td>
+            <td>{{ record.recordStatus || '-' }}</td>
+            <td class="access-row-actions"><div><ng-container *appHasPermission="resourceName.toLowerCase() + ':update'"><p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(record)"></p-button></ng-container><ng-container *appHasPermission="resourceName.toLowerCase() + ':delete'"><p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteRecord(record)"></p-button></ng-container></div></td></tr></ng-template>
+        <ng-template pTemplate="emptymessage"><tr><td colspan="9" class="text-center py-6 text-gray-500"><i class="pi pi-clock text-2xl mb-2"></i><div>No time zone offset periods found</div></td></tr></ng-template>
+    </p-table>
+    <app-dialog [(visible)]="dialogVisible" [title]="selectedId ? 'Edit Time Zone Offset Period' : 'Create Time Zone Offset Period'" width="min(92vw, 760px)" [loading]="!!timezoneDlsForm?.loading" [disableSave]="!!timezoneDlsForm?.form?.invalid || !!timezoneDlsForm?.loading" (save)="timezoneDlsForm.submit()"><timezone-dls-form #timezoneDlsForm [id]="selectedId" (saved)="onSaved()"></timezone-dls-form></app-dialog>
+</div>

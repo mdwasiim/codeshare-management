@@ -15,6 +15,7 @@ public class DstRuleDTO {
     private UUID id;
 
     private UUID timezoneId;
+    private String timezoneIdentifier;
 
     private LocalDateTime dstStart;
     private LocalDateTime dstEnd;

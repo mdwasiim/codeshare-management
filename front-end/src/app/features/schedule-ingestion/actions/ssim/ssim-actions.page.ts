@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -8,6 +8,7 @@ import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { ScheduleAction, ScheduleValidationMessage } from '@features/schedule-ingestion/models/schedule-ingestion.model';
 import { SsimIngestionService } from '@features/schedule-ingestion/api/ssim-ingestion.service';
+import { MasterLookupOption, MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 @Component({
     selector: 'ssim-actions',
@@ -16,8 +17,9 @@ import { SsimIngestionService } from '@features/schedule-ingestion/api/ssim-inge
     templateUrl: './ssim-actions.page.html',
     styleUrls: ['./ssim-actions.page.scss']
 })
-export class SsimActionsPage {
+export class SsimActionsPage implements OnInit {
     private service = inject(SsimIngestionService);
+    private lookupService = inject(MasterReferenceLookupService);
 
     readonly actions: { label: string; value: ScheduleAction }[] = [
         { label: 'Validate', value: 'validate' },
@@ -31,6 +33,13 @@ export class SsimActionsPage {
     queueFile: File | null = null;
     result: Record<string, unknown> | null = null;
     loading = false;
+    airlineOptions: MasterLookupOption[] = [];
+
+    ngOnInit(): void {
+        this.lookupService.getOptions('airlineCode').subscribe((options) => {
+            this.airlineOptions = options;
+        });
+    }
 
     get validationMessages(): ScheduleValidationMessage[] {
         if (!this.result || !('messages' in this.result)) return [];

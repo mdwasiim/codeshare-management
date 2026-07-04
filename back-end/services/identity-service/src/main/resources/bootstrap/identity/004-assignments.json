@@ -586,13 +586,13 @@
                                                       ]
                                        },
                                        {
-                                           "username":  "ops.manager",
+                        "username":  "manager",
                                            "groups":  [
                                                           "OPERATIONS_TEAM"
                                                       ]
                                        },
                                        {
-                                           "username":  "master.admin",
+                        "username":  "master",
                                            "groups":  [
                                                           "MASTER_DATA_TEAM"
                                                       ]
@@ -684,6 +684,7 @@
                                                          "M_GEO_CITIES",
                                                          "M_GEO_AIRPORTS",
                                                          "M_GEO_TIMEZONES",
+                                                         "M_GEO_TIMEZONE_DLS",
                                                          "M_AIRLINE_CARRIERS",
                                                          "M_AIRLINE_ALIASES",
                                                          "M_AIRLINE_CONTACTS",
@@ -727,8 +728,7 @@
                                                          "M_MSG_STANDARD_MESSAGE_IDENTIFIERS",
                                                          "M_TERMINAL_AIRPORT_TERMINALS",
                                                          "M_TERMINAL_PASSENGER_TERMINALS",
-                                                         "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS",
-                                                         "M_TERMINAL_UTC_OFFSETS"
+                                                         "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS"
                                                      ]
                                        },
                                        {
@@ -749,6 +749,7 @@
                                                          "M_GEO_CITIES",
                                                          "M_GEO_AIRPORTS",
                                                          "M_GEO_TIMEZONES",
+                                                         "M_GEO_TIMEZONE_DLS",
                                                          "M_AIRLINE_CARRIERS",
                                                          "M_AIRLINE_ALIASES",
                                                          "M_AIRLINE_CONTACTS",
@@ -792,8 +793,7 @@
                                                          "M_MSG_STANDARD_MESSAGE_IDENTIFIERS",
                                                          "M_TERMINAL_AIRPORT_TERMINALS",
                                                          "M_TERMINAL_PASSENGER_TERMINALS",
-                                                         "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS",
-                                                         "M_TERMINAL_UTC_OFFSETS"
+                                                         "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS"
                                                      ]
                                        },
                                        {

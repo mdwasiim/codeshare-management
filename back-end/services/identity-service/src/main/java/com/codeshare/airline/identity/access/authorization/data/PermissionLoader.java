@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.UUID;
 
 @Slf4j
@@ -30,11 +32,13 @@ public class PermissionLoader {
         Tenant tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
 
-        Set<String> existingKeys = permissionRepository.findPermissionKeysByTenantId(tenantId);
+        Set<String> existingKeys = permissionRepository.findPermissionKeysByTenantId(tenantId).stream()
+                .map(PermissionLoader::normalize)
+                .collect(Collectors.toSet());
         List<Permission> toSave = new ArrayList<>();
 
         for (PermissionSeed seed : bootstrapData.permissions()) {
-            String key = seed.domain() + ":" + seed.action();
+            String key = normalize(seed.domain() + ":" + seed.action());
             if (existingKeys.contains(key)) {
                 continue;
             }
@@ -62,5 +66,9 @@ public class PermissionLoader {
         long actual = permissionRepository.countByTenantId(tenantId);
         long expected = bootstrapData.permissions().size();
         return actual >= expected;
+    }
+
+    private static String normalize(String value) {
+        return value == null ? "" : value.trim().toUpperCase(Locale.ROOT);
     }
 }

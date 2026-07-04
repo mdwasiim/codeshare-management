@@ -7,6 +7,7 @@ export const MASTERS_ROUTES: Routes = [
     { path: 'geography/cities', loadChildren: () => import('@features/masters/geography/cities/cities.routes').then((m) => m.CITY_ROUTES) },
     { path: 'geography/airports', loadChildren: () => import('@features/masters/geography/airports/airports.routes').then((m) => m.AIRPORT_ROUTES) },
     { path: 'geography/timezones', loadChildren: () => import('@features/masters/geography/timezones/timezones.routes').then((m) => m.TIMEZONE_ROUTES) },
+    { path: 'geography/timezone-dls', loadChildren: () => import('@features/masters/geography/timezone-dls/timezone-dls.routes').then((m) => m.TIMEZONE_DLS_ROUTES) },
     { path: 'airlines/airline-carriers', loadChildren: () => import('@features/masters/airlines/airline-carriers/airline-carriers.routes').then((m) => m.AIRLINECARRIER_ROUTES) },
     { path: 'airlines/airline-aliases', loadChildren: () => import('@features/masters/airlines/airline-aliases/airline-aliases.routes').then((m) => m.AIRLINEALIAS_ROUTES) },
     { path: 'airlines/airline-contacts', loadChildren: () => import('@features/masters/airlines/airline-contacts/airline-contacts.routes').then((m) => m.AIRLINECONTACT_ROUTES) },
@@ -52,5 +53,4 @@ export const MASTERS_ROUTES: Routes = [
     { path: 'terminal/airport-terminals', loadChildren: () => import('@features/masters/terminal/airport-terminals/airport-terminals.routes').then((m) => m.AIRPORTTERMINAL_ROUTES) },
     { path: 'terminal/passenger-terminals', loadChildren: () => import('@features/masters/terminal/passenger-terminals/passenger-terminals.routes').then((m) => m.PASSENGERTERMINAL_ROUTES) },
     { path: 'terminal/traffic-conference-areas', loadChildren: () => import('@features/masters/terminal/traffic-conference-areas/traffic-conference-areas.routes').then((m) => m.TRAFFICCONFERENCEAREA_ROUTES) },
-    { path: 'terminal/utc-offsets', loadChildren: () => import('@features/masters/terminal/utc-offsets/utc-offsets.routes').then((m) => m.UTCOFFSET_ROUTES) },
 ];

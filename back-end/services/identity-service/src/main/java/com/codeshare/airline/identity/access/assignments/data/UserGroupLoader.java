@@ -90,7 +90,7 @@ public class UserGroupLoader {
                                Group group,
                                Set<String> existingMappings,
                                List<UserGroup> toSave) {
-        String key = user.getUsername() + ":" + group.getCode();
+        String key = user.getId() + ":" + group.getId();
         if (existingMappings.contains(key)) {
             return;
         }
@@ -104,7 +104,10 @@ public class UserGroupLoader {
     }
 
     public boolean isLoaded(UUID tenantId) {
-        long actual = userGroupRepository.count();
-        return actual >= bootstrapData.userGroups().size();
+        long actual = userGroupRepository.countByTenantId(tenantId);
+        long expected = bootstrapData.userGroups().values().stream()
+                .mapToLong(List::size)
+                .sum();
+        return actual >= expected;
     }
 }

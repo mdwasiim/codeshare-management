@@ -30,6 +30,7 @@ export class AirportFormPage extends BaseCrudForm<Airport> {
             airportName: ['', [Validators.required]],
             cityId: [''],
             countryId: [''],
+            timezoneId: ['', [Validators.required]],
             recordStatus: [''],
             effectiveFrom: [''],
             effectiveTo: [''],

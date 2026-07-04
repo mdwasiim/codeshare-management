@@ -12,5 +12,6 @@ public interface DstRuleMapper
         extends CSMGenericMapper<TimezoneDLS, DstRuleDTO> {
 
     @Mapping(source = "timezone.id", target = "timezoneId")
+    @Mapping(source = "timezone.tzIdentifier", target = "timezoneIdentifier")
     DstRuleDTO toDTO(TimezoneDLS entity);
 }

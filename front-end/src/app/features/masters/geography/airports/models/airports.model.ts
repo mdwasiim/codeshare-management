@@ -7,6 +7,7 @@ export interface Airport extends AuditableModel {
     airportName?: string;
     cityId?: string;
     countryId?: string;
+    timezoneId?: string;
     recordStatus?: string;
     effectiveFrom?: string;
     effectiveTo?: string;

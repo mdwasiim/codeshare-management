@@ -21,7 +21,6 @@ public class TimezoneDTO {
     private String zoneId;
     private String utcOffset;
     private Boolean isDstSupported;
-    private UUID dstRuleId;
     private RecordStatus recordStatus;
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;

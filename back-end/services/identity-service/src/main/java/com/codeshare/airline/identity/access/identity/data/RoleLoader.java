@@ -38,6 +38,7 @@ public class RoleLoader {
                 continue;
             }
 
+            existingCodes.add(seed.code());
             rolesToSave.add(Role.builder()
                     .tenant(tenant)
                     .code(seed.code())

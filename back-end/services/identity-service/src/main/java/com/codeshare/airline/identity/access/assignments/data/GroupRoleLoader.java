@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -45,6 +46,7 @@ public class GroupRoleLoader {
         Map<String, Role> roleByCode = new HashMap<>();
         roles.forEach(role -> roleByCode.put(role.getCode(), role));
 
+        Set<String> existingMappings = groupRoleRepository.findMappings(tenant);
         List<GroupRole> toSave = new ArrayList<>();
         bootstrapData.groupRoles().forEach((groupCode, roleCodes) -> {
             Group group = groupByCode.get(groupCode);
@@ -60,10 +62,12 @@ public class GroupRoleLoader {
                     continue;
                 }
 
-                if (groupRoleRepository.existsByTenantAndGroupAndRole(tenant, group, role)) {
+                String key = group.getCode() + ":" + role.getCode();
+                if (existingMappings.contains(key)) {
                     continue;
                 }
 
+                existingMappings.add(key);
                 toSave.add(GroupRole.builder()
                         .tenant(tenant)
                         .group(group)

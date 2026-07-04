@@ -20,8 +20,8 @@
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="regionId">Region ID</label>
-                <input id="regionId" pInputText formControlName="regionId" class="w-full" />
+                <label for="regionId">Region</label>
+                <p-select inputId="regionId" appendTo="body" [options]="lookupOptions['regionId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="regionId" styleClass="w-full"></p-select>
                 
             </div>
 

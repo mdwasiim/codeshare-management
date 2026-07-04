@@ -38,6 +38,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
 
+    private static final Comparator<Menu> MENU_ORDER =
+            Comparator.comparing(Menu::getDisplayOrder, Comparator.nullsLast(Integer::compareTo))
+                    .thenComparing(Menu::getCode, Comparator.nullsLast(String::compareTo));
+
     private final UserContextService userContextService;
     private final MenuRepository repository;
     private final GroupMenuRepository groupMenuRepository;
@@ -156,7 +160,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(readOnly = true)
     public List<MenuDTO> getRootMenus() {
         Tenant tenantByTenantCode = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
-        return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNull(tenantByTenantCode.getId()));
+        return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNullOrderByDisplayOrderAscCodeAsc(tenantByTenantCode.getId()));
     }
 
     @Override
@@ -164,9 +168,9 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuDTO> getAllForManagement() {
         TenantContext ctx = TenantContextHolder.getTenant();
 
-        return repository.findByTenant_TenantCode(ctx.getTenantCode())
+        return repository.findByTenant_TenantCodeOrderByDisplayOrderAscCodeAsc(ctx.getTenantCode())
                 .stream()
-                .sorted(Comparator.comparing(Menu::getDisplayOrder, Comparator.nullsLast(Integer::compareTo)))
+                .sorted(MENU_ORDER)
                 .map(this::toDtoWithGroups)
                 .toList();
     }
@@ -222,8 +226,7 @@ public class MenuServiceImpl implements MenuService {
 
         // ✅ RETURN FLAT LIST
         return allowedSet.stream()
-                .sorted(Comparator.comparing(Menu::getDisplayOrder,
-                        Comparator.nullsLast(Integer::compareTo)))
+                .sorted(MENU_ORDER)
                 .map(mapper::toDTO)
                 .toList();
     }

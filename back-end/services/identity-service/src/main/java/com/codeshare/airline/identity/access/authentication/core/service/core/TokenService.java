@@ -129,9 +129,8 @@ public class TokenService {
                 .claim("tenant_id", auth.getTenantId())
                 .claim("tenant_code", auth.getTenantCode())
                 .claim("roles", auth.getRoles())
-                .claim("permissions", auth.getPermissions())
-                .claim("auth_source", auth.getAuthSource().name()) //  FIX
-                .claim("type", "access")                            //  FIX
+                .claim("auth_source", auth.getAuthSource().name())
+                .claim("type", "access")
                 .build();
 
         return jwtEncoder

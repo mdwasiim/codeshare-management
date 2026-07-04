@@ -16,12 +16,18 @@ public interface MenuRepository extends CSMDataBaseRepository<Menu, UUID> {
 
     List<Menu> findByTenantIdAndParentMenuIsNull(UUID tenantId);
 
+    List<Menu> findByTenant_TenantCodeOrderByDisplayOrderAscCodeAsc(String tenantCode);
+
+    List<Menu> findByTenantIdAndParentMenuIsNullOrderByDisplayOrderAscCodeAsc(UUID tenantId);
+
     boolean existsByTenant(Tenant tenant);
 
     @Query("select m.code from Menu m where m.tenant = :tenant")
     Set<String> findCodesByTenant(@Param("tenant") Tenant tenant);
 
     List<Menu> findByTenant(Tenant tenant);
+
+    List<Menu> findByTenantOrderByDisplayOrderAscCodeAsc(Tenant tenant);
 
     long countByTenantId(UUID tenantId);
 

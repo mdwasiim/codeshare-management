@@ -2,8 +2,8 @@
     <app-form-section title="Configuration Revision Details">
         <div class="grid">
             <div class="field col-12 md:col-6">
-                <label for="configurationId" class="required">Configuration ID</label>
-                <input id="configurationId" pInputText formControlName="configurationId" class="w-full" />
+                <label for="configurationId" class="required">Configuration</label>
+                <p-select inputId="configurationId" appendTo="body" [options]="lookupOptions['configurationId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="configurationId" styleClass="w-full"></p-select>
                 <small class="p-error" *ngIf="form.controls['configurationId'].hasError('required') && form.controls['configurationId'].touched">Configuration ID is required.</small>
             </div>
 

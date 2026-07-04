@@ -1,0 +1,45 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Time Zone Offset Period Details">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="timezoneId" class="required">Time Zone</label>
+                <p-select inputId="timezoneId" appendTo="body" [options]="lookupOptions['timezoneId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="timezoneId" styleClass="w-full"></p-select>
+                <small class="p-error" *ngIf="form.controls['timezoneId'].hasError('required') && form.controls['timezoneId'].touched">Time Zone is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="dstOffsetMinutes" class="required">Offset Minutes</label>
+                <p-inputNumber inputId="dstOffsetMinutes" formControlName="dstOffsetMinutes" [min]="1" styleClass="w-full"></p-inputNumber>
+                <small class="p-error" *ngIf="form.controls['dstOffsetMinutes'].invalid && form.controls['dstOffsetMinutes'].touched">Offset must be greater than zero.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="dstStart" class="required">Period Start</label>
+                <input id="dstStart" pInputText type="datetime-local" formControlName="dstStart" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['dstStart'].hasError('required') && form.controls['dstStart'].touched">Period Start is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="dstEnd" class="required">Period End</label>
+                <input id="dstEnd" pInputText type="datetime-local" formControlName="dstEnd" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['dstEnd'].hasError('required') && form.controls['dstEnd'].touched">Period End is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveFrom" class="required">Effective From</label>
+                <input id="effectiveFrom" pInputText type="datetime-local" formControlName="effectiveFrom" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['effectiveFrom'].hasError('required') && form.controls['effectiveFrom'].touched">Effective From is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveTo">Effective To</label>
+                <input id="effectiveTo" pInputText type="datetime-local" formControlName="effectiveTo" class="w-full" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" formControlName="recordStatus" styleClass="w-full"></p-select>
+            </div>
+        </div>
+    </app-form-section>
+</form>

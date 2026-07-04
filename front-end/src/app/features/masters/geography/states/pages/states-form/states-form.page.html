@@ -38,8 +38,8 @@
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="countryId">Country ID</label>
-                <input id="countryId" pInputText formControlName="countryId" class="w-full" />
+                <label for="countryId">Country</label>
+                <p-select inputId="countryId" appendTo="body" [options]="lookupOptions['countryId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="countryId" styleClass="w-full"></p-select>
                 
             </div>
         </div>

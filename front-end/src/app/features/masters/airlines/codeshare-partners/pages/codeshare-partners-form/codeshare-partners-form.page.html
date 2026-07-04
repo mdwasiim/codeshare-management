@@ -2,14 +2,14 @@
     <app-form-section title="Codeshare Partner Details">
         <div class="grid">
             <div class="field col-12 md:col-6">
-                <label for="homeAirlineId" class="required">Home Airline ID</label>
-                <input id="homeAirlineId" pInputText formControlName="homeAirlineId" class="w-full" />
+                <label for="homeAirlineId" class="required">Home Airline</label>
+                <p-select inputId="homeAirlineId" appendTo="body" [options]="lookupOptions['homeAirlineId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="homeAirlineId" styleClass="w-full"></p-select>
                 <small class="p-error" *ngIf="form.controls['homeAirlineId'].hasError('required') && form.controls['homeAirlineId'].touched">Home Airline ID is required.</small>
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="partnerAirlineId" class="required">Partner Airline ID</label>
-                <input id="partnerAirlineId" pInputText formControlName="partnerAirlineId" class="w-full" />
+                <label for="partnerAirlineId" class="required">Partner Airline</label>
+                <p-select inputId="partnerAirlineId" appendTo="body" [options]="lookupOptions['partnerAirlineId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="partnerAirlineId" styleClass="w-full"></p-select>
                 <small class="p-error" *ngIf="form.controls['partnerAirlineId'].hasError('required') && form.controls['partnerAirlineId'].touched">Partner Airline ID is required.</small>
             </div>
 

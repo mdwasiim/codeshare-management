@@ -1,7 +1,8 @@
-import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MasterLookupOption, MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 @Directive()
 export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
@@ -14,9 +15,12 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
     form!: FormGroup;
     isEdit = false;
     loading = false;
+    lookupOptions: Record<string, MasterLookupOption[]> = {};
 
     private initialized = false;
+    private lookupsLoaded = false;
     private readonly destroy$ = new Subject<void>();
+    private readonly masterLookup = inject(MasterReferenceLookupService);
 
     abstract buildForm(): void;
     abstract patchForm(data: T): void;
@@ -43,6 +47,7 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
         if (!this.initialized) {
             this.buildForm();
             this.initialized = true;
+            this.loadLookupOptions();
         }
 
         this.loading = false;
@@ -109,5 +114,23 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
 
     protected onError(err: unknown): void {
         console.error(err);
+    }
+
+    private loadLookupOptions(): void {
+        if (this.lookupsLoaded || !this.form) {
+            return;
+        }
+
+        this.lookupsLoaded = true;
+        Object.keys(this.form.controls).forEach((fieldName) => {
+            this.masterLookup
+                .getOptions(fieldName)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe((options) => {
+                    if (options.length) {
+                        this.lookupOptions[fieldName] = options;
+                    }
+                });
+        });
     }
 }

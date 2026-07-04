@@ -20,15 +20,21 @@
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="cityId">City ID</label>
-                <input id="cityId" pInputText formControlName="cityId" class="w-full" />
+                <label for="cityId">City</label>
+                <p-select inputId="cityId" appendTo="body" [options]="lookupOptions['cityId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="cityId" styleClass="w-full"></p-select>
                 
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="countryId">Country ID</label>
-                <input id="countryId" pInputText formControlName="countryId" class="w-full" />
+                <label for="countryId">Country</label>
+                <p-select inputId="countryId" appendTo="body" [options]="lookupOptions['countryId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="countryId" styleClass="w-full"></p-select>
                 
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="timezoneId" class="required">Time Zone</label>
+                <p-select inputId="timezoneId" appendTo="body" [options]="lookupOptions['timezoneId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="timezoneId" styleClass="w-full"></p-select>
+                <small class="p-error" *ngIf="form.controls['timezoneId'].hasError('required') && form.controls['timezoneId'].touched">Time Zone is required.</small>
             </div>
 
             <div class="field col-12 md:col-6">

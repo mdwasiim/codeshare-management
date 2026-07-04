@@ -58,6 +58,16 @@ export class AuthTokenService {
         localStorage.setItem('X-Tenant-Id', tenant);
     }
 
+    setUserAccess(roles: string[] = [], permissions: string[] = [], groups: string[] = [], username?: string | null): void {
+        localStorage.setItem('X-Roles', JSON.stringify(roles));
+        localStorage.setItem('X-Permissions', JSON.stringify(permissions));
+        localStorage.setItem('X-Groups', JSON.stringify(groups));
+
+        if (username) {
+            localStorage.setItem('X-Username', username);
+        }
+    }
+
     /**
      * Clears all authentication-related data from storage.
      * Typically used during logout.
@@ -67,6 +77,10 @@ export class AuthTokenService {
         localStorage.removeItem('X-Refresh-Token');
         localStorage.removeItem('X-Expires-At');
         localStorage.removeItem('X-Tenant-Id');
+        localStorage.removeItem('X-Roles');
+        localStorage.removeItem('X-Permissions');
+        localStorage.removeItem('X-Groups');
+        localStorage.removeItem('X-Username');
     }
 
     /**
@@ -113,19 +127,20 @@ export class AuthTokenService {
     }
 
     get groups(): string[] {
-        return this.decodedToken?.groups || [];
+        return this.readStringArray('X-Groups');
     }
 
     get roles(): string[] {
-        return this.decodedToken?.roles || [];
+        const storedRoles = this.readStringArray('X-Roles');
+        return storedRoles.length ? storedRoles : this.decodedToken?.roles || [];
     }
 
     get permissions(): string[] {
-        return this.decodedToken?.permissions || [];
+        return this.readStringArray('X-Permissions');
     }
 
     get username(): string | null {
-        return this.decodedToken?.username || null;
+        return localStorage.getItem('X-Username') || this.decodedToken?.sub || null;
     }
 
     get isExpiredSoon(): boolean {
@@ -134,5 +149,17 @@ export class AuthTokenService {
 
         const buffer = 60 * 1000; // 1 min
         return Date.now() >= Number(expiresAt) - buffer;
+    }
+
+    private readStringArray(key: string): string[] {
+        const raw = localStorage.getItem(key);
+        if (!raw) return [];
+
+        try {
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed.filter((value) => typeof value === 'string') : [];
+        } catch {
+            return [];
+        }
     }
 }

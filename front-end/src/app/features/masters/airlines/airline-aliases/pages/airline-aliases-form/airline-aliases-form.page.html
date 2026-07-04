@@ -44,8 +44,8 @@
             </div>
 
             <div class="field col-12 md:col-6">
-                <label for="airlineId">Airline ID</label>
-                <input id="airlineId" pInputText formControlName="airlineId" class="w-full" />
+                <label for="airlineId">Airline</label>
+                <p-select inputId="airlineId" appendTo="body" [options]="lookupOptions['airlineId'] || []" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true" formControlName="airlineId" styleClass="w-full"></p-select>
                 
             </div>
         </div>

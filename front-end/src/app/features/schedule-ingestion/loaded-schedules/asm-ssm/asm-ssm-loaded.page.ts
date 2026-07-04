@@ -18,6 +18,7 @@ import {
     ScheduleSubMessage
 } from '@features/schedule-ingestion/models/schedule-ingestion.model';
 import { AsmSsmIngestionService } from '@features/schedule-ingestion/api/asm-ssm-ingestion.service';
+import { MasterLookupOption, MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 interface Column {
     field: string;
@@ -34,10 +35,12 @@ interface Column {
 export class AsmSsmLoadedPage implements OnInit {
     private service = inject(AsmSsmIngestionService);
     private router = inject(Router);
+    private lookupService = inject(MasterReferenceLookupService);
 
     readonly messageTypes: ScheduleMessageType[] = ['ASM', 'SSM'];
     readonly statuses = ['RECEIVED', 'VALIDATED', 'PARSED', 'LOADED', 'PARTIALLY_LOADED', 'FAILED'];
     readonly sourceTypes = ['LOCAL', 'SFTP', 'EMAIL', 'MQ', 'REST', 'CLOUD'];
+    airlineOptions: MasterLookupOption[] = [];
 
     type: ScheduleMessageType = 'ASM';
     airlineCode = '';
@@ -91,6 +94,9 @@ export class AsmSsmLoadedPage implements OnInit {
     ];
 
     ngOnInit(): void {
+        this.lookupService.getOptions('airlineCode').subscribe((options) => {
+            this.airlineOptions = options;
+        });
         this.loadFiles();
     }
 

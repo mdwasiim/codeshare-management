@@ -5,7 +5,7 @@ export interface LoginResponse {
     tenant_id: string;
     tenant_code: string;
     roles: string[];
-    permissions: string[];
+    permissions?: string[];
     groups: string[];
     access_token: string;
     refresh_token: string;

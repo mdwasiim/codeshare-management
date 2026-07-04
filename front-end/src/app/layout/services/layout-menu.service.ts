@@ -106,7 +106,15 @@ export class LayoutMenuService {
             }
         });
 
-        const sortFn = (a: AppMenuModel, b: AppMenuModel) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0);
+        const sortFn = (a: AppMenuModel, b: AppMenuModel) => {
+            const orderDiff =
+                (a.displayOrder ?? Number.MAX_SAFE_INTEGER) -
+                (b.displayOrder ?? Number.MAX_SAFE_INTEGER);
+
+            if (orderDiff !== 0) return orderDiff;
+
+            return (a.code || a.label || '').localeCompare(b.code || b.label || '');
+        };
 
         const sortTree = (nodes: AppMenuModel[]) => {
             nodes.sort(sortFn);

@@ -100,15 +100,11 @@ import com.codeshare.airline.master.schedule.repository.ScheduleStatusRepository
 import com.codeshare.airline.master.schedule.repository.ScheduleTypeRepository;
 import com.codeshare.airline.master.schedule.repository.SeasonRepository;
 import com.codeshare.airline.master.terminal.entities.AirportTerminal;
-import com.codeshare.airline.master.terminal.entities.DaylightSavingRule;
 import com.codeshare.airline.master.terminal.entities.PassengerTerminal;
 import com.codeshare.airline.master.terminal.entities.TrafficConferenceArea;
-import com.codeshare.airline.master.terminal.entities.UtcOffset;
 import com.codeshare.airline.master.terminal.repository.AirportTerminalRepository;
-import com.codeshare.airline.master.terminal.repository.DaylightSavingRuleRepository;
 import com.codeshare.airline.master.terminal.repository.PassengerTerminalRepository;
 import com.codeshare.airline.master.terminal.repository.TrafficConferenceAreaRepository;
-import com.codeshare.airline.master.terminal.repository.UtcOffsetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -160,13 +156,11 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
     private final ReservationBookingModifierRepository reservationBookingModifierRepository;
     private final SecureFlightIndicatorRepository secureFlightIndicatorRepository;
     private final TrafficConferenceAreaRepository trafficConferenceAreaRepository;
-    private final UtcOffsetRepository utcOffsetRepository;
     private final AirportRepository airportRepository;
     private final TimezoneRepository timezoneRepository;
     private final DstRuleRepository dstRuleRepository;
     private final AirportTerminalRepository airportTerminalRepository;
     private final PassengerTerminalRepository passengerTerminalRepository;
-    private final DaylightSavingRuleRepository daylightSavingRuleRepository;
     private final AirlineCarrierRepository airlineCarrierRepository;
     private final AirlineAliasRepository airlineAliasRepository;
     private final AirlineBusinessRoleRepository airlineBusinessRoleRepository;
@@ -245,10 +239,8 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
             case "traffic-restrictions" -> trafficRestriction(text(item, "code"), text(item, "name"), text(item, "category"), text(item, "description"), integer(item, "displayOrder"));
             case "traffic-restriction-qualifiers" -> trafficQualifier(text(item, "restrictionCode"), text(item, "code"), text(item, "name"), text(item, "description"), integer(item, "displayOrder"));
             case "traffic-conference-areas" -> trafficConferenceArea(text(item, "code"), text(item, "name"), text(item, "iataCode"), text(item, "description"));
-            case "utc-offsets" -> utcOffset(text(item, "code"), text(item, "value"), integer(item, "minutes"), text(item, "description"));
             case "airport-terminals" -> airportTerminal(text(item, "airport"), text(item, "code"), text(item, "name"), text(item, "iataCode"), text(item, "description"));
             case "passenger-terminals" -> passengerTerminal(text(item, "airport"), text(item, "code"), text(item, "name"), text(item, "terminalType"), bool(item, "international"));
-            case "daylight-saving-rules" -> daylightSavingRule(text(item, "timezone"), text(item, "code"), text(item, "name"), integer(item, "offsetMinutes"), text(item, "startRule"), text(item, "endRule"), text(item, "description"));
             case "timezone-dst-periods" -> timezoneDst(text(item, "timezone"), dateTime(item, "dstStart"), dateTime(item, "dstEnd"), integer(item, "offsetMinutes"), dateTime(item, "effectiveFrom"), dateTime(item, "effectiveTo"));
             case "alliances" -> alliance(text(item, "code"), text(item, "name"), text(item, "iataCode"), text(item, "website"), date(item, "foundedDate"), integer(item, "displayOrder"));
             case "airline-aliases" -> airlineAlias(text(item, "airline"), text(item, "code"), text(item, "name"), enumValue(AirlineAliasType.class, item, "aliasType"), integer(item, "displayOrder"));
@@ -602,16 +594,6 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
         trafficConferenceAreaRepository.save(item);
     }
 
-    private void utcOffset(String code, String value, int minutes, String description) {
-        if (utcOffsetRepository.existsByOffsetCode(code)) return;
-        UtcOffset item = new UtcOffset();
-        item.setOffsetCode(code);
-        item.setOffsetValue(value);
-        item.setOffsetMinutes(minutes);
-        base(item, description);
-        utcOffsetRepository.save(item);
-    }
-
     private void airportTerminal(String airportCode, String code, String name, String iataCode, String description) {
         if (airportTerminalRepository.existsByTerminalCode(code)) return;
         var airport = airportRepository.findByIataCode(airportCode);
@@ -645,32 +627,6 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
         item.setInternationalFlag(international);
         item.setStatus(RecordStatus.ACTIVE);
         passengerTerminalRepository.save(item);
-    }
-
-    private void daylightSavingRule(String timezoneId,
-                                    String code,
-                                    String name,
-                                    int offsetMinutes,
-                                    String startRule,
-                                    String endRule,
-                                    String description) {
-        if (daylightSavingRuleRepository.existsByRuleCode(code)) return;
-        var timezone = timezoneRepository.findByTzIdentifier(timezoneId);
-        if (timezone.isEmpty()) {
-            return;
-        }
-
-        DaylightSavingRule item = new DaylightSavingRule();
-        item.setTimezone(timezone.get());
-        item.setRuleCode(code);
-        item.setRuleName(name);
-        item.setDstOffsetMinutes(offsetMinutes);
-        item.setStartRule(startRule);
-        item.setEndRule(endRule);
-        item.setDescription(description);
-        item.setRecordStatus(RecordStatus.ACTIVE);
-        item.setEffectiveFrom(EFFECTIVE_FROM);
-        daylightSavingRuleRepository.save(item);
     }
 
     private void timezoneDst(String timezoneId,
@@ -940,7 +896,6 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
     private void base(MessageStatus item, String description) { item.setDescription(description); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
     private void base(RejectReason item, String description) { item.setDescription(description); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
     private void base(TrafficConferenceArea item, String description) { item.setDescription(description); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
-    private void base(UtcOffset item, String description) { item.setDescription(description); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
 
     private void active(ServiceType item, String description, int order) { item.setDescription(description); item.setIataDefinition(description); item.setDisplayOrder(order); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
     private void active(TimeMode item, String description, int order) { item.setDescription(description); item.setDisplayOrder(order); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }

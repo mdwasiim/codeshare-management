@@ -113,6 +113,9 @@ public class MenuLoader {
 
         Set<String> existingCodes = menuRepository.findCodesByTenant(tenant);
         List<MenuDTO> menuDefinitions = loadMenuDefinitions();
+        Set<String> definitionCodes = menuDefinitions.stream()
+                .map(MenuDTO::getCode)
+                .collect(Collectors.toSet());
 
         List<Menu> toSave = new ArrayList<>();
         List<Menu> toUpdate = new ArrayList<>();
@@ -140,6 +143,7 @@ public class MenuLoader {
                     .route(dto.getRoute())
                     .permission(dto.getPermission())
                     .displayOrder(dto.getDisplayOrder())
+                    .visible(dto.getVisible() == null ? Boolean.TRUE : dto.getVisible())
                     .tenant(tenant)
                     .build();
 
@@ -161,6 +165,19 @@ public class MenuLoader {
                 child.setParentMenu(parent);
                 if (!toSave.contains(child) && !toUpdate.contains(child)) {
                     toUpdate.add(child);
+                }
+            }
+        }
+
+        for (Menu existing : allMenus.values()) {
+            if (definitionCodes.contains(existing.getCode()) || !isBootstrapManagedMenu(existing.getCode())) {
+                continue;
+            }
+
+            if (!Boolean.FALSE.equals(existing.getVisible())) {
+                existing.setVisible(Boolean.FALSE);
+                if (!toUpdate.contains(existing)) {
+                    toUpdate.add(existing);
                 }
             }
         }
@@ -206,8 +223,34 @@ public class MenuLoader {
             menu.setDisplayOrder(dto.getDisplayOrder());
             changed = true;
         }
+        Boolean visible = dto.getVisible() == null ? Boolean.TRUE : dto.getVisible();
+        if (!Objects.equals(menu.getVisible(), visible)) {
+            menu.setVisible(visible);
+            changed = true;
+        }
 
         return changed;
+    }
+
+    private boolean isBootstrapManagedMenu(String code) {
+        return code != null && (
+                code.startsWith("M_")
+                        || Set.of(
+                        "DASHBOARD",
+                        "DASHBOARD_OVERVIEW",
+                        "DASHBOARD_PRODUCT",
+                        "ACCESS_MGMT",
+                        "USERS",
+                        "GROUPS",
+                        "ROLES",
+                        "PERMISSIONS",
+                        "MENUS",
+                        "GROUP_ROLES",
+                        "ROLE_PERMISSIONS",
+                        "USER_GROUPS",
+                        "GROUP_MENUS"
+                ).contains(code)
+        );
     }
 
     public boolean isLoaded(UUID tenantId) {

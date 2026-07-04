@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -52,13 +53,13 @@ public class RolePermissionLoader {
         List<RolePermission> toSave = new ArrayList<>();
 
         Map<String, Permission> permissionByCode = new HashMap<>();
-        permissions.forEach(permission -> permissionByCode.put(permission.getCode(), permission));
+        permissions.forEach(permission -> permissionByCode.put(normalize(permission.getCode()), permission));
 
         Map<String, Role> roleByCode = new HashMap<>();
-        roles.forEach(role -> roleByCode.put(role.getCode(), role));
+        roles.forEach(role -> roleByCode.put(normalize(role.getCode()), role));
 
         bootstrapData.rolePermissions().forEach((roleCode, permissionCodes) -> {
-            Role role = roleByCode.get(roleCode);
+            Role role = roleByCode.get(normalize(roleCode));
             if (role == null) {
                 log.warn("Role [{}] not found for role-permission bootstrap", roleCode);
                 return;
@@ -70,7 +71,7 @@ public class RolePermissionLoader {
             }
 
             for (String permissionCode : permissionCodes) {
-                Permission permission = permissionByCode.get(permissionCode);
+                Permission permission = permissionByCode.get(normalize(permissionCode));
                 if (permission == null) {
                     log.warn("Permission [{}] not found for role [{}]", permissionCode, roleCode);
                     continue;
@@ -104,6 +105,10 @@ public class RolePermissionLoader {
                 .role(role)
                 .permission(permission)
                 .build());
+    }
+
+    private static String normalize(String value) {
+        return value == null ? "" : value.trim().toUpperCase(Locale.ROOT);
     }
 
     public boolean isLoaded(UUID tenantId) {

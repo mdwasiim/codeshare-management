@@ -293,7 +293,15 @@ export class MenuListPage extends BaseListComponent<MenuTreeNode> {
         });
 
         const sortTree = (nodes: MenuTreeNode[]) => {
-            nodes.sort((a, b) => (a.data.displayOrder ?? 0) - (b.data.displayOrder ?? 0));
+            nodes.sort((a, b) => {
+                const orderDiff =
+                    (a.data.displayOrder ?? Number.MAX_SAFE_INTEGER) -
+                    (b.data.displayOrder ?? Number.MAX_SAFE_INTEGER);
+
+                if (orderDiff !== 0) return orderDiff;
+
+                return (a.data.code || a.data.label || '').localeCompare(b.data.code || b.data.label || '');
+            });
             nodes.forEach((node) => sortTree(node.children));
         };
 

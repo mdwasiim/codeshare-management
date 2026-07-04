@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -9,6 +9,7 @@ import { TableModule } from 'primeng/table';
 import { TextareaModule } from 'primeng/textarea';
 import { ScheduleAction, ScheduleMessageType, ScheduleValidationMessage } from '@features/schedule-ingestion/models/schedule-ingestion.model';
 import { AsmSsmIngestionService } from '@features/schedule-ingestion/api/asm-ssm-ingestion.service';
+import { MasterLookupOption, MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 @Component({
     selector: 'asm-ssm-actions',
@@ -17,8 +18,9 @@ import { AsmSsmIngestionService } from '@features/schedule-ingestion/api/asm-ssm
     templateUrl: './asm-ssm-actions.page.html',
     styleUrls: ['./asm-ssm-actions.page.scss']
 })
-export class AsmSsmActionsPage {
+export class AsmSsmActionsPage implements OnInit {
     private service = inject(AsmSsmIngestionService);
+    private lookupService = inject(MasterReferenceLookupService);
 
     readonly messageTypes: ScheduleMessageType[] = ['ASM', 'SSM'];
     readonly actions: { label: string; value: ScheduleAction }[] = [
@@ -36,6 +38,13 @@ export class AsmSsmActionsPage {
     queueFile: File | null = null;
     result: Record<string, unknown> | null = null;
     loading = false;
+    airlineOptions: MasterLookupOption[] = [];
+
+    ngOnInit(): void {
+        this.lookupService.getOptions('airlineCode').subscribe((options) => {
+            this.airlineOptions = options;
+        });
+    }
 
     get validationMessages(): ScheduleValidationMessage[] {
         if (!this.result || !('messages' in this.result)) return [];

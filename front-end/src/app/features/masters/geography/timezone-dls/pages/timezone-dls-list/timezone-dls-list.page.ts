@@ -11,34 +11,34 @@ import { AppConfirmService } from '@services/app-confirm.service';
 import { AppToastService } from '@services/toast/app-toast.service';
 import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
-import { UtcOffset } from '@features/masters/terminal/utc-offsets/models/utc-offsets.model';
-import { UtcOffsetService } from '@features/masters/terminal/utc-offsets/services/utc-offsets.service';
-import { UtcOffsetFormPage } from '@features/masters/terminal/utc-offsets/pages/utc-offsets-form/utc-offsets-form.page';
+import { TimezoneDls } from '@features/masters/geography/timezone-dls/models/timezone-dls.model';
+import { TimezoneDlsService } from '@features/masters/geography/timezone-dls/services/timezone-dls.service';
+import { TimezoneDlsFormPage } from '@features/masters/geography/timezone-dls/pages/timezone-dls-form/timezone-dls-form.page';
 
-@Component({ selector: 'utc-offsets-list', standalone: true, imports: [CommonModule, TableModule, ButtonModule, TagModule, TooltipModule, ToolbarActionComponent, AppDialogComponent, HasPermissionDirective, UtcOffsetFormPage], templateUrl: './utc-offsets-list.page.html' })
-export class UtcOffsetListPage extends BaseListComponent<UtcOffset> {
-    protected override resourceName = 'UTCOFFSET';
-    dialogVisible = false; selectedId: string | null = null; selectedRecords: UtcOffset[] = [];
-    private service = inject(UtcOffsetService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
+@Component({ selector: 'timezone-dls-list', standalone: true, imports: [CommonModule, TableModule, ButtonModule, TagModule, TooltipModule, ToolbarActionComponent, AppDialogComponent, HasPermissionDirective, TimezoneDlsFormPage], templateUrl: './timezone-dls-list.page.html' })
+export class TimezoneDlsListPage extends BaseListComponent<TimezoneDls> {
+    protected override resourceName = 'TIMEZONE';
+    dialogVisible = false; selectedId: string | null = null; selectedRecords: TimezoneDls[] = [];
+    private service = inject(TimezoneDlsService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
     override fetch() { return this.service.getAll(); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
-    openEdit(record: UtcOffset) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
-    deleteRecord(record: UtcOffset) {
+    openEdit(record: TimezoneDls) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
+    deleteRecord(record: TimezoneDls) {
         if (!record.id) return;
         this.confirm.delete('Delete ' + this.recordLabel(record) + '?', () => {
-            this.service.delete(record.id!).subscribe({ next: () => this.refresh(), error: () => this.toast.error('Failed to delete UTC Offsets') });
+            this.service.delete(record.id!).subscribe({ next: () => this.refresh(), error: () => this.toast.error('Failed to delete Time Zone Offset Period') });
         });
     }
     deleteSelectedRecords() {
         if (!this.selectedRecords.length) return;
         this.confirm.delete('Delete ' + this.selectedRecords.length + ' selected record(s)?', () => {
             const requests = this.selectedRecords.filter((record) => !!record.id).map((record) => this.service.delete(record.id!));
-            forkJoin(requests).subscribe({ next: () => { this.selectedRecords = []; this.refresh(); }, error: () => this.toast.error('Failed to delete selected UTC Offsets') });
+            forkJoin(requests).subscribe({ next: () => { this.selectedRecords = []; this.refresh(); }, error: () => this.toast.error('Failed to delete selected Time Zone Offset Periods') });
         });
     }
     exportCSV() { this.dt.exportCSV(); }
     onSaved() { this.dialogVisible = false; this.refresh(); }
     onSearch(value: string) { this.dt.filterGlobal(value, 'contains'); }
-    recordLabel(record: UtcOffset) { return String((record as any).name || (record as any).displayName || (record as any).countryName || (record as any).legalName || (record as any).code || record.id || 'record'); }
+    recordLabel(record: TimezoneDls) { return String(record.timezoneIdentifier || record.timezoneId || record.dstStart || record.id || 'record'); }
 }

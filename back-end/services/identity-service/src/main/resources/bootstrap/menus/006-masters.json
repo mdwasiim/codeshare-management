@@ -95,6 +95,18 @@
         "displayOrder": 7,
         "visible": null
     },
+  {
+    "code": "M_GEO_REGIONS",
+    "parentCode": "M_GEOGRAPHY",
+    "label": "Regions",
+    "topbarLabel": null,
+    "sidebarLabel": null,
+    "icon": "pi pi-fw pi-map",
+    "route": "/masters/geography/regions",
+    "permission": null,
+    "displayOrder": 1,
+    "visible": null
+  },
     {
         "code": "M_GEO_COUNTRIES",
         "parentCode": "M_GEOGRAPHY",
@@ -103,18 +115,6 @@
         "sidebarLabel": null,
         "icon": "pi pi-fw pi-flag",
         "route": "/masters/geography/countries",
-        "permission": null,
-        "displayOrder": 1,
-        "visible": null
-    },
-    {
-        "code": "M_GEO_REGIONS",
-        "parentCode": "M_GEOGRAPHY",
-        "label": "Regions",
-        "topbarLabel": null,
-        "sidebarLabel": null,
-        "icon": "pi pi-fw pi-map",
-        "route": "/masters/geography/regions",
         "permission": null,
         "displayOrder": 2,
         "visible": null
@@ -165,6 +165,18 @@
         "route": "/masters/geography/timezones",
         "permission": null,
         "displayOrder": 6,
+        "visible": null
+    },
+    {
+        "code": "M_GEO_TIMEZONE_DLS",
+        "parentCode": "M_GEOGRAPHY",
+        "label": "Time Zone Offset Periods",
+        "topbarLabel": null,
+        "sidebarLabel": null,
+        "icon": "pi pi-fw pi-clock",
+        "route": "/masters/geography/timezone-dls",
+        "permission": null,
+        "displayOrder": 7,
         "visible": null
     },
     {
@@ -693,18 +705,6 @@
         "route": "/masters/terminal/traffic-conference-areas",
         "permission": null,
         "displayOrder": 3,
-        "visible": null
-    },
-    {
-        "code": "M_TERMINAL_UTC_OFFSETS",
-        "parentCode": "M_TERMINAL",
-        "label": "UTC Offsets",
-        "topbarLabel": null,
-        "sidebarLabel": null,
-        "icon": "pi pi-fw pi-clock",
-        "route": "/masters/terminal/utc-offsets",
-        "permission": null,
-        "displayOrder": 4,
         "visible": null
     }
 ]

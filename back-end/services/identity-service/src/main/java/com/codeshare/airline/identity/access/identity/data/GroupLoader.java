@@ -38,6 +38,7 @@ public class GroupLoader {
                 continue;
             }
 
+            existingCodes.add(seed.code());
             groupsToSave.add(Group.builder()
                     .tenant(tenant)
                     .code(seed.code())
