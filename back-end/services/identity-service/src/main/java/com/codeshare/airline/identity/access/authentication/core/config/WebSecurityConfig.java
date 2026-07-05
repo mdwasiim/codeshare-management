@@ -57,18 +57,17 @@ public class WebSecurityConfig {
                 // ----------------------------------
                 .authorizeHttpRequests(auth -> {log.debug("Configuring authorization rules");
 
-                    auth.requestMatchers(
-                            "/auth/login",
-                            "/auth/refresh",
-                            "/auth/logout",
-                            "/.well-known/**"
-                    ).permitAll();
+                    // Public auth endpoints from properties
+                    if (securityProperties.getPublicEndpoints() != null && securityProperties.getPublicEndpoints().getAuth() != null) {
+                        auth.requestMatchers(securityProperties.getPublicEndpoints().getAuth().toArray(new String[0])).permitAll();
+                        log.info("Public auth endpoints: {}", securityProperties.getPublicEndpoints().getAuth());
+                    }
 
-                    log.info("Public endpoints: /auth/login, /auth/refresh, /auth/logout, /.well-known/**");
-
-                    auth.requestMatchers("/actuator/health", "/actuator/info").permitAll();
-
-                    log.info("Public actuator endpoints: /actuator/health, /actuator/info");
+                    // Public actuator endpoints from properties
+                    if (securityProperties.getPublicEndpoints() != null && securityProperties.getPublicEndpoints().getActuator() != null) {
+                        auth.requestMatchers(securityProperties.getPublicEndpoints().getActuator().toArray(new String[0])).permitAll();
+                        log.info("Public actuator endpoints: {}", securityProperties.getPublicEndpoints().getActuator());
+                    }
 
                     auth.anyRequest().authenticated();
                     log.warn("All other endpoints are denied by default");

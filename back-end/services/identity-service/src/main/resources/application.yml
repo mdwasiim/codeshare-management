@@ -68,11 +68,22 @@ security:
     state:
       secret: ${OIDC_STATE_SECRET:somesecretkeyforoidcstatesomesecretkeyforoidcstate}
       ttl-seconds: ${OIDC_STATE_TTL_SECONDS:300}
+
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
     allowed-methods: ${CORS_ALLOWED_METHODS:GET,POST,PUT,DELETE,OPTIONS}
     allowed-headers: ${CORS_ALLOWED_HEADERS:Authorization,Content-Type,Accept,X-Tenant-Id}
     allow-credentials: ${CORS_ALLOW_CREDENTIALS:true}
+
+  public-endpoints:
+    auth:
+      - /auth/login
+      - /auth/refresh
+      - /auth/logout
+      - /.well-known/**
+    actuator:
+      - /actuator/health
+      - /actuator/info
 
 # ----------------------------------
 # ACTUATOR

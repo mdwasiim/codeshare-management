@@ -5,25 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application-prod.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/nginx.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/default.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/SecurityProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/SecurityProperties.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/WebSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-processing-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-processing-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/environments/environment.prod.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/environments/environment.prod.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/environments/environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-processing-service/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-processing-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-processing-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-processing-service/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

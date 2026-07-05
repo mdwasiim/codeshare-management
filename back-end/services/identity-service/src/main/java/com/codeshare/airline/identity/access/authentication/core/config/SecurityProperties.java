@@ -15,6 +15,7 @@ public class SecurityProperties {
     private Jwt jwt;
     private Oidc oidc;
     private Cors cors;
+    private PublicEndpoints publicEndpoints;
 
     @Getter @Setter
     public static class Jwt {
@@ -55,5 +56,19 @@ public class SecurityProperties {
                 "X-Tenant-Id"
         );
         private boolean allowCredentials = true;
+    }
+
+    @Getter @Setter
+    public static class PublicEndpoints {
+        private java.util.List<String> auth = java.util.List.of(
+                "/auth/login",
+                "/auth/refresh",
+                "/auth/logout",
+                "/.well-known/**"
+        );
+        private java.util.List<String> actuator = java.util.List.of(
+                "/actuator/health",
+                "/actuator/info"
+        );
     }
 }
