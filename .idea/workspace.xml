@@ -5,71 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application-prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/nginx.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nginx/default.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/csm-core/src/main/java/com/codeshare/airline/core/dto/master/georegion/DstRuleDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/csm-core/src/main/java/com/codeshare/airline/core/dto/master/georegion/DstRuleDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/csm-core/src/main/java/com/codeshare/airline/core/dto/master/georegion/TimezoneDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/csm-core/src/main/java/com/codeshare/airline/core/dto/master/georegion/TimezoneDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/data/GroupRoleLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/data/GroupRoleLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/data/RolePermissionLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/data/RolePermissionLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/data/UserGroupLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/data/UserGroupLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/repository/UserGroupRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/repository/UserGroupRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/controller/api/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/controller/api/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/api/response/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/api/response/LoginResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/service/core/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/service/core/TokenService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/data/MenuLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/data/MenuLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/data/PermissionLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/data/PermissionLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/repository/MenuRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/repository/MenuRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/service/serviceImpl/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/service/serviceImpl/MenuServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/data/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/data/DataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/data/IdentityBootstrapData.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/data/IdentityBootstrapData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/data/GroupLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/data/GroupLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/data/RoleLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/data/RoleLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/data/UserLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/data/UserLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/004-assignments.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/004-assignments.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/006-masters.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/006-masters.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/data/ReferenceMasterDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/data/ReferenceMasterDataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/geography/mappers/DstRuleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/geography/mappers/DstRuleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/geography/mappers/TimezoneMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/geography/mappers/TimezoneMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/geography/serviceImpl/TimezoneServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/geography/serviceImpl/TimezoneServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/resources/bootstrap/master-data/004-terminal.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/resources/bootstrap/master-data/004-terminal.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-token.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-token.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/models/login-response.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/models/login-response.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/services/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/pages/menu-list/menu-list.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/pages/menu-list/menu-list.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/aircraft/configuration-revisions/pages/configuration-revisions-form/configuration-revisions-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/aircraft/configuration-revisions/pages/configuration-revisions-form/configuration-revisions-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/aircraft/configurations/pages/configurations-form/configurations-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/aircraft/configurations/pages/configurations-form/configurations-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/aircraft/registrations/pages/registrations-form/registrations-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/aircraft/registrations/pages/registrations-form/registrations-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/airline-aliases/pages/airline-aliases-form/airline-aliases-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/airline-aliases/pages/airline-aliases-form/airline-aliases-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/airline-contacts/pages/airline-contacts-form/airline-contacts-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/airline-contacts/pages/airline-contacts-form/airline-contacts-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/alliance-members/pages/alliance-members-form/alliance-members-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/alliance-members/pages/alliance-members-form/alliance-members-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/codeshare-partners/pages/codeshare-partners-form/codeshare-partners-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/codeshare-partners/pages/codeshare-partners-form/codeshare-partners-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/airports/models/airports.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/airports/models/airports.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/airports/pages/airports-form/airports-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/airports/pages/airports-form/airports-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/airports/pages/airports-form/airports-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/airports/pages/airports-form/airports-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/cities/pages/cities-form/cities-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/cities/pages/cities-form/cities-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/countries/pages/countries-form/countries-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/countries/pages/countries-form/countries-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/states/pages/states-form/states-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/states/pages/states-form/states-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/timezones/pages/timezones-form/timezones-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/geography/timezones/pages/timezones-form/timezones-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/masters.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/masters.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/airport-terminals/pages/airport-terminals-form/airport-terminals-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/airport-terminals/pages/airport-terminals-form/airport-terminals-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/passenger-terminals/pages/passenger-terminals-form/passenger-terminals-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/passenger-terminals/pages/passenger-terminals-form/passenger-terminals-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/utc-offsets/models/utc-offsets.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/utc-offsets/pages/utc-offsets-form/utc-offsets-form.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/utc-offsets/pages/utc-offsets-form/utc-offsets-form.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/utc-offsets/pages/utc-offsets-list/utc-offsets-list.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/utc-offsets/pages/utc-offsets-list/utc-offsets-list.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/utc-offsets/services/utc-offsets.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/terminal/utc-offsets/utc-offsets.routes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/actions/asm-ssm/asm-ssm-actions.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/actions/asm-ssm/asm-ssm-actions.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/actions/asm-ssm/asm-ssm-actions.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/actions/asm-ssm/asm-ssm-actions.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/actions/ssim/ssim-actions.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/actions/ssim/ssim-actions.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/actions/ssim/ssim-actions.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/actions/ssim/ssim-actions.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/loaded-schedules/asm-ssm/asm-ssm-loaded.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/loaded-schedules/asm-ssm/asm-ssm-loaded.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/loaded-schedules/asm-ssm/asm-ssm-loaded.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/loaded-schedules/asm-ssm/asm-ssm-loaded.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/loaded-schedules/ssim/ssim-loaded.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/loaded-schedules/ssim/ssim-loaded.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/loaded-schedules/ssim/ssim-loaded.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/loaded-schedules/ssim/ssim-loaded.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/base/base-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/base/base-form.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-processing-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-processing-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/environments/environment.prod.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/environments/environment.prod.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/environments/environment.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +31,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="3092" />
+    <option name="cachedIndexableFilesCount" value="3108" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -90,8 +44,24 @@
     </option>
   </component>
   <component name="McpProjectServerCommands">
-    <commands />
-    <urls />
+    <McpServerCommand sourceId="UserConfigurationSource">
+      <option name="allowedToolsNames" />
+      <option name="enabled" value="true" />
+      <option name="name" value="" />
+      <option name="programPath" value="" />
+      <option name="arguments" value="" />
+      <option name="workingDirectory" value="" />
+      <envs />
+    </McpServerCommand>
+    <McpServerCommand sourceId="UserConfigurationSource">
+      <option name="allowedToolsNames" />
+      <option name="enabled" value="true" />
+      <option name="name" value="" />
+      <option name="programPath" value="" />
+      <option name="arguments" value="" />
+      <option name="workingDirectory" value="" />
+      <envs />
+    </McpServerCommand>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -101,35 +71,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mdwas/Projects/codeBase/codeshare-management&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\front-end\\node_modules\\prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\front-end\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "javascript.preferred.runtime.type.id": "node",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/mdwas/Projects/codeBase/codeshare-management",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\front-end\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "com.codeium.AppSettingsConfigurable",
+    "ts.external.directory.path": "C:\\Users\\mdwas\\Projects\\codeBase\\codeshare-management\\front-end\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-js-predefined-d6986cc7102b-3bd3a6803838-JavaScript-WS-261.22158.274" />
-      </set>
-    </attachedChunks>
-  </component>
+}]]></component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="" />
@@ -142,7 +108,9 @@
       <workItem from="1782845901188" duration="5246000" />
       <workItem from="1782921813041" duration="6783000" />
       <workItem from="1783008430459" duration="14460000" />
-      <workItem from="1783077818410" duration="25467000" />
+      <workItem from="1783077818410" duration="35317000" />
+      <workItem from="1783279097193" duration="1823000" />
+      <workItem from="1783281001066" duration="766000" />
     </task>
     <servers />
   </component>

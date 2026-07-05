@@ -109,10 +109,10 @@
         <!-- ===================================================== -->
 
         <!-- ENABLED: Event-driven ingestion -->
-        <dependency>
+<!--        <dependency>
             <groupId>com.codeshare.airline</groupId>
             <artifactId>platform-kafka</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.codeshare.airline</groupId>
@@ -187,5 +187,23 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>

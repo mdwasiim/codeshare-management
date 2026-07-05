@@ -203,11 +203,11 @@
                 <version>${testcontainers.version}</version>
             </dependency>
 
-            <dependency>
+<!--            <dependency>
                 <groupId>com.codeshare.airline</groupId>
                 <artifactId>platform-kafka</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency>-->
 
             <!-- Internal Modules -->
             <dependency>
