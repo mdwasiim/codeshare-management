@@ -82,7 +82,10 @@ public class WebSecurityConfig {
                 .securityMatcher(new NegatedRequestMatcher(
                         new OrRequestMatcher(
                                 new AntPathRequestMatcher("/actuator/**"),
-                                new AntPathRequestMatcher("/auth/**"),
+                                new AntPathRequestMatcher("/auth/login"),
+                                new AntPathRequestMatcher("/auth/refresh"),
+                                new AntPathRequestMatcher("/auth/logout"),
+                                new AntPathRequestMatcher("/auth/oidc/**"),
                                 new AntPathRequestMatcher("/.well-known/**")
                         )
                 ))
