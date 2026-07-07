@@ -6,50 +6,66 @@ import com.codeshare.airline.schedule.ingestion.domain.context.AsmIngestionConte
 import com.codeshare.airline.schedule.ingestion.domain.context.SsimIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsmIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ValidationStage;
+import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.SsimMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.orchestration.handler.StreamExtractorHandler;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.MessageParser;
 import com.codeshare.airline.schedule.ingestion.orchestration.processing.ProcessingStrategy;
 import com.codeshare.airline.schedule.ingestion.orchestration.processing.ProcessingStrategyFactory;
-import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
-import com.codeshare.airline.schedule.ingestion.dto.ssim.SsimMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.services.error.ErrorPersistenceService;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationMessage;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationResult;
 import com.codeshare.airline.schedule.ingestion.validation.orchestrator.BusinessValidationOrchestrator;
 import com.codeshare.airline.schedule.ingestion.validation.orchestrator.StructuralValidationOrchestrator;
 import jakarta.annotation.PreDestroy;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@Component
-@RequiredArgsConstructor
 @Slf4j
-public class GenericStreamLoader {
+public abstract class GenericStreamLoader {
+
+    private static final int MAX_PARALLEL_TASKS = 200;
 
     private final Map<MessageType, StreamExtractorHandler> extractorMap;
     private final Map<MessageType, MessageParser<?>> parserMap;
-
     private final StructuralValidationOrchestrator structuralValidationOrchestrator;
     private final BusinessValidationOrchestrator businessValidationOrchestrator;
     private final ProcessingStrategyFactory strategyFactory;
     private final ErrorPersistenceService errorService;
-
-    private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
-    private static final int MAX_PARALLEL_TASKS = 200;
+    private final ExecutorService executor =
+            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final Semaphore semaphore = new Semaphore(MAX_PARALLEL_TASKS);
+
+    protected GenericStreamLoader(Map<MessageType, StreamExtractorHandler> extractorMap,
+                                  Map<MessageType, MessageParser<?>> parserMap,
+                                  StructuralValidationOrchestrator structuralValidationOrchestrator,
+                                  BusinessValidationOrchestrator businessValidationOrchestrator,
+                                  ProcessingStrategyFactory strategyFactory,
+                                  ErrorPersistenceService errorService) {
+        this.extractorMap = extractorMap;
+        this.parserMap = parserMap;
+        this.structuralValidationOrchestrator = structuralValidationOrchestrator;
+        this.businessValidationOrchestrator = businessValidationOrchestrator;
+        this.strategyFactory = strategyFactory;
+        this.errorService = errorService;
+    }
 
     public boolean processStream(InputStream inputStream, ScheduleFileMetaDataDTO metadata, MessageType type) {
 
-        StreamExtractorHandler extractor = extractorMap.get(type);
+        if (!supports(type)) {
+            throw new IllegalStateException("Unsupported message type " + type);
+        }
 
+        StreamExtractorHandler extractor = extractorMap.get(type);
         MessageParser<?> parser = parserMap.get(type);
 
         if (extractor == null || parser == null) {
@@ -57,13 +73,10 @@ public class GenericStreamLoader {
         }
 
         AtomicBoolean hasErrors = new AtomicBoolean(false);
-
         List<CompletableFuture<Void>> futures = new CopyOnWriteArrayList<>();
-
         long start = System.currentTimeMillis();
 
         extractor.extract(inputStream, lines -> {
-
             Runnable task = () -> processSingleBlock(lines, metadata, type, parser, hasErrors);
 
             if (extractor.isParallelSafe()) {
@@ -84,37 +97,32 @@ public class GenericStreamLoader {
                 }, executor);
 
                 futures.add(future);
-
             } else {
                 task.run();
             }
         });
 
-        //  wait for all async tasks
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
         long duration = System.currentTimeMillis() - start;
-
-        log.info("📊 Stream processed | type={} | durationMs={} | hasErrors={}",
+        log.info("Stream processed | type={} | durationMs={} | hasErrors={}",
                 type, duration, hasErrors.get());
 
         return hasErrors.get();
     }
 
-    // -----------------------------------
-    // 🔥 CORE BLOCK PROCESSING
-    // -----------------------------------
     @SuppressWarnings("unchecked")
-    private void processSingleBlock( List<String> lines,ScheduleFileMetaDataDTO metadata,MessageType type,MessageParser<?> parser,AtomicBoolean hasErrors) {
+    private void processSingleBlock(List<String> lines,
+                                    ScheduleFileMetaDataDTO metadata,
+                                    MessageType type,
+                                    MessageParser<?> parser,
+                                    AtomicBoolean hasErrors) {
 
         AbstractIngestionContext<?, ?> preContext = buildContext(type, metadata, lines);
-        /* ================= 1️⃣ STRUCTURAL VALIDATION ================= */
-
         ValidationResult structural = structuralValidationOrchestrator.validate(preContext);
 
         if (structural.hasErrors()) {
             hasErrors.set(true);
-
             errorService.persist(
                     buildContext(type, metadata, lines),
                     ValidationStage.STRUCTURAL,
@@ -123,16 +131,11 @@ public class GenericStreamLoader {
             return;
         }
 
-        /* ================= 2️⃣ PARSE ================= */
-
         AbstractIngestionContext<?, ?> context;
-
         try {
             context = ((MessageParser<AbstractIngestionContext<?, ?>>) parser).parse(lines, metadata);
         } catch (Exception ex) {
-
             hasErrors.set(true);
-
             errorService.persist(
                     buildContext(type, metadata, lines),
                     ValidationStage.PARSING,
@@ -141,29 +144,18 @@ public class GenericStreamLoader {
             return;
         }
 
-        /* ================= 3️⃣ BUSINESS VALIDATION ================= */
-
         ValidationResult business = businessValidationOrchestrator.validate(context);
-
         if (business.hasErrors()) {
             hasErrors.set(true);
-
-            errorService.persist(
-                    context,
-                    ValidationStage.VALIDATION,
-                    business.getMessages()
-            );
+            errorService.persist(context, ValidationStage.VALIDATION, business.getMessages());
             return;
         }
-
-        /* ================= 4️⃣ PROCESS ================= */
 
         ProcessingStrategy<AbstractIngestionContext<?, ?>> strategy;
         try {
             strategy = strategyFactory.get(context);
         } catch (Exception ex) {
             hasErrors.set(true);
-
             errorService.persist(
                     context,
                     ValidationStage.PROCESSING,
@@ -176,7 +168,6 @@ public class GenericStreamLoader {
             strategy.process(context);
         } catch (Exception ex) {
             hasErrors.set(true);
-
             errorService.persist(
                     context,
                     ValidationStage.PROCESSING,
@@ -185,35 +176,24 @@ public class GenericStreamLoader {
         }
     }
 
-    // -----------------------------------
-    // CLEAN SHUTDOWN (ONLY HERE)
-    // -----------------------------------
     @PreDestroy
     public void shutdown() {
         log.info("Shutting down executor...");
         executor.shutdownNow();
     }
 
-    private AbstractIngestionContext<?, ?> buildContext(
-            MessageType type,
-            Object metadata,
-            List<String> lines
-    ) {
-
+    private AbstractIngestionContext<?, ?> buildContext(MessageType type, Object metadata, List<String> lines) {
         return switch (type) {
-
             case SSM -> SsmIngestionContext.builder()
                     .messageType(MessageType.SSM)
                     .metadata((ScheduleFileMetaDataDTO) metadata)
                     .messageLines(lines)
                     .build();
-
             case ASM -> AsmIngestionContext.builder()
                     .messageType(MessageType.ASM)
                     .metadata((ScheduleFileMetaDataDTO) metadata)
                     .messageLines(lines)
                     .build();
-
             case SSIM -> {
                 if (!(metadata instanceof SsimMetaDataDTO dto)) {
                     throw new IllegalArgumentException("Invalid metadata for SSIM context: "
@@ -228,5 +208,5 @@ public class GenericStreamLoader {
         };
     }
 
-
+    protected abstract boolean supports(MessageType type);
 }

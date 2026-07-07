@@ -6,17 +6,19 @@ import com.codeshare.airline.schedule.ingestion.orchestration.pipelines.GenericI
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.services.common.ScheduleFileService;
 import com.codeshare.airline.schedule.ingestion.source.model.ScheduleSourceFile;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
 @Slf4j
-public class GenericChapterProcessor implements ScheduleChapterProcessor {
+public abstract class GenericChapterProcessor implements ScheduleChapterProcessor {
 
     private final GenericIngestionPipeline pipeline;
     private final ScheduleFileService scheduleService;
+
+    protected GenericChapterProcessor(GenericIngestionPipeline pipeline,
+                                      ScheduleFileService scheduleService) {
+        this.pipeline = pipeline;
+        this.scheduleService = scheduleService;
+    }
 
     @Override
     public ProcessingStatus process(ScheduleSourceFile scheduleSourceFile) {
@@ -27,11 +29,16 @@ public class GenericChapterProcessor implements ScheduleChapterProcessor {
             throw new IllegalStateException("MessageType missing for file=" + scheduleSourceFile.getFileName());
         }
 
+        if (!supports(type)) {
+            throw new IllegalStateException("Unsupported message type " + type);
+        }
+
         if (pipeline == null) {
             throw new IllegalStateException("No pipeline configured for type=" + type);
         }
 
-        log.info(" Starting ingestion | file={} type={} fileId={}", scheduleSourceFile.getFileName(), type, scheduleSourceFile.getFileId());
+        log.info("Starting ingestion | file={} type={} fileId={}",
+                scheduleSourceFile.getFileName(), type, scheduleSourceFile.getFileId());
 
         ScheduleFileMetaDataDTO metadata = scheduleService.createInbound(scheduleSourceFile, type);
 
@@ -56,14 +63,18 @@ public class GenericChapterProcessor implements ScheduleChapterProcessor {
                 throw new IllegalStateException("Ingestion failed for file=" + scheduleSourceFile.getFileName());
             }
 
-            log.info(" Ingestion completed | file={} type={} status={}", scheduleSourceFile.getFileName(), type, finalStatus);
+            log.info("Ingestion completed | file={} type={} status={}",
+                    scheduleSourceFile.getFileName(), type, finalStatus);
             return finalStatus;
 
         } catch (Exception ex) {
-            log.error(" Ingestion failed | file={} type={}", scheduleSourceFile.getFileName(), type, ex);
+            log.error("Ingestion failed | file={} type={}",
+                    scheduleSourceFile.getFileName(), type, ex);
             throw ex;
         }
     }
+
+    protected abstract boolean supports(MessageType type);
 
     private boolean isAlreadyProcessed(ProcessingStatus status) {
         return status == ProcessingStatus.COMPLETED || status == ProcessingStatus.SUCCESS;

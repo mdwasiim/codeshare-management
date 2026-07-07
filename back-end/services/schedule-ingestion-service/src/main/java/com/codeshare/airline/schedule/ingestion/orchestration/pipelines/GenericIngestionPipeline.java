@@ -15,25 +15,35 @@ import com.codeshare.airline.schedule.ingestion.persistence.services.error.Error
 import com.codeshare.airline.schedule.ingestion.source.model.ScheduleSourceFile;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationResult;
 import com.codeshare.airline.schedule.ingestion.validation.orchestrator.FileValidatorOrchestrator;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 
 @Slf4j
-@Component
-@RequiredArgsConstructor
-public class GenericIngestionPipeline {
+public abstract class GenericIngestionPipeline {
 
     protected final GenericStreamLoader genericStreamLoader;
     protected final ScheduleFileService scheduleService;
     protected final FileValidatorOrchestrator fileValidatorOrchestrator;
     protected final ErrorPersistenceService errorPersistenceService;
 
+    protected GenericIngestionPipeline(GenericStreamLoader genericStreamLoader,
+                                       ScheduleFileService scheduleService,
+                                       FileValidatorOrchestrator fileValidatorOrchestrator,
+                                       ErrorPersistenceService errorPersistenceService) {
+        this.genericStreamLoader = genericStreamLoader;
+        this.scheduleService = scheduleService;
+        this.fileValidatorOrchestrator = fileValidatorOrchestrator;
+        this.errorPersistenceService = errorPersistenceService;
+    }
+
     public ProcessingStatus execute(ScheduleSourceFile scheduleSourceFile, ScheduleFileMetaDataDTO metadata, MessageType type) {
 
-        log.info(" Starting ingestion | fileId={} | type={}", metadata.getId(), type);
+        if (!supports(type)) {
+            throw new IllegalStateException("Unsupported message type " + type);
+        }
+
+        log.info("Starting pipeline | fileId={} | type={}", metadata.getId(), type);
 
         try {
             // =========================
@@ -80,7 +90,7 @@ public class GenericIngestionPipeline {
         } catch (Exception ex) {
 
             updateStatus(metadata, ProcessingStatus.FAILED);
-            log.error(" Pipeline failed | fileId={} | type={}", metadata.getId(), type, ex);
+            log.error("Pipeline failed | fileId={} | type={}", metadata.getId(), type, ex);
             throw ex;
         }
     }
@@ -91,6 +101,8 @@ public class GenericIngestionPipeline {
     protected boolean processStream(InputStream is, ScheduleFileMetaDataDTO metadata, MessageType type) {
         return genericStreamLoader.processStream(is, metadata, type);
     }
+
+    protected abstract boolean supports(MessageType type);
 
     private ProcessingStatus updateStatus(ScheduleFileMetaDataDTO metadata, ProcessingStatus status) {
         if (metadata.getProcessingStatus() != status) {

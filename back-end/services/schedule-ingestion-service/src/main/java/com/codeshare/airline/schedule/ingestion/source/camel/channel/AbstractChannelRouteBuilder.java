@@ -1,5 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.channel;
 
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.source.ScheduleIngestionChannelEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
@@ -36,7 +37,7 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
                 .setHeader("SOURCE_TYPE", constant(channel.getSourceType().name()))
                 .setHeader("MESSAGE_TYPE", constant(channel.getMessageType().name()))
                 .log("Forwarding to processing route file=${header.CamelFileName}")
-                .toD("seda:${header.MESSAGE_TYPE.toLowerCase()}-processing")
+                .toD(resolveProcessingEndpoint(channel.getMessageType()))
                 .log("Routed airline=${header.AIRLINE_CODE} type=${header.MESSAGE_TYPE}");
     }
 
@@ -61,5 +62,15 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
 
     protected <T> T val(T value, T def) {
         return value != null ? value : def;
+    }
+
+    private String resolveProcessingEndpoint(MessageType messageType) {
+        if (messageType == MessageType.SSIM) {
+            return "seda:ssim-dataset-processing";
+        }
+        if (messageType == MessageType.SSM || messageType == MessageType.ASM) {
+            return "seda:schedule-message-processing";
+        }
+        throw new IllegalStateException("Unsupported message type: " + messageType);
     }
 }

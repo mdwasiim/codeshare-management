@@ -2,21 +2,14 @@ package com.codeshare.airline.schedule.ingestion.orchestration;
 
 import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
-import com.codeshare.airline.schedule.ingestion.orchestration.processor.ScheduleChapterProcessor;
 import com.codeshare.airline.schedule.ingestion.source.model.ExchangeConstants;
 import com.codeshare.airline.schedule.ingestion.source.model.ScheduleSourceFile;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
 @Slf4j
-public class ScheduleIngestionProcessor implements Processor {
-
-    private final ScheduleChapterProcessor processor;
+public abstract class ScheduleIngestionProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) {
@@ -37,6 +30,10 @@ public class ScheduleIngestionProcessor implements Processor {
             );
         }
 
+        if (!supports(type)) {
+            throw new IllegalStateException("Unsupported message type " + type);
+        }
+
         log.info("Processing started | type={} file={} checksum={} exchangeId={}",
                 type,
                 sourceFile.getFileName(),
@@ -44,7 +41,7 @@ public class ScheduleIngestionProcessor implements Processor {
                 exchange.getExchangeId());
 
         try {
-            ProcessingStatus status = processor.process(sourceFile);
+            ProcessingStatus status = processSourceFile(sourceFile);
             exchange.setProperty(ExchangeConstants.PROCESS_STATUS, status);
 
         } catch (Exception ex) {
@@ -57,4 +54,8 @@ public class ScheduleIngestionProcessor implements Processor {
             throw ex;
         }
     }
+
+    protected abstract boolean supports(MessageType type);
+
+    protected abstract ProcessingStatus processSourceFile(ScheduleSourceFile sourceFile);
 }

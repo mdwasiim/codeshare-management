@@ -1,11 +1,13 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.route;
 
-import com.codeshare.airline.schedule.ingestion.orchestration.ScheduleIngestionProcessor;
+import com.codeshare.airline.schedule.ingestion.orchestration.ScheduleMessageIngestionProcessor;
+import com.codeshare.airline.schedule.ingestion.orchestration.SsimDatasetIngestionProcessor;
 import com.codeshare.airline.schedule.ingestion.source.camel.mapper.ScheduleSourceExchangeMapper;
 import com.codeshare.airline.schedule.ingestion.source.model.ScheduleSourceFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,8 @@ import org.springframework.stereotype.Component;
 public class CoreIngestionRouteBuilder extends RouteBuilder {
 
     private final ScheduleSourceExchangeMapper exchangeMapper;
-    private final ScheduleIngestionProcessor scheduleIngestionProcessor;
+    private final ScheduleMessageIngestionProcessor scheduleMessageIngestionProcessor;
+    private final SsimDatasetIngestionProcessor ssimDatasetIngestionProcessor;
 
     @Override
     public void configure() {
@@ -36,23 +39,20 @@ public class CoreIngestionRouteBuilder extends RouteBuilder {
                 .routeId("DLQ-CORE")
                 .log(" Dead-letter triggered airline=${header.AIRLINE_CODE}");
 
-        buildRoute("seda:ssm-processing?concurrentConsumers=5&size=1000",
-                "PROCESS-SSM-CORE", "SSM");
+        buildRoute("seda:schedule-message-processing?concurrentConsumers=5&size=1000",
+                "PROCESS-SCHEDULE-MESSAGE-CORE", "SCHEDULE_MESSAGE", scheduleMessageIngestionProcessor);
 
-        buildRoute("seda:asm-processing?concurrentConsumers=2&size=1000",
-                "PROCESS-ASM-CORE", "ASM");
-
-        buildRoute("seda:ssim-processing?concurrentConsumers=2&size=1000",
-                "PROCESS-SSIM-CORE", "SSIM");
+        buildRoute("seda:ssim-dataset-processing?concurrentConsumers=2&size=1000",
+                "PROCESS-SSIM-DATASET-CORE", "SSIM_DATASET", ssimDatasetIngestionProcessor);
     }
 
-    private void buildRoute(String endpoint, String routeId, String type) {
+    private void buildRoute(String endpoint, String routeId, String type, Processor processor) {
 
         from(endpoint)
                 .routeId(routeId)
                 .log(" [${header.AIRLINE_CODE}] " + type + " PROCESSING file=${header.CamelFileName}")
                 .process(this::map)
-                .process(scheduleIngestionProcessor)
+                .process(processor)
                 .log(" [${header.AIRLINE_CODE}] " + type + " completed file=${header.CamelFileName}");
     }
 
