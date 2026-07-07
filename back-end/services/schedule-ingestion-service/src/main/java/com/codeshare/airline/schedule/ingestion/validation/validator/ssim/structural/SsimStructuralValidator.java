@@ -264,7 +264,7 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
         requireBlankOrPattern(result, "SSIM_T3_043", "Invalid Type 3 aircraft configuration/version", line, 172, 192, "[A-Z0-9 ]{20}", lineNo);
         requireOverflowReference(result, "SSIM_T3_044", "Invalid Type 3 aircraft configuration/version overflow marker", line, 172, 192, lineNo);
         if (isStrict()) {
-            requireBlankOrPattern(result, "SSIM_T3_045", "Invalid Type 3 date variation", line, 192, 194, "\\d{2}|[+-]\\d", lineNo);
+            requireBlankOrPattern(result, "SSIM_T3_045", "Invalid Type 3 date variation", line, 192, 194, "[0-9A ]{2}", lineNo);
         }
         requirePattern(result, "SSIM_T3_022", "Invalid Type 3 record serial number", line, 194, 200, "\\d{6}", lineNo);
     }

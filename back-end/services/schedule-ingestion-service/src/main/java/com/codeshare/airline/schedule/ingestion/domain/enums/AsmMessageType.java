@@ -7,6 +7,8 @@ public enum AsmMessageType {
     CNL(ActionType.DELETE),
     RIN(ActionType.REINSTATE),
     RPL(ActionType.REPLACE),
+    CON(ActionType.CONFIGURATION_CHANGE),
+    FLT(ActionType.IDENTIFIER_CHANGE),
 
     TIM(ActionType.TIME_CHANGE),          // ✅ ADD (missing!)
     RRT(ActionType.ROUTING_CHANGE),       // ✅ FIXED

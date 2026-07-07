@@ -9,6 +9,7 @@ import com.codeshare.airline.schedule.ingestion.domain.enums.TimeMode;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.*;
 import com.codeshare.airline.schedule.ingestion.persistence.mappers.schedule.ActionTypeMapper;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.shared.*;
+import com.codeshare.airline.schedule.ingestion.shared.util.ActionLineParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -123,7 +124,7 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
         message = new ScheduleSubMessageDTO();
         envelope.addMessage(message);
 
-        message.setActionType(ActionTypeMapper.fromSsm(extractFirstToken(line)));
+        message.setActionType(ActionTypeMapper.fromSsm(ActionLineParser.parseSsm(line).primaryAction()));
 
         message.setTimeMode(pendingTimeMode != null ? pendingTimeMode : TimeMode.UTC);
         pendingTimeMode = null; // ✅ FIXED
@@ -320,12 +321,6 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
 
         flight.getSupplementaryInfo().add(line);
     }
-
-    private String extractFirstToken(String line) {
-        int idx = line.indexOf(' ');
-        return idx > 0 ? line.substring(0, idx) : line;
-    }
-
     private void addFlightLevelDei(ScheduleFlightDTO flight,
                                    ScheduleDataElementDTO dei,
                                    int seq) {

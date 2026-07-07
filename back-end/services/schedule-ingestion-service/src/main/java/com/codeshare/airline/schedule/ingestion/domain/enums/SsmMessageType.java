@@ -7,6 +7,11 @@ public enum SsmMessageType {
     CHG(ActionType.UPDATE),
     CNL(ActionType.DELETE),
     RPL(ActionType.REPLACE),
+    SKD(ActionType.SCHEDULE_CHANGE),
+    REV(ActionType.REVISION),
+    RSD(ActionType.REQUEST_SCHEDULE_DATA),
+    FLT(ActionType.IDENTIFIER_CHANGE),
+    CON(ActionType.CONFIGURATION_CHANGE),
 
     EQT(ActionType.EQUIPMENT_CHANGE),
     TIM(ActionType.TIME_CHANGE),

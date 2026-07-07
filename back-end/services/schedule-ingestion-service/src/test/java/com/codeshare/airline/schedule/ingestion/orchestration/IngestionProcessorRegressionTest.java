@@ -8,6 +8,7 @@ import com.codeshare.airline.schedule.ingestion.domain.context.AsmIngestionConte
 import com.codeshare.airline.schedule.ingestion.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsimIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsmIngestionContext;
+import com.codeshare.airline.schedule.ingestion.domain.enums.ActionType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.AsmMessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
@@ -66,7 +67,17 @@ class IngestionProcessorRegressionTest {
         when(message.getBody(ScheduleSourceFile.class)).thenReturn(sourceFile);
         when(chapterProcessor.process(sourceFile)).thenReturn(ProcessingStatus.PARTIAL);
 
-        new ScheduleIngestionProcessor(chapterProcessor).process(exchange);
+        new ScheduleIngestionProcessor() {
+            @Override
+            protected boolean supports(MessageType type) {
+                return type == MessageType.SSM;
+            }
+
+            @Override
+            protected ProcessingStatus processSourceFile(ScheduleSourceFile sourceFile) {
+                return chapterProcessor.process(sourceFile);
+            }
+        }.process(exchange);
 
         verify(exchange).setProperty(ExchangeConstants.PROCESS_STATUS, ProcessingStatus.PARTIAL);
     }
@@ -289,6 +300,131 @@ class IngestionProcessorRegressionTest {
         assertThat(result.getMessages())
                 .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_060"))
                 .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_070"));
+    }
+
+    @Test
+    void asmStructuralValidationAllowsCancellationWithoutLegOrEquipment() {
+        AsmIngestionContext context = AsmIngestionContext.builder()
+                .messageType(MessageType.ASM)
+                .messageLines(List.of(
+                        "ASM",
+                        "CNL WEAT",
+                        "QR1234/12MAY"
+                ))
+                .build();
+
+        ValidationResult result = new AsmStructuralValidator().validate(context);
+
+        assertThat(result.getMessages())
+                .noneSatisfy(message -> assertThat(message.getRuleCode()).isIn("ASM_070", "ASM_080"));
+    }
+
+    @Test
+    void asmStructuralValidationRejectsUnsupportedSecondaryActionCombination() {
+        AsmIngestionContext context = AsmIngestionContext.builder()
+                .messageType(MessageType.ASM)
+                .messageLines(List.of(
+                        "ASM",
+                        "TIM/EQT WEAT",
+                        "QR1234/12MAY",
+                        "DOH LHR 0800 1400"
+                ))
+                .build();
+
+        ValidationResult result = new AsmStructuralValidator().validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("ASM_042"));
+    }
+
+    @Test
+    void asmParserRecognizesPrimaryActionWhenSecondaryActionsArePresent() {
+        AsmMessageParser parser = new AsmMessageParser();
+
+        ScheduleMessageDTO parsed = parser.parseMessage(parser.groupMessage(List.of(
+                "ASM",
+                "RPL/EQT WEAT",
+                "QR1234/12MAY",
+                "G M80 FCML .FCM",
+                "DOH LHR 0800 1400"
+        )));
+
+        assertThat(parsed.getMessages().getFirst().getActionType()).isEqualTo(ActionType.REPLACE);
+    }
+
+    @Test
+    void ssmStructuralValidationAllowsCancellationWithoutLegOrEquipment() {
+        SsmIngestionContext context = SsmIngestionContext.builder()
+                .messageType(MessageType.SSM)
+                .messageLines(List.of(
+                        "SSM",
+                        "CNL",
+                        "QR1234",
+                        "12MAY 30MAY 1234567"
+                ))
+                .build();
+
+        ValidationResult result = new SsmStructuralValidator().validate(context);
+
+        assertThat(result.getMessages())
+                .noneSatisfy(message -> assertThat(message.getRuleCode()).isIn("SSM_070", "SSM_080"));
+    }
+
+    @Test
+    void ssmStructuralValidationRejectsRsdMixedWithOtherActions() {
+        SsmIngestionContext context = SsmIngestionContext.builder()
+                .messageType(MessageType.SSM)
+                .messageLines(List.of(
+                        "SSM",
+                        "RSD",
+                        "QR1234",
+                        "//",
+                        "NEW",
+                        "QR1234",
+                        "12MAY 30MAY 1234567",
+                        "G M80 FCML .FCM",
+                        "DOH LHR 0800 1400"
+                ))
+                .build();
+
+        ValidationResult result = new SsmStructuralValidator().validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_043"));
+    }
+
+    @Test
+    void ssmStructuralValidationRequiresSkdToBeFollowedOnlyByNewForSameFlight() {
+        SsmIngestionContext context = SsmIngestionContext.builder()
+                .messageType(MessageType.SSM)
+                .messageLines(List.of(
+                        "SSM",
+                        "SKD",
+                        "QR1234",
+                        "//",
+                        "CNL",
+                        "QR9999",
+                        "12MAY 30MAY 1234567"
+                ))
+                .build();
+
+        ValidationResult result = new SsmStructuralValidator().validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_045"));
+    }
+
+    @Test
+    void ssmParserRecognizesSkdActionIdentifier() {
+        SsmMessageParser parser = new SsmMessageParser();
+
+        ScheduleMessageDTO parsed = parser.parseMessage(parser.groupMessage(List.of(
+                "SSM",
+                "SKD",
+                "QR1234"
+        )));
+
+        assertThat(parsed.getMessages().getFirst().getActionType()).isEqualTo(ActionType.SCHEDULE_CHANGE);
     }
 
     @Test

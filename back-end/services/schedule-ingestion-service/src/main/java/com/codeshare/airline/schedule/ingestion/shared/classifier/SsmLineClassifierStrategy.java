@@ -1,5 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.shared.classifier;
 
+import com.codeshare.airline.schedule.ingestion.shared.util.ActionLineParser;
 import com.codeshare.airline.schedule.ingestion.shared.util.LineClassifierUtil;
 import com.codeshare.airline.schedule.ingestion.domain.context.GenericLineClassifierContext;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ScheduleLineIdentifier;
@@ -28,7 +29,7 @@ public class SsmLineClassifierStrategy implements LineClassifierStrategy {
 
         /* ================= 3. ACTION ================= */
 
-        String token = extractFirstToken(normalized);
+        String token = ActionLineParser.parseSsm(normalized).primaryAction();
         SsmMessageType type = SsmMessageType.from(token);
 
         if (type != null && type != SsmMessageType.UNKNOWN) {
@@ -86,12 +87,5 @@ public class SsmLineClassifierStrategy implements LineClassifierStrategy {
         }
 
         return new GenericLineClassifierContext(UNKNOWN, line, normalized);
-    }
-
-    /* ================= HELPER ================= */
-
-    private String extractFirstToken(String line) {
-        int idx = line.indexOf(' ');
-        return idx > 0 ? line.substring(0, idx) : line;
     }
 }

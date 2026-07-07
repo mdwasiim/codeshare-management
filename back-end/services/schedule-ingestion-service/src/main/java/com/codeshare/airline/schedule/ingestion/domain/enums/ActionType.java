@@ -32,10 +32,15 @@ public enum ActionType {
     UPDATE,              // CHG
     DELETE,              // CNL
     REPLACE,             // RPL
+    SCHEDULE_CHANGE,     // SKD
+    REVISION,            // REV
+    REQUEST_SCHEDULE_DATA, // RSD
+    IDENTIFIER_CHANGE,   // FLT
 
     TIME_CHANGE,         // TIM
     ROUTING_CHANGE,      // RRT
     EQUIPMENT_CHANGE,    // EQT
+    CONFIGURATION_CHANGE, // CON
 
     REINSTATE,           // RIN
 
