@@ -51,28 +51,23 @@ import java.util.List;
 public class LiveFlightEntity extends CSMDataAbstractEntity {
 
     /* ==========================================================
-       FLIGHT IDENTITY  (T3 bytes 2–11)
+       FLIGHT IDENTITY
        ========================================================== */
 
-    // T3 Byte 2
     @Column(name = "operational_suffix", length = 1)
     private String operationalSuffix;           // e.g. "A", blank = none
 
-    // T3 Bytes 3–5
     @Column(name = "airline_code", length = 3, nullable = false)
     private String airlineCode;                 // IATA 2-char or ICAO 3-char
 
-    // T3 Bytes 6–9  (zero-padded, e.g. "0234")
     @Column(name = "flight_number", length = 4, nullable = false)
-    private String flightNumber;
+    private String flightNumber;                // zero-padded, e.g. "0234"
 
-    // T3 Bytes 10–11  ("00"–"99"; "00" = base itinerary)
     @Column(name = "itinerary_variation_id", length = 2, nullable = false)
-    private String itineraryVariationId;
+    private String itineraryVariationId;        // "00"–"99"; "00" = base itinerary
 
-    // T3 Byte 128  (overflow flag when > 99 variations)
     @Column(name = "itinerary_variation_overflow", length = 1)
-    private String itineraryVariationOverflow;
+    private String itineraryVariationOverflow;  // set when > 99 variations exist
 
     /* ==========================================================
        LIVE FLIGHT STATUS

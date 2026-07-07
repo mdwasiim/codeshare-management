@@ -1,0 +1,30 @@
+package com.codeshare.airline.schedule.processing.domain.repository;
+
+import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.schedule.processing.domain.entity.ScheduleFlightChangeEntity;
+import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public interface ScheduleFlightChangeRepository extends CSMDataBaseRepository<ScheduleFlightChangeEntity, UUID> {
+
+    List<ScheduleFlightChangeEntity> findByComparisonRunId(UUID comparisonRunId);
+
+    Optional<ScheduleFlightChangeEntity> findByComparisonRunIdAndAirlineCodeAndFlightNumberAndOperationalSuffixAndItineraryVariationId(
+            UUID comparisonRunId,
+            String airlineCode,
+            String flightNumber,
+            String operationalSuffix,
+            String itineraryVariationId
+    );
+
+    List<ScheduleFlightChangeEntity> findByAirlineCodeAndFlightNumber(String airlineCode, String flightNumber);
+
+    List<ScheduleFlightChangeEntity> findByAirlineCodeAndMergeStatus(String airlineCode, MergeStatus mergeStatus);
+
+    List<ScheduleFlightChangeEntity> findByMergeStatus(MergeStatus mergeStatus);
+}

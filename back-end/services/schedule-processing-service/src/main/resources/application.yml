@@ -1,6 +1,6 @@
 spring:
   application:
-    name: schedule-processor-service
+    name: schedule-processing-service
 
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
@@ -25,7 +25,7 @@ spring:
     properties:
       hibernate:
         format_sql: ${FORMAT_SQL:true}
-        default_schema: schedule_processor
+        default_schema: schedule_processing
         hbm2ddl:
           create_namespaces: true
   kafka:

@@ -93,11 +93,11 @@ public class LiveScheduleVersionEntity extends CSMDataAbstractEntity {
     private UUID sourceLoadId;
 
     /* ==========================================================
-       SNAPSHOT  (full T3 raw line preserved for audit)
+       SNAPSHOT  (full leg state at this version, stored as JSON)
        ========================================================== */
 
-    @Column(name = "raw_t3_line", length = 200)
-    private String rawT3Line;                   // original 200-byte SSIM Record Type 3
+    @Column(name = "leg_snapshot", columnDefinition = "TEXT")
+    private String legSnapshot;                 // JSON of LiveFlightLegEntity at this version
 
     /* ==========================================================
        FIELD-LEVEL CHANGE SUMMARY  (JSON diff stored as text)
@@ -117,14 +117,15 @@ public class LiveScheduleVersionEntity extends CSMDataAbstractEntity {
     private String appliedBy;
 
     /* ==========================================================
-       PERIOD SNAPSHOT  (duplicated from leg for point-in-time queries)
+       KEY FIELDS DUPLICATED FOR FAST POINT-IN-TIME QUERIES
+       (avoids deserialising legSnapshot just to filter by route/period)
        ========================================================== */
 
-    @Column(name = "snapshot_period_start_raw", length = 7)
-    private String snapshotPeriodStartRaw;
+    @Column(name = "snapshot_period_start")
+    private java.time.LocalDate snapshotPeriodStart;
 
-    @Column(name = "snapshot_period_end_raw", length = 7)
-    private String snapshotPeriodEndRaw;
+    @Column(name = "snapshot_period_end")
+    private java.time.LocalDate snapshotPeriodEnd;
 
     @Column(name = "snapshot_days_of_operation", length = 7)
     private String snapshotDaysOfOperation;
@@ -134,12 +135,6 @@ public class LiveScheduleVersionEntity extends CSMDataAbstractEntity {
 
     @Column(name = "snapshot_arrival_station", length = 3)
     private String snapshotArrivalStation;
-
-    @Column(name = "snapshot_aircraft_std_raw", length = 4)
-    private String snapshotAircraftStdRaw;
-
-    @Column(name = "snapshot_aircraft_sta_raw", length = 4)
-    private String snapshotAircraftStaRaw;
 
     @Column(name = "snapshot_aircraft_type", length = 3)
     private String snapshotAircraftType;

@@ -11,6 +11,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 /**
@@ -104,11 +106,11 @@ public class LiveSsmMessageEntity extends CSMDataAbstractEntity {
     @Column(name = "operational_suffix", length = 1)
     private String operationalSuffix;
 
-    @Column(name = "period_start_raw", length = 7)
-    private String periodStartRaw;
+    @Column(name = "period_start")
+    private LocalDate periodStart;
 
-    @Column(name = "period_end_raw", length = 7)
-    private String periodEndRaw;
+    @Column(name = "period_end")
+    private LocalDate periodEnd;
 
     @Column(name = "days_of_operation", length = 7)
     private String daysOfOperation;
@@ -119,11 +121,11 @@ public class LiveSsmMessageEntity extends CSMDataAbstractEntity {
     @Column(name = "arrival_station", length = 3)
     private String arrivalStation;
 
-    @Column(name = "aircraft_std_raw", length = 4)
-    private String aircraftStdRaw;
+    @Column(name = "scheduled_departure_time")
+    private LocalTime scheduledDepartureTime;
 
-    @Column(name = "aircraft_sta_raw", length = 4)
-    private String aircraftStaRaw;
+    @Column(name = "scheduled_arrival_time")
+    private LocalTime scheduledArrivalTime;
 
     @Column(name = "aircraft_type", length = 3)
     private String aircraftType;

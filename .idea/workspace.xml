@@ -6,7 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-processing-service/src/main/java/com/codeshare/airline/SSIMProcessorApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-processing-service/src/main/java/com/codeshare/airline/SSIMProcessorApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-processing-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-processing-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveFlightEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveFlightEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveScheduleVersionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveScheduleVersionEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveSegmentDeiEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveSegmentDeiEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveSegmentEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveSegmentEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveSsmMessageEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-service/src/main/java/com/codeshare/airline/schedule/live/domain/entity/LiveSsmMessageEntity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,7 +20,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="3108" />
+    <option name="cachedIndexableFilesCount" value="3153" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -27,24 +33,8 @@
     </option>
   </component>
   <component name="McpProjectServerCommands">
-    <McpServerCommand sourceId="UserConfigurationSource">
-      <option name="allowedToolsNames" />
-      <option name="enabled" value="true" />
-      <option name="name" value="" />
-      <option name="programPath" value="" />
-      <option name="arguments" value="" />
-      <option name="workingDirectory" value="" />
-      <envs />
-    </McpServerCommand>
-    <McpServerCommand sourceId="UserConfigurationSource">
-      <option name="allowedToolsNames" />
-      <option name="enabled" value="true" />
-      <option name="name" value="" />
-      <option name="programPath" value="" />
-      <option name="arguments" value="" />
-      <option name="workingDirectory" value="" />
-      <envs />
-    </McpServerCommand>
+    <commands />
+    <urls />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -79,6 +69,13 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-3bd3a6803838-JavaScript-WS-261.22158.274" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="" />
@@ -94,6 +91,7 @@
       <workItem from="1783077818410" duration="35317000" />
       <workItem from="1783279097193" duration="1823000" />
       <workItem from="1783281001066" duration="766000" />
+      <workItem from="1783452507094" duration="737000" />
     </task>
     <servers />
   </component>

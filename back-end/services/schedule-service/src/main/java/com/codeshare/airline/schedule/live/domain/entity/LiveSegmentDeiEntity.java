@@ -9,16 +9,14 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 /**
- * Data Element Identifier (DEI) scoped to a board-point/off-point segment —
- * SSIM Chapter 5, Record Type 4 (T4, 200 bytes).
+ * Data Element Identifier (DEI) scoped to a board-point/off-point segment.
+ * Source-agnostic: populated from SSIM T4, SSM, or ASM DEI blocks.
  *
- * Flight identity fields (airline, flight number, etc.) are NOT duplicated here;
- * they are resolved via the parent chain:
+ * Flight identity is resolved via the parent chain:
  *   LiveSegmentDeiEntity → LiveSegmentEntity → LiveFlightLegEntity → LiveFlightEntity
  *
- * The {@code dataElementIdentifier} is the 3-digit DEI code from T4 bytes 31–33.
- * Common codes:
- *   010 — Codeshare marketing designator (use LiveCodeshareDesignatorEntity instead)
+ * Common DEI codes:
+ *   010 — Codeshare marketing designator (first-class: see LiveCodeshareDesignatorEntity)
  *   050 — Traffic restriction per segment
  *   070 — Minimum connecting time
  *   090 — In-flight service information
@@ -63,15 +61,15 @@ public class LiveSegmentDeiEntity extends CSMDataAbstractEntity {
     private LiveSegmentEntity segment;
 
     /* ==========================================================
-       SSIM T4: BYTES 31–33  —  DEI IDENTIFIER
+       DEI IDENTIFIER
        ========================================================== */
 
-    // T4 Bytes 31–33  (3-digit numeric code, e.g. "010", "050", "070")
+    // 3-digit numeric code, e.g. "010", "050", "070"
     @Column(name = "data_element_identifier", length = 3, nullable = false)
     private String dataElementIdentifier;
 
     /* ==========================================================
-       DEI CLASSIFICATION  (resolved from DEI code, not raw T4)
+       DEI CLASSIFICATION
        ========================================================== */
 
     @Enumerated(EnumType.STRING)
@@ -79,19 +77,12 @@ public class LiveSegmentDeiEntity extends CSMDataAbstractEntity {
     private DeiCategory deiCategory;
 
     /* ==========================================================
-       SSIM T4: BYTES 40–194  —  DEI DATA PAYLOAD
+       DEI DATA PAYLOAD
        ========================================================== */
 
-    // T4 Bytes 40–194  (155 bytes; structure is DEI-code-specific)
+    // DEI-code-specific payload (structure varies per code)
     @Column(name = "dei_data", length = 155)
     private String deiData;
-
-    /* ==========================================================
-       SSIM T4: BYTES 195–200  —  RECORD FOOTER
-       ========================================================== */
-
-    @Column(name = "record_serial_number", length = 6)
-    private String recordSerialNumber;
 
     /* ==========================================================
        ORDERING (multiple DEIs of same code possible on a segment)

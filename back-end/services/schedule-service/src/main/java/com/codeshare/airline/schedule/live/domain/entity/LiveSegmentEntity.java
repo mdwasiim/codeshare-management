@@ -59,25 +59,14 @@ public class LiveSegmentEntity extends CSMDataAbstractEntity {
     private LiveFlightLegEntity flightLeg;
 
     /* ==========================================================
-       CHAPTER 5 — SEGMENT SCOPE IDENTIFIERS
-       Derived from T4 Bytes 29–39
+       SEGMENT SCOPE IDENTIFIERS
        ========================================================== */
 
-    // T4 Byte 29  ("B" = specific board point; blank = departure station of leg)
-    @Column(name = "board_point_indicator", length = 1)
-    private String boardPointIndicator;
-
-    // T4 Byte 30  ("O" = specific off point; blank = arrival station of leg)
-    @Column(name = "off_point_indicator", length = 1)
-    private String offPointIndicator;
-
-    // T4 Bytes 34–36  (IATA 3-letter airport code)
     @Column(name = "board_point", length = 3, nullable = false)
-    private String boardPoint;
+    private String boardPoint;          // IATA 3-letter airport code
 
-    // T4 Bytes 37–39
     @Column(name = "off_point", length = 3, nullable = false)
-    private String offPoint;
+    private String offPoint;            // IATA 3-letter airport code
 
     /* ==========================================================
        CHILDREN — DEI CODES FOR THIS SEGMENT
