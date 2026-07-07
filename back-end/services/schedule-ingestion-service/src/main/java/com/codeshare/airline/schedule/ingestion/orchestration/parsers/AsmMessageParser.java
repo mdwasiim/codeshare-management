@@ -59,7 +59,7 @@ public class AsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
             if (message.getRawLines() == null) {
                 message.setRawLines(new ArrayList<>());
             }
-            message.getRawLines().add(line);
+            message.getRawLines().add(ctx.getRawLine());
         }
 
         switch (ctx.getType()) {

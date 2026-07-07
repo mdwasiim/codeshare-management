@@ -36,4 +36,5 @@ public class SchedulePeriodEntity extends CSMDataAbstractEntity {
 
     @Column(name = "frequency_rate")
     private Integer frequencyRate;
+
 }

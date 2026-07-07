@@ -54,7 +54,7 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
                 if (isTypeBStart(normalized)) {
 
                     List<String> rawTypeB = new ArrayList<>();
-                    rawTypeB.add(normalized);
+                    rawTypeB.add(rawLine);
 
                     String next;
 
@@ -63,7 +63,7 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
                         String n = next.trim();
                         if (n.isEmpty()) continue;
 
-                        rawTypeB.add(n);
+                        rawTypeB.add(next);
 
                         if (LineClassifierUtil.isBlockEnd(n)) {
                             break;
@@ -79,7 +79,7 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
 
                     // 🔥 PROCESS EACH LINE
                     for (String line : normalizedAsm) {
-                        current = processLine(line, header, current, consumer, classifier);
+                        current = processLine(line, line, header, current, consumer, classifier);
                     }
 
                     continue;
@@ -87,7 +87,7 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
 
                 /* ================= NORMAL FLOW ================= */
 
-                current = processLine(normalized, header, current, consumer, classifier);
+                current = processLine(rawLine, normalized, header, current, consumer, classifier);
             }
 
             /* ================= FINAL FLUSH ================= */
@@ -107,6 +107,7 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
        ========================================================= */
 
     private List<String> processLine(
+            String rawLine,
             String normalized,
             List<String> header,
             List<String> current,
@@ -124,7 +125,7 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
             }
 
             header.clear();
-            header.add(normalized);
+            header.add(rawLine);
 
             return current;
         }
@@ -132,13 +133,13 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
         /* ================= HEADER ================= */
 
         if (MessageExtractorUtil.isHeaderLine(normalized, messageType)) {
-            header.add(normalized);
+            header.add(rawLine);
             return current;
         }
 
         /* ================= ACTION ================= */
 
-        GenericLineClassifierContext ctx = classifier.classify(normalized);
+        GenericLineClassifierContext ctx = classifier.classify(rawLine);
 
         if (ctx.getActionType() != null &&
                 ctx.getActionType() != ActionType.UNKNOWN) {
@@ -148,7 +149,7 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
             }
 
             List<String> newCurrent = new ArrayList<>(header);
-            newCurrent.add(normalized);
+            newCurrent.add(rawLine);
 
             return newCurrent;
         }
@@ -167,7 +168,7 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
 
         /* ================= BODY ================= */
 
-        current.add(normalized);
+        current.add(rawLine);
         return current;
     }
 

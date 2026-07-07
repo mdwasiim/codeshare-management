@@ -62,4 +62,5 @@ public class ScheduleDataElementEntity extends CSMDataAbstractEntity {
 
     @Column(name = "off_point", length = 3)
     private String offPoint;
+
 }

@@ -34,11 +34,9 @@ public abstract class AbstractScheduleParser<C> implements ScheduleParser<C> {
 
             if (rawLine == null || rawLine.isBlank()) continue;
 
-            String line = normalize(rawLine);
+            messageLines.add(rawLine);
 
-            messageLines.add(line);
-
-            GenericLineClassifierContext lc = classifier.classify(line);
+            GenericLineClassifierContext lc = classifier.classify(rawLine);
 
             if (lc.getType() == ScheduleLineIdentifier.UNKNOWN) {
                 log.warn("Unknown line {}: {}", lineNumber, rawLine);

@@ -28,12 +28,7 @@ import java.util.List;
                         name = "uk_ssim_flight",
                         columnNames = {
                                 "carrier_id",
-                                "operational_suffix",
-                                "airline_code",
-                                "flight_number",
-                                "itinerary_variation_identifier",
-                                "leg_sequence_number",
-                                "service_type"
+                                "record_serial_number"
                         }
                 )
         }

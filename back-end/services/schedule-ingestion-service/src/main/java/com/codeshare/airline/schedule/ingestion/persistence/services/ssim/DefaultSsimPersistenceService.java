@@ -19,12 +19,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.HexFormat;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -57,12 +54,8 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
             return;
         }
 
-        Set<String> existingFlightKeys = existingFlightKeys(carrier);
         List<SsimFlightEntity> flightEntities = new ArrayList<>(flights.size());
         for (SsimFlightDTO flight : flights) {
-            if (!existingFlightKeys.add(flightKey(flight))) {
-                continue;
-            }
             flightEntities.add(flightMapper.toEntity(flight, carrier));
         }
 
@@ -128,42 +121,6 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
 
     private boolean hasNoSavedEnvelope(SsimFileMetaDataEntity file) {
         return file.getHeader() == null && file.getCarrier() == null && file.getTrailer() == null;
-    }
-
-    private Set<String> existingFlightKeys(SsimCarrierEntity carrier) {
-        if (carrier.getFlights() == null || carrier.getFlights().isEmpty()) {
-            return new HashSet<>();
-        }
-
-        return carrier.getFlights().stream()
-                .map(this::flightKey)
-                .collect(Collectors.toCollection(HashSet::new));
-    }
-
-    private String flightKey(SsimFlightEntity flight) {
-        if (flight == null) {
-            return "";
-        }
-        return String.join("|",
-                text(flight.getAirlineCode()),
-                text(flight.getFlightNumber()),
-                text(flight.getOperationalSuffix()),
-                text(flight.getItineraryVariationIdentifier()),
-                flight.getLegSequenceNumber() == null ? "" : flight.getLegSequenceNumber().toString()
-        );
-    }
-
-    private String flightKey(SsimFlightDTO flight) {
-        if (flight == null) {
-            return "";
-        }
-        return String.join("|",
-                text(flight.getAirlineCode()),
-                text(flight.getFlightNumber()),
-                text(flight.getOperationalSuffix()),
-                text(flight.getItineraryVariationIdentifier()),
-                flight.getLegSequenceNumber() == null ? "" : flight.getLegSequenceNumber().toString()
-        );
     }
 
     private String resolveAirlineCode(SSIMMessageDTO context, SsimMetaDataDTO metadata) {
