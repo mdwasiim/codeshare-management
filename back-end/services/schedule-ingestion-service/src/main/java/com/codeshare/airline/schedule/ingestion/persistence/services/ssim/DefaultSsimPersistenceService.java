@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.persistence.services.ssim;
 
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimFlightDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SsimMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimCarrierEntity;
@@ -159,3 +159,4 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
         return value == null ? "" : value.trim();
     }
 }
+

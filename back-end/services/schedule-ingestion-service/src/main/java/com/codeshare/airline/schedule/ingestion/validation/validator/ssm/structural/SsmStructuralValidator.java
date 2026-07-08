@@ -46,7 +46,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
 
         int lineNo = 0;
         boolean endedWithSeparator = false;
-        LineClassifier classifier = LineClassifierFactory.create(MessageType.SSM);
+        LineClassifier classifier = LineClassifierFactory.forMessage(MessageType.SSM);
 
         for (String raw : context.getMessageLines()) {
             lineNo++;

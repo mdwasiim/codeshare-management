@@ -1,13 +1,13 @@
 package com.codeshare.airline.schedule.ingestion.extraction.extractor;
 
 import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.schedule.ingestion.domain.context.GenericLineClassifierContext;
+import com.codeshare.airline.schedule.ingestion.domain.enums.ActionType;
+import com.codeshare.airline.schedule.ingestion.orchestration.handler.StreamExtractorHandler;
 import com.codeshare.airline.schedule.ingestion.shared.classifier.LineClassifier;
 import com.codeshare.airline.schedule.ingestion.shared.classifier.LineClassifierFactory;
 import com.codeshare.airline.schedule.ingestion.shared.reader.LineReader;
 import com.codeshare.airline.schedule.ingestion.shared.util.LineClassifierUtil;
-import com.codeshare.airline.schedule.ingestion.domain.context.GenericLineClassifierContext;
-import com.codeshare.airline.schedule.ingestion.domain.enums.ActionType;
-import com.codeshare.airline.schedule.ingestion.orchestration.handler.StreamExtractorHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
@@ -31,80 +31,60 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
 
     @Override
     public void extract(InputStream inputStream, Consumer<List<String>> consumer) {
-
         List<String> header = new ArrayList<>();
         List<String> current = new ArrayList<>();
 
-        LineClassifier classifier = LineClassifierFactory.create(messageType);
-        assert classifier != null;
+        LineClassifier classifier = LineClassifierFactory.forMessage(messageType);
         classifier.reset();
 
         LineReader reader = new LineReader(inputStream);
 
         try {
             String rawLine;
-
             while ((rawLine = reader.nextLine()) != null) {
-
                 String normalized = rawLine.trim();
-                if (normalized.isEmpty()) continue;
-
-                /* ================= TYPE B DETECTION ================= */
+                if (normalized.isEmpty()) {
+                    continue;
+                }
 
                 if (isTypeBStart(normalized)) {
-
                     List<String> rawTypeB = new ArrayList<>();
                     rawTypeB.add(rawLine);
 
                     String next;
-
                     while ((next = reader.nextLine()) != null) {
-
-                        String n = next.trim();
-                        if (n.isEmpty()) continue;
+                        String nextNormalized = next.trim();
+                        if (nextNormalized.isEmpty()) {
+                            continue;
+                        }
 
                         rawTypeB.add(next);
-
-                        if (LineClassifierUtil.isBlockEnd(n)) {
+                        if (LineClassifierUtil.isBlockEnd(nextNormalized)) {
                             break;
                         }
                     }
 
-                    // 🔥 RESET STATE
                     header.clear();
                     current = new ArrayList<>();
 
-                    List<String> normalizedAsm =
-                            TypeBToAsmConverter.convert(rawTypeB);
-
-                    // 🔥 PROCESS EACH LINE
+                    List<String> normalizedAsm = TypeBToAsmConverter.convert(rawTypeB);
                     for (String line : normalizedAsm) {
                         current = processLine(line, line, header, current, consumer, classifier);
                     }
-
                     continue;
                 }
-
-                /* ================= NORMAL FLOW ================= */
 
                 current = processLine(rawLine, normalized, header, current, consumer, classifier);
             }
 
-            /* ================= FINAL FLUSH ================= */
-
             if (MessageExtractorUtil.isValidSubMessage(current, messageType)) {
                 MessageExtractorUtil.flush(current, consumer);
             }
-
         } catch (Exception ex) {
             log.error("{} extraction failed", messageType, ex);
             throw new IllegalStateException(messageType + " extraction failed", ex);
         }
     }
-
-    /* =========================================================
-       CORE LINE PROCESSOR (REUSABLE)
-       ========================================================= */
 
     private List<String> processLine(
             String rawLine,
@@ -112,13 +92,10 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
             List<String> header,
             List<String> current,
             Consumer<List<String>> consumer,
-            LineClassifier classifier) {
-
-        /* ================= MESSAGE START ================= */
-
+            LineClassifier classifier
+    ) {
         if (normalized.equalsIgnoreCase(messageType.name())) {
-
-            classifier.reset(); // 🔥 important
+            classifier.reset();
 
             if (MessageExtractorUtil.isValidSubMessage(current, messageType)) {
                 MessageExtractorUtil.flush(current, consumer);
@@ -126,57 +103,39 @@ public class GenericMessageExtractor implements StreamExtractorHandler {
 
             header.clear();
             header.add(rawLine);
-
             return current;
         }
-
-        /* ================= HEADER ================= */
 
         if (MessageExtractorUtil.isHeaderLine(normalized, messageType)) {
             header.add(rawLine);
             return current;
         }
 
-        /* ================= ACTION ================= */
-
-        GenericLineClassifierContext ctx = classifier.classify(rawLine);
-
-        if (ctx.getActionType() != null &&
-                ctx.getActionType() != ActionType.UNKNOWN) {
-
+        GenericLineClassifierContext context = classifier.classify(rawLine);
+        if (context.getActionType() != null && context.getActionType() != ActionType.UNKNOWN) {
             if (MessageExtractorUtil.isValidSubMessage(current, messageType)) {
                 MessageExtractorUtil.flush(current, consumer);
             }
 
             List<String> newCurrent = new ArrayList<>(header);
             newCurrent.add(rawLine);
-
             return newCurrent;
         }
 
-        /* ================= BLOCK END ================= */
-
         if (LineClassifierUtil.isBlockEnd(normalized)) {
-
             if (MessageExtractorUtil.isValidSubMessage(current, messageType)) {
                 MessageExtractorUtil.flush(current, consumer);
             }
 
-            header.clear(); // 🔥 important
+            header.clear();
             return new ArrayList<>();
         }
-
-        /* ================= BODY ================= */
 
         current.add(rawLine);
         return current;
     }
 
-    /* =========================================================
-       TYPE B DETECTION
-       ========================================================= */
-
     private boolean isTypeBStart(String line) {
-        return line.matches("^[A-Z]{2}[A-Z0-9]{5,6}$"); // e.g. QKDOHQR
+        return line.matches("^[A-Z]{2}[A-Z0-9]{5,6}$");
     }
 }

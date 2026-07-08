@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim;
 
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimTrailerDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimTrailerDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimTrailerEntity;
 import org.springframework.stereotype.Component;
 
@@ -76,3 +76,4 @@ public class SsimTrailerMapper {
     }
 
 }
+

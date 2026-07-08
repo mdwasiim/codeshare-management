@@ -22,7 +22,7 @@ public class MessageFileProcessor {
 
     public static void main(String[] args) throws IOException {
 
-        // 🔥 SWITCH HERE
+        // ???? SWITCH HERE
         MessageType type = MessageType.SSM;
 
         String filePath = switch (type) {
@@ -36,25 +36,25 @@ public class MessageFileProcessor {
 
         try (InputStream is = Files.newInputStream(Path.of(filePath))) {
 
-            System.out.println("🚀 Processing " + type + " File...\n");
+            System.out.println("???? Processing " + type + " File...\n");
 
             extractor.extract(is, messageLines -> {
 
                 System.out.println("\n==============================");
-                System.out.println("📩 NEW " + type + " MESSAGE");
+                System.out.println("???? NEW " + type + " MESSAGE");
                 System.out.println("==============================");
 
                 processMessage(messageLines, type);
             });
         }
 
-        System.out.println("\n🎉 FILE PROCESSING COMPLETED");
+        System.out.println("\n???? FILE PROCESSING COMPLETED");
     }
 
     private static void processMessage(List<String> lines, MessageType type) {
 
-        // 🔥 PRINT ORIGINAL MESSAGE
-        System.out.println("\n🧾 ORIGINAL MESSAGE:");
+        // ???? PRINT ORIGINAL MESSAGE
+        System.out.println("\n???? ORIGINAL MESSAGE:");
         System.out.println("----------------------------------");
 
         for (String line : lines) {
@@ -64,7 +64,7 @@ public class MessageFileProcessor {
         System.out.println("----------------------------------\n");
 
         // ================= CLASSIFIER =================
-        LineClassifier classifier = LineClassifierFactory.create(type);
+        LineClassifier classifier = LineClassifierFactory.forMessage(type);
 
         assert classifier != null;
         classifier.reset();
@@ -84,10 +84,10 @@ public class MessageFileProcessor {
             }
 
             if (id == ScheduleLineIdentifier.UNKNOWN) {
-                System.err.println("⚠ UNKNOWN: " + normalized);
+                System.err.println("??? UNKNOWN: " + normalized);
             }
 
-            System.out.printf("%-40s → %s%n", normalized, id);
+            System.out.printf("%-40s ??? %s%n", normalized, id);
         }
         // ================= PARSER =================
         try {
@@ -96,11 +96,11 @@ public class MessageFileProcessor {
 
             validate(result);
 
-            System.out.println("✅ PARSE SUCCESS");
+            System.out.println("??? PARSE SUCCESS");
 
         } catch (Exception e) {
 
-            System.err.println("❌ PARSE FAILED: " + e.getMessage());
+            System.err.println("??? PARSE FAILED: " + e.getMessage());
         }
     }
 
@@ -151,7 +151,7 @@ public class MessageFileProcessor {
                         }
 
                         if (leg.getDepartureTime() == null) {
-                            System.out.println("⚠ Missing departure time");
+                            System.out.println("??? Missing departure time");
                         }
                     });
                 }

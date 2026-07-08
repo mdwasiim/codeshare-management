@@ -245,7 +245,7 @@ public class SsmChapter4BusinessValidator implements BusinessValidation<SsmInges
 
     private List<SsmBlock> splitBlocks(List<String> lines) {
         List<SsmBlock> blocks = new ArrayList<>();
-        LineClassifier classifier = LineClassifierFactory.create(MessageType.SSM);
+        LineClassifier classifier = LineClassifierFactory.forMessage(MessageType.SSM);
         classifier.reset();
 
         SsmBlock current = null;

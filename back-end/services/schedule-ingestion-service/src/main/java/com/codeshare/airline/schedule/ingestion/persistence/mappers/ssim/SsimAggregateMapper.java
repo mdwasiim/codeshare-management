@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim;
 
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimFlightDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimCarrierEntity;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimFileMetaDataEntity;
@@ -100,3 +100,4 @@ public class SsimAggregateMapper {
         return value == null ? "" : value.toString();
     }
 }
+

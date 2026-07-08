@@ -4,10 +4,13 @@ import com.codeshare.airline.core.enums.schedule.MessageType;
 
 public class LineClassifierFactory {
 
-    public static LineClassifier create(MessageType type) {
+    private LineClassifierFactory() {
+    }
+
+    public static LineClassifier forMessage(MessageType type) {
 
         return switch (type) {
-            case SSIM -> null;
+            case SSIM -> throw new IllegalArgumentException("SSIM does not use line classification");
             case SSM -> new GenericLineClassifier(new SsmLineClassifierStrategy());
             case ASM -> new GenericLineClassifier(new AsmLineClassifierStrategy());
         };

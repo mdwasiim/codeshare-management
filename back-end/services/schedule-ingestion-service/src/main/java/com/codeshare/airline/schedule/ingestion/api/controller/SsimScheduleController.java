@@ -4,7 +4,7 @@ import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleDetailResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleSummaryResponse;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimFlightDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SsimMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.services.ssim.SsimScheduleQueryService;
@@ -106,3 +106,4 @@ public class SsimScheduleController {
         return queryService.getFlight(flightId);
     }
 }
+

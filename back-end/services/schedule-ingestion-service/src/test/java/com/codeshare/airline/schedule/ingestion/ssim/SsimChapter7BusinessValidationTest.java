@@ -2,9 +2,9 @@ package com.codeshare.airline.schedule.ingestion.ssim;
 
 import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsimIngestionContext;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimCarrierDTO;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimDataElementDTO;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimFlightDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimCarrierDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimDataElementDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationResult;
 import com.codeshare.airline.schedule.ingestion.validation.validator.ssim.business.SsimChapter7BusinessValidator;
@@ -182,3 +182,4 @@ class SsimChapter7BusinessValidationTest {
         return String.format("%-" + length + "s", value);
     }
 }
+

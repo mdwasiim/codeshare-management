@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim;
 
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimCarrierDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimCarrierDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimCarrierEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class SsimCarrierMapper {
 
     /* =========================================================
-       DTO → ENTITY
+       DTO ??? ENTITY
        ========================================================= */
 
     public SsimCarrierEntity toEntity(SsimCarrierDTO dto) {
@@ -52,7 +52,7 @@ public class SsimCarrierMapper {
     }
 
     /* =========================================================
-       ENTITY → DTO
+       ENTITY ??? DTO
        ========================================================= */
 
     public SsimCarrierDTO toDTO(SsimCarrierEntity entity) {
@@ -109,3 +109,4 @@ public class SsimCarrierMapper {
                 : value;
     }
 }
+

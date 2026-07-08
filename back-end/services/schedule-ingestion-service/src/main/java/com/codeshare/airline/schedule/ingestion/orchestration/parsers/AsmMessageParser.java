@@ -50,7 +50,7 @@ public class AsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
 
     @Override
     protected LineClassifier classifier() {
-        return LineClassifierFactory.create(MessageType.ASM);
+        return LineClassifierFactory.forMessage(MessageType.ASM);
     }
 
     /* ================= MAIN ================= */

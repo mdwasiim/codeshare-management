@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim;
 
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimHeaderDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimHeaderDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimHeaderEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class SsimHeaderMapper {
 
     /* =========================================================
-       DTO → ENTITY
+       DTO ??? ENTITY
        ========================================================= */
 
     public SsimHeaderEntity toEntity(SsimHeaderDTO dto) {
@@ -35,7 +35,7 @@ public class SsimHeaderMapper {
     }
 
     /* =========================================================
-       ENTITY → DTO
+       ENTITY ??? DTO
        ========================================================= */
 
     public SsimHeaderDTO toDTO(SsimHeaderEntity entity) {
@@ -74,3 +74,4 @@ public class SsimHeaderMapper {
                 : value;
     }
 }
+

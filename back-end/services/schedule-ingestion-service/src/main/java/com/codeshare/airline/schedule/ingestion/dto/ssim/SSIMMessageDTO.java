@@ -1,9 +1,9 @@
 package com.codeshare.airline.schedule.ingestion.dto.ssim;
 
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimCarrierDTO;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimFlightDTO;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimHeaderDTO;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimTrailerDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimCarrierDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimHeaderDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimTrailerDTO;
 import lombok.*;
 
 import java.util.ArrayList;

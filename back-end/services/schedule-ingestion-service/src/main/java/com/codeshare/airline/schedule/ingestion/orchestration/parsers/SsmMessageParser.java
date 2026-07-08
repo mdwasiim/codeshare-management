@@ -48,7 +48,7 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
 
     @Override
     protected LineClassifier classifier() {
-        return LineClassifierFactory.create(MessageType.SSM);
+        return LineClassifierFactory.forMessage(MessageType.SSM);
     }
 
     /* ================= MAIN ================= */

@@ -6,6 +6,7 @@ import com.codeshare.airline.schedule.ingestion.api.response.ScheduleMessageVali
 import com.codeshare.airline.schedule.ingestion.domain.context.AbstractIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
+import com.codeshare.airline.schedule.ingestion.orchestration.context.PreParseContextFactory;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleMessageDTO;
 import com.codeshare.airline.schedule.ingestion.orchestration.handler.StreamExtractorHandler;
@@ -36,6 +37,7 @@ public class ScheduleMessageApiService {
 
     private final Map<MessageType, StreamExtractorHandler> extractorMap;
     private final Map<MessageType, MessageParser<?>> parserMap;
+    private final Map<MessageType, PreParseContextFactory<?>> preParseContextFactoryMap;
     private final StructuralValidationOrchestrator structuralValidationOrchestrator;
     private final BusinessValidationOrchestrator businessValidationOrchestrator;
     private final ScheduleChapterProcessor scheduleChapterProcessor;
@@ -99,7 +101,6 @@ public class ScheduleMessageApiService {
         return content.getBytes(StandardCharsets.UTF_8);
     }
 
-    @SuppressWarnings("unchecked")
     private ScheduleMessageValidationResponse validateOrParse(
             MessageType type,
             String airlineCode,
@@ -135,7 +136,7 @@ public class ScheduleMessageApiService {
 
             AbstractIngestionContext<?, ?> parsedContext;
             try {
-                parsedContext = ((MessageParser<AbstractIngestionContext<?, ?>>) parser).parse(lines, metadata);
+                parsedContext = parser.parse(lines, metadata);
             } catch (Exception ex) {
                 aggregate.add(ValidationMessage.parsingError(ex.getMessage()));
                 return;
@@ -166,19 +167,11 @@ public class ScheduleMessageApiService {
             ScheduleFileMetaDataDTO metadata,
             List<String> lines
     ) {
-        return switch (type) {
-            case ASM -> com.codeshare.airline.schedule.ingestion.domain.context.AsmIngestionContext.builder()
-                    .messageType(MessageType.ASM)
-                    .metadata(metadata)
-                    .messageLines(lines)
-                    .build();
-            case SSM -> com.codeshare.airline.schedule.ingestion.domain.context.SsmIngestionContext.builder()
-                    .messageType(MessageType.SSM)
-                    .metadata(metadata)
-                    .messageLines(lines)
-                    .build();
-            case SSIM -> throw new IllegalArgumentException("SSIM is not supported by this API");
-        };
+        PreParseContextFactory<?> factory = preParseContextFactoryMap.get(type);
+        if (factory == null) {
+            throw new IllegalStateException("No pre-parse context factory registered for type=" + type);
+        }
+        return factory.build(metadata, lines);
     }
 
     private ScheduleFileMetaDataDTO metadata(MessageType type, String airlineCode, String fileName, byte[] content) {

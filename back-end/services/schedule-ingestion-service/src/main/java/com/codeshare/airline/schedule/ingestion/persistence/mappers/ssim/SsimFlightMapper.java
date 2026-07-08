@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim;
 
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimFlightDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimCarrierEntity;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimDataElementEntity;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimFlightEntity;
@@ -14,7 +14,7 @@ public class SsimFlightMapper {
     private final SsimDataElementMapper deiMapper;
 
     /* =========================================================
-       DTO → ENTITY
+       DTO ??? ENTITY
        ========================================================= */
 
     public SsimFlightEntity toEntity(SsimFlightDTO dto, SsimCarrierEntity carrier) {
@@ -107,7 +107,7 @@ public class SsimFlightMapper {
         if (dto.getDeis() != null) {
             dto.getDeis().forEach(d -> {
                 SsimDataElementEntity dei = deiMapper.toEntity(d, entity);
-                dei.setFlight(entity); // 🔥 RELATIONSHIP
+                dei.setFlight(entity); // ???? RELATIONSHIP
                 entity.getDeis().add(dei);
             });
         }
@@ -116,7 +116,7 @@ public class SsimFlightMapper {
     }
 
     /* =========================================================
-       ENTITY → DTO
+       ENTITY ??? DTO
        ========================================================= */
 
     public SsimFlightDTO toDTO(SsimFlightEntity entity) {
@@ -197,3 +197,4 @@ public class SsimFlightMapper {
                 : value;
     }
 }
+

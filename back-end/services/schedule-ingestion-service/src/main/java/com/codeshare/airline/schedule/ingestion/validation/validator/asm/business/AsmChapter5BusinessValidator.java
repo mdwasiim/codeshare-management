@@ -243,7 +243,7 @@ public class AsmChapter5BusinessValidator implements BusinessValidation<AsmInges
 
     private List<AsmBlock> splitBlocks(List<String> lines) {
         List<AsmBlock> blocks = new ArrayList<>();
-        LineClassifier classifier = LineClassifierFactory.create(MessageType.ASM);
+        LineClassifier classifier = LineClassifierFactory.forMessage(MessageType.ASM);
         classifier.reset();
 
         AsmBlock current = null;

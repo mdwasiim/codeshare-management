@@ -43,7 +43,7 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
         int lineNo = 0;
         boolean endedWithSeparator = false;
 
-        LineClassifier classifier = LineClassifierFactory.create(MessageType.ASM);
+        LineClassifier classifier = LineClassifierFactory.forMessage(MessageType.ASM);
 
         for (String raw : context.getMessageLines()) {
             lineNo++;

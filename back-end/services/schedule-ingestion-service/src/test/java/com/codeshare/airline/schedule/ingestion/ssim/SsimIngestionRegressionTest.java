@@ -5,8 +5,8 @@ import com.codeshare.airline.schedule.ingestion.config.ScheduleIngestionProperti
 import com.codeshare.airline.schedule.ingestion.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsimIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.enums.SsimValidationMode;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimDataElementDTO;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimFlightDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimDataElementDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.SsimMessageParser;
 import com.codeshare.airline.schedule.ingestion.extraction.extractor.SsimMessageExtractor;
@@ -61,7 +61,8 @@ class SsimIngestionRegressionTest {
             ValidationResult result = new SsimStructuralValidator().validate(context);
             assertNoValidationErrors(result);
 
-            SSIMMessageDTO dto = new SsimMessageParser().parseMessage(new ScheduleGroupedMessage(null, null, lines));
+            SSIMMessageDTO dto = new SsimMessageParser(new ScheduleIngestionProperties())
+                    .parseMessage(new ScheduleGroupedMessage(null, null, lines));
 
             assertThat(dto.getHeader()).isNotNull();
             assertThat(dto.getCarrier()).isNotNull();
@@ -121,7 +122,8 @@ class SsimIngestionRegressionTest {
             ValidationResult result = new SsimStructuralValidator().validate(context);
             assertNoValidationErrors(result);
 
-            SSIMMessageDTO dto = new SsimMessageParser().parseMessage(new ScheduleGroupedMessage(null, null, lines));
+            SSIMMessageDTO dto = new SsimMessageParser(new ScheduleIngestionProperties())
+                    .parseMessage(new ScheduleGroupedMessage(null, null, lines));
             assertThat(dto.getHeader()).isNotNull();
             assertThat(dto.getCarrier()).isNotNull();
             assertThat(dto.getTrailer()).isNotNull();
@@ -280,3 +282,4 @@ class SsimIngestionRegressionTest {
                 .isEmpty();
     }
 }
+

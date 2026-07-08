@@ -1,9 +1,10 @@
 package com.codeshare.airline.schedule.ingestion;
 
 import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.schedule.ingestion.config.ScheduleIngestionProperties;
 import com.codeshare.airline.schedule.ingestion.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.SsimMessageParser;
-import com.codeshare.airline.schedule.ingestion.dto.common.ssim.SsimFlightDTO;
+import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.extraction.extractor.SsimMessageExtractor;
 import org.apache.logging.log4j.LogManager;
@@ -91,7 +92,7 @@ public class SsimFileProcessor {
 
                     flightCount.incrementAndGet();
 
-                    // 🔥 process flight in parallel
+                    // ???? process flight in parallel
                     executor.submit(() -> processBlock(block));
 
                 } else {
@@ -120,7 +121,7 @@ public class SsimFileProcessor {
 
         try {
 
-            SsimMessageParser ssimMessageParser = new SsimMessageParser();
+            SsimMessageParser ssimMessageParser = new SsimMessageParser(new ScheduleIngestionProperties());
             ScheduleGroupedMessage scheduleGroupedMessage =
                     new ScheduleGroupedMessage(null, null, lines);
 
@@ -130,20 +131,20 @@ public class SsimFileProcessor {
             log.info("SSIM PARSED OBJECT");
             log.info("==============================");
 
-            // 🔹 Header
+            // ???? Header
             if (dto.getHeader() != null) {
-                log.info(" HEADER → {}", dto.getHeader());
+                log.info(" HEADER ??? {}", dto.getHeader());
             }
 
-            // 🔹 Carrier
+            // ???? Carrier
             if (dto.getCarrier() != null) {
-                log.info(" CARRIER → {}", dto.getCarrier());
+                log.info(" CARRIER ??? {}", dto.getCarrier());
             }
 
-            // 🔹 Flight Info
-            log.info("Flight → {}{}", dto.getAirlineCode(), dto.getFlightNumber());
+            // ???? Flight Info
+            log.info("Flight ??? {}{}", dto.getAirlineCode(), dto.getFlightNumber());
 
-            // 🔹 Legs
+            // ???? Legs
             if (dto.hasFlights()) {
                 log.info(" LEGS:");
 
@@ -155,9 +156,9 @@ public class SsimFileProcessor {
                 log.warn(" No Legs Found");
             }
 
-            // 🔹 Trailer
+            // ???? Trailer
             if (dto.getTrailer() != null) {
-                log.info(" TRAILER → {}", dto.getTrailer());
+                log.info(" TRAILER ??? {}", dto.getTrailer());
             }
 
         } catch (Exception e) {
@@ -210,3 +211,4 @@ public class SsimFileProcessor {
         return "";
     }
 }
+

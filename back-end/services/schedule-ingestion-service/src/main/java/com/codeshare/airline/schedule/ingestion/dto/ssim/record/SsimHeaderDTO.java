@@ -1,4 +1,4 @@
-package com.codeshare.airline.schedule.ingestion.dto.common.ssim;
+package com.codeshare.airline.schedule.ingestion.dto.ssim.record;
 
 import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
 import com.codeshare.airline.schedule.ingestion.domain.enums.RecordType;
@@ -11,7 +11,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SsimTrailerDTO extends CSMAuditableDTO implements SSIMMessageItem {
+public class SsimHeaderDTO extends CSMAuditableDTO implements SSIMMessageItem {
 
     /* =======================================================
        IDENTITY
@@ -20,20 +20,20 @@ public class SsimTrailerDTO extends CSMAuditableDTO implements SSIMMessageItem {
     private UUID fileId;
 
     /* =======================================================
-       SSIM RECORD TYPE 5 (T5) – 200 BYTES
+       SSIM RECORD TYPE 1 (T1) – 200 BYTES
        ======================================================= */
 
     private RecordType recordType;            // Byte 1
-    private String spareByte2;            // Byte 2
 
-    private String airlineDesignator;     // Bytes 3–5
-    private String releaseDateRaw;        // Bytes 6–12
+    private String titleOfContents;       // Bytes 2–35
 
-    private String spare13To187;          // Bytes 13–187
+    private String spare36To40;            // Bytes 36–40
 
-    private String serialCheckReference;  // Bytes 188–193
-    private String continuationEndCode;   // Byte 194
+    private Integer numberOfSeasons;       // Byte 41
 
-    private String recordSerialNumber;    // Bytes 195–200
+    private String spare42To191;           // Bytes 42–191
 
+    private String datasetSerialNumber;    // Bytes 192–194
+
+    private String recordSerialNumber;     // Bytes 195–200
 }

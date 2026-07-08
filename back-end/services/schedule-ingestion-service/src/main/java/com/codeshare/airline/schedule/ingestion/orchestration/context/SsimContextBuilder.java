@@ -1,13 +1,13 @@
-package com.codeshare.airline.schedule.ingestion.orchestration.handler.parser;
+package com.codeshare.airline.schedule.ingestion.orchestration.context;
 
+import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsimIngestionContext;
-import com.codeshare.airline.core.enums.schedule.MessageType;
-import com.codeshare.airline.schedule.ingestion.orchestration.parsers.MessageParser;
-import com.codeshare.airline.schedule.ingestion.orchestration.parsers.ScheduleParser;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SsimMetaDataDTO;
+import com.codeshare.airline.schedule.ingestion.orchestration.parsers.MessageParser;
+import com.codeshare.airline.schedule.ingestion.orchestration.parsers.ScheduleParser;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,8 @@ public class SsimContextBuilder implements MessageParser<SsimIngestionContext> {
 
     public SsimContextBuilder(
             @Qualifier("ssimMessageParser")
-            ScheduleParser<SSIMMessageDTO> scheduleParser) {
+            ScheduleParser<SSIMMessageDTO> scheduleParser
+    ) {
         this.scheduleParser = scheduleParser;
     }
 
@@ -31,7 +32,6 @@ public class SsimContextBuilder implements MessageParser<SsimIngestionContext> {
 
     @Override
     public SsimIngestionContext parse(List<String> lines, ScheduleFileMetaDataDTO metadata) {
-
         if (lines == null || lines.isEmpty()) {
             throw new IllegalArgumentException("SSIM lines are empty");
         }
@@ -40,9 +40,9 @@ public class SsimContextBuilder implements MessageParser<SsimIngestionContext> {
             throw new IllegalArgumentException("Invalid metadata for SSIM parser: "
                     + (metadata == null ? "null" : metadata.getClass().getName()));
         }
-        ScheduleGroupedMessage scheduleGroupedMessage = scheduleParser.groupMessage(lines);
-        // 🔥 SSIM parses FULL batch
-        SSIMMessageDTO parsed = scheduleParser.parseMessage(scheduleGroupedMessage);
+
+        ScheduleGroupedMessage groupedMessage = scheduleParser.groupMessage(lines);
+        SSIMMessageDTO parsed = scheduleParser.parseMessage(groupedMessage);
 
         return SsimIngestionContext.builder()
                 .messageType(MessageType.SSIM)

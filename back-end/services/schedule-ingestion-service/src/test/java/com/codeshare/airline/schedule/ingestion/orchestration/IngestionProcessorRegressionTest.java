@@ -16,7 +16,7 @@ import com.codeshare.airline.schedule.ingestion.domain.enums.TimeMode;
 import com.codeshare.airline.schedule.ingestion.dto.common.base.ScheduleEquipmentDTO;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleMessageDTO;
-import com.codeshare.airline.schedule.ingestion.orchestration.handler.parser.AsmContextBuilder;
+import com.codeshare.airline.schedule.ingestion.orchestration.context.AsmContextBuilder;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.AsmMessageParser;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.SsmMessageParser;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.ScheduleParser;
