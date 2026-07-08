@@ -24,6 +24,8 @@ public class ScheduleSubMessageDTO extends CSMAuditableDTO {
 
     private TimeMode timeMode;
 
+    private String rawActionLine;
+
     /* ================= RAW ================= */
 
     private String rawMessage;
@@ -41,10 +43,19 @@ public class ScheduleSubMessageDTO extends CSMAuditableDTO {
     @Builder.Default
     private List<ScheduleFlightDTO> flights = new ArrayList<>();
 
+    @Builder.Default
+    private List<String> supplementaryInfo = new ArrayList<>();
+
     public void addFlight(ScheduleFlightDTO flight) {
         if (flight != null) {
             flight.setFlightSequenceNumber(flights.size() + 1);
             flights.add(flight);
+        }
+    }
+
+    public void addSupplementaryInfo(String line) {
+        if (line != null && !line.isBlank()) {
+            supplementaryInfo.add(line);
         }
     }
 }

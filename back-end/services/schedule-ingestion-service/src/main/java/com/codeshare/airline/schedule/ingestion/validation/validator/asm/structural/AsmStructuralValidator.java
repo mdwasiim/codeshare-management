@@ -41,15 +41,24 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
         ActionType currentActionType = null;
         ActionLineParser.ParsedActionLine currentActionLine = null;
         int lineNo = 0;
+        boolean endedWithSeparator = false;
 
         LineClassifier classifier = LineClassifierFactory.create(MessageType.ASM);
 
         for (String raw : context.getMessageLines()) {
             lineNo++;
+            endedWithSeparator = false;
 
             var lc = classifier.classify(raw);
             var type = lc.getType();
             var line = lc.getNormalizedLine();
+
+            if (currentActionType == ActionType.NOT_ACKNOWLEDGED && type != ScheduleLineIdentifier.SUB_MESSAGE_SEPARATOR) {
+                if (type == ScheduleLineIdentifier.UNKNOWN && !looksLikeAsmNacRejectLine(raw)) {
+                    result.addError("ASM_120", "Unknown line", line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                }
+                continue;
+            }
 
             if (type == ScheduleLineIdentifier.UNKNOWN) {
                 result.addError("ASM_120", "Unknown line", line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
@@ -111,11 +120,12 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                     hasDei = true;
                 }
                 case SUPPLEMENTARY -> {
-                    if (!hasFlight) {
-                        result.addError("ASM_100", "SI before FLIGHT", line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                    if (!hasAction) {
+                        result.addError("ASM_100", "SI before ACTION", line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
                 }
                 case SUB_MESSAGE_SEPARATOR -> {
+                    endedWithSeparator = true;
                     validateBlock(result, currentActionType, hasFlight, hasLeg, hasEquipment, hasDei);
                     inBlock = false;
                     hasFlight = false;
@@ -139,6 +149,9 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
         }
 
         if (inBlock) {
+            if (!endedWithSeparator) {
+                result.addError("ASM_110", "Missing final sub-message separator", null, "MESSAGE", ValidationStage.STRUCTURAL);
+            }
             validateBlock(result, currentActionType, hasFlight, hasLeg, hasEquipment, hasDei);
         }
 
@@ -167,8 +180,10 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
                     "LINE " + lineNo, ValidationStage.STRUCTURAL);
         }
 
-        if (ASM_REASON_REQUIRED.contains(primary) && primary.equals("ACK")) {
-            return;
+        if (("ACK".equals(primary) || "NAC".equals(primary)) && !actionLine.secondaryActions().isEmpty()) {
+            result.addError("ASM_044", "Secondary action not permitted for ACK/NAC",
+                    primary + "/" + String.join("/", actionLine.secondaryActions()),
+                    "LINE " + lineNo, ValidationStage.STRUCTURAL);
         }
     }
 
@@ -241,5 +256,14 @@ public class AsmStructuralValidator implements StructuralValidation<AsmIngestion
     private boolean hasEmbeddedTimeCandidate(String line) {
         String[] parts = line.split("\\s+");
         return parts.length >= 4 && (parts[2].matches("\\d{4}.*") || parts[3].matches("\\d{4}.*"));
+    }
+
+    private boolean looksLikeAsmNacRejectLine(String raw) {
+        if (raw == null) {
+            return false;
+        }
+        String normalized = raw.trim().toUpperCase();
+        return normalized.matches("^\\d{3}(\\s+.+)?$")
+                || normalized.matches("^[A-Z0-9./<\\- ]+$");
     }
 }

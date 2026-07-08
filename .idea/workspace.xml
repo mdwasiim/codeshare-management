@@ -6,17 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/domain/enums/ActionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/domain/enums/ActionType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/domain/enums/AsmMessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/domain/enums/AsmMessageType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/domain/enums/SsmMessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/domain/enums/SsmMessageType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/dto/schedule/ScheduleSubMessageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/dto/schedule/ScheduleSubMessageDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/AsmMessageParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/AsmMessageParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/SsmMessageParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/SsmMessageParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/shared/classifier/AsmLineClassifierStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/shared/classifier/AsmLineClassifierStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/shared/classifier/SsmLineClassifierStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/shared/classifier/SsmLineClassifierStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/shared/DateParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/shared/DateParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/shared/LegParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/shared/LegParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/shared/PeriodParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/shared/PeriodParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/shared/TimeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/orchestration/parsers/shared/TimeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/shared/util/LineClassifierUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/shared/util/LineClassifierUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/validation/validator/asm/structural/AsmStructuralValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/validation/validator/asm/structural/AsmStructuralValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/validation/validator/ssim/structural/SsimStructuralValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/validation/validator/ssim/structural/SsimStructuralValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/validation/validator/ssm/structural/SsmStructuralValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/validation/validator/ssm/structural/SsmStructuralValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/orchestration/IngestionProcessorRegressionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/orchestration/IngestionProcessorRegressionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/asm/AsmValidationRegressionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/asm/AsmValidationRegressionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/ssim/SsimValidationRegressionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/ssim/SsimValidationRegressionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/ssm/SsmValidationRegressionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/ssm/SsmValidationRegressionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documents/ssim manual march 2011.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +29,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="3153" />
+    <option name="cachedIndexableFilesCount" value="3222" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -95,7 +100,8 @@
       <workItem from="1783077818410" duration="35317000" />
       <workItem from="1783279097193" duration="1823000" />
       <workItem from="1783281001066" duration="766000" />
-      <workItem from="1783452507094" duration="4798000" />
+      <workItem from="1783452507094" duration="5865000" />
+      <workItem from="1783526348790" duration="3315000" />
     </task>
     <servers />
   </component>

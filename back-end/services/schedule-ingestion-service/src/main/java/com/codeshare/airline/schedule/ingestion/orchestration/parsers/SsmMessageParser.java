@@ -15,10 +15,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Component
 public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO> {
+
+    private static final Pattern MESSAGE_REFERENCE_PATTERN =
+            Pattern.compile("^(\\d{2}[A-Z]{3})(\\d{5})([A-Z]\\d{3})(?:/(.*))?$");
 
     /* ================= STATE ================= */
 
@@ -73,9 +78,14 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
                 }
             }
 
-            case TIME_MODE -> pendingTimeMode = TimeMode.valueOf(line);
+            case TIME_MODE -> {
+                pendingTimeMode = TimeMode.valueOf(line);
+                if (envelope.getTimeMode() == null) {
+                    envelope.setTimeMode(pendingTimeMode);
+                }
+            }
 
-            case MESSAGE_REFERENCE -> envelope.setRawHeader(line);
+            case MESSAGE_REFERENCE -> parseHeaderReference(line);
 
             /* ================= ACTION ================= */
 
@@ -125,8 +135,12 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
         envelope.addMessage(message);
 
         message.setActionType(ActionTypeMapper.fromSsm(ActionLineParser.parseSsm(line).primaryAction()));
+        message.setRawActionLine(line);
 
-        message.setTimeMode(pendingTimeMode != null ? pendingTimeMode : TimeMode.UTC);
+        message.setTimeMode(pendingTimeMode != null
+                ? pendingTimeMode
+                : (envelope.getTimeMode() != null ? envelope.getTimeMode() : TimeMode.UTC));
+        message.setMessageReference(envelope.getMessageReference());
         pendingTimeMode = null; // ✅ FIXED
 
         message.setRawLines(new ArrayList<>());
@@ -309,17 +323,37 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
         return value != null ? value.trim().toUpperCase() : null;
     }
 
+    private void parseHeaderReference(String line) {
+        envelope.setRawHeader(line);
+
+        Matcher matcher = MESSAGE_REFERENCE_PATTERN.matcher(line.trim().toUpperCase());
+        if (!matcher.matches()) {
+            return;
+        }
+
+        envelope.setCreationDateRaw(matcher.group(1));
+        envelope.setCreationDate(DateParser.parse(matcher.group(1)));
+        envelope.setCreationTime(matcher.group(2).substring(0, 4));
+        envelope.setCreatorReference(matcher.group(3));
+        envelope.setMessageReference(matcher.group(4));
+    }
+
     private void handleSupplementary(String line) {
-
-        if (flight == null) {
-            throw new IllegalStateException("SI before FLIGHT: " + line);
+        if (message == null) {
+            throw new IllegalStateException("SI before ACTION: " + line);
         }
 
-        if (flight.getSupplementaryInfo() == null) {
-            flight.setSupplementaryInfo(new ArrayList<>());
+        String normalized = line.trim();
+        if (!normalized.toUpperCase().startsWith("SI")) {
+            return;
         }
 
-        flight.getSupplementaryInfo().add(line);
+        String value = normalized.length() > 3 ? normalized.substring(3).trim() : "";
+        if (value.isBlank()) {
+            return;
+        }
+
+        message.addSupplementaryInfo(value);
     }
     private void addFlightLevelDei(ScheduleFlightDTO flight,
                                    ScheduleDataElementDTO dei,
@@ -369,7 +403,14 @@ public class SsmMessageParser extends AbstractScheduleParser<ScheduleMessageDTO>
         List<ScheduleSubMessageDTO> messages = envelope.getMessages();
 
         for (ScheduleSubMessageDTO msg : messages) {
-            msg.setRawMessage(raw); // ✅ FIXED
+            List<String> messageLines = new ArrayList<>();
+            if (msg.getRawActionLine() != null) {
+                messageLines.add(msg.getRawActionLine());
+            }
+            if (msg.getRawLines() != null) {
+                messageLines.addAll(msg.getRawLines());
+            }
+            msg.setRawMessage(messageLines.isEmpty() ? raw : String.join("\n", messageLines));
         }
 
         return envelope;

@@ -3,8 +3,6 @@ package com.codeshare.airline.schedule.ingestion.orchestration.parsers.shared;
 
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleLegDTO;
 
-import java.time.LocalTime;
-
 public class LegParser {
 
     public static ScheduleLegDTO parse(String line, int seq) {
@@ -49,44 +47,17 @@ public class LegParser {
     }
 
     private static TimeWithOffset parseTimeWithOffset(String value) {
-
-        int offset = 0;
-
-        if (value.contains("+")) {
-            String[] split = value.split("\\+");
-            value = split[0];
-            offset = Integer.parseInt(split[1]);
-        }
-
-        if (!value.matches("^\\d{4}$")) {
-            throw new IllegalArgumentException("Invalid time: " + value);
-        }
-
-        int hour = Integer.parseInt(value.substring(0, 2));
-        int min  = Integer.parseInt(value.substring(2));
-
-        if (hour > 23 || min > 59) {
-            throw new IllegalArgumentException("Invalid time value: " + value);
-        }
-
-        return new TimeWithOffset(LocalTime.of(hour, min), offset);
+        TimeParser.ParsedSingleTime parsed = TimeParser.parseToken(value);
+        return new TimeWithOffset(parsed.getTime(), parsed.getOffset());
     }
 
     private static class TimeWithOffset {
-        LocalTime time;
+        java.time.LocalTime time;
         int offset;
 
-        TimeWithOffset(LocalTime time, int offset) {
+        TimeWithOffset(java.time.LocalTime time, int offset) {
             this.time = time;
             this.offset = offset;
         }
-    }
-
-
-    private static LocalTime parseTime(String value) {
-        return LocalTime.of(
-                Integer.parseInt(value.substring(0, 2)),
-                Integer.parseInt(value.substring(2))
-        );
     }
 }

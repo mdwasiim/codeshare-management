@@ -6,6 +6,7 @@ import com.codeshare.airline.schedule.ingestion.domain.enums.ActionType;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleMessageDTO;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.SsmMessageParser;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationResult;
+import com.codeshare.airline.schedule.ingestion.validation.validator.ssm.business.SsmChapter4BusinessValidator;
 import com.codeshare.airline.schedule.ingestion.validation.validator.ssm.structural.SsmStructuralValidator;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SsmValidationRegressionTest {
 
     private final SsmStructuralValidator structuralValidator = new SsmStructuralValidator();
+    private final SsmChapter4BusinessValidator businessValidator = new SsmChapter4BusinessValidator();
     private final SsmMessageParser parser = new SsmMessageParser();
 
     @Test
@@ -124,6 +126,7 @@ class SsmValidationRegressionTest {
         ValidationResult result = structuralValidator.validate(context);
 
         assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_110"))
                 .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_060"))
                 .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_070"));
     }
@@ -142,10 +145,130 @@ class SsmValidationRegressionTest {
                 .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_120"));
     }
 
+    @Test
+    void manual_xasm_only_allowed_for_specific_actions() {
+        SsmIngestionContext context = context(
+                "SSM",
+                "TIM XASM",
+                "QR1234",
+                "12MAY 30MAY 1234567",
+                "DOH LHR 0800 1400"
+        );
+
+        ValidationResult result = structuralValidator.validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_047"));
+    }
+
+    @Test
+    void manual_rsd_requires_period() {
+        SsmIngestionContext context = context(
+                "SSM",
+                "RSD",
+                "QR1234"
+        );
+
+        ValidationResult result = structuralValidator.validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_060"));
+    }
+
+    @Test
+    void manual_chg_is_not_a_valid_ssm_action() {
+        SsmIngestionContext context = context(
+                "SSM",
+                "CHG",
+                "QR1234",
+                "//"
+        );
+
+        ValidationResult result = structuralValidator.validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_120"));
+    }
+
+    @Test
+    void manual_nac_requires_reject_reason_and_line_reference() {
+        SsmIngestionContext context = parsedContext(
+                "SSM",
+                "25MAY00144E003/REF 123/449",
+                "NAC",
+                "SI ACTION IDENTIFIER INVALID LINE 4",
+                "//"
+        );
+
+        ValidationResult result = businessValidator.validate(context);
+
+        assertThat(result.getMessages()).isEmpty();
+    }
+
+    @Test
+    void manual_rev_requires_existing_and_revised_periods() {
+        SsmIngestionContext context = parsedContext(
+                "SSM",
+                "REV",
+                "QR1234",
+                "12MAY 30MAY 1234567",
+                "//"
+        );
+
+        ValidationResult result = businessValidator.validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_BIZ_030"));
+    }
+
+    @Test
+    void manual_skd_may_not_carry_leg_data() {
+        SsmIngestionContext context = parsedContext(
+                "SSM",
+                "SKD",
+                "QR1234",
+                "12MAY 30MAY 1234567",
+                "DOH LHR 0800 1400",
+                "//"
+        );
+
+        ValidationResult result = businessValidator.validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_BIZ_103"));
+    }
+
+    @Test
+    void manual_tim_may_not_carry_equipment_change() {
+        SsmIngestionContext context = parsedContext(
+                "SSM",
+                "TIM",
+                "QR1234",
+                "12MAY 30MAY 1234567",
+                "DOH LHR 0800 1400",
+                "G 320 FCMY",
+                "//"
+        );
+
+        ValidationResult result = businessValidator.validate(context);
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSM_BIZ_105"));
+    }
+
     private SsmIngestionContext context(String... lines) {
         return SsmIngestionContext.builder()
                 .messageType(MessageType.SSM)
                 .messageLines(List.of(lines))
+                .build();
+    }
+
+    private SsmIngestionContext parsedContext(String... lines) {
+        ScheduleMessageDTO parsed = parser.parseMessage(parser.groupMessage(List.of(lines)));
+        return SsmIngestionContext.builder()
+                .messageType(MessageType.SSM)
+                .messageLines(List.of(lines))
+                .parsedData(parsed)
                 .build();
     }
 }

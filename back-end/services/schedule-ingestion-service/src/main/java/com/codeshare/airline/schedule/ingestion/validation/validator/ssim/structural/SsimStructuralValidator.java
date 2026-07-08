@@ -56,6 +56,7 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
         String previousRecordSerial = null;
         Character previousRecordType = null;
         String currentFlightKey = null;
+        String previousFlightOrderKey = null;
 
         for (String line : context.getMessageLines()) {
 
@@ -127,6 +128,8 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
                     seenFlight = true;
                     currentFlightKey = flightKey(line);
                     validateRecord3(result, line, lineNo);
+                    validateFlightOrdering(result, line, lineNo, previousFlightOrderKey);
+                    previousFlightOrderKey = currentFlightKey;
                     if (!seenCarrier) {
                         result.addError("SSIM_SEQ_004", "Type 3 flight found before Type 2 carrier", line, "line:" + lineNo, ValidationStage.STRUCTURAL);
                     }
@@ -244,8 +247,8 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
         requireBlankOrPattern(result, "SSIM_T3_029", "Invalid Type 3 PRBD field", line, 75, 95, "[A-Z0-9 ]{20}", lineNo);
         requireBlankOrPattern(result, "SSIM_T3_030", "Invalid Type 3 PRBM field", line, 95, 100, "[A-Z ]{5}", lineNo);
         requireBlankOrPattern(result, "SSIM_T3_031", "Invalid Type 3 joint operation airline designators", line, 110, 119, "[A-Z0-9 ]{9}", lineNo);
-        requireBlankOrPattern(result, "SSIM_T3_032", "Invalid Type 3 minimum connecting time status", line, 119, 121, "[A-Z0-9 ]{2}", lineNo);
-        requireBlankOrPattern(result, "SSIM_T3_033", "Invalid Type 3 secure flight indicator", line, 121, 122, "[A-Z]", lineNo);
+        requireBlankOrPattern(result, "SSIM_T3_032", "Invalid Type 3 minimum connecting time status", line, 119, 121, "[DI ]{2}", lineNo);
+        requireBlankOrPattern(result, "SSIM_T3_033", "Invalid Type 3 secure flight indicator", line, 121, 122, "S", lineNo);
         if (isStrict() && isBlank(line, 75, 95) && isBlank(line, 172, 192)) {
             add(result, "SSIM_T3_018", "Type 3 requires PRBD or aircraft configuration/version", line, lineNo);
         }
@@ -257,8 +260,8 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
         requireBlankOrAirlineDesignator(result, "SSIM_T3_038", "Invalid Type 3 cabin crew employer", line, 134, 137, lineNo);
         validateOnwardFlight(result, line, lineNo);
         requireBlank(result, "SSIM_T3_020", "Type 3 byte 147 must be blank", line, 146, 147, lineNo);
-        requireBlankOrPattern(result, "SSIM_T3_039", "Invalid Type 3 flight transit layover", line, 147, 148, "[A-Z0-9]", lineNo);
-        requireBlankOrPattern(result, "SSIM_T3_040", "Invalid Type 3 operating airline disclosure", line, 148, 149, "[A-Z]", lineNo);
+        requireBlankOrPattern(result, "SSIM_T3_039", "Invalid Type 3 flight transit layover", line, 147, 148, "[0-9A]", lineNo);
+        requireBlankOrPattern(result, "SSIM_T3_040", "Invalid Type 3 operating airline disclosure", line, 148, 149, "[LSXZ]", lineNo);
         requireBlankOrPattern(result, "SSIM_T3_041", "Invalid Type 3 traffic restriction code", line, 149, 160, "[A-Z0-9 ]{11}", lineNo);
         requireBlankOrPattern(result, "SSIM_T3_042", "Invalid Type 3 traffic restriction overflow", line, 160, 161, "[A-Z0-9]", lineNo);
         requireBlankOrPattern(result, "SSIM_T3_043", "Invalid Type 3 aircraft configuration/version", line, 172, 192, "[A-Z0-9 ]{20}", lineNo);
@@ -363,6 +366,16 @@ public class SsimStructuralValidator implements StructuralValidation<SsimIngesti
 
         if (!checkReference.equals(previousRecordSerial)) {
             add(result, "SSIM_T5_009", "Type 5 serial check reference must equal previous record serial number", line, lineNo);
+        }
+    }
+
+    private void validateFlightOrdering(ValidationResult result, String line, int lineNo, String previousFlightOrderKey) {
+        if (previousFlightOrderKey == null) {
+            return;
+        }
+        String current = flightKey(line);
+        if (current.compareTo(previousFlightOrderKey) < 0) {
+            add(result, "SSIM_SEQ_010", "Type 3 flight records must be ordered by flight designator, itinerary variation, and leg sequence", line, lineNo);
         }
     }
 

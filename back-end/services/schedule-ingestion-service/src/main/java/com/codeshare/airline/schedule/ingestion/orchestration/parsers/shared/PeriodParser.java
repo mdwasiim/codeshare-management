@@ -44,7 +44,11 @@ public final class PeriodParser {
 
                 if (parts.length == 2) {
                     period.setDaysOfOperation(parts[0]);
-                    period.setFrequencyRate(parseInteger(parts[1]));
+                    String frequencyToken = parts[1].trim().toUpperCase();
+                    if (frequencyToken.startsWith("W")) {
+                        frequencyToken = frequencyToken.substring(1);
+                    }
+                    period.setFrequencyRate(parseInteger(frequencyToken));
                 }
 
             } else {
@@ -58,7 +62,7 @@ public final class PeriodParser {
     /* ================= HELPERS ================= */
 
     private static boolean isDate(String token) {
-        return token != null && token.matches("\\d{2}[A-Z]{3}");
+        return token != null && token.matches("\\d{2}[A-Z]{3}(\\d{2})?");
     }
 
     private static Integer parseInteger(String value) {

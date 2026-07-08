@@ -111,6 +111,68 @@ class SsimValidationRegressionTest {
     }
 
     @Test
+    void chapter7_type3_requires_canonical_flight_ordering() {
+        ValidationResult result = structuralValidator.validate(context(List.of(
+                header("001", "000001"),
+                carrier("U", "QR ", "01APR26", "30OCT26", "01MAR26", "P", "1200", "000002"),
+                flight("QR ", "0456", "01", "01", "J", "01APR26", "30OCT26", "1234567",
+                        "LHR", "1500", "1500", "+0000", "JFK", "2200", "2200", "-0400",
+                        "320", padRight("Y", 20), padRight("", 20), "00", "000003"),
+                flight("QR ", "0123", "01", "01", "J", "01APR26", "30OCT26", "1234567",
+                        "DOH", "0800", "0800", "+0300", "LHR", "1400", "1400", "+0000",
+                        "320", padRight("Y", 20), padRight("", 20), "00", "000004"),
+                trailer("QR ", "000004", "E", "000005")
+        )));
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSIM_SEQ_010"));
+    }
+
+    @Test
+    void chapter7_type3_rejects_invalid_secure_flight_indicator() {
+        String invalidFlight = replaceRange(
+                flight("QR ", "0123", "01", "01", "J", "01APR26", "30OCT26", "1234567",
+                        "DOH", "0800", "0800", "+0300", "LHR", "1400", "1400", "+0000",
+                        "320", padRight("Y", 20), padRight("", 20), "00", "000003"),
+                121, 122, "X"
+        );
+
+        ValidationResult result = structuralValidator.validate(context(List.of(
+                header("001", "000001"),
+                carrier("U", "QR ", "01APR26", "30OCT26", "01MAR26", "P", "1200", "000002"),
+                invalidFlight,
+                trailer("QR ", "000003", "E", "000004")
+        )));
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSIM_T3_033"));
+    }
+
+    @Test
+    void chapter7_type3_rejects_invalid_disclosure_and_layover_code() {
+        String invalidFlight = replaceRange(
+                replaceRange(
+                        flight("QR ", "0123", "01", "01", "J", "01APR26", "30OCT26", "1234567",
+                                "DOH", "0800", "0800", "+0300", "LHR", "1400", "1400", "+0000",
+                                "320", padRight("Y", 20), padRight("", 20), "00", "000003"),
+                        147, 148, "B"
+                ),
+                148, 149, "Q"
+        );
+
+        ValidationResult result = structuralValidator.validate(context(List.of(
+                header("001", "000001"),
+                carrier("U", "QR ", "01APR26", "30OCT26", "01MAR26", "P", "1200", "000002"),
+                invalidFlight,
+                trailer("QR ", "000003", "E", "000004")
+        )));
+
+        assertThat(result.getMessages())
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSIM_T3_039"))
+                .anySatisfy(message -> assertThat(message.getRuleCode()).isEqualTo("SSIM_T3_040"));
+    }
+
+    @Test
     void extra_malformed_zero_padding_record_is_rejected() {
         ValidationResult result = structuralValidator.validate(context(List.of(
                 header("001", "000001"),
@@ -245,6 +307,10 @@ class SsimValidationRegressionTest {
         for (int i = 0; i < value.length(); i++) {
             record[start + i] = value.charAt(i);
         }
+    }
+
+    private static String replaceRange(String value, int start, int end, String replacement) {
+        return value.substring(0, start) + replacement + value.substring(end);
     }
 
     private static String padRight(String value, int length) {

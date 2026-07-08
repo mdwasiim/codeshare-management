@@ -4,7 +4,6 @@ package com.codeshare.airline.schedule.ingestion.domain.enums;
 public enum SsmMessageType {
 
     NEW(ActionType.CREATE),
-    CHG(ActionType.UPDATE),
     CNL(ActionType.DELETE),
     RPL(ActionType.REPLACE),
     SKD(ActionType.SCHEDULE_CHANGE),

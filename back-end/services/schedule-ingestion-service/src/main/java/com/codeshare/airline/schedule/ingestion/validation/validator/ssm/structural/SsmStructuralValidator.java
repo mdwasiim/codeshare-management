@@ -19,6 +19,8 @@ import java.util.Set;
 @Component
 public class SsmStructuralValidator implements StructuralValidation<SsmIngestionContext> {
 
+    private static final Set<String> SSM_XASM_ALLOWED = Set.of("SKD", "NEW", "RPL", "CNL");
+
     @Override
     public Set<MessageType> supportedTypes() {
         return Set.of(MessageType.SSM);
@@ -43,10 +45,16 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
         List<String> firstBlockFlights = new ArrayList<>();
 
         int lineNo = 0;
+        boolean endedWithSeparator = false;
         LineClassifier classifier = LineClassifierFactory.create(MessageType.SSM);
 
         for (String raw : context.getMessageLines()) {
             lineNo++;
+            endedWithSeparator = false;
+
+            if (raw != null && raw.length() > 69) {
+                result.addError("SSM_010", "Line exceeds 69 printable characters", raw, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+            }
 
             var lc = classifier.classify(raw);
             var type = lc.getType();
@@ -69,6 +77,7 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                     currentActionLine = ActionLineParser.parseSsm(line);
                     currentActionType = lc.getActionType();
                     primaryActions.add(currentActionLine.primaryAction());
+                    validateActionLine(result, currentActionLine, lineNo);
 
                     hasFlight = false;
                     hasPeriod = false;
@@ -124,11 +133,12 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
                     }
                 }
                 case SUPPLEMENTARY -> {
-                    if (!hasFlight) {
-                        result.addError("SSM_100", "SI before FLIGHT", line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+                    if (!hasAction) {
+                        result.addError("SSM_100", "SI before ACTION", line, "LINE " + lineNo, ValidationStage.STRUCTURAL);
                     }
                 }
                 case SUB_MESSAGE_SEPARATOR -> {
+                    endedWithSeparator = true;
                     validateBlock(result, currentActionType, hasFlight, hasPeriod, hasLeg, hasEquipment, hasDei);
                     inBlock = false;
                     hasFlight = false;
@@ -153,12 +163,36 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
         }
 
         if (inBlock) {
+            if (!endedWithSeparator) {
+                result.addError("SSM_110", "Missing final sub-message separator", null, "MESSAGE", ValidationStage.STRUCTURAL);
+            }
             validateBlock(result, currentActionType, hasFlight, hasPeriod, hasLeg, hasEquipment, hasDei);
         }
 
         validateMessageLevelRules(result, primaryActions, firstBlockFlights);
 
         return result;
+    }
+
+    private void validateActionLine(ValidationResult result,
+                                    ActionLineParser.ParsedActionLine actionLine,
+                                    int lineNo) {
+        if (actionLine == null || actionLine.primaryAction() == null || actionLine.primaryAction().isBlank()) {
+            result.addError("SSM_041", "Missing primary action identifier", null, "LINE " + lineNo, ValidationStage.STRUCTURAL);
+            return;
+        }
+
+        if (!actionLine.changeReasons().isEmpty()) {
+            result.addError("SSM_042", "Unexpected action modifiers on SSM action line",
+                    String.join(" ", actionLine.changeReasons()),
+                    "LINE " + lineNo, ValidationStage.STRUCTURAL);
+        }
+
+        if (actionLine.asmWithdrawalIndicator() && !SSM_XASM_ALLOWED.contains(actionLine.primaryAction())) {
+            result.addError("SSM_047", "XASM is only valid with SKD, NEW, RPL or CNL",
+                    actionLine.primaryAction(),
+                    "LINE " + lineNo, ValidationStage.STRUCTURAL);
+        }
     }
 
     private void validateMessageLevelRules(ValidationResult result,
@@ -232,8 +266,9 @@ public class SsmStructuralValidator implements StructuralValidation<SsmIngestion
 
     private boolean requiresPeriod(ActionType actionType) {
         return switch (actionType) {
-            case CREATE, DELETE, REPLACE, EQUIPMENT_CHANGE, CONFIGURATION_CHANGE,
-                    TIME_CHANGE, ADMINISTRATIVE, REVISION, IDENTIFIER_CHANGE -> true;
+            case CREATE, DELETE, REPLACE, SCHEDULE_CHANGE, REQUEST_SCHEDULE_DATA,
+                    EQUIPMENT_CHANGE, CONFIGURATION_CHANGE, TIME_CHANGE,
+                    ADMINISTRATIVE, REVISION, IDENTIFIER_CHANGE -> true;
             default -> false;
         };
     }
