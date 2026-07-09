@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
 import { AppApiService } from '@core/api/config/app-api.service';
+import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 import { AppToastService } from '@services/toast/app-toast.service';
 import { CodesharePartner } from '@features/masters/airlines/codeshare-partners/models/codeshare-partners.model';
 
@@ -8,24 +9,37 @@ import { CodesharePartner } from '@features/masters/airlines/codeshare-partners/
 export class CodesharePartnerService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
-    private readonly baseUrl = '/master/codeshare-partners';
 
-    getAll() { return this.api.get<CodesharePartner[]>(this.baseUrl); }
-    getById(id: string) { return this.api.get<CodesharePartner>(this.baseUrl + '/' + encodeURIComponent(id)); }
+    getAll() {
+        return this.api.get<CodesharePartner[]>(API_ENDPOINTS.accessManagement.tenantPartners.base);
+    }
+
+    getById(id: string) {
+        return this.api.get<CodesharePartner>(API_ENDPOINTS.accessManagement.tenantPartners.byId, {
+            pathParams: { id }
+        });
+    }
+
     create(payload: CodesharePartner) {
-        return this.api.post<CodesharePartner>(this.baseUrl, payload).pipe(
+        return this.api.post<CodesharePartner>(API_ENDPOINTS.accessManagement.tenantPartners.base, payload).pipe(
             tap(() => this.toast.success('Codeshare Partners created successfully')),
             catchError((err) => { this.toast.error(err.message || 'Failed to create Codeshare Partners'); return throwError(() => err); })
         );
     }
+
     update(id: string, payload: CodesharePartner) {
-        return this.api.put<CodesharePartner>(this.baseUrl + '/' + encodeURIComponent(id), payload).pipe(
+        return this.api.put<CodesharePartner>(API_ENDPOINTS.accessManagement.tenantPartners.byId, payload, {
+            pathParams: { id }
+        }).pipe(
             tap(() => this.toast.success('Codeshare Partners updated successfully')),
             catchError((err) => { this.toast.error(err.message || 'Failed to update Codeshare Partners'); return throwError(() => err); })
         );
     }
+
     delete(id: string) {
-        return this.api.delete<void>(this.baseUrl + '/' + encodeURIComponent(id)).pipe(
+        return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenantPartners.byId, {
+            pathParams: { id }
+        }).pipe(
             tap(() => this.toast.success('Codeshare Partners deleted successfully')),
             catchError((err) => { this.toast.error(err.message || 'Failed to delete Codeshare Partners'); return throwError(() => err); })
         );

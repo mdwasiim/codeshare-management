@@ -4,9 +4,11 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableCaching
+@EnableFeignClients(basePackages = "com.codeshare.airline.identity.integration")
 @SpringBootApplication(
         scanBasePackages = {"com.codeshare.airline.identity","com.codeshare.airline.web"}
 )

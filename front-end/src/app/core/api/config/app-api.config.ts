@@ -85,13 +85,17 @@ export const API_ENDPOINTS = {
             byId: makeEndpoint('/identity/permissions/{id}')
         },
         tenants: {
-            base: makeEndpoint('/identity/tenants'),
-            byId: makeEndpoint('/identity/tenants/{id}')
+            base: makeEndpoint('/tenant/tenants'),
+            byId: makeEndpoint('/tenant/tenants/{id}')
         },
         menu: {
             base: makeEndpoint('/identity/menus'),
             manage: makeEndpoint('/identity/menus/manage/all'),
             byId: makeEndpoint('/identity/menus/{id}')
+        },
+        tenantPartners: {
+            base: makeEndpoint('/tenant/tenant-partners'),
+            byId: makeEndpoint('/tenant/tenant-partners/{id}')
         }
     },
     scheduleIngestion: {
