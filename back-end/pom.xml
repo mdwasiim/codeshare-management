@@ -61,7 +61,7 @@
         <module>services/csm-web</module>
 
         <module>services/gateway-service</module>
-        <module>services/host-airline-service</module>
+        <module>services/tenant-service</module>
         <module>services/identity-service</module>
         <module>services/schedule-ingestion-service</module>
         <module>services/schedule-processing-service</module>

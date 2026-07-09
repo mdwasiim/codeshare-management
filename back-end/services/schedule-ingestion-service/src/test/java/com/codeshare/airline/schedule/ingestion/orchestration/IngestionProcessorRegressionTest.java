@@ -578,6 +578,7 @@ class IngestionProcessorRegressionTest {
             }
             if ("//".equals(line.trim())) {
                 if (!current.isEmpty()) {
+                    current.add("//");
                     blocks.add(List.copyOf(current));
                     current.clear();
                 }

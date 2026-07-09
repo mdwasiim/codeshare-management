@@ -5,16 +5,92 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/TenantManagementApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/authpolicy/entities/OidcConfigEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/authpolicy/entities/OidcIdentityProviderEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/core/controller/TenantController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/core/entities/Tenant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/core/mappers/TenantMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/core/repository/TenantRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/core/service/TenantService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/core/service/impl/TenantServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/controller/CodesharePartnerCommunicationProfileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/controller/CodesharePartnerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/controller/CodesharePartnerDistributionProfileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/controller/CodesharePartnerProfileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/entities/CodesharePartner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/entities/CodesharePartnerCommunicationProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/entities/CodesharePartnerDistributionProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/entities/CodesharePartnerProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/mappers/CodesharePartnerCommunicationProfileMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/mappers/CodesharePartnerDistributionProfileMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/mappers/CodesharePartnerMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/mappers/CodesharePartnerProfileMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/repository/CodesharePartnerCommunicationProfileRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/repository/CodesharePartnerDistributionProfileRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/repository/CodesharePartnerProfileRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/repository/CodesharePartnerRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/service/CodesharePartnerCommunicationProfileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/service/CodesharePartnerDistributionProfileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/service/CodesharePartnerProfileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/service/CodesharePartnerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/service/impl/CodesharePartnerCommunicationProfileServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/service/impl/CodesharePartnerDistributionProfileServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/service/impl/CodesharePartnerProfileServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/partner/service/impl/CodesharePartnerServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/test/java/com/codeshare/airline/tenant/TenantServiceApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/AuthIdentityApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/AuthIdentityApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/service/core/TenantContextResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/service/core/TenantContextResolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/controller/TenantController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/codeshare-partners/services/codeshare-partners.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/airlines/codeshare-partners/services/codeshare-partners.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/TenantManagementApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/authpolicy/entities/OidcConfigEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/authpolicy/entities/OidcIdentityProviderEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/core/controller/TenantController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/core/entities/Tenant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/core/mappers/TenantMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/core/repository/TenantRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/core/service/TenantService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/core/service/impl/TenantServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/controller/CodesharePartnerCommunicationProfileController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/controller/CodesharePartnerController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/controller/CodesharePartnerDistributionProfileController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/controller/CodesharePartnerProfileController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/entities/CodesharePartner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/entities/CodesharePartnerCommunicationProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/entities/CodesharePartnerDistributionProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/entities/CodesharePartnerProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/mappers/CodesharePartnerCommunicationProfileMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/mappers/CodesharePartnerDistributionProfileMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/mappers/CodesharePartnerMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/mappers/CodesharePartnerProfileMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/repository/CodesharePartnerCommunicationProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/repository/CodesharePartnerDistributionProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/repository/CodesharePartnerProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/repository/CodesharePartnerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/service/CodesharePartnerCommunicationProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/service/CodesharePartnerDistributionProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/service/CodesharePartnerProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/service/CodesharePartnerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/service/impl/CodesharePartnerCommunicationProfileServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/service/impl/CodesharePartnerDistributionProfileServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/service/impl/CodesharePartnerProfileServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/java/com/codeshare/airline/tenant/partner/service/impl/CodesharePartnerServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/host-airline-service/src/test/java/com/codeshare/airline/tenant/TenantServiceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/service/ScheduleMessageApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/service/ScheduleMessageApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/orchestration/IngestionProcessorRegressionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/test/java/com/codeshare/airline/schedule/ingestion/orchestration/IngestionProcessorRegressionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +171,7 @@
       <workItem from="1783281001066" duration="766000" />
       <workItem from="1783452507094" duration="5865000" />
       <workItem from="1783526348790" duration="5279000" />
-      <workItem from="1783610240159" duration="3478000" />
+      <workItem from="1783610240159" duration="4375000" />
     </task>
     <servers />
   </component>

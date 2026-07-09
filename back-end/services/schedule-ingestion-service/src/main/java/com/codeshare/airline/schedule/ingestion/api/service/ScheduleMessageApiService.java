@@ -17,7 +17,7 @@ import com.codeshare.airline.schedule.ingestion.validation.model.ValidationMessa
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationResult;
 import com.codeshare.airline.schedule.ingestion.validation.orchestrator.BusinessValidationOrchestrator;
 import com.codeshare.airline.schedule.ingestion.validation.orchestrator.StructuralValidationOrchestrator;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class ScheduleMessageApiService {
 
     private final Map<MessageType, StreamExtractorHandler> extractorMap;
@@ -41,6 +40,22 @@ public class ScheduleMessageApiService {
     private final StructuralValidationOrchestrator structuralValidationOrchestrator;
     private final BusinessValidationOrchestrator businessValidationOrchestrator;
     private final ScheduleChapterProcessor scheduleChapterProcessor;
+
+    public ScheduleMessageApiService(
+            Map<MessageType, StreamExtractorHandler> extractorMap,
+            Map<MessageType, MessageParser<?>> parserMap,
+            Map<MessageType, PreParseContextFactory<?>> preParseContextFactoryMap,
+            StructuralValidationOrchestrator structuralValidationOrchestrator,
+            BusinessValidationOrchestrator businessValidationOrchestrator,
+            @Qualifier("scheduleMessageChapterProcessor") ScheduleChapterProcessor scheduleChapterProcessor
+    ) {
+        this.extractorMap = extractorMap;
+        this.parserMap = parserMap;
+        this.preParseContextFactoryMap = preParseContextFactoryMap;
+        this.structuralValidationOrchestrator = structuralValidationOrchestrator;
+        this.businessValidationOrchestrator = businessValidationOrchestrator;
+        this.scheduleChapterProcessor = scheduleChapterProcessor;
+    }
 
     public ScheduleMessageValidationResponse validate(
             MessageType type,
