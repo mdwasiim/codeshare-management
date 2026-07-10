@@ -5,7 +5,7 @@ import com.codeshare.airline.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.core.mapper.CSMMapperConfig;
 import com.codeshare.airline.tenant.entities.Tenant;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.ObjectFactory;
 
 @Mapper(config = CSMMapperConfig.class)
 public interface TenantMapper extends CSMGenericMapper<Tenant, TenantDTO> {
@@ -15,4 +15,9 @@ public interface TenantMapper extends CSMGenericMapper<Tenant, TenantDTO> {
 
     @Override
     Tenant toEntity(TenantDTO dto);
+
+    @ObjectFactory
+    default Tenant createTenant(TenantDTO dto) {
+        return Tenant.builder().build();
+    }
 }

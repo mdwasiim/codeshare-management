@@ -4,10 +4,8 @@ export interface Tenant extends AuditableModel {
     id?: string;
 
     name: string;
-    code: string;
+    tenantCode: string;
     description?: string;
-
-    databaseConfigId?: string;
 
     plan?: string;
     subscriptionStart?: string;
@@ -78,7 +76,7 @@ export enum TenantPlan {
 
 export const DEFAULT_TENANT: Tenant = {
     name: '',
-    code: '',
+    tenantCode: '',
     authSource: AuthSource.INTERNAL,
     status: TenantStatus.ACTIVE,
     trial: false

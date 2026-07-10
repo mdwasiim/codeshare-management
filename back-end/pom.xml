@@ -51,6 +51,24 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <!-- ===================================================== -->
+    <!-- MODULES -->
+    <!-- ===================================================== -->
+    <modules>
+        <module>services/csm-core</module>
+        <module>services/csm-data-jpa</module>
+        <module>services/csm-web</module>
+
+        <module>services/gateway-service</module>
+        <module>services/master-data-service</module>
+        <module>services/tenant-service</module>
+        <module>services/identity-service</module>
+        <module>services/schedule-ingestion-service</module>
+        <module>services/schedule-processing-service</module>
+        <module>services/schedule-service</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -65,23 +83,6 @@
             <artifactId>spring-cloud-openfeign-core</artifactId>
         </dependency>
     </dependencies>
-
-    <!-- ===================================================== -->
-    <!-- MODULES -->
-    <!-- ===================================================== -->
-    <modules>
-        <module>services/csm-core</module>
-        <module>services/csm-data-jpa</module>
-        <module>services/csm-web</module>
-
-        <module>services/gateway-service</module>
-        <module>services/tenant-service</module>
-        <module>services/identity-service</module>
-        <module>services/schedule-ingestion-service</module>
-        <module>services/schedule-processing-service</module>
-		<module>services/schedule-service</module>
-        <module>services/master-data-service</module>
-    </modules>
 
     <!-- ===================================================== -->
     <!-- DEPENDENCY MANAGEMENT -->

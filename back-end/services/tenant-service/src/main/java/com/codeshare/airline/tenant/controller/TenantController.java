@@ -1,4 +1,4 @@
-package com.codeshare.airline.tenant.controller;
+package com.codeshare.airline.tenant.management.controller;
 
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.TenantAuthContextDTO;

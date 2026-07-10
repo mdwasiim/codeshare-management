@@ -28,13 +28,11 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public PermissionDTO create(PermissionDTO dto) {
         UUID tenantId = TenantContextHolder.getTenant().getId();
-        if (dto.getTenantId() == null)
-            throw new CSMBusinessException(CSMErrorCodes.VALIDATION_ERROR, "tenantId is required");
         if (dto.getDomain() == null || dto.getAction() == null)
             throw new CSMBusinessException(CSMErrorCodes.VALIDATION_ERROR, "domain and action are required");
 
         String code = dto.getDomain() + ":" + dto.getAction();
-        if (repo.existsByTenantIdAndCode(dto.getTenantId(), code))
+        if (repo.existsByTenantIdAndCode(tenantId, code))
             throw new CSMBusinessException(CSMErrorCodes.DUPLICATE_ENTITY, "Permission already exists for ingestion: " + code);
 
         dto.setCode(code);

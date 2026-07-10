@@ -10,14 +10,6 @@
                     <small class="p-error" *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">Name is required.</small>
                 </div>
 
-                <!-- TENANT -->
-                <div class="field col-12 md:col-6">
-                    <label for="tenantId" class="required"> Tenant </label>
-
-                    <p-select inputId="tenantId" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full" aria-required="true"> </p-select>
-                    <small class="p-error" *ngIf="form.controls['tenantId'].hasError('required') && form.controls['tenantId'].touched">Tenant is required.</small>
-                </div>
-
                 <!-- DOMAIN -->
                 <div class="field col-12 md:col-6">
                     <label for="domain" class="required"> Domain </label>

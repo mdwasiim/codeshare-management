@@ -23,7 +23,7 @@
     responsiveLayout="scroll"
     styleClass="access-table p-datatable-sm"
     [tableStyle]="{ 'min-width': '95rem' }"
-    [globalFilterFields]="['name','code','description','databaseConfigId','plan','status','contactEmail','contactPhone','logoUrl','region','createdBy','updatedBy']"
+    [globalFilterFields]="['name','tenantCode','description','plan','status','contactEmail','contactPhone','logoUrl','region','createdBy','updatedBy']"
 >
     <ng-template pTemplate="caption">
         <div class="access-table-caption">
@@ -47,15 +47,14 @@
                 <p-sortIcon field="name"></p-sortIcon>
             </th>
 
-            <th pSortableColumn="code">
+            <th pSortableColumn="tenantCode">
                 Code
-                <p-sortIcon field="code"></p-sortIcon>
+                <p-sortIcon field="tenantCode"></p-sortIcon>
             </th>
 
             <th>Status</th>
             <th>Plan</th>
             <th>Description</th>
-            <th>Database Config</th>
             <th>Subscription Start</th>
             <th>Subscription End</th>
             <th>Trial</th>
@@ -81,7 +80,7 @@
             </td>
 
             <td>{{ tenant.name }}</td>
-            <td>{{ tenant.code }}</td>
+            <td>{{ tenant.tenantCode }}</td>
 
             <td>
                 <p-tag [value]="tenant.status" [severity]="getStatusSeverity(tenant.status)"> </p-tag>
@@ -89,7 +88,6 @@
 
             <td>{{ tenant.plan || '-' }}</td>
             <td>{{ displayValue(tenant.description) }}</td>
-            <td>{{ displayValue(tenant.databaseConfigId) }}</td>
             <td>{{ displayDate(tenant.subscriptionStart) }}</td>
             <td>{{ displayDate(tenant.subscriptionEnd) }}</td>
             <td>

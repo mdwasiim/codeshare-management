@@ -24,10 +24,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDTO create(RoleDTO dto) {
         UUID tenantId = TenantContextHolder.getTenant().getId();
-        if (dto.getTenantId() == null) {
-            throw new IllegalArgumentException("tenantId is required");
-        }
-        if (repo.existsByNameAndTenantId(dto.getName(), dto.getTenantId())) {
+        if (repo.existsByNameAndTenantId(dto.getName(), tenantId)) {
             throw new RuntimeException("Role already exists for this ingestion");
         }
 

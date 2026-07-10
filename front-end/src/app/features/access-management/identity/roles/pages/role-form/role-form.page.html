@@ -25,13 +25,6 @@
                     <input id="description" pInputText formControlName="description" class="w-full" />
                 </div>
 
-                <!-- TENANT -->
-                <div class="field col-12 md:col-6">
-                    <label for="tenantId" class="required"> Tenant </label>
-
-                    <p-select inputId="tenantId" appendTo="body" [options]="tenants" optionLabel="name" optionValue="id" formControlName="tenantId" placeholder="Select Tenant" styleClass="w-full" aria-required="true"> </p-select>
-                    <small class="p-error" *ngIf="form.controls['tenantId'].hasError('required') && form.controls['tenantId'].touched">Tenant is required.</small>
-                </div>
             </div>
         </app-form-section>
     </div>

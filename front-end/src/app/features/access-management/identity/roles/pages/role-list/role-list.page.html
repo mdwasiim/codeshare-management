@@ -42,7 +42,6 @@
             <th>Code</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Tenant</th>
             <th>Created At</th>
             <th>Created By</th>
             <th>Updated At</th>
@@ -63,9 +62,6 @@
             <td>{{ role.name }}</td>
             <td>{{ role.description }}</td>
 
-            <td>
-                <p-tag [value]="role.tenantId" severity="info"></p-tag>
-            </td>
             <td>{{ (role.createdAt | date: 'short') || '-' }}</td>
             <td>{{ role.createdBy || '-' }}</td>
             <td>{{ (role.updatedAt | date: 'short') || '-' }}</td>
@@ -89,7 +85,7 @@
     <!-- Empty -->
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="11" class="text-center py-6 text-gray-500">
+            <td colspan="10" class="text-center py-6 text-gray-500">
                 <i class="pi pi-id-card text-2xl mb-2"></i>
                 <div>No roles found</div>
             </td>

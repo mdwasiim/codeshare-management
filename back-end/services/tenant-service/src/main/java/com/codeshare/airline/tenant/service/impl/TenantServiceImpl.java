@@ -1,4 +1,4 @@
-package com.codeshare.airline.tenant.service.impl;
+package com.codeshare.airline.tenant.management.service.impl;
 
 import com.codeshare.airline.core.dto.tenant.IdentityProviderConfigDTO;
 import com.codeshare.airline.core.dto.tenant.OidcConfigDTO;
@@ -7,10 +7,10 @@ import com.codeshare.airline.core.dto.tenant.TenantDTO;
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.TenantPlan;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
+import com.codeshare.airline.tenant.entities.Tenant;
 import com.codeshare.airline.tenant.entities.identity.OidcConfigEntity;
 import com.codeshare.airline.tenant.entities.identity.OidcIdentityProviderEntity;
 import com.codeshare.airline.tenant.integration.identity.IdentityBootstrapClient;
-import com.codeshare.airline.tenant.entities.Tenant;
 import com.codeshare.airline.tenant.mappers.TenantMapper;
 import com.codeshare.airline.tenant.repository.TenantRepository;
 import com.codeshare.airline.tenant.service.TenantService;

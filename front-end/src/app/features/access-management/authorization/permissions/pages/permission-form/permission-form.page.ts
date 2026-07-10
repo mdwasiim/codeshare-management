@@ -9,8 +9,6 @@ import { SelectModule } from 'primeng/select';
 
 import { Permission } from '@features/access-management/models/permission.model';
 import { PermissionApiService } from '@features/access-management/authorization/permissions/services/permission-api.service';
-import { TenantService } from '@features/access-management/identity/tenants/services/tenant.service';
-
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
@@ -26,18 +24,11 @@ export class PermissionFormPage extends BaseCrudForm<Permission> {
 
     private fb = inject(FormBuilder);
     private service = inject(PermissionApiService);
-    private tenantService = inject(TenantService);
-
-    tenants: any[] = [];
     domains: any[] = [];
     actions: any[] = [];
 
     override ngOnInit(): void {
         this.buildForm();
-
-        this.tenantService.getAll().subscribe({
-            next: (res) => (this.tenants = res)
-        });
 
         this.domains = [
             { name: 'User', code: 'USER' },
@@ -70,8 +61,7 @@ export class PermissionFormPage extends BaseCrudForm<Permission> {
             name: ['', Validators.required],
             domain: ['', Validators.required],
             action: ['', Validators.required],
-            description: [''],
-            tenantId: ['', Validators.required]
+            description: ['']
         });
     }
 

@@ -52,7 +52,7 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
         this.form = this.fb.group({
             id: [null],
             name: ['', Validators.required],
-            code: ['', Validators.required],
+            tenantCode: ['', Validators.required],
             description: [''],
             contactEmail: [''],
             contactPhone: [''],
@@ -109,7 +109,7 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
         const authSource = this.form.get('authSource')?.value as AuthSource;
         const normalizedPayload: Tenant = {
             ...payload,
-            code: payload.code?.trim().toUpperCase(),
+            tenantCode: payload.tenantCode?.trim().toUpperCase(),
             authSource
         };
 

@@ -13,10 +13,10 @@
 
                 <!-- CODE -->
                 <div class="field col-12 md:col-6">
-                    <label for="code" class="required">Code</label>
+                    <label for="tenantCode" class="required">Code</label>
 
-                    <input id="code" pInputText formControlName="code" class="w-full" aria-required="true" />
-                    <small class="p-error" *ngIf="form.controls['code'].hasError('required') && form.controls['code'].touched">Code is required.</small>
+                    <input id="tenantCode" pInputText formControlName="tenantCode" class="w-full" aria-required="true" />
+                    <small class="p-error" *ngIf="form.controls['tenantCode'].hasError('required') && form.controls['tenantCode'].touched">Code is required.</small>
                 </div>
 
                 <!-- DESCRIPTION -->
