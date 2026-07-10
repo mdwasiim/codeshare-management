@@ -1,0 +1,20 @@
+<div class="tenant-tab-stack">
+    <div class="tenant-tab-toolbar">
+        <div>
+            <h2>Review and Activation Readiness</h2>
+            <p>Use this checkpoint before handing the tenant over to operational users.</p>
+        </div>
+    </div>
+
+    <section class="tenant-tab-section tenant-tab-section--full">
+        <div class="tenant-definition-grid">
+            <div *ngFor="let check of checks">
+                <dt>{{ check.label }}</dt>
+                <dd class="d-flex align-items-center gap-2">
+                    <p-tag [value]="check.complete ? 'Complete' : 'Pending'" [severity]="severity(check.complete)"></p-tag>
+                </dd>
+                <div class="tenant-body-copy mt-2">{{ check.detail }}</div>
+            </div>
+        </div>
+    </section>
+</div>

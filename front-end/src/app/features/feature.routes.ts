@@ -7,10 +7,12 @@ import { AUTHENTICATION_ROUTES } from '@features/access-management/authenticatio
 import { DASHBOARD_ROUTES } from '@features/home/dashboard/dashboard.routes';
 import { SCHEDULE_INGESTION_ROUTES } from '@features/schedule-ingestion/schedule-ingestion.routes';
 import { MASTERS_ROUTES } from '@features/masters/masters.routes';
+import { TENANT_ONBOARDING_ROUTES } from '@features/tenant-onboarding/tenant-onboarding.routes';
 
 export const FEATURE_ROUTES: Routes = [
     ...ASSIGNMENTS_ROUTES,
     ...AUTHENTICATION_ROUTES,
+    ...TENANT_ONBOARDING_ROUTES,
     ...IDENTITY_ROUTES,
     ...AUTHORIZATION_ROUTES,
     ...DASHBOARD_ROUTES,

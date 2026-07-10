@@ -84,30 +84,6 @@
     "displayOrder": 3,
     "visible": null
   },
-  {
-    "code": "TENANTS",
-    "parentCode": "IDENTITY_MGMT",
-    "label": "Tenants",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-building",
-    "route": "/tenants",
-    "permission": "tenant:read",
-    "displayOrder": 4,
-    "visible": null
-  },
-  {
-    "code": "TENANT_PARTNERS",
-    "parentCode": "IDENTITY_MGMT",
-    "label": "Partner Airlines",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-share-alt",
-    "route": "/tenant-partners",
-    "permission": "codesharepartner:read",
-    "displayOrder": 5,
-    "visible": null
-  },
 
   {
     "code": "PERMISSIONS",

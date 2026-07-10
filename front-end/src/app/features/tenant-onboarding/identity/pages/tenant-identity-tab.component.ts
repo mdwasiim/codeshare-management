@@ -6,7 +6,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { TenantService } from '../../../services/tenant.service';
+import { TenantService } from '@features/access-management/identity/tenants/services/tenant.service';
 import { AuthSource, IdentityProviderConfig, Tenant } from '@features/access-management/models/tenant.model';
 
 @Component({
@@ -22,8 +22,11 @@ export class TenantIdentityTabComponent {
 
     tenant: Tenant | null = null;
     providers: IdentityProviderConfig[] = [];
+    mode: 'identity-providers' | 'oidc-config' = 'identity-providers';
 
     constructor() {
+        this.mode = (this.route.snapshot.routeConfig?.path as 'identity-providers' | 'oidc-config') || 'identity-providers';
+
         this.route.parent?.paramMap
             .pipe(
                 switchMap((params) => {
@@ -57,6 +60,16 @@ export class TenantIdentityTabComponent {
                     }
                 });
             });
+    }
+
+    get title() {
+        return this.mode === 'oidc-config' ? 'OIDC Configuration' : 'Identity Providers';
+    }
+
+    get description() {
+        return this.mode === 'oidc-config'
+            ? 'Issuer, client, redirect, token, and scope settings for tenant authentication.'
+            : 'Authentication source order and provider enablement for this tenant.';
     }
 
     openEdit() {

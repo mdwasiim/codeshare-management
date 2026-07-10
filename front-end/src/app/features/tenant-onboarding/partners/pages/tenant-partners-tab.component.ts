@@ -12,7 +12,7 @@ import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
-import { TenantService } from '../../../services/tenant.service';
+import { TenantService } from '@features/access-management/identity/tenants/services/tenant.service';
 import { Tenant } from '@features/access-management/models/tenant.model';
 import { TenantPartner } from '@features/partner-management/tenant-partners/models/tenant-partner.model';
 import { TenantPartnerProfile } from '@features/partner-management/tenant-partners/models/tenant-partner-profile.model';
@@ -57,6 +57,7 @@ export class TenantPartnersTabComponent {
     partnerProfiles: TenantPartnerProfile[] = [];
     communicationProfiles: TenantPartnerCommunicationProfile[] = [];
     distributionProfiles: TenantPartnerDistributionProfile[] = [];
+    mode: 'codeshare-partners' | 'partner-profiles' | 'communication-profiles' | 'distribution-profiles' = 'codeshare-partners';
 
     partnerDialogVisible = false;
     profileDialogVisible = false;
@@ -153,6 +154,10 @@ export class TenantPartnersTabComponent {
     });
 
     constructor() {
+        this.mode =
+            (this.route.snapshot.routeConfig?.path as 'codeshare-partners' | 'partner-profiles' | 'communication-profiles' | 'distribution-profiles') ||
+            'codeshare-partners';
+
         this.route.parent?.paramMap
             .pipe(
                 switchMap((params) => {
@@ -164,6 +169,32 @@ export class TenantPartnersTabComponent {
                 this.tenant = tenant;
                 this.loadPartners();
             });
+    }
+
+    get title() {
+        switch (this.mode) {
+            case 'partner-profiles':
+                return 'Partner Profiles';
+            case 'communication-profiles':
+                return 'Communication Profiles';
+            case 'distribution-profiles':
+                return 'Distribution Profiles';
+            default:
+                return 'Codeshare Partner Registry';
+        }
+    }
+
+    get description() {
+        switch (this.mode) {
+            case 'partner-profiles':
+                return 'Manage partner-specific operational rules, agreement attributes, and inventory behavior.';
+            case 'communication-profiles':
+                return 'Manage transport, endpoint, and authentication settings for partner exchanges.';
+            case 'distribution-profiles':
+                return 'Manage distribution channels, delivery mode, acknowledgement, and retry rules.';
+            default:
+                return 'Manage partner agreements and their operational child profiles within the selected tenant.';
+        }
     }
 
     loadPartners() {

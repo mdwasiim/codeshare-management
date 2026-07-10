@@ -12,10 +12,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
-import { TenantService } from '../../../services/tenant.service';
+import { TenantService } from '@features/access-management/identity/tenants/services/tenant.service';
 import { Tenant } from '@features/access-management/models/tenant.model';
-import { TenantIngestionChannel, TenantIngestionProfile } from '../../../models/tenant-ingestion-profile.model';
-import { TenantIngestionProfileService } from '../../../services/tenant-ingestion-profile.service';
+import { TenantIngestionChannel, TenantIngestionProfile } from '@features/access-management/identity/tenants/models/tenant-ingestion-profile.model';
+import { TenantIngestionProfileService } from '@features/access-management/identity/tenants/services/tenant-ingestion-profile.service';
 import { AppToastService } from '@services/toast/app-toast.service';
 
 @Component({
@@ -44,6 +44,7 @@ export class TenantIngestionTabComponent {
 
     tenant: Tenant | null = null;
     profile: TenantIngestionProfile | null = null;
+    mode: 'ingestion-profiles' | 'ingestion-channels' = 'ingestion-profiles';
 
     profileDialogVisible = false;
     channelDialogVisible = false;
@@ -91,6 +92,8 @@ export class TenantIngestionTabComponent {
     });
 
     constructor() {
+        this.mode = (this.route.snapshot.routeConfig?.path as 'ingestion-profiles' | 'ingestion-channels') || 'ingestion-profiles';
+
         this.route.parent?.paramMap
             .pipe(
                 switchMap((params) => {
@@ -106,6 +109,16 @@ export class TenantIngestionTabComponent {
                 }
                 this.loadProfile(tenant.tenantCode);
             });
+    }
+
+    get title() {
+        return this.mode === 'ingestion-channels' ? 'Schedule Ingestion Channels' : 'Schedule Ingestion Profile';
+    }
+
+    get description() {
+        return this.mode === 'ingestion-channels'
+            ? 'Manage protocol-specific inbound channels, connection details, and retry behavior.'
+            : 'Manage source ownership, polling cadence, and tenant-specific schedule ingestion settings.';
     }
 
     loadProfile(tenantCode: string) {

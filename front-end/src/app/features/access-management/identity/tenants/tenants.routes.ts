@@ -24,15 +24,15 @@ export const TENANT_ROUTES: Routes = [
             },
             {
                 path: 'identity',
-                loadComponent: () => import('./pages/tenant-detail/tabs/tenant-identity-tab.component').then((m) => m.TenantIdentityTabComponent)
+                loadComponent: () => import('@features/tenant-onboarding/identity/pages/tenant-identity-tab.component').then((m) => m.TenantIdentityTabComponent)
             },
             {
                 path: 'ingestion',
-                loadComponent: () => import('./pages/tenant-detail/tabs/tenant-ingestion-tab.component').then((m) => m.TenantIngestionTabComponent)
+                loadComponent: () => import('@features/tenant-onboarding/ingestion/pages/tenant-ingestion-tab.component').then((m) => m.TenantIngestionTabComponent)
             },
             {
                 path: 'partners',
-                loadComponent: () => import('./pages/tenant-detail/tabs/tenant-partners-tab.component').then((m) => m.TenantPartnersTabComponent)
+                loadComponent: () => import('@features/tenant-onboarding/partners/pages/tenant-partners-tab.component').then((m) => m.TenantPartnersTabComponent)
             }
         ]
     },

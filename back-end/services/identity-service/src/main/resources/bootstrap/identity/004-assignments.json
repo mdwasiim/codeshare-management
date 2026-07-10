@@ -635,13 +635,23 @@
                                            "group":  "TENANT_ADMIN_TEAM",
                                            "menus":  [
                                                          "DASHBOARD",
-                                                         "ACCESS_MGMT",
-                                                         "IDENTITY_MGMT",
+                                                         "TENANT_ONBOARDING",
+                                                         "TENANT_SETUP",
+                                                         "TENANT_IDENTITY",
+                                                         "TENANT_IDENTITY_PROVIDERS",
+                                                         "TENANT_OIDC_CONFIG",
+                                                         "TENANT_INGESTION",
+                                                         "TENANT_INGESTION_PROFILES",
+                                                         "TENANT_INGESTION_CHANNELS",
+                                                         "TENANT_PARTNER_SETUP",
                                                          "USERS",
                                                          "GROUPS",
                                                          "ROLES",
                                                          "TENANTS",
-                                                         "TENANT_PARTNERS"
+                                                         "TENANT_PARTNERS",
+                                                         "TENANT_PARTNER_PROFILES",
+                                                         "TENANT_COMMUNICATION_PROFILES",
+                                                         "TENANT_DISTRIBUTION_PROFILES"
                                                      ]
                                        },
                                        {

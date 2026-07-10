@@ -6,18 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/java/com/codeshare/airline/gateway/config/GatewaySecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/gateway-service/src/main/java/com/codeshare/airline/gateway/config/GatewaySecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/data/MenuLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/data/MenuLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/004-assignments.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/004-assignments.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/003-partners.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/005-access.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/005-access.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tabs/tenant-identity-tab.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tabs/tenant-identity-tab.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tabs/tenant-ingestion-tab.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tabs/tenant-ingestion-tab.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tabs/tenant-partners-tab.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tabs/tenant-partners-tab.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tenant-detail.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tenant-detail.page.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/tenants.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/tenants.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/pages/dashboard/dashboard.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/pages/dashboard/dashboard.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/models/tenant-partner.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/models/tenant-partner.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/assets/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +103,7 @@
       <workItem from="1783526348790" duration="5279000" />
       <workItem from="1783610240159" duration="11130000" />
       <workItem from="1783685509823" duration="12000" />
-      <workItem from="1783685642951" duration="16355000" />
+      <workItem from="1783685642951" duration="21575000" />
     </task>
     <servers />
   </component>

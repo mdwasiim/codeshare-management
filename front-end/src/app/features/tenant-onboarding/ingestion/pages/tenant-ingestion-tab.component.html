@@ -1,8 +1,8 @@
 <div class="tenant-tab-stack">
     <div class="tenant-tab-toolbar">
         <div>
-            <h2>Schedule Ingestion Profile</h2>
-            <p>Manage source ownership, polling cadence, and tenant-specific inbound channels.</p>
+            <h2>{{ title }}</h2>
+            <p>{{ description }}</p>
         </div>
         <div class="tenant-workspace__header-actions">
             <p-button label="{{ profile ? 'Edit Profile' : 'Create Profile' }}" icon="pi pi-pencil" severity="secondary" (click)="openProfileDialog()"></p-button>
