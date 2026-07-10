@@ -1,0 +1,88 @@
+<div class="access-page tenant-workspace" *ngIf="tenant as currentTenant">
+    <div class="access-page-header tenant-workspace__header">
+        <div class="tenant-workspace__title-group">
+            <div class="tenant-workspace__breadcrumbs">
+                <button type="button" class="tenant-workspace__crumb" (click)="backToList()">Tenants</button>
+                <i class="pi pi-angle-right"></i>
+                <span>{{ currentTenant.tenantCode }}</span>
+            </div>
+            <span class="access-eyebrow">Tenant Workspace</span>
+            <div class="tenant-workspace__title-row">
+                <div>
+                    <h1>{{ currentTenant.name }}</h1>
+                    <p>Operate tenant-owned identity, ingestion, and partner configuration from one workspace.</p>
+                </div>
+                <div class="tenant-workspace__header-actions">
+                    <p-tag [value]="currentTenant.status" [severity]="getStatusSeverity(currentTenant.status)"></p-tag>
+                    <p-button label="Edit Tenant" icon="pi pi-pencil" severity="secondary" (click)="openEdit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tenant-workspace__layout">
+        <aside class="tenant-workspace__summary">
+            <section class="tenant-workspace__summary-card">
+                <h2>Tenant Summary</h2>
+                <dl class="tenant-summary-list">
+                    <div>
+                        <dt>Code</dt>
+                        <dd>{{ currentTenant.tenantCode }}</dd>
+                    </div>
+                    <div>
+                        <dt>Subscription</dt>
+                        <dd>{{ currentTenant.plan || 'Unassigned' }}</dd>
+                    </div>
+                    <div>
+                        <dt>Region</dt>
+                        <dd>{{ currentTenant.region || 'Not set' }}</dd>
+                    </div>
+                    <div>
+                        <dt>Contact</dt>
+                        <dd>{{ currentTenant.contactEmail || 'Not set' }}</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="tenant-workspace__summary-card">
+                <h2>Operational Scope</h2>
+                <div class="tenant-metric-list">
+                    <div class="tenant-metric">
+                        <span class="tenant-metric__label">Identity Providers</span>
+                        <strong>{{ identityProviderCount }}</strong>
+                    </div>
+                    <div class="tenant-metric">
+                        <span class="tenant-metric__label">Partner Agreements</span>
+                        <strong>{{ partners.length }}</strong>
+                    </div>
+                    <div class="tenant-metric">
+                        <span class="tenant-metric__label">Ingestion Profiles</span>
+                        <strong>Pending API</strong>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <section class="tenant-workspace__content">
+            <nav class="tenant-workspace__tabs" aria-label="Tenant workspace tabs">
+                <a
+                    *ngFor="let tab of tabs"
+                    [routerLink]="tab.route"
+                    class="tenant-workspace__tab"
+                    [class.tenant-workspace__tab--active]="activeRoute === tab.route">
+                    <span>{{ tab.label }}</span>
+                    <small>{{ tab.description }}</small>
+                </a>
+            </nav>
+
+            <section class="tenant-workspace__panel">
+                <router-outlet></router-outlet>
+            </section>
+        </section>
+    </div>
+</div>
+
+<div class="tenant-workspace__loading" *ngIf="loading && !tenant">
+    <i class="pi pi-spin pi-spinner"></i>
+    <span>Loading tenant workspace...</span>
+</div>

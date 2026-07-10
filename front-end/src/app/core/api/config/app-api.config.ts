@@ -99,6 +99,23 @@ export const API_ENDPOINTS = {
         tenantPartners: {
             base: makeEndpoint('/tenant/tenant-partners'),
             byId: makeEndpoint('/tenant/tenant-partners/{id}')
+        },
+        tenantPartnerProfiles: {
+            base: makeEndpoint('/tenant/tenant-partner-profiles'),
+            byId: makeEndpoint('/tenant/tenant-partner-profiles/{id}')
+        },
+        tenantPartnerCommunicationProfiles: {
+            base: makeEndpoint('/tenant/tenant-partner-communication-profiles'),
+            byId: makeEndpoint('/tenant/tenant-partner-communication-profiles/{id}')
+        },
+        tenantPartnerDistributionProfiles: {
+            base: makeEndpoint('/tenant/tenant-partner-distribution-profiles'),
+            byId: makeEndpoint('/tenant/tenant-partner-distribution-profiles/{id}')
+        },
+        tenantIngestionProfiles: {
+            base: makeEndpoint('/tenant/tenant-ingestion-profiles'),
+            byId: makeEndpoint('/tenant/tenant-ingestion-profiles/{id}'),
+            byTenantCode: makeEndpoint('/tenant/tenant-ingestion-profiles/tenant/{tenantCode}')
         }
     },
     scheduleIngestion: {

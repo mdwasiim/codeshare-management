@@ -1,26 +1,29 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
+import { CheckboxModule } from 'primeng/checkbox';
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { TenantService } from '../../services/tenant.service';
 import { AuthSource, OidcConfig, Tenant, TenantPlan, TenantStatus } from '@features/access-management/models/tenant.model';
 import { SelectModule } from 'primeng/select';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
+import { tap } from 'rxjs';
 
 @Component({
     selector: 'tenant-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, DialogModule, SelectModule, AppFormSectionComponent],
-    templateUrl: './tenant-form.page.html'
+    imports: [CommonModule, ReactiveFormsModule, RouterModule, InputTextModule, ButtonModule, CheckboxModule, SelectModule, AppFormSectionComponent],
+    templateUrl: './tenant-form.page.html',
+    styleUrl: './tenant-form.page.scss'
 })
 export class TenantFormPage extends BaseCrudForm<Tenant> {
     private fb = inject(FormBuilder);
     private service = inject(TenantService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
 
     statusOptions = [
         { label: 'Active', value: TenantStatus.ACTIVE },
@@ -44,10 +47,6 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
         { label: 'OpenID Connect', value: AuthSource.OIDC_GENERIC }
     ];
 
-    override ngOnInit() {
-        this.buildForm();
-    }
-
     buildForm(): void {
         this.form = this.fb.group({
             id: [null],
@@ -56,9 +55,13 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
             description: [''],
             contactEmail: [''],
             contactPhone: [''],
+            logoUrl: [''],
             region: [''],
             status: [TenantStatus.ACTIVE],
             plan: [TenantPlan.PRO],
+            subscriptionStart: [''],
+            subscriptionEnd: [''],
+            trial: [false],
             authSource: [AuthSource.INTERNAL],
             oidcIssuerUri: [''],
             oidcAuthorizationUri: [''],
@@ -90,11 +93,19 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
     }
 
     create(payload: Tenant) {
-        return this.service.create(this.toPayload(payload));
+        return this.service.create(this.toPayload(payload)).pipe(
+            tap((tenant) => {
+                if (tenant.id) {
+                    void this.router.navigate(['/tenants', tenant.id]);
+                }
+            })
+        );
     }
 
     update(id: string, payload: Tenant) {
-        return this.service.update(id, this.toPayload(payload));
+        return this.service.update(id, this.toPayload(payload)).pipe(
+            tap(() => void this.router.navigate(['/tenants', id]))
+        );
     }
 
     isOidcProvider(): boolean {
@@ -139,5 +150,24 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
             scopes: this.form.get('oidcScopes')?.value || 'openid profile email',
             enforceRedirectUri: true
         };
+    }
+
+    cancelEdit() {
+        if (this.id) {
+            void this.router.navigate(['/tenants', this.id]);
+            return;
+        }
+
+        void this.router.navigate(['/tenants']);
+    }
+
+    get pageTitle() {
+        return this.id ? 'Edit Tenant' : 'Create Tenant';
+    }
+
+    get pageDescription() {
+        return this.id
+            ? 'Update tenant identity, subscription, and regional operating settings.'
+            : 'Create a host airline tenant and define its initial operating configuration.';
     }
 }

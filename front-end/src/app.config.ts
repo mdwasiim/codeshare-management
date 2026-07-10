@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     providers: [
         ConfirmationService,
         MessageService,
-        //provideAppInitializer(() => inject(AuthInitializerService).init()),
+        provideAppInitializer(() => inject(AuthInitializerService).init()),
         provideHttpClient(withFetch(), withInterceptors([AppSpinnerInterceptor, AppAuthInterceptor, AppResponseInterceptor])),
 
         provideRouter(

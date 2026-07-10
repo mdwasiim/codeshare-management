@@ -1,5 +1,17 @@
-<form [formGroup]="form" class="p-fluid w-full block app-form">
-    <div class="w-full">
+<div class="access-page tenant-form-page">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Tenant Management</span>
+            <h1>{{ pageTitle }}</h1>
+            <p>{{ pageDescription }}</p>
+        </div>
+        <div class="tenant-form-page__actions">
+            <p-button label="Cancel" severity="secondary" [outlined]="true" (click)="cancelEdit()"></p-button>
+            <p-button label="Save Tenant" icon="pi pi-save" [loading]="loading" [disabled]="form.invalid || loading" (click)="submit()"></p-button>
+        </div>
+    </div>
+
+    <form [formGroup]="form" class="p-fluid w-full block app-form tenant-form-page__body">
         <!-- BASIC INFORMATION -->
         <app-form-section title="Basic Information">
             <div class="grid">
@@ -37,25 +49,43 @@
                     <label for="region">Region</label>
                     <input id="region" pInputText formControlName="region" class="w-full" />
                 </div>
+                <div class="field col-12 md:col-6">
+                    <label for="logoUrl">Logo URL</label>
+                    <input id="logoUrl" pInputText formControlName="logoUrl" class="w-full" />
+                </div>
             </div>
         </app-form-section>
 
-        <!-- CONFIGURATION -->
-        <app-form-section title="Configuration">
+        <app-form-section title="Subscription & Lifecycle">
             <div class="grid">
-                <!-- STATUS -->
                 <div class="field col-12 md:col-6">
                     <label for="status"> Status </label>
-
                     <p-select inputId="status" appendTo="body" formControlName="status" [options]="statusOptions" placeholder="Select Status" styleClass="w-full"> </p-select>
                 </div>
-
-                <!-- PLAN -->
                 <div class="field col-12 md:col-6">
                     <label for="plan"> Plan </label>
-
                     <p-select inputId="plan" appendTo="body" formControlName="plan" [options]="planOptions" placeholder="Select Plan" styleClass="w-full"> </p-select>
                 </div>
+                <div class="field col-12 md:col-6">
+                    <label for="subscriptionStart">Subscription Start</label>
+                    <input id="subscriptionStart" pInputText type="date" formControlName="subscriptionStart" class="w-full" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="subscriptionEnd">Subscription End</label>
+                    <input id="subscriptionEnd" pInputText type="date" formControlName="subscriptionEnd" class="w-full" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label class="required">Trial Tenant</label>
+                    <div class="tenant-form-page__checkbox">
+                        <p-checkbox inputId="trial" binary="true" formControlName="trial"></p-checkbox>
+                        <label for="trial">Enable trial subscription</label>
+                    </div>
+                </div>
+            </div>
+        </app-form-section>
+
+        <app-form-section title="Identity Configuration">
+            <div class="grid">
                 <div class="field col-12 md:col-6">
                     <label for="authSource">Authentication</label>
                     <p-select inputId="authSource" appendTo="body" formControlName="authSource" [options]="authSourceOptions" placeholder="Select Authentication" styleClass="w-full"> </p-select>
@@ -101,5 +131,5 @@
                 </ng-container>
             </div>
         </app-form-section>
-    </div>
-</form>
+    </form>
+</div>

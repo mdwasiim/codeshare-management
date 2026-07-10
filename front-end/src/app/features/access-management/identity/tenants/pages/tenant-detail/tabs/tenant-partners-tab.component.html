@@ -1,0 +1,154 @@
+<div class="tenant-tab-stack">
+    <div class="tenant-tab-toolbar">
+        <div>
+            <h2>Codeshare Partner Registry</h2>
+            <p>Manage partner agreements and their operational child profiles within the selected tenant.</p>
+        </div>
+        <p-button label="New Partner" icon="pi pi-plus" (click)="openPartnerDialog()"></p-button>
+    </div>
+
+    <p-table [value]="partners" selectionMode="single" [(selection)]="selectedPartner" (selectionChange)="selectPartner($event.value)" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '74rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Partner</th>
+                <th>Agreement Type</th>
+                <th>Agreement Status</th>
+                <th>Effective From</th>
+                <th>Effective To</th>
+                <th>Active</th>
+                <th class="access-actions-col">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-partner>
+            <tr [pSelectableRow]="partner">
+                <td>{{ partner.partnerAirlineCode || '-' }} <span *ngIf="partner.partnerAirlineName">- {{ partner.partnerAirlineName }}</span></td>
+                <td>{{ partner.agreementType || '-' }}</td>
+                <td>{{ partner.agreementStatus || '-' }}</td>
+                <td>{{ partner.effectiveFrom || '-' }}</td>
+                <td>{{ partner.effectiveTo || '-' }}</td>
+                <td><p-tag [value]="partner.active ? 'Yes' : 'No'" [severity]="partner.active ? 'success' : 'secondary'"></p-tag></td>
+                <td class="access-row-actions">
+                    <div>
+                        <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openPartnerDialog(partner)"></p-button>
+                        <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deletePartner(partner)"></p-button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7" class="text-center py-6 text-gray-500">No partner agreements configured for this tenant.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <section class="tenant-tab-section tenant-tab-section--callout" *ngIf="!selectedPartner">
+        <h2>Select a partner</h2>
+        <p class="tenant-body-copy">Choose a codeshare partner above to manage partner, communication, and distribution child profiles.</p>
+    </section>
+
+    <ng-container *ngIf="selectedPartner as partner">
+        <section class="tenant-tab-section">
+            <div class="tenant-tab-toolbar">
+                <div>
+                    <h2>Partner Profiles</h2>
+                    <p>{{ partner.partnerAirlineCode }} operational rules and agreement attributes.</p>
+                </div>
+                <p-button label="Add Profile" icon="pi pi-plus" severity="secondary" (click)="openPartnerProfileDialog()"></p-button>
+            </div>
+            <p-table [value]="partnerProfiles" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '68rem' }">
+                <ng-template pTemplate="header"><tr><th>Code</th><th>Name</th><th>Partner Type</th><th>Agreement Category</th><th>Inventory</th><th>Priority</th><th>Active</th><th class="access-actions-col">Actions</th></tr></ng-template>
+                <ng-template pTemplate="body" let-profile><tr><td>{{ profile.profileCode }}</td><td>{{ profile.profileName }}</td><td>{{ profile.partnerType || '-' }}</td><td>{{ profile.agreementCategory || '-' }}</td><td>{{ profile.inventorySharingType || '-' }}</td><td>{{ profile.priority || '-' }}</td><td><p-tag [value]="profile.active ? 'Yes' : 'No'" [severity]="profile.active ? 'success' : 'secondary'"></p-tag></td><td class="access-row-actions"><div><p-button icon="pi pi-pencil" size="small" text (click)="openPartnerProfileDialog(profile)"></p-button><p-button icon="pi pi-trash" size="small" text severity="danger" (click)="deletePartnerProfile(profile)"></p-button></div></td></tr></ng-template>
+            </p-table>
+        </section>
+
+        <section class="tenant-tab-section">
+            <div class="tenant-tab-toolbar">
+                <div>
+                    <h2>Communication Profiles</h2>
+                    <p>Transport, endpoint, and authentication settings for partner exchanges.</p>
+                </div>
+                <p-button label="Add Communication" icon="pi pi-plus" severity="secondary" (click)="openCommunicationDialog()"></p-button>
+            </div>
+            <p-table [value]="communicationProfiles" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '72rem' }">
+                <ng-template pTemplate="header"><tr><th>Code</th><th>Name</th><th>Protocol</th><th>Transport</th><th>Format</th><th>Endpoint</th><th>Active</th><th class="access-actions-col">Actions</th></tr></ng-template>
+                <ng-template pTemplate="body" let-profile><tr><td>{{ profile.profileCode }}</td><td>{{ profile.profileName }}</td><td>{{ profile.protocol || '-' }}</td><td>{{ profile.transportType || '-' }}</td><td>{{ profile.messageFormat || '-' }}</td><td>{{ profile.endpointUrl || '-' }}</td><td><p-tag [value]="profile.active ? 'Yes' : 'No'" [severity]="profile.active ? 'success' : 'secondary'"></p-tag></td><td class="access-row-actions"><div><p-button icon="pi pi-pencil" size="small" text (click)="openCommunicationDialog(profile)"></p-button><p-button icon="pi pi-trash" size="small" text severity="danger" (click)="deleteCommunicationProfile(profile)"></p-button></div></td></tr></ng-template>
+            </p-table>
+        </section>
+
+        <section class="tenant-tab-section">
+            <div class="tenant-tab-toolbar">
+                <div>
+                    <h2>Distribution Profiles</h2>
+                    <p>Distribution channel, message mode, and acknowledgement rules.</p>
+                </div>
+                <p-button label="Add Distribution" icon="pi pi-plus" severity="secondary" (click)="openDistributionDialog()"></p-button>
+            </div>
+            <p-table [value]="distributionProfiles" styleClass="access-table p-datatable-sm" [tableStyle]="{ 'min-width': '72rem' }">
+                <ng-template pTemplate="header"><tr><th>Code</th><th>Name</th><th>Channel</th><th>Mode</th><th>Message Type</th><th>Retry</th><th>Active</th><th class="access-actions-col">Actions</th></tr></ng-template>
+                <ng-template pTemplate="body" let-profile><tr><td>{{ profile.profileCode }}</td><td>{{ profile.profileName }}</td><td>{{ profile.distributionChannel || '-' }}</td><td>{{ profile.distributionMode || '-' }}</td><td>{{ profile.messageType || '-' }}</td><td>{{ profile.retryEnabled ? ('Yes (' + (profile.retryCount || 0) + ')') : 'No' }}</td><td><p-tag [value]="profile.active ? 'Yes' : 'No'" [severity]="profile.active ? 'success' : 'secondary'"></p-tag></td><td class="access-row-actions"><div><p-button icon="pi pi-pencil" size="small" text (click)="openDistributionDialog(profile)"></p-button><p-button icon="pi pi-trash" size="small" text severity="danger" (click)="deleteDistributionProfile(profile)"></p-button></div></td></tr></ng-template>
+            </p-table>
+        </section>
+    </ng-container>
+</div>
+
+<app-dialog [(visible)]="partnerDialogVisible" title="Codeshare Partner" width="min(94vw, 860px)" [disableSave]="partnerForm.invalid" (save)="savePartner()">
+    <form [formGroup]="partnerForm" class="p-fluid block app-form">
+        <app-form-section title="Agreement">
+            <div class="grid">
+                <div class="field col-12 md:col-4"><label>Partner Airline Code</label><input pInputText formControlName="partnerAirlineCode" class="w-full" /></div>
+                <div class="field col-12 md:col-8"><label>Partner Airline Name</label><input pInputText formControlName="partnerAirlineName" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Agreement Number</label><input pInputText formControlName="agreementNumber" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Agreement Type</label><input pInputText formControlName="agreementType" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Agreement Status</label><input pInputText formControlName="agreementStatus" class="w-full" /></div>
+                <div class="field col-12 md:col-6"><label>Effective From</label><input pInputText type="date" formControlName="effectiveFrom" class="w-full" /></div>
+                <div class="field col-12 md:col-6"><label>Effective To</label><input pInputText type="date" formControlName="effectiveTo" class="w-full" /></div>
+                <div class="field col-12"><label>Description</label><input pInputText formControlName="description" class="w-full" /></div>
+            </div>
+        </app-form-section>
+    </form>
+</app-dialog>
+
+<app-dialog [(visible)]="profileDialogVisible" title="Partner Profile" width="min(94vw, 860px)" [disableSave]="partnerProfileForm.invalid" (save)="savePartnerProfile()">
+    <form [formGroup]="partnerProfileForm" class="p-fluid block app-form">
+        <app-form-section title="Profile Settings">
+            <div class="grid">
+                <div class="field col-12 md:col-4"><label>Profile Code</label><input pInputText formControlName="profileCode" class="w-full" /></div>
+                <div class="field col-12 md:col-8"><label>Profile Name</label><input pInputText formControlName="profileName" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Partner Type</label><input pInputText formControlName="partnerType" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Agreement Category</label><input pInputText formControlName="agreementCategory" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Inventory Sharing</label><input pInputText formControlName="inventorySharingType" class="w-full" /></div>
+            </div>
+        </app-form-section>
+    </form>
+</app-dialog>
+
+<app-dialog [(visible)]="communicationDialogVisible" title="Communication Profile" width="min(94vw, 860px)" [disableSave]="communicationProfileForm.invalid" (save)="saveCommunicationProfile()">
+    <form [formGroup]="communicationProfileForm" class="p-fluid block app-form">
+        <app-form-section title="Transport Settings">
+            <div class="grid">
+                <div class="field col-12 md:col-4"><label>Profile Code</label><input pInputText formControlName="profileCode" class="w-full" /></div>
+                <div class="field col-12 md:col-8"><label>Profile Name</label><input pInputText formControlName="profileName" class="w-full" /></div>
+                <div class="field col-12 md:col-3"><label>Protocol</label><input pInputText formControlName="protocol" class="w-full" /></div>
+                <div class="field col-12 md:col-3"><label>Transport Type</label><input pInputText formControlName="transportType" class="w-full" /></div>
+                <div class="field col-12 md:col-3"><label>Message Format</label><input pInputText formControlName="messageFormat" class="w-full" /></div>
+                <div class="field col-12 md:col-3"><label>Authentication</label><input pInputText formControlName="authenticationType" class="w-full" /></div>
+                <div class="field col-12"><label>Endpoint URL</label><input pInputText formControlName="endpointUrl" class="w-full" /></div>
+            </div>
+        </app-form-section>
+    </form>
+</app-dialog>
+
+<app-dialog [(visible)]="distributionDialogVisible" title="Distribution Profile" width="min(94vw, 860px)" [disableSave]="distributionProfileForm.invalid" (save)="saveDistributionProfile()">
+    <form [formGroup]="distributionProfileForm" class="p-fluid block app-form">
+        <app-form-section title="Distribution Rules">
+            <div class="grid">
+                <div class="field col-12 md:col-4"><label>Profile Code</label><input pInputText formControlName="profileCode" class="w-full" /></div>
+                <div class="field col-12 md:col-8"><label>Profile Name</label><input pInputText formControlName="profileName" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Channel</label><input pInputText formControlName="distributionChannel" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Mode</label><input pInputText formControlName="distributionMode" class="w-full" /></div>
+                <div class="field col-12 md:col-4"><label>Message Type</label><input pInputText formControlName="messageType" class="w-full" /></div>
+            </div>
+        </app-form-section>
+    </form>
+</app-dialog>
