@@ -1,7 +1,8 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.channel;
 
 import com.codeshare.airline.core.enums.schedule.MessageType;
-import com.codeshare.airline.schedule.ingestion.persistence.entities.source.ScheduleIngestionChannelEntity;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionChannelDTO;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionProfileDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -14,12 +15,12 @@ import static org.apache.camel.builder.Builder.constant;
 public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder {
 
     @Override
-    public final void build(RouteBuilder rb, ScheduleIngestionChannelEntity channel) {
+    public final void build(RouteBuilder rb, AirlineIngestionProfileDTO profile, AirlineIngestionChannelDTO channel) {
 
         validate(channel);
 
         String uri = buildUri(channel);
-        String routeId = buildRouteId(channel);
+        String routeId = buildRouteId(profile, channel);
 
         log.info("Creating route [{}] -> {}", routeId, uri);
 
@@ -33,7 +34,7 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
                 })
                 .process(this::initializeContext)
                 .process(this::beforeProcessing)
-                .setHeader("AIRLINE_CODE", constant(channel.getProfile().getAirlineCode()))
+                .setHeader("AIRLINE_CODE", constant(profile.getAirlineCode()))
                 .setHeader("SOURCE_TYPE", constant(channel.getSourceType().name()))
                 .setHeader("MESSAGE_TYPE", constant(channel.getMessageType().name()))
                 .log("Forwarding to processing route file=${header.CamelFileName}")
@@ -41,9 +42,9 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
                 .log("Routed airline=${header.AIRLINE_CODE} type=${header.MESSAGE_TYPE}");
     }
 
-    protected abstract String buildUri(ScheduleIngestionChannelEntity channel);
+    protected abstract String buildUri(AirlineIngestionChannelDTO channel);
 
-    protected abstract void validate(ScheduleIngestionChannelEntity channel);
+    protected abstract void validate(AirlineIngestionChannelDTO channel);
 
     protected void beforeProcessing(Exchange exchange) throws Exception {
         // optional override
@@ -53,9 +54,9 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
         exchange.setProperty("LOAD_ID", UUID.randomUUID());
     }
 
-    protected String buildRouteId(ScheduleIngestionChannelEntity c) {
+    protected String buildRouteId(AirlineIngestionProfileDTO profile, AirlineIngestionChannelDTO c) {
         return String.format("INGEST-%s-%s-%s",
-                c.getProfile().getAirlineCode(),
+                profile.getAirlineCode(),
                 c.getSourceType(),
                 c.getMessageType());
     }

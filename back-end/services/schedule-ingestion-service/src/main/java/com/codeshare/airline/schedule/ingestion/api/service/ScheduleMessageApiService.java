@@ -5,7 +5,7 @@ import com.codeshare.airline.schedule.ingestion.api.response.ScheduleMessageInge
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleMessageValidationResponse;
 import com.codeshare.airline.schedule.ingestion.domain.context.AbstractIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
-import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
+import com.codeshare.airline.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.orchestration.context.PreParseContextFactory;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleMessageDTO;

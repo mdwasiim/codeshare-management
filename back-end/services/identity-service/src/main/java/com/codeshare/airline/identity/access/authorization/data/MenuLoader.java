@@ -2,9 +2,8 @@ package com.codeshare.airline.identity.access.authorization.data;
 
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.authorization.repository.MenuRepository;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
+import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,8 +31,8 @@ import java.util.stream.Collectors;
 public class MenuLoader {
 
     private final MenuRepository menuRepository;
-    private final TenantRepository tenantRepository;
     private final ObjectMapper objectMapper;
+    private final HostAirlineTenantClient tenantClient;
 
     private List<MenuDTO> loadMenuDefinitions() {
         try {
@@ -107,11 +106,8 @@ public class MenuLoader {
 
         log.info("MenuLoader: ensuring menus for tenant {}", tenantId);
 
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() ->
-                        new IllegalStateException("Tenant not found: " + tenantId));
-
-        Set<String> existingCodes = menuRepository.findCodesByTenant(tenant);
+        String tenantCode = resolveTenantCode(tenantId);
+        Set<String> existingCodes = menuRepository.findCodesByTenantId(tenantId);
         List<MenuDTO> menuDefinitions = loadMenuDefinitions();
         Set<String> definitionCodes = menuDefinitions.stream()
                 .map(MenuDTO::getCode)
@@ -120,7 +116,7 @@ public class MenuLoader {
         List<Menu> toSave = new ArrayList<>();
         List<Menu> toUpdate = new ArrayList<>();
         Map<String, Menu> codeMap = new HashMap<>();
-        Map<String, Menu> allMenus = menuRepository.findByTenant(tenant)
+        Map<String, Menu> allMenus = menuRepository.findByTenantId(tenantId)
                 .stream()
                 .collect(Collectors.toMap(Menu::getCode, m -> m));
 
@@ -144,7 +140,7 @@ public class MenuLoader {
                     .permission(dto.getPermission())
                     .displayOrder(dto.getDisplayOrder())
                     .visible(dto.getVisible() == null ? Boolean.TRUE : dto.getVisible())
-                    .tenant(tenant)
+                    .tenantId(tenantId)
                     .build();
 
             toSave.add(menu);
@@ -188,7 +184,7 @@ public class MenuLoader {
             changes.addAll(toUpdate);
 
             menuRepository.saveAll(changes);
-            log.info("MenuLoader: {} menus created and {} menus updated for {}", toSave.size(), toUpdate.size(), tenant.getTenantCode());
+            log.info("MenuLoader: {} menus created and {} menus updated for {}", toSave.size(), toUpdate.size(), tenantCode);
         }
     }
 
@@ -259,5 +255,13 @@ public class MenuLoader {
         long expected = loadMenuDefinitions().size();
 
         return actual >= expected;
+    }
+
+    private String resolveTenantCode(UUID tenantId) {
+        return tenantClient.getAll().stream()
+                .filter(tenant -> tenantId.equals(tenant.getId()))
+                .map(tenant -> tenant.getTenantCode())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Tenant not found in tenant-service: " + tenantId));
     }
 }

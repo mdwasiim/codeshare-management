@@ -3,7 +3,6 @@ package com.codeshare.airline.identity.access.assignments.repository;
 
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import com.codeshare.airline.identity.access.assignments.entities.RolePermission;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,8 +20,8 @@ public interface RolePermissionRepository extends CSMDataBaseRepository<RolePerm
 
     Optional<RolePermission> findByRoleIdAndPermissionId(UUID permissionId, UUID roleId);
 
-    @Query("select rp.role.code || ':' || rp.permission.code from RolePermission rp where rp.tenant = :tenant")
-    Set<String> findMappings(@Param("tenant") Tenant tenant);
+    @Query("select concat(rp.role.code, concat(':', rp.permission.code)) from RolePermission rp where rp.tenantId = :tenantId")
+    Set<String> findMappingsByTenantId(@Param("tenantId") UUID tenantId);
 
     long countByTenantId(UUID tenantId);
 

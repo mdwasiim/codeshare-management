@@ -11,7 +11,7 @@ import com.codeshare.airline.schedule.ingestion.domain.context.SsmIngestionConte
 import com.codeshare.airline.schedule.ingestion.domain.enums.ActionType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.AsmMessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
-import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
+import com.codeshare.airline.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.TimeMode;
 import com.codeshare.airline.schedule.ingestion.dto.common.base.ScheduleEquipmentDTO;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;

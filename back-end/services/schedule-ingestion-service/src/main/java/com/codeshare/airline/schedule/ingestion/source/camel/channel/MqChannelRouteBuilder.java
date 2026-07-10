@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.channel;
 
-import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
-import com.codeshare.airline.schedule.ingestion.persistence.entities.source.ScheduleIngestionChannelEntity;
+import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionChannelDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ public class MqChannelRouteBuilder extends AbstractChannelRouteBuilder {
     }
 
     @Override
-    protected String buildUri(ScheduleIngestionChannelEntity c) {
+    protected String buildUri(AirlineIngestionChannelDTO c) {
 
         return new StringBuilder("activemq:queue:" + c.getQueueName())
                 .append("?concurrentConsumers=").append(val(c.getConcurrentConsumers(), 1))
@@ -28,7 +28,7 @@ public class MqChannelRouteBuilder extends AbstractChannelRouteBuilder {
     }
 
     @Override
-    protected void validate(ScheduleIngestionChannelEntity c) {
+    protected void validate(AirlineIngestionChannelDTO c) {
         if (c.getQueueName() == null || c.getQueueName().isBlank()) {
             throw new IllegalStateException("MQ queue name is required");
         }

@@ -5,10 +5,8 @@ import com.codeshare.airline.identity.access.assignments.repository.GroupRoleRep
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.identity.entities.Group;
 import com.codeshare.airline.identity.access.identity.entities.Role;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.GroupRepository;
 import com.codeshare.airline.identity.access.identity.repository.RoleRepository;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -28,17 +26,13 @@ public class GroupRoleLoader {
     private final GroupRepository groupRepository;
     private final RoleRepository roleRepository;
     private final GroupRoleRepository groupRoleRepository;
-    private final TenantRepository tenantRepository;
     private final IdentityBootstrapData bootstrapData;
 
     public void load(UUID tenantId) {
         log.info("GroupRoleLoader: ensuring group-role mappings for tenant {}", tenantId);
 
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
-
-        List<Group> groups = groupRepository.findByTenant(tenant);
-        List<Role> roles = roleRepository.findByTenant(tenant);
+        List<Group> groups = groupRepository.findByTenantId(tenantId);
+        List<Role> roles = roleRepository.findByTenantId(tenantId);
 
         Map<String, Group> groupByCode = new HashMap<>();
         groups.forEach(group -> groupByCode.put(group.getCode(), group));
@@ -46,7 +40,7 @@ public class GroupRoleLoader {
         Map<String, Role> roleByCode = new HashMap<>();
         roles.forEach(role -> roleByCode.put(role.getCode(), role));
 
-        Set<String> existingMappings = groupRoleRepository.findMappings(tenant);
+        Set<String> existingMappings = groupRoleRepository.findMappingsByTenantId(tenantId);
         List<GroupRole> toSave = new ArrayList<>();
         bootstrapData.groupRoles().forEach((groupCode, roleCodes) -> {
             Group group = groupByCode.get(groupCode);
@@ -69,7 +63,7 @@ public class GroupRoleLoader {
 
                 existingMappings.add(key);
                 toSave.add(GroupRole.builder()
-                        .tenant(tenant)
+                        .tenantId(tenantId)
                         .group(group)
                         .role(role)
                         .build());

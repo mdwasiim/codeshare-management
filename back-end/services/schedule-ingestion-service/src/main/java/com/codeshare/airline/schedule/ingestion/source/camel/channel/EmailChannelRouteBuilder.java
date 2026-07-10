@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.channel;
 
-import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
-import com.codeshare.airline.schedule.ingestion.persistence.entities.source.ScheduleIngestionChannelEntity;
+import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionChannelDTO;
 import com.codeshare.airline.schedule.ingestion.source.security.ScheduleCredentialResolver;
 import jakarta.mail.Message;
 import jakarta.mail.Multipart;
@@ -24,7 +24,7 @@ public class EmailChannelRouteBuilder extends AbstractChannelRouteBuilder {
     }
 
     @Override
-    protected String buildUri(ScheduleIngestionChannelEntity c) {
+    protected String buildUri(AirlineIngestionChannelDTO c) {
 
         String password = resolvePassword(c);
 
@@ -46,7 +46,7 @@ public class EmailChannelRouteBuilder extends AbstractChannelRouteBuilder {
     }
 
     @Override
-    protected void validate(ScheduleIngestionChannelEntity c) {
+    protected void validate(AirlineIngestionChannelDTO c) {
         if (c.getProtocol() == null || c.getProtocol().isBlank()) {
             throw new IllegalStateException("Email protocol is required");
         }
@@ -93,7 +93,7 @@ public class EmailChannelRouteBuilder extends AbstractChannelRouteBuilder {
         throw new IllegalStateException("No attachment found in email");
     }
 
-    private String resolvePassword(ScheduleIngestionChannelEntity c) {
+    private String resolvePassword(AirlineIngestionChannelDTO c) {
         return c.getPasswordEncrypted() != null && !c.getPasswordEncrypted().isBlank()
                 ? resolver.decrypt(c.getPasswordEncrypted())
                 : "";

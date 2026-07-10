@@ -124,7 +124,7 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
 
                                 .role(role)
 
-                                .tenant(group.getTenant())
+                                .tenantId(group.getTenantId())
 
                                 .build())
 

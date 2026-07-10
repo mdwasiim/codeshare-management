@@ -5,6 +5,10 @@ export const IDENTITY_ROUTES: Routes = [
         path: 'tenants',
         loadChildren: () => import('@features/access-management/identity/tenants/tenants.routes').then((m) => m.TENANT_ROUTES)
     },
+    {
+        path: 'tenant-partners',
+        loadChildren: () => import('@features/partner-management/tenant-partners/tenant-partners.routes').then((m) => m.TENANT_PARTNER_ROUTES)
+    },
 
     {
         path: 'users',

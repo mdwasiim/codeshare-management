@@ -10,6 +10,13 @@ export const AUTHENTICATION_ROUTES: Routes = [
         }
     },
     {
+        path: 'oidc/callback',
+        loadComponent: () => import('@features/access-management/authentication/pages/oidc-callback/oidc-callback.component').then((m) => m.OidcCallbackComponent),
+        data: {
+            title: 'OIDC Callback'
+        }
+    },
+    {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'

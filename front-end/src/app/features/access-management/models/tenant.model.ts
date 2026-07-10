@@ -20,25 +20,66 @@ export interface Tenant extends AuditableModel {
     region?: string;
 
     status?: TenantStatus;
+    authSource?: AuthSource;
+    oidcConfig?: OidcConfig;
+}
+
+export interface OidcConfig {
+    issuerUri?: string;
+    authorizationUri?: string;
+    tokenUri?: string;
+    jwkSetUri?: string;
+    clientId?: string;
+    clientSecretRef?: string;
+    redirectUri?: string;
+    scopes?: string;
+    enforceRedirectUri?: boolean;
+}
+
+export interface IdentityProviderConfig {
+    authSource: AuthSource;
+    enabled: boolean;
+    priority: number;
+    providerId: string;
+    oidcConfig?: OidcConfig;
+}
+
+export interface TenantAuthContext {
+    id: string;
+    name: string;
+    tenantCode: string;
+    status: TenantStatus;
+    logoUrl?: string;
+    region?: string;
+    identityProviders: IdentityProviderConfig[];
+}
+
+export enum AuthSource {
+    INTERNAL = 'INTERNAL',
+    LDAP = 'LDAP',
+    AZURE = 'AZURE',
+    KEYCLOAK = 'KEYCLOAK',
+    OKTA = 'OKTA',
+    OIDC_GENERIC = 'OIDC_GENERIC'
 }
 
 export enum TenantStatus {
     ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE',
     SUSPENDED = 'SUSPENDED',
-    TRIAL = 'TRIAL',
-    EXPIRED = 'EXPIRED'
+    EXPIRED = 'EXPIRED',
+    DELETED = 'DELETED'
 }
 
 export enum TenantPlan {
-    BASIC = 'BASIC',
-    PREMIUM = 'PREMIUM',
+    FREE = 'FREE',
+    PRO = 'PRO',
     ENTERPRISE = 'ENTERPRISE'
 }
 
 export const DEFAULT_TENANT: Tenant = {
     name: '',
     code: '',
+    authSource: AuthSource.INTERNAL,
     status: TenantStatus.ACTIVE,
     trial: false
 };

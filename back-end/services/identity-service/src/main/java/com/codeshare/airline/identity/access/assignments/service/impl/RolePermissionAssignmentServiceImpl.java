@@ -14,10 +14,8 @@ import com.codeshare.airline.identity.access.assignments.repository.UserGroupRep
 import com.codeshare.airline.identity.access.authorization.entities.Permission;
 import com.codeshare.airline.identity.access.authorization.repository.PermissionRepository;
 import com.codeshare.airline.identity.access.identity.entities.Role;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.RoleRepository;
 import com.codeshare.airline.identity.access.assignments.service.RolePermissionAssignmentService;
-import com.codeshare.airline.identity.access.identity.service.TenantService;
 import com.codeshare.airline.identity.access.authorization.mappers.PermissionMapper;
 import com.codeshare.airline.identity.access.identity.mappers.RoleMapper;
 import com.codeshare.airline.identity.access.assignments.mappers.RolePermissionMapper;
@@ -45,7 +43,6 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     private final RoleMapper tenantRbacRoleMapper;
     private final PermissionMapper permissionMapper;
 
-    private final TenantService tenantService;
     // -------------------------------------------------------------------------
     // List permissions BY role
     // -------------------------------------------------------------------------
@@ -148,7 +145,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
             List<UUID> permissionIds
     ) {
 
-        Tenant tenant = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
+        UUID tenantId = TenantContextHolder.getTenant().getId();
 
         Role role = roleRepository.findById(roleId).orElseThrow(() ->new RuntimeException("Role not found: " + roleId) );
 
@@ -173,7 +170,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
                                             );
 
                             return RolePermission.builder()
-                                    .tenant(tenant)
+                                    .tenantId(tenantId)
                                     .role(role)
                                     .permission(permission)
                                     .build();

@@ -113,7 +113,7 @@ public class GroupMenuAssignmentServiceImpl
 
                         .map(menu -> GroupMenu.builder()
 
-                                .tenant(group.getTenant())
+                                .tenantId(group.getTenantId())
 
                                 .group(group)
 

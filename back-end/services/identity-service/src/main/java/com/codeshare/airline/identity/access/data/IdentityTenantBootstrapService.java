@@ -8,10 +8,8 @@ import com.codeshare.airline.identity.access.authorization.data.MenuLoader;
 import com.codeshare.airline.identity.access.authorization.data.PermissionLoader;
 import com.codeshare.airline.identity.access.identity.data.GroupLoader;
 import com.codeshare.airline.identity.access.identity.data.RoleLoader;
-import com.codeshare.airline.identity.access.identity.data.TenantLoader;
 import com.codeshare.airline.identity.access.identity.data.UserLoader;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
+import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,8 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class IdentityTenantBootstrapService {
 
-    private final TenantLoader tenantLoader;
-    private final TenantRepository tenantRepository;
+    private final HostAirlineTenantClient tenantClient;
     private final RoleLoader roleLoader;
     private final PermissionLoader permissionLoader;
     private final GroupLoader groupLoader;
@@ -37,22 +34,27 @@ public class IdentityTenantBootstrapService {
     private final UserGroupLoader userGroupLoader;
 
     public synchronized void bootstrapAllTenants() {
-        tenantLoader.loadTenants();
-        List<UUID> tenantIds = tenantLoader.getAllTenantIds();
+        List<UUID> tenantIds = tenantClient.getAll().stream()
+                .map(tenant -> tenant.getId())
+                .toList();
         for (UUID tenantId : tenantIds) {
             bootstrapTenant(tenantId);
         }
     }
 
     public synchronized void bootstrapTenantByCode(String tenantCode) {
-        tenantLoader.loadTenants();
-        Tenant tenant = tenantRepository.findByTenantCode(tenantCode)
-                .orElseThrow(() -> new IllegalStateException("Tenant mirror not found after sync: " + tenantCode));
-        bootstrapTenant(tenant.getId());
+        UUID tenantId = tenantClient.getAll().stream()
+                .filter(tenant -> tenantCode.equalsIgnoreCase(tenant.getTenantCode()))
+                .map(tenant -> tenant.getId())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Tenant not found in tenant-service: " + tenantCode));
+        bootstrapTenant(tenantId);
     }
 
     public boolean isInitialized() {
-        return tenantLoader.getAllTenantIds().stream().allMatch(this::isTenantInitialized);
+        return tenantClient.getAll().stream()
+                .map(tenant -> tenant.getId())
+                .allMatch(this::isTenantInitialized);
     }
 
     private void bootstrapTenant(UUID tenantId) {

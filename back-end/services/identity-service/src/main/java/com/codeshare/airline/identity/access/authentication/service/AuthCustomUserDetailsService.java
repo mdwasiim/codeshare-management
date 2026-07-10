@@ -36,7 +36,7 @@ public class AuthCustomUserDetailsService implements UserDetailsService {
     private java.util.Optional<User> resolveUser(String username) {
         try {
             TenantContext tenant = TenantContextHolder.getTenant();
-            return userRepository.findByUsernameAndTenant_TenantCode(username, tenant.getTenantCode());
+            return userRepository.findByUsernameAndTenantId(username, tenant.getId());
         } catch (IllegalStateException ex) {
             return userRepository.findByUsername(username);
         }

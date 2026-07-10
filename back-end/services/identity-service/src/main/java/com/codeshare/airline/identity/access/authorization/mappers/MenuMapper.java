@@ -17,7 +17,7 @@ public interface MenuMapper extends CSMGenericMapper<Menu, MenuDTO> {
 
     // 🔥 ADD THIS
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "tenant", ignore = true)
+    @Mapping(target = "tenantId", ignore = true)
     @Mapping(target = "parentMenu", ignore = true)
     @Mapping(target = "permission", ignore = true)
     void updateEntityFromDto(MenuDTO dto, @MappingTarget Menu entity);
@@ -30,8 +30,6 @@ public interface MenuMapper extends CSMGenericMapper<Menu, MenuDTO> {
             dto.parentId(menu.getParentMenu().getId());
         }
 
-        if (menu.getTenant() != null) {
-            dto.tenantId(menu.getTenant().getId());
-        }
+        dto.tenantId(menu.getTenantId());
     }
 }

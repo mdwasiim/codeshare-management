@@ -4,7 +4,7 @@ import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
 import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ScheduleProfile;
-import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
+import com.codeshare.airline.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.TimeMode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

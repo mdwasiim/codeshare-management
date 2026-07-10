@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { TenantService } from '../../services/tenant.service';
-import { Tenant } from '@features/access-management/models/tenant.model';
+import { AuthSource, OidcConfig, Tenant, TenantPlan, TenantStatus } from '@features/access-management/models/tenant.model';
 import { SelectModule } from 'primeng/select';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
@@ -23,17 +23,25 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
     private service = inject(TenantService);
 
     statusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Suspended', value: 'SUSPENDED' },
-        { label: 'Trial', value: 'TRIAL' },
-        { label: 'Expired', value: 'EXPIRED' }
+        { label: 'Active', value: TenantStatus.ACTIVE },
+        { label: 'Suspended', value: TenantStatus.SUSPENDED },
+        { label: 'Expired', value: TenantStatus.EXPIRED },
+        { label: 'Deleted', value: TenantStatus.DELETED }
     ];
 
     planOptions = [
-        { label: 'Basic', value: 'BASIC' },
-        { label: 'Premium', value: 'PREMIUM' },
-        { label: 'Enterprise', value: 'ENTERPRISE' }
+        { label: 'Free', value: TenantPlan.FREE },
+        { label: 'Pro', value: TenantPlan.PRO },
+        { label: 'Enterprise', value: TenantPlan.ENTERPRISE }
+    ];
+
+    authSourceOptions = [
+        { label: 'Internal', value: AuthSource.INTERNAL },
+        { label: 'LDAP', value: AuthSource.LDAP },
+        { label: 'Azure AD', value: AuthSource.AZURE },
+        { label: 'Keycloak', value: AuthSource.KEYCLOAK },
+        { label: 'Okta', value: AuthSource.OKTA },
+        { label: 'OpenID Connect', value: AuthSource.OIDC_GENERIC }
     ];
 
     override ngOnInit() {
@@ -46,14 +54,34 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
             name: ['', Validators.required],
             code: ['', Validators.required],
             description: [''],
-            status: ['ACTIVE'],
-            plan: ['BASIC']
+            contactEmail: [''],
+            contactPhone: [''],
+            region: [''],
+            status: [TenantStatus.ACTIVE],
+            plan: [TenantPlan.PRO],
+            authSource: [AuthSource.INTERNAL],
+            oidcIssuerUri: [''],
+            oidcAuthorizationUri: [''],
+            oidcTokenUri: [''],
+            oidcJwkSetUri: [''],
+            oidcClientId: [''],
+            oidcClientSecretRef: [''],
+            oidcRedirectUri: [''],
+            oidcScopes: ['openid profile email']
         });
     }
 
     patchForm(data: Tenant): void {
         this.form.patchValue({
-            ...data
+            ...data,
+            oidcIssuerUri: data.oidcConfig?.issuerUri || '',
+            oidcAuthorizationUri: data.oidcConfig?.authorizationUri || '',
+            oidcTokenUri: data.oidcConfig?.tokenUri || '',
+            oidcJwkSetUri: data.oidcConfig?.jwkSetUri || '',
+            oidcClientId: data.oidcConfig?.clientId || '',
+            oidcClientSecretRef: data.oidcConfig?.clientSecretRef || '',
+            oidcRedirectUri: data.oidcConfig?.redirectUri || '',
+            oidcScopes: data.oidcConfig?.scopes || 'openid profile email'
         });
     }
 
@@ -62,10 +90,54 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
     }
 
     create(payload: Tenant) {
-        return this.service.create(payload);
+        return this.service.create(this.toPayload(payload));
     }
 
     update(id: string, payload: Tenant) {
-        return this.service.update(id, payload);
+        return this.service.update(id, this.toPayload(payload));
+    }
+
+    isOidcProvider(): boolean {
+        return [AuthSource.AZURE, AuthSource.KEYCLOAK, AuthSource.OKTA, AuthSource.OIDC_GENERIC].includes(this.form.get('authSource')?.value);
+    }
+
+    isLdapProvider(): boolean {
+        return this.form.get('authSource')?.value === AuthSource.LDAP;
+    }
+
+    private toPayload(payload: Tenant): Tenant {
+        const authSource = this.form.get('authSource')?.value as AuthSource;
+        const normalizedPayload: Tenant = {
+            ...payload,
+            code: payload.code?.trim().toUpperCase(),
+            authSource
+        };
+
+        if (this.isOidcProvider()) {
+            normalizedPayload.oidcConfig = this.buildOidcConfig();
+        } else if (this.isLdapProvider()) {
+            normalizedPayload.oidcConfig = {
+                issuerUri: this.form.get('oidcIssuerUri')?.value || '',
+                scopes: this.form.get('oidcScopes')?.value || ''
+            } as OidcConfig;
+        } else {
+            delete normalizedPayload.oidcConfig;
+        }
+
+        return normalizedPayload;
+    }
+
+    private buildOidcConfig(): OidcConfig {
+        return {
+            issuerUri: this.form.get('oidcIssuerUri')?.value || '',
+            authorizationUri: this.form.get('oidcAuthorizationUri')?.value || '',
+            tokenUri: this.form.get('oidcTokenUri')?.value || '',
+            jwkSetUri: this.form.get('oidcJwkSetUri')?.value || '',
+            clientId: this.form.get('oidcClientId')?.value || '',
+            clientSecretRef: this.form.get('oidcClientSecretRef')?.value || '',
+            redirectUri: this.form.get('oidcRedirectUri')?.value || '',
+            scopes: this.form.get('oidcScopes')?.value || 'openid profile email',
+            enforceRedirectUri: true
+        };
     }
 }

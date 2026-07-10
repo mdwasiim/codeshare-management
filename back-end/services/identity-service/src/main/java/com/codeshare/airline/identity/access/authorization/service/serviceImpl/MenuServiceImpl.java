@@ -9,14 +9,11 @@ import com.codeshare.airline.identity.access.assignments.entities.GroupMenu;
 import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;
 import com.codeshare.airline.identity.access.identity.entities.Group;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.entities.User;
 import com.codeshare.airline.identity.access.assignments.repository.GroupMenuRepository;
 import com.codeshare.airline.identity.access.identity.repository.GroupRepository;
 import com.codeshare.airline.identity.access.authorization.repository.MenuRepository;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.access.authorization.service.MenuService;
-import com.codeshare.airline.identity.access.identity.service.TenantService;
 import com.codeshare.airline.identity.access.authorization.mappers.MenuMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -49,9 +46,6 @@ public class MenuServiceImpl implements MenuService {
 
     private final MenuMapper mapper;
 
-    private final TenantRepository tenantRepository;
-    private final TenantService tenantService;
-
     private final ObjectMapper objectMapper;
 
     // ---------------------------------------------------------
@@ -64,8 +58,6 @@ public class MenuServiceImpl implements MenuService {
         TenantContext ctx = TenantContextHolder.getTenant();
 
         // 🔥 Fetch tenant entity
-        Tenant tenant = tenantRepository.findByTenantCode(ctx.getTenantCode())
-                .orElseThrow(() -> new RuntimeException("Tenant not found"));
 
         // 🔥 Map DTO → Entity
         Menu entity = mapper.toEntity(dto);
@@ -73,7 +65,7 @@ public class MenuServiceImpl implements MenuService {
         // 🔥 FIX: generate code
         entity.setCode(dto.getLabel().trim().toUpperCase().replaceAll("\\s+", "_"));
         // 🔥 Assign tenant
-        entity.setTenant(tenant);
+        entity.setTenantId(ctx.getId());
 
         // 🔥 Assign parent
         if (dto.getParentId() != null) {
@@ -85,7 +77,7 @@ public class MenuServiceImpl implements MenuService {
         normalizePlacementLabels(entity);
 
         Menu saved = repository.save(entity);
-        replaceMenuGroups(saved, dto.getGroupIds(), tenant);
+        replaceMenuGroups(saved, dto.getGroupIds(), ctx.getId());
 
         return toDtoWithGroups(saved);
     }
@@ -115,7 +107,7 @@ public class MenuServiceImpl implements MenuService {
         normalizePlacementLabels(entity);
 
         Menu saved = repository.save(entity);
-        replaceMenuGroups(saved, dto.getGroupIds(), saved.getTenant());
+        replaceMenuGroups(saved, dto.getGroupIds(), saved.getTenantId());
 
         return toDtoWithGroups(saved);
     }
@@ -159,8 +151,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional(readOnly = true)
     public List<MenuDTO> getRootMenus() {
-        Tenant tenantByTenantCode = tenantService.getTenantByTenantCode(TenantContextHolder.getTenant().getTenantCode());
-        return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNullOrderByDisplayOrderAscCodeAsc(tenantByTenantCode.getId()));
+        return mapper.toDTOList(repository.findByTenantIdAndParentMenuIsNullOrderByDisplayOrderAscCodeAsc(TenantContextHolder.getTenant().getId()));
     }
 
     @Override
@@ -168,7 +159,7 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuDTO> getAllForManagement() {
         TenantContext ctx = TenantContextHolder.getTenant();
 
-        return repository.findByTenant_TenantCodeOrderByDisplayOrderAscCodeAsc(ctx.getTenantCode())
+        return repository.findByTenantIdOrderByDisplayOrderAscCodeAsc(ctx.getId())
                 .stream()
                 .sorted(MENU_ORDER)
                 .map(this::toDtoWithGroups)
@@ -193,7 +184,7 @@ public class MenuServiceImpl implements MenuService {
 
         // 🔥 fetch allowed menus
         List<Menu> allowedMenus =
-                groupMenuRepository.findMenusByGroupsAndTenant(groups, ctx.getTenantCode());
+                groupMenuRepository.findMenusByGroupsAndTenant(groups, ctx.getId());
         /*List<Menu> allowedMenus =
                 repository.findAll();*/
         // 🔥 include parents
@@ -303,7 +294,7 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
-    private void replaceMenuGroups(Menu menu, List<UUID> groupIds, Tenant tenant) {
+    private void replaceMenuGroups(Menu menu, List<UUID> groupIds, UUID tenantId) {
         groupMenuRepository.deleteByMenu_Id(menu.getId());
         groupMenuRepository.flush();
 
@@ -317,12 +308,12 @@ public class MenuServiceImpl implements MenuService {
                     Group group = groupRepository.findById(groupId)
                             .orElseThrow(() -> new RuntimeException("Group not found: " + groupId));
 
-                    if (!Objects.equals(group.getTenant().getId(), tenant.getId())) {
+                    if (!Objects.equals(group.getTenantId(), tenantId)) {
                         throw new RuntimeException("Group does not belong to current tenant: " + groupId);
                     }
 
                     GroupMenu mapping = GroupMenu.builder()
-                            .tenant(tenant)
+                            .tenantId(tenantId)
                             .group(group)
                             .menu(menu)
                             .build();

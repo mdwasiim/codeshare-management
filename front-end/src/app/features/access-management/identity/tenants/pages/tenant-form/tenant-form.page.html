@@ -25,6 +25,18 @@
 
                     <input id="description" pInputText formControlName="description" class="w-full" />
                 </div>
+                <div class="field col-12 md:col-6">
+                    <label for="contactEmail">Contact Email</label>
+                    <input id="contactEmail" pInputText formControlName="contactEmail" class="w-full" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="contactPhone">Contact Phone</label>
+                    <input id="contactPhone" pInputText formControlName="contactPhone" class="w-full" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="region">Region</label>
+                    <input id="region" pInputText formControlName="region" class="w-full" />
+                </div>
             </div>
         </app-form-section>
 
@@ -44,6 +56,49 @@
 
                     <p-select inputId="plan" appendTo="body" formControlName="plan" [options]="planOptions" placeholder="Select Plan" styleClass="w-full"> </p-select>
                 </div>
+                <div class="field col-12 md:col-6">
+                    <label for="authSource">Authentication</label>
+                    <p-select inputId="authSource" appendTo="body" formControlName="authSource" [options]="authSourceOptions" placeholder="Select Authentication" styleClass="w-full"> </p-select>
+                </div>
+            </div>
+        </app-form-section>
+
+        <app-form-section title="Identity Provider" *ngIf="isOidcProvider() || isLdapProvider()">
+            <div class="grid">
+                <div class="field col-12 md:col-6">
+                    <label for="oidcIssuerUri">{{ isLdapProvider() ? 'Server URL' : 'Issuer URI' }}</label>
+                    <input id="oidcIssuerUri" pInputText formControlName="oidcIssuerUri" class="w-full" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="oidcScopes">{{ isLdapProvider() ? 'Base DN' : 'Scopes' }}</label>
+                    <input id="oidcScopes" pInputText formControlName="oidcScopes" class="w-full" />
+                </div>
+                <ng-container *ngIf="isOidcProvider()">
+                    <div class="field col-12 md:col-6">
+                        <label for="oidcAuthorizationUri">Authorization URI</label>
+                        <input id="oidcAuthorizationUri" pInputText formControlName="oidcAuthorizationUri" class="w-full" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="oidcTokenUri">Token URI</label>
+                        <input id="oidcTokenUri" pInputText formControlName="oidcTokenUri" class="w-full" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="oidcJwkSetUri">JWK Set URI</label>
+                        <input id="oidcJwkSetUri" pInputText formControlName="oidcJwkSetUri" class="w-full" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="oidcClientId">Client ID</label>
+                        <input id="oidcClientId" pInputText formControlName="oidcClientId" class="w-full" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="oidcClientSecretRef">Client Secret</label>
+                        <input id="oidcClientSecretRef" pInputText formControlName="oidcClientSecretRef" class="w-full" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="oidcRedirectUri">Frontend Callback URI</label>
+                        <input id="oidcRedirectUri" pInputText formControlName="oidcRedirectUri" class="w-full" />
+                    </div>
+                </ng-container>
             </div>
         </app-form-section>
     </div>

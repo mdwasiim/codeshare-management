@@ -1,23 +1,34 @@
 package com.codeshare.airline.identity.access.authorization.entities;
 
-import com.codeshare.airline.identity.access.assignments.entities.RolePermission;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import jakarta.persistence.*;
-import lombok.*;
+import com.codeshare.airline.identity.access.assignments.entities.RolePermission;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(
         name = "permissions",
         uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_permission_domain_action_tenant",
-                        columnNames = {"tenant_id", "domain", "action"}
-                )
+                @UniqueConstraint(name = "uk_permission_domain_action_tenant", columnNames = {"tenant_id", "domain", "action"})
         },
         indexes = {
                 @Index(name = "idx_permission_tenant", columnList = "tenant_id"),
@@ -33,27 +44,25 @@ import java.util.Set;
 public class Permission extends CSMDataAbstractEntity {
 
     @Column(name = "name", nullable = false, length = 200)
-    private String name; // or displayName
+    private String name;
 
     @EqualsAndHashCode.Include
     @Column(name = "code", nullable = false, length = 150)
-    private String code;   // USER:CREATE
+    private String code;
 
     @Column(name = "domain", nullable = false, length = 100)
-    private String domain; // USER
+    private String domain;
 
     @Column(name = "action", nullable = false, length = 100)
-    private String action; // CREATE
+    private String action;
 
     @Column(name = "description", length = 500)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tenant_id", nullable = false)
-    private Tenant tenant;
+    @Column(name = "tenant_id", nullable = false)
+    private UUID tenantId;
 
-    @OneToMany(mappedBy = "permission", fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "permission", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<RolePermission> rolePermissions = new HashSet<>();
 
     @PrePersist

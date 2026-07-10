@@ -3,10 +3,9 @@ package com.codeshare.airline.identity.access.identity.data;
 import com.codeshare.airline.core.enums.common.RecordStatus;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData.UserSeed;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.entities.User;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.access.identity.repository.UserRepository;
+import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,31 +22,29 @@ public class UserLoader {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TenantRepository tenantRepository;
     private final IdentityBootstrapData bootstrapData;
+    private final HostAirlineTenantClient tenantClient;
 
     public void loadUser(UUID tenantId) {
         log.info("Bootstrapping internal users for tenant {}", tenantId);
 
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
-
-        Set<String> existingUsernames = userRepository.findByTenant(tenant).stream()
+        Set<String> existingUsernames = userRepository.findByTenantId(tenantId).stream()
                 .map(User::getUsername)
                 .collect(Collectors.toSet());
 
-        bootstrapData.users().forEach(seed -> createUserIfMissing(tenant, seed, existingUsernames));
+        String tenantCode = resolveTenantCode(tenantId);
+        bootstrapData.users().forEach(seed -> createUserIfMissing(tenantId, tenantCode, seed, existingUsernames));
     }
 
-    private void createUserIfMissing(Tenant tenant, UserSeed seed, Set<String> existingUsernames) {
+    private void createUserIfMissing(UUID tenantId, String tenantCode, UserSeed seed, Set<String> existingUsernames) {
         String username = seed.username().toLowerCase();
         if (existingUsernames.contains(username)) {
-            log.info("User [{}] already exists for tenant [{}]", username, tenant.getTenantCode());
+            log.info("User [{}] already exists for tenant [{}]", username, tenantCode);
             return;
         }
 
         existingUsernames.add(username);
-        String email = resolveBootstrapEmail(tenant, seed, username);
+        String email = resolveBootstrapEmail(tenantCode, seed, username);
 
         User user = User.builder()
                 .username(username)
@@ -63,15 +60,15 @@ public class UserLoader {
                 .authSource(seed.authSource())
                 .externalId("internal:" + username)
                 .recordStatus(RecordStatus.ACTIVE)
-                .tenant(tenant)
+                .tenantId(tenantId)
                 .build();
 
         userRepository.save(user);
-        log.info("User [{}] created for tenant [{}]", username, tenant.getTenantCode());
+        log.info("User [{}] created for tenant [{}]", username, tenantCode);
     }
 
-    private String resolveBootstrapEmail(Tenant tenant, UserSeed seed, String username) {
-        String tenantEmail = username + "@" + tenant.getTenantCode().toLowerCase() + ".codeshare.com";
+    private String resolveBootstrapEmail(String tenantCode, UserSeed seed, String username) {
+        String tenantEmail = username + "@" + tenantCode.toLowerCase() + ".codeshare.com";
         if (seed.email() == null || seed.email().isBlank()) {
             return tenantEmail;
         }
@@ -86,7 +83,15 @@ public class UserLoader {
 
     public boolean isLoaded(UUID tenantId) {
         long expected = bootstrapData.users().size();
-        long actual = userRepository.findAllByTenant_Id(tenantId).size();
+        long actual = userRepository.findAllByTenantId(tenantId).size();
         return actual >= expected;
+    }
+
+    private String resolveTenantCode(UUID tenantId) {
+        return tenantClient.getAll().stream()
+                .filter(tenant -> tenantId.equals(tenant.getId()))
+                .map(tenant -> tenant.getTenantCode())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Tenant not found in tenant-service: " + tenantId));
     }
 }

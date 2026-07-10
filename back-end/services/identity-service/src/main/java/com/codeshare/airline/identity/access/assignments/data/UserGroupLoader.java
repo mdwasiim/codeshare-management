@@ -4,11 +4,10 @@ import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import com.codeshare.airline.identity.access.assignments.repository.UserGroupRepository;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.identity.entities.Group;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.entities.User;
 import com.codeshare.airline.identity.access.identity.repository.GroupRepository;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
 import com.codeshare.airline.identity.access.identity.repository.UserRepository;
+import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -29,8 +28,8 @@ public class UserGroupLoader {
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
     private final UserGroupRepository userGroupRepository;
-    private final TenantRepository tenantRepository;
     private final IdentityBootstrapData bootstrapData;
+    private final HostAirlineTenantClient tenantClient;
 
     @Transactional
     public void load(UUID tenantId) {
@@ -39,18 +38,16 @@ public class UserGroupLoader {
     }
 
     private void assignUserGroups(UUID tenantId) {
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
-
-        List<User> users = userRepository.findByTenant(tenant);
-        List<Group> groups = groupRepository.findByTenant(tenant);
+        List<User> users = userRepository.findByTenantId(tenantId);
+        List<Group> groups = groupRepository.findByTenantId(tenantId);
+        String tenantCode = resolveTenantCode(tenantId);
 
         if (users.isEmpty() || groups.isEmpty()) {
-            log.warn("Skipping tenant [{}] because users or groups are missing", tenant.getTenantCode());
+            log.warn("Skipping tenant [{}] because users or groups are missing", tenantCode);
             return;
         }
 
-        Set<String> existingMappings = userGroupRepository.findMappingsByTenantId(tenant.getId());
+        Set<String> existingMappings = userGroupRepository.findMappingsByTenantId(tenantId);
         List<UserGroup> toSave = new ArrayList<>();
 
         Map<String, User> userByUsername = new HashMap<>();
@@ -73,19 +70,19 @@ public class UserGroupLoader {
                     continue;
                 }
 
-                saveUserGroup(tenant, user, group, existingMappings, toSave);
+                saveUserGroup(tenantId, user, group, existingMappings, toSave);
             }
         });
 
         if (!toSave.isEmpty()) {
             userGroupRepository.saveAll(toSave);
-            log.info("Tenant [{}]: {} user-group mappings created.", tenant.getTenantCode(), toSave.size());
+            log.info("Tenant [{}]: {} user-group mappings created.", tenantCode, toSave.size());
         } else {
-            log.info("Tenant [{}]: user-group mappings already exist.", tenant.getTenantCode());
+            log.info("Tenant [{}]: user-group mappings already exist.", tenantCode);
         }
     }
 
-    private void saveUserGroup(Tenant tenant,
+    private void saveUserGroup(UUID tenantId,
                                User user,
                                Group group,
                                Set<String> existingMappings,
@@ -97,7 +94,7 @@ public class UserGroupLoader {
 
         existingMappings.add(key);
         toSave.add(UserGroup.builder()
-                .tenant(tenant)
+                .tenantId(tenantId)
                 .user(user)
                 .group(group)
                 .build());
@@ -109,5 +106,13 @@ public class UserGroupLoader {
                 .mapToLong(List::size)
                 .sum();
         return actual >= expected;
+    }
+
+    private String resolveTenantCode(UUID tenantId) {
+        return tenantClient.getAll().stream()
+                .filter(tenant -> tenantId.equals(tenant.getId()))
+                .map(tenant -> tenant.getTenantCode())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Tenant not found in tenant-service: " + tenantId));
     }
 }

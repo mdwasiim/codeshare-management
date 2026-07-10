@@ -1,7 +1,8 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.channel;
 
-import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
-import com.codeshare.airline.schedule.ingestion.persistence.entities.source.ScheduleIngestionChannelEntity;
+import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionChannelDTO;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionProfileDTO;
 import org.apache.camel.builder.RouteBuilder;
 
 public interface ChannelRouteBuilder {
@@ -14,5 +15,5 @@ public interface ChannelRouteBuilder {
     /**
      * Build the Camel route for the given channel.
      */
-    void build(RouteBuilder routeBuilder, ScheduleIngestionChannelEntity channel);
+    void build(RouteBuilder routeBuilder, AirlineIngestionProfileDTO profile, AirlineIngestionChannelDTO channel);
 }

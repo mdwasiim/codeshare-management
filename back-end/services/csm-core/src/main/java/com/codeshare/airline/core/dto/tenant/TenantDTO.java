@@ -21,7 +21,7 @@ public class TenantDTO extends CSMAuditableDTO {
     private UUID id;
 
     private String name;
-    private String code;
+    private String tenantCode;
     private String description;
 
     // DB config reference (safe)

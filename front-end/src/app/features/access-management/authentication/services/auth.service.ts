@@ -12,6 +12,7 @@ import { AuthTokenService } from '@services/auth/auth-token.service';
 import { AuthSessionResponse } from '@features/access-management/authentication/models/auth-session-response.model';
 import { LoginResponse } from '@features/access-management/authentication/models/login-response.model';
 import { RefreshTokenResponse } from '@features/access-management/authentication/models/refresh-token-response.model';
+import { AuthSource, TenantAuthContext } from '@features/access-management/models/tenant.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -24,13 +25,36 @@ export class AuthService {
         private router: Router
     ) {}
 
-    login(username: string, password: string): Observable<LoginResponse> {
-        return this.apiService.post<LoginResponse>(API_ENDPOINTS.auth.login, { username, password }).pipe(
+    login(username: string, password: string, authSource: AuthSource = AuthSource.INTERNAL): Observable<LoginResponse> {
+        return this.apiService.post<LoginResponse>(API_ENDPOINTS.auth.login, { username, password, authSource }).pipe(
             tap((res) => {
                 this.tokenService.setSession(res.access_token, res.refresh_token, res.expires_in);
                 this.tokenService.setTenant(res.tenant_code);
                 this.tenantService.setTenant(res.tenant_id, res.tenant_code);
                 this.applyAccess(res.roles || [], [], res.groups || [], res.username);
+            }),
+            switchMap((res) => this.loadSession().pipe(switchMap(() => this.menuService.loadMenus()), map(() => res)))
+        );
+    }
+
+    getTenantAuthContext(tenantCode: string): Observable<TenantAuthContext> {
+        return this.apiService.get<TenantAuthContext>(API_ENDPOINTS.accessManagement.tenants.authContextByCode, {
+            pathParams: { code: tenantCode.trim().toUpperCase() }
+        });
+    }
+
+    startOidcLogin(tenantCode: string, authSource: AuthSource): void {
+        const params = new URLSearchParams({
+            tenantCode: tenantCode.trim().toUpperCase(),
+            authSource
+        });
+        window.location.assign(`${API_ENDPOINTS.auth.oidcAuthorize()}?${params.toString()}`);
+    }
+
+    exchangeOidcCode(code: string): Observable<LoginResponse> {
+        return this.apiService.post<LoginResponse>(API_ENDPOINTS.auth.oidcToken, { code }).pipe(
+            tap((res) => {
+                this.tokenService.setSession(res.access_token, res.refresh_token, res.expires_in);
             }),
             switchMap((res) => this.loadSession().pipe(switchMap(() => this.menuService.loadMenus()), map(() => res)))
         );

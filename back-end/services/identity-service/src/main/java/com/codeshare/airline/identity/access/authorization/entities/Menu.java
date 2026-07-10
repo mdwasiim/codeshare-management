@@ -1,25 +1,35 @@
 package com.codeshare.airline.identity.access.authorization.entities;
 
-import com.codeshare.airline.identity.access.assignments.entities.GroupMenu;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.identity.access.assignments.entities.GroupMenu;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(
         name = "menus",
         uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_menu_code_tenant_org",
-                        columnNames = {"tenant_id", "code"}
-                )
+                @UniqueConstraint(name = "uk_menu_code_tenant_org", columnNames = {"tenant_id", "code"})
         },
         indexes = {
                 @Index(name = "idx_menus_tenant", columnList = "tenant_id"),
@@ -67,26 +77,12 @@ public class Menu extends CSMDataAbstractEntity {
     @ToString.Exclude
     private Menu parentMenu;
 
-    // parent-child menus
-    @OneToMany(
-            mappedBy = "parentMenu",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "parentMenu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> childMenus = new ArrayList<>();
 
-    // group-menu mappings
-    @OneToMany(
-            mappedBy = "menu",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMenu> groupMenus = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tenant_id", nullable = false)
-    @JsonIgnore
-    @ToString.Exclude
-    private Tenant tenant;
+    @Column(name = "tenant_id", nullable = false)
+    private UUID tenantId;
 }
-

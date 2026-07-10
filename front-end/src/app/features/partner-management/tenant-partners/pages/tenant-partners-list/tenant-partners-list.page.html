@@ -1,0 +1,99 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Partner Management</span>
+            <h1>Partner Airlines</h1>
+            <p>Manage partner airline relationships for the selected Host Airline tenant.</p>
+        </div>
+    </div>
+
+    <app-crud-toolbar
+        [actions]="['create','delete','export','search']"
+        [resource]="resourceName"
+        [hasSelection]="selectedRecords.length > 0"
+        (create)="openCreate()"
+        (delete)="deleteSelectedRecords()"
+        (export)="exportCSV()"
+        (search)="onSearch($event)"
+    ></app-crud-toolbar>
+
+    <p-table
+        #dt
+        [value]="data"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10,20,50]"
+        [(selection)]="selectedRecords"
+        dataKey="id"
+        [rowHover]="true"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '88rem' }"
+        [globalFilterFields]="['homeAirlineCode','homeAirlineName','partnerAirlineCode','partnerAirlineName','agreementNumber','agreementType','agreementStatus','recordStatus','active']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Manage Partner Mappings</h2>
+                    <p>{{ data.length || 0 }} records loaded</p>
+                </div>
+                <span class="access-count">{{ selectedRecords.length || 0 }} selected</span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                <th pSortableColumn="homeAirlineCode">Host Airline<p-sortIcon field="homeAirlineCode"></p-sortIcon></th>
+                <th pSortableColumn="partnerAirlineCode">Partner Airline<p-sortIcon field="partnerAirlineCode"></p-sortIcon></th>
+                <th pSortableColumn="agreementNumber">Agreement No<p-sortIcon field="agreementNumber"></p-sortIcon></th>
+                <th pSortableColumn="agreementType">Agreement Type<p-sortIcon field="agreementType"></p-sortIcon></th>
+                <th pSortableColumn="agreementStatus">Agreement Status<p-sortIcon field="agreementStatus"></p-sortIcon></th>
+                <th pSortableColumn="recordStatus">Record Status<p-sortIcon field="recordStatus"></p-sortIcon></th>
+                <th pSortableColumn="active">Active<p-sortIcon field="active"></p-sortIcon></th>
+                <th class="access-actions-col">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-record>
+            <tr>
+                <td><p-tableCheckbox [value]="record"></p-tableCheckbox></td>
+                <td>{{ record.homeAirlineCode || '-' }}<span *ngIf="record.homeAirlineName"> - {{ record.homeAirlineName }}</span></td>
+                <td>{{ record.partnerAirlineCode || '-' }}<span *ngIf="record.partnerAirlineName"> - {{ record.partnerAirlineName }}</span></td>
+                <td>{{ record.agreementNumber || '-' }}</td>
+                <td>{{ record.agreementType || '-' }}</td>
+                <td>{{ record.agreementStatus || '-' }}</td>
+                <td>{{ record.recordStatus || '-' }}</td>
+                <td><p-tag [value]="record.active ? 'Yes' : 'No'" [severity]="record.active ? 'success' : 'secondary'"></p-tag></td>
+                <td class="access-row-actions">
+                    <div>
+                        <ng-container *appHasPermission="resourceName.toLowerCase() + ':update'">
+                            <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(record)"></p-button>
+                        </ng-container>
+                        <ng-container *appHasPermission="resourceName.toLowerCase() + ':delete'">
+                            <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteRecord(record)"></p-button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="11" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-share-alt text-2xl mb-2"></i>
+                    <div>No partner mappings found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <app-dialog
+        [(visible)]="dialogVisible"
+        [title]="selectedId ? 'Edit Partner Mapping' : 'Create Partner Mapping'"
+        width="min(92vw, 760px)"
+        [loading]="!!tenantPartnerForm?.loading"
+        [disableSave]="!!tenantPartnerForm?.form?.invalid || !!tenantPartnerForm?.loading"
+        (save)="tenantPartnerForm.submit()"
+    >
+        <tenant-partners-form #tenantPartnerForm [id]="selectedId" (saved)="onSaved()"></tenant-partners-form>
+    </app-dialog>
+</div>

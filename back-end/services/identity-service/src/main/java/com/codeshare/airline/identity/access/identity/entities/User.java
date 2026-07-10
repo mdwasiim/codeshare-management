@@ -2,17 +2,30 @@ package com.codeshare.airline.identity.access.identity.entities;
 
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Index;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.UUID;
 
 @Entity
 @Table(
@@ -20,10 +33,7 @@ import java.util.Set;
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_user_tenant_user_name", columnNames = {"tenant_id", "user_name"}),
                 @UniqueConstraint(name = "uk_user_tenant_email", columnNames = {"tenant_id", "email"}),
-                @UniqueConstraint(
-                        name = "uk_user_tenant_external_auth",
-                        columnNames = {"tenant_id", "external_id", "auth_source"}
-                )
+                @UniqueConstraint(name = "uk_user_tenant_external_auth", columnNames = {"tenant_id", "external_id", "auth_source"})
         },
         indexes = {
                 @Index(name = "idx_user_user_name", columnList = "user_name"),
@@ -86,9 +96,8 @@ public class User extends CSMDataAbstractEntity {
     @Column(name = "external_id", length = 50)
     private String externalId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tenant_id", nullable = false)
-    private Tenant tenant;
+    @Column(name = "tenant_id", nullable = false)
+    private UUID tenantId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserGroup> userGroups = new HashSet<>();

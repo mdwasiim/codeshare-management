@@ -3,7 +3,7 @@ import { AppApiService } from '@core/api/config/app-api.service';
 import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 import { AppToastService } from '@services/toast/app-toast.service';
 import { tap } from 'rxjs';
-import { Tenant } from '@features/access-management/models/tenant.model';
+import { Tenant, TenantAuthContext } from '@features/access-management/models/tenant.model';
 
 @Injectable({ providedIn: 'root' })
 export class TenantService {
@@ -17,6 +17,12 @@ export class TenantService {
     getById(id: string) {
         return this.api.get<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, {
             pathParams: { id }
+        });
+    }
+
+    getAuthContextByCode(code: string) {
+        return this.api.get<TenantAuthContext>(API_ENDPOINTS.accessManagement.tenants.authContextByCode, {
+            pathParams: { code }
         });
     }
 

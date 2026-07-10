@@ -49,7 +49,9 @@ export const API_ENDPOINTS = {
         login: makeEndpoint('/identity/auth/login'),
         logout: makeEndpoint('/identity/auth/logout'),
         refresh: makeEndpoint('/identity/auth/refresh'),
-        session: makeEndpoint('/identity/auth/session')
+        session: makeEndpoint('/identity/auth/session'),
+        oidcAuthorize: makeEndpoint('/identity/auth/oidc/authorize'),
+        oidcToken: makeEndpoint('/identity/auth/oidc/token')
     },
     dashboard: {
         stats: makeEndpoint('/identity/dashboard/stats')
@@ -86,7 +88,8 @@ export const API_ENDPOINTS = {
         },
         tenants: {
             base: makeEndpoint('/tenant/tenants'),
-            byId: makeEndpoint('/tenant/tenants/{id}')
+            byId: makeEndpoint('/tenant/tenants/{id}'),
+            authContextByCode: makeEndpoint('/tenant/tenants/code/{code}/auth-context')
         },
         menu: {
             base: makeEndpoint('/identity/menus'),
