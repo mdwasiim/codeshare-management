@@ -59,6 +59,7 @@
         <module>services/csm-core</module>
         <module>services/csm-data-jpa</module>
         <module>services/csm-web</module>
+        <module>services/csm-service-security</module>
 
         <module>services/gateway-service</module>
         <module>services/master-data-service</module>
@@ -242,6 +243,12 @@
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
                 <artifactId>csm-data-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codeshare.airline</groupId>
+                <artifactId>csm-service-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

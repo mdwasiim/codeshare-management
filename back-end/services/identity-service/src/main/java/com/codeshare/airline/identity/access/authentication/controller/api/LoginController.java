@@ -11,6 +11,8 @@ import com.codeshare.airline.identity.access.authentication.core.api.request.Oid
 import com.codeshare.airline.identity.access.authentication.core.api.response.AuthSessionResponse;
 import com.codeshare.airline.identity.access.authentication.core.api.response.LoginResponse;
 import com.codeshare.airline.identity.access.authentication.core.api.response.RefreshTokenResponse;
+import com.codeshare.airline.identity.access.authentication.core.api.response.TokenPairResponse;
+import com.codeshare.airline.identity.access.authentication.core.config.SecurityProperties;
 import com.codeshare.airline.identity.access.authentication.core.domain.IdentityProviderConfig;
 import com.codeshare.airline.identity.access.authentication.core.domain.OidcConfig;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContext;
@@ -48,6 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,6 +70,7 @@ public class LoginController {
     private final AuthUserService authUserService;
     private final RolePermissionAssignmentService rolePermissionAssignmentService;
     private final UserGroupRepository userGroupRepository;
+    private final SecurityProperties securityProperties;
 
     @PostMapping("/login")
     public LoginResponse login(@RequestHeader("X-Tenant-Id") String tenantCode, @RequestBody LoginRequest request) {
@@ -136,6 +140,27 @@ public class LoginController {
                 .accessToken(tokens.getAccessToken())
                 .refreshToken(tokens.getRefreshToken())
                 .expiresIn(tokenService.getAccessTokenTtl())
+                .build();
+    }
+
+    @PostMapping("/service-token")
+    public TokenPairResponse issueServiceToken(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
+    ) {
+        ServiceCredentials credentials = extractBasicCredentials(authorizationHeader);
+
+        if (!securityProperties.getS2s().getClientId().equals(credentials.clientId())
+                || !securityProperties.getS2s().getClientSecret().equals(credentials.clientSecret())) {
+            throw new AuthenticationFailedException("Invalid service client credentials");
+        }
+
+        String accessToken = tokenService.issueServiceAccessToken(credentials.clientId());
+
+        return TokenPairResponse.builder()
+                .accessToken(accessToken)
+                .tokenType("Bearer")
+                .expiresIn(tokenService.getAccessTokenTtl())
+                .scope("internal")
                 .build();
     }
 
@@ -247,6 +272,27 @@ public class LoginController {
         }
         return header.substring(7);
     }
+
+    private ServiceCredentials extractBasicCredentials(String header) {
+        if (!StringUtils.hasText(header) || !header.startsWith("Basic ")) {
+            throw new AuthenticationFailedException("Invalid Basic Authorization header");
+        }
+
+        try {
+            String decoded = new String(java.util.Base64.getDecoder().decode(header.substring(6)), StandardCharsets.UTF_8);
+            int separatorIndex = decoded.indexOf(':');
+            if (separatorIndex < 0) {
+                throw new AuthenticationFailedException("Invalid client credentials format");
+            }
+            String clientId = decoded.substring(0, separatorIndex);
+            String clientSecret = decoded.substring(separatorIndex + 1);
+            return new ServiceCredentials(clientId, clientSecret);
+        } catch (IllegalArgumentException ex) {
+            throw new AuthenticationFailedException("Invalid client credentials encoding");
+        }
+    }
+
+    private record ServiceCredentials(String clientId, String clientSecret) {}
 
     private String buildFrontendCallbackUrl(String frontendRedirectUri, String exchangeCode) {
         return UriComponentsBuilder.fromUriString(frontendRedirectUri)

@@ -7,26 +7,15 @@
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/service/serviceImpl/PermissionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/service/serviceImpl/PermissionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/service/serviceImpl/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/identity/service/serviceImpl/RoleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/controller/api/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/controller/api/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/SecurityProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/SecurityProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/service/core/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/service/core/TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/TenantManagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/TenantManagementApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/controller/TenantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/controller/TenantController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/mappers/TenantMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/mappers/TenantMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/service/impl/TenantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/service/impl/TenantServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-tenant.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/services/auth/auth-tenant.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-form/permission-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-form/permission-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-form/permission-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-form/permission-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-form/role-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-form/role-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-form/role-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-form/role-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-list/role-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-list/role-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/models/tenant.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/access-management/models/tenant.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +98,7 @@
       <workItem from="1783526348790" duration="5279000" />
       <workItem from="1783610240159" duration="11130000" />
       <workItem from="1783685509823" duration="12000" />
-      <workItem from="1783685642951" duration="10996000" />
+      <workItem from="1783685642951" duration="14893000" />
     </task>
     <servers />
   </component>

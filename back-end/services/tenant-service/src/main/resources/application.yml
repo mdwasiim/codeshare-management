@@ -35,6 +35,15 @@ spring:
 server:
   port: ${TENANT_SERVICE_PORT:${HOST_AIRLINE_SERVICE_PORT:8086}}
 
+services:
+  identity:
+    url: ${IDENTITY_SERVICE_URL:http://localhost:8081}
+    s2s:
+      client-id: ${INTERNAL_S2S_CLIENT_ID:internal-s2s-client}
+      client-secret: ${INTERNAL_S2S_CLIENT_SECRET:admin123}
+  master-data:
+    url: ${MASTER_DATA_SERVICE_URL:http://localhost:8084}
+
 management:
   endpoints:
     web:
