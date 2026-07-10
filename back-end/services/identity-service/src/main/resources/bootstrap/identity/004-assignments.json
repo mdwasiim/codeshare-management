@@ -104,6 +104,10 @@
                                                                "group:update",
                                                                "role:read",
                                                                "tenant:read",
+                                                               "codesharepartner:create",
+                                                               "codesharepartner:read",
+                                                               "codesharepartner:update",
+                                                               "codesharepartner:delete",
                                                                "dashboard:read",
                                                                "settings:read"
                                                            ]
@@ -636,7 +640,8 @@
                                                          "USERS",
                                                          "GROUPS",
                                                          "ROLES",
-                                                         "TENANTS"
+                                                         "TENANTS",
+                                                         "TENANT_PARTNERS"
                                                      ]
                                        },
                                        {

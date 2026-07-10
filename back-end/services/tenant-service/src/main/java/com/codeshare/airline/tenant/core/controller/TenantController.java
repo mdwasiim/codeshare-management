@@ -36,6 +36,11 @@ public class TenantController {
         return tenantService.getByCode(code);
     }
 
+    @GetMapping("/tenants/code/{code}/auth-context")
+    public TenantAuthContextDTO getPublicAuthContext(@PathVariable String code) {
+        return tenantService.getAuthContextByCode(code);
+    }
+
     @GetMapping("/tenants")
     public List<TenantDTO> getAll() {
         return tenantService.getAll();

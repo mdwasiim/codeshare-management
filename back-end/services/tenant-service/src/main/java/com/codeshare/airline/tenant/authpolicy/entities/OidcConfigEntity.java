@@ -25,25 +25,25 @@ public class OidcConfigEntity extends CSMDataAbstractEntity {
     @JoinColumn(name = "identity_provider_id", nullable = false, unique = true)
     private OidcIdentityProviderEntity identityProvider;
 
-    @Column(name = "issuer_uri", nullable = false, length = 300)
+    @Column(name = "issuer_uri", length = 300)
     private String issuerUri;
 
-    @Column(name = "authorization_uri", nullable = false, length = 300)
+    @Column(name = "authorization_uri", length = 300)
     private String authorizationUri;
 
-    @Column(name = "token_uri", nullable = false, length = 300)
+    @Column(name = "token_uri", length = 300)
     private String tokenUri;
 
-    @Column(name = "jwk_set_uri", nullable = false, length = 300)
+    @Column(name = "jwk_set_uri", length = 300)
     private String jwkSetUri;
 
-    @Column(name = "client_id", nullable = false, length = 150)
+    @Column(name = "client_id", length = 150)
     private String clientId;
 
-    @Column(name = "client_secret_ref", nullable = false, length = 200)
+    @Column(name = "client_secret_ref", length = 200)
     private String clientSecretRef;
 
-    @Column(name = "redirect_uri", nullable = false, length = 300)
+    @Column(name = "redirect_uri", length = 300)
     private String redirectUri;
 
     @Column(name = "grant_type", length = 50)

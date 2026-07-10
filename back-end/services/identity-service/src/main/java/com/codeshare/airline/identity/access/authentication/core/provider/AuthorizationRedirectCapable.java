@@ -8,6 +8,7 @@ public interface AuthorizationRedirectCapable {
     String buildAuthorizeUrl(
             TenantContext tenant,
             IdentityProviderConfig config,
+            String callbackUri,
             String state,
             String codeChallenge,
             String nonce

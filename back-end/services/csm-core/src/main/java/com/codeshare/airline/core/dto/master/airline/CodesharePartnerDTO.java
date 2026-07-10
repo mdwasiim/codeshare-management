@@ -13,6 +13,7 @@ import java.util.UUID;
 @Setter
 public class CodesharePartnerDTO {
     private UUID id;
+    private UUID tenantId;
     private UUID homeAirlineId;
     private UUID partnerAirlineId;
     private String homeAirlineCode;

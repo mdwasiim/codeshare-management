@@ -16,9 +16,10 @@ import java.util.UUID;
 @Table(
         name = "codeshare_partner",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_codeshare_partner", columnNames = {"home_airline_id", "partner_airline_id"})
+                @UniqueConstraint(name = "uk_codeshare_partner", columnNames = {"tenant_id", "home_airline_id", "partner_airline_id"})
         },
         indexes = {
+                @Index(name = "idx_codeshare_tenant", columnList = "tenant_id"),
                 @Index(name = "idx_codeshare_home_airline", columnList = "home_airline_id"),
                 @Index(name = "idx_codeshare_partner_airline", columnList = "partner_airline_id"),
                 @Index(name = "idx_codeshare_status", columnList = "status"),
@@ -29,6 +30,9 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 public class CodesharePartner extends CSMDataAbstractEntity {
+
+    @Column(name = "tenant_id", nullable = false)
+    private UUID tenantId;
 
     @Column(name = "home_airline_id", nullable = false)
     private UUID homeAirlineId;

@@ -22,36 +22,34 @@ public class AirlineCarrierDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
-        if (repository.count() > 0) return;
-
-        List<AirlineCarrier> carriers = List.of(
-                build("QR", "QTR", "157", "Qatar Airways Company Q.C.S.C.",
-                        "Qatar Airways", "Qatar Airways", "QATAR", "QA",
-                        "https://www.qatarairways.com", 1),
-                build("BA", "BAW", "125", "British Airways Plc",
-                        "British Airways", "British Airways", "SPEEDBIRD", "GB",
-                        "https://www.britishairways.com", 2),
-                build("EK", "UAE", "176", "Emirates",
-                        "Emirates", "Emirates", "EMIRATES", "AE",
-                        "https://www.emirates.com", 3)
-        );
-
-        repository.saveAll(carriers);
+        ensure("QR", "QTR", "157", "Qatar Airways Company Q.C.S.C.",
+                "Qatar Airways", "Qatar Airways", "QATAR", "QA",
+                "https://www.qatarairways.com", 1);
+        ensure("BA", "BAW", "125", "British Airways Plc",
+                "British Airways", "British Airways", "SPEEDBIRD", "GB",
+                "https://www.britishairways.com", 2);
+        ensure("AA", "AAL", "001", "American Airlines, Inc.",
+                "American Airlines", "American Airlines", "AMERICAN", "US",
+                "https://www.aa.com", 3);
+        ensure("VA", "VOZ", "795", "Virgin Australia Airlines Pty Ltd",
+                "Virgin Australia", "Virgin Australia", "VIRGIN", "AU",
+                "https://www.virginaustralia.com", 4);
+        ensure("EK", "UAE", "176", "Emirates",
+                "Emirates", "Emirates", "EMIRATES", "AE",
+                "https://www.emirates.com", 5);
     }
 
-    private AirlineCarrier build(String iataCode,
-                                 String icaoCode,
-                                 String numericCode,
-                                 String legalName,
-                                 String commercialName,
-                                 String displayName,
-                                 String callsign,
-                                 String iso2CountryCode,
-                                 String website,
-                                 int displayOrder) {
-
-        AirlineCarrier carrier = new AirlineCarrier();
+    private void ensure(String iataCode,
+                        String icaoCode,
+                        String numericCode,
+                        String legalName,
+                        String commercialName,
+                        String displayName,
+                        String callsign,
+                        String iso2CountryCode,
+                        String website,
+                        int displayOrder) {
+        AirlineCarrier carrier = repository.findByIataCode(iataCode).orElseGet(AirlineCarrier::new);
         carrier.setIataCode(iataCode);
         carrier.setIcaoCode(icaoCode);
         carrier.setIataNumericCode(numericCode);
@@ -65,7 +63,6 @@ public class AirlineCarrierDataLoader implements CommandLineRunner {
         carrier.setDisplayOrder(displayOrder);
         carrier.setRecordStatus(RecordStatus.ACTIVE);
         carrier.setEffectiveFrom(LocalDate.of(2000, 1, 1));
-
-        return carrier;
+        repository.save(carrier);
     }
 }

@@ -1,9 +1,12 @@
 package com.codeshare.airline.identity.access.identity.data;
 
+import com.codeshare.airline.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.core.enums.common.TenantPlan;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData.TenantSeed;
 import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
+import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,20 +25,70 @@ public class TenantLoader {
 
     private final TenantRepository repo;
     private final IdentityBootstrapData bootstrapData;
+    private final HostAirlineTenantClient tenantClient;
 
     @Transactional
     public List<Tenant> loadTenants() {
-        log.info("Bootstrapping tenants from JSON resources");
+        List<Tenant> tenants = loadFromTenantService();
+        if (!tenants.isEmpty()) {
+            log.info("Tenant mirror sync completed from tenant-service");
+            return tenants;
+        }
 
-        List<Tenant> tenants = bootstrapData.tenants().stream()
-                .map(this::createOrGetTenant)
+        log.warn("tenant-service returned no tenants. Falling back to local bootstrap tenant seeds");
+        tenants = bootstrapData.tenants().stream()
+                .map(this::createOrGetTenantFromSeed)
                 .toList();
 
         log.info("Tenant bootstrap completed");
         return tenants;
     }
 
-    private Tenant createOrGetTenant(TenantSeed seed) {
+    private List<Tenant> loadFromTenantService() {
+        try {
+            return tenantClient.getAll().stream()
+                    .map(this::syncTenantMirror)
+                    .toList();
+        } catch (Exception ex) {
+            log.warn("Unable to sync tenants from tenant-service. Falling back to local bootstrap.", ex);
+            return List.of();
+        }
+    }
+
+    private Tenant syncTenantMirror(TenantDTO dto) {
+        Optional<Tenant> existing = repo.findByTenantCode(dto.getCode());
+        Tenant tenant = existing.orElseGet(() -> Tenant.builder().build());
+
+        if (dto.getId() != null && tenant.getId() == null) {
+            tenant.setId(dto.getId());
+        }
+
+        tenant.setTenantCode(dto.getCode());
+        tenant.setName(dto.getName());
+        tenant.setDescription(dto.getDescription());
+        tenant.setPlan(dto.getPlan() == null ? null : TenantPlan.valueOf(dto.getPlan()));
+        tenant.setTrial(Boolean.TRUE.equals(dto.getTrial()));
+        tenant.setContactEmail(dto.getContactEmail());
+        tenant.setContactPhone(dto.getContactPhone());
+        tenant.setLogoUrl(dto.getLogoUrl());
+        tenant.setRegion(dto.getRegion());
+        tenant.setStatus(dto.getStatus());
+        tenant.setSubscriptionStart(dto.getSubscriptionStart());
+        tenant.setSubscriptionEnd(dto.getSubscriptionEnd());
+        tenant.setActive(true);
+        tenant.setDeleted(false);
+        tenant.setCreatedBy(tenant.getCreatedBy() == null ? "TENANT-SYNC" : tenant.getCreatedBy());
+        tenant.setCreatedAt(tenant.getCreatedAt() == null ? Instant.now() : tenant.getCreatedAt());
+        tenant.setUpdatedBy("TENANT-SYNC");
+        tenant.setUpdatedAt(Instant.now());
+        tenant.setTransactionId("TENANT-SYNC-" + dto.getCode());
+
+        Tenant saved = repo.save(tenant);
+        log.info("Tenant mirror synced for tenant '{}'", dto.getCode());
+        return saved;
+    }
+
+    private Tenant createOrGetTenantFromSeed(TenantSeed seed) {
         Optional<Tenant> existing = repo.findByTenantCode(seed.code());
         if (existing.isPresent()) {
             log.info("Tenant '{}' already exists. Using existing.", seed.code());

@@ -18,15 +18,16 @@ import java.util.Set;
 @Table(
         name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_user_user_name", columnNames = "user_name"),
-                @UniqueConstraint(name = "uk_user_email", columnNames = "email"),
+                @UniqueConstraint(name = "uk_user_tenant_user_name", columnNames = {"tenant_id", "user_name"}),
+                @UniqueConstraint(name = "uk_user_tenant_email", columnNames = {"tenant_id", "email"}),
                 @UniqueConstraint(
-                        name = "uk_user_external_auth",
-                        columnNames = {"external_id", "auth_source"}
+                        name = "uk_user_tenant_external_auth",
+                        columnNames = {"tenant_id", "external_id", "auth_source"}
                 )
         },
         indexes = {
-                @Index(name = "idx_user_user_name", columnList = "user_name")
+                @Index(name = "idx_user_user_name", columnList = "user_name"),
+                @Index(name = "idx_user_tenant_user_name", columnList = "tenant_id,user_name")
         }
 )
 @Getter

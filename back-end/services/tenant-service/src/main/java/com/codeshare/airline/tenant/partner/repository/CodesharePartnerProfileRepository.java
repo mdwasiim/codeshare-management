@@ -6,4 +6,6 @@ import com.codeshare.airline.tenant.partner.entities.CodesharePartnerProfile;
 import java.util.UUID;
 
 public interface CodesharePartnerProfileRepository extends CSMDataBaseRepository<CodesharePartnerProfile, UUID> {
+
+    boolean existsByPartner_IdAndProfileCode(UUID partnerId, String profileCode);
 }

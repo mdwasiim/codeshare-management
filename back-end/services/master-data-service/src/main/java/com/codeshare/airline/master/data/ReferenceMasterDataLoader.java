@@ -247,10 +247,12 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
             case "airline-business-roles" -> airlineRole(text(item, "airline"), text(item, "code"), text(item, "name"), enumValue(AirlineRoleScope.class, item, "scope"), enumValue(AirlineRoleCategory.class, item, "category"), integer(item, "displayOrder"));
             case "airline-contacts" -> airlineContact(text(item, "airline"), text(item, "code"), text(item, "name"), text(item, "department"), enumValue(AirlineContactType.class, item, "contactType"), text(item, "email"), text(item, "phone"), bool(item, "available24x7"), integer(item, "displayOrder"));
             case "alliance-members" -> allianceMember(text(item, "alliance"), text(item, "airline"), enumValue(AllianceMembershipType.class, item, "membershipType"), date(item, "joinDate"), bool(item, "primary"), integer(item, "displayOrder"));
-            case "codeshare-partners" -> codeshare(text(item, "homeAirline"), text(item, "partnerAirline"), text(item, "agreementNumber"), enumValue(CodeshareAgreementType.class, item, "agreementType"), integer(item, "displayOrder"));
-            case "codeshare-partner-profiles" -> codeshareProfile(text(item, "homeAirline"), text(item, "partnerAirline"), text(item, "code"), text(item, "name"), enumValue(PartnerType.class, item, "partnerType"), enumValue(CodeshareAgreementCategory.class, item, "agreementCategory"), enumValue(InventorySharingType.class, item, "inventorySharingType"), integer(item, "priority"), bool(item, "autoAcceptScheduleChanges"), bool(item, "prorationApplicable"), bool(item, "eTicketAllowed"), text(item, "description"), integer(item, "displayOrder"));
-            case "codeshare-partner-communication-profiles" -> codeshareCommunicationProfile(text(item, "homeAirline"), text(item, "partnerAirline"), text(item, "code"), text(item, "name"), enumValue(CommunicationProtocol.class, item, "protocol"), enumValue(TransportType.class, item, "transportType"), enumValue(MessageFormat.class, item, "messageFormat"), enumValue(AuthenticationType.class, item, "authenticationType"), text(item, "endpointUrl"), text(item, "username"), text(item, "credentialAlias"), integer(item, "retryCount"), bool(item, "compressionEnabled"), bool(item, "encryptionEnabled"), text(item, "description"), integer(item, "displayOrder"));
-            case "codeshare-partner-distribution-profiles" -> codeshareDistributionProfile(text(item, "homeAirline"), text(item, "partnerAirline"), text(item, "code"), text(item, "name"), enumValue(CommunicationProtocol.class, item, "distributionChannel"), enumValue(DistributionMode.class, item, "distributionMode"), enumValue(MessageType.class, item, "messageType"), bool(item, "realTimeEnabled"), bool(item, "ackRequired"), bool(item, "retryEnabled"), integer(item, "retryCount"), text(item, "description"), integer(item, "displayOrder"));
+            case "codeshare-partners",
+                 "codeshare-partner-profiles",
+                 "codeshare-partner-communication-profiles",
+                 "codeshare-partner-distribution-profiles" -> {
+                // Partner relationship bootstrap moved to tenant-service.
+            }
             default -> {
             }
         }

@@ -25,10 +25,12 @@ public class OidcStatePayload {
 
     // 🔐 PKCE binding
     private String codeChallenge;
+    private String codeVerifier;
 
     // 🔒 Context binding (IMPORTANT)
     private String providerId;     // issuer / IdP key
-    private String redirectUri;    // callback URL
+    private String redirectUri;    // frontend callback URL
+    private String callbackUri;    // backend callback URL
 
     // ⏱ Lifetime control
     private Instant issuedAt;

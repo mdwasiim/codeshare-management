@@ -4,6 +4,7 @@ package com.codeshare.airline.identity.access.identity.service.serviceImpl;
 import com.codeshare.airline.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.identity.access.authentication.core.domain.TenantContext;
 import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.authentication.core.security.adapter.UserDetailsAdapter;
@@ -47,12 +48,12 @@ public class AuthUserServiceImpl implements AuthUserService {
         );
 
         // Username uniqueness
-        if (userRepository.existsByUsername(dto.getUsername())) {
+        if (userRepository.existsByUsernameAndTenant_Id(dto.getUsername(), tenant.getId())) {
             throw new IllegalArgumentException("Username already exists");
         }
 
         // Email uniqueness
-        if (userRepository.existsByEmail(dto.getEmail())) {
+        if (userRepository.existsByEmailAndTenant_Id(dto.getEmail(), tenant.getId())) {
             throw new IllegalArgumentException("Email already exists");
         }
 
@@ -106,7 +107,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         if (dto.getEmail() != null &&
                 !dto.getEmail().equals(entity.getEmail())) {
 
-            if (userRepository.existsByEmail(dto.getEmail())) {
+            if (userRepository.existsByEmailAndTenant_Id(dto.getEmail(), entity.getTenant().getId())) {
                 throw new IllegalArgumentException("Email already in use");
             }
 
@@ -117,7 +118,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         if (dto.getUsername() != null &&
                 !dto.getUsername().equals(entity.getUsername())) {
 
-            if (userRepository.existsByUsername(dto.getUsername())) {
+            if (userRepository.existsByUsernameAndTenant_Id(dto.getUsername(), entity.getTenant().getId())) {
                 throw new IllegalArgumentException("Username already in use");
             }
 
@@ -188,8 +189,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Override
     @Transactional(readOnly = true)
     public AuthUserDTO getByUsername(String username) {
-
-        User user = userRepository.findByUsername(username)
+        User user = resolveUser(username)
                 .orElseThrow(() -> new CSMResourceNotFoundException("User not found: " + username));
 
         return userMapper.toDTO(user);
@@ -203,10 +203,61 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public UserDetailsAdapter getAuthUserByUsername(String username) {
-        User user = userRepository.findByUsername(username)
+        User user = resolveUser(username)
                 .orElseThrow(() -> new CSMResourceNotFoundException("User not found: " + username));
 
-        UserDetailsAdapter userDetailsAdapter = new UserDetailsAdapter(user.getId(), user.getUsername(),user.getEmail(), user.getPassword(), user.getTenant().getId(), user.getTenant().getTenantCode(), user.isEnabled(), user.isAccountNonLocked(), null);
-        return userDetailsAdapter;
+        return toUserDetails(user);
+    }
+
+    @Override
+    public UserDetailsAdapter getAuthUserForFederatedLogin(
+            String tenantCode,
+            AuthSource authSource,
+            String externalId,
+            String username,
+            String email
+    ) {
+        User user = userRepository.findByExternalIdAndTenant_TenantCodeAndAuthSource(externalId, tenantCode, authSource)
+                .or(() -> userRepository.findByUsernameAndTenant_TenantCode(username, tenantCode))
+                .or(() -> userRepository.findByEmailAndTenant_TenantCode(email, tenantCode))
+                .orElseThrow(() -> new CSMResourceNotFoundException("Federated user not found for tenant: " + tenantCode));
+
+        if ((user.getExternalId() == null || user.getExternalId().isBlank()) && externalId != null && !externalId.isBlank()) {
+            user.setExternalId(externalId);
+            user.setAuthSource(authSource);
+            userRepository.save(user);
+        }
+
+        return toUserDetails(user);
+    }
+
+    private java.util.Optional<User> resolveUser(String username) {
+        TenantContext tenantContext = getCurrentTenantContext();
+        if (tenantContext != null && tenantContext.getTenantCode() != null) {
+            return userRepository.findByUsernameAndTenant_TenantCode(username, tenantContext.getTenantCode());
+        }
+        return userRepository.findByUsername(username);
+    }
+
+    private TenantContext getCurrentTenantContext() {
+        try {
+            return TenantContextHolder.getTenant();
+        } catch (IllegalStateException ex) {
+            return null;
+        }
+    }
+
+    private UserDetailsAdapter toUserDetails(User user) {
+        return new UserDetailsAdapter(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getTenant().getId(),
+                user.getTenant().getTenantCode(),
+                user.isEnabled(),
+                user.isAccountNonLocked(),
+                null
+        );
     }
 }

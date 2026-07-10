@@ -1,4 +1,4 @@
-package com.codeshare.airline.identity.access.authentication.core.provider.oidc.azure;
+package com.codeshare.airline.identity.access.authentication.core.provider.oidc.generic;
 
 import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.access.assignments.service.RolePermissionAssignmentService;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 @Component
-public class AzureOidcAuthenticationProvider extends AbstractOidcAuthenticationProvider {
+public class GenericOidcAuthenticationProvider extends AbstractOidcAuthenticationProvider {
 
-    public AzureOidcAuthenticationProvider(
-            AzureOidcClientAdapter oidcClientAdapter,
+    public GenericOidcAuthenticationProvider(
+            GenericOidcClientAdapter oidcClientAdapter,
             RolePermissionAssignmentService rolePermissionAssignmentService,
             AuthUserService authUserService
     ) {
@@ -25,7 +25,7 @@ public class AzureOidcAuthenticationProvider extends AbstractOidcAuthenticationP
 
     @Override
     public AuthSource getAuthSource() {
-        return AuthSource.AZURE;
+        return AuthSource.OIDC_GENERIC;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class AzureOidcAuthenticationProvider extends AbstractOidcAuthenticationP
                 .userGroups(Set.of())
                 .roles(roles)
                 .permissions(permissions)
-                .authSource(AuthSource.AZURE)
+                .authSource(AuthSource.OIDC_GENERIC)
                 .build();
     }
 }

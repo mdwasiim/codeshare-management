@@ -1,16 +1,13 @@
 package com.codeshare.airline.identity.access.identity.entities;
 
-
 import com.codeshare.airline.core.enums.common.TenantPlan;
 import com.codeshare.airline.core.enums.common.TenantStatus;
-import com.codeshare.airline.identity.access.authentication.entities.OidcIdentityProviderEntity;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(
@@ -86,18 +83,5 @@ public class Tenant extends CSMDataAbstractEntity {
 
     @Column(name = "location", length = 100)
     private String region;
-
-    // -------------------------------
-    // Identity Providers (CRITICAL)
-    // -------------------------------
-    @OneToMany(
-            mappedBy = "tenant",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<OidcIdentityProviderEntity> identityProviders;
-
-
 }
 

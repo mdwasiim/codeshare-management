@@ -1,6 +1,7 @@
 package com.codeshare.airline.core.dto.tenant;
 
 import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.core.enums.common.TenantStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -39,5 +40,7 @@ public class TenantDTO extends CSMAuditableDTO {
     private String region;
 
     private TenantStatus status = TenantStatus.ACTIVE;
+    private AuthSource authSource;
+    private OidcConfigDTO oidcConfig;
 
 }

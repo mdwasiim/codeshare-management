@@ -38,8 +38,8 @@ spring:
           filters:
             - StripPrefix=1
 
-        - id: host-airline-service
-          uri: ${HOST_AIRLINE_SERVICE_URL:http://localhost:8086}
+        - id: tenant-service
+          uri: ${TENANT_SERVICE_URL:${HOST_AIRLINE_SERVICE_URL:http://localhost:8086}}
           predicates:
             - Path=/tenant/**
           filters:
