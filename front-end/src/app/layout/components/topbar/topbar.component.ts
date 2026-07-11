@@ -7,9 +7,9 @@ import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
 
 import { LayoutService } from '@layout/services/layout.service';
-import { AuthService } from '@features/administration/access-management/authentication/services/auth.service';
 import { AppMenuModel } from '@features/administration/access-management/models/app-menu.model';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
+import { AuthService } from '@services/auth/auth.service';
 import { AuthTokenService } from '@services/auth/auth-token.service';
 
 @Component({
@@ -144,7 +144,7 @@ export class TopbarComponent implements OnInit {
     }
 
     private safeRedirectToLogin() {
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/login']);
     }
 
     // =========================

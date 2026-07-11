@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.access.data;
 
+import com.codeshare.airline.core.dto.tenant.TenantDTO;
 import com.codeshare.airline.identity.access.assignments.data.GroupMenuLoader;
 import com.codeshare.airline.identity.access.assignments.data.GroupRoleLoader;
 import com.codeshare.airline.identity.access.assignments.data.RolePermissionLoader;
@@ -35,7 +36,7 @@ public class IdentityTenantBootstrapService {
 
     public synchronized void bootstrapAllTenants() {
         List<UUID> tenantIds = tenantClient.getAll().stream()
-                .map(tenant -> tenant.getId())
+                .map(TenantDTO::getId)
                 .toList();
         for (UUID tenantId : tenantIds) {
             bootstrapTenant(tenantId);
@@ -45,7 +46,7 @@ public class IdentityTenantBootstrapService {
     public synchronized void bootstrapTenantByCode(String tenantCode) {
         UUID tenantId = tenantClient.getAll().stream()
                 .filter(tenant -> tenantCode.equalsIgnoreCase(tenant.getTenantCode()))
-                .map(tenant -> tenant.getId())
+                .map(TenantDTO::getId)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Tenant not found in tenant-service: " + tenantCode));
         bootstrapTenant(tenantId);
@@ -53,7 +54,7 @@ public class IdentityTenantBootstrapService {
 
     public boolean isInitialized() {
         return tenantClient.getAll().stream()
-                .map(tenant -> tenant.getId())
+                .map(TenantDTO::getId)
                 .allMatch(this::isTenantInitialized);
     }
 

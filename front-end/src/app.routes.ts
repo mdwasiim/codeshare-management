@@ -1,11 +1,9 @@
 import { Routes } from '@angular/router';
+import { AUTHENTICATION_ROUTES } from '@core/auth/authentication.routes';
 import { AppAuthGuard } from '@core/security/guards/app-auth.guard';
 
 export const APP_ROUTES: Routes = [
-    {
-        path: 'auth',
-        loadChildren: () => import('@features/access-management/authentication/authentication.routes').then((m) => m.AUTHENTICATION_ROUTES)
-    },
+    ...AUTHENTICATION_ROUTES,
     {
         path: '',
         redirectTo: 'dashboard',

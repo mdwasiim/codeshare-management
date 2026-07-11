@@ -42,6 +42,13 @@ export interface TenantAuthContext {
     identityProviders?: IdentityProviderConfig[];
 }
 
+export interface TenantLoginOption {
+    id?: string;
+    name: string;
+    tenantCode: string;
+    logoUrl?: string;
+}
+
 export interface Tenant extends AuditableModel {
     id?: string;
     name: string;

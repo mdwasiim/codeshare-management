@@ -3,8 +3,9 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, filter, finalize, switchMap, take, throwError } from 'rxjs';
 
+import { AuthReturnUrlService } from '@services/auth/auth-return-url.service';
+import { AuthService } from '@services/auth/auth.service';
 import { AuthTokenService } from '@services/auth/auth-token.service';
-import { AuthService } from '@features/administration/access-management/authentication/services/auth.service';
 import { AuthTenantService } from '@services/auth/auth-tenant.service';
 
 let isRefreshing = false;
@@ -14,18 +15,27 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
     const tokenService = inject(AuthTokenService);
     const authService = inject(AuthService);
     const authTenantService = inject(AuthTenantService);
+    const returnUrlService = inject(AuthReturnUrlService);
     const router = inject(Router);
 
     const tenantCode = authTenantService.getTenantCode();
-
-    const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/logout');
+    const isLoginBootstrapEndpoint =
+        req.url.includes('/tenant/tenants/login-options') ||
+        /\/tenant\/tenants\/code\/[^/]+\/auth-context(?:[?#].*)?$/.test(req.url);
+    const isAuthEndpoint =
+        req.url.includes('/auth/login') ||
+        req.url.includes('/auth/refresh') ||
+        req.url.includes('/auth/logout') ||
+        isLoginBootstrapEndpoint;
 
     // =========================
     // Build headers ONCE
     // =========================
-    const headers: Record<string, string> = {
-        'X-Tenant-Id': tenantCode ?? ''
-    };
+    const headers: Record<string, string> = {};
+
+    if (tenantCode && !isLoginBootstrapEndpoint) {
+        headers['X-Tenant-Id'] = tenantCode;
+    }
 
     if (!isAuthEndpoint) {
         const existingAuth = req.headers.get('Authorization');
@@ -56,9 +66,9 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
             // 🚫 No refresh token → logout scenario
             if (!tokenService.refreshToken) {
                 tokenService.clear();
-                router.navigate(['/auth/login'], {
-                    queryParams: { returnUrl: router.url }
-                });
+                authTenantService.clear();
+                returnUrlService.remember(router.url);
+                router.navigate(['/login']);
                 return throwError(() => error);
             }
 
@@ -112,12 +122,12 @@ export const AppAuthInterceptor: HttpInterceptorFn = (req, next) => {
                     isRefreshing = false;
 
                     tokenService.clear();
+                    authTenantService.clear();
                     refreshTokenSubject.next(null);
 
                     // 🔥 FORCE logout
-                    router.navigate(['/auth/login'], {
-                        queryParams: { returnUrl: router.url }
-                    });
+                    returnUrlService.remember(router.url);
+                    router.navigate(['/login']);
 
                     return throwError(() => err);
                 }),

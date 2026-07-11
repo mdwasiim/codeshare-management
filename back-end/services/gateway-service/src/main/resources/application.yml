@@ -87,6 +87,8 @@ gateway:
         - /identity/auth/refresh
         - /identity/auth/logout
         - /identity/auth/oidc/**
+        - /tenant/tenants/login-options
+        - /tenant/tenants/code/*/auth-context
         - /.well-known/**
     api:
       public-paths:

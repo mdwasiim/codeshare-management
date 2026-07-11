@@ -1,5 +1,6 @@
 package com.codeshare.airline.security.feign;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +16,19 @@ import org.springframework.web.bind.annotation.RequestHeader;
 public interface IdentityServiceTokenClient {
 
     @PostMapping("/auth/service-token")
-    InternalServiceTokenResponse issueServiceToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader);
+    InternalServiceTokenEnvelope issueServiceToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader);
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    class InternalServiceTokenEnvelope {
+        private boolean success;
+        private InternalServiceTokenResponse data;
+    }
+
+    @Getter
+    @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     class InternalServiceTokenResponse {
         @JsonProperty("access_token")
         private String accessToken;

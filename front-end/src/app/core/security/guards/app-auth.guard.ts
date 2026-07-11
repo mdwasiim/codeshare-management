@@ -3,10 +3,11 @@ import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterSt
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { AuthService } from '@features/administration/access-management/authentication/services/auth.service';
 import { MenuRouteAccessService } from '@core/security/menu-route-access.service';
 import { PermissionService } from '@core/security/permission.service';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
+import { AuthReturnUrlService } from '@services/auth/auth-return-url.service';
+import { AuthService } from '@services/auth/auth.service';
 import { AuthTokenService } from '@services/auth/auth-token.service';
 
 @Injectable({ providedIn: 'root' })
@@ -14,6 +15,7 @@ export class AppAuthGuard implements CanActivate, CanActivateChild {
     private tokenService = inject(AuthTokenService);
     private router = inject(Router);
     private authService = inject(AuthService);
+    private returnUrlService = inject(AuthReturnUrlService);
     private permissionService = inject(PermissionService);
     private menuService = inject(LayoutMenuService);
     private menuRouteAccessService = inject(MenuRouteAccessService);
@@ -28,9 +30,8 @@ export class AppAuthGuard implements CanActivate, CanActivateChild {
 
     private checkAccess(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | UrlTree {
         if (!this.tokenService.isAuthenticated()) {
-            return this.router.createUrlTree(['/auth/login'], {
-                queryParams: { returnUrl: state.url }
-            });
+            this.returnUrlService.remember(state.url);
+            return this.router.createUrlTree(['/login']);
         }
 
         return this.ensureAccessLoaded().pipe(

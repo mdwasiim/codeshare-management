@@ -7,12 +7,14 @@ import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 import { AppApiService } from '@core/api/config/app-api.service';
 import { PermissionService } from '@core/security/permission.service';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
-import { AuthTenantService } from '@services/auth/auth-tenant.service';
-import { AuthTokenService } from '@services/auth/auth-token.service';
-import { AuthSessionResponse } from '@features/administration/access-management/authentication/models/auth-session-response.model';
-import { LoginResponse } from '@features/administration/access-management/authentication/models/login-response.model';
-import { RefreshTokenResponse } from '@features/administration/access-management/authentication/models/refresh-token-response.model';
-import { AuthSource, TenantAuthContext } from '@features/tenant-administration/models/tenant.model';
+import { AuthSessionResponse } from '@services/auth/models/auth-session-response.model';
+import { LoginResponse } from '@services/auth/models/login-response.model';
+import { RefreshTokenResponse } from '@services/auth/models/refresh-token-response.model';
+import { AuthSource, TenantAuthContext, TenantLoginOption } from '@features/tenant-administration/models/tenant.model';
+
+import { AuthReturnUrlService } from './auth-return-url.service';
+import { AuthTenantService } from './auth-tenant.service';
+import { AuthTokenService } from './auth-token.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -22,6 +24,7 @@ export class AuthService {
         private permissionService: PermissionService,
         private tokenService: AuthTokenService,
         private menuService: LayoutMenuService,
+        private returnUrlService: AuthReturnUrlService,
         private router: Router
     ) {}
 
@@ -41,6 +44,10 @@ export class AuthService {
         return this.apiService.get<TenantAuthContext>(API_ENDPOINTS.accessManagement.tenants.authContextByCode, {
             pathParams: { code: tenantCode.trim().toUpperCase() }
         });
+    }
+
+    getTenantLoginOptions(): Observable<TenantLoginOption[]> {
+        return this.apiService.get<TenantLoginOption[]>(API_ENDPOINTS.accessManagement.tenants.loginOptions);
     }
 
     startOidcLogin(tenantCode: string, authSource: AuthSource): void {
@@ -75,9 +82,9 @@ export class AuthService {
             );
     }
 
-    logout(): Observable<any> {
+    logout(): Observable<unknown> {
         return this.apiService
-            .post<any>(API_ENDPOINTS.auth.logout, {}, {
+            .post<unknown>(API_ENDPOINTS.auth.logout, {}, {
                 headers: {
                     Authorization: `Bearer ${this.tokenService.refreshToken || ''}`
                 }
@@ -114,9 +121,10 @@ export class AuthService {
 
     private handleLogout(): void {
         this.tokenService.clear();
+        this.tenantService.clear();
+        this.returnUrlService.clear();
         this.permissionService.clear();
         this.menuService.clear();
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/login']);
     }
 }
-

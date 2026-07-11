@@ -14,6 +14,7 @@ public class TenantServiceSecurityConfig {
         StatelessResourceServerSecuritySupport.apply(http)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/tenants/login-options",
                                 "/tenants/code/*/auth-context",
                                 "/actuator/health",
                                 "/actuator/info"

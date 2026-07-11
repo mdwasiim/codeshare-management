@@ -3,6 +3,7 @@ package com.codeshare.airline.tenant.management.controller;
 import com.codeshare.airline.core.constants.CSMConstants;
 import com.codeshare.airline.core.dto.tenant.TenantAuthContextDTO;
 import com.codeshare.airline.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.core.dto.tenant.TenantLoginOptionDTO;
 import com.codeshare.airline.tenant.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +45,11 @@ public class TenantController {
     @GetMapping("/tenants")
     public List<TenantDTO> getAll() {
         return tenantService.getAll();
+    }
+
+    @GetMapping("/tenants/login-options")
+    public List<TenantLoginOptionDTO> getLoginOptions() {
+        return tenantService.getLoginOptions();
     }
 
     @DeleteMapping("/tenants/{id}")
