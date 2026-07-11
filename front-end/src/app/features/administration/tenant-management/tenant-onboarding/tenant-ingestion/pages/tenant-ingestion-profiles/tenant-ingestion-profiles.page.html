@@ -1,0 +1,75 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Ingestion</span>
+            <h1>Ingestion Profiles</h1>
+            <p>Manage schedule ingestion profiles and channels per tenant.</p>
+        </div>
+    </div>
+
+    <app-crud-toolbar [actions]="['refresh']" (refresh)="refresh()"></app-crud-toolbar>
+
+    <p-table
+        [value]="data"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        [rowHover]="true"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '60rem' }"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Manage Ingestion Profiles</h2>
+                    <p>{{ data.length || 0 }} profiles loaded</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="tenantCode">Tenant <p-sortIcon field="tenantCode"></p-sortIcon></th>
+                <th pSortableColumn="airlineCode">Airline <p-sortIcon field="airlineCode"></p-sortIcon></th>
+                <th pSortableColumn="sourceSystem">Source System <p-sortIcon field="sourceSystem"></p-sortIcon></th>
+                <th>Poll Interval (ms)</th>
+                <th>Channels</th>
+                <th pSortableColumn="enabled">Enabled <p-sortIcon field="enabled"></p-sortIcon></th>
+                <th class="access-actions-col">Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-profile>
+            <tr>
+                <td>{{ profile.tenantCode || '-' }}</td>
+                <td>{{ profile.airlineCode || '-' }}</td>
+                <td>{{ profile.sourceSystem }}</td>
+                <td>{{ profile.pollIntervalMs ?? '-' }}</td>
+                <td>{{ profile.channels?.length ?? 0 }}</td>
+                <td>
+                    <p-tag [value]="profile.enabled ? 'Enabled' : 'Disabled'" [severity]="profile.enabled ? 'success' : 'danger'"></p-tag>
+                </td>
+                <td class="access-row-actions">
+                    <div>
+                        <p-button icon="pi pi-power-off" size="small" text [pTooltip]="profile.enabled ? 'Disable' : 'Enable'" tooltipPosition="top" (click)="toggleEnable(profile)"></p-button>
+
+                        <ng-container *appHasPermission="'tenant:delete'">
+                            <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteProfile(profile)"></p-button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-upload text-2xl mb-2"></i>
+                    <div>No ingestion profiles found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

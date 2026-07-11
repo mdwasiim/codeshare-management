@@ -1,0 +1,139 @@
+<form [formGroup]="form" class="access-form">
+    <app-form-section title="Basic Information">
+        <div class="form-grid form-grid--2">
+            <div class="field">
+                <label for="name">Name <span class="required">*</span></label>
+                <input id="name" pInputText formControlName="name" placeholder="Enter tenant name" maxlength="200" />
+                <small class="p-error" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">Name is required.</small>
+            </div>
+
+            <div class="field">
+                <label for="tenantCode">Tenant Code <span class="required">*</span></label>
+                <input id="tenantCode" pInputText formControlName="tenantCode" placeholder="e.g. DEMO" maxlength="100" />
+                <small class="p-error" *ngIf="form.get('tenantCode')?.touched && form.get('tenantCode')?.invalid">Tenant code is required.</small>
+            </div>
+
+            <div class="field field--full">
+                <label for="description">Description</label>
+                <textarea id="description" pTextarea formControlName="description" rows="3" placeholder="Short description of the tenant" maxlength="500"></textarea>
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Subscription & Status">
+        <div class="form-grid form-grid--3">
+            <div class="field">
+                <label for="status">Status <span class="required">*</span></label>
+                <p-select id="status" formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" placeholder="Select status"></p-select>
+            </div>
+
+            <div class="field">
+                <label for="plan">Plan</label>
+                <p-select id="plan" formControlName="plan" [options]="planOptions" optionLabel="label" optionValue="value" placeholder="Select plan"></p-select>
+            </div>
+
+            <div class="field">
+                <label for="trial">Trial</label>
+                <div class="flex items-center h-full gap-2">
+                    <p-checkbox id="trial" formControlName="trial" binary="true"></p-checkbox>
+                    <span class="text-sm text-gray-600">Enabled</span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="subscriptionStart">Subscription Start</label>
+                <input id="subscriptionStart" pInputText type="datetime-local" formControlName="subscriptionStart" />
+            </div>
+
+            <div class="field">
+                <label for="subscriptionEnd">Subscription End</label>
+                <input id="subscriptionEnd" pInputText type="datetime-local" formControlName="subscriptionEnd" />
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Contact & Branding">
+        <div class="form-grid form-grid--2">
+            <div class="field">
+                <label for="contactEmail">Contact Email</label>
+                <input id="contactEmail" pInputText formControlName="contactEmail" placeholder="contact@example.com" maxlength="200" />
+                <small class="p-error" *ngIf="form.get('contactEmail')?.touched && form.get('contactEmail')?.invalid">Enter a valid email.</small>
+            </div>
+
+            <div class="field">
+                <label for="contactPhone">Contact Phone</label>
+                <input id="contactPhone" pInputText formControlName="contactPhone" placeholder="+1 234 567 890" maxlength="50" />
+            </div>
+
+            <div class="field">
+                <label for="region">Region</label>
+                <input id="region" pInputText formControlName="region" placeholder="Region / Location" maxlength="100" />
+            </div>
+
+            <div class="field">
+                <label for="logoUrl">Logo URL</label>
+                <input id="logoUrl" pInputText formControlName="logoUrl" placeholder="https://..." maxlength="500" />
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Identity Configuration">
+        <div class="form-grid form-grid--2">
+            <div class="field">
+                <label for="authSource">Auth Source <span class="required">*</span></label>
+                <p-select id="authSource" formControlName="authSource" [options]="authSourceOptions" optionLabel="label" optionValue="value" placeholder="Select auth source"></p-select>
+            </div>
+        </div>
+
+        <ng-container formGroupName="oidcConfig" *ngIf="form.get('authSource')?.value !== 'INTERNAL'">
+            <div class="form-grid form-grid--2">
+                <div class="field">
+                    <label for="issuerUri">Issuer URI</label>
+                    <input id="issuerUri" pInputText formControlName="issuerUri" placeholder="https://issuer" />
+                </div>
+
+                <div class="field" *ngIf="oidcRequired">
+                    <label for="authorizationUri">Authorization URI</label>
+                    <input id="authorizationUri" pInputText formControlName="authorizationUri" placeholder="https://authorize" />
+                </div>
+
+                <div class="field" *ngIf="oidcRequired">
+                    <label for="tokenUri">Token URI</label>
+                    <input id="tokenUri" pInputText formControlName="tokenUri" placeholder="https://token" />
+                </div>
+
+                <div class="field" *ngIf="oidcRequired">
+                    <label for="jwkSetUri">JWK Set URI</label>
+                    <input id="jwkSetUri" pInputText formControlName="jwkSetUri" placeholder="https://jwks" />
+                </div>
+
+                <div class="field">
+                    <label for="clientId">Client ID</label>
+                    <input id="clientId" pInputText formControlName="clientId" />
+                </div>
+
+                <div class="field">
+                    <label for="clientSecretRef">Client Secret Ref</label>
+                    <input id="clientSecretRef" pInputText formControlName="clientSecretRef" />
+                </div>
+
+                <div class="field">
+                    <label for="redirectUri">Redirect URI</label>
+                    <input id="redirectUri" pInputText formControlName="redirectUri" />
+                </div>
+
+                <div class="field">
+                    <label for="scopes">Scopes</label>
+                    <input id="scopes" pInputText formControlName="scopes" placeholder="openid profile email" />
+                </div>
+
+                <div class="field">
+                    <div class="flex items-center gap-2">
+                        <p-checkbox id="enforceRedirectUri" formControlName="enforceRedirectUri" binary="true"></p-checkbox>
+                        <label for="enforceRedirectUri" class="mb-0">Enforce Redirect URI</label>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </app-form-section>
+</form>
