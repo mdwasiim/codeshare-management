@@ -4,8 +4,6 @@ import com.codeshare.airline.identity.access.authorization.entities.Permission;
 import com.codeshare.airline.identity.access.authorization.repository.PermissionRepository;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData.PermissionSeed;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,14 +21,10 @@ import java.util.UUID;
 public class PermissionLoader {
 
     private final PermissionRepository permissionRepository;
-    private final TenantRepository tenantRepository;
     private final IdentityBootstrapData bootstrapData;
 
     public void load(UUID tenantId) {
         log.info("PermissionLoader: ensuring permissions for tenant {}", tenantId);
-
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
 
         Set<String> existingKeys = permissionRepository.findPermissionKeysByTenantId(tenantId).stream()
                 .map(PermissionLoader::normalize)
@@ -45,7 +39,7 @@ public class PermissionLoader {
 
             existingKeys.add(key);
             toSave.add(Permission.builder()
-                    .tenant(tenant)
+                    .tenantId(tenantId)
                     .name(seed.name())
                     .code(seed.code())
                     .domain(seed.domain())

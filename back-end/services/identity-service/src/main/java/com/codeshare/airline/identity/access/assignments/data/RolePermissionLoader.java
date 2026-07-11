@@ -6,9 +6,8 @@ import com.codeshare.airline.identity.access.authorization.entities.Permission;
 import com.codeshare.airline.identity.access.authorization.repository.PermissionRepository;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.identity.entities.Role;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.RoleRepository;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
+import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -29,8 +28,8 @@ public class RolePermissionLoader {
     private final PermissionRepository permRepo;
     private final RoleRepository roleRepo;
     private final RolePermissionRepository repo;
-    private final TenantRepository tenantRepository;
     private final IdentityBootstrapData bootstrapData;
+    private final HostAirlineTenantClient tenantClient;
 
     public void load(UUID tenantId) {
         log.info("RolePermissionLoader: assigning permissions to roles for tenant {}", tenantId);
@@ -38,18 +37,16 @@ public class RolePermissionLoader {
     }
 
     private void assignTenantPermissions(UUID tenantId) {
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
-
         List<Permission> permissions = permRepo.findByTenantId(tenantId);
         List<Role> roles = roleRepo.findByTenantId(tenantId);
+        String tenantCode = resolveTenantCode(tenantId);
 
         if (permissions.isEmpty() || roles.isEmpty()) {
-            log.warn("Skipping tenant [{}] because roles or permissions are missing", tenant.getTenantCode());
+            log.warn("Skipping tenant [{}] because roles or permissions are missing", tenantCode);
             return;
         }
 
-        Set<String> existingMappings = repo.findMappings(tenant);
+        Set<String> existingMappings = repo.findMappingsByTenantId(tenantId);
         List<RolePermission> toSave = new ArrayList<>();
 
         Map<String, Permission> permissionByCode = new HashMap<>();
@@ -66,7 +63,7 @@ public class RolePermissionLoader {
             }
 
             if (permissionCodes.contains("*")) {
-                permissions.forEach(permission -> saveRolePermission(tenant, role, permission, existingMappings, toSave));
+                permissions.forEach(permission -> saveRolePermission(tenantId, role, permission, existingMappings, toSave));
                 return;
             }
 
@@ -77,19 +74,19 @@ public class RolePermissionLoader {
                     continue;
                 }
 
-                saveRolePermission(tenant, role, permission, existingMappings, toSave);
+                saveRolePermission(tenantId, role, permission, existingMappings, toSave);
             }
         });
 
         if (!toSave.isEmpty()) {
             repo.saveAll(toSave);
-            log.info("Tenant [{}]: {} role-permission mappings created.", tenant.getTenantCode(), toSave.size());
+            log.info("Tenant [{}]: {} role-permission mappings created.", tenantCode, toSave.size());
         } else {
-            log.info("Tenant [{}]: role-permission mappings already exist.", tenant.getTenantCode());
+            log.info("Tenant [{}]: role-permission mappings already exist.", tenantCode);
         }
     }
 
-    private void saveRolePermission(Tenant tenant,
+    private void saveRolePermission(UUID tenantId,
                                     Role role,
                                     Permission permission,
                                     Set<String> existingMappings,
@@ -101,7 +98,7 @@ public class RolePermissionLoader {
 
         existingMappings.add(key);
         toSave.add(RolePermission.builder()
-                .tenant(tenant)
+                .tenantId(tenantId)
                 .role(role)
                 .permission(permission)
                 .build());
@@ -114,5 +111,13 @@ public class RolePermissionLoader {
     public boolean isLoaded(UUID tenantId) {
         long actual = repo.countByTenantId(tenantId);
         return actual >= bootstrapData.rolePermissions().size();
+    }
+
+    private String resolveTenantCode(UUID tenantId) {
+        return tenantClient.getAll().stream()
+                .filter(tenant -> tenantId.equals(tenant.getId()))
+                .map(tenant -> tenant.getTenantCode())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Tenant not found in tenant-service: " + tenantId));
     }
 }

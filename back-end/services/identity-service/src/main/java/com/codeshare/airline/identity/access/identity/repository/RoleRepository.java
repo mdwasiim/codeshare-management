@@ -3,7 +3,6 @@ package com.codeshare.airline.identity.access.identity.repository;
 
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import com.codeshare.airline.identity.access.identity.entities.Role;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -17,12 +16,10 @@ public interface RoleRepository extends CSMDataBaseRepository<Role, UUID> {
 
     boolean existsByNameAndTenantId(String name, UUID tenantId);
 
-    boolean existsByTenantAndCode(Tenant tenant, String code);
+    boolean existsByTenantIdAndCode(UUID tenantId, String code);
 
-    List<Role> findByTenant(Tenant tenant);
-
-    @Query("select r.code from Role r where r.tenant = :tenant")
-    Set<String> findCodesByTenant(@Param("tenant") Tenant tenant);
+    @Query("select r.code from Role r where r.tenantId = :tenantId")
+    Set<String> findCodesByTenantId(@Param("tenantId") UUID tenantId);
 
     long countByTenantId(UUID tenantId);
 }

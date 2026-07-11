@@ -6,9 +6,8 @@ import com.codeshare.airline.identity.access.authorization.entities.Menu;
 import com.codeshare.airline.identity.access.authorization.repository.MenuRepository;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.identity.entities.Group;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.GroupRepository;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
+import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -29,8 +28,8 @@ public class GroupMenuLoader {
     private final GroupMenuRepository groupMenuRepository;
     private final GroupRepository groupRepository;
     private final MenuRepository menuRepository;
-    private final TenantRepository tenantRepository;
     private final IdentityBootstrapData bootstrapData;
+    private final HostAirlineTenantClient tenantClient;
 
     @Transactional
     public void load(UUID tenantId) {
@@ -39,18 +38,16 @@ public class GroupMenuLoader {
     }
 
     private void assignTenantMenus(UUID tenantId) {
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
-
-        List<Group> groups = groupRepository.findByTenant(tenant);
-        List<Menu> menus = menuRepository.findByTenant(tenant);
+        List<Group> groups = groupRepository.findByTenantId(tenantId);
+        List<Menu> menus = menuRepository.findByTenantId(tenantId);
+        String tenantCode = resolveTenantCode(tenantId);
 
         if (groups.isEmpty() || menus.isEmpty()) {
-            log.warn("Skipping tenant [{}] because groups or menus are missing", tenant.getTenantCode());
+            log.warn("Skipping tenant [{}] because groups or menus are missing", tenantCode);
             return;
         }
 
-        Set<String> existingMappings = groupMenuRepository.findMappings(tenant);
+        Set<String> existingMappings = groupMenuRepository.findMappingsByTenantId(tenantId);
         List<GroupMenu> toSave = new ArrayList<>();
 
         Map<String, Group> groupByCode = new HashMap<>();
@@ -67,7 +64,7 @@ public class GroupMenuLoader {
             }
 
             if (menuCodes.contains("*")) {
-                menus.forEach(menu -> saveGroupMenu(tenant, group, menu, existingMappings, toSave));
+                menus.forEach(menu -> saveGroupMenu(tenantId, group, menu, existingMappings, toSave));
                 return;
             }
 
@@ -78,19 +75,19 @@ public class GroupMenuLoader {
                     continue;
                 }
 
-                saveGroupMenu(tenant, group, menu, existingMappings, toSave);
+                saveGroupMenu(tenantId, group, menu, existingMappings, toSave);
             }
         });
 
         if (!toSave.isEmpty()) {
             groupMenuRepository.saveAll(toSave);
-            log.info("Tenant [{}]: {} group-menu mappings created.", tenant.getTenantCode(), toSave.size());
+            log.info("Tenant [{}]: {} group-menu mappings created.", tenantCode, toSave.size());
         } else {
-            log.info("Tenant [{}]: group-menu mappings already exist.", tenant.getTenantCode());
+            log.info("Tenant [{}]: group-menu mappings already exist.", tenantCode);
         }
     }
 
-    private void saveGroupMenu(Tenant tenant,
+    private void saveGroupMenu(UUID tenantId,
                                Group group,
                                Menu menu,
                                Set<String> existingMappings,
@@ -102,7 +99,7 @@ public class GroupMenuLoader {
 
         existingMappings.add(key);
         toSave.add(GroupMenu.builder()
-                .tenant(tenant)
+                .tenantId(tenantId)
                 .group(group)
                 .menu(menu)
                 .build());
@@ -111,5 +108,13 @@ public class GroupMenuLoader {
     public boolean isLoaded(UUID tenantId) {
         long actual = groupMenuRepository.countByTenantId(tenantId);
         return actual >= bootstrapData.groupMenus().size();
+    }
+
+    private String resolveTenantCode(UUID tenantId) {
+        return tenantClient.getAll().stream()
+                .filter(tenant -> tenantId.equals(tenant.getId()))
+                .map(tenant -> tenant.getTenantCode())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Tenant not found in tenant-service: " + tenantId));
     }
 }

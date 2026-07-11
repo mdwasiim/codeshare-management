@@ -47,6 +47,10 @@ spring:
 server:
   port: ${IDENTITY_SERVICE_PORT:8081}
 
+services:
+  host-airline:
+    url: ${HOST_AIRLINE_SERVICE_URL:http://localhost:8086}
+
 # ----------------------------------
 # SECURITY CONFIG
 # ----------------------------------
@@ -80,10 +84,15 @@ security:
       - /auth/login
       - /auth/refresh
       - /auth/logout
+      - /auth/service-token
       - /.well-known/**
     actuator:
       - /actuator/health
       - /actuator/info
+
+  s2s:
+    client-id: ${INTERNAL_S2S_CLIENT_ID:internal-s2s-client}
+    client-secret: ${INTERNAL_S2S_CLIENT_SECRET:admin123}
 
 # ----------------------------------
 # ACTUATOR

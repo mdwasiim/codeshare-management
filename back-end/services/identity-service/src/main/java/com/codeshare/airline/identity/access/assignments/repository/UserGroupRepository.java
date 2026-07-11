@@ -2,9 +2,6 @@ package com.codeshare.airline.identity.access.assignments.repository;
 
 
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
-import com.codeshare.airline.identity.access.identity.entities.Group;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
-import com.codeshare.airline.identity.access.identity.entities.User;
 import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,16 +15,11 @@ public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, UU
     // Find all groups of a user
     List<UserGroup> findByUser_Id(UUID userId);
 
-    boolean existsByTenant_IdAndUser_IdAndGroup_Id(
+    boolean existsByTenantIdAndUser_IdAndGroup_Id(
             UUID tenantId,
             UUID userId,
             UUID groupId
     );
-
-    boolean existsByTenantAndUserAndGroup(Tenant tenant, User user, Group group);
-
-    @Query("select ug.user.id || ':' || ug.group.id from UserGroup ug where ug.tenant = :tenant")
-    Set<String> findMappings(@Param("tenant") Tenant tenant);
 
     @Query(value = """
     SELECT concat(user_id, ':', group_id)

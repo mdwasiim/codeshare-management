@@ -5,7 +5,6 @@ import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import com.codeshare.airline.identity.access.identity.entities.Group;
 import com.codeshare.airline.identity.access.assignments.entities.GroupMenu;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -26,22 +25,18 @@ public interface GroupMenuRepository extends CSMDataBaseRepository<GroupMenu, UU
     SELECT gm.menu
     FROM GroupMenu gm
     WHERE gm.group IN :groups
-      AND gm.menu.tenant.tenantCode = :tenantCode
+      AND gm.menu.tenantId = :tenantId
 """)
-    List<Menu> findMenusByGroupsAndTenant( @Param("groups") List<Group> groups,@Param("tenantCode") String tenantCode);
+    List<Menu> findMenusByGroupsAndTenant(@Param("groups") List<Group> groups, @Param("tenantId") UUID tenantId);
 
-    @Query("select gm.group.code || ':' || gm.menu.code from GroupMenu gm where gm.tenant = :tenant")
-    Set<String> findMappings(@Param("tenant") Tenant tenant);
+    @Query("select concat(gm.group.code, concat(':', gm.menu.code)) from GroupMenu gm where gm.tenantId = :tenantId")
+    Set<String> findMappingsByTenantId(@Param("tenantId") UUID tenantId);
 
     long countByTenantId(UUID tenantId);
 
-    List<Group> findAllByTenant_Id(UUID tenantId);
+    List<GroupMenu> findAllByTenantId(UUID tenantId);
 
-    boolean existsByTenantAndGroupAndMenu(
-            Tenant tenant,
-            Group group,
-            Menu menu
-    );
+    boolean existsByTenantIdAndGroupAndMenu(UUID tenantId, Group group, Menu menu);
 
     List<GroupMenu> findByGroup_Id(UUID groupId);
 

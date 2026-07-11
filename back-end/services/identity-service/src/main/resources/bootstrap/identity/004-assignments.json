@@ -1,838 +1,335 @@
-﻿{
-    "group":  "assignments",
-    "sections":  [
-                     {
-                         "type":  "group-roles",
-                         "items":  [
-                                       {
-                                           "group":  "PLATFORM_TEAM",
-                                           "roles":  [
-                                                         "SUPER_ADMIN"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "SECURITY_TEAM",
-                                           "roles":  [
-                                                         "IAM_ADMIN"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "TENANT_ADMIN_TEAM",
-                                           "roles":  [
-                                                         "TENANT_ADMIN"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "OPERATIONS_TEAM",
-                                           "roles":  [
-                                                         "OPS_MANAGER"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "FLIGHT_OPERATIONS_TEAM",
-                                           "roles":  [
-                                                         "FLIGHT_OPERATOR"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "MASTER_DATA_TEAM",
-                                           "roles":  [
-                                                         "MASTER_DATA_ADMIN"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "MASTER_DATA_READERS",
-                                           "roles":  [
-                                                         "MASTER_DATA_VIEWER"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "BOOKING_TEAM",
-                                           "roles":  [
-                                                         "BOOKING_AGENT"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "CUSTOMER_SUPPORT_TEAM",
-                                           "roles":  [
-                                                         "CUSTOMER_SUPPORT"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "AUDIT_TEAM",
-                                           "roles":  [
-                                                         "AUDITOR"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "ANALYTICS_TEAM",
-                                           "roles":  [
-                                                         "REPORT_ANALYST"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "IT_SUPPORT_TEAM",
-                                           "roles":  [
-                                                         "IAM_ADMIN"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "DEFAULT_USERS",
-                                           "roles":  [
-                                                         "USER"
-                                                     ]
-                                       }
-                                   ]
-                     },
-                     {
-                         "type":  "role-permissions",
-                         "items":  [
-                                       {
-                                           "role":  "SUPER_ADMIN",
-                                           "permissions":  [
-                                                               "*"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "TENANT_ADMIN",
-                                           "permissions":  [
-                                                               "user:create",
-                                                               "user:read",
-                                                               "user:update",
-                                                               "group:create",
-                                                               "group:read",
-                                                               "group:update",
-                                                               "role:read",
-                                                               "tenant:read",
-                                                               "dashboard:read",
-                                                               "settings:read"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "IAM_ADMIN",
-                                           "permissions":  [
-                                                               "user:create",
-                                                               "user:read",
-                                                               "user:update",
-                                                               "user:unlock",
-                                                               "group:create",
-                                                               "group:read",
-                                                               "group:update",
-                                                               "group:assign",
-                                                               "role:create",
-                                                               "role:read",
-                                                               "role:update",
-                                                               "role:assign",
-                                                               "tenant:read",
-                                                               "permission:read",
-                                                               "permission:assign"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "OPS_MANAGER",
-                                           "permissions":  [
-                                                               "flight:create",
-                                                               "flight:read",
-                                                               "flight:update",
-                                                               "booking:read",
-                                                               "report:read",
-                                                               "dashboard:read"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "FLIGHT_OPERATOR",
-                                           "permissions":  [
-                                                               "flight:read",
-                                                               "flight:update"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "MASTER_DATA_ADMIN",
-                                           "permissions":  [
-                                                               "master-data:create",
-                                                               "master-data:read",
-                                                               "master-data:update",
-                                                               "master-data:delete",
-                                                               "master-data:import",
-                                                               "master-data:export",
-                                                               "dashboard:read",
-                                                               "actioncode:create",
-                                                               "actioncode:read",
-                                                               "actioncode:update",
-                                                               "actioncode:delete",
-                                                               "actioncode:export",
-                                                               "actionidentifier:create",
-                                                               "actionidentifier:read",
-                                                               "actionidentifier:update",
-                                                               "actionidentifier:delete",
-                                                               "actionidentifier:export",
-                                                               "aircraftcabinlayout:create",
-                                                               "aircraftcabinlayout:read",
-                                                               "aircraftcabinlayout:update",
-                                                               "aircraftcabinlayout:delete",
-                                                               "aircraftcabinlayout:export",
-                                                               "aircraftconfiguration:create",
-                                                               "aircraftconfiguration:read",
-                                                               "aircraftconfiguration:update",
-                                                               "aircraftconfiguration:delete",
-                                                               "aircraftconfiguration:export",
-                                                               "aircraftconfigurationrevision:create",
-                                                               "aircraftconfigurationrevision:read",
-                                                               "aircraftconfigurationrevision:update",
-                                                               "aircraftconfigurationrevision:delete",
-                                                               "aircraftconfigurationrevision:export",
-                                                               "aircraftfamily:create",
-                                                               "aircraftfamily:read",
-                                                               "aircraftfamily:update",
-                                                               "aircraftfamily:delete",
-                                                               "aircraftfamily:export",
-                                                               "aircraftmanufacturer:create",
-                                                               "aircraftmanufacturer:read",
-                                                               "aircraftmanufacturer:update",
-                                                               "aircraftmanufacturer:delete",
-                                                               "aircraftmanufacturer:export",
-                                                               "aircraftowner:create",
-                                                               "aircraftowner:read",
-                                                               "aircraftowner:update",
-                                                               "aircraftowner:delete",
-                                                               "aircraftowner:export",
-                                                               "aircraftregistration:create",
-                                                               "aircraftregistration:read",
-                                                               "aircraftregistration:update",
-                                                               "aircraftregistration:delete",
-                                                               "aircraftregistration:export",
-                                                               "aircrafttype:create",
-                                                               "aircrafttype:read",
-                                                               "aircrafttype:update",
-                                                               "aircrafttype:delete",
-                                                               "aircrafttype:export",
-                                                               "airlinealias:create",
-                                                               "airlinealias:read",
-                                                               "airlinealias:update",
-                                                               "airlinealias:delete",
-                                                               "airlinealias:export",
-                                                               "airlinebusinessrole:create",
-                                                               "airlinebusinessrole:read",
-                                                               "airlinebusinessrole:update",
-                                                               "airlinebusinessrole:delete",
-                                                               "airlinebusinessrole:export",
-                                                               "airlinecarrier:create",
-                                                               "airlinecarrier:read",
-                                                               "airlinecarrier:update",
-                                                               "airlinecarrier:delete",
-                                                               "airlinecarrier:export",
-                                                               "airlinecontact:create",
-                                                               "airlinecontact:read",
-                                                               "airlinecontact:update",
-                                                               "airlinecontact:delete",
-                                                               "airlinecontact:export",
-                                                               "airport:create",
-                                                               "airport:read",
-                                                               "airport:update",
-                                                               "airport:delete",
-                                                               "airport:export",
-                                                               "airportterminal:create",
-                                                               "airportterminal:read",
-                                                               "airportterminal:update",
-                                                               "airportterminal:delete",
-                                                               "airportterminal:export",
-                                                               "alliance:create",
-                                                               "alliance:read",
-                                                               "alliance:update",
-                                                               "alliance:delete",
-                                                               "alliance:export",
-                                                               "alliancemember:create",
-                                                               "alliancemember:read",
-                                                               "alliancemember:update",
-                                                               "alliancemember:delete",
-                                                               "alliancemember:export",
-                                                               "city:create",
-                                                               "city:read",
-                                                               "city:update",
-                                                               "city:delete",
-                                                               "city:export",
-                                                               "codesharepartner:create",
-                                                               "codesharepartner:read",
-                                                               "codesharepartner:update",
-                                                               "codesharepartner:delete",
-                                                               "codesharepartner:export",
-                                                               "country:create",
-                                                               "country:read",
-                                                               "country:update",
-                                                               "country:delete",
-                                                               "country:export",
-                                                               "dataelementidentifier:create",
-                                                               "dataelementidentifier:read",
-                                                               "dataelementidentifier:update",
-                                                               "dataelementidentifier:delete",
-                                                               "dataelementidentifier:export",
-                                                               "deiregistry:create",
-                                                               "deiregistry:read",
-                                                               "deiregistry:update",
-                                                               "deiregistry:delete",
-                                                               "deiregistry:export",
-                                                               "distributionchannel:create",
-                                                               "distributionchannel:read",
-                                                               "distributionchannel:update",
-                                                               "distributionchannel:delete",
-                                                               "distributionchannel:export",
-                                                               "electronicticketindicator:create",
-                                                               "electronicticketindicator:read",
-                                                               "electronicticketindicator:update",
-                                                               "electronicticketindicator:delete",
-                                                               "electronicticketindicator:export",
-                                                               "flightfrequency:create",
-                                                               "flightfrequency:read",
-                                                               "flightfrequency:update",
-                                                               "flightfrequency:delete",
-                                                               "flightfrequency:export",
-                                                               "flightservicetype:create",
-                                                               "flightservicetype:read",
-                                                               "flightservicetype:update",
-                                                               "flightservicetype:delete",
-                                                               "flightservicetype:export",
-                                                               "flightsuffix:create",
-                                                               "flightsuffix:read",
-                                                               "flightsuffix:update",
-                                                               "flightsuffix:delete",
-                                                               "flightsuffix:export",
-                                                               "mealservice:create",
-                                                               "mealservice:read",
-                                                               "mealservice:update",
-                                                               "mealservice:delete",
-                                                               "mealservice:export",
-                                                               "messagepriority:create",
-                                                               "messagepriority:read",
-                                                               "messagepriority:update",
-                                                               "messagepriority:delete",
-                                                               "messagepriority:export",
-                                                               "messagestatus:create",
-                                                               "messagestatus:read",
-                                                               "messagestatus:update",
-                                                               "messagestatus:delete",
-                                                               "messagestatus:export",
-                                                               "operationalsuffix:create",
-                                                               "operationalsuffix:read",
-                                                               "operationalsuffix:update",
-                                                               "operationalsuffix:delete",
-                                                               "operationalsuffix:export",
-                                                               "passengerterminal:create",
-                                                               "passengerterminal:read",
-                                                               "passengerterminal:update",
-                                                               "passengerterminal:delete",
-                                                               "passengerterminal:export",
-                                                               "region:create",
-                                                               "region:read",
-                                                               "region:update",
-                                                               "region:delete",
-                                                               "region:export",
-                                                               "rejectreason:create",
-                                                               "rejectreason:read",
-                                                               "rejectreason:update",
-                                                               "rejectreason:delete",
-                                                               "rejectreason:export",
-                                                               "reservationbookingdesignator:create",
-                                                               "reservationbookingdesignator:read",
-                                                               "reservationbookingdesignator:update",
-                                                               "reservationbookingdesignator:delete",
-                                                               "reservationbookingdesignator:export",
-                                                               "reservationbookingmodifier:create",
-                                                               "reservationbookingmodifier:read",
-                                                               "reservationbookingmodifier:update",
-                                                               "reservationbookingmodifier:delete",
-                                                               "reservationbookingmodifier:export",
-                                                               "schedulecategory:create",
-                                                               "schedulecategory:read",
-                                                               "schedulecategory:update",
-                                                               "schedulecategory:delete",
-                                                               "schedulecategory:export",
-                                                               "schedulechannel:create",
-                                                               "schedulechannel:read",
-                                                               "schedulechannel:update",
-                                                               "schedulechannel:delete",
-                                                               "schedulechannel:export",
-                                                               "schedulepriority:create",
-                                                               "schedulepriority:read",
-                                                               "schedulepriority:update",
-                                                               "schedulepriority:delete",
-                                                               "schedulepriority:export",
-                                                               "schedulesource:create",
-                                                               "schedulesource:read",
-                                                               "schedulesource:update",
-                                                               "schedulesource:delete",
-                                                               "schedulesource:export",
-                                                               "schedulestatus:create",
-                                                               "schedulestatus:read",
-                                                               "schedulestatus:update",
-                                                               "schedulestatus:delete",
-                                                               "schedulestatus:export",
-                                                               "scheduletype:create",
-                                                               "scheduletype:read",
-                                                               "scheduletype:update",
-                                                               "scheduletype:delete",
-                                                               "scheduletype:export",
-                                                               "season:create",
-                                                               "season:read",
-                                                               "season:update",
-                                                               "season:delete",
-                                                               "season:export",
-                                                               "secureflightindicator:create",
-                                                               "secureflightindicator:read",
-                                                               "secureflightindicator:update",
-                                                               "secureflightindicator:delete",
-                                                               "secureflightindicator:export",
-                                                               "standardmessageidentifier:create",
-                                                               "standardmessageidentifier:read",
-                                                               "standardmessageidentifier:update",
-                                                               "standardmessageidentifier:delete",
-                                                               "standardmessageidentifier:export",
-                                                               "state:create",
-                                                               "state:read",
-                                                               "state:update",
-                                                               "state:delete",
-                                                               "state:export",
-                                                               "timezone:create",
-                                                               "timezone:read",
-                                                               "timezone:update",
-                                                               "timezone:delete",
-                                                               "timezone:export",
-                                                               "trafficconferencearea:create",
-                                                               "trafficconferencearea:read",
-                                                               "trafficconferencearea:update",
-                                                               "trafficconferencearea:delete",
-                                                               "trafficconferencearea:export",
-                                                               "trafficrestriction:create",
-                                                               "trafficrestriction:read",
-                                                               "trafficrestriction:update",
-                                                               "trafficrestriction:delete",
-                                                               "trafficrestriction:export",
-                                                               "trafficrestrictionqualifier:create",
-                                                               "trafficrestrictionqualifier:read",
-                                                               "trafficrestrictionqualifier:update",
-                                                               "trafficrestrictionqualifier:delete",
-                                                               "trafficrestrictionqualifier:export",
-                                                               "utcoffset:create",
-                                                               "utcoffset:read",
-                                                               "utcoffset:update",
-                                                               "utcoffset:delete",
-                                                               "utcoffset:export"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "MASTER_DATA_VIEWER",
-                                           "permissions":  [
-                                                               "master-data:read",
-                                                               "master-data:export",
-                                                               "dashboard:read",
-                                                               "actioncode:read",
-                                                               "actioncode:export",
-                                                               "actionidentifier:read",
-                                                               "actionidentifier:export",
-                                                               "aircraftcabinlayout:read",
-                                                               "aircraftcabinlayout:export",
-                                                               "aircraftconfiguration:read",
-                                                               "aircraftconfiguration:export",
-                                                               "aircraftconfigurationrevision:read",
-                                                               "aircraftconfigurationrevision:export",
-                                                               "aircraftfamily:read",
-                                                               "aircraftfamily:export",
-                                                               "aircraftmanufacturer:read",
-                                                               "aircraftmanufacturer:export",
-                                                               "aircraftowner:read",
-                                                               "aircraftowner:export",
-                                                               "aircraftregistration:read",
-                                                               "aircraftregistration:export",
-                                                               "aircrafttype:read",
-                                                               "aircrafttype:export",
-                                                               "airlinealias:read",
-                                                               "airlinealias:export",
-                                                               "airlinebusinessrole:read",
-                                                               "airlinebusinessrole:export",
-                                                               "airlinecarrier:read",
-                                                               "airlinecarrier:export",
-                                                               "airlinecontact:read",
-                                                               "airlinecontact:export",
-                                                               "airport:read",
-                                                               "airport:export",
-                                                               "airportterminal:read",
-                                                               "airportterminal:export",
-                                                               "alliance:read",
-                                                               "alliance:export",
-                                                               "alliancemember:read",
-                                                               "alliancemember:export",
-                                                               "city:read",
-                                                               "city:export",
-                                                               "codesharepartner:read",
-                                                               "codesharepartner:export",
-                                                               "country:read",
-                                                               "country:export",
-                                                               "dataelementidentifier:read",
-                                                               "dataelementidentifier:export",
-                                                               "deiregistry:read",
-                                                               "deiregistry:export",
-                                                               "distributionchannel:read",
-                                                               "distributionchannel:export",
-                                                               "electronicticketindicator:read",
-                                                               "electronicticketindicator:export",
-                                                               "flightfrequency:read",
-                                                               "flightfrequency:export",
-                                                               "flightservicetype:read",
-                                                               "flightservicetype:export",
-                                                               "flightsuffix:read",
-                                                               "flightsuffix:export",
-                                                               "mealservice:read",
-                                                               "mealservice:export",
-                                                               "messagepriority:read",
-                                                               "messagepriority:export",
-                                                               "messagestatus:read",
-                                                               "messagestatus:export",
-                                                               "operationalsuffix:read",
-                                                               "operationalsuffix:export",
-                                                               "passengerterminal:read",
-                                                               "passengerterminal:export",
-                                                               "region:read",
-                                                               "region:export",
-                                                               "rejectreason:read",
-                                                               "rejectreason:export",
-                                                               "reservationbookingdesignator:read",
-                                                               "reservationbookingdesignator:export",
-                                                               "reservationbookingmodifier:read",
-                                                               "reservationbookingmodifier:export",
-                                                               "schedulecategory:read",
-                                                               "schedulecategory:export",
-                                                               "schedulechannel:read",
-                                                               "schedulechannel:export",
-                                                               "schedulepriority:read",
-                                                               "schedulepriority:export",
-                                                               "schedulesource:read",
-                                                               "schedulesource:export",
-                                                               "schedulestatus:read",
-                                                               "schedulestatus:export",
-                                                               "scheduletype:read",
-                                                               "scheduletype:export",
-                                                               "season:read",
-                                                               "season:export",
-                                                               "secureflightindicator:read",
-                                                               "secureflightindicator:export",
-                                                               "standardmessageidentifier:read",
-                                                               "standardmessageidentifier:export",
-                                                               "state:read",
-                                                               "state:export",
-                                                               "timezone:read",
-                                                               "timezone:export",
-                                                               "trafficconferencearea:read",
-                                                               "trafficconferencearea:export",
-                                                               "trafficrestriction:read",
-                                                               "trafficrestriction:export",
-                                                               "trafficrestrictionqualifier:read",
-                                                               "trafficrestrictionqualifier:export",
-                                                               "utcoffset:read",
-                                                               "utcoffset:export"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "BOOKING_AGENT",
-                                           "permissions":  [
-                                                               "booking:create",
-                                                               "booking:read",
-                                                               "booking:update",
-                                                               "booking:cancel"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "CUSTOMER_SUPPORT",
-                                           "permissions":  [
-                                                               "booking:read",
-                                                               "booking:update",
-                                                               "user:read"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "REPORT_ANALYST",
-                                           "permissions":  [
-                                                               "report:read",
-                                                               "report:export",
-                                                               "dashboard:read"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "AUDITOR",
-                                           "permissions":  [
-                                                               "audit:read",
-                                                               "report:read"
-                                                           ]
-                                       },
-                                       {
-                                           "role":  "USER",
-                                           "permissions":  [
-                                                               "dashboard:read"
-                                                           ]
-                                       }
-                                   ]
-                     },
-                     {
-                         "type":  "user-groups",
-                         "items":  [
-                                       {
-                                           "username":  "admin",
-                                           "groups":  [
-                                                          "PLATFORM_TEAM"
-                                                      ]
-                                       },
-                                       {
-                                           "username":  "auditor",
-                                           "groups":  [
-                                                          "AUDIT_TEAM"
-                                                      ]
-                                       },
-                                       {
-                        "username":  "manager",
-                                           "groups":  [
-                                                          "OPERATIONS_TEAM"
-                                                      ]
-                                       },
-                                       {
-                        "username":  "master",
-                                           "groups":  [
-                                                          "MASTER_DATA_TEAM"
-                                                      ]
-                                       }
-                                   ]
-                     },
-                     {
-                         "type":  "group-menus",
-                         "items":  [
-                                       {
-                                           "group":  "PLATFORM_TEAM",
-                                           "menus":  [
-                                                         "*"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "SECURITY_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD",
-                                                         "ACCESS_MGMT",
-                                                         "IDENTITY_MGMT",
-                                                         "AUTHORIZATION",
-                                                         "ACCESS_ASSIGNMENT",
-                                                         "USERS",
-                                                         "GROUPS",
-                                                         "ROLES",
-                                                         "PERMISSIONS",
-                                                         "MENUS",
-                                                         "USER_GROUPS",
-                                                         "GROUP_ROLES",
-                                                         "ROLE_PERMISSIONS",
-                                                         "GROUP_MENUS"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "TENANT_ADMIN_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD",
-                                                         "ACCESS_MGMT",
-                                                         "IDENTITY_MGMT",
-                                                         "USERS",
-                                                         "GROUPS",
-                                                         "ROLES",
-                                                         "TENANTS"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "OPERATIONS_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD",
-                                                         "INGESTION",
-                                                         "SSIM_INBOUND",
-                                                         "SCHEDULE_MANAGER",
-                                                         "LIVE_SCHEDULE",
-                                                         "INBOUND_SCHEDULES",
-                                                         "INBOUND_ASM/SSM",
-                                                         "CODESHARE_SCHEDULES",
-                                                         "OPERATING_SCHEDULES",
-                                                         "LIVE_SCHEDULES",
-                                                         "SCHEDULE_UPDATE"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "FLIGHT_OPERATIONS_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD",
-                                                         "SCHEDULE_MANAGER",
-                                                         "LIVE_SCHEDULE",
-                                                         "CODESHARE_SCHEDULES",
-                                                         "OPERATING_SCHEDULES",
-                                                         "LIVE_SCHEDULES"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "MASTER_DATA_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD",
-                                                         "MASTERS",
-                                                         "M_GEOGRAPHY",
-                                                         "M_AIRLINES",
-                                                         "M_AIRCRAFT",
-                                                         "M_FLIGHT",
-                                                         "M_SCHEDULE",
-                                                         "M_MESSAGING",
-                                                         "M_TERMINAL",
-                                                         "M_GEO_COUNTRIES",
-                                                         "M_GEO_REGIONS",
-                                                         "M_GEO_STATES",
-                                                         "M_GEO_CITIES",
-                                                         "M_GEO_AIRPORTS",
-                                                         "M_GEO_TIMEZONES",
-                                                         "M_GEO_TIMEZONE_DLS",
-                                                         "M_AIRLINE_CARRIERS",
-                                                         "M_AIRLINE_ALIASES",
-                                                         "M_AIRLINE_CONTACTS",
-                                                         "M_AIRLINE_BUSINESS_ROLES",
-                                                         "M_AIRLINE_ALLIANCES",
-                                                         "M_AIRLINE_ALLIANCE_MEMBERS",
-                                                         "M_AIRLINE_CODESHARE_PARTNERS",
-                                                         "M_AIRCRAFT_TYPES",
-                                                         "M_AIRCRAFT_FAMILIES",
-                                                         "M_AIRCRAFT_MANUFACTURERS",
-                                                         "M_AIRCRAFT_CONFIGURATIONS",
-                                                         "M_AIRCRAFT_CONFIG_REVISIONS",
-                                                         "M_AIRCRAFT_CABIN_LAYOUTS",
-                                                         "M_AIRCRAFT_OWNERS",
-                                                         "M_AIRCRAFT_REGISTRATIONS",
-                                                         "M_FLIGHT_SERVICE_TYPES",
-                                                         "M_FLIGHT_OPERATIONAL_SUFFIXES",
-                                                         "M_FLIGHT_FREQUENCIES",
-                                                         "M_FLIGHT_SUFFIXES",
-                                                         "M_FLIGHT_TRAFFIC_RESTRICTIONS",
-                                                         "M_FLIGHT_TRAFFIC_RESTRICTION_QUALIFIERS",
-                                                         "M_FLIGHT_SECURE_FLIGHT_INDICATORS",
-                                                         "M_FLIGHT_MEAL_SERVICES",
-                                                         "M_FLIGHT_E_TICKET_INDICATORS",
-                                                         "M_FLIGHT_RBDS",
-                                                         "M_FLIGHT_RBD_MODIFIERS",
-                                                         "M_SCHEDULE_SOURCES",
-                                                         "M_SCHEDULE_CHANNELS",
-                                                         "M_SCHEDULE_STATUSES",
-                                                         "M_SCHEDULE_TYPES",
-                                                         "M_SCHEDULE_PRIORITIES",
-                                                         "M_SCHEDULE_CATEGORIES",
-                                                         "M_SCHEDULE_SEASONS",
-                                                         "M_MSG_ACTION_IDENTIFIERS",
-                                                         "M_MSG_ACTION_CODES",
-                                                         "M_MSG_DATA_ELEMENT_IDENTIFIERS",
-                                                         "M_MSG_REJECT_REASONS",
-                                                         "M_MSG_DISTRIBUTION_CHANNELS",
-                                                         "M_MSG_MESSAGE_PRIORITIES",
-                                                         "M_MSG_MESSAGE_STATUSES",
-                                                         "M_MSG_STANDARD_MESSAGE_IDENTIFIERS",
-                                                         "M_TERMINAL_AIRPORT_TERMINALS",
-                                                         "M_TERMINAL_PASSENGER_TERMINALS",
-                                                         "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "MASTER_DATA_READERS",
-                                           "menus":  [
-                                                         "DASHBOARD",
-                                                         "MASTERS",
-                                                         "M_GEOGRAPHY",
-                                                         "M_AIRLINES",
-                                                         "M_AIRCRAFT",
-                                                         "M_FLIGHT",
-                                                         "M_SCHEDULE",
-                                                         "M_MESSAGING",
-                                                         "M_TERMINAL",
-                                                         "M_GEO_COUNTRIES",
-                                                         "M_GEO_REGIONS",
-                                                         "M_GEO_STATES",
-                                                         "M_GEO_CITIES",
-                                                         "M_GEO_AIRPORTS",
-                                                         "M_GEO_TIMEZONES",
-                                                         "M_GEO_TIMEZONE_DLS",
-                                                         "M_AIRLINE_CARRIERS",
-                                                         "M_AIRLINE_ALIASES",
-                                                         "M_AIRLINE_CONTACTS",
-                                                         "M_AIRLINE_BUSINESS_ROLES",
-                                                         "M_AIRLINE_ALLIANCES",
-                                                         "M_AIRLINE_ALLIANCE_MEMBERS",
-                                                         "M_AIRLINE_CODESHARE_PARTNERS",
-                                                         "M_AIRCRAFT_TYPES",
-                                                         "M_AIRCRAFT_FAMILIES",
-                                                         "M_AIRCRAFT_MANUFACTURERS",
-                                                         "M_AIRCRAFT_CONFIGURATIONS",
-                                                         "M_AIRCRAFT_CONFIG_REVISIONS",
-                                                         "M_AIRCRAFT_CABIN_LAYOUTS",
-                                                         "M_AIRCRAFT_OWNERS",
-                                                         "M_AIRCRAFT_REGISTRATIONS",
-                                                         "M_FLIGHT_SERVICE_TYPES",
-                                                         "M_FLIGHT_OPERATIONAL_SUFFIXES",
-                                                         "M_FLIGHT_FREQUENCIES",
-                                                         "M_FLIGHT_SUFFIXES",
-                                                         "M_FLIGHT_TRAFFIC_RESTRICTIONS",
-                                                         "M_FLIGHT_TRAFFIC_RESTRICTION_QUALIFIERS",
-                                                         "M_FLIGHT_SECURE_FLIGHT_INDICATORS",
-                                                         "M_FLIGHT_MEAL_SERVICES",
-                                                         "M_FLIGHT_E_TICKET_INDICATORS",
-                                                         "M_FLIGHT_RBDS",
-                                                         "M_FLIGHT_RBD_MODIFIERS",
-                                                         "M_SCHEDULE_SOURCES",
-                                                         "M_SCHEDULE_CHANNELS",
-                                                         "M_SCHEDULE_STATUSES",
-                                                         "M_SCHEDULE_TYPES",
-                                                         "M_SCHEDULE_PRIORITIES",
-                                                         "M_SCHEDULE_CATEGORIES",
-                                                         "M_SCHEDULE_SEASONS",
-                                                         "M_MSG_ACTION_IDENTIFIERS",
-                                                         "M_MSG_ACTION_CODES",
-                                                         "M_MSG_DATA_ELEMENT_IDENTIFIERS",
-                                                         "M_MSG_REJECT_REASONS",
-                                                         "M_MSG_DISTRIBUTION_CHANNELS",
-                                                         "M_MSG_MESSAGE_PRIORITIES",
-                                                         "M_MSG_MESSAGE_STATUSES",
-                                                         "M_MSG_STANDARD_MESSAGE_IDENTIFIERS",
-                                                         "M_TERMINAL_AIRPORT_TERMINALS",
-                                                         "M_TERMINAL_PASSENGER_TERMINALS",
-                                                         "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "BOOKING_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "CUSTOMER_SUPPORT_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "AUDIT_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD",
-                                                         "ACCESS_MGMT",
-                                                         "USERS",
-                                                         "GROUPS",
-                                                         "ROLES"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "ANALYTICS_TEAM",
-                                           "menus":  [
-                                                         "DASHBOARD",
-                                                         "DASHBOARD_OVERVIEW",
-                                                         "DASHBOARD_PRODUCT"
-                                                     ]
-                                       },
-                                       {
-                                           "group":  "DEFAULT_USERS",
-                                           "menus":  [
-                                                         "DASHBOARD"
-                                                     ]
-                                       }
-                                   ]
-                     }
-                 ]
+{
+  "group": "assignments",
+  "sections": [
+    {
+      "type": "group-roles",
+      "items": [
+        {
+          "group": "SYSTEM_ADMINISTRATORS",
+          "roles": ["SYSTEM_ADMIN"]
+        },
+        {
+          "group": "TENANT_ADMINISTRATORS",
+          "roles": ["TENANT_ADMIN"]
+        },
+        {
+          "group": "SCHEDULE_OPERATORS",
+          "roles": ["OPERATOR"]
+        },
+        {
+          "group": "READ_ONLY_USERS",
+          "roles": ["READ_ONLY"]
+        }
+      ]
+    },
+    {
+      "type": "role-permissions",
+      "items": [
+        {
+          "role": "SYSTEM_ADMIN",
+          "permissions": ["*"]
+        },
+        {
+          "role": "TENANT_ADMIN",
+          "permissions": [
+            "dashboard:read",
+            "settings:read",
+            "settings:update",
+            "tenant:read",
+            "tenant:update",
+            "tenant:publish",
+            "tenant:approve",
+            "user:create",
+            "user:read",
+            "user:update",
+            "user:delete",
+            "user:import",
+            "user:export",
+            "group:create",
+            "group:read",
+            "group:update",
+            "group:delete",
+            "group:assign",
+            "group:import",
+            "group:export",
+            "role:create",
+            "role:read",
+            "role:update",
+            "role:delete",
+            "role:assign",
+            "role:import",
+            "role:export",
+            "permission:read",
+            "permission:assign",
+            "menu:read",
+            "codesharepartner:create",
+            "codesharepartner:read",
+            "codesharepartner:update",
+            "codesharepartner:delete",
+            "codesharepartner:publish",
+            "codesharepartner:approve",
+            "codesharepartner:import",
+            "codesharepartner:export"
+          ]
+        },
+        {
+          "role": "OPERATOR",
+          "permissions": [
+            "dashboard:read",
+            "flight:create",
+            "flight:read",
+            "flight:update",
+            "flight:publish",
+            "flight:approve",
+            "flight:import",
+            "flight:export"
+          ]
+        },
+        {
+          "role": "READ_ONLY",
+          "permissions": [
+            "dashboard:read",
+            "settings:read",
+            "tenant:read",
+            "user:read",
+            "group:read",
+            "role:read",
+            "permission:read",
+            "menu:read",
+            "flight:read",
+            "codesharepartner:read",
+            "region:read",
+            "country:read",
+            "state:read",
+            "city:read",
+            "airport:read",
+            "timezone:read",
+            "airlinecarrier:read",
+            "airlinealias:read",
+            "airlinecontact:read",
+            "airlinebusinessrole:read",
+            "alliance:read",
+            "alliancemember:read",
+            "aircrafttype:read",
+            "aircraftfamily:read",
+            "aircraftmanufacturer:read",
+            "aircraftconfiguration:read",
+            "aircraftconfigurationrevision:read",
+            "aircraftcabinlayout:read",
+            "aircraftowner:read",
+            "aircraftregistration:read",
+            "flightservicetype:read",
+            "operationalsuffix:read",
+            "flightfrequency:read",
+            "flightsuffix:read",
+            "trafficrestriction:read",
+            "trafficrestrictionqualifier:read",
+            "secureflightindicator:read",
+            "mealservice:read",
+            "electronicticketindicator:read",
+            "reservationbookingdesignator:read",
+            "reservationbookingmodifier:read",
+            "schedulesource:read",
+            "schedulechannel:read",
+            "schedulestatus:read",
+            "scheduletype:read",
+            "schedulepriority:read",
+            "schedulecategory:read",
+            "season:read",
+            "actionidentifier:read",
+            "actioncode:read",
+            "dataelementidentifier:read",
+            "rejectreason:read",
+            "distributionchannel:read",
+            "messagepriority:read",
+            "messagestatus:read",
+            "standardmessageidentifier:read",
+            "airportterminal:read",
+            "passengerterminal:read",
+            "trafficconferencearea:read"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "user-groups",
+      "items": [
+        {
+          "username": "admin",
+          "groups": ["SYSTEM_ADMINISTRATORS"]
+        },
+        {
+          "username": "tenantadmin",
+          "groups": ["TENANT_ADMINISTRATORS"]
+        },
+        {
+          "username": "operator",
+          "groups": ["SCHEDULE_OPERATORS"]
+        },
+        {
+          "username": "readonly",
+          "groups": ["READ_ONLY_USERS"]
+        }
+      ]
+    },
+    {
+      "type": "group-menus",
+      "items": [
+        {
+          "group": "SYSTEM_ADMINISTRATORS",
+          "menus": ["*"]
+        },
+        {
+          "group": "TENANT_ADMINISTRATORS",
+          "menus": [
+            "DASHBOARD",
+            "DASHBOARD_OVERVIEW",
+            "ADMINISTRATION",
+            "TENANT_ONBOARDING",
+            "TENANT_SETUP",
+            "TENANTS",
+            "TENANT_IDENTITY",
+            "TENANT_IDENTITY_PROVIDERS",
+            "TENANT_OIDC_CONFIG",
+            "TENANT_INGESTION",
+            "TENANT_INGESTION_PROFILES",
+            "TENANT_INGESTION_CHANNELS",
+            "TENANT_PARTNER_SETUP",
+            "TENANT_PARTNERS",
+            "TENANT_PARTNER_PROFILES",
+            "TENANT_COMMUNICATION_PROFILES",
+            "TENANT_DISTRIBUTION_PROFILES",
+            "ACCESS_MGMT",
+            "IDENTITY_MGMT",
+            "USERS",
+            "GROUPS",
+            "ROLES",
+            "AUTHORIZATION",
+            "PERMISSIONS",
+            "MENUS",
+            "ACCESS_ASSIGNMENT",
+            "USER_GROUPS",
+            "GROUP_ROLES",
+            "ROLE_PERMISSIONS",
+            "GROUP_MENUS",
+            "SYSTEM_CONFIG",
+            "DASHBOARD_PRODUCT"
+          ]
+        },
+        {
+          "group": "SCHEDULE_OPERATORS",
+          "menus": [
+            "DASHBOARD",
+            "DASHBOARD_OVERVIEW",
+            "INGESTION",
+            "SSIM_INBOUND",
+            "SCHEDULE_MANAGER",
+            "LIVE_SCHEDULE",
+            "SCENARIO_MANGER",
+            "INBOUND_SCHEDULES",
+            "INBOUND_ASM/SSM",
+            "CODESHARE_SCHEDULES",
+            "OPERATING_SCHEDULES",
+            "LIVE_SCHEDULES",
+            "SCHEDULE_UPDATE"
+          ]
+        },
+        {
+          "group": "READ_ONLY_USERS",
+          "menus": [
+            "DASHBOARD",
+            "DASHBOARD_OVERVIEW",
+            "INGESTION",
+            "SSIM_INBOUND",
+            "INBOUND_SCHEDULES",
+            "INBOUND_ASM/SSM",
+            "ADMINISTRATION",
+            "TENANT_ONBOARDING",
+            "TENANT_SETUP",
+            "TENANTS",
+            "TENANT_IDENTITY",
+            "TENANT_IDENTITY_PROVIDERS",
+            "TENANT_OIDC_CONFIG",
+            "TENANT_INGESTION",
+            "TENANT_INGESTION_PROFILES",
+            "TENANT_INGESTION_CHANNELS",
+            "TENANT_PARTNER_SETUP",
+            "TENANT_PARTNERS",
+            "TENANT_PARTNER_PROFILES",
+            "TENANT_COMMUNICATION_PROFILES",
+            "TENANT_DISTRIBUTION_PROFILES",
+            "ACCESS_MGMT",
+            "IDENTITY_MGMT",
+            "USERS",
+            "GROUPS",
+            "ROLES",
+            "AUTHORIZATION",
+            "PERMISSIONS",
+            "MENUS",
+            "SYSTEM_CONFIG",
+            "DASHBOARD_PRODUCT",
+            "MASTERS",
+            "M_GEOGRAPHY",
+            "M_AIRLINES",
+            "M_AIRCRAFT",
+            "M_FLIGHT",
+            "M_SCHEDULE",
+            "M_MESSAGING",
+            "M_TERMINAL",
+            "M_GEO_REGIONS",
+            "M_GEO_COUNTRIES",
+            "M_GEO_STATES",
+            "M_GEO_CITIES",
+            "M_GEO_AIRPORTS",
+            "M_GEO_TIMEZONES",
+            "M_GEO_TIMEZONE_DLS",
+            "M_AIRLINE_CARRIERS",
+            "M_AIRLINE_ALIASES",
+            "M_AIRLINE_CONTACTS",
+            "M_AIRLINE_BUSINESS_ROLES",
+            "M_AIRLINE_ALLIANCES",
+            "M_AIRLINE_ALLIANCE_MEMBERS",
+            "M_AIRLINE_CODESHARE_PARTNERS",
+            "M_AIRCRAFT_TYPES",
+            "M_AIRCRAFT_FAMILIES",
+            "M_AIRCRAFT_MANUFACTURERS",
+            "M_AIRCRAFT_CONFIGURATIONS",
+            "M_AIRCRAFT_CONFIG_REVISIONS",
+            "M_AIRCRAFT_CABIN_LAYOUTS",
+            "M_AIRCRAFT_OWNERS",
+            "M_AIRCRAFT_REGISTRATIONS",
+            "M_FLIGHT_SERVICE_TYPES",
+            "M_FLIGHT_OPERATIONAL_SUFFIXES",
+            "M_FLIGHT_FREQUENCIES",
+            "M_FLIGHT_SUFFIXES",
+            "M_FLIGHT_TRAFFIC_RESTRICTIONS",
+            "M_FLIGHT_TRAFFIC_RESTRICTION_QUALIFIERS",
+            "M_FLIGHT_SECURE_FLIGHT_INDICATORS",
+            "M_FLIGHT_MEAL_SERVICES",
+            "M_FLIGHT_E_TICKET_INDICATORS",
+            "M_FLIGHT_RBDS",
+            "M_FLIGHT_RBD_MODIFIERS",
+            "M_SCHEDULE_SOURCES",
+            "M_SCHEDULE_CHANNELS",
+            "M_SCHEDULE_STATUSES",
+            "M_SCHEDULE_TYPES",
+            "M_SCHEDULE_PRIORITIES",
+            "M_SCHEDULE_CATEGORIES",
+            "M_SCHEDULE_SEASONS",
+            "M_MSG_ACTION_IDENTIFIERS",
+            "M_MSG_ACTION_CODES",
+            "M_MSG_DATA_ELEMENT_IDENTIFIERS",
+            "M_MSG_REJECT_REASONS",
+            "M_MSG_DISTRIBUTION_CHANNELS",
+            "M_MSG_MESSAGE_PRIORITIES",
+            "M_MSG_MESSAGE_STATUSES",
+            "M_MSG_STANDARD_MESSAGE_IDENTIFIERS",
+            "M_TERMINAL_AIRPORT_TERMINALS",
+            "M_TERMINAL_PASSENGER_TERMINALS",
+            "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS"
+          ]
+        }
+      ]
+    }
+  ]
 }

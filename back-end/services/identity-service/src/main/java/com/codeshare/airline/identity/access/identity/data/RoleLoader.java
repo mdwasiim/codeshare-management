@@ -3,9 +3,7 @@ package com.codeshare.airline.identity.access.identity.data;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData;
 import com.codeshare.airline.identity.access.data.IdentityBootstrapData.RoleSeed;
 import com.codeshare.airline.identity.access.identity.entities.Role;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.repository.RoleRepository;
-import com.codeshare.airline.identity.access.identity.repository.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,16 +19,12 @@ import java.util.UUID;
 public class RoleLoader {
 
     private final RoleRepository roleRepository;
-    private final TenantRepository tenantRepository;
     private final IdentityBootstrapData bootstrapData;
 
     public void load(UUID tenantId) {
         log.info("RoleLoader: ensuring roles for tenant {}", tenantId);
 
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalStateException("Tenant not found: " + tenantId));
-
-        Set<String> existingCodes = roleRepository.findCodesByTenant(tenant);
+        Set<String> existingCodes = roleRepository.findCodesByTenantId(tenantId);
         List<Role> rolesToSave = new ArrayList<>();
 
         for (RoleSeed seed : bootstrapData.roles()) {
@@ -40,7 +34,7 @@ public class RoleLoader {
 
             existingCodes.add(seed.code());
             rolesToSave.add(Role.builder()
-                    .tenant(tenant)
+                    .tenantId(tenantId)
                     .code(seed.code())
                     .name(seed.name())
                     .description(seed.description())

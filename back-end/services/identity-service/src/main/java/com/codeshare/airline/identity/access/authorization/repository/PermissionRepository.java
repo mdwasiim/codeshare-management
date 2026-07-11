@@ -2,7 +2,6 @@ package com.codeshare.airline.identity.access.authorization.repository;
 
 
 import com.codeshare.airline.identity.access.authorization.entities.Permission;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,17 +23,15 @@ public interface PermissionRepository extends CSMDataBaseRepository<Permission, 
 
     boolean existsByTenantIdAndCode(UUID tenantId, String code);
 
-    boolean existsByTenantAndCode(Tenant tenant, String code);
-
-    @Query("select p.code from Permission p where p.tenant = :tenant")
-    Set<String> findCodesByTenant(@Param("tenant") Tenant tenant);
+    @Query("select p.code from Permission p where p.tenantId = :tenantId")
+    Set<String> findCodesByTenantId(@Param("tenantId") UUID tenantId);
 
     long countByTenantId(UUID tenantId);
 
     @Query("""
     select concat(p.domain, ':', p.action)
     from Permission p
-    where p.tenant.id = :tenantId
+    where p.tenantId = :tenantId
 """)
     Set<String> findPermissionKeysByTenantId(UUID tenantId);
 }

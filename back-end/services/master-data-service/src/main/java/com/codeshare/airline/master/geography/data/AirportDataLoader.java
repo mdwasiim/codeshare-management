@@ -30,67 +30,67 @@ public class AirportDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
-        if (repository.count() > 0) return;
-
         City doha = cityRepository.findByCityName("Doha").orElseThrow();
         City london = cityRepository.findByCityName("London").orElseThrow();
         City newYork = cityRepository.findByCityName("New York").orElseThrow();
         City dubai = cityRepository.findByCityName("Dubai").orElseThrow();
+        City melbourne = cityRepository.findByCityName("Melbourne").orElseThrow();
 
         Country qa = countryRepository.findByIso2Code("QA").orElseThrow();
         Country gb = countryRepository.findByIso2Code("GB").orElseThrow();
         Country us = countryRepository.findByIso2Code("US").orElseThrow();
         Country ae = countryRepository.findByIso2Code("AE").orElseThrow();
+        Country au = countryRepository.findByIso2Code("AU").orElseThrow();
 
         Timezone tzQatar = timezoneRepository.findByTzIdentifier("Asia/Qatar").orElseThrow();
         Timezone tzLondon = timezoneRepository.findByTzIdentifier("Europe/London").orElseThrow();
         Timezone tzNY = timezoneRepository.findByTzIdentifier("America/New_York").orElseThrow();
         Timezone tzDubai = timezoneRepository.findByTzIdentifier("Asia/Dubai").orElseThrow();
+        Timezone tzMelbourne = timezoneRepository.findByTzIdentifier("Australia/Melbourne").orElseThrow();
 
-        List<Airport> airports = List.of(
+        ensure("DOH", "OTHH",
+                "Hamad International Airport",
+                doha, qa, tzQatar,
+                25.2730567, 51.6080567,
+                13, true, true);
 
-                build("DOH", "OTHH",
-                        "Hamad International Airport",
-                        doha, qa, tzQatar,
-                        25.2730567, 51.6080567,
-                        13, true, true),
+        ensure("LHR", "EGLL",
+                "London Heathrow Airport",
+                london, gb, tzLondon,
+                51.4700200, -0.4542950,
+                83, true, true);
 
-                build("LHR", "EGLL",
-                        "London Heathrow Airport",
-                        london, gb, tzLondon,
-                        51.4700200, -0.4542950,
-                        83, true, true),
+        ensure("JFK", "KJFK",
+                "John F. Kennedy International Airport",
+                newYork, us, tzNY,
+                40.6413111, -73.7781391,
+                13, true, true);
 
-                build("JFK", "KJFK",
-                        "John F. Kennedy International Airport",
-                        newYork, us, tzNY,
-                        40.6413111, -73.7781391,
-                        13, true, true),
+        ensure("DXB", "OMDB",
+                "Dubai International Airport",
+                dubai, ae, tzDubai,
+                25.2531745, 55.3656728,
+                62, true, true);
 
-                build("DXB", "OMDB",
-                        "Dubai International Airport",
-                        dubai, ae, tzDubai,
-                        25.2531745, 55.3656728,
-                        62, true, true)
-        );
-
-        repository.saveAll(airports);
+        ensure("MEL", "YMML",
+                "Melbourne Airport",
+                melbourne, au, tzMelbourne,
+                -37.6690123, 144.8410273,
+                434, true, true);
     }
 
-    private Airport build(String iata,
-                          String icao,
-                          String name,
-                          City city,
-                          Country country,
-                          Timezone timezone,
-                          double lat,
-                          double lon,
-                          int elevation,
-                          boolean international,
-                          boolean hub) {
-
-        Airport airport = new Airport();
+    private void ensure(String iata,
+                        String icao,
+                        String name,
+                        City city,
+                        Country country,
+                        Timezone timezone,
+                        double lat,
+                        double lon,
+                        int elevation,
+                        boolean international,
+                        boolean hub) {
+        Airport airport = repository.findByIataCode(iata).orElseGet(Airport::new);
 
         airport.setIataCode(iata);
         airport.setIcaoCode(icao);
@@ -109,7 +109,6 @@ public class AirportDataLoader implements CommandLineRunner {
 
         airport.setRecordStatus(RecordStatus.ACTIVE);
         airport.setEffectiveFrom(LocalDate.of(2000, 1, 1));
-
-        return airport;
+        repository.save(airport);
     }
 }

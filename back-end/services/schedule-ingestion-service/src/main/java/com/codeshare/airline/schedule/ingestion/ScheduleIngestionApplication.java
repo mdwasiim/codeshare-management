@@ -2,10 +2,11 @@ package com.codeshare.airline.schedule.ingestion;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-//@EnableFeignClients(basePackages = "com.codeshare.airline.ingestion.feign")
+@EnableFeignClients
 @EnableScheduling
 public class ScheduleIngestionApplication {
 

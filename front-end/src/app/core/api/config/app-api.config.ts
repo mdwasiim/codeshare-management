@@ -49,7 +49,9 @@ export const API_ENDPOINTS = {
         login: makeEndpoint('/identity/auth/login'),
         logout: makeEndpoint('/identity/auth/logout'),
         refresh: makeEndpoint('/identity/auth/refresh'),
-        session: makeEndpoint('/identity/auth/session')
+        session: makeEndpoint('/identity/auth/session'),
+        oidcAuthorize: makeEndpoint('/identity/auth/oidc/authorize'),
+        oidcToken: makeEndpoint('/identity/auth/oidc/token')
     },
     dashboard: {
         stats: makeEndpoint('/identity/dashboard/stats')
@@ -85,13 +87,36 @@ export const API_ENDPOINTS = {
             byId: makeEndpoint('/identity/permissions/{id}')
         },
         tenants: {
-            base: makeEndpoint('/identity/tenants'),
-            byId: makeEndpoint('/identity/tenants/{id}')
+            base: makeEndpoint('/tenant/tenants'),
+            byId: makeEndpoint('/tenant/tenants/{id}'),
+            authContextByCode: makeEndpoint('/tenant/tenants/code/{code}/auth-context'),
+            loginOptions: makeEndpoint('/tenant/tenants/login-options')
         },
         menu: {
             base: makeEndpoint('/identity/menus'),
             manage: makeEndpoint('/identity/menus/manage/all'),
             byId: makeEndpoint('/identity/menus/{id}')
+        },
+        tenantPartners: {
+            base: makeEndpoint('/tenant/tenant-partners'),
+            byId: makeEndpoint('/tenant/tenant-partners/{id}')
+        },
+        tenantPartnerProfiles: {
+            base: makeEndpoint('/tenant/tenant-partner-profiles'),
+            byId: makeEndpoint('/tenant/tenant-partner-profiles/{id}')
+        },
+        tenantPartnerCommunicationProfiles: {
+            base: makeEndpoint('/tenant/tenant-partner-communication-profiles'),
+            byId: makeEndpoint('/tenant/tenant-partner-communication-profiles/{id}')
+        },
+        tenantPartnerDistributionProfiles: {
+            base: makeEndpoint('/tenant/tenant-partner-distribution-profiles'),
+            byId: makeEndpoint('/tenant/tenant-partner-distribution-profiles/{id}')
+        },
+        tenantIngestionProfiles: {
+            base: makeEndpoint('/tenant/tenant-ingestion-profiles'),
+            byId: makeEndpoint('/tenant/tenant-ingestion-profiles/{id}'),
+            byTenantCode: makeEndpoint('/tenant/tenant-ingestion-profiles/tenant/{tenantCode}')
         }
     },
     scheduleIngestion: {

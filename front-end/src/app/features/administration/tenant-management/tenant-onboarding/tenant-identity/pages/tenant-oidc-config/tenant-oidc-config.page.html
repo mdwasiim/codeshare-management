@@ -1,0 +1,96 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Identity</span>
+            <h1>OIDC Configuration</h1>
+            <p>Inspect issuer, token, redirect, and scope settings across tenants and edit the source tenant directly.</p>
+        </div>
+    </div>
+
+    <app-crud-toolbar
+        [actions]="['refresh', 'search', 'export']"
+        [resource]="resourceName"
+        (refresh)="refresh()"
+        (search)="onSearch($event)"
+        (export)="exportCsv()"
+    ></app-crud-toolbar>
+
+    <p-table
+        #dt
+        [value]="data"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        [rowHover]="true"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '104rem' }"
+        [globalFilterFields]="['name', 'tenantCode', 'authSource', 'oidcConfig.issuerUri', 'oidcConfig.clientId', 'oidcConfig.redirectUri', 'oidcConfig.scopes']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Tenant OIDC Settings</h2>
+                    <p>{{ data.length || 0 }} tenants loaded</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Tenant</th>
+                <th>Code</th>
+                <th>Auth Source</th>
+                <th>Issuer URI</th>
+                <th>Authorization URI</th>
+                <th>Token URI</th>
+                <th>JWK Set URI</th>
+                <th>Scopes</th>
+                <th class="access-actions-col">Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-tenant>
+            <tr>
+                <td>{{ tenant.name }}</td>
+                <td>{{ tenant.tenantCode }}</td>
+                <td>
+                    <p-tag [value]="authSourceLabel(tenant)" [severity]="tenant.authSource && tenant.authSource !== 'INTERNAL' ? 'info' : 'success'"></p-tag>
+                </td>
+                <td>{{ tenant.oidcConfig?.issuerUri || '-' }}</td>
+                <td>{{ tenant.oidcConfig?.authorizationUri || '-' }}</td>
+                <td>{{ tenant.oidcConfig?.tokenUri || '-' }}</td>
+                <td>{{ tenant.oidcConfig?.jwkSetUri || '-' }}</td>
+                <td>{{ tenant.oidcConfig?.scopes || '-' }}</td>
+                <td class="access-row-actions">
+                    <div>
+                        <ng-container *appHasPermission="'tenant:update'">
+                            <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit OIDC settings" tooltipPosition="top" (click)="openEdit(tenant)"></p-button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="9" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-id-card text-2xl mb-2"></i>
+                    <div>No OIDC configurations found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <app-dialog
+        [(visible)]="dialogVisible"
+        [title]="'Edit Tenant OIDC Configuration'"
+        width="min(96vw, 920px)"
+        [disableSave]="!!tenantForm?.form?.invalid || !!tenantForm?.loading"
+        [loading]="!!tenantForm?.loading"
+        (save)="tenantForm.submit()"
+    >
+        <tenant-form #tenantForm [id]="selectedTenantId" (saved)="onSaved()"></tenant-form>
+    </app-dialog>
+</div>

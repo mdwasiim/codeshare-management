@@ -28,7 +28,8 @@ public class TimezoneDataLoader implements CommandLineRunner {
                 build("Europe/London"),
                 build("America/New_York"),
                 build("Asia/Dubai"),
-                build("Asia/Kolkata")
+                build("Asia/Kolkata"),
+                build("Australia/Melbourne")
         );
 
         repository.saveAll(zones);

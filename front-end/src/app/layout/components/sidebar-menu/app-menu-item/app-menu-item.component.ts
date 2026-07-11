@@ -3,7 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 import { LayoutService } from '@layout/services/layout.service';
-import { AppMenuModel } from '@features/access-management/models/app-menu.model';
+import { AppMenuModel } from '@features/administration/access-management/models/app-menu.model';
 
 @Component({
     selector: '[app-menuitem]',
@@ -118,3 +118,4 @@ export class AppMenuItemComponent {
         return currentUrl.startsWith(`${link}/`) || currentUrl.startsWith(`${link}?`);
     }
 }
+

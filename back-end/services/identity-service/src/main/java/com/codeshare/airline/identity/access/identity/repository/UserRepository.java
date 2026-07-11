@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.identity.repository;
 
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
+import com.codeshare.airline.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.access.identity.entities.User;
 
 import java.util.List;
@@ -16,12 +16,17 @@ public interface UserRepository extends CSMDataBaseRepository<User, UUID> {
 
     boolean existsByEmail(String email);
 
+    boolean existsByUsernameAndTenantId(String username, UUID tenantId);
 
-    Optional<User> findByUsernameAndTenant_Id(String username, UUID id);
+    boolean existsByEmailAndTenantId(String email, UUID tenantId);
 
-    List<User> findAllByTenant_Id(UUID tenantId);
+    Optional<User> findByUsernameAndTenantId(String username, UUID id);
 
-    boolean existsByUsernameAndTenant(String username, Tenant tenant);
+    Optional<User> findByEmailAndTenantId(String email, UUID tenantId);
 
-    List<User> findByTenant(Tenant tenant);
+    Optional<User> findByExternalIdAndTenantIdAndAuthSource(String externalId, UUID tenantId, AuthSource authSource);
+
+    List<User> findAllByTenantId(UUID tenantId);
+
+    List<User> findByTenantId(UUID tenantId);
 }

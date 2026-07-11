@@ -21,12 +21,14 @@ export class MasterReferenceLookupService {
 
     private readonly lookupConfig: Record<string, MasterLookupConfig> = {
         regionId: { endpoint: '/master/regions', labelFields: ['regionCode', 'regionName'] },
+        region: { endpoint: '/master/regions', labelFields: ['regionCode', 'regionName'], valueField: 'regionCode' },
         countryId: { endpoint: '/master/countries', labelFields: ['iso2Code', 'countryName'] },
         stateId: { endpoint: '/master/states', labelFields: ['stateCode', 'stateName'] },
         cityId: { endpoint: '/master/cities', labelFields: ['cityCode', 'cityName'] },
         airportId: { endpoint: '/master/airports', labelFields: ['iataCode', 'icaoCode', 'airportName'] },
         airlineId: { endpoint: '/master/airline-carriers', labelFields: ['iataCode', 'icaoCode', 'displayName'] },
         airlineCode: { endpoint: '/master/airline-carriers', labelFields: ['iataCode', 'icaoCode', 'displayName'], valueField: 'iataCode' },
+        tenantCode: { endpoint: '/master/airline-carriers', labelFields: ['iataCode', 'icaoCode', 'displayName'], valueField: 'iataCode' },
         homeAirlineId: { endpoint: '/master/airline-carriers', labelFields: ['iataCode', 'icaoCode', 'displayName'] },
         partnerAirlineId: { endpoint: '/master/airline-carriers', labelFields: ['iataCode', 'icaoCode', 'displayName'] },
         allianceId: { endpoint: '/master/alliances', labelFields: ['allianceCode', 'allianceName'] },

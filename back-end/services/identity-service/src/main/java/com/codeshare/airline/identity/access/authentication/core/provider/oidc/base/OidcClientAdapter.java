@@ -5,5 +5,10 @@ import com.codeshare.airline.identity.access.authentication.core.domain.OidcAuth
 
 public interface OidcClientAdapter {
 
-    OidcAuthenticatedUser exchangeCodeForUser(String authorizationCode, IdentityProviderConfig identityProviderConfig);
+    OidcAuthenticatedUser exchangeCodeForUser(
+            String authorizationCode,
+            String codeVerifier,
+            String redirectUri,
+            IdentityProviderConfig identityProviderConfig
+    );
 }

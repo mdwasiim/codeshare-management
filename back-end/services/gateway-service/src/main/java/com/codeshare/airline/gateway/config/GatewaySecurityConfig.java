@@ -116,17 +116,29 @@ public class GatewaySecurityConfig {
                         .cast(JwtAuthenticationToken.class)
                         .flatMap(auth -> {
 
-                            String tenant =
-                                    auth.getToken().getClaimAsString("X-Tenant-Id");
+                            String tenant = exchange.getRequest()
+                                    .getHeaders()
+                                    .getFirst("X-Tenant-Id");
 
                             if (tenant == null || tenant.isBlank()) {
-                                return chain.filter(exchange);
+                                tenant = auth.getToken().getClaimAsString("tenant_code");
                             }
 
-                            var mutatedRequest = exchange.getRequest()
-                                    .mutate()
-                                    .header("X-Tenant-Id", tenant)
-                                    .build();
+                            String authorization = exchange.getRequest()
+                                    .getHeaders()
+                                    .getFirst(HttpHeaders.AUTHORIZATION);
+
+                            var requestBuilder = exchange.getRequest().mutate();
+
+                            if (tenant != null && !tenant.isBlank()) {
+                                requestBuilder.header("X-Tenant-Id", tenant);
+                            }
+
+                            if (authorization != null && !authorization.isBlank()) {
+                                requestBuilder.header(HttpHeaders.AUTHORIZATION, authorization);
+                            }
+
+                            var mutatedRequest = requestBuilder.build();
 
                             return chain.filter(
                                     exchange.mutate().request(mutatedRequest).build()

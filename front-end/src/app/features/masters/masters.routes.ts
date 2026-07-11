@@ -14,7 +14,6 @@ export const MASTERS_ROUTES: Routes = [
     { path: 'airlines/airline-business-roles', loadChildren: () => import('@features/masters/airlines/airline-business-roles/airline-business-roles.routes').then((m) => m.AIRLINEBUSINESSROLE_ROUTES) },
     { path: 'airlines/alliances', loadChildren: () => import('@features/masters/airlines/alliances/alliances.routes').then((m) => m.ALLIANCE_ROUTES) },
     { path: 'airlines/alliance-members', loadChildren: () => import('@features/masters/airlines/alliance-members/alliance-members.routes').then((m) => m.ALLIANCEMEMBER_ROUTES) },
-    { path: 'airlines/codeshare-partners', loadChildren: () => import('@features/masters/airlines/codeshare-partners/codeshare-partners.routes').then((m) => m.CODESHAREPARTNER_ROUTES) },
     { path: 'aircraft/aircraft-types', loadChildren: () => import('@features/masters/aircraft/aircraft-types/aircraft-types.routes').then((m) => m.AIRCRAFTTYPE_ROUTES) },
     { path: 'aircraft/aircraft-families', loadChildren: () => import('@features/masters/aircraft/aircraft-families/aircraft-families.routes').then((m) => m.AIRCRAFTFAMILY_ROUTES) },
     { path: 'aircraft/manufacturers', loadChildren: () => import('@features/masters/aircraft/manufacturers/manufacturers.routes').then((m) => m.AIRCRAFTMANUFACTURER_ROUTES) },
@@ -54,3 +53,4 @@ export const MASTERS_ROUTES: Routes = [
     { path: 'terminal/passenger-terminals', loadChildren: () => import('@features/masters/terminal/passenger-terminals/passenger-terminals.routes').then((m) => m.PASSENGERTERMINAL_ROUTES) },
     { path: 'terminal/traffic-conference-areas', loadChildren: () => import('@features/masters/terminal/traffic-conference-areas/traffic-conference-areas.routes').then((m) => m.TRAFFICCONFERENCEAREA_ROUTES) },
 ];
+

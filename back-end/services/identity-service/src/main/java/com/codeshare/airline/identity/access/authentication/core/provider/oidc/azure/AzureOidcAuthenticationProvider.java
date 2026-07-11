@@ -1,28 +1,26 @@
 package com.codeshare.airline.identity.access.authentication.core.provider.oidc.azure;
 
-import com.codeshare.airline.identity.access.authentication.core.domain.IdentityProviderConfig;
+import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.identity.access.assignments.service.RolePermissionAssignmentService;
 import com.codeshare.airline.identity.access.authentication.core.domain.OidcAuthenticatedUser;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContext;
 import com.codeshare.airline.identity.access.authentication.core.provider.oidc.base.AbstractOidcAuthenticationProvider;
-import com.codeshare.airline.identity.access.authentication.core.provider.oidc.base.OidcClientAdapter;
-import com.codeshare.airline.identity.access.authentication.core.provider.oidc.base.OidcStateManager;
+import com.codeshare.airline.identity.access.authentication.core.security.adapter.UserDetailsAdapter;
 import com.codeshare.airline.identity.access.authentication.core.service.core.AuthenticationResult;
-import com.codeshare.airline.identity.access.assignments.service.RolePermissionAssignmentService;
-import com.codeshare.airline.core.enums.auth.AuthSource;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codeshare.airline.identity.access.identity.service.AuthUserService;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Set;
 
 @Component
 public class AzureOidcAuthenticationProvider extends AbstractOidcAuthenticationProvider {
 
-    @Autowired
-    private OidcStateManager oidcStateManager;
-
-    public AzureOidcAuthenticationProvider(OidcClientAdapter oidcClientAdapter, RolePermissionAssignmentService rolePermissionAssignmentService) {
-        super(oidcClientAdapter, rolePermissionAssignmentService);
+    public AzureOidcAuthenticationProvider(
+            AzureOidcClientAdapter oidcClientAdapter,
+            RolePermissionAssignmentService rolePermissionAssignmentService,
+            AuthUserService authUserService
+    ) {
+        super(oidcClientAdapter, rolePermissionAssignmentService, authUserService);
     }
 
     @Override
@@ -33,61 +31,22 @@ public class AzureOidcAuthenticationProvider extends AbstractOidcAuthenticationP
     @Override
     protected AuthenticationResult mapToAuthResult(
             OidcAuthenticatedUser oidcUser,
+            UserDetailsAdapter user,
             TenantContext tenant,
             Set<String> roles,
-            Set<String>  permissions
+            Set<String> permissions
     ) {
         return AuthenticationResult.builder()
-                .username(oidcUser.getUsername())
+                .userId(user.getUserId().toString())
+                .username(user.getUsername())
+                .email(user.getEmail())
                 .externalId(oidcUser.getExternalId())
                 .tenantId(tenant.getId())
                 .tenantCode(tenant.getTenantCode())
+                .userGroups(Set.of())
                 .roles(roles)
                 .permissions(permissions)
                 .authSource(AuthSource.AZURE)
                 .build();
     }
-
-    @Override
-    public String buildAuthorizeUrl(
-            TenantContext tenant,
-            IdentityProviderConfig config,
-            String state,
-            String codeChallenge,
-            String nonce
-    ) {
-
-        return UriComponentsBuilder
-                .fromUriString(
-                        config.getOidcConfig().getAuthorizationUri()
-                )
-                .queryParam("response_type", "code")
-                .queryParam(
-                        "client_id",
-                        config.getOidcConfig().getClientId()
-                )
-                .queryParam(
-                        "redirect_uri",
-                        config.getOidcConfig().getRedirectUri()
-                )
-                .queryParam(
-                        "scope",
-                        config.getOidcConfig().getScopes()
-                )
-                // 🔐 CSRF protection
-                .queryParam("state", state)
-                // 🔐 PKCE (MANDATORY)
-                .queryParam("code_challenge", codeChallenge)
-                .queryParam("code_challenge_method", "S256")
-                // 🔐 OIDC replay protection
-                .queryParam("nonce", nonce)
-                // Azure best practice
-                .queryParam("response_mode", "query")
-                .build(true)
-                .toUriString();
-    }
-
 }
-
-
-

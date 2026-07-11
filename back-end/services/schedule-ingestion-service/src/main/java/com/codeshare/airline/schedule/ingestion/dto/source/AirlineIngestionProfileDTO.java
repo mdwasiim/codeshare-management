@@ -5,11 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class AirlineIngestionProfileDTO extends CSMAuditableDTO {
 
+    private UUID tenantId;
+    private String tenantCode;
     private String airlineCode;
     private String sourceSystem;
     private Boolean enabled;

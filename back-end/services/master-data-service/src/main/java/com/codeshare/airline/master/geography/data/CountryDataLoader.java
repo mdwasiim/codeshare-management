@@ -23,39 +23,27 @@ public class CountryDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
-        if (repository.count() > 0) return;
-
         Region mea = regionRepository.findByRegionCode("MEA").orElseThrow();
         Region eur = regionRepository.findByRegionCode("EUR").orElseThrow();
         Region nam = regionRepository.findByRegionCode("NAM").orElseThrow();
         Region apac = regionRepository.findByRegionCode("APAC").orElseThrow();
 
-        List<Country> countries = List.of(
-
-                build("QA", "QAT", "Qatar", mea),
-                build("GB", "GBR", "United Kingdom", eur),
-                build("AE", "ARE", "United Arab Emirates", mea),
-                build("US", "USA", "United States", nam),
-                build("IN", "IND", "India", apac)
-        );
-
-        repository.saveAll(countries);
+        ensure("QA", "QAT", "Qatar", mea);
+        ensure("GB", "GBR", "United Kingdom", eur);
+        ensure("AE", "ARE", "United Arab Emirates", mea);
+        ensure("US", "USA", "United States", nam);
+        ensure("AU", "AUS", "Australia", apac);
+        ensure("IN", "IND", "India", apac);
     }
 
-    private Country build(String iso2,
-                          String iso3,
-                          String name,
-                          Region region) {
-
-        Country country = new Country();
+    private void ensure(String iso2, String iso3, String name, Region region) {
+        Country country = repository.findByIso2Code(iso2).orElseGet(Country::new);
         country.setIso2Code(iso2);
         country.setIso3Code(iso3);
         country.setCountryName(name);
         country.setRegion(region);
         country.setRecordStatus(RecordStatus.ACTIVE);
         country.setEffectiveFrom(LocalDate.of(2000, 1, 1));
-
-        return country;
+        repository.save(country);
     }
 }

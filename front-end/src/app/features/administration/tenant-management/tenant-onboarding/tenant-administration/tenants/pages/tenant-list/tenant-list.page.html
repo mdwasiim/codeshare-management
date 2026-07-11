@@ -1,0 +1,121 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Tenant Administration</span>
+            <h1>Tenants</h1>
+            <p>Manage tenant onboarding, subscription, identity, and partner settings.</p>
+        </div>
+    </div>
+
+    <app-crud-toolbar
+        [actions]="['create', 'delete', 'export', 'search']"
+        [resource]="resourceName"
+        [hasSelection]="selectedTenants.length > 0"
+        (create)="openCreate()"
+        (delete)="deleteSelected()"
+        (export)="exportCsv()"
+        (search)="onSearch($event)"
+    ></app-crud-toolbar>
+
+    <p-table
+        #dt
+        [value]="data"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        [(selection)]="selectedTenants"
+        dataKey="id"
+        [rowHover]="true"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '80rem' }"
+        [globalFilterFields]="['name', 'tenantCode', 'description', 'contactEmail', 'createdBy', 'updatedBy']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Manage Tenants</h2>
+                    <p>{{ data.length || 0 }} tenants loaded</p>
+                </div>
+                <span class="access-count">{{ selectedTenants.length || 0 }} selected</span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="name">
+                    Name
+                    <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tenantCode">
+                    Code
+                    <p-sortIcon field="tenantCode"></p-sortIcon>
+                </th>
+                <th>Plan</th>
+                <th>Region</th>
+                <th>Contact Email</th>
+                <th>Trial</th>
+                <th pSortableColumn="status">
+                    Status
+                    <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th class="access-actions-col">Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-tenant>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="tenant"></p-tableCheckbox>
+                </td>
+                <td>{{ tenant.name }}</td>
+                <td>{{ tenant.tenantCode }}</td>
+                <td>{{ tenant.plan || '-' }}</td>
+                <td>{{ tenant.region || '-' }}</td>
+                <td>{{ tenant.contactEmail || '-' }}</td>
+                <td>{{ tenant.trial ? 'Yes' : 'No' }}</td>
+                <td>
+                    <p-tag [value]="tenant.status || 'Unknown'" [severity]="statusSeverity(tenant.status)"></p-tag>
+                </td>
+                <td>{{ (tenant.createdAt | date: 'short') || '-' }}</td>
+                <td>{{ (tenant.updatedAt | date: 'short') || '-' }}</td>
+                <td class="access-row-actions">
+                    <div>
+                        <ng-container *appHasPermission="'tenant:update'">
+                            <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(tenant)"></p-button>
+                        </ng-container>
+                        <ng-container *appHasPermission="'tenant:delete'">
+                            <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteTenant(tenant)"></p-button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="11" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-building text-2xl mb-2"></i>
+                    <div>No tenants found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <app-dialog
+        [(visible)]="dialogVisible"
+        [title]="selectedTenantId ? 'Edit Tenant' : 'Create Tenant'"
+        width="min(96vw, 920px)"
+        [disableSave]="!!tenantForm?.form?.invalid || !!tenantForm?.loading"
+        [loading]="!!tenantForm?.loading"
+        (save)="tenantForm.submit()"
+    >
+        <tenant-form #tenantForm [id]="selectedTenantId" (saved)="onSaved()"></tenant-form>
+    </app-dialog>
+</div>

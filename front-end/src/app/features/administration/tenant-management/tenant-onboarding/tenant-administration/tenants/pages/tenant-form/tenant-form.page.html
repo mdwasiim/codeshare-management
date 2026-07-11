@@ -1,0 +1,199 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Basic Information">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="name" class="required">Tenant Name</label>
+                <input id="name" pInputText formControlName="name" class="w-full" maxlength="200" placeholder="Enter tenant name" />
+                <small class="p-error" *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">Tenant name is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="tenantCode" class="required">Tenant Code</label>
+                <p-select
+                    inputId="tenantCode"
+                    appendTo="body"
+                    [options]="lookupOptions['tenantCode'] || []"
+                    optionLabel="label"
+                    optionValue="value"
+                    [filter]="true"
+                    filterBy="label"
+                    formControlName="tenantCode"
+                    placeholder="Select airline carrier"
+                    styleClass="w-full"
+                ></p-select>
+                <small class="p-error" *ngIf="form.controls['tenantCode'].hasError('required') && form.controls['tenantCode'].touched">Tenant code is required.</small>
+            </div>
+
+            <div class="field col-12">
+                <label for="description">Description</label>
+                <textarea
+                    id="description"
+                    pTextarea
+                    formControlName="description"
+                    rows="3"
+                    class="w-full"
+                    maxlength="500"
+                    placeholder="Short description of the tenant"
+                ></textarea>
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Subscription & Status">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="status" class="required">Status</label>
+                <p-select
+                    inputId="status"
+                    appendTo="body"
+                    [options]="statusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    formControlName="status"
+                    placeholder="Select status"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="plan">Plan</label>
+                <p-select
+                    inputId="plan"
+                    appendTo="body"
+                    [options]="planOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    formControlName="plan"
+                    placeholder="Select plan"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="subscriptionStart">Subscription Start</label>
+                <input id="subscriptionStart" pInputText type="datetime-local" formControlName="subscriptionStart" class="w-full" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="subscriptionEnd">Subscription End</label>
+                <input id="subscriptionEnd" pInputText type="datetime-local" formControlName="subscriptionEnd" class="w-full" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="trial">Trial Mode</label>
+                <div class="flex align-items-center gap-2 h-full">
+                    <p-checkbox inputId="trial" formControlName="trial" binary="true"></p-checkbox>
+                    <label for="trial" class="mb-0">Enabled</label>
+                </div>
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Contact & Branding">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="contactEmail">Contact Email</label>
+                <input id="contactEmail" pInputText formControlName="contactEmail" class="w-full" maxlength="200" placeholder="contact@example.com" />
+                <small class="p-error" *ngIf="form.controls['contactEmail'].hasError('email') && form.controls['contactEmail'].touched">Enter a valid email address.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="contactPhone">Contact Phone</label>
+                <input id="contactPhone" pInputText formControlName="contactPhone" class="w-full" maxlength="50" placeholder="+1 234 567 890" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="region">Region</label>
+                <p-select
+                    inputId="region"
+                    appendTo="body"
+                    [options]="lookupOptions['region'] || []"
+                    optionLabel="label"
+                    optionValue="value"
+                    [filter]="true"
+                    filterBy="label"
+                    [showClear]="true"
+                    formControlName="region"
+                    placeholder="Select region"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="logoUrl">Logo URL</label>
+                <input id="logoUrl" pInputText formControlName="logoUrl" class="w-full" maxlength="500" placeholder="https://..." />
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Identity Configuration">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="authSource" class="required">Auth Source</label>
+                <p-select
+                    inputId="authSource"
+                    appendTo="body"
+                    [options]="authSourceOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    formControlName="authSource"
+                    placeholder="Select auth source"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+        </div>
+
+        <ng-container formGroupName="oidcConfig" *ngIf="form.get('authSource')?.value !== 'INTERNAL'">
+            <div class="grid">
+                <div class="field col-12 md:col-6">
+                    <label for="issuerUri">Issuer URI</label>
+                    <input id="issuerUri" pInputText formControlName="issuerUri" class="w-full" placeholder="https://issuer" />
+                </div>
+
+                <div class="field col-12 md:col-6" *ngIf="oidcRequired">
+                    <label for="authorizationUri">Authorization URI</label>
+                    <input id="authorizationUri" pInputText formControlName="authorizationUri" class="w-full" placeholder="https://authorize" />
+                </div>
+
+                <div class="field col-12 md:col-6" *ngIf="oidcRequired">
+                    <label for="tokenUri">Token URI</label>
+                    <input id="tokenUri" pInputText formControlName="tokenUri" class="w-full" placeholder="https://token" />
+                </div>
+
+                <div class="field col-12 md:col-6" *ngIf="oidcRequired">
+                    <label for="jwkSetUri">JWK Set URI</label>
+                    <input id="jwkSetUri" pInputText formControlName="jwkSetUri" class="w-full" placeholder="https://jwks" />
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label for="clientId">Client ID</label>
+                    <input id="clientId" pInputText formControlName="clientId" class="w-full" />
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label for="clientSecretRef">Client Secret Ref</label>
+                    <input id="clientSecretRef" pInputText formControlName="clientSecretRef" class="w-full" />
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label for="redirectUri">Redirect URI</label>
+                    <input id="redirectUri" pInputText formControlName="redirectUri" class="w-full" />
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label for="scopes">Scopes</label>
+                    <input id="scopes" pInputText formControlName="scopes" class="w-full" placeholder="openid profile email" />
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label for="enforceRedirectUri">Redirect Enforcement</label>
+                    <div class="flex align-items-center gap-2 h-full">
+                        <p-checkbox inputId="enforceRedirectUri" formControlName="enforceRedirectUri" binary="true"></p-checkbox>
+                        <label for="enforceRedirectUri" class="mb-0">Enforce redirect URI</label>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </app-form-section>
+</form>

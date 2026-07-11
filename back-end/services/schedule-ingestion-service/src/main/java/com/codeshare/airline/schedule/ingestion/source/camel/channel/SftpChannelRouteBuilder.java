@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.channel;
 
-import com.codeshare.airline.schedule.ingestion.domain.enums.SourceType;
-import com.codeshare.airline.schedule.ingestion.persistence.entities.source.ScheduleIngestionChannelEntity;
+import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionChannelDTO;
 import com.codeshare.airline.schedule.ingestion.source.security.ScheduleCredentialResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class SftpChannelRouteBuilder extends AbstractChannelRouteBuilder {
     }
 
     @Override
-    protected String buildUri(ScheduleIngestionChannelEntity c) {
+    protected String buildUri(AirlineIngestionChannelDTO c) {
 
         StringBuilder uri = new StringBuilder(
                 String.format("sftp://%s:%d%s?username=%s",
@@ -59,7 +59,7 @@ public class SftpChannelRouteBuilder extends AbstractChannelRouteBuilder {
     }
 
     @Override
-    protected void validate(ScheduleIngestionChannelEntity c) {
+    protected void validate(AirlineIngestionChannelDTO c) {
         if (c.getHost() == null || c.getHost().isBlank()) {
             throw new IllegalStateException("SFTP host is required");
         }
@@ -74,7 +74,7 @@ public class SftpChannelRouteBuilder extends AbstractChannelRouteBuilder {
         }
     }
 
-    private String resolvePassword(ScheduleIngestionChannelEntity c) {
+    private String resolvePassword(AirlineIngestionChannelDTO c) {
         return c.getPasswordEncrypted() != null && !c.getPasswordEncrypted().isBlank()
                 ? resolver.decrypt(c.getPasswordEncrypted())
                 : null;

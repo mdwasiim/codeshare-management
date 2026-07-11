@@ -3,7 +3,6 @@ package com.codeshare.airline.identity.access.identity.repository;
 
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import com.codeshare.airline.identity.access.identity.entities.Group;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -16,20 +15,18 @@ public interface GroupRepository extends CSMDataBaseRepository<Group, UUID> {
 
     boolean existsByNameAndTenantId(String name, UUID tenantId);
 
-    List<Group> findByTenant(Tenant tenant);
-
-    boolean existsByTenantAndCode(Tenant tenant, String code);
-
     List<Group> findByTenantId(UUID tenantId);
 
-    Optional<Group> findByNameAndTenant_Id(String groupName, UUID tenantId);
+    boolean existsByTenantIdAndCode(UUID tenantId, String code);
 
-    List<Group> findAllByTenant_Id(UUID tenantId);
+    Optional<Group> findByNameAndTenantId(String groupName, UUID tenantId);
 
-    Optional<Group> findByCodeAndTenant_TenantCode(String code, String tenantCode);
+    List<Group> findAllByTenantId(UUID tenantId);
 
-    @Query("select g.code from Group g where g.tenant = :tenant")
-    Set<String> findCodesByTenant(@Param("tenant") Tenant tenant);
+    Optional<Group> findByCodeAndTenantId(String code, UUID tenantId);
+
+    @Query("select g.code from Group g where g.tenantId = :tenantId")
+    Set<String> findCodesByTenantId(@Param("tenantId") UUID tenantId);
 
     long countByTenantId(UUID tenantId);
 

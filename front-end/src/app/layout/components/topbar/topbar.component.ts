@@ -7,9 +7,9 @@ import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
 
 import { LayoutService } from '@layout/services/layout.service';
-import { AuthService } from '@features/access-management/authentication/services/auth.service';
-import { AppMenuModel } from '@features/access-management/models/app-menu.model';
+import { AppMenuModel } from '@features/administration/access-management/models/app-menu.model';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
+import { AuthService } from '@services/auth/auth.service';
 import { AuthTokenService } from '@services/auth/auth-token.service';
 
 @Component({
@@ -144,7 +144,7 @@ export class TopbarComponent implements OnInit {
     }
 
     private safeRedirectToLogin() {
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/login']);
     }
 
     // =========================
@@ -160,20 +160,16 @@ export class TopbarComponent implements OnInit {
     // =========================
 
     private getFirstNavigableRoute(menu: AppMenuModel): string | null {
-        const queue: AppMenuModel[] = [menu];
-
-        while (queue.length) {
-            const current = queue.shift()!;
-
-            if (current.route) {
-                return current.route;
-            }
-
-            if (current.items?.length) {
-                queue.push(...current.items);
+        if (menu.items?.length) {
+            for (const child of menu.items) {
+                const childRoute = this.getFirstNavigableRoute(child);
+                if (childRoute) {
+                    return childRoute;
+                }
             }
         }
 
-        return null;
+        return menu.route ?? null;
     }
 }
+

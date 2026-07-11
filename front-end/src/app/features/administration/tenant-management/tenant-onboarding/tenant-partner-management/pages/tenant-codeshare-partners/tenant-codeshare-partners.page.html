@@ -1,0 +1,68 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Partner Management</span>
+            <h1>Codeshare Partners</h1>
+            <p>View codeshare partner agreements configured for tenants.</p>
+        </div>
+    </div>
+
+    <app-crud-toolbar [actions]="['refresh']" [resource]="resourceName" (refresh)="refresh()"></app-crud-toolbar>
+
+    <p-table
+        [value]="data"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '70rem' }"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Manage Codeshare Partners</h2>
+                    <p>{{ data.length || 0 }} partners loaded</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Home Airline</th>
+                <th>Partner Airline</th>
+                <th>Agreement</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Effective From</th>
+                <th>Effective To</th>
+                <th>Active</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-partner>
+            <tr>
+                <td>{{ partner.homeAirlineCode || '-' }} - {{ partner.homeAirlineName || '' }}</td>
+                <td>{{ partner.partnerAirlineCode || '-' }} - {{ partner.partnerAirlineName || '' }}</td>
+                <td>{{ partner.agreementNumber || '-' }}</td>
+                <td>{{ partner.agreementType || '-' }}</td>
+                <td>{{ partner.agreementStatus || '-' }}</td>
+                <td>{{ (partner.effectiveFrom | date: 'shortDate') || '-' }}</td>
+                <td>{{ (partner.effectiveTo | date: 'shortDate') || '-' }}</td>
+                <td>
+                    <p-tag [value]="partner.active ? 'Yes' : 'No'" [severity]="partner.active ? 'success' : 'danger'"></p-tag>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-share-alt text-2xl mb-2"></i>
+                    <div>No codeshare partners found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

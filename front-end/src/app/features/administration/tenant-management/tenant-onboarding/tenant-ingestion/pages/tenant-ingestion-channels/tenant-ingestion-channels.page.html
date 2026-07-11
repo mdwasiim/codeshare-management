@@ -1,0 +1,83 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Ingestion</span>
+            <h1>Ingestion Channels</h1>
+            <p>Inspect all configured transport channels across tenant ingestion profiles in one table.</p>
+        </div>
+    </div>
+
+    <app-crud-toolbar
+        [actions]="['refresh', 'search', 'export']"
+        [resource]="resourceName"
+        (refresh)="refresh()"
+        (search)="onSearch($event)"
+        (export)="exportCsv()"
+    ></app-crud-toolbar>
+
+    <p-table
+        #dt
+        [value]="data"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        [rowHover]="true"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '96rem' }"
+        [globalFilterFields]="['tenantCode', 'airlineCode', 'sourceSystem', 'messageType', 'sourceType', 'protocol', 'host', 'brokerUrl', 'queueName', 'topicName', 'fileIncludePattern']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Tenant Ingestion Channels</h2>
+                    <p>{{ data.length || 0 }} channels loaded</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Tenant</th>
+                <th>Airline</th>
+                <th>Source System</th>
+                <th>Message Type</th>
+                <th>Source Type</th>
+                <th>Protocol</th>
+                <th>Endpoint</th>
+                <th>Priority</th>
+                <th>Channel Status</th>
+                <th>Profile Status</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-channel>
+            <tr>
+                <td>{{ channel.tenantCode || '-' }}</td>
+                <td>{{ channel.airlineCode || '-' }}</td>
+                <td>{{ channel.sourceSystem }}</td>
+                <td>{{ channel.messageType || '-' }}</td>
+                <td>{{ channel.sourceType || '-' }}</td>
+                <td>{{ channel.protocol || '-' }}</td>
+                <td>{{ endpointSummary(channel) }}</td>
+                <td>{{ channel.priority ?? '-' }}</td>
+                <td>
+                    <p-tag [value]="channel.enabled ? 'Enabled' : 'Disabled'" [severity]="channel.enabled ? 'success' : 'danger'"></p-tag>
+                </td>
+                <td>
+                    <p-tag [value]="channel.profileEnabled ? 'Enabled' : 'Disabled'" [severity]="channel.profileEnabled ? 'success' : 'secondary'"></p-tag>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="10" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-share-alt text-2xl mb-2"></i>
+                    <div>No ingestion channels found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

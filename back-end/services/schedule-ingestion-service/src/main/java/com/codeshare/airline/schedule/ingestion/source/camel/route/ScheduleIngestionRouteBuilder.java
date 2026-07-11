@@ -1,8 +1,8 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.route;
 
-import com.codeshare.airline.schedule.ingestion.persistence.entities.source.ScheduleIngestionChannelEntity;
-import com.codeshare.airline.schedule.ingestion.persistence.entities.source.ScheduleIngestionProfileEntity;
-import com.codeshare.airline.schedule.ingestion.persistence.repositories.source.ScheduleIngestionProfileRepository;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionChannelDTO;
+import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionProfileDTO;
+import com.codeshare.airline.schedule.ingestion.integration.tenant.TenantIngestionProfileClient;
 import com.codeshare.airline.schedule.ingestion.source.camel.channel.ChannelRouteBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.util.List;
 public class ScheduleIngestionRouteBuilder {
 
     private final CamelContext camelContext;
-    private final ScheduleIngestionProfileRepository profileRepository;
+    private final TenantIngestionProfileClient profileClient;
     private final List<ChannelRouteBuilder> channelBuilders;
 
     private volatile boolean initialized = false;
@@ -37,7 +37,13 @@ public class ScheduleIngestionRouteBuilder {
 
         log.info("Initializing dynamic ingestion routes...");
 
-        List<ScheduleIngestionProfileEntity> profiles = profileRepository.findAllWithChannels();
+        List<AirlineIngestionProfileDTO> profiles;
+        try {
+            profiles = profileClient.getAllProfiles();
+        } catch (Exception ex) {
+            log.error("Failed to load ingestion profiles from tenant-service", ex);
+            return;
+        }
 
         profiles.stream()
                 .filter(p -> Boolean.TRUE.equals(p.getEnabled()))
@@ -53,7 +59,7 @@ public class ScheduleIngestionRouteBuilder {
         initialized = true;
     }
 
-    private void buildRoutesForProfile(ScheduleIngestionProfileEntity profile) {
+    private void buildRoutesForProfile(AirlineIngestionProfileDTO profile) {
 
         profile.getChannels().stream()
                 .filter(channel -> isChannelEnabled(profile, channel))
@@ -61,12 +67,12 @@ public class ScheduleIngestionRouteBuilder {
                         .filter(b -> b.supports() == channel.getSourceType())
                         .findFirst()
                         .ifPresentOrElse(
-                                builder -> buildRoute(channel, builder),
+                                builder -> buildRoute(profile, channel, builder),
                                 () -> log.warn("No builder for sourceType={}", channel.getSourceType())
                         ));
     }
 
-    private boolean isChannelEnabled(ScheduleIngestionProfileEntity profile, ScheduleIngestionChannelEntity channel) {
+    private boolean isChannelEnabled(AirlineIngestionProfileDTO profile, AirlineIngestionChannelDTO channel) {
         boolean enabled = Boolean.TRUE.equals(channel.getEnabled());
         if (!enabled) {
             log.info(
@@ -79,10 +85,10 @@ public class ScheduleIngestionRouteBuilder {
         return enabled;
     }
 
-    private void buildRoute(ScheduleIngestionChannelEntity channel, ChannelRouteBuilder builder) {
+    private void buildRoute(AirlineIngestionProfileDTO profile, AirlineIngestionChannelDTO channel, ChannelRouteBuilder builder) {
 
         String routeId = String.format("INGEST-%s-%s-%s",
-                channel.getProfile().getAirlineCode(),
+                profile.getAirlineCode(),
                 channel.getSourceType(),
                 channel.getMessageType());
 
@@ -97,7 +103,7 @@ public class ScheduleIngestionRouteBuilder {
             camelContext.addRoutes(new RouteBuilder() {
                 @Override
                 public void configure() {
-                    builder.build(this, channel);
+                    builder.build(this, profile, channel);
                 }
             });
 

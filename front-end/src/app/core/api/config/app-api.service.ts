@@ -84,6 +84,10 @@ export class AppApiService {
         return this.http.put<T>(this.buildUrl(endpoint, options), body, this.buildHttpOptions(options));
     }
 
+    patch<T>(endpoint: string | AnyApiEndpointFactory, body: any, options?: ApiOptions): Observable<T> {
+        return this.http.patch<T>(this.buildUrl(endpoint, options), body, this.buildHttpOptions(options));
+    }
+
     delete<T>(endpoint: string | AnyApiEndpointFactory, options?: ApiOptions): Observable<T> {
         return this.http.delete<T>(this.buildUrl(endpoint, options), this.buildHttpOptions(options));
     }

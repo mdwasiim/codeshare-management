@@ -1,50 +1,38 @@
 [
-    {
-        "code":  "HOME",
-        "parentCode":  null,
-        "label":  "Home",
-        "topbarLabel":  "Home",
-        "sidebarLabel":  null,
-        "icon":  null,
-        "route":  null,
-        "permission":  null,
-        "displayOrder":  1,
-        "visible":  null
-    },
-    {
-        "code":  "DASHBOARD",
-        "parentCode":  "HOME",
-        "label":  "Dashboard",
-        "topbarLabel":  null,
-        "sidebarLabel":  null,
-        "icon":  "pi pi-fw pi-home",
-        "route":  null,
-        "permission":  null,
-        "displayOrder":  1,
-        "visible":  null
-    },
-    {
-        "code":  "DASHBOARD_OVERVIEW",
-        "parentCode":  "DASHBOARD",
-        "label":  "Overview",
-        "topbarLabel":  null,
-        "sidebarLabel":  null,
-        "icon":  "pi pi-fw pi-home",
-        "route":  "/dashboard",
-        "permission":  "dashboard:read",
-        "displayOrder":  1,
-        "visible":  null
-    },
-    {
-        "code":  "DASHBOARD_PRODUCT",
-        "parentCode":  "DASHBOARD",
-        "label":  "Product",
-        "topbarLabel":  null,
-        "sidebarLabel":  null,
-        "icon":  "pi pi-fw pi-box",
-        "route":  "/products",
-        "permission":  "dashboard:read",
-        "displayOrder":  3,
-        "visible":  null
-    }
+  {
+    "code":  "HOME",
+    "parentCode":  null,
+    "label":  "Home",
+    "topbarLabel":  "Home",
+    "sidebarLabel":  null,
+    "icon":  null,
+    "route":  null,
+    "permission":  null,
+    "displayOrder":  1,
+    "visible":  null
+  },
+  {
+    "code":  "DASHBOARD",
+    "parentCode":  "HOME",
+    "label":  "Dashboard",
+    "topbarLabel":  null,
+    "sidebarLabel":  null,
+    "icon":  "pi pi-fw pi-home",
+    "route":  null,
+    "permission":  null,
+    "displayOrder":  1,
+    "visible":  null
+  },
+  {
+    "code":  "DASHBOARD_OVERVIEW",
+    "parentCode":  "DASHBOARD",
+    "label":  "Overview",
+    "topbarLabel":  null,
+    "sidebarLabel":  null,
+    "icon":  "pi pi-fw pi-home",
+    "route":  "/dashboard",
+    "permission":  "dashboard:read",
+    "displayOrder":  1,
+    "visible":  null
+  }
 ]

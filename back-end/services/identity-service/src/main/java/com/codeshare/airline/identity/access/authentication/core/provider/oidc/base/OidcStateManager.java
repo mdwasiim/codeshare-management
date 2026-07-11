@@ -13,6 +13,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.UUID;
@@ -27,6 +28,7 @@ public class OidcStateManager {
 
     private static final String STATE_PREFIX = "state:";
     private static final String NONCE_PREFIX = "nonce:";
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     private byte[] hmacKey;
 
@@ -58,7 +60,7 @@ public class OidcStateManager {
             String tenantCode,
             String providerId,
             String redirectUri,
-            String codeChallenge
+            String callbackUri
     ) {
         Instant now = Instant.now();
 
@@ -67,13 +69,18 @@ public class OidcStateManager {
                 .getState()
                 .getTtlSeconds();
 
+        String codeVerifier = generateCodeVerifier();
+        String codeChallenge = createCodeChallenge(codeVerifier);
+
         OidcStatePayload payload = OidcStatePayload.builder()
                 .stateId(UUID.randomUUID().toString())
                 .tenantCode(tenantCode)
                 .providerId(providerId)
                 .redirectUri(redirectUri)
+                .callbackUri(callbackUri)
                 .nonce(UUID.randomUUID().toString())
                 .codeChallenge(codeChallenge)
+                .codeVerifier(codeVerifier)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(ttlSeconds))
                 .build();
@@ -84,7 +91,8 @@ public class OidcStateManager {
 
             return new OidcAuthorizationRequest(
                     base64Url(json.getBytes(StandardCharsets.UTF_8)) + "." + signature,
-                    payload.getNonce()
+                    payload.getNonce(),
+                    payload.getCodeChallenge()
             );
         } catch (Exception e) {
             throw new AuthenticationFailedException(
@@ -183,5 +191,20 @@ public class OidcStateManager {
         );
     }
 
-    public record OidcAuthorizationRequest(String state, String nonce) {}
+    private String generateCodeVerifier() {
+        byte[] random = new byte[32];
+        SECURE_RANDOM.nextBytes(random);
+        return base64Url(random);
+    }
+
+    private String createCodeChallenge(String codeVerifier) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            return base64Url(digest.digest(codeVerifier.getBytes(StandardCharsets.US_ASCII)));
+        } catch (Exception ex) {
+            throw new AuthenticationFailedException("Failed to generate OIDC PKCE challenge");
+        }
+    }
+
+    public record OidcAuthorizationRequest(String state, String nonce, String codeChallenge) {}
 }

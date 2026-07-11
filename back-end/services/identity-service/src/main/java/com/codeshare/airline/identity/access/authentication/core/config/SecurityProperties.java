@@ -16,6 +16,7 @@ public class SecurityProperties {
     private Oidc oidc;
     private Cors cors;
     private PublicEndpoints publicEndpoints;
+    private S2s s2s;
 
     @Getter @Setter
     public static class Jwt {
@@ -64,11 +65,18 @@ public class SecurityProperties {
                 "/auth/login",
                 "/auth/refresh",
                 "/auth/logout",
+                "/auth/service-token",
                 "/.well-known/**"
         );
         private java.util.List<String> actuator = java.util.List.of(
                 "/actuator/health",
                 "/actuator/info"
         );
+    }
+
+    @Getter @Setter
+    public static class S2s {
+        private String clientId;
+        private String clientSecret;
     }
 }

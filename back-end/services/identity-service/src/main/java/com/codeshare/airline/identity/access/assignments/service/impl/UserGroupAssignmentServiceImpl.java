@@ -4,13 +4,11 @@ import com.codeshare.airline.core.dto.tenant.GroupDTO;
 import com.codeshare.airline.core.dto.tenant.UserGroupDTO;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.identity.entities.Group;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import com.codeshare.airline.identity.access.identity.entities.User;
 import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import com.codeshare.airline.identity.access.identity.repository.GroupRepository;
 import com.codeshare.airline.identity.access.assignments.repository.UserGroupRepository;
 import com.codeshare.airline.identity.access.identity.repository.UserRepository;
-import com.codeshare.airline.identity.access.identity.service.TenantService;
 import com.codeshare.airline.identity.access.assignments.service.UserGroupAssignmentService;
 import com.codeshare.airline.identity.access.identity.mappers.GroupMapper;
 import com.codeshare.airline.identity.access.assignments.mappers.UserGroupMapper;
@@ -37,8 +35,6 @@ public class UserGroupAssignmentServiceImpl
     private final GroupMapper groupMapper;
 
     private final UserGroupMapper userGroupMapper;
-
-    private final TenantService tenantService;
 
     // =====================================================
     // GET GROUPS BY USER
@@ -74,17 +70,19 @@ public class UserGroupAssignmentServiceImpl
 
         log.info("Replacing groups for userId: {}", userId);
 
-        Tenant tenant = tenantService.getTenantByTenantCode(
-                TenantContextHolder.getTenant().getTenantCode()
-        );
+        UUID tenantId = TenantContextHolder.getTenant().getId();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->
                         new RuntimeException("User not found: " + userId)
                 );
 
+        if (!Objects.equals(user.getTenantId(), tenantId)) {
+            throw new RuntimeException("User does not belong to current tenant: " + userId);
+        }
+
         // Remove duplicates from request
-        Set<UUID> uniqueGroupIds = new HashSet<>(groupIds);
+        Set<UUID> uniqueGroupIds = new HashSet<>(groupIds == null ? List.of() : groupIds);
 
         // Delete existing mappings
         userGroupRepository.deleteByUser_Id(userId);
@@ -101,8 +99,12 @@ public class UserGroupAssignmentServiceImpl
                                     new RuntimeException("Group not found: " + groupId)
                             );
 
+                    if (!Objects.equals(group.getTenantId(), tenantId)) {
+                        throw new RuntimeException("Group does not belong to current tenant: " + groupId);
+                    }
+
                     return UserGroup.builder()
-                            .tenant(tenant)
+                            .tenantId(tenantId)
                             .user(user)
                             .group(group)
                             .build();

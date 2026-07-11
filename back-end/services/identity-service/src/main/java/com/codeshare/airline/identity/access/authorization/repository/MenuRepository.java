@@ -2,7 +2,6 @@ package com.codeshare.airline.identity.access.authorization.repository;
 
 import com.codeshare.airline.data.repository.CSMDataBaseRepository;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;
-import com.codeshare.airline.identity.access.identity.entities.Tenant;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -12,22 +11,18 @@ import java.util.UUID;
 
 public interface MenuRepository extends CSMDataBaseRepository<Menu, UUID> {
 
-    List<Menu> findByTenant_TenantCode(String tenantCode);
+    List<Menu> findByTenantId(UUID tenantId);
 
     List<Menu> findByTenantIdAndParentMenuIsNull(UUID tenantId);
 
-    List<Menu> findByTenant_TenantCodeOrderByDisplayOrderAscCodeAsc(String tenantCode);
+    List<Menu> findByTenantIdOrderByDisplayOrderAscCodeAsc(UUID tenantId);
 
     List<Menu> findByTenantIdAndParentMenuIsNullOrderByDisplayOrderAscCodeAsc(UUID tenantId);
 
-    boolean existsByTenant(Tenant tenant);
+    boolean existsByTenantId(UUID tenantId);
 
-    @Query("select m.code from Menu m where m.tenant = :tenant")
-    Set<String> findCodesByTenant(@Param("tenant") Tenant tenant);
-
-    List<Menu> findByTenant(Tenant tenant);
-
-    List<Menu> findByTenantOrderByDisplayOrderAscCodeAsc(Tenant tenant);
+    @Query("select m.code from Menu m where m.tenantId = :tenantId")
+    Set<String> findCodesByTenantId(@Param("tenantId") UUID tenantId);
 
     long countByTenantId(UUID tenantId);
 

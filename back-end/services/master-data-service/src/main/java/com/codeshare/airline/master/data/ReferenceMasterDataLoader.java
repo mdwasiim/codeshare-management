@@ -8,39 +8,20 @@ import com.codeshare.airline.core.enums.master.airline.AirlineRoleCategory;
 import com.codeshare.airline.core.enums.master.airline.AirlineRoleScope;
 import com.codeshare.airline.core.enums.master.airline.AllianceMembershipStatus;
 import com.codeshare.airline.core.enums.master.airline.AllianceMembershipType;
-import com.codeshare.airline.core.enums.master.airline.CodeshareAgreementStatus;
-import com.codeshare.airline.core.enums.master.airline.CodeshareAgreementType;
 import com.codeshare.airline.core.enums.master.airline.CommunicationMethod;
-import com.codeshare.airline.core.enums.master.codesharepartner.AuthenticationType;
-import com.codeshare.airline.core.enums.master.codesharepartner.CodeshareAgreementCategory;
-import com.codeshare.airline.core.enums.master.codesharepartner.CommunicationProtocol;
-import com.codeshare.airline.core.enums.master.codesharepartner.DistributionMode;
-import com.codeshare.airline.core.enums.master.codesharepartner.InventorySharingType;
-import com.codeshare.airline.core.enums.master.codesharepartner.MessageFormat;
-import com.codeshare.airline.core.enums.master.codesharepartner.PartnerType;
-import com.codeshare.airline.core.enums.master.codesharepartner.TransportType;
-import com.codeshare.airline.core.enums.schedule.MessageType;
 import com.codeshare.airline.core.enums.schedule.SeasonType;
-import com.codeshare.airline.master.airlines.codesharepartner.entities.CodesharePartnerCommunicationProfile;
-import com.codeshare.airline.master.airlines.codesharepartner.entities.CodesharePartnerDistributionProfile;
-import com.codeshare.airline.master.airlines.codesharepartner.entities.CodesharePartnerProfile;
-import com.codeshare.airline.master.airlines.codesharepartner.repository.CodesharePartnerCommunicationProfileRepository;
-import com.codeshare.airline.master.airlines.codesharepartner.repository.CodesharePartnerDistributionProfileRepository;
-import com.codeshare.airline.master.airlines.codesharepartner.repository.CodesharePartnerProfileRepository;
 import com.codeshare.airline.master.airlines.entities.AirlineAlias;
 import com.codeshare.airline.master.airlines.entities.AirlineBusinessRole;
 import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
 import com.codeshare.airline.master.airlines.entities.AirlineContact;
 import com.codeshare.airline.master.airlines.entities.Alliance;
 import com.codeshare.airline.master.airlines.entities.AllianceMember;
-import com.codeshare.airline.master.airlines.entities.CodesharePartner;
 import com.codeshare.airline.master.airlines.repository.AirlineAliasRepository;
 import com.codeshare.airline.master.airlines.repository.AirlineBusinessRoleRepository;
 import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.airlines.repository.AirlineContactRepository;
 import com.codeshare.airline.master.airlines.repository.AllianceMemberRepository;
 import com.codeshare.airline.master.airlines.repository.AllianceRepository;
-import com.codeshare.airline.master.airlines.repository.CodesharePartnerRepository;
 import com.codeshare.airline.master.flight.passenger.entities.ElectronicTicketIndicator;
 import com.codeshare.airline.master.flight.passenger.entities.MealService;
 import com.codeshare.airline.master.flight.passenger.entities.ReservationBookingDesignator;
@@ -167,10 +148,6 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
     private final AirlineContactRepository airlineContactRepository;
     private final AllianceRepository allianceRepository;
     private final AllianceMemberRepository allianceMemberRepository;
-    private final CodesharePartnerRepository codesharePartnerRepository;
-    private final CodesharePartnerProfileRepository codesharePartnerProfileRepository;
-    private final CodesharePartnerCommunicationProfileRepository codesharePartnerCommunicationProfileRepository;
-    private final CodesharePartnerDistributionProfileRepository codesharePartnerDistributionProfileRepository;
     private final ObjectMapper objectMapper;
     private final ResourcePatternResolver resourcePatternResolver;
 
@@ -247,10 +224,6 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
             case "airline-business-roles" -> airlineRole(text(item, "airline"), text(item, "code"), text(item, "name"), enumValue(AirlineRoleScope.class, item, "scope"), enumValue(AirlineRoleCategory.class, item, "category"), integer(item, "displayOrder"));
             case "airline-contacts" -> airlineContact(text(item, "airline"), text(item, "code"), text(item, "name"), text(item, "department"), enumValue(AirlineContactType.class, item, "contactType"), text(item, "email"), text(item, "phone"), bool(item, "available24x7"), integer(item, "displayOrder"));
             case "alliance-members" -> allianceMember(text(item, "alliance"), text(item, "airline"), enumValue(AllianceMembershipType.class, item, "membershipType"), date(item, "joinDate"), bool(item, "primary"), integer(item, "displayOrder"));
-            case "codeshare-partners" -> codeshare(text(item, "homeAirline"), text(item, "partnerAirline"), text(item, "agreementNumber"), enumValue(CodeshareAgreementType.class, item, "agreementType"), integer(item, "displayOrder"));
-            case "codeshare-partner-profiles" -> codeshareProfile(text(item, "homeAirline"), text(item, "partnerAirline"), text(item, "code"), text(item, "name"), enumValue(PartnerType.class, item, "partnerType"), enumValue(CodeshareAgreementCategory.class, item, "agreementCategory"), enumValue(InventorySharingType.class, item, "inventorySharingType"), integer(item, "priority"), bool(item, "autoAcceptScheduleChanges"), bool(item, "prorationApplicable"), bool(item, "eTicketAllowed"), text(item, "description"), integer(item, "displayOrder"));
-            case "codeshare-partner-communication-profiles" -> codeshareCommunicationProfile(text(item, "homeAirline"), text(item, "partnerAirline"), text(item, "code"), text(item, "name"), enumValue(CommunicationProtocol.class, item, "protocol"), enumValue(TransportType.class, item, "transportType"), enumValue(MessageFormat.class, item, "messageFormat"), enumValue(AuthenticationType.class, item, "authenticationType"), text(item, "endpointUrl"), text(item, "username"), text(item, "credentialAlias"), integer(item, "retryCount"), bool(item, "compressionEnabled"), bool(item, "encryptionEnabled"), text(item, "description"), integer(item, "displayOrder"));
-            case "codeshare-partner-distribution-profiles" -> codeshareDistributionProfile(text(item, "homeAirline"), text(item, "partnerAirline"), text(item, "code"), text(item, "name"), enumValue(CommunicationProtocol.class, item, "distributionChannel"), enumValue(DistributionMode.class, item, "distributionMode"), enumValue(MessageType.class, item, "messageType"), bool(item, "realTimeEnabled"), bool(item, "ackRequired"), bool(item, "retryEnabled"), integer(item, "retryCount"), text(item, "description"), integer(item, "displayOrder"));
             default -> {
             }
         }
@@ -740,147 +713,6 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
         allianceMemberRepository.save(item);
     }
 
-    private void codeshare(String homeIata, String partnerIata, String agreementNumber, CodeshareAgreementType type, int order) {
-        if (codesharePartnerRepository.existsByHomeAirline_IataCodeAndPartnerAirline_IataCode(homeIata, partnerIata)) return;
-        var home = airlineCarrierRepository.findByIataCode(homeIata);
-        var partner = airlineCarrierRepository.findByIataCode(partnerIata);
-        if (home.isEmpty() || partner.isEmpty()) {
-            return;
-        }
-
-        CodesharePartner item = new CodesharePartner();
-        item.setHomeAirline(home.get());
-        item.setPartnerAirline(partner.get());
-        item.setAgreementNumber(agreementNumber);
-        item.setAgreementType(type);
-        item.setAgreementStatus(CodeshareAgreementStatus.ACTIVE);
-        activeAirline(item, homeIata + " and " + partnerIata + " active codeshare agreement.", order);
-        codesharePartnerRepository.save(item);
-    }
-
-    private void codeshareProfile(String homeIata,
-                                  String partnerIata,
-                                  String code,
-                                  String name,
-                                  PartnerType partnerType,
-                                  CodeshareAgreementCategory category,
-                                  InventorySharingType inventoryType,
-                                  int priority,
-                                  boolean autoAccept,
-                                  boolean proration,
-                                  boolean eTicketAllowed,
-                                  String description,
-                                  int order) {
-        if (codesharePartnerProfileRepository.existsByPartner_HomeAirline_IataCodeAndPartner_PartnerAirline_IataCodeAndProfileCode(homeIata, partnerIata, code)) return;
-        var partner = findCodesharePartner(homeIata, partnerIata);
-        if (partner == null) {
-            return;
-        }
-
-        CodesharePartnerProfile item = new CodesharePartnerProfile();
-        item.setPartner(partner);
-        item.setProfileCode(code);
-        item.setProfileName(name);
-        item.setPartnerType(partnerType);
-        item.setAgreementCategory(category);
-        item.setInventorySharingType(inventoryType);
-        item.setPriority(priority);
-        item.setAutoAcceptScheduleChanges(autoAccept);
-        item.setProrationApplicable(proration);
-        item.setETicketAllowed(eTicketAllowed);
-        item.setDescription(description);
-        item.setDisplayOrder(order);
-        item.setRecordStatus(RecordStatus.ACTIVE);
-        item.setEffectiveFrom(EFFECTIVE_FROM);
-        codesharePartnerProfileRepository.save(item);
-    }
-
-    private void codeshareCommunicationProfile(String homeIata,
-                                               String partnerIata,
-                                               String code,
-                                               String name,
-                                               CommunicationProtocol protocol,
-                                               TransportType transportType,
-                                               MessageFormat messageFormat,
-                                               AuthenticationType authenticationType,
-                                               String endpointUrl,
-                                               String username,
-                                               String credentialAlias,
-                                               int retryCount,
-                                               boolean compression,
-                                               boolean encryption,
-                                               String description,
-                                               int order) {
-        if (codesharePartnerCommunicationProfileRepository.existsByPartner_HomeAirline_IataCodeAndPartner_PartnerAirline_IataCodeAndProfileCode(homeIata, partnerIata, code)) return;
-        var partner = findCodesharePartner(homeIata, partnerIata);
-        if (partner == null) {
-            return;
-        }
-
-        CodesharePartnerCommunicationProfile item = new CodesharePartnerCommunicationProfile();
-        item.setPartner(partner);
-        item.setProfileCode(code);
-        item.setProfileName(name);
-        item.setProtocol(protocol);
-        item.setTransportType(transportType);
-        item.setMessageFormat(messageFormat);
-        item.setAuthenticationType(authenticationType);
-        item.setEndpointUrl(endpointUrl);
-        item.setUsername(username);
-        item.setCredentialAlias(credentialAlias);
-        item.setRetryCount(retryCount);
-        item.setCompressionEnabled(compression);
-        item.setEncryptionEnabled(encryption);
-        item.setDescription(description);
-        item.setDisplayOrder(order);
-        item.setRecordStatus(RecordStatus.ACTIVE);
-        item.setEffectiveFrom(EFFECTIVE_FROM);
-        codesharePartnerCommunicationProfileRepository.save(item);
-    }
-
-    private void codeshareDistributionProfile(String homeIata,
-                                              String partnerIata,
-                                              String code,
-                                              String name,
-                                              CommunicationProtocol channel,
-                                              DistributionMode mode,
-                                              MessageType messageType,
-                                              boolean realTime,
-                                              boolean ackRequired,
-                                              boolean retryEnabled,
-                                              int retryCount,
-                                              String description,
-                                              int order) {
-        if (codesharePartnerDistributionProfileRepository.existsByPartner_HomeAirline_IataCodeAndPartner_PartnerAirline_IataCodeAndProfileCode(homeIata, partnerIata, code)) return;
-        var partner = findCodesharePartner(homeIata, partnerIata);
-        if (partner == null) {
-            return;
-        }
-
-        CodesharePartnerDistributionProfile item = new CodesharePartnerDistributionProfile();
-        item.setPartner(partner);
-        item.setProfileCode(code);
-        item.setProfileName(name);
-        item.setDistributionChannel(channel);
-        item.setDistributionMode(mode);
-        item.setMessageType(messageType);
-        item.setRealTimeEnabled(realTime);
-        item.setAcknowledgementRequired(ackRequired);
-        item.setRetryEnabled(retryEnabled);
-        item.setRetryCount(retryCount);
-        item.setDescription(description);
-        item.setDisplayOrder(order);
-        item.setRecordStatus(RecordStatus.ACTIVE);
-        item.setEffectiveFrom(EFFECTIVE_FROM);
-        codesharePartnerDistributionProfileRepository.save(item);
-    }
-
-    private CodesharePartner findCodesharePartner(String homeIata, String partnerIata) {
-        return codesharePartnerRepository
-                .findByHomeAirline_IataCodeAndPartnerAirline_IataCode(homeIata, partnerIata)
-                .orElse(null);
-    }
-
     private void base(ScheduleSource item, String description) { item.setDescription(description); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
     private void base(ScheduleChannel item, String description) { item.setDescription(description); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
     private void base(ScheduleStatus item, String description) { item.setDescription(description); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
@@ -913,5 +745,4 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
     private void activeAirline(AirlineBusinessRole item, String description, int order) { item.setDescription(description); item.setDisplayOrder(order); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
     private void activeAirline(AirlineContact item, String description, int order) { item.setDescription(description); item.setDisplayOrder(order); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
     private void activeAirline(AllianceMember item, String description, int order) { item.setDescription(description); item.setDisplayOrder(order); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
-    private void activeAirline(CodesharePartner item, String description, int order) { item.setDescription(description); item.setDisplayOrder(order); item.setRecordStatus(RecordStatus.ACTIVE); item.setEffectiveFrom(EFFECTIVE_FROM); }
 }

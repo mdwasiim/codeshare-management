@@ -18,11 +18,16 @@
 
         "baseUrl": "./",
         "paths": {
+            "@features/administration/*": ["src/app/features/administration/*"],
+            "@features/tenant-administration/*": ["src/app/features/administration/tenant-management/*"],
             "@/*": ["src/app/*"],
             "@core/*": ["src/app/core/*"],
             "@services/*": ["src/app/core/services/*"],
             "@utils/*": ["src/app/core/utils/*"],
             "@layout/*": ["src/app/layout/*"],
+            "@features/access-management/*": ["src/app/features/administration/access-management/*"],
+            "@features/partner-management/*": ["src/app/features/administration/partner-management/*"],
+            "@features/tenant-onboarding/*": ["src/app/features/administration/tenant-management/tenant-onboarding/*"],
             "@features/*": ["src/app/features/*"],
             "@shared/*": ["src/app/shared/*"]
         }

@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.persistence.entities.ssim;
 
 import com.codeshare.airline.schedule.ingestion.domain.enums.TimeMode;
-import com.codeshare.airline.schedule.ingestion.persistence.entities.converter.TimeModeCodeConverter;
+import com.codeshare.airline.schedule.ingestion.converter.TimeModeCodeConverter;
 import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,9 +1,11 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { AppMenuItemComponent } from '@layout/components/sidebar-menu/app-menu-item/app-menu-item.component';
-import { AppMenuModel } from '@features/access-management/models/app-menu.model';
+import { AppMenuModel } from '@features/administration/access-management/models/app-menu.model';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
 import { combineLatest, startWith } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AuthTokenService } from '@services/auth/auth-token.service';
+import { AuthTenantService } from '@services/auth/auth-tenant.service';
 
 @Component({
     selector: 'app-menu',
@@ -14,6 +16,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class AppMenuComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
+    private readonly tokenService = inject(AuthTokenService);
+    private readonly authTenantService = inject(AuthTenantService);
 
     model: AppMenuModel[] = [];
     selectedRoot: AppMenuModel | null = null;
@@ -25,7 +29,9 @@ export class AppMenuComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.menuService.loadMenus().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        if (this.tokenService.isAuthenticated() && this.authTenantService.hasTenant()) {
+            this.menuService.loadMenus().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        }
 
         combineLatest([this.menuService.getMenu(), this.menuService.selectedRootMenu$.pipe(startWith(null))])
             .pipe(takeUntilDestroyed(this.destroyRef))
@@ -45,3 +51,4 @@ export class AppMenuComponent implements OnInit {
             });
     }
 }
+

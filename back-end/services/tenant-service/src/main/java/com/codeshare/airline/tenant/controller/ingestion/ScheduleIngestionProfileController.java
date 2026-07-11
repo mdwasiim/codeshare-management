@@ -1,0 +1,50 @@
+package com.codeshare.airline.tenant.controller.ingestion;
+
+import com.codeshare.airline.core.constants.CSMConstants;
+import com.codeshare.airline.core.dto.tenant.TenantIngestionProfileDTO;
+import com.codeshare.airline.tenant.service.ingestion.ScheduleIngestionProfileService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/tenant-ingestion-profiles")
+@RequiredArgsConstructor
+public class ScheduleIngestionProfileController {
+
+    private final ScheduleIngestionProfileService service;
+
+    @PostMapping
+    public TenantIngestionProfileDTO create(@RequestBody TenantIngestionProfileDTO dto) {
+        return service.create(dto);
+    }
+
+    @PutMapping("/{id}")
+    public TenantIngestionProfileDTO update(@PathVariable UUID id, @RequestBody TenantIngestionProfileDTO dto) {
+        return service.update(id, dto);
+    }
+
+    @GetMapping("/tenant/{tenantCode}")
+    public TenantIngestionProfileDTO getByTenantCode(@PathVariable String tenantCode) {
+        return service.getByTenantCode(tenantCode);
+    }
+
+    @GetMapping
+    public List<TenantIngestionProfileDTO> getAll() {
+        return service.getAll();
+    }
+
+    @PatchMapping("/{id}/enabled")
+    public String enable(@PathVariable UUID id, @RequestParam boolean enabled) {
+        service.enable(id, enabled);
+        return CSMConstants.NO_DATA;
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable UUID id) {
+        service.delete(id);
+        return CSMConstants.NO_DATA;
+    }
+}

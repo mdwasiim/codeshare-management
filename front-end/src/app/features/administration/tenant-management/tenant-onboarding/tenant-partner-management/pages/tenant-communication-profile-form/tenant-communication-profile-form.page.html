@@ -1,0 +1,195 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Profile Details">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="partnerId" class="required">Codeshare Partner</label>
+                <p-select
+                    inputId="partnerId"
+                    appendTo="body"
+                    [options]="partnerOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [filter]="true"
+                    filterBy="label"
+                    [showClear]="true"
+                    formControlName="partnerId"
+                    placeholder="Select partner"
+                    styleClass="w-full"
+                ></p-select>
+                <small class="p-error" *ngIf="form.controls['partnerId'].hasError('required') && form.controls['partnerId'].touched">Partner is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="profileCode" class="required">Profile Code</label>
+                <input id="profileCode" pInputText formControlName="profileCode" class="w-full" maxlength="100" />
+                <small class="p-error" *ngIf="form.controls['profileCode'].hasError('required') && form.controls['profileCode'].touched">Profile code is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="profileName" class="required">Profile Name</label>
+                <input id="profileName" pInputText formControlName="profileName" class="w-full" maxlength="200" />
+                <small class="p-error" *ngIf="form.controls['profileName'].hasError('required') && form.controls['profileName'].touched">Profile name is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="protocol">Protocol</label>
+                <p-select
+                    inputId="protocol"
+                    appendTo="body"
+                    [options]="protocolOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    formControlName="protocol"
+                    placeholder="Select protocol"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="transportType">Transport Type</label>
+                <p-select
+                    inputId="transportType"
+                    appendTo="body"
+                    [options]="transportOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    formControlName="transportType"
+                    placeholder="Select transport"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="messageFormat">Message Format</label>
+                <p-select
+                    inputId="messageFormat"
+                    appendTo="body"
+                    [options]="messageFormatOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    formControlName="messageFormat"
+                    placeholder="Select format"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="authenticationType">Authentication</label>
+                <p-select
+                    inputId="authenticationType"
+                    appendTo="body"
+                    [options]="authenticationTypeOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    formControlName="authenticationType"
+                    placeholder="Select method"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+
+            <div class="field col-12">
+                <label for="endpointUrl">Endpoint URL</label>
+                <input id="endpointUrl" pInputText formControlName="endpointUrl" class="w-full" maxlength="500" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="username">Username</label>
+                <input id="username" pInputText formControlName="username" class="w-full" maxlength="200" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="credentialAlias">Credential Alias</label>
+                <input id="credentialAlias" pInputText formControlName="credentialAlias" class="w-full" maxlength="200" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="connectionTimeout">Connection Timeout (ms)</label>
+                <p-inputnumber inputId="connectionTimeout" formControlName="connectionTimeout" [useGrouping]="false"></p-inputnumber>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="readTimeout">Read Timeout (ms)</label>
+                <p-inputnumber inputId="readTimeout" formControlName="readTimeout" [useGrouping]="false"></p-inputnumber>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="retryCount">Retry Count</label>
+                <p-inputnumber inputId="retryCount" formControlName="retryCount" [useGrouping]="false"></p-inputnumber>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="displayOrder">Display Order</label>
+                <p-inputnumber inputId="displayOrder" formControlName="displayOrder" [useGrouping]="false"></p-inputnumber>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select
+                    inputId="recordStatus"
+                    appendTo="body"
+                    [options]="recordStatusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    formControlName="recordStatus"
+                    styleClass="w-full"
+                ></p-select>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveFrom">Effective From</label>
+                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" class="w-full" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="effectiveTo">Effective To</label>
+                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" class="w-full" />
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Transport Flags">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="compressionEnabled">Compression</label>
+                <div class="flex align-items-center gap-2 h-full">
+                    <p-checkbox inputId="compressionEnabled" formControlName="compressionEnabled" binary="true"></p-checkbox>
+                    <label for="compressionEnabled" class="mb-0">Compression enabled</label>
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="encryptionEnabled">Encryption</label>
+                <div class="flex align-items-center gap-2 h-full">
+                    <p-checkbox inputId="encryptionEnabled" formControlName="encryptionEnabled" binary="true"></p-checkbox>
+                    <label for="encryptionEnabled" class="mb-0">Encryption enabled</label>
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="active">Profile State</label>
+                <div class="flex align-items-center gap-2 h-full">
+                    <p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox>
+                    <label for="active" class="mb-0">Active</label>
+                </div>
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Notes">
+        <div class="grid">
+            <div class="field col-12">
+                <label for="description">Description</label>
+                <textarea id="description" pTextarea formControlName="description" rows="3" class="w-full" maxlength="500"></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="remarks">Remarks</label>
+                <textarea id="remarks" pTextarea formControlName="remarks" rows="4" class="w-full" maxlength="1000"></textarea>
+            </div>
+        </div>
+    </app-form-section>
+</form>

@@ -26,41 +26,31 @@ public class CityDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
-        if (repository.count() > 0) return;
-
         Country qa = countryRepository.findByIso2Code("QA").orElseThrow();
         Country gb = countryRepository.findByIso2Code("GB").orElseThrow();
         Country us = countryRepository.findByIso2Code("US").orElseThrow();
         Country ae = countryRepository.findByIso2Code("AE").orElseThrow();
+        Country au = countryRepository.findByIso2Code("AU").orElseThrow();
 
         State ny = stateRepository.findByStateCodeAndCountry_Iso2Code("NY", "US").orElse(null);
         State du = stateRepository.findByStateCodeAndCountry_Iso2Code("DU", "AE").orElse(null);
+        State vi = stateRepository.findByStateCodeAndCountry_Iso2Code("VIC", "AU").orElse(null);
 
-        List<City> cities = List.of(
-
-                build("Doha", "DOH", qa, null),
-                build("London", "LON", gb, null),
-                build("New York", "NYC", us, ny),
-                build("Dubai", "DXB", ae, du)
-        );
-
-        repository.saveAll(cities);
+        ensure("Doha", "DOH", qa, null);
+        ensure("London", "LON", gb, null);
+        ensure("New York", "NYC", us, ny);
+        ensure("Dubai", "DXB", ae, du);
+        ensure("Melbourne", "MEL", au, vi);
     }
 
-    private City build(String name,
-                       String iataCode,
-                       Country country,
-                       State state) {
-
-        City city = new City();
+    private void ensure(String name, String iataCode, Country country, State state) {
+        City city = repository.findByCityName(name).orElseGet(City::new);
         city.setCityName(name);
         city.setIataCityCode(iataCode);
         city.setCountry(country);
         city.setState(state);
         city.setRecordStatus(RecordStatus.ACTIVE);
         city.setEffectiveFrom(LocalDate.of(2000, 1, 1));
-
-        return city;
+        repository.save(city);
     }
 }

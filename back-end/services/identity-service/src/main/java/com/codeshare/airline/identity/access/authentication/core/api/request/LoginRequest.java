@@ -21,6 +21,7 @@ public class LoginRequest {
     private String authorizationCode;
     // 🔐 PKCE
     private String codeVerifier;
+    private String redirectUri;
 
     private String state;
 
@@ -43,6 +44,8 @@ public class LoginRequest {
                 .username(this.username)
                 .password(this.password)
                 .authorizationCode(this.authorizationCode)
+                .codeVerifier(this.codeVerifier)
+                .redirectUri(this.redirectUri)
                 .tenant(tenant)
                 .authSource(idpConfig.getAuthSource())
                 .identityProviderConfig(idpConfig)

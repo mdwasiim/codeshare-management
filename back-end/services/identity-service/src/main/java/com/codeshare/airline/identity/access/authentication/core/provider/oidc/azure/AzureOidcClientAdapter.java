@@ -28,9 +28,9 @@ public class AzureOidcClientAdapter implements OidcClientAdapter {
     private final RestTemplate restTemplate;
 
     @Override
-    public OidcAuthenticatedUser exchangeCodeForUser(String code, IdentityProviderConfig config ) {
+    public OidcAuthenticatedUser exchangeCodeForUser(String code, String codeVerifier, String redirectUri, IdentityProviderConfig config ) {
 
-        TokenPairResponse token = exchangeCodeForToken(code, config);
+        TokenPairResponse token = exchangeCodeForToken(code, codeVerifier, redirectUri, config);
         Jwt idToken = decodeAndValidate(token.getIdToken(), config);
 
         return extractOidcUser(idToken);
@@ -41,6 +41,8 @@ public class AzureOidcClientAdapter implements OidcClientAdapter {
        ================================ */
     private TokenPairResponse exchangeCodeForToken(
             String code,
+            String codeVerifier,
+            String redirectUri,
             IdentityProviderConfig config
     ) {
 
@@ -52,7 +54,8 @@ public class AzureOidcClientAdapter implements OidcClientAdapter {
         body.add("client_id", config.getOidcConfig().getClientId());
         body.add("client_secret", config.getOidcConfig().getClientSecretRef());
         body.add("code", code);
-        body.add("redirect_uri", config.getOidcConfig().getRedirectUri());
+        body.add("code_verifier", codeVerifier);
+        body.add("redirect_uri", redirectUri);
         body.add("scope", config.getOidcConfig().getScopes());
 
         HttpEntity<?> request = new HttpEntity<>(body, headers);

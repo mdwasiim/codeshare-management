@@ -63,6 +63,25 @@ public class TokenService {
                 .build();
     }
 
+    public String issueServiceAccessToken(String clientId) {
+        Instant now = Instant.now();
+
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer(securityProperties.getJwt().getIssuer())
+                .audience(List.of(securityProperties.getJwt().getAudience()))
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(securityProperties.getJwt().getAccessTokenTtl()))
+                .subject(clientId)
+                .claim("client_id", clientId)
+                .claim("scope", "internal")
+                .claim("type", "access")
+                .build();
+
+        return jwtEncoder
+                .encode(JwtEncoderParameters.from(claims))
+                .getTokenValue();
+    }
+
     /* =========================================================
        REFRESH FLOW
        ========================================================= */

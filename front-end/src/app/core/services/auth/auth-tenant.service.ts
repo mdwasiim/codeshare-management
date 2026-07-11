@@ -36,6 +36,6 @@ export class AuthTenantService {
     }
 
     hasTenant(): boolean {
-        return !!this.tenantId;
+        return !!this.tenantCode;
     }
 }

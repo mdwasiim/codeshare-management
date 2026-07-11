@@ -87,3 +87,7 @@ app:
     enabled: ${APP_SECURITY_ENABLED:true}
   crypto:
     secret: ${APP_CRYPTO_SECRET:YOUR_16_32_BYTE_SECRET_KEY}
+
+tenant:
+  service:
+    url: ${TENANT_SERVICE_URL:http://localhost:8086}
