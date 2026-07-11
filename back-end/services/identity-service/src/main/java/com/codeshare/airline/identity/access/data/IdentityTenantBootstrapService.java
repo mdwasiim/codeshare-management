@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.data;
 
-import com.codeshare.airline.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantDTO;
 import com.codeshare.airline.identity.access.assignments.data.GroupMenuLoader;
 import com.codeshare.airline.identity.access.assignments.data.GroupRoleLoader;
 import com.codeshare.airline.identity.access.assignments.data.RolePermissionLoader;

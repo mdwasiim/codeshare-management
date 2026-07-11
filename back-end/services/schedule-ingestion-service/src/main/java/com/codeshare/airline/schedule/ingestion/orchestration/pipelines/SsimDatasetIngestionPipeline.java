@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.orchestration.pipelines;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.orchestration.loader.SsimDatasetStreamLoader;
 import com.codeshare.airline.schedule.ingestion.persistence.services.common.ScheduleFileService;
 import com.codeshare.airline.schedule.ingestion.persistence.services.error.ErrorPersistenceService;

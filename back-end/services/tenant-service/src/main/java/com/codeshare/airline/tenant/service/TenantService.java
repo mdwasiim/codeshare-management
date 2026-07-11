@@ -1,8 +1,8 @@
 package com.codeshare.airline.tenant.service;
 
-import com.codeshare.airline.core.dto.tenant.TenantAuthContextDTO;
-import com.codeshare.airline.core.dto.tenant.TenantDTO;
-import com.codeshare.airline.core.dto.tenant.TenantLoginOptionDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantAuthContextDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantLoginOptionDTO;
 
 import java.util.List;
 import java.util.UUID;

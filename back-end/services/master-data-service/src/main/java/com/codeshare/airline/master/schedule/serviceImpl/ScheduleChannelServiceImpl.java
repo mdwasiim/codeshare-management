@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.schedule.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.schedule.ScheduleChannelDTO;
+import com.codeshare.airline.platform.core.dto.master.schedule.ScheduleChannelDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.schedule.entities.ScheduleChannel;
 import com.codeshare.airline.master.schedule.mappers.ScheduleChannelMapper;

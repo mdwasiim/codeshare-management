@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.processing.domain.entity;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
 import com.codeshare.airline.schedule.processing.domain.enums.SegmentChangeType;
 import jakarta.persistence.*;
@@ -26,8 +26,8 @@ import java.util.UUID;
  * period, and SSM action type.
  *
  * Cross-service UUIDs:
- *   - {@code liveSegmentId}     — LiveSegmentEntity.id in schedule-service (null if ADDED)
- *   - {@code ingestedSegmentId} — ScheduleDataElementEntity / segment ref in ingestion-service (null if REMOVED)
+ *   - {@code liveSegmentId}     â€” LiveSegmentEntity.id in schedule-service (null if ADDED)
+ *   - {@code ingestedSegmentId} â€” ScheduleDataElementEntity / segment ref in ingestion-service (null if REMOVED)
  *
  * DEI-level changes on this segment are stored in {@link ScheduleDeiChangeEntity} children.
  */
@@ -87,14 +87,14 @@ public class ScheduleSegmentChangeEntity extends CSMDataAbstractEntity {
     private SegmentChangeType segmentChangeType;
 
     /* ==========================================================
-       CROSS-SERVICE REFERENCES  (UUID only — different databases)
+       CROSS-SERVICE REFERENCES  (UUID only â€” different databases)
        ========================================================== */
 
-    // LiveSegmentEntity.id in schedule-service — null if ADDED
+    // LiveSegmentEntity.id in schedule-service â€” null if ADDED
     @Column(name = "live_segment_id")
     private UUID liveSegmentId;
 
-    // Reference to segment data in schedule-ingestion-service — null if REMOVED
+    // Reference to segment data in schedule-ingestion-service â€” null if REMOVED
     @Column(name = "ingested_segment_id")
     private UUID ingestedSegmentId;
 
@@ -113,7 +113,7 @@ public class ScheduleSegmentChangeEntity extends CSMDataAbstractEntity {
     private String mergeError;
 
     /* ==========================================================
-       CHILDREN — DEI changes on this segment
+       CHILDREN â€” DEI changes on this segment
        ========================================================== */
 
     @OneToMany(

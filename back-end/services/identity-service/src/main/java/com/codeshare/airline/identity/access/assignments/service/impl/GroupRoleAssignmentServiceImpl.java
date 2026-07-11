@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.assignments.service.impl;
 
-import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
-import com.codeshare.airline.core.dto.tenant.RoleDTO;
+import com.codeshare.airline.platform.core.dto.tenant.GroupRoleDTO;
+import com.codeshare.airline.platform.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.identity.entities.Group;
 import com.codeshare.airline.identity.access.assignments.entities.GroupRole;

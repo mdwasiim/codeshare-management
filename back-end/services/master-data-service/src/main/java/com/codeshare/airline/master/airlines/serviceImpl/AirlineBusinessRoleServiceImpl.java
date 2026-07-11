@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airlines.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.airline.AirlineBusinessRoleDTO;
+import com.codeshare.airline.platform.core.dto.master.airline.AirlineBusinessRoleDTO;
 import com.codeshare.airline.master.airlines.entities.AirlineBusinessRole;
 import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
 import com.codeshare.airline.master.airlines.mappers.AirlineBusinessRoleMapper;

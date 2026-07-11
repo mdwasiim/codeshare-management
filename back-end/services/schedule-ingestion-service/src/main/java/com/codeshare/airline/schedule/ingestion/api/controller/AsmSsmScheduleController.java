@@ -1,12 +1,12 @@
 package com.codeshare.airline.schedule.ingestion.api.controller;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleFileMessageResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleLoadedScheduleDetailResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleLoadedScheduleSummaryResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleLoadedMessageSummaryResponse;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
-import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.platform.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFlightDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.services.schedule.ScheduleQueryService;

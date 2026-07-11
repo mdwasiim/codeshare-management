@@ -24,7 +24,6 @@
     <properties>
         <java.version>21</java.version>
 
-        <spring.boot.version>3.5.11</spring.boot.version>
         <!-- Core Versions -->
         <spring.cloud.version>2025.0.1</spring.cloud.version>
         <apache.camel.version>4.4.1</apache.camel.version>
@@ -38,8 +37,6 @@
         <sshd.version>2.14.0</sshd.version>
         <org.flywaydb.version>10.20.1</org.flywaydb.version>
 
-        <!-- Added -->
-        <micrometer.version>1.13.0</micrometer.version>
         <testcontainers.version>1.20.1</testcontainers.version>
 
         <!-- Plugins -->
@@ -56,10 +53,10 @@
     <!-- MODULES -->
     <!-- ===================================================== -->
     <modules>
-        <module>services/csm-core</module>
-        <module>services/csm-data-jpa</module>
-        <module>services/csm-web</module>
-        <module>services/csm-service-security</module>
+        <module>services/csm-platform-core</module>
+        <module>services/csm-platform-data-jpa</module>
+        <module>services/csm-platform-web</module>
+        <module>services/csm-platform-security</module>
 
         <module>services/gateway-service</module>
         <module>services/master-data-service</module>
@@ -70,35 +67,11 @@
         <module>services/schedule-service</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-openfeign-core</artifactId>
-        </dependency>
-    </dependencies>
-
     <!-- ===================================================== -->
     <!-- DEPENDENCY MANAGEMENT -->
     <!-- ===================================================== -->
     <dependencyManagement>
         <dependencies>
-
-            <!-- Spring Boot BOM (extra safety) -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <!-- Spring Cloud BOM -->
             <dependency>
@@ -116,19 +89,6 @@
                 <version>${apache.camel.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <!-- Observability -->
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-core</artifactId>
-                <version>${micrometer.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-registry-prometheus</artifactId>
-                <version>${micrometer.version}</version>
             </dependency>
 
             <!-- Flyway -->
@@ -156,6 +116,12 @@
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
                 <version>${authorization-server.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>9.37.4</version>
             </dependency>
 
             <!-- MapStruct -->
@@ -230,25 +196,25 @@
             <!-- Internal Modules -->
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
-                <artifactId>csm-core</artifactId>
+                <artifactId>csm-platform-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
-                <artifactId>csm-web</artifactId>
+                <artifactId>csm-platform-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
-                <artifactId>csm-data-jpa</artifactId>
+                <artifactId>csm-platform-data-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.codeshare.airline</groupId>
-                <artifactId>csm-service-security</artifactId>
+                <artifactId>csm-platform-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -339,6 +305,12 @@
 
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
     <!-- ===================================================== -->

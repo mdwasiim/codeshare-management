@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.api.controller;
 
 import com.codeshare.airline.schedule.ingestion.api.response.UploadResponse;
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import lombok.RequiredArgsConstructor;
 import org.apache.camel.ProducerTemplate;
 import org.springframework.web.bind.annotation.PostMapping;

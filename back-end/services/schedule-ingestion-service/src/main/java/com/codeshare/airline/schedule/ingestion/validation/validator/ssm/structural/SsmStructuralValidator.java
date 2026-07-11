@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.validation.validator.ssm.structural;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsmIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ActionType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ScheduleLineIdentifier;

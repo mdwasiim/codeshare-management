@@ -1,8 +1,8 @@
 package com.codeshare.airline.identity.access.authentication.core.service.core;
 
-import com.codeshare.airline.core.dto.tenant.IdentityProviderConfigDTO;
-import com.codeshare.airline.core.dto.tenant.OidcConfigDTO;
-import com.codeshare.airline.core.dto.tenant.TenantAuthContextDTO;
+import com.codeshare.airline.platform.core.dto.tenant.IdentityProviderConfigDTO;
+import com.codeshare.airline.platform.core.dto.tenant.OidcConfigDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantAuthContextDTO;
 import com.codeshare.airline.identity.access.authentication.core.domain.IdentityProviderConfig;
 import com.codeshare.airline.identity.access.authentication.core.domain.OidcConfig;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContext;

@@ -1,12 +1,12 @@
 package com.codeshare.airline.tenant.bootstrap;
 
-import com.codeshare.airline.core.dto.master.airline.AirlineCarrierDTO;
-import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.core.enums.common.TenantPlan;
-import com.codeshare.airline.core.enums.common.TenantStatus;
-import com.codeshare.airline.core.enums.master.airline.CodeshareAgreementStatus;
-import com.codeshare.airline.core.enums.master.airline.CodeshareAgreementType;
+import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.common.TenantPlan;
+import com.codeshare.airline.platform.core.enums.common.TenantStatus;
+import com.codeshare.airline.platform.core.enums.master.airline.CodeshareAgreementStatus;
+import com.codeshare.airline.platform.core.enums.master.airline.CodeshareAgreementType;
 import com.codeshare.airline.tenant.entities.identity.OidcIdentityProviderEntity;
 import com.codeshare.airline.tenant.entities.Tenant;
 import com.codeshare.airline.tenant.repository.TenantRepository;

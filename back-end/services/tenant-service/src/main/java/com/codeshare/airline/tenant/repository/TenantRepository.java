@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.repository;
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.tenant.entities.Tenant;
 import org.springframework.data.jpa.repository.EntityGraph;
 

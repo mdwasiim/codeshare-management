@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.geography.controller;
 
-import com.codeshare.airline.core.dto.master.georegion.TimezoneDTO;
+import com.codeshare.airline.platform.core.dto.master.georegion.TimezoneDTO;
 import com.codeshare.airline.master.geography.service.TimezoneService;
 import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;

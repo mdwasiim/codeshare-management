@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.messaging.data;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.core.enums.schedule.DeiFunctionType;
-import com.codeshare.airline.core.enums.schedule.DeiScope;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.schedule.DeiFunctionType;
+import com.codeshare.airline.platform.core.enums.schedule.DeiScope;
 import com.codeshare.airline.master.messaging.entities.DeiRegistry;
 import com.codeshare.airline.master.messaging.repository.DeiRepository;
 import lombok.RequiredArgsConstructor;

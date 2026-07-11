@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.terminal.mappers;
 
-import com.codeshare.airline.core.dto.master.terminal.AirportTerminalDTO;
-import com.codeshare.airline.core.mapper.CSMGenericMapper;
-import com.codeshare.airline.core.mapper.CSMMapperConfig;
+import com.codeshare.airline.platform.core.dto.master.terminal.AirportTerminalDTO;
+import com.codeshare.airline.platform.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.platform.core.mapper.CSMMapperConfig;
 import com.codeshare.airline.master.terminal.entities.AirportTerminal;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

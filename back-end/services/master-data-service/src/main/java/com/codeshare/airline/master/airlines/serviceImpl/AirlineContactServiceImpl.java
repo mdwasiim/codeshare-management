@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airlines.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.airline.AirlineContactDTO;
+import com.codeshare.airline.platform.core.dto.master.airline.AirlineContactDTO;
 import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
 import com.codeshare.airline.master.airlines.entities.AirlineContact;
 import com.codeshare.airline.master.airlines.mappers.AirlineContactMapper;

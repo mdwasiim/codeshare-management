@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.flight.passenger.controller;
 
-import com.codeshare.airline.core.dto.master.flightcommercial.passenger.ReservationBookingModifierDTO;
+import com.codeshare.airline.platform.core.dto.master.flightcommercial.passenger.ReservationBookingModifierDTO;
 import com.codeshare.airline.master.common.base.BaseController;
 import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;

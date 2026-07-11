@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.orchestration.loader;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.orchestration.handler.ScheduleTypeHandler;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

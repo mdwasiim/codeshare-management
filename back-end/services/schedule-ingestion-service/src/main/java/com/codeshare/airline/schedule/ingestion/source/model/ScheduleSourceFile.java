@@ -1,9 +1,9 @@
 package com.codeshare.airline.schedule.ingestion.source.model;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ScheduleProfile;
-import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.platform.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.TimeMode;
 import lombok.Builder;
 import lombok.Getter;

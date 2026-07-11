@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.geography.data;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.geography.entities.Country;
 import com.codeshare.airline.master.geography.entities.Region;
 import com.codeshare.airline.master.geography.repository.CountryRepository;

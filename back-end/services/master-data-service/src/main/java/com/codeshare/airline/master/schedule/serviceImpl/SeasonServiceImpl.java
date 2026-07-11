@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.schedule.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.georegion.SeasonDTO;
+import com.codeshare.airline.platform.core.dto.master.georegion.SeasonDTO;
 import com.codeshare.airline.master.schedule.entities.Season;
 import com.codeshare.airline.master.schedule.repository.SeasonRepository;
 import com.codeshare.airline.master.schedule.service.SeasonService;

@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.live.domain.entity;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.live.domain.enums.LiveScheduleSource;
 import com.codeshare.airline.schedule.live.domain.enums.LiveScheduleStatus;
 import jakarta.persistence.*;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Canonical live flight leg — source-agnostic, populated from SSIM, SSM, or ASM.
+ * Canonical live flight leg â€” source-agnostic, populated from SSIM, SSM, or ASM.
  *
  * One row per leg sequence number within a flight, covering a specific
  * period of operation. This entity holds only business-meaningful fields
@@ -27,9 +27,9 @@ import java.util.List;
  * itineraryVariationId) live on the parent {@link LiveFlightEntity}.
  *
  * Children:
- *  - {@link LiveSegmentEntity}              — board/off-point segments
- *  - {@link LiveCodeshareDesignatorEntity}  — marketing carrier designators
- *  - {@link LiveScheduleVersionEntity}      — immutable audit trail
+ *  - {@link LiveSegmentEntity}              â€” board/off-point segments
+ *  - {@link LiveCodeshareDesignatorEntity}  â€” marketing carrier designators
+ *  - {@link LiveScheduleVersionEntity}      â€” immutable audit trail
  */
 @Entity
 @Table(
@@ -75,7 +75,7 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
     private LiveFlightEntity flight;
 
     /* ==========================================================
-       SOURCE  — which message type last set this leg
+       SOURCE  â€” which message type last set this leg
        ========================================================== */
 
     @Enumerated(EnumType.STRING)
@@ -87,7 +87,7 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
        ========================================================== */
 
     @Column(name = "leg_sequence_number", nullable = false)
-    private Integer legSequenceNumber;          // 1-based; multi-leg flight: 1, 2, 3…
+    private Integer legSequenceNumber;          // 1-based; multi-leg flight: 1, 2, 3â€¦
 
     // J=Passenger, C=Cargo, F=Freight, G=Positioning, Q=Technical
     @Column(name = "service_type", length = 1)
@@ -103,7 +103,7 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
     @Column(name = "period_end", nullable = false)
     private LocalDate periodEnd;
 
-    // "1234567": position 1=Mon … 7=Sun; blank position = no operation that day
+    // "1234567": position 1=Mon â€¦ 7=Sun; blank position = no operation that day
     @Column(name = "days_of_operation", length = 7, nullable = false)
     private String daysOfOperation;
 
@@ -118,11 +118,11 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
     @Column(name = "departure_station", length = 3, nullable = false)
     private String departureStation;
 
-    // Scheduled time of departure — passenger-facing (local)
+    // Scheduled time of departure â€” passenger-facing (local)
     @Column(name = "scheduled_departure_time")
     private LocalTime scheduledDepartureTime;
 
-    // Scheduled time of departure — aircraft (may differ from passenger for ground ops)
+    // Scheduled time of departure â€” aircraft (may differ from passenger for ground ops)
     @Column(name = "aircraft_departure_time")
     private LocalTime aircraftDepartureTime;
 
@@ -140,11 +140,11 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
     @Column(name = "arrival_station", length = 3, nullable = false)
     private String arrivalStation;
 
-    // Scheduled time of arrival — aircraft
+    // Scheduled time of arrival â€” aircraft
     @Column(name = "aircraft_arrival_time")
     private LocalTime aircraftArrivalTime;
 
-    // Scheduled time of arrival — passenger-facing (local)
+    // Scheduled time of arrival â€” passenger-facing (local)
     @Column(name = "scheduled_arrival_time")
     private LocalTime scheduledArrivalTime;
 

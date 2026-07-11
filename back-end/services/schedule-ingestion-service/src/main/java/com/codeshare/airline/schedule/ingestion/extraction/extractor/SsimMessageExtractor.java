@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.extraction.extractor;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.shared.reader.LineReader;
 import com.codeshare.airline.schedule.ingestion.orchestration.handler.StreamExtractorHandler;
 import lombok.extern.slf4j.Slf4j;

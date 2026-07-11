@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.geography.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.georegion.CountryDTO;
+import com.codeshare.airline.platform.core.dto.master.georegion.CountryDTO;
 import com.codeshare.airline.master.geography.entities.Country;
 import com.codeshare.airline.master.geography.repository.CountryRepository;
 import com.codeshare.airline.master.geography.service.CountryService;

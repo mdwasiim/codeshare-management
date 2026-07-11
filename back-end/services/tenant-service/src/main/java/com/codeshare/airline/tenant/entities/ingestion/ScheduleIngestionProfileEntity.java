@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.entities.ingestion;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.tenant.entities.Tenant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

@@ -1,7 +1,7 @@
 package com.codeshare.airline.tenant.service.ingestion.impl;
 
-import com.codeshare.airline.core.dto.tenant.TenantIngestionChannelDTO;
-import com.codeshare.airline.core.dto.tenant.TenantIngestionProfileDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantIngestionChannelDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantIngestionProfileDTO;
 import com.codeshare.airline.tenant.entities.Tenant;
 import com.codeshare.airline.tenant.entities.ingestion.ScheduleIngestionChannelEntity;
 import com.codeshare.airline.tenant.entities.ingestion.ScheduleIngestionProfileEntity;

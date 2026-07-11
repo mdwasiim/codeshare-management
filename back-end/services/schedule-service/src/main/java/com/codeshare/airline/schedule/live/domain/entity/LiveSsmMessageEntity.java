@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.live.domain.entity;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.live.domain.enums.ScheduleChangeType;
 import com.codeshare.airline.schedule.live.domain.enums.SsmOutboundStatus;
 import jakarta.persistence.*;
@@ -24,7 +24,7 @@ import java.util.UUID;
  * The raw formatted message text (Chapter 7 wire format) is preserved for
  * resend / replay and audit purposes.
  *
- * Lifecycle:  PENDING → DISPATCHED → CONFIRMED | FAILED → RETRYING → …
+ * Lifecycle:  PENDING â†’ DISPATCHED â†’ CONFIRMED | FAILED â†’ RETRYING â†’ â€¦
  */
 @Entity
 @Table(
@@ -67,7 +67,7 @@ public class LiveSsmMessageEntity extends CSMDataAbstractEntity {
     private LiveScheduleVersionEntity scheduleVersion;
 
     /* ==========================================================
-       SSM / ASM CHAPTER 7 — MESSAGE HEADER
+       SSM / ASM CHAPTER 7 â€” MESSAGE HEADER
        ========================================================== */
 
     @Enumerated(EnumType.STRING)
@@ -90,7 +90,7 @@ public class LiveSsmMessageEntity extends CSMDataAbstractEntity {
     private String creationTimeRaw;             // HHMM
 
     /* ==========================================================
-       SSM / ASM CHAPTER 7 — ACTION / FLIGHT DATA
+       SSM / ASM CHAPTER 7 â€” ACTION / FLIGHT DATA
        ========================================================== */
 
     @Enumerated(EnumType.STRING)
@@ -131,7 +131,7 @@ public class LiveSsmMessageEntity extends CSMDataAbstractEntity {
     private String aircraftType;
 
     /* ==========================================================
-       WIRE FORMAT — FULL RAW CHAPTER 7 MESSAGE BODY
+       WIRE FORMAT â€” FULL RAW CHAPTER 7 MESSAGE BODY
        ========================================================== */
 
     @Column(name = "raw_message_body", columnDefinition = "TEXT")

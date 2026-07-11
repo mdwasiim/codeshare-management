@@ -3,8 +3,8 @@ package com.codeshare.airline.identity.access.identity.service;
 
 
 import com.codeshare.airline.identity.access.authentication.core.security.adapter.UserDetailsAdapter;
-import com.codeshare.airline.core.dto.auth.AuthUserDTO;
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.dto.auth.AuthUserDTO;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
 
 import java.util.List;
 import java.util.UUID;

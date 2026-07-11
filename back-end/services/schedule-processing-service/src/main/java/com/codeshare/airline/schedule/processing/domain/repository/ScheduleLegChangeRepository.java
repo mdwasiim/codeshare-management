@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.processing.domain.repository;
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.schedule.processing.domain.entity.ScheduleLegChangeEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.LegChangeType;
 import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;

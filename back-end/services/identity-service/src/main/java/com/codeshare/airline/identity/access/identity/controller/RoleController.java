@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.identity.controller;
 
-import com.codeshare.airline.core.dto.tenant.RoleDTO;
+import com.codeshare.airline.platform.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.identity.access.identity.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

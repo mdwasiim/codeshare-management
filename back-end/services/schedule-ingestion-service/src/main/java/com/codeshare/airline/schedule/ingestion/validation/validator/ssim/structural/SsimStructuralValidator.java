@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.validation.validator.ssim.structural;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.config.ScheduleIngestionProperties;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsimIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.enums.SsimValidationMode;

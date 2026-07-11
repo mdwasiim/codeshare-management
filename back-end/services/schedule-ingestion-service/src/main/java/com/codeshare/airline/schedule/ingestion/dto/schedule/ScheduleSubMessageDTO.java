@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.dto.schedule;
 
 
-import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
+import com.codeshare.airline.platform.core.dto.audit.CSMAuditableDTO;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ActionType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.TimeMode;
 import lombok.*;

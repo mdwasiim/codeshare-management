@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.authentication.core.provider.oidc.azure;
 
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.access.assignments.service.RolePermissionAssignmentService;
 import com.codeshare.airline.identity.access.authentication.core.domain.OidcAuthenticatedUser;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContext;

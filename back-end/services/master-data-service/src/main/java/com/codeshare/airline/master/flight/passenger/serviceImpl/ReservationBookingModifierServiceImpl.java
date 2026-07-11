@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.flight.passenger.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.flightcommercial.passenger.ReservationBookingModifierDTO;
+import com.codeshare.airline.platform.core.dto.master.flightcommercial.passenger.ReservationBookingModifierDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.flight.passenger.entities.ReservationBookingModifier;
 import com.codeshare.airline.master.flight.passenger.mappers.ReservationBookingModifierMapper;

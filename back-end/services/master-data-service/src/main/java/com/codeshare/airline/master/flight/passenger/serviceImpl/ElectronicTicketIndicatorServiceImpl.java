@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.flight.passenger.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.flightcommercial.passenger.ElectronicTicketIndicatorDTO;
+import com.codeshare.airline.platform.core.dto.master.flightcommercial.passenger.ElectronicTicketIndicatorDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.flight.passenger.entities.ElectronicTicketIndicator;
 import com.codeshare.airline.master.flight.passenger.mappers.ElectronicTicketIndicatorMapper;

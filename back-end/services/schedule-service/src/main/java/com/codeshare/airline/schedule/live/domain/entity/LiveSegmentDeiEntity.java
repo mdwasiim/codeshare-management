@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.live.domain.entity;
 
-import com.codeshare.airline.core.enums.schedule.DeiCategory;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.schedule.DeiCategory;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,16 +13,16 @@ import lombok.experimental.SuperBuilder;
  * Source-agnostic: populated from SSIM T4, SSM, or ASM DEI blocks.
  *
  * Flight identity is resolved via the parent chain:
- *   LiveSegmentDeiEntity → LiveSegmentEntity → LiveFlightLegEntity → LiveFlightEntity
+ *   LiveSegmentDeiEntity â†’ LiveSegmentEntity â†’ LiveFlightLegEntity â†’ LiveFlightEntity
  *
  * Common DEI codes:
- *   010 — Codeshare marketing designator (first-class: see LiveCodeshareDesignatorEntity)
- *   050 — Traffic restriction per segment
- *   070 — Minimum connecting time
- *   090 — In-flight service information
- *   100 — Bag allowance
- *   110 — Passenger SSR / special services
- *   120 — Meal service detail
+ *   010 â€” Codeshare marketing designator (first-class: see LiveCodeshareDesignatorEntity)
+ *   050 â€” Traffic restriction per segment
+ *   070 â€” Minimum connecting time
+ *   090 â€” In-flight service information
+ *   100 â€” Bag allowance
+ *   110 â€” Passenger SSR / special services
+ *   120 â€” Meal service detail
  */
 @Entity
 @Table(

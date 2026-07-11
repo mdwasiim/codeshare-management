@@ -1,8 +1,8 @@
 package com.codeshare.airline.identity.access.authorization.controller;
 
-import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.identity.access.authorization.service.MenuService;
-import com.codeshare.airline.web.response.CSMResponse;
+import com.codeshare.airline.platform.web.response.CSMResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

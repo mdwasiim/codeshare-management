@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.terminal.repository;
 
 import com.codeshare.airline.master.terminal.entities.PassengerTerminal;
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.UUID;

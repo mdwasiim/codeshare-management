@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airlines.controller;
 
-import com.codeshare.airline.core.dto.master.airline.AirlineCarrierDTO;
+import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
 import com.codeshare.airline.master.airlines.mappers.AirlineCarrierMapper;
 import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
 import lombok.RequiredArgsConstructor;

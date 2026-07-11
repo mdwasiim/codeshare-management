@@ -4,7 +4,7 @@ import com.codeshare.airline.schedule.ingestion.domain.context.AbstractIngestion
 import com.codeshare.airline.schedule.ingestion.domain.context.AsmIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsimIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsmIngestionContext;
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ValidationStage;
 import com.codeshare.airline.schedule.ingestion.orchestration.loader.GenericStreamLoader;

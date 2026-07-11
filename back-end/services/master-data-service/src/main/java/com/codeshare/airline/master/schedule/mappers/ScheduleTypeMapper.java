@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.schedule.mappers;
 
-import com.codeshare.airline.core.dto.master.schedule.ScheduleTypeDTO;
-import com.codeshare.airline.core.mapper.CSMGenericMapper;
-import com.codeshare.airline.core.mapper.CSMMapperConfig;
+import com.codeshare.airline.platform.core.dto.master.schedule.ScheduleTypeDTO;
+import com.codeshare.airline.platform.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.platform.core.mapper.CSMMapperConfig;
 import com.codeshare.airline.master.schedule.entities.ScheduleType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

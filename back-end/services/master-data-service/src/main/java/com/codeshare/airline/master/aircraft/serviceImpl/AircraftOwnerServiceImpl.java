@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.aircraft.AircraftOwnerDTO;
+import com.codeshare.airline.platform.core.dto.master.aircraft.AircraftOwnerDTO;
 import com.codeshare.airline.master.aircraft.entities.AircraftOwner;
 import com.codeshare.airline.master.aircraft.mappers.AircraftOwnerMapper;
 import com.codeshare.airline.master.aircraft.repository.AircraftOwnerRepository;

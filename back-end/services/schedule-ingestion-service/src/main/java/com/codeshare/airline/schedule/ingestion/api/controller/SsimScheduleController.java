@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.api.controller;
 
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
-import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.platform.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleDetailResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleSummaryResponse;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;

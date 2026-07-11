@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.aircraft.entities;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.core.enums.master.aircraft.CrewEmployerType;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.master.aircraft.CrewEmployerType;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
 import com.codeshare.airline.master.geography.entities.Country;
 import jakarta.persistence.*;

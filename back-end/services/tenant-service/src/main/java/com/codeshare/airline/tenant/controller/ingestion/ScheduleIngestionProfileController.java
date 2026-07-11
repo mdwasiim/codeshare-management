@@ -1,7 +1,7 @@
 package com.codeshare.airline.tenant.controller.ingestion;
 
-import com.codeshare.airline.core.constants.CSMConstants;
-import com.codeshare.airline.core.dto.tenant.TenantIngestionProfileDTO;
+import com.codeshare.airline.platform.core.constants.CSMConstants;
+import com.codeshare.airline.platform.core.dto.tenant.TenantIngestionProfileDTO;
 import com.codeshare.airline.tenant.service.ingestion.ScheduleIngestionProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

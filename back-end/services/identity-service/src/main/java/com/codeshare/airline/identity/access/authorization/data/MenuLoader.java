@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.authorization.data;
 
-import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;
 import com.codeshare.airline.identity.access.authorization.repository.MenuRepository;
 import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;

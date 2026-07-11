@@ -3,7 +3,7 @@ package com.codeshare.airline.schedule.ingestion.orchestration.context;
 import com.codeshare.airline.schedule.ingestion.domain.context.AsmIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.context.ScheduleGroupedMessage;
 import com.codeshare.airline.schedule.ingestion.domain.enums.AsmMessageType;
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.MessageParser;
 import com.codeshare.airline.schedule.ingestion.orchestration.parsers.ScheduleParser;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;

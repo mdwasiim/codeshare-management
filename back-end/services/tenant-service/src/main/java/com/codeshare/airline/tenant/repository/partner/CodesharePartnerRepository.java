@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.repository.partner;
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.tenant.entities.partner.CodesharePartner;
 
 import java.util.UUID;

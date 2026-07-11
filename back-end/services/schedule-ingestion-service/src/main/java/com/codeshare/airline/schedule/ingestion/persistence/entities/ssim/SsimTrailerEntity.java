@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.persistence.entities.ssim;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +38,7 @@ public class SsimTrailerEntity extends CSMDataAbstractEntity {
     private SsimFileMetaDataEntity file;
 
     /* =======================================================
-       SSIM RECORD TYPE 5 (T5) – 200 BYTES
+       SSIM RECORD TYPE 5 (T5) â€“ 200 BYTES
        ======================================================= */
 
     // SSIM T5: Byte 1
@@ -49,19 +49,19 @@ public class SsimTrailerEntity extends CSMDataAbstractEntity {
     @Column(name = "spare_byte_2", length = 1)
     private String spareByte2;
 
-    // SSIM T5: Bytes 3–5
+    // SSIM T5: Bytes 3â€“5
     @Column(name = "airline_designator", length = 3)
     private String airlineDesignator;
 
-    // SSIM T5: Bytes 6–12
+    // SSIM T5: Bytes 6â€“12
     @Column(name = "release_date_raw", length = 7)
     private String releaseDateRaw;
 
-    // SSIM T5: Bytes 13–187
+    // SSIM T5: Bytes 13â€“187
     @Column(name = "spare_13_187", length = 175)
     private String spare13To187;
 
-    // SSIM T5: Bytes 188–193
+    // SSIM T5: Bytes 188â€“193
     @Column(name = "serial_check_reference", length = 6)
     private String serialCheckReference;
 
@@ -69,7 +69,7 @@ public class SsimTrailerEntity extends CSMDataAbstractEntity {
     @Column(name = "continuation_end_code", length = 1)
     private String continuationEndCode;
 
-    // SSIM T5: Bytes 195–200
+    // SSIM T5: Bytes 195â€“200
     @Column(name = "record_serial_number", length = 6)
     private String recordSerialNumber;
 

@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.authentication.controller;
 
-import com.codeshare.airline.core.dto.auth.AuthUserDTO;
-import com.codeshare.airline.core.dto.auth.UserDeviceDTO;
+import com.codeshare.airline.platform.core.dto.auth.AuthUserDTO;
+import com.codeshare.airline.platform.core.dto.auth.UserDeviceDTO;
 import com.codeshare.airline.identity.access.authentication.service.AuthUserDeviceService;
 import com.codeshare.airline.identity.access.identity.service.AuthUserService;
 import lombok.RequiredArgsConstructor;

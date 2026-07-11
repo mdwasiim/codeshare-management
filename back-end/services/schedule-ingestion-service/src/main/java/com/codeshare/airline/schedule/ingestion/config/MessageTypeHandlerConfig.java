@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.config;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.extraction.extractor.GenericMessageExtractor;
 import com.codeshare.airline.schedule.ingestion.extraction.extractor.SsimMessageExtractor;
 import com.codeshare.airline.schedule.ingestion.orchestration.context.PreParseContextFactory;

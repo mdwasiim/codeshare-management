@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.geography.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.georegion.TimezoneDTO;
+import com.codeshare.airline.platform.core.dto.master.georegion.TimezoneDTO;
 import com.codeshare.airline.master.geography.entities.Timezone;
 import com.codeshare.airline.master.geography.repository.TimezoneRepository;
 import com.codeshare.airline.master.geography.service.TimezoneService;

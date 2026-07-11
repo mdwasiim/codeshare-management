@@ -1,9 +1,9 @@
 package com.codeshare.airline.tenant.management.controller;
 
-import com.codeshare.airline.core.constants.CSMConstants;
-import com.codeshare.airline.core.dto.tenant.TenantAuthContextDTO;
-import com.codeshare.airline.core.dto.tenant.TenantDTO;
-import com.codeshare.airline.core.dto.tenant.TenantLoginOptionDTO;
+import com.codeshare.airline.platform.core.constants.CSMConstants;
+import com.codeshare.airline.platform.core.dto.tenant.TenantAuthContextDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantLoginOptionDTO;
 import com.codeshare.airline.tenant.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

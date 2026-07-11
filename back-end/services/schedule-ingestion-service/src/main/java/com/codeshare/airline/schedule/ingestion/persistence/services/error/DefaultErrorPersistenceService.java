@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.persistence.services.error;
 
 import com.codeshare.airline.schedule.ingestion.domain.context.AbstractIngestionContext;
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ValidationStage;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationMessage;
 import lombok.RequiredArgsConstructor;

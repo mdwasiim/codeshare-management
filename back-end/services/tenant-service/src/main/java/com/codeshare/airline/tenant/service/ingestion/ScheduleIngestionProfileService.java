@@ -1,7 +1,7 @@
 package com.codeshare.airline.tenant.service.ingestion;
 
 
-import com.codeshare.airline.core.dto.tenant.TenantIngestionProfileDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantIngestionProfileDTO;
 
 import java.util.List;
 import java.util.UUID;

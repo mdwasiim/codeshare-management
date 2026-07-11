@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.api.controller;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.api.request.ScheduleMessageTextRequest;
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleMessageIngestionResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleMessageValidationResponse;

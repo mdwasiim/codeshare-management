@@ -2,7 +2,7 @@ package com.codeshare.airline.identity.integration.config;
 
 import com.codeshare.airline.identity.access.authentication.core.config.SecurityProperties;
 import com.codeshare.airline.identity.access.authentication.core.service.core.TokenService;
-import com.codeshare.airline.security.feign.InternalAccessTokenProvider;
+import com.codeshare.airline.platform.security.feign.InternalAccessTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

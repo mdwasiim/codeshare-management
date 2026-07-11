@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.schedule.data;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.core.enums.schedule.SeasonType;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.schedule.SeasonType;
 import com.codeshare.airline.master.schedule.entities.Season;
 import com.codeshare.airline.master.schedule.repository.SeasonRepository;
 import jakarta.annotation.PostConstruct;

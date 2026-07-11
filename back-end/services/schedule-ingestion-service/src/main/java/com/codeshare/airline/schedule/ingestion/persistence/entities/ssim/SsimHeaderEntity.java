@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.persistence.entities.ssim;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,18 +35,18 @@ public class SsimHeaderEntity extends CSMDataAbstractEntity {
     private SsimFileMetaDataEntity file;
 
     /* =======================================================
-       SSIM RECORD TYPE 1 (T1) – 200 BYTES
+       SSIM RECORD TYPE 1 (T1) â€“ 200 BYTES
        ======================================================= */
 
     // SSIM T1: Byte 1
     @Column(name = "record_type", length = 1)
     private String recordType;
 
-    // SSIM T1: Bytes 2–35
+    // SSIM T1: Bytes 2â€“35
     @Column(name = "title_of_contents", length = 34)
     private String titleOfContents;
 
-    // SSIM T1: Bytes 36–40
+    // SSIM T1: Bytes 36â€“40
     @Column(name = "spare_36_40", length = 5)
     private String spare36To40;
 
@@ -54,15 +54,15 @@ public class SsimHeaderEntity extends CSMDataAbstractEntity {
     @Column(name = "number_of_seasons", length = 1)
     private Integer numberOfSeasons;
 
-    // SSIM T1: Bytes 42–191
+    // SSIM T1: Bytes 42â€“191
     @Column(name = "spare_42_191", length = 150)
     private String spare42To191;
 
-    // SSIM T1: Bytes 192–194
+    // SSIM T1: Bytes 192â€“194
     @Column(name = "dataset_serial_number", length = 3)
     private String datasetSerialNumber;
 
-    // SSIM T1: Bytes 195–200
+    // SSIM T1: Bytes 195â€“200
     @Column(name = "record_serial_number", length = 6)
     private String recordSerialNumber;
 

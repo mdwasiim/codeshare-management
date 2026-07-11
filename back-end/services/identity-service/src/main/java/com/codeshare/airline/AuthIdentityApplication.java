@@ -9,9 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableCaching
 @EnableFeignClients(basePackages = "com.codeshare.airline.identity.integration")
-@SpringBootApplication(
-        scanBasePackages = {"com.codeshare.airline.identity","com.codeshare.airline.web"}
-)
+@SpringBootApplication(scanBasePackages = "com.codeshare.airline.identity")
 public class AuthIdentityApplication {
     private static final String PASSWORD = "admin";
     private final PasswordEncoder passwordEncoder;

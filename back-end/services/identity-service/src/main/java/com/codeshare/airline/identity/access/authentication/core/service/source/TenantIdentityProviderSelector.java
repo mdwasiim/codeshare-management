@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.authentication.core.service.source;
 
 
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.access.authentication.core.domain.IdentityProviderConfig;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContext;
 import com.codeshare.airline.identity.access.authentication.core.exception.UnsupportedAuthenticationFlowException;

@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.assignments.controller;
 
-import com.codeshare.airline.core.dto.tenant.RolePermissionDTO;
+import com.codeshare.airline.platform.core.dto.tenant.RolePermissionDTO;
 import com.codeshare.airline.identity.access.assignments.service.RolePermissionAssignmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

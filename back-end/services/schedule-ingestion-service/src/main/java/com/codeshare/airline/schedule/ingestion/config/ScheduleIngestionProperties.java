@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.config;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
-import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.SsimValidationMode;
 import lombok.Getter;
 import lombok.Setter;

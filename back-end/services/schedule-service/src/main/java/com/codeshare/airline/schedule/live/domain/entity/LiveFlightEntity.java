@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.live.domain.entity;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.live.domain.enums.LiveScheduleStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Root aggregate for a live flight — the canonical identity grouping
+ * Root aggregate for a live flight â€” the canonical identity grouping
  * for all legs that share the same flight number and itinerary variation.
  *
  * A flight in IATA SSIM terms is uniquely identified by:
  *   airlineCode + flightNumber + operationalSuffix + itineraryVariationId
  *
- * One flight may have multiple legs (leg sequence 01, 02, 03…) which
+ * One flight may have multiple legs (leg sequence 01, 02, 03â€¦) which
  * together form the complete routing of that flight on a given operating day.
  * Each leg is self-contained with its own period, times, and stations.
  */
@@ -64,7 +64,7 @@ public class LiveFlightEntity extends CSMDataAbstractEntity {
     private String flightNumber;                // zero-padded, e.g. "0234"
 
     @Column(name = "itinerary_variation_id", length = 2, nullable = false)
-    private String itineraryVariationId;        // "00"–"99"; "00" = base itinerary
+    private String itineraryVariationId;        // "00"â€“"99"; "00" = base itinerary
 
     @Column(name = "itinerary_variation_overflow", length = 1)
     private String itineraryVariationOverflow;  // set when > 99 variations exist

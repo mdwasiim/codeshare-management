@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.aircraft.CabinCrewOperatorDTO;
+import com.codeshare.airline.platform.core.dto.master.aircraft.CabinCrewOperatorDTO;
 import com.codeshare.airline.master.aircraft.entities.CabinCrewOperator;
 import com.codeshare.airline.master.aircraft.mappers.CabinCrewOperatorMapper;
 import com.codeshare.airline.master.aircraft.repository.CabinCrewOperatorRepository;

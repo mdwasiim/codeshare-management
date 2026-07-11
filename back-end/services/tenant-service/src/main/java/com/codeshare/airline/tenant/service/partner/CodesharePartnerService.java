@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.service.partner;
 
-import com.codeshare.airline.core.dto.master.airline.CodesharePartnerDTO;
+import com.codeshare.airline.platform.core.dto.master.airline.CodesharePartnerDTO;
 
 import java.util.List;
 import java.util.UUID;

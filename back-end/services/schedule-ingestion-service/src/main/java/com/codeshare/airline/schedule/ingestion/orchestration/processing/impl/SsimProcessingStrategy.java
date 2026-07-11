@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.orchestration.processing.impl;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.context.SsimIngestionContext;
 import com.codeshare.airline.schedule.ingestion.orchestration.processing.ProcessingStrategy;
 import com.codeshare.airline.schedule.ingestion.persistence.services.ssim.SsimPersistenceService;

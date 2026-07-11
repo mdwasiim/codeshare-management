@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.authentication.core.provider.ldap;
 
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.access.authentication.core.api.request.LoginRequest;
 import com.codeshare.airline.identity.access.authentication.core.domain.IdentityProviderConfig;
 import com.codeshare.airline.identity.access.authentication.core.domain.OidcConfig;

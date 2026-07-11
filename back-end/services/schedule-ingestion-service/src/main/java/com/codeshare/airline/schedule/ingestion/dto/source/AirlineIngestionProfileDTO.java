@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.dto.source;
 
-import com.codeshare.airline.core.dto.audit.CSMAuditableDTO;
+import com.codeshare.airline.platform.core.dto.audit.CSMAuditableDTO;
 import lombok.Getter;
 import lombok.Setter;
 

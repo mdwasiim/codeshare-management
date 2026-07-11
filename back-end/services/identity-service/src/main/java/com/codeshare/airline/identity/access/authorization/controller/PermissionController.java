@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.authorization.controller;
 
-import com.codeshare.airline.core.dto.tenant.PermissionDTO;
+import com.codeshare.airline.platform.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.identity.access.authorization.service.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

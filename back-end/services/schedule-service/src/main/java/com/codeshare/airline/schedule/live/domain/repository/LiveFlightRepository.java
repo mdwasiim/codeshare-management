@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.live.domain.repository;
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.schedule.live.domain.entity.LiveFlightEntity;
 import com.codeshare.airline.schedule.live.domain.enums.LiveScheduleStatus;
 import org.springframework.stereotype.Repository;

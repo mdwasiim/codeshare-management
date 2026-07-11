@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.shared.classifier;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 
 public class LineClassifierFactory {
 

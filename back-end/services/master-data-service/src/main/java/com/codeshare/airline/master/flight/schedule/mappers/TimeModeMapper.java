@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.flight.schedule.mappers;
 
-import com.codeshare.airline.core.dto.master.flightcommercial.schedule.TimeModeDTO;
-import com.codeshare.airline.core.mapper.CSMGenericMapper;
-import com.codeshare.airline.core.mapper.CSMMapperConfig;
+import com.codeshare.airline.platform.core.dto.master.flightcommercial.schedule.TimeModeDTO;
+import com.codeshare.airline.platform.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.platform.core.mapper.CSMMapperConfig;
 import com.codeshare.airline.master.flight.schedule.entities.TimeMode;
 import org.mapstruct.Mapper;
 

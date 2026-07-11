@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.identity.controller;
 
-import com.codeshare.airline.core.dto.tenant.GroupDTO;
+import com.codeshare.airline.platform.core.dto.tenant.GroupDTO;
 import com.codeshare.airline.identity.access.identity.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

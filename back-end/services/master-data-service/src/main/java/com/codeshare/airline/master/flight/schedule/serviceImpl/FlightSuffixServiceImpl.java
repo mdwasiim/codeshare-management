@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.flight.schedule.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.flightcommercial.schedule.FlightSuffixDTO;
+import com.codeshare.airline.platform.core.dto.master.flightcommercial.schedule.FlightSuffixDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.flight.schedule.entities.FlightSuffix;
 import com.codeshare.airline.master.flight.schedule.mappers.FlightSuffixMapper;

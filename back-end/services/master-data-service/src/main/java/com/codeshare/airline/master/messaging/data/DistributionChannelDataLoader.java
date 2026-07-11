@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.data;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.messaging.entities.DistributionChannel;
 import com.codeshare.airline.master.messaging.repository.DistributionChannelRepository;
 import jakarta.annotation.PostConstruct;

@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.terminal.data;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.geography.repository.AirportRepository;
 import com.codeshare.airline.master.terminal.entities.PassengerTerminal;
 import com.codeshare.airline.master.terminal.repository.PassengerTerminalRepository;

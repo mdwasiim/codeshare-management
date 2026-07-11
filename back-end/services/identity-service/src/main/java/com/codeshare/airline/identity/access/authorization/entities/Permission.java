@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.authorization.entities;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.identity.access.assignments.entities.RolePermission;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

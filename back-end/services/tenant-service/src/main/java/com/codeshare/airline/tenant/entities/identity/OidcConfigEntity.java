@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.entities.identity;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.Builder.Default;

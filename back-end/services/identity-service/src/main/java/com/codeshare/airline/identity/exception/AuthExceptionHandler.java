@@ -1,10 +1,10 @@
 package com.codeshare.airline.identity.exception;
 
 
-import com.codeshare.airline.core.exceptions.CSMErrorCodes;
+import com.codeshare.airline.platform.core.exceptions.CSMErrorCodes;
 import com.codeshare.airline.identity.access.authentication.core.exception.*;
-import com.codeshare.airline.core.response.CSMServiceError;
-import com.codeshare.airline.core.response.CSMServiceResponse;
+import com.codeshare.airline.platform.core.response.CSMServiceError;
+import com.codeshare.airline.platform.core.response.CSMServiceResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

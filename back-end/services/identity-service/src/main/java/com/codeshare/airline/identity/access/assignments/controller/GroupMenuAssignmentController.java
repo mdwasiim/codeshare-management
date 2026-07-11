@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.assignments.controller;
 
-import com.codeshare.airline.core.dto.tenant.GroupMenuDTO;
-import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.platform.core.dto.tenant.GroupMenuDTO;
+import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.identity.access.assignments.service.GroupMenuAssignmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

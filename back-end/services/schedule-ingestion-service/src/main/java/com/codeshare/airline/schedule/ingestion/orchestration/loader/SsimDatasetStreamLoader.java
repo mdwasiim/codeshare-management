@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.orchestration.loader;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.orchestration.handler.StreamExtractorHandler;
 import com.codeshare.airline.schedule.ingestion.orchestration.flow.BlockTaskCoordinator;
 import com.codeshare.airline.schedule.ingestion.orchestration.flow.MessageBlockProcessor;

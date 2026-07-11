@@ -1,9 +1,9 @@
 package com.codeshare.airline.master.messaging.entities;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.core.enums.schedule.DeiFunctionType;
-import com.codeshare.airline.core.enums.schedule.DeiScope;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.schedule.DeiFunctionType;
+import com.codeshare.airline.platform.core.enums.schedule.DeiScope;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

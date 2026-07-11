@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.service.partner.impl;
 
-import com.codeshare.airline.core.dto.master.codesharepartner.CodesharePartnerProfileDTO;
+import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerProfileDTO;
 import com.codeshare.airline.tenant.entities.partner.CodesharePartnerProfile;
 import com.codeshare.airline.tenant.mappers.partner.CodesharePartnerProfileMapper;
 import com.codeshare.airline.tenant.repository.partner.CodesharePartnerProfileRepository;

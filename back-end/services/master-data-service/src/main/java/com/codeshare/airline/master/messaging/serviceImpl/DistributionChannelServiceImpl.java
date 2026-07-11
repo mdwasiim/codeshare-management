@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.messaging.DistributionChannelDTO;
+import com.codeshare.airline.platform.core.dto.master.messaging.DistributionChannelDTO;
 import com.codeshare.airline.master.messaging.entities.DistributionChannel;
 import com.codeshare.airline.master.messaging.repository.DistributionChannelRepository;
 import com.codeshare.airline.master.messaging.service.DistributionChannelService;

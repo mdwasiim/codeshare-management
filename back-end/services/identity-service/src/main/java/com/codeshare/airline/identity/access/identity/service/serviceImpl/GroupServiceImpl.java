@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.identity.service.serviceImpl;
 
-import com.codeshare.airline.core.dto.tenant.GroupDTO;
-import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
+import com.codeshare.airline.platform.core.dto.tenant.GroupDTO;
+import com.codeshare.airline.platform.core.exceptions.CSMResourceNotFoundException;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.identity.entities.Group;
 import com.codeshare.airline.identity.access.identity.mappers.GroupMapper;

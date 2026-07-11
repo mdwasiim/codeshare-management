@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.channel;
 
-import com.codeshare.airline.core.enums.schedule.SourceType;
+import com.codeshare.airline.platform.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionChannelDTO;
 import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionProfileDTO;
 import org.apache.camel.builder.RouteBuilder;

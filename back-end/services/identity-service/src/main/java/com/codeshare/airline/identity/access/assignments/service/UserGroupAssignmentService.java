@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.assignments.service;
 
-import com.codeshare.airline.core.dto.tenant.GroupDTO;
-import com.codeshare.airline.core.dto.tenant.UserGroupDTO;
+import com.codeshare.airline.platform.core.dto.tenant.GroupDTO;
+import com.codeshare.airline.platform.core.dto.tenant.UserGroupDTO;
 
 import java.util.List;
 import java.util.Set;

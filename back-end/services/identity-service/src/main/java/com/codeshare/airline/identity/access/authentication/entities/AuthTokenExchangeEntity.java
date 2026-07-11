@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.authentication.entities;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,14 +34,14 @@ public class AuthTokenExchangeEntity extends CSMDataAbstractEntity {
 
     /**
      * Short-lived access token.
-     * Stored temporarily (≤ 60s) for exchange coordination only.
+     * Stored temporarily (â‰¤ 60s) for exchange coordination only.
      */
     @Column(name = "access_token", nullable = false, length = 4000)
     private String accessToken;
 
     /**
      * Short-lived refresh token.
-     * Stored temporarily (≤ 60s) for exchange coordination only.
+     * Stored temporarily (â‰¤ 60s) for exchange coordination only.
      */
     @Column(name = "refresh_token", nullable = false, length = 4000)
     private String refreshToken;
@@ -61,7 +61,7 @@ public class AuthTokenExchangeEntity extends CSMDataAbstractEntity {
     private String tenantCode;
 
     /**
-     * Absolute expiry time (typically now + 30–60 seconds)
+     * Absolute expiry time (typically now + 30â€“60 seconds)
      */
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;

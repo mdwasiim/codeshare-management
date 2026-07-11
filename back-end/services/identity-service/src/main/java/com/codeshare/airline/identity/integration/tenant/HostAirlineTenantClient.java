@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.integration.tenant;
 
-import com.codeshare.airline.core.dto.tenant.TenantAuthContextDTO;
-import com.codeshare.airline.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantAuthContextDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

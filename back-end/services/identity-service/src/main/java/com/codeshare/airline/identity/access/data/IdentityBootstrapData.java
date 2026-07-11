@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.data;
 
-import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.core.enums.common.TenantPlan;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.enums.common.TenantPlan;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

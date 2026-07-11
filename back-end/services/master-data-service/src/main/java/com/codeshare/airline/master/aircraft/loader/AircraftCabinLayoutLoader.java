@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.aircraft.loader;
 
-import com.codeshare.airline.core.enums.common.CabinClass;
-import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.common.CabinClass;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.AircraftCabinLayout;
 import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.repository.AircraftCabinLayoutRepository;

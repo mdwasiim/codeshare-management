@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.terminal.controller;
 
-import com.codeshare.airline.core.dto.master.terminal.PassengerTerminalDTO;
+import com.codeshare.airline.platform.core.dto.master.terminal.PassengerTerminalDTO;
 import com.codeshare.airline.master.terminal.service.PassengerTerminalService;
 import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;

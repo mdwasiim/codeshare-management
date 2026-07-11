@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.messaging.repository;
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.messaging.entities.MessagePriority;
 
 import java.util.Optional;

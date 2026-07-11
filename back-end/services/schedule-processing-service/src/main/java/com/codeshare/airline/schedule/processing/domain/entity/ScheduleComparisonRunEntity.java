@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.processing.domain.entity;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.ComparisonStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * One comparison run — triggered when schedule-ingestion-service finishes
+ * One comparison run â€” triggered when schedule-ingestion-service finishes
  * loading a message (SSIM file, SSM, or ASM) and publishes to Kafka.
  *
  * Tracks:
@@ -47,7 +47,7 @@ import java.util.UUID;
 public class ScheduleComparisonRunEntity extends CSMDataAbstractEntity {
 
     /* ==========================================================
-       SOURCE REFERENCE — the ingested message that triggered this run
+       SOURCE REFERENCE â€” the ingested message that triggered this run
        ========================================================== */
 
     // ID of the ScheduleMessageEntity (or SsimFileMetaDataEntity) in ingestion DB

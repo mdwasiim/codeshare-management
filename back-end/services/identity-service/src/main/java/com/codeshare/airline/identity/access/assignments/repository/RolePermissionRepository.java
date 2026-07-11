@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.assignments.repository;
 
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.identity.access.assignments.entities.RolePermission;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

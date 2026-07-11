@@ -1,7 +1,7 @@
 package com.codeshare.airline.tenant.controller.partner;
 
-import com.codeshare.airline.core.constants.CSMConstants;
-import com.codeshare.airline.core.dto.master.codesharepartner.CodesharePartnerCommunicationProfileDTO;
+import com.codeshare.airline.platform.core.constants.CSMConstants;
+import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerCommunicationProfileDTO;
 import com.codeshare.airline.tenant.service.partner.CodesharePartnerCommunicationProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

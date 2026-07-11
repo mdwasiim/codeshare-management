@@ -1,15 +1,15 @@
 package com.codeshare.airline.master.data;
 
-import com.codeshare.airline.core.enums.common.CabinClass;
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.core.enums.master.airline.AirlineAliasType;
-import com.codeshare.airline.core.enums.master.airline.AirlineContactType;
-import com.codeshare.airline.core.enums.master.airline.AirlineRoleCategory;
-import com.codeshare.airline.core.enums.master.airline.AirlineRoleScope;
-import com.codeshare.airline.core.enums.master.airline.AllianceMembershipStatus;
-import com.codeshare.airline.core.enums.master.airline.AllianceMembershipType;
-import com.codeshare.airline.core.enums.master.airline.CommunicationMethod;
-import com.codeshare.airline.core.enums.schedule.SeasonType;
+import com.codeshare.airline.platform.core.enums.common.CabinClass;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.master.airline.AirlineAliasType;
+import com.codeshare.airline.platform.core.enums.master.airline.AirlineContactType;
+import com.codeshare.airline.platform.core.enums.master.airline.AirlineRoleCategory;
+import com.codeshare.airline.platform.core.enums.master.airline.AirlineRoleScope;
+import com.codeshare.airline.platform.core.enums.master.airline.AllianceMembershipStatus;
+import com.codeshare.airline.platform.core.enums.master.airline.AllianceMembershipType;
+import com.codeshare.airline.platform.core.enums.master.airline.CommunicationMethod;
+import com.codeshare.airline.platform.core.enums.schedule.SeasonType;
 import com.codeshare.airline.master.airlines.entities.AirlineAlias;
 import com.codeshare.airline.master.airlines.entities.AirlineBusinessRole;
 import com.codeshare.airline.master.airlines.entities.AirlineCarrier;

@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.terminal.repository;
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.terminal.entities.TrafficConferenceArea;
 
 import java.util.Optional;

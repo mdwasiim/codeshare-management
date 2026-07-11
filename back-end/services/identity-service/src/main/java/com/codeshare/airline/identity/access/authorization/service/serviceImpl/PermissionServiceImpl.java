@@ -1,8 +1,8 @@
 package com.codeshare.airline.identity.access.authorization.service.serviceImpl;
 
-import com.codeshare.airline.core.dto.tenant.PermissionDTO;
-import com.codeshare.airline.core.exceptions.CSMBusinessException;
-import com.codeshare.airline.core.exceptions.CSMErrorCodes;
+import com.codeshare.airline.platform.core.dto.tenant.PermissionDTO;
+import com.codeshare.airline.platform.core.exceptions.CSMBusinessException;
+import com.codeshare.airline.platform.core.exceptions.CSMErrorCodes;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.authorization.entities.Permission;
 import com.codeshare.airline.identity.access.authorization.mappers.PermissionMapper;

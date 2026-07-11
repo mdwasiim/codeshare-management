@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.geography.entities;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -64,7 +64,7 @@ public class TimezoneDLS extends CSMDataAbstractEntity {
             throw new IllegalStateException("DST start and end must not be null.");
         }
 
-        // IMPORTANT: DST may cross year boundary (e.g., Oct → Mar)
+        // IMPORTANT: DST may cross year boundary (e.g., Oct â†’ Mar)
         if (dstOffsetMinutes == null || dstOffsetMinutes <= 0) {
             throw new IllegalStateException("DST offset must be positive.");
         }

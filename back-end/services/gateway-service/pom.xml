@@ -53,7 +53,7 @@
         <!-- Shared core -->
         <dependency>
             <groupId>com.codeshare.airline</groupId>
-            <artifactId>csm-core</artifactId>
+            <artifactId>csm-platform-core</artifactId>
         </dependency>
 
     </dependencies>

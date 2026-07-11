@@ -1,9 +1,9 @@
 package com.codeshare.airline.identity.access.assignments.mappers;
 
 import com.codeshare.airline.identity.access.assignments.entities.GroupRole;
-import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
-import com.codeshare.airline.core.mapper.CSMGenericMapper;
-import com.codeshare.airline.core.mapper.CSMMapperConfig;
+import com.codeshare.airline.platform.core.dto.tenant.GroupRoleDTO;
+import com.codeshare.airline.platform.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.platform.core.mapper.CSMMapperConfig;
 import org.mapstruct.Mapper;
 
 

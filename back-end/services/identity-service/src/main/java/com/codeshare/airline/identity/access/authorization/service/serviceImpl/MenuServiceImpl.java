@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.authorization.service.serviceImpl;
 
-import com.codeshare.airline.core.dto.tenant.MenuBackupDTO;
-import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.platform.core.dto.tenant.MenuBackupDTO;
+import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.identity.access.assignments.entities.GroupMenu;
 import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import com.codeshare.airline.identity.access.assignments.repository.GroupMenuRepository;

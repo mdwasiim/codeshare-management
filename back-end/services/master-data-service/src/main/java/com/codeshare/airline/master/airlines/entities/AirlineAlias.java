@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.airlines.entities;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.core.enums.master.airline.AirlineAliasType;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.master.airline.AirlineAliasType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,7 +60,7 @@ public class AirlineAlias extends CSMDataAbstractEntity {
      * Example:
      * Qatar Airways
      * Qatar Airways Cargo
-     * القطرية
+     * Ø§Ù„Ù‚Ø·Ø±ÙŠØ©
      */
     @Column(name = "ALIAS_NAME", nullable = false, length = 200)
     private String aliasName;

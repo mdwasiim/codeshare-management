@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airlines.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.airline.AllianceDTO;
+import com.codeshare.airline.platform.core.dto.master.airline.AllianceDTO;
 import com.codeshare.airline.master.airlines.entities.Alliance;
 import com.codeshare.airline.master.airlines.mappers.AllianceMapper;
 import com.codeshare.airline.master.airlines.repository.AllianceRepository;

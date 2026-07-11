@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.authorization.service;
 
 
-import com.codeshare.airline.core.dto.tenant.PermissionDTO;
+import com.codeshare.airline.platform.core.dto.tenant.PermissionDTO;
 
 import java.util.List;
 import java.util.UUID;

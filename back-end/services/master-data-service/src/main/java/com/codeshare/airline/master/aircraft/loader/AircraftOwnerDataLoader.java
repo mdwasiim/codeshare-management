@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.aircraft.loader;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.AircraftOwner;
-import com.codeshare.airline.core.enums.master.aircraft.AircraftOwnerType;
+import com.codeshare.airline.platform.core.enums.master.aircraft.AircraftOwnerType;
 import com.codeshare.airline.master.aircraft.repository.AircraftOwnerRepository;
 import com.codeshare.airline.master.geography.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;

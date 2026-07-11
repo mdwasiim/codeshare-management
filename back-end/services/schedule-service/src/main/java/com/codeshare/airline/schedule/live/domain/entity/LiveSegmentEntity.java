@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.live.domain.entity;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A board-point / off-point segment on a live flight leg — SSIM Chapter 5.
+ * A board-point / off-point segment on a live flight leg â€” SSIM Chapter 5.
  *
  * In SSIM, a segment is the revenue-carrying portion between two airports
  * on a single leg. It is identified by the board point (where passengers
@@ -69,7 +69,7 @@ public class LiveSegmentEntity extends CSMDataAbstractEntity {
     private String offPoint;            // IATA 3-letter airport code
 
     /* ==========================================================
-       CHILDREN — DEI CODES FOR THIS SEGMENT
+       CHILDREN â€” DEI CODES FOR THIS SEGMENT
        ========================================================== */
 
     @OneToMany(

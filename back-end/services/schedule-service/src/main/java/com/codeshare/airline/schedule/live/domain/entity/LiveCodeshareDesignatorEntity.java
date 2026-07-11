@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.live.domain.entity;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +11,8 @@ import lombok.experimental.SuperBuilder;
  * Codeshare marketing carrier designator for a live flight leg.
  *
  * Decoded from SSIM Chapter 5, Record Type 4 (T4) DEI codes:
- *   DEI 010 — Marketing carrier designator (airline code + flight number)
- *   DEI 011 — Marketing carrier booking designator (cabin class mapping)
+ *   DEI 010 â€” Marketing carrier designator (airline code + flight number)
+ *   DEI 011 â€” Marketing carrier booking designator (cabin class mapping)
  *
  * Stored as a first-class entity rather than buried in raw DEI text
  * because codeshare designators are a core concept in the codeshare
@@ -65,10 +65,10 @@ public class LiveCodeshareDesignatorEntity extends CSMDataAbstractEntity {
     private LiveFlightLegEntity flightLeg;
 
     /* ==========================================================
-       DEI 010 — MARKETING CARRIER DESIGNATOR
-       T4 Bytes 40–46 (within 155-byte payload):
-         Bytes 40–42: marketing airline code (IATA 2 or ICAO 3)
-         Bytes 43–46: marketing flight number (zero-padded)
+       DEI 010 â€” MARKETING CARRIER DESIGNATOR
+       T4 Bytes 40â€“46 (within 155-byte payload):
+         Bytes 40â€“42: marketing airline code (IATA 2 or ICAO 3)
+         Bytes 43â€“46: marketing flight number (zero-padded)
        ========================================================== */
 
     @Column(name = "marketing_airline_code", length = 3, nullable = false)
@@ -83,7 +83,7 @@ public class LiveCodeshareDesignatorEntity extends CSMDataAbstractEntity {
 
     /* ==========================================================
        SEGMENT SCOPE (board/off-point for this codeshare pairing)
-       T4 Bytes 34–39 scope fields
+       T4 Bytes 34â€“39 scope fields
        ========================================================== */
 
     @Column(name = "board_point", length = 3)
@@ -93,9 +93,9 @@ public class LiveCodeshareDesignatorEntity extends CSMDataAbstractEntity {
     private String offPoint;                    // blank = full leg scope
 
     /* ==========================================================
-       DEI 011 — MARKETING BOOKING DESIGNATOR
+       DEI 011 â€” MARKETING BOOKING DESIGNATOR
        Cabin-class mapping from operating cabin to marketing cabin
-       (e.g. operating Y → marketing J for premium codeshare)
+       (e.g. operating Y â†’ marketing J for premium codeshare)
        ========================================================== */
 
     // Raw booking designator string from DEI 011 payload

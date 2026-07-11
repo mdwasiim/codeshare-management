@@ -1,6 +1,6 @@
 package com.codeshare.airline.tenant.integration.master;
 
-import com.codeshare.airline.core.dto.master.airline.AirlineCarrierDTO;
+import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

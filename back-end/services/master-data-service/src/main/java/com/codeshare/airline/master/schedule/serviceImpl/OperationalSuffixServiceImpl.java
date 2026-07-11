@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.schedule.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.schedule.OperationalSuffixDTO;
+import com.codeshare.airline.platform.core.dto.master.schedule.OperationalSuffixDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.schedule.entities.OperationalSuffix;
 import com.codeshare.airline.master.schedule.mappers.OperationalSuffixMapper;

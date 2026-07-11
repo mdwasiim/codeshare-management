@@ -1,14 +1,14 @@
 package com.codeshare.airline.tenant.management.service.impl;
 
-import com.codeshare.airline.core.dto.tenant.IdentityProviderConfigDTO;
-import com.codeshare.airline.core.dto.tenant.OidcConfigDTO;
-import com.codeshare.airline.core.dto.tenant.TenantAuthContextDTO;
-import com.codeshare.airline.core.dto.tenant.TenantDTO;
-import com.codeshare.airline.core.dto.tenant.TenantLoginOptionDTO;
-import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.core.enums.common.TenantPlan;
-import com.codeshare.airline.core.enums.common.TenantStatus;
-import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
+import com.codeshare.airline.platform.core.dto.tenant.IdentityProviderConfigDTO;
+import com.codeshare.airline.platform.core.dto.tenant.OidcConfigDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantAuthContextDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantDTO;
+import com.codeshare.airline.platform.core.dto.tenant.TenantLoginOptionDTO;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.enums.common.TenantPlan;
+import com.codeshare.airline.platform.core.enums.common.TenantStatus;
+import com.codeshare.airline.platform.core.exceptions.CSMResourceNotFoundException;
 import com.codeshare.airline.tenant.entities.Tenant;
 import com.codeshare.airline.tenant.entities.identity.OidcConfigEntity;
 import com.codeshare.airline.tenant.entities.identity.OidcIdentityProviderEntity;

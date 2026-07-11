@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.geography.repository;
 
 import com.codeshare.airline.master.geography.entities.Airport;
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

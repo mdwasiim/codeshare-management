@@ -1,7 +1,7 @@
 package com.codeshare.airline.tenant.mappers.partner;
 
-import com.codeshare.airline.core.dto.master.codesharepartner.CodesharePartnerCommunicationProfileDTO;
-import com.codeshare.airline.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerCommunicationProfileDTO;
+import com.codeshare.airline.platform.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.tenant.entities.partner.CodesharePartnerCommunicationProfile;
 import org.springframework.stereotype.Component;
 

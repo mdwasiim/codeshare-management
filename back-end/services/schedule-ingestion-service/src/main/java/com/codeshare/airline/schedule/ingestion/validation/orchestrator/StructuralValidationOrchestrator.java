@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.validation.orchestrator;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.context.AbstractIngestionContext;
 import com.codeshare.airline.schedule.ingestion.validation.engine.ValidationEngine;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationResult;

@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.assignments.repository;
 
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.identity.access.identity.entities.Group;
 import com.codeshare.airline.identity.access.assignments.entities.GroupMenu;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;

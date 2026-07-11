@@ -78,12 +78,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
         </dependency>
@@ -91,15 +85,19 @@
         <!-- Shared -->
         <dependency>
             <groupId>com.codeshare.airline</groupId>
-            <artifactId>csm-core</artifactId>
+            <artifactId>csm-platform-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.codeshare.airline</groupId>
-            <artifactId>csm-data-jpa</artifactId>
+            <artifactId>csm-platform-web</artifactId>
         </dependency>
         <dependency>
             <groupId>com.codeshare.airline</groupId>
-            <artifactId>csm-service-security</artifactId>
+            <artifactId>csm-platform-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.codeshare.airline</groupId>
+            <artifactId>csm-platform-security</artifactId>
         </dependency>
     </dependencies>
 

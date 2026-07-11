@@ -1,9 +1,9 @@
 package com.codeshare.airline.master.common.base;
 
 
-import com.codeshare.airline.core.mapper.CSMGenericMapper;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;

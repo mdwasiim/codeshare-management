@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.live.domain.entity;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.live.domain.enums.LiveScheduleSource;
 import com.codeshare.airline.schedule.live.domain.enums.ScheduleChangeType;
 import jakarta.persistence.*;
@@ -104,7 +104,7 @@ public class LiveScheduleVersionEntity extends CSMDataAbstractEntity {
        ========================================================== */
 
     @Column(name = "change_summary", columnDefinition = "TEXT")
-    private String changeSummary;               // JSON: {"field": ["oldVal", "newVal"], …}
+    private String changeSummary;               // JSON: {"field": ["oldVal", "newVal"], â€¦}
 
     /* ==========================================================
        TIMING

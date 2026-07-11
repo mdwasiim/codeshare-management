@@ -1,8 +1,8 @@
 package com.codeshare.airline.identity.access.authentication.controller.api;
 
-import com.codeshare.airline.core.constants.CSMConstants;
-import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.core.response.CSMServiceResponse;
+import com.codeshare.airline.platform.core.constants.CSMConstants;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.response.CSMServiceResponse;
 import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import com.codeshare.airline.identity.access.assignments.repository.UserGroupRepository;
 import com.codeshare.airline.identity.access.assignments.service.RolePermissionAssignmentService;
@@ -31,7 +31,7 @@ import com.codeshare.airline.identity.access.authentication.core.service.core.To
 import com.codeshare.airline.identity.access.authentication.core.service.source.TenantIdentityProviderSelector;
 import com.codeshare.airline.identity.access.authentication.core.state.OidcStatePayload;
 import com.codeshare.airline.identity.access.identity.service.AuthUserService;
-import com.codeshare.airline.web.response.CSMResponse;
+import com.codeshare.airline.platform.web.response.CSMResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

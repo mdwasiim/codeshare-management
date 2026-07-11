@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.airlines.loader;
 
-import com.codeshare.airline.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
 import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.geography.repository.CountryRepository;

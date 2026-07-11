@@ -1,9 +1,9 @@
 package com.codeshare.airline.identity.access.identity.service.serviceImpl;
 
-import com.codeshare.airline.core.dto.auth.AuthUserDTO;
-import com.codeshare.airline.core.enums.auth.AuthSource;
-import com.codeshare.airline.core.enums.common.RecordStatus;
-import com.codeshare.airline.core.exceptions.CSMResourceNotFoundException;
+import com.codeshare.airline.platform.core.dto.auth.AuthUserDTO;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.core.enums.common.RecordStatus;
+import com.codeshare.airline.platform.core.exceptions.CSMResourceNotFoundException;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContext;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.authentication.core.security.adapter.UserDetailsAdapter;

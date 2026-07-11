@@ -1,8 +1,8 @@
 package com.codeshare.airline.tenant.entities.ingestion;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
-import com.codeshare.airline.core.enums.schedule.SourceType;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.SourceType;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

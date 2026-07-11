@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.flight.schedule.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.flightcommercial.schedule.FlightFrequencyDTO;
+import com.codeshare.airline.platform.core.dto.master.flightcommercial.schedule.FlightFrequencyDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.flight.schedule.entities.FlightFrequency;
 import com.codeshare.airline.master.flight.schedule.mappers.FlightFrequencyMapper;

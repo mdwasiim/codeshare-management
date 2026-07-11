@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.domain.context;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

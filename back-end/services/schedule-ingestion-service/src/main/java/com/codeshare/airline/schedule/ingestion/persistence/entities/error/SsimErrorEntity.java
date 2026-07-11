@@ -2,7 +2,7 @@ package com.codeshare.airline.schedule.ingestion.persistence.entities.error;
 
 import com.codeshare.airline.schedule.ingestion.domain.enums.ValidationStage;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationSeverity;
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

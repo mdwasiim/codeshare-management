@@ -1,6 +1,6 @@
 package com.codeshare.airline.identity.access.identity.service.serviceImpl;
 
-import com.codeshare.airline.core.dto.tenant.RoleDTO;
+import com.codeshare.airline.platform.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.identity.entities.Role;
 import com.codeshare.airline.identity.access.identity.mappers.RoleMapper;

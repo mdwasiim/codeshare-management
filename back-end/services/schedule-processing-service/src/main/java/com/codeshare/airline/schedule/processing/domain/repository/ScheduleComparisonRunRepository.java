@@ -1,7 +1,7 @@
 package com.codeshare.airline.schedule.processing.domain.repository;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.schedule.processing.domain.entity.ScheduleComparisonRunEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.ComparisonStatus;
 import org.springframework.data.jpa.repository.Query;

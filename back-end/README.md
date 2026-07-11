@@ -8,14 +8,16 @@ Spring Boot multi-module backend for Codeshare Management.
 back-end/
   common/       Shared backend support code
   services/
+    csm-platform-core/
+    csm-platform-data-jpa/
+    csm-platform-web-starter/
+    csm-platform-security/
     gateway-service/
     identity-service/
     master-data-service/
     schedule-ingestion-service/
     schedule-processing-service/
-    csm-core/
-    csm-data-jpa/
-    csm-web/
+    schedule-service/
 ```
 
 ## Service Layering

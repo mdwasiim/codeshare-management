@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.identity.repository;
 
-import com.codeshare.airline.data.repository.CSMDataBaseRepository;
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
 import com.codeshare.airline.identity.access.identity.entities.User;
 
 import java.util.List;

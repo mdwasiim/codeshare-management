@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.channel;
 
-import com.codeshare.airline.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionChannelDTO;
 import com.codeshare.airline.schedule.ingestion.dto.source.AirlineIngestionProfileDTO;
 import lombok.extern.slf4j.Slf4j;

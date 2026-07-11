@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.authentication.entities;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.core.enums.auth.AuthSource;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.core.enums.auth.AuthSource;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;

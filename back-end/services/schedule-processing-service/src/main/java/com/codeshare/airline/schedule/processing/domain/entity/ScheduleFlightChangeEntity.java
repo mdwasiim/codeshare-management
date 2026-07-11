@@ -1,6 +1,6 @@
 package com.codeshare.airline.schedule.processing.domain.entity;
 
-import com.codeshare.airline.data.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
 import jakarta.persistence.*;
 import lombok.Getter;

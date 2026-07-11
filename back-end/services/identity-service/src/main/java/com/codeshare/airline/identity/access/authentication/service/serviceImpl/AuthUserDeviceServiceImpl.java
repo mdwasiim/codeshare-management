@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.authentication.service.serviceImpl;
 
-import com.codeshare.airline.core.dto.auth.AuthUserDTO;
-import com.codeshare.airline.core.dto.auth.UserDeviceDTO;
+import com.codeshare.airline.platform.core.dto.auth.AuthUserDTO;
+import com.codeshare.airline.platform.core.dto.auth.UserDeviceDTO;
 import com.codeshare.airline.identity.access.identity.entities.User;
 import com.codeshare.airline.identity.access.authentication.entities.UserDeviceEntity;
 import com.codeshare.airline.identity.access.authentication.repository.UserDeviceRepository;

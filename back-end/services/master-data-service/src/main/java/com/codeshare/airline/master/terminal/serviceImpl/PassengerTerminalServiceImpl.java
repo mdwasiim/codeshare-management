@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.terminal.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.terminal.PassengerTerminalDTO;
+import com.codeshare.airline.platform.core.dto.master.terminal.PassengerTerminalDTO;
 import com.codeshare.airline.master.geography.entities.Airport;
 import com.codeshare.airline.master.geography.repository.AirportRepository;
 import com.codeshare.airline.master.terminal.entities.PassengerTerminal;

@@ -1,8 +1,8 @@
 package com.codeshare.airline.identity.access.authorization.mappers;
 
-import com.codeshare.airline.core.dto.tenant.MenuDTO;
-import com.codeshare.airline.core.mapper.CSMGenericMapper;
-import com.codeshare.airline.core.mapper.CSMMapperConfig;
+import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.platform.core.mapper.CSMGenericMapper;
+import com.codeshare.airline.platform.core.mapper.CSMMapperConfig;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;

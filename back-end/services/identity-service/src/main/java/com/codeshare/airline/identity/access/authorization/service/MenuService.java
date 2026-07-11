@@ -1,7 +1,7 @@
 package com.codeshare.airline.identity.access.authorization.service;
 
-import com.codeshare.airline.core.dto.tenant.MenuBackupDTO;
-import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.platform.core.dto.tenant.MenuBackupDTO;
+import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
 
 import java.util.List;
 import java.util.UUID;

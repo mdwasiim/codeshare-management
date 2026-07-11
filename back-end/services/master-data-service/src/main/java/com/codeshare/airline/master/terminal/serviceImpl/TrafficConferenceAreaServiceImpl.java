@@ -1,6 +1,6 @@
 package com.codeshare.airline.master.terminal.serviceImpl;
 
-import com.codeshare.airline.core.dto.master.terminal.TrafficConferenceAreaDTO;
+import com.codeshare.airline.platform.core.dto.master.terminal.TrafficConferenceAreaDTO;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.geography.entities.Region;
 import com.codeshare.airline.master.geography.repository.RegionRepository;
