@@ -111,7 +111,7 @@
     <app-dialog
         [(visible)]="dialogVisible"
         [title]="selectedTenantId ? 'Edit Tenant' : 'Create Tenant'"
-        width="min(92vw, 800px)"
+        width="min(96vw, 920px)"
         [disableSave]="!!tenantForm?.form?.invalid || !!tenantForm?.loading"
         [loading]="!!tenantForm?.loading"
         (save)="tenantForm.submit()"

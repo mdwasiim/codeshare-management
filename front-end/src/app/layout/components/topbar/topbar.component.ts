@@ -160,21 +160,16 @@ export class TopbarComponent implements OnInit {
     // =========================
 
     private getFirstNavigableRoute(menu: AppMenuModel): string | null {
-        const queue: AppMenuModel[] = [menu];
-
-        while (queue.length) {
-            const current = queue.shift()!;
-
-            if (current.route) {
-                return current.route;
-            }
-
-            if (current.items?.length) {
-                queue.push(...current.items);
+        if (menu.items?.length) {
+            for (const child of menu.items) {
+                const childRoute = this.getFirstNavigableRoute(child);
+                if (childRoute) {
+                    return childRoute;
+                }
             }
         }
 
-        return null;
+        return menu.route ?? null;
     }
 }
 

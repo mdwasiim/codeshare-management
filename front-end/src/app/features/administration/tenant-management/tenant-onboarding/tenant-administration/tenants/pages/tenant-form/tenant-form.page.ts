@@ -6,7 +6,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
-import { ButtonModule } from 'primeng/button';
 
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
@@ -24,7 +23,6 @@ import { TenantService } from '../../services/tenant.service';
         TextareaModule,
         SelectModule,
         CheckboxModule,
-        ButtonModule,
         AppFormSectionComponent
     ],
     templateUrl: './tenant-form.page.html'
@@ -58,10 +56,6 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
     get oidcRequired(): boolean {
         const authSource = this.form?.get('authSource')?.value as AuthSource;
         return authSource === AuthSource.AZURE || authSource === AuthSource.KEYCLOAK || authSource === AuthSource.OKTA || authSource === AuthSource.OIDC_GENERIC;
-    }
-
-    get ldapRequired(): boolean {
-        return this.form?.get('authSource')?.value === AuthSource.LDAP;
     }
 
     override buildForm(): void {

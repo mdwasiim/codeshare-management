@@ -22,12 +22,15 @@ import {
 import { TenantPartnerService } from '../../services/tenant-partner.service';
 import { TenantPartnerCommunicationProfileService } from '../../services/tenant-partner-communication-profile.service';
 import {
+    AUTHENTICATION_TYPE_OPTIONS,
+    COMMUNICATION_PROTOCOL_OPTIONS,
+    MESSAGE_FORMAT_OPTIONS,
     RECORD_STATUS_OPTIONS,
     TenantPartnerOption,
-    formatEnumLabel,
     normalizeOptionalText,
     toDateInputValue,
-    toTenantPartnerOptions
+    toTenantPartnerOptions,
+    TRANSPORT_TYPE_OPTIONS
 } from '../../shared/tenant-partner-profile.helpers';
 
 @Component({
@@ -52,26 +55,10 @@ export class TenantCommunicationProfileFormPage extends BaseCrudForm<TenantPartn
     private readonly tenantPartnerService = inject(TenantPartnerService);
 
     readonly recordStatusOptions = [...RECORD_STATUS_OPTIONS];
-
-    readonly protocolOptions: { label: string; value: CommunicationProtocol }[] = (['API', 'MQ', 'SFTP', 'EMAIL', 'AS2'] as CommunicationProtocol[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
-
-    readonly transportOptions: { label: string; value: TransportType }[] = (['REST', 'SOAP', 'JMS', 'FTP', 'SFTP', 'HTTPS'] as TransportType[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
-
-    readonly messageFormatOptions: { label: string; value: MessageFormat }[] = (['SSIM', 'ASM', 'SSM', 'XML', 'JSON', 'EDIFACT'] as MessageFormat[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
-
-    readonly authenticationTypeOptions: { label: string; value: AuthenticationType }[] = (['NONE', 'BASIC', 'API_KEY', 'OAUTH2', 'JWT', 'CERTIFICATE', 'SSH_KEY'] as AuthenticationType[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
+    readonly protocolOptions = [...COMMUNICATION_PROTOCOL_OPTIONS];
+    readonly transportOptions = [...TRANSPORT_TYPE_OPTIONS];
+    readonly messageFormatOptions = [...MESSAGE_FORMAT_OPTIONS];
+    readonly authenticationTypeOptions = [...AUTHENTICATION_TYPE_OPTIONS];
 
     partnerOptions: TenantPartnerOption[] = [];
 

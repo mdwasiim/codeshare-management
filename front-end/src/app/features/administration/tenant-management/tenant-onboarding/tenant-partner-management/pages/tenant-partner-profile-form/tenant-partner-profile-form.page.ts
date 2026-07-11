@@ -21,9 +21,11 @@ import {
 import { TenantPartnerService } from '../../services/tenant-partner.service';
 import { TenantPartnerProfileService } from '../../services/tenant-partner-profile.service';
 import {
+    AGREEMENT_CATEGORY_OPTIONS,
+    INVENTORY_SHARING_OPTIONS,
+    PARTNER_TYPE_OPTIONS,
     RECORD_STATUS_OPTIONS,
     TenantPartnerOption,
-    formatEnumLabel,
     normalizeOptionalText,
     toDateInputValue,
     toTenantPartnerOptions
@@ -51,21 +53,9 @@ export class TenantPartnerProfileFormPage extends BaseCrudForm<TenantPartnerProf
     private readonly tenantPartnerService = inject(TenantPartnerService);
 
     readonly recordStatusOptions = [...RECORD_STATUS_OPTIONS];
-
-    readonly partnerTypeOptions: { label: string; value: PartnerType }[] = (['OPERATING', 'MARKETING', 'RECIPROCAL'] as PartnerType[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
-
-    readonly agreementCategoryOptions: { label: string; value: AgreementCategory }[] = (['BILATERAL', 'ALLIANCE', 'INTERLINE'] as AgreementCategory[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
-
-    readonly inventorySharingOptions: { label: string; value: InventorySharingType }[] = (['FREE_SALE', 'BLOCK_SPACE', 'SOFT_BLOCK', 'HARD_BLOCK'] as InventorySharingType[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
+    readonly partnerTypeOptions = [...PARTNER_TYPE_OPTIONS];
+    readonly agreementCategoryOptions = [...AGREEMENT_CATEGORY_OPTIONS];
+    readonly inventorySharingOptions = [...INVENTORY_SHARING_OPTIONS];
 
     partnerOptions: TenantPartnerOption[] = [];
 

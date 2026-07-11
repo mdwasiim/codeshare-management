@@ -21,9 +21,11 @@ import {
 import { TenantPartnerService } from '../../services/tenant-partner.service';
 import { TenantPartnerDistributionProfileService } from '../../services/tenant-partner-distribution-profile.service';
 import {
+    COMMUNICATION_PROTOCOL_OPTIONS,
+    DISTRIBUTION_MESSAGE_TYPE_OPTIONS,
+    DISTRIBUTION_MODE_OPTIONS,
     RECORD_STATUS_OPTIONS,
     TenantPartnerOption,
-    formatEnumLabel,
     normalizeOptionalText,
     toDateInputValue,
     toTenantPartnerOptions
@@ -51,21 +53,9 @@ export class TenantDistributionProfileFormPage extends BaseCrudForm<TenantPartne
     private readonly tenantPartnerService = inject(TenantPartnerService);
 
     readonly recordStatusOptions = [...RECORD_STATUS_OPTIONS];
-
-    readonly channelOptions: { label: string; value: CommunicationProtocol }[] = (['API', 'MQ', 'SFTP', 'EMAIL', 'AS2'] as CommunicationProtocol[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
-
-    readonly distributionModeOptions: { label: string; value: DistributionMode }[] = (['REAL_TIME', 'SCHEDULED', 'MANUAL'] as DistributionMode[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
-
-    readonly messageTypeOptions: { label: string; value: DistributionMessageType }[] = (['SSIM', 'SSM', 'ASM'] as DistributionMessageType[]).map((value) => ({
-        label: formatEnumLabel(value),
-        value
-    }));
+    readonly channelOptions = [...COMMUNICATION_PROTOCOL_OPTIONS];
+    readonly distributionModeOptions = [...DISTRIBUTION_MODE_OPTIONS];
+    readonly messageTypeOptions = [...DISTRIBUTION_MESSAGE_TYPE_OPTIONS];
 
     partnerOptions: TenantPartnerOption[] = [];
 

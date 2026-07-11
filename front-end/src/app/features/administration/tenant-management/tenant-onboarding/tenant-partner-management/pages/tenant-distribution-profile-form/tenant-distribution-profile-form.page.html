@@ -1,8 +1,8 @@
-<form [formGroup]="form" class="access-form">
+<form [formGroup]="form" class="p-fluid w-full block app-form">
     <app-form-section title="Profile Details">
-        <div class="form-grid form-grid--2">
-            <div class="field">
-                <label for="partnerId">Codeshare Partner <span class="required">*</span></label>
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="partnerId" class="required">Codeshare Partner</label>
                 <p-select
                     inputId="partnerId"
                     appendTo="body"
@@ -14,89 +14,132 @@
                     [showClear]="true"
                     formControlName="partnerId"
                     placeholder="Select partner"
+                    styleClass="w-full"
                 ></p-select>
-                <small class="p-error" *ngIf="form.get('partnerId')?.touched && form.get('partnerId')?.invalid">Partner is required.</small>
+                <small class="p-error" *ngIf="form.controls['partnerId'].hasError('required') && form.controls['partnerId'].touched">Partner is required.</small>
             </div>
 
-            <div class="field">
-                <label for="profileCode">Profile Code <span class="required">*</span></label>
-                <input id="profileCode" pInputText formControlName="profileCode" maxlength="100" />
-                <small class="p-error" *ngIf="form.get('profileCode')?.touched && form.get('profileCode')?.invalid">Profile code is required.</small>
+            <div class="field col-12 md:col-6">
+                <label for="profileCode" class="required">Profile Code</label>
+                <input id="profileCode" pInputText formControlName="profileCode" class="w-full" maxlength="100" />
+                <small class="p-error" *ngIf="form.controls['profileCode'].hasError('required') && form.controls['profileCode'].touched">Profile code is required.</small>
             </div>
 
-            <div class="field">
-                <label for="profileName">Profile Name <span class="required">*</span></label>
-                <input id="profileName" pInputText formControlName="profileName" maxlength="200" />
-                <small class="p-error" *ngIf="form.get('profileName')?.touched && form.get('profileName')?.invalid">Profile name is required.</small>
+            <div class="field col-12 md:col-6">
+                <label for="profileName" class="required">Profile Name</label>
+                <input id="profileName" pInputText formControlName="profileName" class="w-full" maxlength="200" />
+                <small class="p-error" *ngIf="form.controls['profileName'].hasError('required') && form.controls['profileName'].touched">Profile name is required.</small>
             </div>
 
-            <div class="field">
+            <div class="field col-12 md:col-6">
                 <label for="distributionChannel">Distribution Channel</label>
-                <p-select inputId="distributionChannel" appendTo="body" [options]="channelOptions" optionLabel="label" optionValue="value" formControlName="distributionChannel" placeholder="Select channel"></p-select>
+                <p-select
+                    inputId="distributionChannel"
+                    appendTo="body"
+                    [options]="channelOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    formControlName="distributionChannel"
+                    placeholder="Select channel"
+                    styleClass="w-full"
+                ></p-select>
             </div>
 
-            <div class="field">
+            <div class="field col-12 md:col-6">
                 <label for="distributionMode">Distribution Mode</label>
-                <p-select inputId="distributionMode" appendTo="body" [options]="distributionModeOptions" optionLabel="label" optionValue="value" formControlName="distributionMode" placeholder="Select mode"></p-select>
+                <p-select
+                    inputId="distributionMode"
+                    appendTo="body"
+                    [options]="distributionModeOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    formControlName="distributionMode"
+                    placeholder="Select mode"
+                    styleClass="w-full"
+                ></p-select>
             </div>
 
-            <div class="field">
+            <div class="field col-12 md:col-6">
                 <label for="messageType">Message Type</label>
-                <p-select inputId="messageType" appendTo="body" [options]="messageTypeOptions" optionLabel="label" optionValue="value" formControlName="messageType" placeholder="Select message"></p-select>
+                <p-select
+                    inputId="messageType"
+                    appendTo="body"
+                    [options]="messageTypeOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    formControlName="messageType"
+                    placeholder="Select message"
+                    styleClass="w-full"
+                ></p-select>
             </div>
 
-            <div class="field">
+            <div class="field col-12 md:col-6">
                 <label for="retryCount">Retry Count</label>
                 <p-inputnumber inputId="retryCount" formControlName="retryCount" [useGrouping]="false"></p-inputnumber>
             </div>
 
-            <div class="field">
+            <div class="field col-12 md:col-6">
                 <label for="displayOrder">Display Order</label>
                 <p-inputnumber inputId="displayOrder" formControlName="displayOrder" [useGrouping]="false"></p-inputnumber>
             </div>
 
-            <div class="field">
+            <div class="field col-12 md:col-6">
                 <label for="recordStatus">Record Status</label>
-                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" optionLabel="label" optionValue="value" formControlName="recordStatus"></p-select>
+                <p-select
+                    inputId="recordStatus"
+                    appendTo="body"
+                    [options]="recordStatusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    formControlName="recordStatus"
+                    styleClass="w-full"
+                ></p-select>
             </div>
 
-            <div class="field">
+            <div class="field col-12 md:col-6">
                 <label for="effectiveFrom">Effective From</label>
-                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" />
+                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" class="w-full" />
             </div>
 
-            <div class="field">
+            <div class="field col-12 md:col-6">
                 <label for="effectiveTo">Effective To</label>
-                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" />
+                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" class="w-full" />
             </div>
         </div>
     </app-form-section>
 
     <app-form-section title="Delivery Flags">
-        <div class="form-grid form-grid--2">
-            <div class="field">
-                <div class="flex items-center gap-2">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="realTimeEnabled">Real-Time Delivery</label>
+                <div class="flex align-items-center gap-2 h-full">
                     <p-checkbox inputId="realTimeEnabled" formControlName="realTimeEnabled" binary="true"></p-checkbox>
                     <label for="realTimeEnabled" class="mb-0">Real-time enabled</label>
                 </div>
             </div>
 
-            <div class="field">
-                <div class="flex items-center gap-2">
+            <div class="field col-12 md:col-6">
+                <label for="acknowledgementRequired">Acknowledgement</label>
+                <div class="flex align-items-center gap-2 h-full">
                     <p-checkbox inputId="acknowledgementRequired" formControlName="acknowledgementRequired" binary="true"></p-checkbox>
                     <label for="acknowledgementRequired" class="mb-0">Acknowledgement required</label>
                 </div>
             </div>
 
-            <div class="field">
-                <div class="flex items-center gap-2">
+            <div class="field col-12 md:col-6">
+                <label for="retryEnabled">Retry Handling</label>
+                <div class="flex align-items-center gap-2 h-full">
                     <p-checkbox inputId="retryEnabled" formControlName="retryEnabled" binary="true"></p-checkbox>
                     <label for="retryEnabled" class="mb-0">Retry enabled</label>
                 </div>
             </div>
 
-            <div class="field">
-                <div class="flex items-center gap-2">
+            <div class="field col-12 md:col-6">
+                <label for="active">Profile State</label>
+                <div class="flex align-items-center gap-2 h-full">
                     <p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox>
                     <label for="active" class="mb-0">Active</label>
                 </div>
@@ -105,15 +148,15 @@
     </app-form-section>
 
     <app-form-section title="Notes">
-        <div class="form-grid">
-            <div class="field field--full">
+        <div class="grid">
+            <div class="field col-12">
                 <label for="description">Description</label>
-                <textarea id="description" pTextarea formControlName="description" rows="3" maxlength="500"></textarea>
+                <textarea id="description" pTextarea formControlName="description" rows="3" class="w-full" maxlength="500"></textarea>
             </div>
 
-            <div class="field field--full">
+            <div class="field col-12">
                 <label for="remarks">Remarks</label>
-                <textarea id="remarks" pTextarea formControlName="remarks" rows="4" maxlength="1000"></textarea>
+                <textarea id="remarks" pTextarea formControlName="remarks" rows="4" class="w-full" maxlength="1000"></textarea>
             </div>
         </div>
     </app-form-section>
