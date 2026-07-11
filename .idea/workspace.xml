@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.ai/frontend-dev.log" beforeDir="false" afterPath="$PROJECT_DIR$/.ai/frontend-dev.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/api/config/app-api.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/administration.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/administration.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="3403" />
+    <option name="cachedIndexableFilesCount" value="3398" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,7 +67,7 @@
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mdwas/Projects/codeBase/codeshare-management&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mdwas/Projects/codeBase/codeshare-management/front-end/src/app/features/home&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -81,6 +79,22 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mdwas\Projects\codeBase\codeshare-management\front-end\src\app\features\home" />
+      <recent name="C:\Users\mdwas\Projects\codeBase\codeshare-management\front-end\src\app\features" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mdwas\Projects\codeBase\codeshare-management\front-end\src\app\features\home\dashboard" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-3bd3a6803838-JavaScript-WS-261.22158.274" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="" />
@@ -102,6 +116,8 @@
       <workItem from="1783685509823" duration="12000" />
       <workItem from="1783685642951" duration="21575000" />
       <workItem from="1783768562928" duration="8000" />
+      <workItem from="1783774213769" duration="5429000" />
+      <workItem from="1783782250445" duration="5199000" />
     </task>
     <servers />
   </component>

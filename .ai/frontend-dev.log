@@ -1201,3 +1201,2127 @@ Application bundle generation failed. [1.087 seconds] - 2026-07-11T11:09:07.054Z
          ╵                    [32m~~~[0m
 
 [39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [2.182 seconds] - 2026-07-11T11:21:25.651Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/models/tenant.model' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:70:
+[37m      14 │ ...text } from [32m'@features/tenant-administration/models/tenant.model'[37m;
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/models/tenant.model' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:15:46:
+[37m      15 │ ...text } from [32m'@features/tenant-administration/models/tenant.model'[37m;
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/models/tenant.model' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:14:23:
+[37m      14 │ ...nant } from [32m'@features/tenant-administration/models/tenant.model'[37m;
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/models/tenant.model' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:15:23:
+[37m      15 │ ...nant } from [32m'@features/tenant-administration/models/tenant.model'[37m;
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module './tenant-management/tenant-management.routes' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/administration.routes.ts:3:41:
+[37m      3 │ ...EMENT_ROUTES } from [32m'./tenant-management/tenant-management.routes'[37m;
+        ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "./tenant-management/tenant-management.routes"[0m
+
+    src/app/features/administration/administration.routes.ts:2:41:
+[37m      2 │ ...EMENT_ROUTES } from [32m'./tenant-management/tenant-management.routes'[37m;
+        ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [1.019 seconds] - 2026-07-11T11:23:42.749Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/models/tenant.model' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:70:
+[37m      14 │ ...text } from [32m'@features/tenant-administration/models/tenant.model'[37m;
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/models/tenant.model' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:15:46:
+[37m      15 │ ...text } from [32m'@features/tenant-administration/models/tenant.model'[37m;
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/models/tenant.model' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:14:23:
+[37m      14 │ ...nant } from [32m'@features/tenant-administration/models/tenant.model'[37m;
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/models/tenant.model' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:15:23:
+[37m      15 │ ...nant } from [32m'@features/tenant-administration/models/tenant.model'[37m;
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module './tenant-management/tenant-management.routes' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/administration.routes.ts:3:41:
+[37m      3 │ ...EMENT_ROUTES } from [32m'./tenant-management/tenant-management.routes'[37m;
+        ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "./tenant-management/tenant-management.routes"[0m
+
+    src/app/features/administration/administration.routes.ts:2:41:
+[37m      2 │ ...EMENT_ROUTES } from [32m'./tenant-management/tenant-management.routes'[37m;
+        ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [9.489 seconds] - 2026-07-11T11:30:56.000Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: AppDialogComponent is not used within the template of TenantIngestionProfilesPage[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:31:8:
+[37m      31 │         [32mAppDialogComponent[37m,
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: HasPermissionDirective is not used within the template of TenantCodesharePartnersPage[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-codeshare-partners/tenant-codeshare-partners.page.ts:16:90:
+[37m      16 │ ...odule, TagModule, ToolbarActionComponent, [32mHasPermissionDirective[37m],
+         ╵                                              [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'IdentityProviderConfig'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:21:
+[37m      14 │ import { AuthSource, [32mIdentityProviderConfig[37m, TenantAuthContext } f...
+         ╵                      [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:45:
+[37m      14 │ ...dentityProviderConfig, [32mTenantAuthContext[37m } from '@features/tena...
+         ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:35:37:
+[37m      35 │     selectedAuthSource: AuthSource = [32mAuthSource[37m.INTERNAL;
+         ╵                                      [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:97:83:
+[37m      97 │ ...Source = this.availableProviders[0]?.value || [32mAuthSource[37m.INTERNAL;
+         ╵                                                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:103:75:
+[37m      103 │ ...eProviders = [{ label: 'Internal', value: [32mAuthSource[37m.INTERNAL }];
+          ╵                                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:104:46:
+[37m      104 │                     this.selectedAuthSource = [32mAuthSource[37m.INTERNAL;
+          ╵                                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:16:
+[37m      113 │         return [[32mAuthSource[37m.AZURE, AuthSource.KEYCLOAK, AuthSource...
+          ╵                 [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:34:
+[37m      113 │ ...return [AuthSource.AZURE, [32mAuthSource[37m.KEYCLOAK, AuthSource.OKTA...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:55:
+[37m      113 │ ...URE, AuthSource.KEYCLOAK, [32mAuthSource[37m.OKTA, AuthSource.OIDC_GEN...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:72:
+[37m      113 │ ...EYCLOAK, AuthSource.OKTA, [32mAuthSource[37m.OIDC_GENERIC].includes(th...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:118:17:
+[37m      118 │             case [32mAuthSource[37m.INTERNAL:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:120:17:
+[37m      120 │             case [32mAuthSource[37m.LDAP:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:122:17:
+[37m      122 │             case [32mAuthSource[37m.AZURE:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:124:17:
+[37m      124 │             case [32mAuthSource[37m.KEYCLOAK:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:126:17:
+[37m      126 │             case [32mAuthSource[37m.OKTA:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:128:17:
+[37m      128 │             case [32mAuthSource[37m.OIDC_GENERIC:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:15:21:
+[37m      15 │ import { AuthSource, [32mTenantAuthContext[37m } from '@features/tenant-ad...
+         ╵                      [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:28:71:
+[37m      28 │ ..., authSource: AuthSource = [32mAuthSource[37m.INTERNAL): Observable<Log...
+         ╵                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [4.741 seconds] - 2026-07-11T11:32:48.834Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: AppDialogComponent is not used within the template of TenantIngestionProfilesPage[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:31:8:
+[37m      31 │         [32mAppDialogComponent[37m,
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: HasPermissionDirective is not used within the template of TenantCodesharePartnersPage[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-codeshare-partners/tenant-codeshare-partners.page.ts:16:90:
+[37m      16 │ ...odule, TagModule, ToolbarActionComponent, [32mHasPermissionDirective[37m],
+         ╵                                              [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'IdentityProviderConfig'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:21:
+[37m      14 │ import { AuthSource, [32mIdentityProviderConfig[37m, TenantAuthContext } f...
+         ╵                      [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:45:
+[37m      14 │ ...dentityProviderConfig, [32mTenantAuthContext[37m } from '@features/tena...
+         ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:35:37:
+[37m      35 │     selectedAuthSource: AuthSource = [32mAuthSource[37m.INTERNAL;
+         ╵                                      [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:97:83:
+[37m      97 │ ...Source = this.availableProviders[0]?.value || [32mAuthSource[37m.INTERNAL;
+         ╵                                                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:103:75:
+[37m      103 │ ...eProviders = [{ label: 'Internal', value: [32mAuthSource[37m.INTERNAL }];
+          ╵                                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:104:46:
+[37m      104 │                     this.selectedAuthSource = [32mAuthSource[37m.INTERNAL;
+          ╵                                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:16:
+[37m      113 │         return [[32mAuthSource[37m.AZURE, AuthSource.KEYCLOAK, AuthSource...
+          ╵                 [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:34:
+[37m      113 │ ...return [AuthSource.AZURE, [32mAuthSource[37m.KEYCLOAK, AuthSource.OKTA...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:55:
+[37m      113 │ ...URE, AuthSource.KEYCLOAK, [32mAuthSource[37m.OKTA, AuthSource.OIDC_GEN...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:72:
+[37m      113 │ ...EYCLOAK, AuthSource.OKTA, [32mAuthSource[37m.OIDC_GENERIC].includes(th...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:118:17:
+[37m      118 │             case [32mAuthSource[37m.INTERNAL:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:120:17:
+[37m      120 │             case [32mAuthSource[37m.LDAP:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:122:17:
+[37m      122 │             case [32mAuthSource[37m.AZURE:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:124:17:
+[37m      124 │             case [32mAuthSource[37m.KEYCLOAK:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:126:17:
+[37m      126 │             case [32mAuthSource[37m.OKTA:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:128:17:
+[37m      128 │             case [32mAuthSource[37m.OIDC_GENERIC:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:15:21:
+[37m      15 │ import { AuthSource, [32mTenantAuthContext[37m } from '@features/tenant-ad...
+         ╵                      [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:28:71:
+[37m      28 │ ..., authSource: AuthSource = [32mAuthSource[37m.INTERNAL): Observable<Log...
+         ╵                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [4.025 seconds] - 2026-07-11T11:32:57.054Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: HasPermissionDirective is not used within the template of TenantCodesharePartnersPage[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-codeshare-partners/tenant-codeshare-partners.page.ts:16:90:
+[37m      16 │ ...odule, TagModule, ToolbarActionComponent, [32mHasPermissionDirective[37m],
+         ╵                                              [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'IdentityProviderConfig'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:21:
+[37m      14 │ import { AuthSource, [32mIdentityProviderConfig[37m, TenantAuthContext } f...
+         ╵                      [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:45:
+[37m      14 │ ...dentityProviderConfig, [32mTenantAuthContext[37m } from '@features/tena...
+         ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:35:37:
+[37m      35 │     selectedAuthSource: AuthSource = [32mAuthSource[37m.INTERNAL;
+         ╵                                      [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:97:83:
+[37m      97 │ ...Source = this.availableProviders[0]?.value || [32mAuthSource[37m.INTERNAL;
+         ╵                                                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:103:75:
+[37m      103 │ ...eProviders = [{ label: 'Internal', value: [32mAuthSource[37m.INTERNAL }];
+          ╵                                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:104:46:
+[37m      104 │                     this.selectedAuthSource = [32mAuthSource[37m.INTERNAL;
+          ╵                                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:16:
+[37m      113 │         return [[32mAuthSource[37m.AZURE, AuthSource.KEYCLOAK, AuthSource...
+          ╵                 [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:34:
+[37m      113 │ ...return [AuthSource.AZURE, [32mAuthSource[37m.KEYCLOAK, AuthSource.OKTA...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:55:
+[37m      113 │ ...URE, AuthSource.KEYCLOAK, [32mAuthSource[37m.OKTA, AuthSource.OIDC_GEN...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:72:
+[37m      113 │ ...EYCLOAK, AuthSource.OKTA, [32mAuthSource[37m.OIDC_GENERIC].includes(th...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:118:17:
+[37m      118 │             case [32mAuthSource[37m.INTERNAL:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:120:17:
+[37m      120 │             case [32mAuthSource[37m.LDAP:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:122:17:
+[37m      122 │             case [32mAuthSource[37m.AZURE:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:124:17:
+[37m      124 │             case [32mAuthSource[37m.KEYCLOAK:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:126:17:
+[37m      126 │             case [32mAuthSource[37m.OKTA:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:128:17:
+[37m      128 │             case [32mAuthSource[37m.OIDC_GENERIC:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:15:21:
+[37m      15 │ import { AuthSource, [32mTenantAuthContext[37m } from '@features/tenant-ad...
+         ╵                      [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:28:71:
+[37m      28 │ ..., authSource: AuthSource = [32mAuthSource[37m.INTERNAL): Observable<Log...
+         ╵                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [2.843 seconds] - 2026-07-11T11:33:02.793Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: HasPermissionDirective is not used within the template of TenantCodesharePartnersPage[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-codeshare-partners/tenant-codeshare-partners.page.ts:16:90:
+[37m      16 │ ...odule, TagModule, ToolbarActionComponent, [32mHasPermissionDirective[37m],
+         ╵                                              [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'IdentityProviderConfig'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:21:
+[37m      14 │ import { AuthSource, [32mIdentityProviderConfig[37m, TenantAuthContext } f...
+         ╵                      [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:45:
+[37m      14 │ ...dentityProviderConfig, [32mTenantAuthContext[37m } from '@features/tena...
+         ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:35:37:
+[37m      35 │     selectedAuthSource: AuthSource = [32mAuthSource[37m.INTERNAL;
+         ╵                                      [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:97:83:
+[37m      97 │ ...Source = this.availableProviders[0]?.value || [32mAuthSource[37m.INTERNAL;
+         ╵                                                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:103:75:
+[37m      103 │ ...eProviders = [{ label: 'Internal', value: [32mAuthSource[37m.INTERNAL }];
+          ╵                                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:104:46:
+[37m      104 │                     this.selectedAuthSource = [32mAuthSource[37m.INTERNAL;
+          ╵                                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:16:
+[37m      113 │         return [[32mAuthSource[37m.AZURE, AuthSource.KEYCLOAK, AuthSource...
+          ╵                 [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:34:
+[37m      113 │ ...return [AuthSource.AZURE, [32mAuthSource[37m.KEYCLOAK, AuthSource.OKTA...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:55:
+[37m      113 │ ...URE, AuthSource.KEYCLOAK, [32mAuthSource[37m.OKTA, AuthSource.OIDC_GEN...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:72:
+[37m      113 │ ...EYCLOAK, AuthSource.OKTA, [32mAuthSource[37m.OIDC_GENERIC].includes(th...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:118:17:
+[37m      118 │             case [32mAuthSource[37m.INTERNAL:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:120:17:
+[37m      120 │             case [32mAuthSource[37m.LDAP:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:122:17:
+[37m      122 │             case [32mAuthSource[37m.AZURE:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:124:17:
+[37m      124 │             case [32mAuthSource[37m.KEYCLOAK:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:126:17:
+[37m      126 │             case [32mAuthSource[37m.OKTA:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:128:17:
+[37m      128 │             case [32mAuthSource[37m.OIDC_GENERIC:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:15:21:
+[37m      15 │ import { AuthSource, [32mTenantAuthContext[37m } from '@features/tenant-ad...
+         ╵                      [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:28:71:
+[37m      28 │ ..., authSource: AuthSource = [32mAuthSource[37m.INTERNAL): Observable<Log...
+         ╵                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:25:8:
+[37m      25 │         [32mInputTextModule[37m,
+         ╵         [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:25:8:
+[37m      25 │         [32mInputTextModule[37m,
+         ╵         [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'InputTextModule'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:25:8:
+[37m      25 │         [32mInputTextModule[37m,
+         ╵         [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:26:8:
+[37m      26 │         [32mTooltipModule[37m,
+         ╵         [32m~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:26:8:
+[37m      26 │         [32mTooltipModule[37m,
+         ╵         [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'TooltipModule'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:26:8:
+[37m      26 │         [32mTooltipModule[37m,
+         ╵         [32m~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [3.293 seconds] - 2026-07-11T11:33:09.538Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: HasPermissionDirective is not used within the template of TenantCodesharePartnersPage[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-codeshare-partners/tenant-codeshare-partners.page.ts:16:90:
+[37m      16 │ ...odule, TagModule, ToolbarActionComponent, [32mHasPermissionDirective[37m],
+         ╵                                              [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'IdentityProviderConfig'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:21:
+[37m      14 │ import { AuthSource, [32mIdentityProviderConfig[37m, TenantAuthContext } f...
+         ╵                      [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:45:
+[37m      14 │ ...dentityProviderConfig, [32mTenantAuthContext[37m } from '@features/tena...
+         ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:35:37:
+[37m      35 │     selectedAuthSource: AuthSource = [32mAuthSource[37m.INTERNAL;
+         ╵                                      [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:97:83:
+[37m      97 │ ...Source = this.availableProviders[0]?.value || [32mAuthSource[37m.INTERNAL;
+         ╵                                                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:103:75:
+[37m      103 │ ...eProviders = [{ label: 'Internal', value: [32mAuthSource[37m.INTERNAL }];
+          ╵                                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:104:46:
+[37m      104 │                     this.selectedAuthSource = [32mAuthSource[37m.INTERNAL;
+          ╵                                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:16:
+[37m      113 │         return [[32mAuthSource[37m.AZURE, AuthSource.KEYCLOAK, AuthSource...
+          ╵                 [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:34:
+[37m      113 │ ...return [AuthSource.AZURE, [32mAuthSource[37m.KEYCLOAK, AuthSource.OKTA...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:55:
+[37m      113 │ ...URE, AuthSource.KEYCLOAK, [32mAuthSource[37m.OKTA, AuthSource.OIDC_GEN...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:72:
+[37m      113 │ ...EYCLOAK, AuthSource.OKTA, [32mAuthSource[37m.OIDC_GENERIC].includes(th...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:118:17:
+[37m      118 │             case [32mAuthSource[37m.INTERNAL:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:120:17:
+[37m      120 │             case [32mAuthSource[37m.LDAP:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:122:17:
+[37m      122 │             case [32mAuthSource[37m.AZURE:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:124:17:
+[37m      124 │             case [32mAuthSource[37m.KEYCLOAK:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:126:17:
+[37m      126 │             case [32mAuthSource[37m.OKTA:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:128:17:
+[37m      128 │             case [32mAuthSource[37m.OIDC_GENERIC:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:15:21:
+[37m      15 │ import { AuthSource, [32mTenantAuthContext[37m } from '@features/tenant-ad...
+         ╵                      [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:28:71:
+[37m      28 │ ..., authSource: AuthSource = [32mAuthSource[37m.INTERNAL): Observable<Log...
+         ╵                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'pTooltip' since it isn't a known property of 'p-button'.
+1. If 'p-button' is an Angular component and it has 'pTooltip' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'p-button' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.html:56:75:
+[37m      56 │ ...all" text [32m[pTooltip]="profile.enabled ? 'Disable' : 'Enable'"[37m t...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component TenantIngestionProfilesPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:28:17:
+[37m      28 │     templateUrl: [32m'./tenant-ingestion-profiles.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [3.209 seconds] - 2026-07-11T11:33:16.204Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'IdentityProviderConfig'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:21:
+[37m      14 │ import { AuthSource, [32mIdentityProviderConfig[37m, TenantAuthContext } f...
+         ╵                      [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:14:45:
+[37m      14 │ ...dentityProviderConfig, [32mTenantAuthContext[37m } from '@features/tena...
+         ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:35:37:
+[37m      35 │     selectedAuthSource: AuthSource = [32mAuthSource[37m.INTERNAL;
+         ╵                                      [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:97:83:
+[37m      97 │ ...Source = this.availableProviders[0]?.value || [32mAuthSource[37m.INTERNAL;
+         ╵                                                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:103:75:
+[37m      103 │ ...eProviders = [{ label: 'Internal', value: [32mAuthSource[37m.INTERNAL }];
+          ╵                                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:104:46:
+[37m      104 │                     this.selectedAuthSource = [32mAuthSource[37m.INTERNAL;
+          ╵                                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:16:
+[37m      113 │         return [[32mAuthSource[37m.AZURE, AuthSource.KEYCLOAK, AuthSource...
+          ╵                 [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:34:
+[37m      113 │ ...return [AuthSource.AZURE, [32mAuthSource[37m.KEYCLOAK, AuthSource.OKTA...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:55:
+[37m      113 │ ...URE, AuthSource.KEYCLOAK, [32mAuthSource[37m.OKTA, AuthSource.OIDC_GEN...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:113:72:
+[37m      113 │ ...EYCLOAK, AuthSource.OKTA, [32mAuthSource[37m.OIDC_GENERIC].includes(th...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:118:17:
+[37m      118 │             case [32mAuthSource[37m.INTERNAL:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:120:17:
+[37m      120 │             case [32mAuthSource[37m.LDAP:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:122:17:
+[37m      122 │             case [32mAuthSource[37m.AZURE:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:124:17:
+[37m      124 │             case [32mAuthSource[37m.KEYCLOAK:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:126:17:
+[37m      126 │             case [32mAuthSource[37m.OKTA:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:128:17:
+[37m      128 │             case [32mAuthSource[37m.OIDC_GENERIC:
+          ╵                  [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2305: Module '"@features/tenant-administration/models/tenant.model"' has no exported member 'TenantAuthContext'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:15:21:
+[37m      15 │ import { AuthSource, [32mTenantAuthContext[37m } from '@features/tenant-ad...
+         ╵                      [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2693: 'AuthSource' only refers to a type, but is being used as a value here.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/services/auth.service.ts:28:71:
+[37m      28 │ ..., authSource: AuthSource = [32mAuthSource[37m.INTERNAL): Observable<Log...
+         ╵                               [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'pTooltip' since it isn't a known property of 'p-button'.
+1. If 'p-button' is an Angular component and it has 'pTooltip' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'p-button' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.html:56:75:
+[37m      56 │ ...all" text [32m[pTooltip]="profile.enabled ? 'Disable' : 'Enable'"[37m t...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component TenantIngestionProfilesPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:28:17:
+[37m      28 │     templateUrl: [32m'./tenant-ingestion-profiles.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [3.122 seconds] - 2026-07-11T11:34:21.921Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '{ label: string; value: AuthSource | undefined; }[]' is not assignable to type '{ label: string; value: AuthSource; }[]'.
+  Type '{ label: string; value: AuthSource | undefined; }' is not assignable to type '{ label: string; value: AuthSource; }'.
+    Types of property 'value' are incompatible.
+      Type 'AuthSource | undefined' is not assignable to type 'AuthSource'.
+        Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:93:20:
+[37m      93 │                     [32mthis.availableProviders[37m = (context.identityPro...
+         ╵                     [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'AuthSource | undefined' is not assignable to parameter of type 'AuthSource'.
+  Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:94:50:
+[37m      94 │ ...                   label: this.providerLabel([32mprovider.authSource[37m),
+         ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"INTERNAL"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:50:29:
+[37m      50 │         { label: 'Internal', [32mvalue[37m: 'INTERNAL' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"LDAP"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:51:25:
+[37m      51 │         { label: 'LDAP', [32mvalue[37m: 'LDAP' },
+         ╵                          [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"AZURE"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:52:29:
+[37m      52 │         { label: 'Azure AD', [32mvalue[37m: 'AZURE' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"KEYCLOAK"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:53:29:
+[37m      53 │         { label: 'Keycloak', [32mvalue[37m: 'KEYCLOAK' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"OKTA"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:54:25:
+[37m      54 │         { label: 'Okta', [32mvalue[37m: 'OKTA' },
+         ╵                          [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"OIDC_GENERIC"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:55:33:
+[37m      55 │         { label: 'OIDC Generic', [32mvalue[37m: 'OIDC_GENERIC' }
+         ╵                                  [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'pTooltip' since it isn't a known property of 'p-button'.
+1. If 'p-button' is an Angular component and it has 'pTooltip' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'p-button' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.html:56:75:
+[37m      56 │ ...all" text [32m[pTooltip]="profile.enabled ? 'Disable' : 'Enable'"[37m t...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component TenantIngestionProfilesPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:28:17:
+[37m      28 │     templateUrl: [32m'./tenant-ingestion-profiles.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [3.027 seconds] - 2026-07-11T11:34:31.515Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '{ label: string; value: AuthSource | undefined; }[]' is not assignable to type '{ label: string; value: AuthSource; }[]'.
+  Type '{ label: string; value: AuthSource | undefined; }' is not assignable to type '{ label: string; value: AuthSource; }'.
+    Types of property 'value' are incompatible.
+      Type 'AuthSource | undefined' is not assignable to type 'AuthSource'.
+        Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:93:20:
+[37m      93 │                     [32mthis.availableProviders[37m = (context.identityPro...
+         ╵                     [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'AuthSource | undefined' is not assignable to parameter of type 'AuthSource'.
+  Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:94:50:
+[37m      94 │ ...                   label: this.providerLabel([32mprovider.authSource[37m),
+         ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"INTERNAL"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:50:29:
+[37m      50 │         { label: 'Internal', [32mvalue[37m: 'INTERNAL' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"LDAP"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:51:25:
+[37m      51 │         { label: 'LDAP', [32mvalue[37m: 'LDAP' },
+         ╵                          [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"AZURE"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:52:29:
+[37m      52 │         { label: 'Azure AD', [32mvalue[37m: 'AZURE' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"KEYCLOAK"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:53:29:
+[37m      53 │         { label: 'Keycloak', [32mvalue[37m: 'KEYCLOAK' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"OKTA"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:54:25:
+[37m      54 │         { label: 'Okta', [32mvalue[37m: 'OKTA' },
+         ╵                          [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"OIDC_GENERIC"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:55:33:
+[37m      55 │         { label: 'OIDC Generic', [32mvalue[37m: 'OIDC_GENERIC' }
+         ╵                                  [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'pTooltip' since it isn't a known property of 'p-button'.
+1. If 'p-button' is an Angular component and it has 'pTooltip' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'p-button' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.html:56:75:
+[37m      56 │ ...all" text [32m[pTooltip]="profile.enabled ? 'Disable' : 'Enable'"[37m t...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component TenantIngestionProfilesPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:28:17:
+[37m      28 │     templateUrl: [32m'./tenant-ingestion-profiles.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [3.380 seconds] - 2026-07-11T11:34:42.852Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '{ label: string; value: AuthSource | undefined; }[]' is not assignable to type '{ label: string; value: AuthSource; }[]'.
+  Type '{ label: string; value: AuthSource | undefined; }' is not assignable to type '{ label: string; value: AuthSource; }'.
+    Types of property 'value' are incompatible.
+      Type 'AuthSource | undefined' is not assignable to type 'AuthSource'.
+        Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:93:20:
+[37m      93 │                     [32mthis.availableProviders[37m = (context.identityPro...
+         ╵                     [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'AuthSource | undefined' is not assignable to parameter of type 'AuthSource'.
+  Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:94:50:
+[37m      94 │ ...                   label: this.providerLabel([32mprovider.authSource[37m),
+         ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"INTERNAL"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:50:29:
+[37m      50 │         { label: 'Internal', [32mvalue[37m: 'INTERNAL' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"LDAP"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:51:25:
+[37m      51 │         { label: 'LDAP', [32mvalue[37m: 'LDAP' },
+         ╵                          [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"AZURE"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:52:29:
+[37m      52 │         { label: 'Azure AD', [32mvalue[37m: 'AZURE' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"KEYCLOAK"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:53:29:
+[37m      53 │         { label: 'Keycloak', [32mvalue[37m: 'KEYCLOAK' },
+         ╵                              [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"OKTA"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:54:25:
+[37m      54 │         { label: 'Okta', [32mvalue[37m: 'OKTA' },
+         ╵                          [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"OIDC_GENERIC"' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:55:33:
+[37m      55 │         { label: 'OIDC Generic', [32mvalue[37m: 'OIDC_GENERIC' }
+         ╵                                  [32m~~~~~[0m
+
+  The expected type comes from property 'value' which is declared here on type '{ label: string; value: AuthSource; }'
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts:49:40:
+[37m      49 │     authSourceOptions: { label: string; [32mvalue[37m: AuthSource }[] = [
+         ╵                                         [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'pTooltip' since it isn't a known property of 'p-button'.
+1. If 'p-button' is an Angular component and it has 'pTooltip' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'p-button' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.html:56:75:
+[37m      56 │ ...all" text [32m[pTooltip]="profile.enabled ? 'Disable' : 'Enable'"[37m t...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component TenantIngestionProfilesPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:28:17:
+[37m      28 │     templateUrl: [32m'./tenant-ingestion-profiles.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [3.131 seconds] - 2026-07-11T11:34:50.682Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '{ label: string; value: AuthSource | undefined; }[]' is not assignable to type '{ label: string; value: AuthSource; }[]'.
+  Type '{ label: string; value: AuthSource | undefined; }' is not assignable to type '{ label: string; value: AuthSource; }'.
+    Types of property 'value' are incompatible.
+      Type 'AuthSource | undefined' is not assignable to type 'AuthSource'.
+        Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:93:20:
+[37m      93 │                     [32mthis.availableProviders[37m = (context.identityPro...
+         ╵                     [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'AuthSource | undefined' is not assignable to parameter of type 'AuthSource'.
+  Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:94:50:
+[37m      94 │ ...                   label: this.providerLabel([32mprovider.authSource[37m),
+         ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'pTooltip' since it isn't a known property of 'p-button'.
+1. If 'p-button' is an Angular component and it has 'pTooltip' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'p-button' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.html:56:75:
+[37m      56 │ ...all" text [32m[pTooltip]="profile.enabled ? 'Disable' : 'Enable'"[37m t...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component TenantIngestionProfilesPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:28:17:
+[37m      28 │     templateUrl: [32m'./tenant-ingestion-profiles.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [2.982 seconds] - 2026-07-11T11:34:58.692Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '{ label: string; value: AuthSource | undefined; }[]' is not assignable to type '{ label: string; value: AuthSource; }[]'.
+  Type '{ label: string; value: AuthSource | undefined; }' is not assignable to type '{ label: string; value: AuthSource; }'.
+    Types of property 'value' are incompatible.
+      Type 'AuthSource | undefined' is not assignable to type 'AuthSource'.
+        Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:93:20:
+[37m      93 │                     [32mthis.availableProviders[37m = (context.identityPro...
+         ╵                     [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'AuthSource | undefined' is not assignable to parameter of type 'AuthSource'.
+  Type 'undefined' is not assignable to type 'AuthSource'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/authentication/pages/login/login-page.component.ts:94:50:
+[37m      94 │ ...                   label: this.providerLabel([32mprovider.authSource[37m),
+         ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:13:30:
+[37m      13 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:39:8:
+[37m      39 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/groups/pages/group-form/group-form.page.ts:40:19:
+[37m      40 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module '@features/tenant-administration/tenants/services/tenant.service' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:16:30:
+[37m      16 │ ...ce } from [32m'@features/tenant-administration/tenants/services/ten[37m...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2571: Object is of type 'unknown'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:40:8:
+[37m      40 │         [32mthis.tenantService[37m.getAll().subscribe({
+         ╵         [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'res' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/access-management/identity/users/pages/user-form/user-form.page.ts:41:19:
+[37m      41 │             next: ([32mres[37m) => (this.tenants = res)
+         ╵                    [32m~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type '"success" | "secondary" | "danger" | "warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.
+  Type '"warning"' is not assignable to type '"success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.html:84:65:
+[37m      84 │ ...enant.status || 'Unknown'" [[32mseverity[37m]="statusSeverity(tenant.st...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component TenantListPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts:37:17:
+[37m      37 │     templateUrl: [32m'./tenant-list.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'pTooltip' since it isn't a known property of 'p-button'.
+1. If 'p-button' is an Angular component and it has 'pTooltip' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'p-button' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.html:56:75:
+[37m      56 │ ...all" text [32m[pTooltip]="profile.enabled ? 'Disable' : 'Enable'"[37m t...
+         ╵              [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component TenantIngestionProfilesPage.
+
+    src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-profiles/tenant-ingestion-profiles.page.ts:28:17:
+[37m      28 │     templateUrl: [32m'./tenant-ingestion-profiles.page.html'[37m
+         ╵                  [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
