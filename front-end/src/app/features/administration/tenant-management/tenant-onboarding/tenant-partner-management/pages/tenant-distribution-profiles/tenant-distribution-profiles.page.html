@@ -1,0 +1,113 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Partner Management</span>
+            <h1>Distribution Profiles</h1>
+            <p>Control channel, message, retry, and acknowledgement behavior for outbound partner distribution.</p>
+        </div>
+    </div>
+
+    <app-crud-toolbar
+        [actions]="['create', 'delete', 'search', 'export']"
+        [resource]="resourceName"
+        [hasSelection]="selectedProfiles.length > 0"
+        (create)="openCreate()"
+        (delete)="deleteSelected()"
+        (search)="onSearch($event)"
+        (export)="exportCsv()"
+    ></app-crud-toolbar>
+
+    <p-table
+        #dt
+        [value]="data"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        [(selection)]="selectedProfiles"
+        dataKey="id"
+        [rowHover]="true"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '92rem' }"
+        [globalFilterFields]="['profileCode', 'profileName', 'partnerId', 'recordStatus', 'messageType']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Manage Distribution Profiles</h2>
+                    <p>{{ data.length || 0 }} profiles loaded</p>
+                </div>
+                <span class="access-count">{{ selectedProfiles.length || 0 }} selected</span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>Partner</th>
+                <th>Profile</th>
+                <th>Channel</th>
+                <th>Mode</th>
+                <th>Message Type</th>
+                <th>Retry Count</th>
+                <th>Status</th>
+                <th>Active</th>
+                <th class="access-actions-col">Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-profile>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="profile"></p-tableCheckbox>
+                </td>
+                <td>{{ partnerLabel(profile.partnerId) }}</td>
+                <td>
+                    <div>{{ profile.profileName || '-' }}</div>
+                    <small class="text-gray-500">{{ profile.profileCode || '-' }}</small>
+                </td>
+                <td>{{ formatLabel(profile.distributionChannel) }}</td>
+                <td>{{ formatLabel(profile.distributionMode) }}</td>
+                <td>{{ formatLabel(profile.messageType) }}</td>
+                <td>{{ profile.retryCount ?? '-' }}</td>
+                <td>{{ formatLabel(profile.recordStatus) }}</td>
+                <td>
+                    <p-tag [value]="profile.active ? 'Yes' : 'No'" [severity]="profile.active ? 'success' : 'secondary'"></p-tag>
+                </td>
+                <td class="access-row-actions">
+                    <div>
+                        <ng-container *appHasPermission="'codesharepartner:update'">
+                            <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(profile)"></p-button>
+                        </ng-container>
+                        <ng-container *appHasPermission="'codesharepartner:delete'">
+                            <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteProfile(profile)"></p-button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="10" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-sitemap text-2xl mb-2"></i>
+                    <div>No distribution profiles found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <app-dialog
+        [(visible)]="dialogVisible"
+        [title]="selectedId ? 'Edit Distribution Profile' : 'Create Distribution Profile'"
+        width="min(92vw, 900px)"
+        [loading]="!!profileForm?.loading"
+        [disableSave]="!!profileForm?.form?.invalid || !!profileForm?.loading"
+        (save)="profileForm.submit()"
+    >
+        <tenant-distribution-profile-form #profileForm [id]="selectedId" (saved)="onSaved()"></tenant-distribution-profile-form>
+    </app-dialog>
+</div>

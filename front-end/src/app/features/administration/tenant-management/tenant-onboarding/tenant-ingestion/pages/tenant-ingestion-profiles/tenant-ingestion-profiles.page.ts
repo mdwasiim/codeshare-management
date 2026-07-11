@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { BaseListComponent } from '@shared/components/base/base-list.component';
 import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-action.component';
@@ -22,6 +23,7 @@ import { AppConfirmService } from '@core/services/app-confirm.service';
         TableModule,
         ButtonModule,
         TagModule,
+        TooltipModule,
         ToolbarActionComponent,
         HasPermissionDirective
     ],

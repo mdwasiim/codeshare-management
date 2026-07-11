@@ -12,8 +12,8 @@ import { SelectModule } from 'primeng/select';
 import { UserService } from '@features/administration/access-management/identity/users/services/user.service';
 import { User } from '@features/administration/access-management/models/user.model';
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
-import { Tenant } from '@features/tenant-administration/models/tenant.model';
-import { TenantService } from '@features/tenant-administration/tenants/services/tenant.service';
+import { Tenant } from '@features/administration/tenant-management/models/tenant.model';
+import { TenantService } from '@features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/services/tenant.service';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
@@ -38,7 +38,7 @@ export class UserFormPage extends BaseCrudForm<User> {
     override ngOnInit(): void {
         super.ngOnInit();
         this.tenantService.getAll().subscribe({
-            next: (res) => (this.tenants = res)
+            next: (res: Tenant[]) => (this.tenants = res)
         });
     }
     // =========================
@@ -88,7 +88,7 @@ export class UserFormPage extends BaseCrudForm<User> {
         return this.service.create(this.mapToModel(payload));
     }
 
-    update(id: string, payload: any) {
+    update(id: string, payload: User) {
         return this.service.update(id, this.mapToModel(payload));
     }
 

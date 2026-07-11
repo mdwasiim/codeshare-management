@@ -1,0 +1,120 @@
+<form [formGroup]="form" class="access-form">
+    <app-form-section title="Profile Details">
+        <div class="form-grid form-grid--2">
+            <div class="field">
+                <label for="partnerId">Codeshare Partner <span class="required">*</span></label>
+                <p-select
+                    inputId="partnerId"
+                    appendTo="body"
+                    [options]="partnerOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [filter]="true"
+                    filterBy="label"
+                    [showClear]="true"
+                    formControlName="partnerId"
+                    placeholder="Select partner"
+                ></p-select>
+                <small class="p-error" *ngIf="form.get('partnerId')?.touched && form.get('partnerId')?.invalid">Partner is required.</small>
+            </div>
+
+            <div class="field">
+                <label for="profileCode">Profile Code <span class="required">*</span></label>
+                <input id="profileCode" pInputText formControlName="profileCode" maxlength="100" />
+                <small class="p-error" *ngIf="form.get('profileCode')?.touched && form.get('profileCode')?.invalid">Profile code is required.</small>
+            </div>
+
+            <div class="field">
+                <label for="profileName">Profile Name <span class="required">*</span></label>
+                <input id="profileName" pInputText formControlName="profileName" maxlength="200" />
+                <small class="p-error" *ngIf="form.get('profileName')?.touched && form.get('profileName')?.invalid">Profile name is required.</small>
+            </div>
+
+            <div class="field">
+                <label for="partnerType">Partner Type</label>
+                <p-select inputId="partnerType" appendTo="body" [options]="partnerTypeOptions" optionLabel="label" optionValue="value" formControlName="partnerType" placeholder="Select type"></p-select>
+            </div>
+
+            <div class="field">
+                <label for="agreementCategory">Agreement Category</label>
+                <p-select inputId="agreementCategory" appendTo="body" [options]="agreementCategoryOptions" optionLabel="label" optionValue="value" formControlName="agreementCategory" placeholder="Select category"></p-select>
+            </div>
+
+            <div class="field">
+                <label for="inventorySharingType">Inventory Sharing</label>
+                <p-select inputId="inventorySharingType" appendTo="body" [options]="inventorySharingOptions" optionLabel="label" optionValue="value" formControlName="inventorySharingType" placeholder="Select model"></p-select>
+            </div>
+
+            <div class="field">
+                <label for="priority">Priority</label>
+                <p-inputnumber inputId="priority" formControlName="priority" [useGrouping]="false"></p-inputnumber>
+            </div>
+
+            <div class="field">
+                <label for="displayOrder">Display Order</label>
+                <p-inputnumber inputId="displayOrder" formControlName="displayOrder" [useGrouping]="false"></p-inputnumber>
+            </div>
+
+            <div class="field">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" optionLabel="label" optionValue="value" formControlName="recordStatus"></p-select>
+            </div>
+
+            <div class="field">
+                <label for="effectiveFrom">Effective From</label>
+                <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" />
+            </div>
+
+            <div class="field">
+                <label for="effectiveTo">Effective To</label>
+                <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" />
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Operational Rules">
+        <div class="form-grid form-grid--2">
+            <div class="field">
+                <div class="flex items-center gap-2">
+                    <p-checkbox inputId="autoAcceptScheduleChanges" formControlName="autoAcceptScheduleChanges" binary="true"></p-checkbox>
+                    <label for="autoAcceptScheduleChanges" class="mb-0">Auto accept schedule changes</label>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="flex items-center gap-2">
+                    <p-checkbox inputId="prorationApplicable" formControlName="prorationApplicable" binary="true"></p-checkbox>
+                    <label for="prorationApplicable" class="mb-0">Proration applicable</label>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="flex items-center gap-2">
+                    <p-checkbox inputId="eTicketAllowed" formControlName="eTicketAllowed" binary="true"></p-checkbox>
+                    <label for="eTicketAllowed" class="mb-0">E-ticket allowed</label>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="flex items-center gap-2">
+                    <p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox>
+                    <label for="active" class="mb-0">Active</label>
+                </div>
+            </div>
+        </div>
+    </app-form-section>
+
+    <app-form-section title="Notes">
+        <div class="form-grid">
+            <div class="field field--full">
+                <label for="description">Description</label>
+                <textarea id="description" pTextarea formControlName="description" rows="3" maxlength="500"></textarea>
+            </div>
+
+            <div class="field field--full">
+                <label for="remarks">Remarks</label>
+                <textarea id="remarks" pTextarea formControlName="remarks" rows="4" maxlength="1000"></textarea>
+            </div>
+        </div>
+    </app-form-section>
+</form>

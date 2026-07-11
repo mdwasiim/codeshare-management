@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -10,8 +10,8 @@ import { SelectModule } from 'primeng/select';
 import { Group } from '@features/administration/access-management/models/group.model';
 import { GroupService } from '../../services/group.service';
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
-import { TenantService } from '@features/tenant-administration/tenants/services/tenant.service';
-import { Tenant } from '@features/tenant-administration/models/tenant.model';
+import { Tenant } from '@features/administration/tenant-management/models/tenant.model';
+import { TenantService } from '@features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/services/tenant.service';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
 
 @Component({
@@ -26,24 +26,16 @@ export class GroupFormPage extends BaseCrudForm<Group> {
 
     tenants: Tenant[] = [];
 
-    private fb = inject(FormBuilder);
-    private service = inject(GroupService);
-    private tenantService = inject(TenantService);
-
-    // =========================
-    // Lifecycle
-    // =========================
+    private readonly fb = inject(FormBuilder);
+    private readonly service = inject(GroupService);
+    private readonly tenantService = inject(TenantService);
 
     override ngOnInit(): void {
-        this.buildForm();
+        super.ngOnInit();
         this.tenantService.getAll().subscribe({
-            next: (res) => (this.tenants = res)
+            next: (res: Tenant[]) => (this.tenants = res)
         });
     }
-
-    // =========================
-    // Form
-    // =========================
 
     override buildForm(): void {
         this.form = this.fb.group({
@@ -63,17 +55,11 @@ export class GroupFormPage extends BaseCrudForm<Group> {
         return this.service.getById(id);
     }
 
-    override create(payload: any) {
+    override create(payload: Group) {
         return this.service.create(payload);
     }
 
-    override update(id: string, payload: any) {
+    override update(id: string, payload: Group) {
         return this.service.update(id, payload);
     }
-
-    // ✅ no subscription here
-    override submit(): void {
-        super.submit();
-    }
 }
-

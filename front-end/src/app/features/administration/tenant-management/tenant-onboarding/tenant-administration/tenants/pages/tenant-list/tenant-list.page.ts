@@ -110,12 +110,12 @@ export class TenantListPage extends BaseListComponent<Tenant> {
         this.dt?.filterGlobal(value, 'contains');
     }
 
-    statusSeverity(status?: TenantStatus): 'success' | 'warning' | 'danger' | 'secondary' {
+    statusSeverity(status?: TenantStatus): 'success' | 'warn' | 'danger' | 'secondary' {
         switch (status) {
             case 'ACTIVE':
                 return 'success';
             case 'SUSPENDED':
-                return 'warning';
+                return 'warn';
             case 'EXPIRED':
             case 'DELETED':
                 return 'danger';

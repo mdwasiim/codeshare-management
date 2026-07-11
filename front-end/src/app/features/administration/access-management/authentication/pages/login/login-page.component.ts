@@ -90,10 +90,12 @@ export class LoginPageComponent {
             this.authService.getTenantAuthContext(tenantCode).subscribe({
                 next: (context) => {
                     this.authContext = context;
-                    this.availableProviders = (context.identityProviders || []).map((provider: IdentityProviderConfig) => ({
-                        label: this.providerLabel(provider.authSource),
-                        value: provider.authSource
-                    }));
+                    this.availableProviders = (context.identityProviders || [])
+                        .filter((provider: IdentityProviderConfig): provider is IdentityProviderConfig & { authSource: AuthSource } => !!provider.authSource)
+                        .map((provider) => ({
+                            label: this.providerLabel(provider.authSource),
+                            value: provider.authSource
+                        }));
                     this.selectedAuthSource = this.availableProviders[0]?.value || AuthSource.INTERNAL;
                     this.loadingContext = false;
                     resolve();

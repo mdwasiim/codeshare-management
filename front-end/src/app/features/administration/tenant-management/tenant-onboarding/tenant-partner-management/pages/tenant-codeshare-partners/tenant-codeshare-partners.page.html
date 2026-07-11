@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <app-crud-toolbar [actions]="['refresh']" (refresh)="refresh()"></app-crud-toolbar>
+    <app-crud-toolbar [actions]="['refresh']" [resource]="resourceName" (refresh)="refresh()"></app-crud-toolbar>
 
     <p-table
         [value]="data"

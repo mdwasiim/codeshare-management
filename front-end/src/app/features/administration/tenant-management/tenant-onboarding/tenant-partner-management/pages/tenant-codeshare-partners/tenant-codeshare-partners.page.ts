@@ -16,7 +16,7 @@ import { TenantPartner } from '@features/administration/tenant-management/models
     templateUrl: './tenant-codeshare-partners.page.html'
 })
 export class TenantCodesharePartnersPage extends BaseListComponent<TenantPartner> {
-    protected override resourceName = 'CODESHARE_PARTNER';
+    protected override resourceName = 'CODESHAREPARTNER';
     private readonly service = inject(TenantPartnerService);
 
     override fetch() {
