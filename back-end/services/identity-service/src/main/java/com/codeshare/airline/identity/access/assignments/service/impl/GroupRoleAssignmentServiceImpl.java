@@ -2,6 +2,7 @@ package com.codeshare.airline.identity.access.assignments.service.impl;
 
 import com.codeshare.airline.core.dto.tenant.GroupRoleDTO;
 import com.codeshare.airline.core.dto.tenant.RoleDTO;
+import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.identity.entities.Group;
 import com.codeshare.airline.identity.access.assignments.entities.GroupRole;
 import com.codeshare.airline.identity.access.identity.entities.Role;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -79,6 +81,7 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
             UUID groupId,
             List<UUID> roleIds
     ) {
+        UUID tenantId = TenantContextHolder.getTenant().getId();
 
         // =====================================================
         // VALIDATE GROUP
@@ -90,6 +93,10 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
                                 "Group not found: " + groupId
                         )
                 );
+
+        if (!Objects.equals(group.getTenantId(), tenantId)) {
+            throw new RuntimeException("Group does not belong to current tenant: " + groupId);
+        }
 
         // =====================================================
         // REMOVE EXISTING ROLES
@@ -111,6 +118,16 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
         // =====================================================
         List<Role> roles =
                 roleRepository.findAllById(roleIds);
+
+        if (roles.size() != roleIds.stream().distinct().count()) {
+            throw new RuntimeException("One or more roles were not found");
+        }
+
+        roles.forEach(role -> {
+            if (!Objects.equals(role.getTenantId(), tenantId)) {
+                throw new RuntimeException("Role does not belong to current tenant: " + role.getId());
+            }
+        });
 
         // =====================================================
         // CREATE NEW MAPPINGS

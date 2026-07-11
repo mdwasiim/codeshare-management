@@ -149,6 +149,10 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
 
         Role role = roleRepository.findById(roleId).orElseThrow(() ->new RuntimeException("Role not found: " + roleId) );
 
+        if (!Objects.equals(role.getTenantId(), tenantId)) {
+            throw new RuntimeException("Role does not belong to current tenant: " + roleId);
+        }
+
         // delete old
         rolePermissionRepository.deleteByRoleId(roleId);
 
@@ -168,6 +172,10 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
                                                                     + permissionId
                                                     )
                                             );
+
+                            if (!Objects.equals(permission.getTenantId(), tenantId)) {
+                                throw new RuntimeException("Permission does not belong to current tenant: " + permissionId);
+                            }
 
                             return RolePermission.builder()
                                     .tenantId(tenantId)

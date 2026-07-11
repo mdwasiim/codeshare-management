@@ -7,8 +7,8 @@ import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
 
 import { LayoutService } from '@layout/services/layout.service';
-import { AuthService } from '@features/access-management/authentication/services/auth.service';
-import { AppMenuModel } from '@features/access-management/models/app-menu.model';
+import { AuthService } from '@features/administration/access-management/authentication/services/auth.service';
+import { AppMenuModel } from '@features/administration/access-management/models/app-menu.model';
 import { LayoutMenuService } from '@layout/services/layout-menu.service';
 import { AuthTokenService } from '@services/auth/auth-token.service';
 
@@ -177,3 +177,4 @@ export class TopbarComponent implements OnInit {
         return null;
     }
 }
+

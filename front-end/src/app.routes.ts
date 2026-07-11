@@ -14,12 +14,9 @@ export const APP_ROUTES: Routes = [
     {
         path: '',
         canActivate: [AppAuthGuard],
+        canActivateChild: [AppAuthGuard],
         loadComponent: () => import('./app/layout/shell/layout.component').then((m) => m.LayoutComponent),
         children: [
-            {
-                path: 'dashboard',
-                loadChildren: () => import('@features/home/dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTES)
-            },
             {
                 path: '',
                 loadChildren: () => import('@features/feature.routes').then((m) => m.FEATURE_ROUTES)

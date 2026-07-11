@@ -77,8 +77,12 @@ public class UserGroupAssignmentServiceImpl
                         new RuntimeException("User not found: " + userId)
                 );
 
+        if (!Objects.equals(user.getTenantId(), tenantId)) {
+            throw new RuntimeException("User does not belong to current tenant: " + userId);
+        }
+
         // Remove duplicates from request
-        Set<UUID> uniqueGroupIds = new HashSet<>(groupIds);
+        Set<UUID> uniqueGroupIds = new HashSet<>(groupIds == null ? List.of() : groupIds);
 
         // Delete existing mappings
         userGroupRepository.deleteByUser_Id(userId);
@@ -94,6 +98,10 @@ public class UserGroupAssignmentServiceImpl
                             .orElseThrow(() ->
                                     new RuntimeException("Group not found: " + groupId)
                             );
+
+                    if (!Objects.equals(group.getTenantId(), tenantId)) {
+                        throw new RuntimeException("Group does not belong to current tenant: " + groupId);
+                    }
 
                     return UserGroup.builder()
                             .tenantId(tenantId)

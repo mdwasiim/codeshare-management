@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
-import { AppMenuModel } from '@features/access-management/models/app-menu.model';
+
+import { AppMenuModel } from '@features/administration/access-management/models/app-menu.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MenuRouteAccessService {
-    private readonly publicPrefixes = ['/dashboard', '/unauthorized', '/access-denied', '/error', '/notfound'];
+    private readonly publicPrefixes = ['/unauthorized', '/access-denied', '/error', '/notfound'];
 
     private readonly routeAliases: Record<string, string[]> = {
-        '/tenants': ['/tenants/:id', '/tenants/:id/edit', '/tenants/:id/overview', '/tenants/:id/identity', '/tenants/:id/ingestion', '/tenants/:id/partners'],
-        '/tenant-identity-providers': ['/tenant-onboarding/:id/identity-providers', '/tenants/:id/identity'],
-        '/tenant-oidc-config': ['/tenant-onboarding/:id/oidc-config'],
-        '/tenant-ingestion-profiles': ['/tenant-onboarding/:id/ingestion-profiles', '/tenants/:id/ingestion'],
-        '/tenant-ingestion-channels': ['/tenant-onboarding/:id/ingestion-channels'],
-        '/tenant-codeshare-partners': ['/tenant-onboarding/:id/codeshare-partners', '/tenants/:id/partners', '/tenant-partners', '/tenant-partners/create', '/tenant-partners/:id'],
-        '/tenant-partner-profiles': ['/tenant-onboarding/:id/partner-profiles'],
-        '/tenant-communication-profiles': ['/tenant-onboarding/:id/communication-profiles'],
-        '/tenant-distribution-profiles': ['/tenant-onboarding/:id/distribution-profiles']
+        '/tenants': [
+            '/tenants/:id',
+            '/tenants/:id/edit',
+            '/tenants/:id/overview',
+            '/tenants/:id/identity',
+            '/tenants/:id/ingestion',
+            '/tenants/:id/partners'
+        ],
+        '/tenant-identity-providers': ['/tenant-identity-providers/:id', '/tenants/:id/identity'],
+        '/tenant-oidc-config': ['/tenant-oidc-config/:id'],
+        '/tenant-ingestion-profiles': ['/tenant-ingestion-profiles/:id', '/tenants/:id/ingestion'],
+        '/tenant-ingestion-channels': ['/tenant-ingestion-channels/:id'],
+        '/tenant-codeshare-partners': ['/tenant-codeshare-partners/:id', '/tenants/:id/partners', '/tenant-partners', '/tenant-partners/create', '/tenant-partners/:id'],
+        '/tenant-partner-profiles': ['/tenant-partner-profiles/:id'],
+        '/tenant-communication-profiles': ['/tenant-communication-profiles/:id'],
+        '/tenant-distribution-profiles': ['/tenant-distribution-profiles/:id']
     };
 
     isPublicUrl(url: string): boolean {
@@ -63,10 +71,7 @@ export class MenuRouteAccessService {
             return this.matchesPrefix(url, pattern);
         }
 
-        const escaped = pattern
-            .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-            .replace(/:([A-Za-z0-9_]+)/g, '[^/]+');
-
+        const escaped = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/:([A-Za-z0-9_]+)/g, '[^/]+');
         return new RegExp(`^${escaped}(?:/|$)`).test(url);
     }
 
@@ -78,3 +83,4 @@ export class MenuRouteAccessService {
         return route.split('/').filter(Boolean).length * 100 + route.length;
     }
 }
+

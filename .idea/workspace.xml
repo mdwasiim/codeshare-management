@@ -6,37 +6,150 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/001-home.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/package-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/best-selling/best-selling.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/best-selling/best-selling.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/best-selling/best-selling.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/notifications/notifications.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/notifications/notifications.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/notifications/notifications.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/recent-sales/recent-sales.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/recent-sales/recent-sales.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/recent-sales/recent-sales.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/revenue-stream/revenue-stream.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/revenue-stream/revenue-stream.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/revenue-stream/revenue-stream.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/stats/stats.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/stats/stats.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/components/stats/stats.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/dashboard.routes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/pages/dashboard/dashboard.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/pages/dashboard/dashboard.page.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/home/dashboard/pages/dashboard/dashboard.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/models/product.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-form/product-form.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-form/product-form.page.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-form/product-form.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/pages/product-list/product-list.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/products.routes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/products/services/product.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/settings/settings.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/service/impl/GroupMenuAssignmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/service/impl/GroupMenuAssignmentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/service/impl/GroupRoleAssignmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/service/impl/GroupRoleAssignmentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/service/impl/RolePermissionAssignmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/service/impl/RolePermissionAssignmentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/service/impl/UserGroupAssignmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/assignments/service/impl/UserGroupAssignmentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/data/MenuLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/data/MenuLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/mappers/MenuMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/mappers/MenuMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/service/serviceImpl/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authorization/service/serviceImpl/MenuServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/001-identity.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/001-identity.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/002-authorization.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/002-authorization.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/004-assignments.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/identity/004-assignments.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/002-schedules.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/003-tenant-onboarding.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/004-system.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/005-access.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/resources/bootstrap/menus/006-masters.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/security/guards/app-auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/security/guards/app-auth.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/security/interceptors/app-auth.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/security/interceptors/app-auth.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/core/security/menu-route-access.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/core/security/menu-route-access.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/assignments.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/group-menus/models/group-menu.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/group-menus/pages/group-menu.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/group-menus/pages/group-menu.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/group-menus/services/group-menu.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/group-roles/models/group-role.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/group-roles/pages/group-role-assignment.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/group-roles/pages/group-role-assignment.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/group-roles/services/group-role.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/role-permissions/models/role-permission.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/role-permissions/pages/role-permission-assignment.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/role-permissions/pages/role-permission-assignment.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/role-permissions/services/role-permission.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/user-groups/models/user-group.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/user-groups/pages/user-group.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/user-groups/pages/user-group.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/assignments/user-groups/services/user-group.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/authentication.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/models/auth-session-response.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/models/login-response.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/models/refresh-token-response.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/pages/login/login-page.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/pages/login/login-page.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/pages/login/login-page.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/pages/oidc-callback/oidc-callback.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authentication/services/auth.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/authorization.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/menus.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/pages/menu-form/menu-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/pages/menu-form/menu-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/pages/menu-form/menu-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/pages/menu-list/menu-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/pages/menu-list/menu-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/pages/menu-list/menu-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/menus/services/menu-management.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-form/permission-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-form/permission-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-form/permission-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-list/permission-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-list/permission-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/pages/permission-list/permission-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/permissions.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/authorization/permissions/services/permission-api.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/groups/groups.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/groups/pages/group-form/group-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/groups/pages/group-form/group-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/groups/pages/group-form/group-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/groups/pages/group-list/group-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/groups/pages/group-list/group-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/groups/pages/group-list/group-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/groups/services/group.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/identity.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-form/role-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-form/role-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-form/role-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-list/role-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-list/role-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/pages/role-list/role-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/roles.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/roles/services/role.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/models/tenant-ingestion-profile.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tabs/tenant-overview-tab.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tabs/tenant-overview-tab.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tenant-detail.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tenant-detail.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-detail/tenant-detail.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-form/tenant-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/pages/tenant-list/tenant-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/services/tenant-ingestion-profile.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/services/tenant.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/tenants/tenants.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/users/pages/user-form/user-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/users/pages/user-form/user-form.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/users/pages/user-form/user-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/users/pages/user-list/user-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/users/pages/user-list/user-list.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/users/pages/user-list/user-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/users/services/user.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/identity/users/users.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/models/app-menu.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/models/group.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/models/permission.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/models/role.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/models/tenant.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/access-management/models/user.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/feature.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/masters.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/masters.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/models/tenant-partner-communication-profile.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/models/tenant-partner-distribution-profile.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/models/tenant-partner-profile.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/models/tenant-partner.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/pages/tenant-partners-form/tenant-partners-form.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/pages/tenant-partners-form/tenant-partners-form.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/pages/tenant-partners-list/tenant-partners-list.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/pages/tenant-partners-list/tenant-partners-list.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/services/tenant-partner-communication-profile.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/services/tenant-partner-distribution-profile.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/services/tenant-partner-profile.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/services/tenant-partners.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/partner-management/tenant-partners/tenant-partners.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/identity/pages/tenant-identity-tab.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/identity/pages/tenant-identity-tab.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/ingestion/pages/tenant-ingestion-tab.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/ingestion/pages/tenant-ingestion-tab.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/pages/tenant-onboarding-launcher/tenant-onboarding-launcher.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/pages/tenant-onboarding-launcher/tenant-onboarding-launcher.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/pages/tenant-onboarding-review/tenant-onboarding-review.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/pages/tenant-onboarding-review/tenant-onboarding-review.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/pages/tenant-onboarding-workspace/tenant-onboarding-workspace.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/pages/tenant-onboarding-workspace/tenant-onboarding-workspace.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/pages/tenant-onboarding-workspace/tenant-onboarding-workspace.page.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/partners/pages/tenant-partners-tab.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/partners/pages/tenant-partners-tab.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/tenant-onboarding-steps.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/tenant-onboarding/tenant-onboarding.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu-item/app-menu-item.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/sidebar-menu/app-menu/app-menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/components/topbar/topbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/layout/services/layout-menu.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/assets/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

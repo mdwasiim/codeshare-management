@@ -20,36 +20,51 @@
     {
       "type": "roles",
       "items": [
-        { "code": "SUPER_ADMIN", "name": "Super Admin", "description": "Full platform administration access." },
-        { "code": "TENANT_ADMIN", "name": "Tenant Admin", "description": "Tenant administration and configuration access." },
-        { "code": "IAM_ADMIN", "name": "IAM Admin", "description": "Identity and access management administration." },
-        { "code": "OPS_MANAGER", "name": "Operations Manager", "description": "Operational management access for schedules and processing." },
-        { "code": "FLIGHT_OPERATOR", "name": "Flight Operator", "description": "Flight schedule operations access." },
-        { "code": "MASTER_DATA_ADMIN", "name": "Master Data Admin", "description": "Administration access for airline, geography, aircraft, flight, schedule, messaging, and terminal master data." },
-        { "code": "MASTER_DATA_VIEWER", "name": "Master Data Viewer", "description": "Read-only access to master data screens." },
-        { "code": "BOOKING_AGENT", "name": "Booking Agent", "description": "Booking and reservation support access." },
-        { "code": "CUSTOMER_SUPPORT", "name": "Customer Support", "description": "Customer support operations access." },
-        { "code": "REPORT_ANALYST", "name": "Report Analyst", "description": "Reporting and analytics access." },
-        { "code": "AUDITOR", "name": "Auditor", "description": "Audit and compliance read-only access." },
-        { "code": "USER", "name": "User", "description": "Default authenticated user access." }
+        {
+          "code": "SYSTEM_ADMIN",
+          "name": "System Admin",
+          "description": "Full system access."
+        },
+        {
+          "code": "TENANT_ADMIN",
+          "name": "Tenant Admin",
+          "description": "Manage one tenant airline."
+        },
+        {
+          "code": "OPERATOR",
+          "name": "Operator",
+          "description": "Daily schedule operations."
+        },
+        {
+          "code": "READ_ONLY",
+          "name": "Read Only",
+          "description": "View only access."
+        }
       ]
     },
     {
       "type": "groups",
       "items": [
-        { "code": "PLATFORM_TEAM", "name": "Platform Team", "description": "Platform administration team." },
-        { "code": "SECURITY_TEAM", "name": "Security Team", "description": "Identity and security management team." },
-        { "code": "TENANT_ADMIN_TEAM", "name": "Tenant Admin Team", "description": "Tenant administration team." },
-        { "code": "OPERATIONS_TEAM", "name": "Operations Team", "description": "Airline operations management team." },
-        { "code": "FLIGHT_OPERATIONS_TEAM", "name": "Flight Operations Team", "description": "Flight operations and scheduling team." },
-        { "code": "MASTER_DATA_TEAM", "name": "Master Data Team", "description": "Team responsible for maintaining airline operational master data." },
-        { "code": "MASTER_DATA_READERS", "name": "Master Data Readers", "description": "Users who can view master data without maintaining it." },
-        { "code": "BOOKING_TEAM", "name": "Booking Team", "description": "Booking and reservation management team." },
-        { "code": "CUSTOMER_SUPPORT_TEAM", "name": "Customer Support Team", "description": "Customer support and service team." },
-        { "code": "AUDIT_TEAM", "name": "Audit Team", "description": "Audit and compliance team." },
-        { "code": "ANALYTICS_TEAM", "name": "Analytics Team", "description": "Reporting and analytics team." },
-        { "code": "IT_SUPPORT_TEAM", "name": "IT Support Team", "description": "Technical support and infrastructure team." },
-        { "code": "DEFAULT_USERS", "name": "Default Users", "description": "Default authenticated users group." }
+        {
+          "code": "SYSTEM_ADMINISTRATORS",
+          "name": "System Administrators",
+          "description": "Platform-wide system administration team."
+        },
+        {
+          "code": "TENANT_ADMINISTRATORS",
+          "name": "Tenant Administrators",
+          "description": "Tenant administration and onboarding team."
+        },
+        {
+          "code": "SCHEDULE_OPERATORS",
+          "name": "Schedule Operators",
+          "description": "Schedule ingestion and daily operations team."
+        },
+        {
+          "code": "READ_ONLY_USERS",
+          "name": "Read Only Users",
+          "description": "Users with view-only access."
+        }
       ]
     },
     {
@@ -65,29 +80,29 @@
           "enabled": true
         },
         {
-          "username": "auditor",
-          "password": "auditor",
-          "email": "auditor@qr.codeshare.com",
-          "firstName": "Audit",
-          "lastName": "Reviewer",
-          "authSource": "INTERNAL",
-          "enabled": true
-        },
-        {
-          "username": "manager",
-          "password": "manager",
-          "email": "manager@qr.codeshare.com",
-          "firstName": "Operations",
-          "lastName": "Manager",
-          "authSource": "INTERNAL",
-          "enabled": true
-        },
-        {
-          "username": "master",
-          "password": "master",
-          "email": "master@qr.codeshare.com",
-          "firstName": "Master Data",
+          "username": "tenantadmin",
+          "password": "tenantadmin",
+          "email": "tenantadmin@qr.codeshare.com",
+          "firstName": "Tenant",
           "lastName": "Administrator",
+          "authSource": "INTERNAL",
+          "enabled": true
+        },
+        {
+          "username": "operator",
+          "password": "operator",
+          "email": "operator@qr.codeshare.com",
+          "firstName": "Schedule",
+          "lastName": "Operator",
+          "authSource": "INTERNAL",
+          "enabled": true
+        },
+        {
+          "username": "readonly",
+          "password": "readonly",
+          "email": "readonly@qr.codeshare.com",
+          "firstName": "Read",
+          "lastName": "Only",
           "authSource": "INTERNAL",
           "enabled": true
         }

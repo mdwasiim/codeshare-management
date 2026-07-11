@@ -2,6 +2,7 @@ package com.codeshare.airline.identity.access.assignments.service.impl;
 
 import com.codeshare.airline.core.dto.tenant.GroupMenuDTO;
 import com.codeshare.airline.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.identity.access.authentication.core.domain.TenantContextHolder;
 import com.codeshare.airline.identity.access.identity.entities.Group;
 import com.codeshare.airline.identity.access.assignments.entities.GroupMenu;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -70,6 +72,7 @@ public class GroupMenuAssignmentServiceImpl
             UUID groupId,
             List<UUID> menuIds
     ) {
+        UUID tenantId = TenantContextHolder.getTenant().getId();
 
         // =============================================
         // VALIDATE GROUP
@@ -82,6 +85,10 @@ public class GroupMenuAssignmentServiceImpl
                                         "Group not found: " + groupId
                                 )
                         );
+
+        if (!Objects.equals(group.getTenantId(), tenantId)) {
+            throw new RuntimeException("Group does not belong to current tenant: " + groupId);
+        }
 
         // =============================================
         // DELETE EXISTING MENUS
@@ -104,6 +111,16 @@ public class GroupMenuAssignmentServiceImpl
         // =============================================
         List<Menu> menus =
                 menuRepository.findAllById(menuIds);
+
+        if (menus.size() != menuIds.stream().distinct().count()) {
+            throw new RuntimeException("One or more menus were not found");
+        }
+
+        menus.forEach(menu -> {
+            if (!Objects.equals(menu.getTenantId(), tenantId)) {
+                throw new RuntimeException("Menu does not belong to current tenant: " + menu.getId());
+            }
+        });
 
         // =============================================
         // CREATE NEW MAPPINGS
