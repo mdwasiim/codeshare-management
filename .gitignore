@@ -8,3 +8,5 @@ back-end/logs/
 # Large ingestion files
 *.txt
 back-end/services/schedule-ingestion-service/src/main/resources/*.txtback-end/services/schedule-ingestion-service/src/main/resources/*.txt 
+*.log
+*.bak
