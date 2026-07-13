@@ -9,13 +9,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class CodesharePartnerCommunicationProfileDTO {
-    private UUID id;
-    private UUID partnerId;
+    private Long id;
+    private Long partnerId;
     private String profileCode;
     private String profileName;
     private CommunicationProtocol protocol;

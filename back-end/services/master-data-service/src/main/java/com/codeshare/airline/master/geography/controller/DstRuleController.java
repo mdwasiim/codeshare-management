@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/dst-rules")
 public class DstRuleController
-        extends BaseController<DstRuleDTO, UUID> {
+        extends BaseController<DstRuleDTO, Long> {
 
     public DstRuleController(DstRuleService service) {
         super(service);

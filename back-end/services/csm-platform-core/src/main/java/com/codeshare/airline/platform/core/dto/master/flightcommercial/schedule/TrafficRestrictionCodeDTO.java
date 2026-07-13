@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class TrafficRestrictionCodeDTO {
-    private UUID id;
+    private Long id;
     private String restrictionCode;
     private String restrictionName;
     private String category;

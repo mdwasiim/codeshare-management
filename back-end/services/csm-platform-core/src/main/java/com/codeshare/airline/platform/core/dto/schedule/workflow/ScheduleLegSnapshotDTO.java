@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleLegSnapshotDTO {
-    private UUID legId;
+    private Long legId;
     private Integer legSequenceNumber;
     private String legStatus;
     private LocalDate periodStart;

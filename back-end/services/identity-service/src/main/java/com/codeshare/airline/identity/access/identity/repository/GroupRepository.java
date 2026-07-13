@@ -9,25 +9,24 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
-public interface GroupRepository extends CSMDataBaseRepository<Group, UUID> {
+public interface GroupRepository extends CSMDataBaseRepository<Group, Long> {
 
-    boolean existsByNameAndTenantId(String name, UUID tenantId);
+    boolean existsByNameAndTenantId(String name, Long tenantId);
 
-    List<Group> findByTenantId(UUID tenantId);
+    List<Group> findByTenantId(Long tenantId);
 
-    boolean existsByTenantIdAndCode(UUID tenantId, String code);
+    boolean existsByTenantIdAndCode(Long tenantId, String code);
 
-    Optional<Group> findByNameAndTenantId(String groupName, UUID tenantId);
+    Optional<Group> findByNameAndTenantId(String groupName, Long tenantId);
 
-    List<Group> findAllByTenantId(UUID tenantId);
+    List<Group> findAllByTenantId(Long tenantId);
 
-    Optional<Group> findByCodeAndTenantId(String code, UUID tenantId);
+    Optional<Group> findByCodeAndTenantId(String code, Long tenantId);
 
     @Query("select g.code from Group g where g.tenantId = :tenantId")
-    Set<String> findCodesByTenantId(@Param("tenantId") UUID tenantId);
+    Set<String> findCodesByTenantId(@Param("tenantId") Long tenantId);
 
-    long countByTenantId(UUID tenantId);
+    long countByTenantId(Long tenantId);
 
 }

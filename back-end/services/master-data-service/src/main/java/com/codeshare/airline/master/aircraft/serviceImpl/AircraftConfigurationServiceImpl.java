@@ -13,11 +13,10 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class AircraftConfigurationServiceImpl
-        extends BaseServiceImpl<AircraftConfiguration, AircraftConfigurationDTO, UUID>
+        extends BaseServiceImpl<AircraftConfiguration, AircraftConfigurationDTO, Long>
         implements AircraftConfigurationService {
 
     private final AircraftConfigurationRepository repository;
@@ -36,12 +35,12 @@ public class AircraftConfigurationServiceImpl
         this.airlineCarrierRepository = airlineCarrierRepository;
     }
 
-    private AircraftType getAircraftType(UUID id) {
+    private AircraftType getAircraftType(Long id) {
         return aircraftTypeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft type not found"));
     }
 
-    private AirlineCarrier getAirline(UUID id) {
+    private AirlineCarrier getAirline(Long id) {
         return airlineCarrierRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
@@ -87,7 +86,7 @@ public class AircraftConfigurationServiceImpl
     }
 
     @Override
-    public AircraftConfigurationDTO update(UUID id, AircraftConfigurationDTO dto) {
+    public AircraftConfigurationDTO update(Long id, AircraftConfigurationDTO dto) {
 
         AircraftConfiguration existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Configuration not found"));

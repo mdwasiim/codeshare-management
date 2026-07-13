@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AircraftTypeDTO {
 
-    private UUID id;
+    private Long id;
 
     private String manufacturer;
     private String modelCode;

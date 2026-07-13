@@ -8,11 +8,10 @@ import com.codeshare.airline.master.messaging.repository.MessagePriorityReposito
 import com.codeshare.airline.master.messaging.service.MessagePriorityService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class MessagePriorityServiceImpl
-        extends BaseServiceImpl<MessagePriority, MessagePriorityDTO, UUID>
+        extends BaseServiceImpl<MessagePriority, MessagePriorityDTO, Long>
         implements MessagePriorityService {
 
     public MessagePriorityServiceImpl(MessagePriorityRepository repository,

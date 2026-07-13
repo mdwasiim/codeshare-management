@@ -10,7 +10,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(
@@ -29,7 +28,7 @@ import java.util.UUID;
 public class RefreshToken extends CSMDataAbstractEntity {
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private Long tenantId;
 
     @Column(name = "tenant_code", nullable = false, length = 50)
     private String tenantCode;

@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/traffic-restriction-qualifiers")
-public class TrafficRestrictionQualifierController extends BaseController<TrafficRestrictionQualifierDTO, UUID> {
-    protected TrafficRestrictionQualifierController(BaseService<TrafficRestrictionQualifierDTO, UUID> service) {
+public class TrafficRestrictionQualifierController extends BaseController<TrafficRestrictionQualifierDTO, Long> {
+    protected TrafficRestrictionQualifierController(BaseService<TrafficRestrictionQualifierDTO, Long> service) {
         super(service);
     }
 }

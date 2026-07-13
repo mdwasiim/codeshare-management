@@ -8,11 +8,10 @@ import com.codeshare.airline.master.schedule.repository.OperationalSuffixReposit
 import com.codeshare.airline.master.schedule.service.OperationalSuffixService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class OperationalSuffixServiceImpl
-        extends BaseServiceImpl<OperationalSuffix, OperationalSuffixDTO, UUID>
+        extends BaseServiceImpl<OperationalSuffix, OperationalSuffixDTO, Long>
         implements OperationalSuffixService {
 
     public OperationalSuffixServiceImpl(OperationalSuffixRepository repository,

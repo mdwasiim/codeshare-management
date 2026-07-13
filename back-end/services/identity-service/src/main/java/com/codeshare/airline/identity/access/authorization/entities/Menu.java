@@ -23,7 +23,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(
@@ -84,5 +83,5 @@ public class Menu extends CSMDataAbstractEntity {
     private List<GroupMenu> groupMenus = new ArrayList<>();
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private Long tenantId;
 }

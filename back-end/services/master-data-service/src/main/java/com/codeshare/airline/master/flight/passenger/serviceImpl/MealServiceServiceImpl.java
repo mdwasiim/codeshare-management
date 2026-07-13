@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.passenger.repository.MealServiceRepos
 import com.codeshare.airline.master.flight.passenger.service.MealServiceService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class MealServiceServiceImpl extends BaseServiceImpl<MealService, MealServiceDTO, UUID> implements MealServiceService {
+public class MealServiceServiceImpl extends BaseServiceImpl<MealService, MealServiceDTO, Long> implements MealServiceService {
     public MealServiceServiceImpl(MealServiceRepository repository, MealServiceMapper mapper) {
         super(repository, mapper);
     }

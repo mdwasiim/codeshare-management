@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(
@@ -32,13 +31,13 @@ import java.util.UUID;
 public class CodesharePartner extends CSMDataAbstractEntity {
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private Long tenantId;
 
     @Column(name = "home_airline_id", nullable = false)
-    private UUID homeAirlineId;
+    private Long homeAirlineId;
 
     @Column(name = "partner_airline_id", nullable = false)
-    private UUID partnerAirlineId;
+    private Long partnerAirlineId;
 
     @Column(name = "agreement_number", length = 50)
     private String agreementNumber;

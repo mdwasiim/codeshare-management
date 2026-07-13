@@ -8,11 +8,10 @@ import com.codeshare.airline.master.schedule.repository.SchedulePriorityReposito
 import com.codeshare.airline.master.schedule.service.SchedulePriorityService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class SchedulePriorityServiceImpl
-        extends BaseServiceImpl<SchedulePriority, SchedulePriorityDTO, UUID>
+        extends BaseServiceImpl<SchedulePriority, SchedulePriorityDTO, Long>
         implements SchedulePriorityService {
 
     public SchedulePriorityServiceImpl(SchedulePriorityRepository repository,

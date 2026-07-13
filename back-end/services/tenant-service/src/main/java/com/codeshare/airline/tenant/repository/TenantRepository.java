@@ -5,9 +5,8 @@ import com.codeshare.airline.tenant.entities.Tenant;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface TenantRepository extends CSMDataBaseRepository<Tenant, UUID> {
+public interface TenantRepository extends CSMDataBaseRepository<Tenant, Long> {
 
     boolean existsByTenantCode(String tenantCode);
 

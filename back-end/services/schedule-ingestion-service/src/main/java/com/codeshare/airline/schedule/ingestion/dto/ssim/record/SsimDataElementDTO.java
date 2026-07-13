@@ -4,8 +4,6 @@ import com.codeshare.airline.platform.core.dto.audit.CSMAuditableDTO;
 import com.codeshare.airline.schedule.ingestion.domain.enums.RecordType;
 import lombok.*;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @ToString
@@ -13,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SsimDataElementDTO extends CSMAuditableDTO {
 
-    private UUID flightLegId;
+    private Long flightLegId;
 
     /* =======================================================
        1–14 HEADER

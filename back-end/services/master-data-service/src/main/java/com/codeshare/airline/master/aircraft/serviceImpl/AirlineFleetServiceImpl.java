@@ -14,11 +14,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AirlineFleetServiceImpl
-        extends BaseServiceImpl<AirlineFleetProfile, AirlineFleetDTO, UUID>
+        extends BaseServiceImpl<AirlineFleetProfile, AirlineFleetDTO, Long>
         implements AirlineFleetService {
 
     private final AirlineFleetRepository repository;
@@ -37,12 +36,12 @@ public class AirlineFleetServiceImpl
         this.configRepository = configRepository;
     }
 
-    private AirlineCarrier getAirline(UUID id) {
+    private AirlineCarrier getAirline(Long id) {
         return airlineCarrierRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 
-    private AircraftConfiguration getConfig(UUID id) {
+    private AircraftConfiguration getConfig(Long id) {
         return configRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Configuration not found"));
     }
@@ -68,7 +67,7 @@ public class AirlineFleetServiceImpl
     }
 
     @Override
-    public AirlineFleetDTO update(UUID id, AirlineFleetDTO dto) {
+    public AirlineFleetDTO update(Long id, AirlineFleetDTO dto) {
 
         AirlineFleetProfile existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Fleet record not found"));
@@ -90,12 +89,12 @@ public class AirlineFleetServiceImpl
     }
 
     @Override
-    public List<AirlineFleetDTO> getByAirline(UUID airlineId) {
+    public List<AirlineFleetDTO> getByAirline(Long airlineId) {
         return mapper.toDTOList(repository.findByAirlineId(airlineId));
     }
 
     @Override
-    public List<AirlineFleetDTO> getByConfiguration(UUID configId) {
+    public List<AirlineFleetDTO> getByConfiguration(Long configId) {
         return mapper.toDTOList(repository.findByAircraftConfigurationId(configId));
     }
 }

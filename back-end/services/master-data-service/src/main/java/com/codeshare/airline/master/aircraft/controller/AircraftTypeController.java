@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/aircraft-types")
 public class AircraftTypeController
-        extends BaseController<AircraftTypeDTO, UUID> {
+        extends BaseController<AircraftTypeDTO, Long> {
 
     private final AircraftTypeService service;
 

@@ -9,16 +9,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface ScheduleLegChangeRepository extends CSMDataBaseRepository<ScheduleLegChangeEntity, UUID> {
+public interface ScheduleLegChangeRepository extends CSMDataBaseRepository<ScheduleLegChangeEntity, Long> {
 
-    List<ScheduleLegChangeEntity> findByFlightChangeId(UUID flightChangeId);
+    List<ScheduleLegChangeEntity> findByFlightChangeId(Long flightChangeId);
 
-    List<ScheduleLegChangeEntity> findByFlightChangeIdAndChangeType(UUID flightChangeId, LegChangeType changeType);
+    List<ScheduleLegChangeEntity> findByFlightChangeIdAndChangeType(Long flightChangeId, LegChangeType changeType);
 
-    List<ScheduleLegChangeEntity> findByLiveLegId(UUID liveLegId);
+    List<ScheduleLegChangeEntity> findByLiveLegId(Long liveLegId);
 
     List<ScheduleLegChangeEntity> findByChangeSetStatus(ChangeSetStatus changeSetStatus);
 

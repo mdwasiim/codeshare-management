@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO create(RoleDTO dto) {
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
         if (repo.existsByNameAndTenantId(dto.getName(), tenantId)) {
             throw new RuntimeException("Role already exists for this ingestion");
         }
@@ -34,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDTO update(UUID id, RoleDTO dto) {
+    public RoleDTO update(Long id, RoleDTO dto) {
         Role entity = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Role not found: " + id));
 
@@ -45,7 +44,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         if (!repo.existsById(id)) {
             throw new RuntimeException("Role not found: " + id);
         }
@@ -54,13 +53,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(readOnly = true)
-    public RoleDTO getById(UUID id) {
+    public RoleDTO getById(Long id) {
         return repo.findById(id)
                 .map(mapper::toDTO)
                 .orElseThrow(() -> new RuntimeException("Role not found: " + id));
     }
 
-    public List<RoleDTO> getAllByTenant(UUID tenantId) {
+    public List<RoleDTO> getAllByTenant(Long tenantId) {
         return mapper.toDTOList(repo.findByTenantId(tenantId));
     }
 

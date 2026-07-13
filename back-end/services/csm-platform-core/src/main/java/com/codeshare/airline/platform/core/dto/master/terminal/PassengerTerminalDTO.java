@@ -4,13 +4,12 @@ package com.codeshare.airline.platform.core.dto.master.terminal;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
 
 @Getter
 @Setter
 public class PassengerTerminalDTO {
 
-    private UUID id;
+    private Long id;
     private String airportCode;
     private String terminalCode;
     private String terminalName;

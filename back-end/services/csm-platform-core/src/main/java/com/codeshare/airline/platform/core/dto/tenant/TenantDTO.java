@@ -7,7 +7,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,14 +17,14 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = false)
 public class TenantDTO extends CSMAuditableDTO {
 
-    private UUID id;
+    private Long id;
 
     private String name;
     private String tenantCode;
     private String description;
 
     // DB config reference (safe)
-    private UUID databaseConfigId;
+    private Long databaseConfigId;
 
     // Subscription / Plan Info
     private String plan;

@@ -10,9 +10,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-public interface GroupMenuRepository extends CSMDataBaseRepository<GroupMenu, UUID> {
+public interface GroupMenuRepository extends CSMDataBaseRepository<GroupMenu, Long> {
 
     @Query("""
     SELECT gm.menu
@@ -27,23 +26,23 @@ public interface GroupMenuRepository extends CSMDataBaseRepository<GroupMenu, UU
     WHERE gm.group IN :groups
       AND gm.menu.tenantId = :tenantId
 """)
-    List<Menu> findMenusByGroupsAndTenant(@Param("groups") List<Group> groups, @Param("tenantId") UUID tenantId);
+    List<Menu> findMenusByGroupsAndTenant(@Param("groups") List<Group> groups, @Param("tenantId") Long tenantId);
 
     @Query("select concat(gm.group.code, concat(':', gm.menu.code)) from GroupMenu gm where gm.tenantId = :tenantId")
-    Set<String> findMappingsByTenantId(@Param("tenantId") UUID tenantId);
+    Set<String> findMappingsByTenantId(@Param("tenantId") Long tenantId);
 
-    long countByTenantId(UUID tenantId);
+    long countByTenantId(Long tenantId);
 
-    List<GroupMenu> findAllByTenantId(UUID tenantId);
+    List<GroupMenu> findAllByTenantId(Long tenantId);
 
-    boolean existsByTenantIdAndGroupAndMenu(UUID tenantId, Group group, Menu menu);
+    boolean existsByTenantIdAndGroupAndMenu(Long tenantId, Group group, Menu menu);
 
-    List<GroupMenu> findByGroup_Id(UUID groupId);
+    List<GroupMenu> findByGroup_Id(Long groupId);
 
-    void deleteByGroup_Id(UUID groupId);
+    void deleteByGroup_Id(Long groupId);
 
-    List<GroupMenu> findByMenu_Id(UUID menuId);
+    List<GroupMenu> findByMenu_Id(Long menuId);
 
-    void deleteByMenu_Id(UUID menuId);
+    void deleteByMenu_Id(Long menuId);
 
 }

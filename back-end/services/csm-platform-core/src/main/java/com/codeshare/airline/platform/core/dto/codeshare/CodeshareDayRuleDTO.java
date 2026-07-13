@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,9 +15,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CodeshareDayRuleDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID flightMappingId;
+    private Long flightMappingId;
 
     private FlightNumberPattern flightNumberPattern;
 

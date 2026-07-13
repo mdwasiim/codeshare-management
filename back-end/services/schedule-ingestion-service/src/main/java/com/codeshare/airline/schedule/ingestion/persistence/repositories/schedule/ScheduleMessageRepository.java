@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.UUID;
 
 public interface ScheduleMessageRepository
-        extends CSMDataBaseRepository<ScheduleMessageEntity, UUID>,
+        extends CSMDataBaseRepository<ScheduleMessageEntity, Long>,
         JpaSpecificationExecutor<ScheduleMessageEntity> {
 
     long countByFile_FileId(UUID fileId);

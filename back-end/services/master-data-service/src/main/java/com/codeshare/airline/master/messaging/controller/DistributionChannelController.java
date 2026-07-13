@@ -6,14 +6,13 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/distribution-channels")
 public class DistributionChannelController
-        extends BaseController<DistributionChannelDTO, UUID> {
+        extends BaseController<DistributionChannelDTO, Long> {
 
-    protected DistributionChannelController(BaseService<DistributionChannelDTO, UUID> service) {
+    protected DistributionChannelController(BaseService<DistributionChannelDTO, Long> service) {
         super(service);
     }
 }

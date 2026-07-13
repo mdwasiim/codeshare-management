@@ -13,11 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AircraftConfigurationRevisionServiceImpl
-        extends BaseServiceImpl<AircraftConfigurationRevision, AircraftConfigurationRevisionDTO, UUID>
+        extends BaseServiceImpl<AircraftConfigurationRevision, AircraftConfigurationRevisionDTO, Long>
         implements AircraftConfigurationRevisionService {
 
     private final AircraftConfigurationRevisionRepository repository;
@@ -41,7 +40,7 @@ public class AircraftConfigurationRevisionServiceImpl
     }
 
     @Override
-    public AircraftConfigurationRevisionDTO update(UUID id, AircraftConfigurationRevisionDTO dto) {
+    public AircraftConfigurationRevisionDTO update(Long id, AircraftConfigurationRevisionDTO dto) {
         AircraftConfigurationRevision existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft configuration revision not found"));
 
@@ -52,11 +51,11 @@ public class AircraftConfigurationRevisionServiceImpl
 
     @Override
     @Transactional(readOnly = true)
-    public List<AircraftConfigurationRevisionDTO> getByAircraftConfiguration(UUID aircraftConfigurationId) {
+    public List<AircraftConfigurationRevisionDTO> getByAircraftConfiguration(Long aircraftConfigurationId) {
         return mapper.toDTOList(repository.findByAircraftConfigurationId(aircraftConfigurationId));
     }
 
-    private AircraftConfiguration getAircraftConfiguration(UUID id) {
+    private AircraftConfiguration getAircraftConfiguration(Long id) {
         if (id == null) {
             throw new EntityNotFoundException("Aircraft configuration is required");
         }

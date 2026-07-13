@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,10 +17,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CodeshareAgreementDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID marketingAirlineId;
-    private UUID operatingAirlineId;
+    private Long marketingAirlineId;
+    private Long operatingAirlineId;
 
     private CodeshareCommercialModel codeshareCommercialModel;
 

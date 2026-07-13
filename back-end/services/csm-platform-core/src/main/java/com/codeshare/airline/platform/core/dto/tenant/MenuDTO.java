@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -36,7 +35,7 @@ public class MenuDTO extends CSMAuditableDTO {
 
     private Boolean visible;
 
-    private UUID parentId;
+    private Long parentId;
 
-    private List<UUID> groupIds;
+    private List<Long> groupIds;
 }

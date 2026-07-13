@@ -6,12 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class ReservationBookingDesignatorDTO {
-    private UUID id;
+    private Long id;
     private String bookingDesignator;
     private String bookingName;
     private CabinClass cabinClass;

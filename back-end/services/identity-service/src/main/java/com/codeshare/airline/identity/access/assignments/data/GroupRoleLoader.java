@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -28,7 +27,7 @@ public class GroupRoleLoader {
     private final GroupRoleRepository groupRoleRepository;
     private final IdentityBootstrapData bootstrapData;
 
-    public void load(UUID tenantId) {
+    public void load(Long tenantId) {
         log.info("GroupRoleLoader: ensuring group-role mappings for tenant {}", tenantId);
 
         List<Group> groups = groupRepository.findByTenantId(tenantId);
@@ -78,7 +77,7 @@ public class GroupRoleLoader {
         }
     }
 
-    public boolean isLoaded(UUID tenantId) {
+    public boolean isLoaded(Long tenantId) {
         long actual = groupRoleRepository.countByTenantId(tenantId);
         return actual >= bootstrapData.groupRoles().size();
     }

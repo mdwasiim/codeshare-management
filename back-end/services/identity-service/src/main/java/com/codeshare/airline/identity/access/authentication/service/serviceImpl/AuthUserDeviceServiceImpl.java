@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
@@ -46,7 +45,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Update device record (e.g., lastSeen, userAgent)
     // ----------------------------------------------------------------------
     @Override
-    public UserDeviceDTO update(UUID id, UserDeviceDTO dto) {
+    public UserDeviceDTO update(Long id, UserDeviceDTO dto) {
 
         UserDeviceEntity entity = userDeviceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Device not found"));
@@ -64,7 +63,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Retrieve all devices associated with a userEntity
     // ----------------------------------------------------------------------
     @Override
-    public List<UserDeviceDTO> getDevicesByUserId(UUID userId) {
+    public List<UserDeviceDTO> getDevicesByUserId(Long userId) {
         List<UserDeviceEntity> devices = userDeviceRepository.findByUser_Id(userId);
         return authUserDeviceMapper.toDTOList(devices);
     }
@@ -131,7 +130,7 @@ public class AuthUserDeviceServiceImpl implements AuthUserDeviceService {
     // Find a device or create it if missing (used during login)
     // ----------------------------------------------------------------------
     @Override
-    public UserDeviceDTO findOrRegisterDevice(UUID userId, UUID tenantId, String deviceId) {
+    public UserDeviceDTO findOrRegisterDevice(Long userId, Long tenantId, String deviceId) {
 
         Optional<UserDeviceEntity> optional = userDeviceRepository
                 .findByUser_IdAndDeviceId(userId, deviceId);

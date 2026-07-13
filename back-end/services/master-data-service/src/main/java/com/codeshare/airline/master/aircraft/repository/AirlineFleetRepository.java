@@ -4,12 +4,11 @@ import com.codeshare.airline.master.aircraft.entities.AirlineFleetProfile;
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AirlineFleetRepository
-        extends CSMDataBaseRepository<AirlineFleetProfile, UUID> {
+        extends CSMDataBaseRepository<AirlineFleetProfile, Long> {
 
-    List<AirlineFleetProfile> findByAirlineId(UUID airlineId);
+    List<AirlineFleetProfile> findByAirlineId(Long airlineId);
 
-    List<AirlineFleetProfile> findByAircraftConfigurationId(UUID configId);
+    List<AirlineFleetProfile> findByAircraftConfigurationId(Long configId);
 }

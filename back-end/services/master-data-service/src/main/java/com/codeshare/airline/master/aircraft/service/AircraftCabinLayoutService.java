@@ -4,10 +4,9 @@ import com.codeshare.airline.platform.core.dto.master.aircraft.AircraftCabinLayo
 import com.codeshare.airline.master.common.base.BaseService;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AircraftCabinLayoutService
-        extends BaseService<AircraftCabinLayoutDTO, UUID> {
+        extends BaseService<AircraftCabinLayoutDTO, Long> {
 
-    List<AircraftCabinLayoutDTO> getByConfiguration(UUID configId);
+    List<AircraftCabinLayoutDTO> getByConfiguration(Long configId);
 }

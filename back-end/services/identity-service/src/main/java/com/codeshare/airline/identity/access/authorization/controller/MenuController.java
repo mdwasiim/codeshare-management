@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @CSMResponse
 @RestController
@@ -28,7 +27,7 @@ public class MenuController  {
     // UPDATE MENU
     // -----------------------------------------------------------
     @PutMapping("/{id}")
-    public MenuDTO update(@PathVariable UUID id,@RequestBody MenuDTO dto) {
+    public MenuDTO update(@PathVariable Long id,@RequestBody MenuDTO dto) {
         return service.update(id, dto);
     }
 
@@ -36,7 +35,7 @@ public class MenuController  {
     // GET MENU BY ID
     // -----------------------------------------------------------
     @GetMapping("/{id}")
-    public MenuDTO getById(@PathVariable UUID id) {
+    public MenuDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
@@ -49,7 +48,7 @@ public class MenuController  {
     // DELETE MENU (Soft delete recommended)
     // -----------------------------------------------------------
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
 

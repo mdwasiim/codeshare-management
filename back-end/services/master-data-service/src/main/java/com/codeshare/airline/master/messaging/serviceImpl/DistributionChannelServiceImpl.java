@@ -8,11 +8,10 @@ import com.codeshare.airline.master.messaging.mappers.DistributionChannelMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class DistributionChannelServiceImpl
-        extends BaseServiceImpl<DistributionChannel, DistributionChannelDTO, UUID>
+        extends BaseServiceImpl<DistributionChannel, DistributionChannelDTO, Long>
         implements DistributionChannelService {
 
     public DistributionChannelServiceImpl(DistributionChannelRepository repository,

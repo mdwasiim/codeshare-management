@@ -11,11 +11,10 @@ import com.codeshare.airline.master.terminal.service.TrafficConferenceAreaServic
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class TrafficConferenceAreaServiceImpl
-        extends BaseServiceImpl<TrafficConferenceArea, TrafficConferenceAreaDTO, UUID>
+        extends BaseServiceImpl<TrafficConferenceArea, TrafficConferenceAreaDTO, Long>
         implements TrafficConferenceAreaService {
 
     private final RegionRepository regionRepository;
@@ -27,7 +26,7 @@ public class TrafficConferenceAreaServiceImpl
         this.regionRepository = regionRepository;
     }
 
-    private Region getRegion(UUID regionId) {
+    private Region getRegion(Long regionId) {
         if (regionId == null) {
             return null;
         }
@@ -45,7 +44,7 @@ public class TrafficConferenceAreaServiceImpl
     }
 
     @Override
-    public TrafficConferenceAreaDTO update(UUID id, TrafficConferenceAreaDTO dto) {
+    public TrafficConferenceAreaDTO update(Long id, TrafficConferenceAreaDTO dto) {
         TrafficConferenceArea existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Traffic conference area not found"));
 

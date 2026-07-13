@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/aircraft-cabin-layouts")
 public class AircraftCabinLayoutController
-        extends BaseController<AircraftCabinLayoutDTO, UUID> {
+        extends BaseController<AircraftCabinLayoutDTO, Long> {
 
     private final AircraftCabinLayoutService service;
     public AircraftCabinLayoutController(
@@ -25,7 +24,7 @@ public class AircraftCabinLayoutController
 
     @GetMapping("/configuration/{configId}")
     public List<AircraftCabinLayoutDTO> getByConfiguration(
-            @PathVariable UUID configId) {
+            @PathVariable Long configId) {
         return service.getByConfiguration(configId);
     }
 }

@@ -7,13 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AirlineBusinessRoleDTO {
-    private UUID id;
-    private UUID airlineId;
+    private Long id;
+    private Long airlineId;
     private String roleCode;
     private String roleName;
     private AirlineRoleScope roleScope;

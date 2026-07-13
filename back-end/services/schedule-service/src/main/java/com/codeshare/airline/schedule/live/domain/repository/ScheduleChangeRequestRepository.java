@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ScheduleChangeRequestRepository extends CSMDataBaseRepository<ScheduleChangeRequestEntity, UUID> {
+public interface ScheduleChangeRequestRepository extends CSMDataBaseRepository<ScheduleChangeRequestEntity, Long> {
 
     Optional<ScheduleChangeRequestEntity> findByChangeSetId(UUID changeSetId);
 

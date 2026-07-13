@@ -4,10 +4,9 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.aircraft.entities.AircraftRegistration;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface AircraftRegistrationRepository
-        extends CSMDataBaseRepository<AircraftRegistration, UUID> {
+        extends CSMDataBaseRepository<AircraftRegistration, Long> {
 
     Optional<AircraftRegistration> findByRegistrationNumber(String registrationNumber);
 }

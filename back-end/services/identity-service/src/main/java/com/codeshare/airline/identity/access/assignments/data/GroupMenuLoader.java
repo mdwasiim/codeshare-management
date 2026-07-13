@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -32,12 +31,12 @@ public class GroupMenuLoader {
     private final HostAirlineTenantClient tenantClient;
 
     @Transactional
-    public void load(UUID tenantId) {
+    public void load(Long tenantId) {
         log.info("GroupMenuLoader: creating group-menu mappings for tenant {}", tenantId);
         assignTenantMenus(tenantId);
     }
 
-    private void assignTenantMenus(UUID tenantId) {
+    private void assignTenantMenus(Long tenantId) {
         List<Group> groups = groupRepository.findByTenantId(tenantId);
         List<Menu> menus = menuRepository.findByTenantId(tenantId);
         String tenantCode = resolveTenantCode(tenantId);
@@ -87,7 +86,7 @@ public class GroupMenuLoader {
         }
     }
 
-    private void saveGroupMenu(UUID tenantId,
+    private void saveGroupMenu(Long tenantId,
                                Group group,
                                Menu menu,
                                Set<String> existingMappings,
@@ -105,12 +104,12 @@ public class GroupMenuLoader {
                 .build());
     }
 
-    public boolean isLoaded(UUID tenantId) {
+    public boolean isLoaded(Long tenantId) {
         long actual = groupMenuRepository.countByTenantId(tenantId);
         return actual >= bootstrapData.groupMenus().size();
     }
 
-    private String resolveTenantCode(UUID tenantId) {
+    private String resolveTenantCode(Long tenantId) {
         return tenantClient.getAll().stream()
                 .filter(tenant -> tenantId.equals(tenant.getId()))
                 .map(tenant -> tenant.getTenantCode())

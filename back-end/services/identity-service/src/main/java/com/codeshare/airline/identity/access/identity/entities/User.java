@@ -25,7 +25,6 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(
@@ -97,7 +96,7 @@ public class User extends CSMDataAbstractEntity {
     private String externalId;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private Long tenantId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserGroup> userGroups = new HashSet<>();

@@ -6,18 +6,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface LiveSegmentRepository extends CSMDataBaseRepository<LiveSegmentEntity, UUID> {
+public interface LiveSegmentRepository extends CSMDataBaseRepository<LiveSegmentEntity, Long> {
 
-    List<LiveSegmentEntity> findByFlightLegIdOrderByBoardPointAscOffPointAsc(UUID flightLegId);
+    List<LiveSegmentEntity> findByFlightLegIdOrderByBoardPointAscOffPointAsc(Long flightLegId);
 
     Optional<LiveSegmentEntity> findByFlightLegIdAndBoardPointAndOffPoint(
-            UUID flightLegId,
+            Long flightLegId,
             String boardPoint,
             String offPoint
     );
 
-    void deleteByFlightLegId(UUID flightLegId);
+    void deleteByFlightLegId(Long flightLegId);
 }

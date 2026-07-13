@@ -4,7 +4,6 @@ import com.codeshare.airline.platform.core.dto.audit.CSMAuditableDTO;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,9 +13,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RoleDTO extends CSMAuditableDTO {
 
-    private UUID id;
+    private Long id;
     private String code;
     private String name;
     private String description;
-    private UUID tenantId;
+    private Long tenantId;
 }

@@ -4,7 +4,6 @@ import com.codeshare.airline.platform.core.enums.common.TenantStatus;
 import lombok.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TenantAuthContextDTO {
 
-    private UUID id;
+    private Long id;
     private String name;
     private String tenantCode;
     private TenantStatus status;

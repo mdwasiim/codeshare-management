@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/aircraft-configurations")
 public class AircraftConfigurationController
-        extends BaseController<AircraftConfigurationDTO, UUID> {
+        extends BaseController<AircraftConfigurationDTO, Long> {
 
     public AircraftConfigurationController(
             AircraftConfigurationService service) {

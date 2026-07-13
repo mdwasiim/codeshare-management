@@ -5,10 +5,9 @@ import com.codeshare.airline.platform.core.dto.master.terminal.PassengerTerminal
 import com.codeshare.airline.master.common.base.BaseService;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface PassengerTerminalService
-        extends BaseService<PassengerTerminalDTO, UUID> {
+        extends BaseService<PassengerTerminalDTO, Long> {
 
-    List<PassengerTerminalDTO> getByAirport(UUID airportId);
+    List<PassengerTerminalDTO> getByAirport(Long airportId);
 }

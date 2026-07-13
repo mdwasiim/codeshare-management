@@ -8,12 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/airports")
 public class AirportController
-        extends BaseController<AirportDTO, UUID> {
+        extends BaseController<AirportDTO, Long> {
 
     private final AirportService service;
 
@@ -34,12 +33,12 @@ public class AirportController
     }
 
     @GetMapping("/country/{countryId}")
-    public List<AirportDTO> getByCountry(@PathVariable UUID countryId) {
+    public List<AirportDTO> getByCountry(@PathVariable Long countryId) {
         return service.getByCountry(countryId);
     }
 
     @GetMapping("/city/{cityId}")
-    public List<AirportDTO> getByCity(@PathVariable UUID cityId) {
+    public List<AirportDTO> getByCity(@PathVariable Long cityId) {
         return service.getByCity(cityId);
     }
 

@@ -11,11 +11,10 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class AircraftFamilyServiceImpl
-        extends BaseServiceImpl<AircraftFamily, AircraftFamilyDTO, UUID>
+        extends BaseServiceImpl<AircraftFamily, AircraftFamilyDTO, Long>
         implements AircraftFamilyService {
 
     private final AircraftFamilyRepository repository;
@@ -39,7 +38,7 @@ public class AircraftFamilyServiceImpl
     }
 
     @Override
-    public AircraftFamilyDTO update(UUID id, AircraftFamilyDTO dto) {
+    public AircraftFamilyDTO update(Long id, AircraftFamilyDTO dto) {
         AircraftFamily existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft family not found"));
 
@@ -48,7 +47,7 @@ public class AircraftFamilyServiceImpl
         return mapper.toDTO(repository.save(existing));
     }
 
-    private AircraftManufacturer getManufacturer(UUID id) {
+    private AircraftManufacturer getManufacturer(Long id) {
         if (id == null) {
             throw new EntityNotFoundException("Aircraft manufacturer is required");
         }

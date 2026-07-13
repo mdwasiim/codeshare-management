@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class CodesharePartnerProfileServiceImpl implements CodesharePartnerProfi
     }
 
     @Override
-    public CodesharePartnerProfileDTO update(UUID id, CodesharePartnerProfileDTO dto) {
+    public CodesharePartnerProfileDTO update(Long id, CodesharePartnerProfileDTO dto) {
         CodesharePartnerProfile existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Codeshare partner profile not found"));
         mapper.updateEntityFromDto(dto, existing);
         existing.setPartner(partnerRepository.findById(dto.getPartnerId()).orElseThrow(() -> new EntityNotFoundException("Codeshare partner not found")));
@@ -40,7 +39,7 @@ public class CodesharePartnerProfileServiceImpl implements CodesharePartnerProfi
 
     @Override
     @Transactional(readOnly = true)
-    public CodesharePartnerProfileDTO getById(UUID id) {
+    public CodesharePartnerProfileDTO getById(Long id) {
         return repository.findById(id).map(mapper::toDTO).orElseThrow(() -> new EntityNotFoundException("Codeshare partner profile not found"));
     }
 
@@ -51,7 +50,7 @@ public class CodesharePartnerProfileServiceImpl implements CodesharePartnerProfi
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 }

@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class MessageStatusDTO {
 
-    private UUID id;
+    private Long id;
     private String messageStatusCode;
     private String messageStatusName;
     private String description;

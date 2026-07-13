@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleCodeshareSnapshotDTO {
-    private UUID codeshareId;
+    private Long codeshareId;
     private Integer sequenceOrder;
     private String marketingAirlineCode;
     private String marketingFlightNumber;

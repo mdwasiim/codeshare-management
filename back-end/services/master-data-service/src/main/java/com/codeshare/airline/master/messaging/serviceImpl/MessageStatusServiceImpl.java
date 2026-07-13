@@ -8,11 +8,10 @@ import com.codeshare.airline.master.messaging.repository.MessageStatusRepository
 import com.codeshare.airline.master.messaging.service.MessageStatusService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class MessageStatusServiceImpl
-        extends BaseServiceImpl<MessageStatus, MessageStatusDTO, UUID>
+        extends BaseServiceImpl<MessageStatus, MessageStatusDTO, Long>
         implements MessageStatusService {
 
     public MessageStatusServiceImpl(MessageStatusRepository repository,

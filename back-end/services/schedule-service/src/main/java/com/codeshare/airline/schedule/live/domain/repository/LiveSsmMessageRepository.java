@@ -9,14 +9,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface LiveSsmMessageRepository extends CSMDataBaseRepository<LiveSsmMessageEntity, UUID> {
+public interface LiveSsmMessageRepository extends CSMDataBaseRepository<LiveSsmMessageEntity, Long> {
 
     List<LiveSsmMessageEntity> findByOutboundStatusOrderByCreatedAtAsc(SsmOutboundStatus status);
 
-    List<LiveSsmMessageEntity> findByFlightLegIdOrderByCreatedAtDesc(UUID flightLegId);
+    List<LiveSsmMessageEntity> findByFlightLegIdOrderByCreatedAtDesc(Long flightLegId);
 
     List<LiveSsmMessageEntity> findByAirlineCodeAndFlightNumberAndMessageType(
             String airlineCode,

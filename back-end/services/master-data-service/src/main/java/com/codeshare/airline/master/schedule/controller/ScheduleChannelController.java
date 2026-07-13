@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/schedule-channels")
-public class ScheduleChannelController extends BaseController<ScheduleChannelDTO, UUID> {
+public class ScheduleChannelController extends BaseController<ScheduleChannelDTO, Long> {
 
-    protected ScheduleChannelController(BaseService<ScheduleChannelDTO, UUID> service) {
+    protected ScheduleChannelController(BaseService<ScheduleChannelDTO, Long> service) {
         super(service);
     }
 }

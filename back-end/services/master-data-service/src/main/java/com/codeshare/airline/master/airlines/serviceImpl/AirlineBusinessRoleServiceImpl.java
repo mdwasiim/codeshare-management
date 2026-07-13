@@ -11,10 +11,9 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class AirlineBusinessRoleServiceImpl extends BaseServiceImpl<AirlineBusinessRole, AirlineBusinessRoleDTO, UUID> implements AirlineBusinessRoleService {
+public class AirlineBusinessRoleServiceImpl extends BaseServiceImpl<AirlineBusinessRole, AirlineBusinessRoleDTO, Long> implements AirlineBusinessRoleService {
     private final AirlineCarrierRepository airlineCarrierRepository;
 
     public AirlineBusinessRoleServiceImpl(AirlineBusinessRoleRepository repository, AirlineBusinessRoleMapper mapper, AirlineCarrierRepository airlineCarrierRepository) {
@@ -22,7 +21,7 @@ public class AirlineBusinessRoleServiceImpl extends BaseServiceImpl<AirlineBusin
         this.airlineCarrierRepository = airlineCarrierRepository;
     }
 
-    private AirlineCarrier airline(UUID id) {
+    private AirlineCarrier airline(Long id) {
         return id == null ? null : airlineCarrierRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 
@@ -34,7 +33,7 @@ public class AirlineBusinessRoleServiceImpl extends BaseServiceImpl<AirlineBusin
     }
 
     @Override
-    public AirlineBusinessRoleDTO update(UUID id, AirlineBusinessRoleDTO dto) {
+    public AirlineBusinessRoleDTO update(Long id, AirlineBusinessRoleDTO dto) {
         AirlineBusinessRole existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline business role not found"));
         mapper.updateEntityFromDto(dto, existing);
         existing.setAirline(airline(dto.getAirlineId()));

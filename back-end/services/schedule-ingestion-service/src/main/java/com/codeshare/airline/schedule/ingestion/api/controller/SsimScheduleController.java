@@ -102,7 +102,7 @@ public class SsimScheduleController {
     }
 
     @GetMapping("/flights/{flightId}")
-    public SsimFlightDTO getFlight(@PathVariable UUID flightId) {
+    public SsimFlightDTO getFlight(@PathVariable Long flightId) {
         return queryService.getFlight(flightId);
     }
 }

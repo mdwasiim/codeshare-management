@@ -13,10 +13,9 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class AllianceMemberServiceImpl extends BaseServiceImpl<AllianceMember, AllianceMemberDTO, UUID> implements AllianceMemberService {
+public class AllianceMemberServiceImpl extends BaseServiceImpl<AllianceMember, AllianceMemberDTO, Long> implements AllianceMemberService {
     private final AllianceRepository allianceRepository;
     private final AirlineCarrierRepository airlineCarrierRepository;
 
@@ -27,11 +26,11 @@ public class AllianceMemberServiceImpl extends BaseServiceImpl<AllianceMember, A
         this.airlineCarrierRepository = airlineCarrierRepository;
     }
 
-    private Alliance alliance(UUID id) {
+    private Alliance alliance(Long id) {
         return id == null ? null : allianceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Alliance not found"));
     }
 
-    private AirlineCarrier airline(UUID id) {
+    private AirlineCarrier airline(Long id) {
         return id == null ? null : airlineCarrierRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 
@@ -48,7 +47,7 @@ public class AllianceMemberServiceImpl extends BaseServiceImpl<AllianceMember, A
     }
 
     @Override
-    public AllianceMemberDTO update(UUID id, AllianceMemberDTO dto) {
+    public AllianceMemberDTO update(Long id, AllianceMemberDTO dto) {
         AllianceMember existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Alliance member not found"));
         mapper.updateEntityFromDto(dto, existing);
         applyRelations(dto, existing);

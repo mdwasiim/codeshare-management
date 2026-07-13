@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -24,7 +23,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public GroupDTO create(GroupDTO dto) {
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
 
         if (dto.getTenantId() == null) {
             throw new IllegalArgumentException("tenantId is required");
@@ -42,7 +41,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupDTO update(UUID id, GroupDTO dto) {
+    public GroupDTO update(Long id, GroupDTO dto) {
         Group entity = groupRepository.findById(id)
                 .orElseThrow(() -> new CSMResourceNotFoundException("Group not found: " + id));
 
@@ -53,7 +52,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupDTO getById(UUID id) {
+    public GroupDTO getById(Long id) {
         Group entity = groupRepository.findById(id)
                 .orElseThrow(() -> new CSMResourceNotFoundException("Group not found: " + id));
         return mapper.toDTO(entity);
@@ -64,19 +63,19 @@ public class GroupServiceImpl implements GroupService {
         return mapper.toDTOList(groupRepository.findAll());
     }
 
-    public List<GroupDTO> getByTenant(UUID tenantId) {
+    public List<GroupDTO> getByTenant(Long tenantId) {
         return mapper.toDTOList(groupRepository.findByTenantId(tenantId));
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         Group entity = groupRepository.findById(id)
                 .orElseThrow(() -> new CSMResourceNotFoundException("Group not found: " + id));
         groupRepository.delete(entity);
     }
 
     @Override
-    public void deleteByTenantGroupId(UUID groupId) {
+    public void deleteByTenantGroupId(Long groupId) {
         Group group = groupRepository.findById(groupId).orElse(null);
         if (group == null) return;
         groupRepository.delete(group);

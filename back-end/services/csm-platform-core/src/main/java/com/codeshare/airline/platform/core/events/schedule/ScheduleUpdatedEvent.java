@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ScheduleUpdatedEvent {
     private UUID changeSetId;
-    private UUID changeRequestId;
+    private Long changeRequestId;
     private UUID importedScheduleId;
     private UUID importBatchId;
     private MessageType messageType;

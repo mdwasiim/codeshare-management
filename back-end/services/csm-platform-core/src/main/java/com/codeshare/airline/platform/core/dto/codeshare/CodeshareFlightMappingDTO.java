@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,11 +15,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CodeshareFlightMappingDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID routeId;
+    private Long routeId;
 
-    private UUID agreementId;
+    private Long agreementId;
     private String operatingFlightNumber;
     private String marketingFlightNumber;
 

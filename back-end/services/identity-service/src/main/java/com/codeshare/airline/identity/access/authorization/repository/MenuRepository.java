@@ -7,23 +7,22 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-public interface MenuRepository extends CSMDataBaseRepository<Menu, UUID> {
+public interface MenuRepository extends CSMDataBaseRepository<Menu, Long> {
 
-    List<Menu> findByTenantId(UUID tenantId);
+    List<Menu> findByTenantId(Long tenantId);
 
-    List<Menu> findByTenantIdAndParentMenuIsNull(UUID tenantId);
+    List<Menu> findByTenantIdAndParentMenuIsNull(Long tenantId);
 
-    List<Menu> findByTenantIdOrderByDisplayOrderAscCodeAsc(UUID tenantId);
+    List<Menu> findByTenantIdOrderByDisplayOrderAscCodeAsc(Long tenantId);
 
-    List<Menu> findByTenantIdAndParentMenuIsNullOrderByDisplayOrderAscCodeAsc(UUID tenantId);
+    List<Menu> findByTenantIdAndParentMenuIsNullOrderByDisplayOrderAscCodeAsc(Long tenantId);
 
-    boolean existsByTenantId(UUID tenantId);
+    boolean existsByTenantId(Long tenantId);
 
     @Query("select m.code from Menu m where m.tenantId = :tenantId")
-    Set<String> findCodesByTenantId(@Param("tenantId") UUID tenantId);
+    Set<String> findCodesByTenantId(@Param("tenantId") Long tenantId);
 
-    long countByTenantId(UUID tenantId);
+    long countByTenantId(Long tenantId);
 
 }

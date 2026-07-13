@@ -17,10 +17,9 @@ import com.codeshare.airline.master.geography.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class AirlineCarrierServiceImpl extends BaseServiceImpl<AirlineCarrier, AirlineCarrierDTO, UUID> implements AirlineCarrierService {
+public class AirlineCarrierServiceImpl extends BaseServiceImpl<AirlineCarrier, AirlineCarrierDTO, Long> implements AirlineCarrierService {
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
     private final AirportRepository airportRepository;
@@ -43,7 +42,7 @@ public class AirlineCarrierServiceImpl extends BaseServiceImpl<AirlineCarrier, A
         entity.setAlliance(find(allianceRepository, dto.getAllianceId(), "Alliance"));
     }
 
-    private <T> T find(org.springframework.data.repository.CrudRepository<T, UUID> repo, UUID id, String name) {
+    private <T> T find(org.springframework.data.repository.CrudRepository<T, Long> repo, Long id, String name) {
         return id == null ? null : repo.findById(id).orElseThrow(() -> new EntityNotFoundException(name + " not found"));
     }
 
@@ -55,7 +54,7 @@ public class AirlineCarrierServiceImpl extends BaseServiceImpl<AirlineCarrier, A
     }
 
     @Override
-    public AirlineCarrierDTO update(UUID id, AirlineCarrierDTO dto) {
+    public AirlineCarrierDTO update(Long id, AirlineCarrierDTO dto) {
         AirlineCarrier existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline carrier not found"));
         mapper.updateEntityFromDto(dto, existing);
         applyRelations(dto, existing);

@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleFlightSnapshotDTO {
-    private UUID flightId;
+    private Long flightId;
     private String airlineCode;
     private String flightNumber;
     private String operationalSuffix;

@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Comparison result for one board/off-point segment on a flight leg.
@@ -93,11 +92,11 @@ public class ScheduleSegmentChangeEntity extends CSMDataAbstractEntity {
 
     // LiveSegmentEntity.id in schedule-service â€” null if ADDED
     @Column(name = "live_segment_id")
-    private UUID liveSegmentId;
+    private Long liveSegmentId;
 
     // Reference to segment data in schedule-ingestion-service â€” null if REMOVED
     @Column(name = "ingested_segment_id")
-    private UUID importedSegmentId;
+    private Long importedSegmentId;
 
     /* ==========================================================
        CHANGE-SET STATUS

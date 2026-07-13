@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,8 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public abstract class CSMAuditableDTO {
 
-    private UUID id;
-    private UUID tenantId;
+    private Long id;
+    private Long tenantId;
 
     private Instant createdAt;
 

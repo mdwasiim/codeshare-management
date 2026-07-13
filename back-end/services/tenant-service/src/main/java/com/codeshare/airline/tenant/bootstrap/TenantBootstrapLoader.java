@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -118,7 +117,7 @@ public class TenantBootstrapLoader implements CommandLineRunner {
         }
     }
 
-    private void ensurePartnerMapping(UUID tenantId, AirlineCarrierDTO homeAirline, AirlineCarrierDTO partnerAirline, int displayOrder) {
+    private void ensurePartnerMapping(Long tenantId, AirlineCarrierDTO homeAirline, AirlineCarrierDTO partnerAirline, int displayOrder) {
         if (codesharePartnerRepository.existsByTenantIdAndHomeAirlineIdAndPartnerAirlineId(tenantId, homeAirline.getId(), partnerAirline.getId())) {
             return;
         }

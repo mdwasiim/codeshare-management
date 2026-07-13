@@ -9,11 +9,10 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class DeiServiceImpl
-        extends BaseServiceImpl<DeiRegistry, DeiDTO, UUID>
+        extends BaseServiceImpl<DeiRegistry, DeiDTO, Long>
         implements DeiService {
 
     private final DeiRepository repository;

@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ScheduleFileMetaDataRepository
-        extends CSMDataBaseRepository<ScheduleFileMetaDataEntity, UUID>,
+        extends CSMDataBaseRepository<ScheduleFileMetaDataEntity, Long>,
         JpaSpecificationExecutor<ScheduleFileMetaDataEntity> {
 
     Optional<ScheduleFileMetaDataEntity> findByFileId(UUID fileId);

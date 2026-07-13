@@ -7,17 +7,16 @@ import com.codeshare.airline.schedule.processing.domain.enums.ChangeSetStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface ScheduleCodeshareChangeRepository extends CSMDataBaseRepository<ScheduleCodeshareChangeEntity, UUID> {
+public interface ScheduleCodeshareChangeRepository extends CSMDataBaseRepository<ScheduleCodeshareChangeEntity, Long> {
 
-    List<ScheduleCodeshareChangeEntity> findByLegChangeId(UUID legChangeId);
+    List<ScheduleCodeshareChangeEntity> findByLegChangeId(Long legChangeId);
 
-    List<ScheduleCodeshareChangeEntity> findByLegChangeIdAndChangeType(UUID legChangeId, CodeshareChangeType changeType);
+    List<ScheduleCodeshareChangeEntity> findByLegChangeIdAndChangeType(Long legChangeId, CodeshareChangeType changeType);
 
     List<ScheduleCodeshareChangeEntity> findByChangeSetStatus(ChangeSetStatus changeSetStatus);
 
-    List<ScheduleCodeshareChangeEntity> findByLiveCodeshareId(UUID liveCodeshareId);
+    List<ScheduleCodeshareChangeEntity> findByLiveCodeshareId(Long liveCodeshareId);
 }
 

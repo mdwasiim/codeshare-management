@@ -14,7 +14,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * One detected change on a specific flight leg.
@@ -86,10 +85,10 @@ public class ScheduleLegChangeEntity extends CSMDataAbstractEntity {
     private LegChangeType changeType;
 
     @Column(name = "live_leg_id")
-    private UUID liveLegId;
+    private Long liveLegId;
 
     @Column(name = "ingested_flight_id")
-    private UUID importedLegId;
+    private Long importedLegId;
 
     @Column(name = "live_snapshot", columnDefinition = "TEXT")
     private String liveSnapshot;

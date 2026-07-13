@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleDataElementChangeDTO {
-    private UUID changeId;
-    private UUID liveDataElementId;
+    private Long changeId;
+    private Long liveDataElementId;
     private ScheduleDataElementChangeType changeType;
     private String scope;
     private String code;

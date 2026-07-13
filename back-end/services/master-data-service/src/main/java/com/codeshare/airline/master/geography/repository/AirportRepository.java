@@ -9,18 +9,17 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface AirportRepository
-        extends CSMDataBaseRepository<Airport, UUID> {
+        extends CSMDataBaseRepository<Airport, Long> {
 
     Optional<Airport> findByIataCode(String iataCode);
 
     Optional<Airport> findByIcaoCode(String icaoCode);
 
-    List<Airport> findByCountryId(UUID countryId);
+    List<Airport> findByCountryId(Long countryId);
 
-    List<Airport> findByCityId(UUID cityId);
+    List<Airport> findByCityId(Long cityId);
 
     List<Airport> findByHubTrue();
 

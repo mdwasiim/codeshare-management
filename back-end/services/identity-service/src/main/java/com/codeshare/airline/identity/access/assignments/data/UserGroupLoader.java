@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -32,12 +31,12 @@ public class UserGroupLoader {
     private final HostAirlineTenantClient tenantClient;
 
     @Transactional
-    public void load(UUID tenantId) {
+    public void load(Long tenantId) {
         log.info("UserGroupLoader: assigning users to groups for tenant {}", tenantId);
         assignUserGroups(tenantId);
     }
 
-    private void assignUserGroups(UUID tenantId) {
+    private void assignUserGroups(Long tenantId) {
         List<User> users = userRepository.findByTenantId(tenantId);
         List<Group> groups = groupRepository.findByTenantId(tenantId);
         String tenantCode = resolveTenantCode(tenantId);
@@ -82,7 +81,7 @@ public class UserGroupLoader {
         }
     }
 
-    private void saveUserGroup(UUID tenantId,
+    private void saveUserGroup(Long tenantId,
                                User user,
                                Group group,
                                Set<String> existingMappings,
@@ -100,7 +99,7 @@ public class UserGroupLoader {
                 .build());
     }
 
-    public boolean isLoaded(UUID tenantId) {
+    public boolean isLoaded(Long tenantId) {
         long actual = userGroupRepository.countByTenantId(tenantId);
         long expected = bootstrapData.userGroups().values().stream()
                 .mapToLong(List::size)
@@ -108,7 +107,7 @@ public class UserGroupLoader {
         return actual >= expected;
     }
 
-    private String resolveTenantCode(UUID tenantId) {
+    private String resolveTenantCode(Long tenantId) {
         return tenantClient.getAll().stream()
                 .filter(tenant -> tenantId.equals(tenant.getId()))
                 .map(tenant -> tenant.getTenantCode())

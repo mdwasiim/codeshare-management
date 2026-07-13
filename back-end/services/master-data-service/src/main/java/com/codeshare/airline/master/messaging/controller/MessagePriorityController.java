@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/message-priorities")
-public class MessagePriorityController extends BaseController<MessagePriorityDTO, UUID> {
+public class MessagePriorityController extends BaseController<MessagePriorityDTO, Long> {
 
-    protected MessagePriorityController(BaseService<MessagePriorityDTO, UUID> service) {
+    protected MessagePriorityController(BaseService<MessagePriorityDTO, Long> service) {
         super(service);
     }
 }

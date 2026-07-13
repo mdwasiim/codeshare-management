@@ -4,10 +4,9 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.aircraft.entities.AircraftFamily;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface AircraftFamilyRepository
-        extends CSMDataBaseRepository<AircraftFamily, UUID> {
+        extends CSMDataBaseRepository<AircraftFamily, Long> {
 
     Optional<AircraftFamily> findByFamilyCode(String familyCode);
 }

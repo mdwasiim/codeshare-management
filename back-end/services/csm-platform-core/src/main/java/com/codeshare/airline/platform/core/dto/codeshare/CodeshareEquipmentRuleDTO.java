@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,10 +14,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CodeshareEquipmentRuleDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID flightMappingId;
-    private UUID aircraftTypeId;
+    private Long flightMappingId;
+    private Long aircraftTypeId;
 
     private RecordStatus recordStatus;
 

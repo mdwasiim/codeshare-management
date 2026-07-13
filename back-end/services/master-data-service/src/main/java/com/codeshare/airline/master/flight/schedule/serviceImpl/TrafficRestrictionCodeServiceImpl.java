@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.schedule.repository.TrafficRestrictio
 import com.codeshare.airline.master.flight.schedule.service.TrafficRestrictionCodeService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class TrafficRestrictionCodeServiceImpl extends BaseServiceImpl<TrafficRestrictionCode, TrafficRestrictionCodeDTO, UUID> implements TrafficRestrictionCodeService {
+public class TrafficRestrictionCodeServiceImpl extends BaseServiceImpl<TrafficRestrictionCode, TrafficRestrictionCodeDTO, Long> implements TrafficRestrictionCodeService {
     public TrafficRestrictionCodeServiceImpl(TrafficRestrictionCodeRepository repository, TrafficRestrictionCodeMapper mapper) {
         super(repository, mapper);
     }

@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class ServiceTypeDTO {
-    private UUID id;
+    private Long id;
     private String serviceTypeCode;
     private String serviceTypeName;
     private String category;

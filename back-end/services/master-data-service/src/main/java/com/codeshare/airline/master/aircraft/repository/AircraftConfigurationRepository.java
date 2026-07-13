@@ -4,19 +4,18 @@ import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface AircraftConfigurationRepository
-        extends CSMDataBaseRepository<AircraftConfiguration, UUID> {
+        extends CSMDataBaseRepository<AircraftConfiguration, Long> {
 
     long countByAirlineIdAndAircraftTypeId(
-            UUID airlineId,
-            UUID aircraftTypeId
+            Long airlineId,
+            Long aircraftTypeId
     );
 
     Optional<AircraftConfiguration> findByConfigurationCodeAndAirlineId(
             String configurationCode,
-            UUID airlineId
+            Long airlineId
     );
 
     Optional<AircraftConfiguration> findByConfigurationCode(String configurationCode);

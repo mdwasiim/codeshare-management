@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/roles")
@@ -28,7 +27,7 @@ public class RoleController {
     // ---------------------------------------------------------
     @PutMapping("/{id}")
     public RoleDTO update(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @RequestBody RoleDTO dto
     ) {
         return service.update(id, dto);
@@ -38,7 +37,7 @@ public class RoleController {
     // DELETE ROLE
     // ---------------------------------------------------------
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
 
@@ -46,7 +45,7 @@ public class RoleController {
     // GET ROLE BY ID
     // ---------------------------------------------------------
     @GetMapping("/{id}")
-    public RoleDTO getById(@PathVariable UUID id) {
+    public RoleDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 

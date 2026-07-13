@@ -8,17 +8,16 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, UUID> {
+public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, Long> {
 
     // Find all groups of a user
-    List<UserGroup> findByUser_Id(UUID userId);
+    List<UserGroup> findByUser_Id(Long userId);
 
     boolean existsByTenantIdAndUser_IdAndGroup_Id(
-            UUID tenantId,
-            UUID userId,
-            UUID groupId
+            Long tenantId,
+            Long userId,
+            Long groupId
     );
 
     @Query(value = """
@@ -26,7 +25,7 @@ public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, UU
     FROM auth_identity.user_groups
     WHERE tenant_id = :tenantId
 """, nativeQuery = true)
-    Set<String> findMappingsByTenantId(@Param("tenantId") UUID tenantId);
+    Set<String> findMappingsByTenantId(@Param("tenantId") Long tenantId);
 
     @Query("""
     SELECT ug
@@ -34,9 +33,9 @@ public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, UU
     JOIN FETCH ug.group g
     WHERE ug.user.id = :userId
 """)
-    List<UserGroup> findByUserIdWithGroup(UUID userId);
+    List<UserGroup> findByUserIdWithGroup(Long userId);
 
-    long countByTenantId(UUID tenantId);
+    long countByTenantId(Long tenantId);
 
-    void deleteByUser_Id(UUID userId);
+    void deleteByUser_Id(Long userId);
 }

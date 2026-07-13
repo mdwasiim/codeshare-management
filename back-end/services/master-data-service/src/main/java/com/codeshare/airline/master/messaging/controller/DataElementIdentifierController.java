@@ -6,14 +6,13 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/data-element-identifiers")
 public class DataElementIdentifierController
-        extends BaseController<DataElementIdentifierDTO, UUID> {
+        extends BaseController<DataElementIdentifierDTO, Long> {
 
-    protected DataElementIdentifierController(BaseService<DataElementIdentifierDTO, UUID> service) {
+    protected DataElementIdentifierController(BaseService<DataElementIdentifierDTO, Long> service) {
         super(service);
     }
 }

@@ -42,7 +42,7 @@ public class UserGroupAssignmentServiceImpl
 
     @Override
     @Transactional(readOnly = true)
-    public List<GroupDTO> getGroupsByUser(UUID userId) {
+    public List<GroupDTO> getGroupsByUser(Long userId) {
 
         log.info("Fetching groups for userId: {}", userId);
 
@@ -64,13 +64,13 @@ public class UserGroupAssignmentServiceImpl
     @Transactional
     @Override
     public List<UserGroupDTO> replaceUserGroups(
-            UUID userId,
-            List<UUID> groupIds
+            Long userId,
+            List<Long> groupIds
     ) {
 
         log.info("Replacing groups for userId: {}", userId);
 
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->
@@ -82,7 +82,7 @@ public class UserGroupAssignmentServiceImpl
         }
 
         // Remove duplicates from request
-        Set<UUID> uniqueGroupIds = new HashSet<>(groupIds == null ? List.of() : groupIds);
+        Set<Long> uniqueGroupIds = new HashSet<>(groupIds == null ? List.of() : groupIds);
 
         // Delete existing mappings
         userGroupRepository.deleteByUser_Id(userId);
@@ -124,7 +124,7 @@ public class UserGroupAssignmentServiceImpl
     @Transactional(readOnly = true)
     @Override
     public Set<String> resolveGroupCodes(
-            UUID userId
+            Long userId
     ) {
 
         return userGroupRepository

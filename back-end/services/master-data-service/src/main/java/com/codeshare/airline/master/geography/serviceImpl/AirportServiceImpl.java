@@ -18,11 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AirportServiceImpl
-        extends BaseServiceImpl<Airport, AirportDTO, UUID>
+        extends BaseServiceImpl<Airport, AirportDTO, Long>
         implements AirportService {
 
     private final AirportRepository airportRepository;
@@ -42,17 +41,17 @@ public class AirportServiceImpl
         this.timezoneRepository = timezoneRepository;
     }
 
-    private City getCity(UUID id) {
+    private City getCity(Long id) {
         return cityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("City not found"));
     }
 
-    private Country getCountry(UUID id) {
+    private Country getCountry(Long id) {
         return countryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Country not found"));
     }
 
-    private Timezone getTimezone(UUID id) {
+    private Timezone getTimezone(Long id) {
         return timezoneRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Timezone not found"));
     }
@@ -80,7 +79,7 @@ public class AirportServiceImpl
     }
 
     @Override
-    public AirportDTO update(UUID id, AirportDTO dto) {
+    public AirportDTO update(Long id, AirportDTO dto) {
 
         Airport existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airport not found"));
@@ -118,12 +117,12 @@ public class AirportServiceImpl
     }
 
     @Override
-    public List<AirportDTO> getByCountry(UUID countryId) {
+    public List<AirportDTO> getByCountry(Long countryId) {
         return mapper.toDTOList(airportRepository.findByCountryId(countryId));
     }
 
     @Override
-    public List<AirportDTO> getByCity(UUID cityId) {
+    public List<AirportDTO> getByCity(Long cityId) {
         return mapper.toDTOList(airportRepository.findByCityId(cityId));
     }
 

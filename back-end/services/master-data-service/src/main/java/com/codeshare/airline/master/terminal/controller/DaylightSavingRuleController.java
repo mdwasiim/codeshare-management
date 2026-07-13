@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/daylight-saving-rules")
-public class DaylightSavingRuleController extends BaseController<DaylightSavingRuleDTO, UUID> {
+public class DaylightSavingRuleController extends BaseController<DaylightSavingRuleDTO, Long> {
 
-    protected DaylightSavingRuleController(BaseService<DaylightSavingRuleDTO, UUID> service) {
+    protected DaylightSavingRuleController(BaseService<DaylightSavingRuleDTO, Long> service) {
         super(service);
     }
 }

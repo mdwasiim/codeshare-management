@@ -131,7 +131,7 @@ public class SsimScheduleQueryService {
         ).map(flightMapper::toDTO);
     }
 
-    public SsimFlightDTO getFlight(UUID flightId) {
+    public SsimFlightDTO getFlight(Long flightId) {
         SsimFlightEntity flight = flightRepository.findById(flightId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SSIM flight not found: " + flightId));
 

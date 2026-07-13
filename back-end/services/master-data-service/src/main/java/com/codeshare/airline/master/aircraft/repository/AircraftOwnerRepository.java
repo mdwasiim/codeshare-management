@@ -4,10 +4,9 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.aircraft.entities.AircraftOwner;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface AircraftOwnerRepository
-        extends CSMDataBaseRepository<AircraftOwner, UUID> {
+        extends CSMDataBaseRepository<AircraftOwner, Long> {
 
     Optional<AircraftOwner> findByOwnerCode(String ownerCode);
 }

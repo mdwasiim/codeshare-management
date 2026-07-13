@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,8 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleSegmentChangeDTO {
-    private UUID segmentChangeId;
-    private UUID liveSegmentId;
+    private Long segmentChangeId;
+    private Long liveSegmentId;
     private ScheduleSegmentChangeType changeType;
     private ScheduleSegmentSnapshotDTO oldValue;
     private ScheduleSegmentSnapshotDTO newValue;

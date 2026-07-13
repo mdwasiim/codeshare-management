@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.util.UUID;
 
 /**
  * Parsed codeshare delta for one marketing designator row.
@@ -64,10 +63,10 @@ public class ScheduleCodeshareChangeEntity extends CSMDataAbstractEntity {
     private CodeshareChangeType changeType;
 
     @Column(name = "live_codeshare_id")
-    private UUID liveCodeshareId;
+    private Long liveCodeshareId;
 
     @Column(name = "ingested_source_id")
-    private UUID importedCodeshareId;
+    private Long importedCodeshareId;
 
     @Column(name = "marketing_airline_code", length = 3, nullable = false)
     private String marketingAirlineCode;

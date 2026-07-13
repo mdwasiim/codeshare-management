@@ -4,9 +4,8 @@ import com.codeshare.airline.master.geography.entities.Region;
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface RegionRepository extends CSMDataBaseRepository<Region, UUID> {
+public interface RegionRepository extends CSMDataBaseRepository<Region, Long> {
 
     boolean existsByRegionCode(String regionCode);
 

@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.util.UUID;
 
 /**
  * A DEI-level change detected during comparison.
@@ -86,10 +85,10 @@ public class ScheduleDeiChangeEntity extends CSMDataAbstractEntity {
     private String ingestedValue;
 
     @Column(name = "live_dei_id")
-    private UUID liveDeiId;
+    private Long liveDeiId;
 
     @Column(name = "ingested_dei_id")
-    private UUID importedDataElementId;
+    private Long importedDataElementId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "change_set_status", length = 20, nullable = false)

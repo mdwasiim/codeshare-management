@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.schedule.repository.TimeModeRepositor
 import com.codeshare.airline.master.flight.schedule.service.TimeModeService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class TimeModeServiceImpl extends BaseServiceImpl<TimeMode, TimeModeDTO, UUID> implements TimeModeService {
+public class TimeModeServiceImpl extends BaseServiceImpl<TimeMode, TimeModeDTO, Long> implements TimeModeService {
     public TimeModeServiceImpl(TimeModeRepository repository, TimeModeMapper mapper) {
         super(repository, mapper);
     }

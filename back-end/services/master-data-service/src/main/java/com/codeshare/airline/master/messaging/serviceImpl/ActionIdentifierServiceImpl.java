@@ -8,11 +8,10 @@ import com.codeshare.airline.master.messaging.mappers.ActionIdentifierMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class ActionIdentifierServiceImpl
-        extends BaseServiceImpl<ActionIdentifier, ActionIdentifierDTO, UUID>
+        extends BaseServiceImpl<ActionIdentifier, ActionIdentifierDTO, Long>
         implements ActionIdentifierService {
 
     public ActionIdentifierServiceImpl(ActionIdentifierRepository repository,

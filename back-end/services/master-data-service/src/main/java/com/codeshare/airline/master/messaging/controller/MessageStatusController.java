@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/message-statuses")
-public class MessageStatusController extends BaseController<MessageStatusDTO, UUID> {
+public class MessageStatusController extends BaseController<MessageStatusDTO, Long> {
 
-    protected MessageStatusController(BaseService<MessageStatusDTO, UUID> service) {
+    protected MessageStatusController(BaseService<MessageStatusDTO, Long> service) {
         super(service);
     }
 }

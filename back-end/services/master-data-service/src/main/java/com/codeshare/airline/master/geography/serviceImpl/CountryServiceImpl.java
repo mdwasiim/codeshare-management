@@ -8,10 +8,9 @@ import com.codeshare.airline.master.geography.mappers.CountryMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class CountryServiceImpl  extends BaseServiceImpl<Country, CountryDTO, UUID> implements CountryService {
+public class CountryServiceImpl  extends BaseServiceImpl<Country, CountryDTO, Long> implements CountryService {
 
     public CountryServiceImpl(CountryRepository repository, CountryMapper mapper) {
         super(repository, mapper);

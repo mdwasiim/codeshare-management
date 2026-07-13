@@ -5,15 +5,14 @@ import com.codeshare.airline.platform.core.dto.tenant.TenantDTO;
 import com.codeshare.airline.platform.core.dto.tenant.TenantLoginOptionDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface TenantService {
 
     TenantDTO create(TenantDTO dto);
 
-    TenantDTO update(UUID id, TenantDTO dto);
+    TenantDTO update(Long id, TenantDTO dto);
 
-    TenantDTO getById(UUID id);
+    TenantDTO getById(Long id);
 
     TenantDTO getByCode(String code);
 
@@ -21,7 +20,7 @@ public interface TenantService {
 
     List<TenantLoginOptionDTO> getLoginOptions();
 
-    void delete(UUID id);
+    void delete(Long id);
 
     TenantAuthContextDTO getAuthContextByCode(String tenantCode);
 }

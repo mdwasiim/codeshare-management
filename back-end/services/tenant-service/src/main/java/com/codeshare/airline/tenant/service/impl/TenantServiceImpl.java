@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +52,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public TenantDTO update(UUID id, TenantDTO dto) {
+    public TenantDTO update(Long id, TenantDTO dto) {
         Tenant entity = repository.findById(id)
                 .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + id));
 
@@ -75,7 +74,7 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     @Transactional(readOnly = true)
-    public TenantDTO getById(UUID id) {
+    public TenantDTO getById(Long id) {
         return repository.findById(id)
                 .map(this::toTenantDto)
                 .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + id));
@@ -111,7 +110,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new CSMResourceNotFoundException("Tenant not found: " + id);
         }

@@ -8,11 +8,10 @@ import com.codeshare.airline.master.schedule.repository.ScheduleSourceRepository
 import com.codeshare.airline.master.schedule.service.ScheduleSourceService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class ScheduleSourceServiceImpl
-        extends BaseServiceImpl<ScheduleSource, ScheduleSourceDTO, UUID>
+        extends BaseServiceImpl<ScheduleSource, ScheduleSourceDTO, Long>
         implements ScheduleSourceService {
 
     public ScheduleSourceServiceImpl(ScheduleSourceRepository repository,

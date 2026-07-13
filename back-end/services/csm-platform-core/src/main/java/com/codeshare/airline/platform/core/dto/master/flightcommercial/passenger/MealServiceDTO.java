@@ -6,12 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class MealServiceDTO {
-    private UUID id;
+    private Long id;
     private String mealCode;
     private String mealName;
     private String mealCategory;

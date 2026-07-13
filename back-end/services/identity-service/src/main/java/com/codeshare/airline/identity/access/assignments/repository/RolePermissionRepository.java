@@ -10,26 +10,25 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
-public interface RolePermissionRepository extends CSMDataBaseRepository<RolePermission, UUID> {
+public interface RolePermissionRepository extends CSMDataBaseRepository<RolePermission, Long> {
 
-    List<RolePermission> findByPermissionId(UUID permissionId);
+    List<RolePermission> findByPermissionId(Long permissionId);
 
-    List<RolePermission> findByRoleId(UUID roleId);
+    List<RolePermission> findByRoleId(Long roleId);
 
-    Optional<RolePermission> findByRoleIdAndPermissionId(UUID permissionId, UUID roleId);
+    Optional<RolePermission> findByRoleIdAndPermissionId(Long permissionId, Long roleId);
 
     @Query("select concat(rp.role.code, concat(':', rp.permission.code)) from RolePermission rp where rp.tenantId = :tenantId")
-    Set<String> findMappingsByTenantId(@Param("tenantId") UUID tenantId);
+    Set<String> findMappingsByTenantId(@Param("tenantId") Long tenantId);
 
-    long countByTenantId(UUID tenantId);
+    long countByTenantId(Long tenantId);
 
     @Modifying
     @Query("""
        delete from RolePermission rp
        where rp.role.id = :roleId
        """)
-    void deleteByRoleId(@Param("roleId") UUID roleId);
+    void deleteByRoleId(@Param("roleId") Long roleId);
 
 }

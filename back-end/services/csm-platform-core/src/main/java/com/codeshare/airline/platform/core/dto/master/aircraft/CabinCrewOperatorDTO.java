@@ -6,19 +6,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class CabinCrewOperatorDTO {
-    private UUID id;
+    private Long id;
     private String employerCode;
     private String employerName;
     private CrewEmployerType employerType;
     private String iataCode;
     private String icaoCode;
-    private UUID countryId;
-    private UUID airlineId;
+    private Long countryId;
+    private Long airlineId;
     private Boolean active;
     private Integer displayOrder;
     private String description;

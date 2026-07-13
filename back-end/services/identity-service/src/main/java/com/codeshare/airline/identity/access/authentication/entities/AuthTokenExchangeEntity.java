@@ -27,7 +27,7 @@ public class AuthTokenExchangeEntity extends CSMDataAbstractEntity {
 
     /**
      * One-time exchange code used to hand off tokens to frontend.
-     * Random UUID, short-lived, single-use.
+     * Random Long, short-lived, single-use.
      */
     @Column(name = "exchange_code", length = 64, nullable = false)
     private String exchangeCode;

@@ -6,9 +6,8 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface AuthTokenExchangeRepository extends CSMDataBaseRepository<AuthTokenExchangeEntity, UUID> {
+public interface AuthTokenExchangeRepository extends CSMDataBaseRepository<AuthTokenExchangeEntity, Long> {
 
     Optional<AuthTokenExchangeEntity> findByExchangeCode(String exchangeCode);
 

@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +32,7 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
     private final RoleMapper roleMapper;
 
     @Override
-    public GroupRoleDTO assignRoleToGroup(UUID groupId, UUID roleId) {
+    public GroupRoleDTO assignRoleToGroup(Long groupId, Long roleId) {
 
         if (groupRoleRepository.existsByGroup_IdAndRole_Id(groupId, roleId)) {
             throw new RuntimeException("Role already assigned to this group");
@@ -54,7 +53,7 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
     }
 
     @Override
-    public void removeRoleFromGroup(UUID groupId, UUID roleId) {
+    public void removeRoleFromGroup(Long groupId, Long roleId) {
         groupRoleRepository.findByGroup_Id(groupId).stream()
                 .filter(x -> x.getRole().getId().equals(roleId))
                 .findFirst()
@@ -62,7 +61,7 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
     }
 
     @Override
-    public List<RoleDTO> getRolesByGroup(UUID groupId) {
+    public List<RoleDTO> getRolesByGroup(Long groupId) {
         List<GroupRole> groupRoles = groupRoleRepository.findByGroup_Id(groupId);
 
         return groupRoles.stream()
@@ -71,17 +70,17 @@ public class GroupRoleAssignmentServiceImpl implements GroupRoleAssignmentServic
     }
 
     @Override
-    public List<GroupRoleDTO> getGroupsByRole(UUID roleId) {
+    public List<GroupRoleDTO> getGroupsByRole(Long roleId) {
         return groupRoleMapper.toDTOList(groupRoleRepository.findByRole_Id(roleId));
     }
 
     @Override
     @Transactional
     public List<GroupRoleDTO> replaceGroupRoles(
-            UUID groupId,
-            List<UUID> roleIds
+            Long groupId,
+            List<Long> roleIds
     ) {
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
 
         // =====================================================
         // VALIDATE GROUP

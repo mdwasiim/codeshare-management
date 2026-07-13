@@ -8,11 +8,10 @@ import com.codeshare.airline.master.aircraft.service.CabinConfigurationTemplateS
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class CabinConfigurationTemplateServiceImpl
-        extends BaseServiceImpl<CabinConfigurationTemplate, CabinConfigurationTemplateDTO, UUID>
+        extends BaseServiceImpl<CabinConfigurationTemplate, CabinConfigurationTemplateDTO, Long>
         implements CabinConfigurationTemplateService {
 
     public CabinConfigurationTemplateServiceImpl(

@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,15 +12,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AirportDTO {
 
-    private UUID id;
+    private Long id;
 
     private String iataCode;
     private String icaoCode;
     private String airportName;
 
-    private UUID cityId;
-    private UUID countryId;
-    private UUID timezoneId;
+    private Long cityId;
+    private Long countryId;
+    private Long timezoneId;
 
     private BigDecimal latitude;
     private BigDecimal longitude;

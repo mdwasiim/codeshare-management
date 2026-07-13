@@ -11,11 +11,10 @@ import com.codeshare.airline.master.flight.schedule.service.TrafficRestrictionQu
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class TrafficRestrictionQualifierServiceImpl
-        extends BaseServiceImpl<TrafficRestrictionQualifier, TrafficRestrictionQualifierDTO, UUID>
+        extends BaseServiceImpl<TrafficRestrictionQualifier, TrafficRestrictionQualifierDTO, Long>
         implements TrafficRestrictionQualifierService {
 
     private final TrafficRestrictionCodeRepository trafficRestrictionCodeRepository;
@@ -27,7 +26,7 @@ public class TrafficRestrictionQualifierServiceImpl
         this.trafficRestrictionCodeRepository = trafficRestrictionCodeRepository;
     }
 
-    private TrafficRestrictionCode getTrafficRestrictionCode(UUID id) {
+    private TrafficRestrictionCode getTrafficRestrictionCode(Long id) {
         if (id == null) {
             return null;
         }
@@ -44,7 +43,7 @@ public class TrafficRestrictionQualifierServiceImpl
     }
 
     @Override
-    public TrafficRestrictionQualifierDTO update(UUID id, TrafficRestrictionQualifierDTO dto) {
+    public TrafficRestrictionQualifierDTO update(Long id, TrafficRestrictionQualifierDTO dto) {
         TrafficRestrictionQualifier existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Traffic restriction qualifier not found"));
 

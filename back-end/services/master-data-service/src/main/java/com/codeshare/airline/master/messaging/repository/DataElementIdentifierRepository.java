@@ -4,9 +4,8 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.messaging.entities.DataElementIdentifier;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface DataElementIdentifierRepository extends CSMDataBaseRepository<DataElementIdentifier, UUID> {
+public interface DataElementIdentifierRepository extends CSMDataBaseRepository<DataElementIdentifier, Long> {
 
     boolean existsByDeiCode(String deiCode);
 

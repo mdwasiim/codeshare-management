@@ -9,18 +9,17 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
 public class JwtAuthenticationClaims {
 
-    private final UUID userId;
+    private final Long userId;
     private final String username;
     private final String subject; // username / userId
     private final String tenantCode;
-    private final UUID tenantId;
+    private final Long tenantId;
 
     private final AuthSource authSource;
     private final TokenType tokenType;

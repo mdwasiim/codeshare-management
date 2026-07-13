@@ -6,18 +6,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AircraftRegistrationDTO {
-    private UUID id;
+    private Long id;
     private String registrationNumber;
     private String registrationName;
-    private UUID aircraftTypeId;
-    private UUID aircraftConfigurationId;
-    private UUID aircraftOwnerId;
-    private UUID operatorAirlineId;
+    private Long aircraftTypeId;
+    private Long aircraftConfigurationId;
+    private Long aircraftOwnerId;
+    private Long operatorAirlineId;
     private String manufacturerSerialNumber;
     private String lineNumber;
     private LocalDate manufactureDate;

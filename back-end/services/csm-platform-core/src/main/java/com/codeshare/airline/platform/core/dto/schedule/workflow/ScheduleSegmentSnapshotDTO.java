@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleSegmentSnapshotDTO {
-    private UUID segmentId;
+    private Long segmentId;
     private String boardPoint;
     private String offPoint;
 

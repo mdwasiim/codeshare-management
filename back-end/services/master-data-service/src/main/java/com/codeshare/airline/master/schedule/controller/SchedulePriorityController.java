@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/schedule-priorities")
-public class SchedulePriorityController extends BaseController<SchedulePriorityDTO, UUID> {
+public class SchedulePriorityController extends BaseController<SchedulePriorityDTO, Long> {
 
-    protected SchedulePriorityController(BaseService<SchedulePriorityDTO, UUID> service) {
+    protected SchedulePriorityController(BaseService<SchedulePriorityDTO, Long> service) {
         super(service);
     }
 }

@@ -18,7 +18,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.util.UUID;
 
 @Entity
 @Table(
@@ -43,7 +42,7 @@ public class UserGroup extends CSMDataAbstractEntity {
 
     @EqualsAndHashCode.Include
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private Long tenantId;
 
     @EqualsAndHashCode.Include
     @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY, optional = false)

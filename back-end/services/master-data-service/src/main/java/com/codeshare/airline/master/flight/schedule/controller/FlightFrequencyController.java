@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/flight-frequencies")
-public class FlightFrequencyController extends BaseController<FlightFrequencyDTO, UUID> {
-    protected FlightFrequencyController(BaseService<FlightFrequencyDTO, UUID> service) {
+public class FlightFrequencyController extends BaseController<FlightFrequencyDTO, Long> {
+    protected FlightFrequencyController(BaseService<FlightFrequencyDTO, Long> service) {
         super(service);
     }
 }

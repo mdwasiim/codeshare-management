@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
     }
 
     @Override
-    public TenantIngestionProfileDTO update(UUID id, TenantIngestionProfileDTO dto) {
+    public TenantIngestionProfileDTO update(Long id, TenantIngestionProfileDTO dto) {
         validateBusinessRules(dto);
         ScheduleIngestionProfileEntity existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ingestion profile not found"));
@@ -56,12 +55,12 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 
     @Override
-    public void enable(UUID id, boolean enabled) {
+    public void enable(Long id, boolean enabled) {
         ScheduleIngestionProfileEntity existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ingestion profile not found"));
         existing.setEnabled(enabled);

@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.passenger.repository.SecureFlightIndi
 import com.codeshare.airline.master.flight.passenger.service.SecureFlightIndicatorService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class SecureFlightIndicatorServiceImpl extends BaseServiceImpl<SecureFlightIndicator, SecureFlightIndicatorDTO, UUID> implements SecureFlightIndicatorService {
+public class SecureFlightIndicatorServiceImpl extends BaseServiceImpl<SecureFlightIndicator, SecureFlightIndicatorDTO, Long> implements SecureFlightIndicatorService {
     public SecureFlightIndicatorServiceImpl(SecureFlightIndicatorRepository repository, SecureFlightIndicatorMapper mapper) {
         super(repository, mapper);
     }

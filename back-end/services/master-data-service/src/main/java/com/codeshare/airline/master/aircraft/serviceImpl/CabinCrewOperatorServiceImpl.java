@@ -13,11 +13,10 @@ import com.codeshare.airline.master.geography.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class CabinCrewOperatorServiceImpl
-        extends BaseServiceImpl<CabinCrewOperator, CabinCrewOperatorDTO, UUID>
+        extends BaseServiceImpl<CabinCrewOperator, CabinCrewOperatorDTO, Long>
         implements CabinCrewOperatorService {
 
     private final CabinCrewOperatorRepository repository;
@@ -44,7 +43,7 @@ public class CabinCrewOperatorServiceImpl
     }
 
     @Override
-    public CabinCrewOperatorDTO update(UUID id, CabinCrewOperatorDTO dto) {
+    public CabinCrewOperatorDTO update(Long id, CabinCrewOperatorDTO dto) {
         CabinCrewOperator existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cabin crew operator not found"));
 
@@ -58,7 +57,7 @@ public class CabinCrewOperatorServiceImpl
         entity.setAirline(getAirlineCarrier(dto.getAirlineId()));
     }
 
-    private Country getCountry(UUID id) {
+    private Country getCountry(Long id) {
         if (id == null) {
             return null;
         }
@@ -67,7 +66,7 @@ public class CabinCrewOperatorServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Country not found"));
     }
 
-    private AirlineCarrier getAirlineCarrier(UUID id) {
+    private AirlineCarrier getAirlineCarrier(Long id) {
         if (id == null) {
             return null;
         }

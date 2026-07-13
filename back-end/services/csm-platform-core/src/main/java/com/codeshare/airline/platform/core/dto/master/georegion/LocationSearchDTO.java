@@ -2,7 +2,6 @@ package com.codeshare.airline.platform.core.dto.master.georegion;
 
 import lombok.*;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -11,7 +10,7 @@ import java.util.UUID;
 @Builder
 public class LocationSearchDTO {
 
-    private UUID id;
+    private Long id;
 
     private String code;        // IATA code
     private String name;        // Airport or City name

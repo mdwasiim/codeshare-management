@@ -9,23 +9,22 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface ScheduleDeiChangeRepository extends CSMDataBaseRepository<ScheduleDeiChangeEntity, UUID> {
+public interface ScheduleDeiChangeRepository extends CSMDataBaseRepository<ScheduleDeiChangeEntity, Long> {
 
-    List<ScheduleDeiChangeEntity> findByLegChangeId(UUID legChangeId);
+    List<ScheduleDeiChangeEntity> findByLegChangeId(Long legChangeId);
 
     Optional<ScheduleDeiChangeEntity> findByLegChangeIdAndDeiCodeAndSequenceOrder(
-            UUID legChangeId,
+            Long legChangeId,
             String deiCode,
             Integer sequenceOrder
     );
 
-    List<ScheduleDeiChangeEntity> findBySegmentChangeId(UUID segmentChangeId);
+    List<ScheduleDeiChangeEntity> findBySegmentChangeId(Long segmentChangeId);
 
     Optional<ScheduleDeiChangeEntity> findBySegmentChangeIdAndDeiCodeAndSequenceOrder(
-            UUID segmentChangeId,
+            Long segmentChangeId,
             String deiCode,
             Integer sequenceOrder
     );

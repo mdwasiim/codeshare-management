@@ -66,14 +66,14 @@ class ScheduleComparisonServiceTest {
                 .airlineCode("QR")
                 .flights(java.util.List.of(
                         ScheduleFlightSnapshotDTO.builder()
-                                .flightId(UUID.randomUUID())
+                                .flightId(1001L)
                                 .airlineCode("QR")
                                 .flightNumber("0701")
                                 .operationalSuffix("")
                                 .itineraryVariationId("00")
                                 .legs(java.util.List.of(
                                         ScheduleLegSnapshotDTO.builder()
-                                                .legId(UUID.randomUUID())
+                                                .legId(2001L)
                                                 .legSequenceNumber(1)
                                                 .periodStart(LocalDate.of(2026, 10, 1))
                                                 .periodEnd(LocalDate.of(2026, 10, 31))
@@ -104,7 +104,7 @@ class ScheduleComparisonServiceTest {
         when(repository.save(any(ChangeSetEntity.class))).thenAnswer(invocation -> {
             ChangeSetEntity run = invocation.getArgument(0);
             if (run.getId() == null) {
-                run.setId(UUID.randomUUID());
+                run.setId(3001L);
             }
             return run;
         });

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,10 +14,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CodeshareDeiRuleDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID flightMappingId;
-    private UUID deiId;
+    private Long flightMappingId;
+    private Long deiId;
 
     private String deiValue;
 

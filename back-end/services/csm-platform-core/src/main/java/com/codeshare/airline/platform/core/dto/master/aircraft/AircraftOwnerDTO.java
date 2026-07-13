@@ -6,18 +6,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AircraftOwnerDTO {
-    private UUID id;
+    private Long id;
     private String ownerCode;
     private String ownerName;
     private AircraftOwnerType ownerType;
     private String iataCode;
     private String icaoCode;
-    private UUID countryId;
+    private Long countryId;
     private Boolean active;
     private Integer displayOrder;
     private String description;

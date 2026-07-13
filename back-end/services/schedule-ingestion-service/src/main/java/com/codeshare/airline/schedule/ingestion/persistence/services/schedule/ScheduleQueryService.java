@@ -171,7 +171,7 @@ public class ScheduleQueryService {
         ).map(flightMapper::toDTO);
     }
 
-    public ScheduleFlightDTO getFlight(MessageType messageType, UUID flightId) {
+    public ScheduleFlightDTO getFlight(MessageType messageType, Long flightId) {
         assertScheduleType(messageType);
         ScheduleFlightEntity flight = flightRepository.findById(flightId)
                 .filter(entity -> entity.getSubMessage() != null

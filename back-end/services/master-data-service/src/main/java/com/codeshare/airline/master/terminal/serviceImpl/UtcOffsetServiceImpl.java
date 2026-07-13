@@ -11,11 +11,10 @@ import com.codeshare.airline.master.terminal.service.UtcOffsetService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class UtcOffsetServiceImpl
-        extends BaseServiceImpl<UtcOffset, UtcOffsetDTO, UUID>
+        extends BaseServiceImpl<UtcOffset, UtcOffsetDTO, Long>
         implements UtcOffsetService {
 
     private final TimezoneRepository timezoneRepository;
@@ -27,7 +26,7 @@ public class UtcOffsetServiceImpl
         this.timezoneRepository = timezoneRepository;
     }
 
-    private Timezone getTimezone(UUID timezoneId) {
+    private Timezone getTimezone(Long timezoneId) {
         if (timezoneId == null) {
             return null;
         }
@@ -45,7 +44,7 @@ public class UtcOffsetServiceImpl
     }
 
     @Override
-    public UtcOffsetDTO update(UUID id, UtcOffsetDTO dto) {
+    public UtcOffsetDTO update(Long id, UtcOffsetDTO dto) {
         UtcOffset existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("UTC offset not found"));
 

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -27,7 +26,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public PermissionDTO create(PermissionDTO dto) {
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
         if (dto.getDomain() == null || dto.getAction() == null)
             throw new CSMBusinessException(CSMErrorCodes.VALIDATION_ERROR, "domain and action are required");
 
@@ -44,7 +43,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public PermissionDTO update(UUID id, PermissionDTO dto) {
+    public PermissionDTO update(Long id, PermissionDTO dto) {
         Permission entity = repo.findById(id)
                 .orElseThrow(() -> new CSMBusinessException(CSMErrorCodes.DATA_NOT_FOUND, "Permission not found: " + id));
 
@@ -61,7 +60,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional(readOnly = true)
-    public PermissionDTO getById(UUID id) {
+    public PermissionDTO getById(Long id) {
         return repo.findById(id)
                 .map(mapper::toDTO)
                 .orElseThrow(() -> new CSMBusinessException(CSMErrorCodes.DATA_NOT_FOUND, "Permission not found: " + id));
@@ -70,7 +69,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Transactional(readOnly = true)
     public List<PermissionDTO> getAllTenant() {
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
         List<Permission> list = repo.findByTenantId(tenantId);
         if (list.isEmpty()) {
             log.warn("No permissions found for ingestion {}", TenantContextHolder.getTenant().getTenantCode());
@@ -79,7 +78,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         Permission entity = repo.findById(id)
                 .orElseThrow(() -> new CSMBusinessException(CSMErrorCodes.DATA_NOT_FOUND, "Permission not found: " + id));
         repo.delete(entity);

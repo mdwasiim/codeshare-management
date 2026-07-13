@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -35,16 +34,16 @@ public class IdentityTenantBootstrapService {
     private final UserGroupLoader userGroupLoader;
 
     public synchronized void bootstrapAllTenants() {
-        List<UUID> tenantIds = tenantClient.getAll().stream()
+        List<Long> tenantIds = tenantClient.getAll().stream()
                 .map(TenantDTO::getId)
                 .toList();
-        for (UUID tenantId : tenantIds) {
+        for (Long tenantId : tenantIds) {
             bootstrapTenant(tenantId);
         }
     }
 
     public synchronized void bootstrapTenantByCode(String tenantCode) {
-        UUID tenantId = tenantClient.getAll().stream()
+        Long tenantId = tenantClient.getAll().stream()
                 .filter(tenant -> tenantCode.equalsIgnoreCase(tenant.getTenantCode()))
                 .map(TenantDTO::getId)
                 .findFirst()
@@ -58,7 +57,7 @@ public class IdentityTenantBootstrapService {
                 .allMatch(this::isTenantInitialized);
     }
 
-    private void bootstrapTenant(UUID tenantId) {
+    private void bootstrapTenant(Long tenantId) {
         log.info("Ensuring bootstrap data for tenant [{}]", tenantId);
 
         roleLoader.load(tenantId);
@@ -74,7 +73,7 @@ public class IdentityTenantBootstrapService {
         log.info("Tenant [{}] bootstrap data ensured", tenantId);
     }
 
-    private boolean isTenantInitialized(UUID tenantId) {
+    private boolean isTenantInitialized(Long tenantId) {
         return roleLoader.isLoaded(tenantId)
                 && permissionLoader.isLoaded(tenantId)
                 && groupLoader.isLoaded(tenantId)

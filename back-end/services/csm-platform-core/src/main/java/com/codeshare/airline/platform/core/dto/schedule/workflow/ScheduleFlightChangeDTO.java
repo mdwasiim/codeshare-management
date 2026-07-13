@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleFlightChangeDTO {
-    private UUID flightChangeId;
+    private Long flightChangeId;
     private String airlineCode;
     private String flightNumber;
     private String operationalSuffix;

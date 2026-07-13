@@ -11,11 +11,10 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class DstRuleServiceImpl
-        extends BaseServiceImpl<TimezoneDLS, DstRuleDTO, UUID>
+        extends BaseServiceImpl<TimezoneDLS, DstRuleDTO, Long>
         implements DstRuleService {
 
     private final TimezoneRepository timezoneRepository;
@@ -27,7 +26,7 @@ public class DstRuleServiceImpl
         this.timezoneRepository = timezoneRepository;
     }
 
-    private Timezone getTimezone(UUID timezoneId) {
+    private Timezone getTimezone(Long timezoneId) {
         return timezoneRepository.findById(timezoneId)
                 .orElseThrow(() -> new EntityNotFoundException("Timezone not found"));
     }
@@ -44,7 +43,7 @@ public class DstRuleServiceImpl
     }
 
     @Override
-    public DstRuleDTO update(UUID id, DstRuleDTO dto) {
+    public DstRuleDTO update(Long id, DstRuleDTO dto) {
 
         TimezoneDLS existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("DST Rule not found"));

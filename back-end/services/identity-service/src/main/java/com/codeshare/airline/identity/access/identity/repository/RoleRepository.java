@@ -8,18 +8,17 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-public interface RoleRepository extends CSMDataBaseRepository<Role, UUID> {
+public interface RoleRepository extends CSMDataBaseRepository<Role, Long> {
 
-    List<Role> findByTenantId(UUID tenantId);
+    List<Role> findByTenantId(Long tenantId);
 
-    boolean existsByNameAndTenantId(String name, UUID tenantId);
+    boolean existsByNameAndTenantId(String name, Long tenantId);
 
-    boolean existsByTenantIdAndCode(UUID tenantId, String code);
+    boolean existsByTenantIdAndCode(Long tenantId, String code);
 
     @Query("select r.code from Role r where r.tenantId = :tenantId")
-    Set<String> findCodesByTenantId(@Param("tenantId") UUID tenantId);
+    Set<String> findCodesByTenantId(@Param("tenantId") Long tenantId);
 
-    long countByTenantId(UUID tenantId);
+    long countByTenantId(Long tenantId);
 }

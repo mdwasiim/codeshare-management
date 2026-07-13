@@ -8,11 +8,10 @@ import com.codeshare.airline.master.messaging.repository.RejectReasonRepository;
 import com.codeshare.airline.master.messaging.service.RejectReasonService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class RejectReasonServiceImpl
-        extends BaseServiceImpl<RejectReason, RejectReasonDTO, UUID>
+        extends BaseServiceImpl<RejectReason, RejectReasonDTO, Long>
         implements RejectReasonService {
 
     public RejectReasonServiceImpl(RejectReasonRepository repository,

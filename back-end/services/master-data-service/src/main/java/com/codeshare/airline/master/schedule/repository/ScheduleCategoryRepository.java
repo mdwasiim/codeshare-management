@@ -4,9 +4,8 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.schedule.entities.ScheduleCategory;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface ScheduleCategoryRepository extends CSMDataBaseRepository<ScheduleCategory, UUID> {
+public interface ScheduleCategoryRepository extends CSMDataBaseRepository<ScheduleCategory, Long> {
 
     Optional<ScheduleCategory> findByCategoryCode(String categoryCode);
 }

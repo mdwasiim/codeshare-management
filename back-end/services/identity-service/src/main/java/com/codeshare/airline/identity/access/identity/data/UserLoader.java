@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,7 +24,7 @@ public class UserLoader {
     private final IdentityBootstrapData bootstrapData;
     private final HostAirlineTenantClient tenantClient;
 
-    public void loadUser(UUID tenantId) {
+    public void loadUser(Long tenantId) {
         log.info("Bootstrapping internal users for tenant {}", tenantId);
 
         Set<String> existingUsernames = userRepository.findByTenantId(tenantId).stream()
@@ -36,7 +35,7 @@ public class UserLoader {
         bootstrapData.users().forEach(seed -> createUserIfMissing(tenantId, tenantCode, seed, existingUsernames));
     }
 
-    private void createUserIfMissing(UUID tenantId, String tenantCode, UserSeed seed, Set<String> existingUsernames) {
+    private void createUserIfMissing(Long tenantId, String tenantCode, UserSeed seed, Set<String> existingUsernames) {
         String username = seed.username().toLowerCase();
         if (existingUsernames.contains(username)) {
             log.info("User [{}] already exists for tenant [{}]", username, tenantCode);
@@ -81,13 +80,13 @@ public class UserLoader {
         return seed.email();
     }
 
-    public boolean isLoaded(UUID tenantId) {
+    public boolean isLoaded(Long tenantId) {
         long expected = bootstrapData.users().size();
         long actual = userRepository.findAllByTenantId(tenantId).size();
         return actual >= expected;
     }
 
-    private String resolveTenantCode(UUID tenantId) {
+    private String resolveTenantCode(Long tenantId) {
         return tenantClient.getAll().stream()
                 .filter(tenant -> tenantId.equals(tenant.getId()))
                 .map(tenant -> tenant.getTenantCode())

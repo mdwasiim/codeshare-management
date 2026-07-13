@@ -4,10 +4,9 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.aircraft.entities.AircraftConfigurationRevision;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AircraftConfigurationRevisionRepository
-        extends CSMDataBaseRepository<AircraftConfigurationRevision, UUID> {
+        extends CSMDataBaseRepository<AircraftConfigurationRevision, Long> {
 
-    List<AircraftConfigurationRevision> findByAircraftConfigurationId(UUID aircraftConfigurationId);
+    List<AircraftConfigurationRevision> findByAircraftConfigurationId(Long aircraftConfigurationId);
 }

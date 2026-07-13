@@ -3,8 +3,7 @@ package com.codeshare.airline.master.geography.service;
 import com.codeshare.airline.platform.core.dto.master.georegion.RegionDTO;
 import com.codeshare.airline.master.common.base.BaseService;
 
-import java.util.UUID;
 
-public interface RegionService extends BaseService<RegionDTO, UUID> {
+public interface RegionService extends BaseService<RegionDTO, Long> {
 
 }

@@ -5,20 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class DaylightSavingRuleDTO {
 
-    private UUID id;
+    private Long id;
     private String ruleCode;
     private String ruleName;
     private Integer dstOffsetMinutes;
     private String startRule;
     private String endRule;
     private String description;
-    private UUID timezoneId;
+    private Long timezoneId;
     private String timezoneIdentifier;
     private RecordStatus recordStatus;
     private LocalDate effectiveFrom;

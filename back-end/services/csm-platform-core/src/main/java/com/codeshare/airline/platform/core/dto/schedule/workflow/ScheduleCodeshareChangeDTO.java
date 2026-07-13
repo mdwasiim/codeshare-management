@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleCodeshareChangeDTO {
-    private UUID changeId;
-    private UUID liveCodeshareId;
+    private Long changeId;
+    private Long liveCodeshareId;
     private ScheduleCodeshareChangeType changeType;
     private ScheduleCodeshareSnapshotDTO oldValue;
     private ScheduleCodeshareSnapshotDTO newValue;

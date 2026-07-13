@@ -3,9 +3,8 @@ package com.codeshare.airline.schedule.ingestion.persistence.repositories.schedu
 import com.codeshare.airline.schedule.ingestion.persistence.entities.schedule.ScheduleDataElementEntity;
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
-import java.util.UUID;
 
 public interface ScheduleDataElementRepository
-        extends CSMDataBaseRepository<ScheduleDataElementEntity, UUID> {
+        extends CSMDataBaseRepository<ScheduleDataElementEntity, Long> {
 
 }

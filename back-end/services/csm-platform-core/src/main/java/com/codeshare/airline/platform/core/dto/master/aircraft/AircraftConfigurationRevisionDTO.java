@@ -6,13 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AircraftConfigurationRevisionDTO {
-    private UUID id;
-    private UUID aircraftConfigurationId;
+    private Long id;
+    private Long aircraftConfigurationId;
     private Integer revisionNumber;
     private String revisionCode;
     private String revisionName;

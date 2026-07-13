@@ -10,11 +10,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ScheduleFlightChangeRepository extends CSMDataBaseRepository<ScheduleFlightChangeEntity, UUID> {
+public interface ScheduleFlightChangeRepository extends CSMDataBaseRepository<ScheduleFlightChangeEntity, Long> {
 
-    List<ScheduleFlightChangeEntity> findByChangeSetId(UUID changeSetId);
+    List<ScheduleFlightChangeEntity> findByChangeSet_ChangeSetId(UUID changeSetId);
 
-    Optional<ScheduleFlightChangeEntity> findByChangeSetIdAndAirlineCodeAndFlightNumberAndOperationalSuffixAndItineraryVariationId(
+    Optional<ScheduleFlightChangeEntity> findByChangeSet_ChangeSetIdAndAirlineCodeAndFlightNumberAndOperationalSuffixAndItineraryVariationId(
             UUID changeSetId,
             String airlineCode,
             String flightNumber,

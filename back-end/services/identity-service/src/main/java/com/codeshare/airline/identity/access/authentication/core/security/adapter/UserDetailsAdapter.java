@@ -7,16 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 public class UserDetailsAdapter implements UserDetails {
 
-    private final UUID userId;
+    private final Long userId;
     private final String username;
     private final String email;
     private final String password;
-    private final UUID tenantId;
+    private final Long tenantId;
     private final String tenantCode;
 
     private final boolean enabled;
@@ -25,11 +24,11 @@ public class UserDetailsAdapter implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsAdapter(
-            UUID userId,
+            Long userId,
             String username,
             String email,
             String password,
-            UUID tenantId,
+            Long tenantId,
             String tenantCode,
             boolean enabled,
             boolean accountNonLocked,

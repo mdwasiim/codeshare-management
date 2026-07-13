@@ -8,15 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface LiveCodeshareDesignatorRepository extends CSMDataBaseRepository<LiveCodeshareDesignatorEntity, UUID> {
+public interface LiveCodeshareDesignatorRepository extends CSMDataBaseRepository<LiveCodeshareDesignatorEntity, Long> {
 
-    List<LiveCodeshareDesignatorEntity> findByFlightLegIdOrderBySequenceOrderAsc(UUID flightLegId);
+    List<LiveCodeshareDesignatorEntity> findByFlightLegIdOrderBySequenceOrderAsc(Long flightLegId);
 
     Optional<LiveCodeshareDesignatorEntity> findByFlightLegIdAndMarketingAirlineCodeAndMarketingFlightNumberAndBoardPointAndOffPoint(
-            UUID flightLegId,
+            Long flightLegId,
             String marketingAirlineCode,
             String marketingFlightNumber,
             String boardPoint,
@@ -38,5 +37,5 @@ public interface LiveCodeshareDesignatorRepository extends CSMDataBaseRepository
             @Param("operatingFlightNumber") String operatingFlightNumber
     );
 
-    void deleteByFlightLegId(UUID flightLegId);
+    void deleteByFlightLegId(Long flightLegId);
 }

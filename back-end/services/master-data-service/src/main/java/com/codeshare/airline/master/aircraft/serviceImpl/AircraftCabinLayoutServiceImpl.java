@@ -13,11 +13,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AircraftCabinLayoutServiceImpl
-        extends BaseServiceImpl<AircraftCabinLayout, AircraftCabinLayoutDTO, UUID>
+        extends BaseServiceImpl<AircraftCabinLayout, AircraftCabinLayoutDTO, Long>
         implements AircraftCabinLayoutService {
 
     private final AircraftCabinLayoutRepository repository;
@@ -33,15 +32,15 @@ public class AircraftCabinLayoutServiceImpl
         this.configRepository = configRepository;
     }
 
-    private AircraftConfiguration getConfig(UUID id) {
+    private AircraftConfiguration getConfig(Long id) {
         return configRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Configuration not found"));
     }
 
     private void validateSeatCapacity(
-            UUID configId,
+            Long configId,
             Integer newSeatCount,
-            UUID existingLayoutId) {
+            Long existingLayoutId) {
 
         int currentTotal = repository.sumSeatCount(configId);
 
@@ -81,7 +80,7 @@ public class AircraftCabinLayoutServiceImpl
     }
 
     @Override
-    public AircraftCabinLayoutDTO update(UUID id,
+    public AircraftCabinLayoutDTO update(Long id,
                                          AircraftCabinLayoutDTO dto) {
 
         AircraftCabinLayout existing =
@@ -101,7 +100,7 @@ public class AircraftCabinLayoutServiceImpl
     }
 
     @Override
-    public List<AircraftCabinLayoutDTO> getByConfiguration(UUID configId) {
+    public List<AircraftCabinLayoutDTO> getByConfiguration(Long configId) {
 
         // Validate configuration exists (optional but recommended)
         if (!configRepository.existsById(configId)) {

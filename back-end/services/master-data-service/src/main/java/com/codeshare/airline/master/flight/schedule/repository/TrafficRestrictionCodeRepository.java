@@ -3,9 +3,8 @@ package com.codeshare.airline.master.flight.schedule.repository;
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.flight.schedule.entities.TrafficRestrictionCode;
 
-import java.util.UUID;
 
-public interface TrafficRestrictionCodeRepository extends CSMDataBaseRepository<TrafficRestrictionCode, UUID> {
+public interface TrafficRestrictionCodeRepository extends CSMDataBaseRepository<TrafficRestrictionCode, Long> {
     boolean existsByRestrictionCode(String restrictionCode);
 
     java.util.Optional<TrafficRestrictionCode> findByRestrictionCode(String restrictionCode);

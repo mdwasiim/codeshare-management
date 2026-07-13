@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/permissions")
@@ -28,7 +27,7 @@ public class PermissionController {
     // ---------------------------------------------------------
     @PutMapping("/{id}")
     public PermissionDTO update(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @RequestBody PermissionDTO dto
     ) {
         return service.update(id, dto);
@@ -38,7 +37,7 @@ public class PermissionController {
     // GET PERMISSION BY ID
     // ---------------------------------------------------------
     @GetMapping("/{id}")
-    public PermissionDTO getById(@PathVariable UUID id) {
+    public PermissionDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
@@ -54,7 +53,7 @@ public class PermissionController {
     // DELETE PERMISSION
     // ---------------------------------------------------------
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
 }

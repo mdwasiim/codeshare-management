@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,7 +42,7 @@ public class GroupMenuAssignmentServiceImpl
     // =====================================================
     @Transactional(readOnly = true)
     @Override
-    public List<MenuDTO> getMenusByGroup(UUID groupId) {
+    public List<MenuDTO> getMenusByGroup(Long groupId) {
 
         log.info("Fetching menus for groupId: {}", groupId);
 
@@ -69,10 +68,10 @@ public class GroupMenuAssignmentServiceImpl
     @Override
     @Transactional
     public List<GroupMenuDTO> replaceGroupMenus(
-            UUID groupId,
-            List<UUID> menuIds
+            Long groupId,
+            List<Long> menuIds
     ) {
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
 
         // =============================================
         // VALIDATE GROUP

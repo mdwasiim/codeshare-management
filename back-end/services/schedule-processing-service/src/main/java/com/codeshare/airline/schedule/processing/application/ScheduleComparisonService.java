@@ -70,12 +70,13 @@ public class ScheduleComparisonService {
 
     public UUID compare(ImportCompletedEvent event) {
         return changeSetRepository.findByImportBatchId(event.getImportBatchId())
-                .map(ChangeSetEntity::getId)
+                .map(ChangeSetEntity::getChangeSetId)
                 .orElseGet(() -> createChangeSet(event));
     }
 
     private UUID createChangeSet(ImportCompletedEvent event) {
         ChangeSetEntity run = ChangeSetEntity.builder()
+                .changeSetId(UUID.randomUUID())
                 .importedScheduleId(event.getImportedScheduleId())
                 .importBatchId(event.getImportBatchId())
                 .sourceType(event.getMessageType())
@@ -99,14 +100,14 @@ public class ScheduleComparisonService {
 
             ChangeSetEntity saved = changeSetRepository.save(run);
             changeSetCreatedEventPublisher.publish(ChangeSetCreatedEvent.builder()
-                    .changeSetId(saved.getId())
+                    .changeSetId(saved.getChangeSetId())
                     .importedScheduleId(saved.getImportedScheduleId())
                     .importBatchId(saved.getImportBatchId())
                     .messageType(saved.getSourceType())
                     .airlineCode(saved.getAirlineCode())
                     .createdAt(saved.getCompletedAt())
                     .build());
-            return saved.getId();
+            return saved.getChangeSetId();
         } catch (Exception ex) {
             run.setStatus(ComparisonStatus.FAILED);
             run.setCompletedAt(Instant.now());

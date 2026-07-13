@@ -5,11 +5,10 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface UserDeviceRepository extends CSMDataBaseRepository<UserDeviceEntity, UUID> {
+public interface UserDeviceRepository extends CSMDataBaseRepository<UserDeviceEntity, Long> {
 
-    List<UserDeviceEntity> findByUser_Id(UUID userId);
+    List<UserDeviceEntity> findByUser_Id(Long userId);
 
-    Optional<UserDeviceEntity> findByUser_IdAndDeviceId(UUID id, String deviceId);
+    Optional<UserDeviceEntity> findByUser_IdAndDeviceId(Long id, String deviceId);
 }

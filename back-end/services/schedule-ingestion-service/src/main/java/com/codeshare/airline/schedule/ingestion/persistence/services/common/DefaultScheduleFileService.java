@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -178,7 +177,7 @@ public class DefaultScheduleFileService implements ScheduleFileService {
         updateEntity(metadata.getId(), status, metadata);
     }
 
-    private void updateEntity(UUID id, ProcessingStatus status, ScheduleFileMetaDataDTO metadata) {
+    private void updateEntity(Long id, ProcessingStatus status, ScheduleFileMetaDataDTO metadata) {
 
         if (metadata instanceof SsimMetaDataDTO) {
             ssimFileRepository.findById(id)

@@ -5,7 +5,6 @@ import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,8 +15,8 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = false)
 public class TenantUserDTO extends CSMAuditableDTO {
 
-    private UUID tenantId;
-    private UUID userId;
+    private Long tenantId;
+    private Long userId;
     private RecordStatus recordStatus;
     private boolean primaryAdmin;
 }

@@ -11,11 +11,10 @@ import com.codeshare.airline.master.terminal.service.DaylightSavingRuleService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class DaylightSavingRuleServiceImpl
-        extends BaseServiceImpl<DaylightSavingRule, DaylightSavingRuleDTO, UUID>
+        extends BaseServiceImpl<DaylightSavingRule, DaylightSavingRuleDTO, Long>
         implements DaylightSavingRuleService {
 
     private final TimezoneRepository timezoneRepository;
@@ -27,7 +26,7 @@ public class DaylightSavingRuleServiceImpl
         this.timezoneRepository = timezoneRepository;
     }
 
-    private Timezone getTimezone(UUID timezoneId) {
+    private Timezone getTimezone(Long timezoneId) {
         if (timezoneId == null) {
             return null;
         }
@@ -45,7 +44,7 @@ public class DaylightSavingRuleServiceImpl
     }
 
     @Override
-    public DaylightSavingRuleDTO update(UUID id, DaylightSavingRuleDTO dto) {
+    public DaylightSavingRuleDTO update(Long id, DaylightSavingRuleDTO dto) {
         DaylightSavingRule existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Daylight saving rule not found"));
 

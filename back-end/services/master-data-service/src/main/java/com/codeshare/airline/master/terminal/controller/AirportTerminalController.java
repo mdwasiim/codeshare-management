@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/airport-terminals")
-public class AirportTerminalController extends BaseController<AirportTerminalDTO, UUID> {
+public class AirportTerminalController extends BaseController<AirportTerminalDTO, Long> {
 
-    protected AirportTerminalController(BaseService<AirportTerminalDTO, UUID> service) {
+    protected AirportTerminalController(BaseService<AirportTerminalDTO, Long> service) {
         super(service);
     }
 }

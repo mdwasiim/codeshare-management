@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public AuthUserDTO create(AuthUserDTO dto) {
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
 
         if (userRepository.existsByUsernameAndTenantId(dto.getUsername(), tenantId)) {
             throw new IllegalArgumentException("Username already exists");
@@ -63,7 +62,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     }
 
     @Override
-    public AuthUserDTO update(UUID id, AuthUserDTO dto) {
+    public AuthUserDTO update(Long id, AuthUserDTO dto) {
         User entity = userRepository.findById(id)
                 .orElseThrow(() -> new CSMResourceNotFoundException("User not found: " + id));
 
@@ -99,14 +98,14 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     @Transactional(readOnly = true)
-    public AuthUserDTO getById(UUID id) {
+    public AuthUserDTO getById(Long id) {
         User entity = userRepository.findById(id)
                 .orElseThrow(() -> new CSMResourceNotFoundException("User not found: " + id));
         return userMapper.toDTO(entity);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         User entity = userRepository.findById(id)
                 .orElseThrow(() -> new CSMResourceNotFoundException("User not found: " + id));
         userRepository.delete(entity);
@@ -140,7 +139,7 @@ public class AuthUserServiceImpl implements AuthUserService {
             String username,
             String email
     ) {
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
         User user = userRepository.findByExternalIdAndTenantIdAndAuthSource(externalId, tenantId, authSource)
                 .or(() -> userRepository.findByUsernameAndTenantId(username, tenantId))
                 .or(() -> userRepository.findByEmailAndTenantId(email, tenantId))

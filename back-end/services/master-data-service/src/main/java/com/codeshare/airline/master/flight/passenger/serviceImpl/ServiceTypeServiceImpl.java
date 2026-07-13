@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.passenger.repository.ServiceTypeRepos
 import com.codeshare.airline.master.flight.passenger.service.ServiceTypeService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class ServiceTypeServiceImpl extends BaseServiceImpl<ServiceType, ServiceTypeDTO, UUID> implements ServiceTypeService {
+public class ServiceTypeServiceImpl extends BaseServiceImpl<ServiceType, ServiceTypeDTO, Long> implements ServiceTypeService {
     public ServiceTypeServiceImpl(ServiceTypeRepository repository, ServiceTypeMapper mapper) {
         super(repository, mapper);
     }

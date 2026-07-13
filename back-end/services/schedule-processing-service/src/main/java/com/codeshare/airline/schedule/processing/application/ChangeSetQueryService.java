@@ -49,7 +49,7 @@ public class ChangeSetQueryService {
     }
 
     public ChangeSetDTO getChangeSet(UUID changeSetId) {
-        ChangeSetEntity run = changeSetRepository.findById(changeSetId)
+        ChangeSetEntity run = changeSetRepository.findByChangeSetId(changeSetId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Change set not found: " + changeSetId));
 
         List<ScheduleFlightChangeDTO> flightChanges = run.getFlightChanges().stream()
@@ -57,7 +57,7 @@ public class ChangeSetQueryService {
                 .toList();
 
         return ChangeSetDTO.builder()
-                .changeSetId(run.getId())
+                .changeSetId(run.getChangeSetId())
                 .importedScheduleId(run.getImportedScheduleId())
                 .importBatchId(run.getImportBatchId())
                 .messageType(run.getSourceType())
@@ -152,7 +152,7 @@ public class ChangeSetQueryService {
         List<ScheduleDataElementSnapshotDTO> snapshots = new ArrayList<>();
         for (ScheduleDeiChangeEntity change : changes) {
             String value = oldValue ? change.getLiveValue() : change.getIngestedValue();
-            UUID id = oldValue ? change.getLiveDeiId() : change.getImportedDataElementId();
+            Long id = oldValue ? change.getLiveDeiId() : change.getImportedDataElementId();
             if (value == null && id == null) {
                 continue;
             }

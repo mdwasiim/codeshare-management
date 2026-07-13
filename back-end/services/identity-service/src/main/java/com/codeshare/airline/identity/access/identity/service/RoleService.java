@@ -5,17 +5,16 @@ package com.codeshare.airline.identity.access.identity.service;
 import com.codeshare.airline.platform.core.dto.tenant.RoleDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface RoleService {
 
     RoleDTO create(RoleDTO dto);
 
-    RoleDTO update(UUID id, RoleDTO dto);
+    RoleDTO update(Long id, RoleDTO dto);
 
-    void delete(UUID id);
+    void delete(Long id);
 
-    RoleDTO getById(UUID id);
+    RoleDTO getById(Long id);
 
 
     List<RoleDTO> getAllRoles();
