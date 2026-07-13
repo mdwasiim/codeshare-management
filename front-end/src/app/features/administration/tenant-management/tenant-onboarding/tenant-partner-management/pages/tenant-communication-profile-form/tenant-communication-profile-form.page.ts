@@ -69,8 +69,8 @@ export class TenantCommunicationProfileFormPage extends BaseCrudForm<TenantPartn
 
     override buildForm(): void {
         this.form = this.fb.group({
-            id: [null as string | null],
-            partnerId: ['', Validators.required],
+            id: [null as number | null],
+            partnerId: [null as number | null, Validators.required],
             profileCode: ['', [Validators.required, Validators.maxLength(100)]],
             profileName: ['', [Validators.required, Validators.maxLength(200)]],
             protocol: [null as CommunicationProtocol | null],
@@ -103,7 +103,7 @@ export class TenantCommunicationProfileFormPage extends BaseCrudForm<TenantPartn
         });
     }
 
-    override fetchById(id: string) {
+    override fetchById(id: string | number) {
         return this.service.getById(id);
     }
 
@@ -111,7 +111,7 @@ export class TenantCommunicationProfileFormPage extends BaseCrudForm<TenantPartn
         return this.service.create(this.toPayload(payload));
     }
 
-    override update(id: string, payload: TenantPartnerCommunicationProfile) {
+    override update(id: string | number, payload: TenantPartnerCommunicationProfile) {
         return this.service.update(id, this.toPayload(payload));
     }
 

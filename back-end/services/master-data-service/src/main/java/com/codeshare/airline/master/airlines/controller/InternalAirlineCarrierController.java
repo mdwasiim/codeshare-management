@@ -25,4 +25,11 @@ public class InternalAirlineCarrierController {
                 .map(mapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Airline not found: " + iataCode));
     }
+
+    @GetMapping("/{id}")
+    public AirlineCarrierDTO getById(@PathVariable Long id) {
+        return repository.findById(id)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Airline not found: " + id));
+    }
 }

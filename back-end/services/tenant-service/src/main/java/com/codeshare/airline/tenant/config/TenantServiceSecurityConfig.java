@@ -16,6 +16,8 @@ public class TenantServiceSecurityConfig {
                         .requestMatchers(
                                 "/tenants/login-options",
                                 "/tenants/code/*/auth-context",
+                                "/internal/tenants",
+                                "/internal/tenants/**",
                                 "/actuator/health",
                                 "/actuator/info"
                         ).permitAll()

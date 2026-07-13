@@ -16,7 +16,7 @@ export class TenantPartnerCommunicationProfileService {
         return this.api.get<TenantPartnerCommunicationProfile[]>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.base);
     }
 
-    getById(id: string) {
+    getById(id: string | number) {
         return this.api.get<TenantPartnerCommunicationProfile>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.byId, {
             pathParams: { id }
         });
@@ -32,7 +32,7 @@ export class TenantPartnerCommunicationProfileService {
         );
     }
 
-    update(id: string, payload: TenantPartnerCommunicationProfile) {
+    update(id: string | number, payload: TenantPartnerCommunicationProfile) {
         return this.api.put<TenantPartnerCommunicationProfile>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.byId, payload, {
             pathParams: { id }
         }).pipe(
@@ -44,7 +44,7 @@ export class TenantPartnerCommunicationProfileService {
         );
     }
 
-    delete(id: string) {
+    delete(id: string | number) {
         return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.byId, {
             pathParams: { id }
         }).pipe(

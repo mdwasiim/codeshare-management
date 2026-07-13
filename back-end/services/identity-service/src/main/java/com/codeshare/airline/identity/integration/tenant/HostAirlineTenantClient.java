@@ -14,7 +14,7 @@ import java.util.List;
 )
 public interface HostAirlineTenantClient {
 
-    @GetMapping("/tenants")
+    @GetMapping("/internal/tenants")
     List<TenantDTO> getAll();
 
     @GetMapping("/internal/tenants/code/{code}/auth-context")

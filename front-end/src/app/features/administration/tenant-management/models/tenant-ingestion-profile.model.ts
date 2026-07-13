@@ -1,7 +1,7 @@
 import { AuditableModel } from '@shared/models/auditable.model';
 
 export interface TenantIngestionChannel extends AuditableModel {
-    id?: string;
+    id?: number;
     messageType?: string;
     sourceType?: string;
     enabled?: boolean;
@@ -18,8 +18,8 @@ export interface TenantIngestionChannel extends AuditableModel {
 }
 
 export interface TenantIngestionProfile extends AuditableModel {
-    id?: string;
-    tenantId?: string;
+    id?: number;
+    tenantId?: number;
     tenantCode?: string;
     airlineCode?: string;
     sourceSystem: string;

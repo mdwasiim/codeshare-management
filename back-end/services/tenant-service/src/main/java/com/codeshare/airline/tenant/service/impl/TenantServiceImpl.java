@@ -169,14 +169,29 @@ public class TenantServiceImpl implements TenantService {
 
     private TenantDTO toTenantDto(Tenant tenant) {
         TenantDTO dto = mapper.toDTO(tenant);
-        tenant.getIdentityProviders().stream()
-                .filter(OidcIdentityProviderEntity::isEnabled)
+        List<OidcIdentityProviderEntity> providers = tenant.getIdentityProviders().stream()
                 .sorted(Comparator.comparingInt(OidcIdentityProviderEntity::getPriority))
+                .toList();
+
+        dto.setIdentityProviders(providers.stream()
+                .map(this::toIdentityProviderConfig)
+                .toList());
+
+        providers.stream()
+                .filter(OidcIdentityProviderEntity::isEnabled)
                 .findFirst()
-                .ifPresent(provider -> {
-                    dto.setAuthSource(provider.getAuthSource());
-                    dto.setOidcConfig(toOidcConfig(provider.getOidcConfig()));
-                });
+                .ifPresent(provider -> dto.setAuthSource(provider.getAuthSource()));
+
+        providers.stream()
+                .filter(provider -> provider.getOidcConfig() != null)
+                .findFirst()
+                .ifPresent(provider -> dto.setOidcConfig(toOidcConfig(provider.getOidcConfig())));
+
+        if (dto.getAuthSource() == null) {
+            providers.stream()
+                    .findFirst()
+                    .ifPresent(provider -> dto.setAuthSource(provider.getAuthSource()));
+        }
         return dto;
     }
 

@@ -69,6 +69,8 @@ public class WebSecurityConfig {
                         log.info("Public actuator endpoints: {}", securityProperties.getPublicEndpoints().getActuator());
                     }
 
+                    auth.requestMatchers("/internal/bootstrap/**").permitAll();
+
                     auth.anyRequest().authenticated();
                     log.warn("All other endpoints are denied by default");
                 })

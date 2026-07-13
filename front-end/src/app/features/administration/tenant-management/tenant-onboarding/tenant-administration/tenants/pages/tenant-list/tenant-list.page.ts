@@ -44,7 +44,7 @@ export class TenantListPage extends BaseListComponent<Tenant> {
     private readonly confirm = inject(AppConfirmService);
 
     dialogVisible = false;
-    selectedTenantId: string | null = null;
+    selectedTenantId: number | null = null;
     selectedTenants: Tenant[] = [];
 
     @ViewChild('dt') private dt?: Table;

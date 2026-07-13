@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,5 +42,6 @@ public class TenantDTO extends CSMAuditableDTO {
     private TenantStatus status = TenantStatus.ACTIVE;
     private AuthSource authSource;
     private OidcConfigDTO oidcConfig;
+    private List<IdentityProviderConfigDTO> identityProviders;
 
 }

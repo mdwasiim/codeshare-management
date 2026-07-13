@@ -16,7 +16,7 @@ export class TenantService {
         return this.api.get<Tenant[]>(API_ENDPOINTS.accessManagement.tenants.base);
     }
 
-    getById(id: string) {
+    getById(id: string | number) {
         return this.api.get<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, {
             pathParams: { id }
         });
@@ -32,7 +32,7 @@ export class TenantService {
         );
     }
 
-    update(id: string, payload: Tenant) {
+    update(id: string | number, payload: Tenant) {
         return this.api.put<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, payload, {
             pathParams: { id }
         }).pipe(
@@ -44,7 +44,7 @@ export class TenantService {
         );
     }
 
-    delete(id: string) {
+    delete(id: string | number) {
         return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenants.byId, {
             pathParams: { id }
         }).pipe(

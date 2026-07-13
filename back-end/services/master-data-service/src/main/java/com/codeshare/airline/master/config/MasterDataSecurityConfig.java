@@ -14,6 +14,7 @@ public class MasterDataSecurityConfig {
         StatelessResourceServerSecuritySupport.apply(http)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/internal/airline-carriers/**",
                                 "/actuator/health",
                                 "/actuator/info"
                         ).permitAll()

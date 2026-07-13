@@ -46,6 +46,11 @@ public class TenantController {
         return tenantService.getAll();
     }
 
+    @GetMapping("/internal/tenants")
+    public List<TenantDTO> getAllInternal() {
+        return tenantService.getAll();
+    }
+
     @GetMapping("/tenants/login-options")
     public List<TenantLoginOptionDTO> getLoginOptions() {
         return tenantService.getLoginOptions();

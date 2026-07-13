@@ -50,7 +50,7 @@ export class TenantDistributionProfilesPage extends BaseListComponent<TenantPart
     private readonly confirm = inject(AppConfirmService);
 
     dialogVisible = false;
-    selectedId: string | null = null;
+    selectedId: number | null = null;
     selectedProfiles: TenantPartnerDistributionProfile[] = [];
     partnerOptions: TenantPartnerOption[] = [];
 
@@ -121,8 +121,8 @@ export class TenantDistributionProfilesPage extends BaseListComponent<TenantPart
         this.dt?.exportCSV();
     }
 
-    partnerLabel(partnerId?: string): string {
-        return this.partnerOptions.find((option) => option.value === partnerId)?.label || partnerId || '-';
+    partnerLabel(partnerId?: number): string {
+        return this.partnerOptions.find((option) => option.value === partnerId)?.label || (partnerId != null ? String(partnerId) : '-');
     }
 
     formatLabel(value?: string | null): string {

@@ -7,7 +7,7 @@ import { MasterLookupOption, MasterReferenceLookupService } from '@features/mast
 @Directive()
 export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
     @Input() data: T | null = null;
-    @Input() id: string | null = null;
+    @Input() id: string | number | null = null;
 
     @Output() saved = new EventEmitter<void>();
     @Output() cancelled = new EventEmitter<void>();
@@ -24,9 +24,9 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
 
     abstract buildForm(): void;
     abstract patchForm(data: T): void;
-    abstract fetchById(id: string): Observable<T>;
+    abstract fetchById(id: string | number): Observable<T>;
     abstract create(payload: unknown): Observable<unknown>;
-    abstract update(id: string, payload: unknown): Observable<unknown>;
+    abstract update(id: string | number, payload: unknown): Observable<unknown>;
 
     ngOnInit(): void {
         this.init();

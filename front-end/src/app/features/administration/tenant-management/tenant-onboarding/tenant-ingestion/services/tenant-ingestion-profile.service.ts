@@ -18,14 +18,14 @@ export class TenantIngestionProfileService {
         });
     }
 
-    enable(id: string, enabled: boolean) {
+    enable(id: string | number, enabled: boolean) {
         return this.api.patch<void>(API_ENDPOINTS.accessManagement.tenantIngestionProfiles.byId, null, {
             pathParams: { id },
             params: { enabled }
         });
     }
 
-    delete(id: string) {
+    delete(id: string | number) {
         return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenantIngestionProfiles.byId, {
             pathParams: { id }
         });

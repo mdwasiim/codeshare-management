@@ -60,7 +60,7 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
 
     override buildForm(): void {
         this.form = this.fb.group({
-            id: [null as string | null],
+            id: [null as number | null],
             name: ['', [Validators.required, Validators.maxLength(200)]],
             tenantCode: ['', [Validators.required, Validators.maxLength(100)]],
             description: ['', Validators.maxLength(500)],
@@ -89,6 +89,7 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
     }
 
     override patchForm(data: Tenant): void {
+        this.form.get('tenantCode')?.enable({ emitEvent: false });
         this.form.patchValue({
             ...data,
             subscriptionStart: this.toDateTimeLocal(data.subscriptionStart),
@@ -132,7 +133,7 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
         return isNaN(date.getTime()) ? undefined : date.toISOString();
     }
 
-    override fetchById(id: string) {
+    override fetchById(id: string | number) {
         return this.service.getById(id);
     }
 
@@ -140,7 +141,7 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
         return this.service.create(this.mapToModel(payload));
     }
 
-    override update(id: string, payload: Tenant) {
+    override update(id: string | number, payload: Tenant) {
         return this.service.update(id, this.mapToModel(payload));
     }
 
