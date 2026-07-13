@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,8 @@ public interface SsimFileMetaDataRepository
 
 
     Optional<SsimFileMetaDataEntity> findByFileId(UUID fileId);
+
+    List<SsimFileMetaDataEntity> findAllByLoadId(UUID loadId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select f from SsimFileMetaDataEntity f where f.id = :id")

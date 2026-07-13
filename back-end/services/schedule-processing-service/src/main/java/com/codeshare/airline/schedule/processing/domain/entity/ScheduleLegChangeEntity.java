@@ -2,8 +2,9 @@ package com.codeshare.airline.schedule.processing.domain.entity;
 
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.LegChangeType;
-import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
+import com.codeshare.airline.schedule.processing.domain.enums.ChangeSetStatus;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +20,7 @@ import java.util.UUID;
  * One detected change on a specific flight leg.
  *
  * The leg row stores the full before/after leg snapshots. Child tables store
- * repeatable sub-structures that need their own merge lifecycle:
+ * repeatable sub-structures that need their own change-set lifecycle:
  * segment deltas, DEI deltas, and codeshare deltas.
  */
 @Entity
@@ -29,7 +30,7 @@ import java.util.UUID;
         indexes = {
                 @Index(name = "idx_slc_flight_change", columnList = "flight_change_id"),
                 @Index(name = "idx_slc_change_type", columnList = "change_type"),
-                @Index(name = "idx_slc_merge_status", columnList = "merge_status"),
+                @Index(name = "idx_slc_change_set_status", columnList = "change_set_status"),
                 @Index(name = "idx_slc_live_leg", columnList = "live_leg_id"),
                 @Index(name = "idx_slc_period", columnList = "period_start, period_end")
         },
@@ -88,7 +89,7 @@ public class ScheduleLegChangeEntity extends CSMDataAbstractEntity {
     private UUID liveLegId;
 
     @Column(name = "ingested_flight_id")
-    private UUID ingestedFlightId;
+    private UUID importedLegId;
 
     @Column(name = "live_snapshot", columnDefinition = "TEXT")
     private String liveSnapshot;
@@ -97,14 +98,14 @@ public class ScheduleLegChangeEntity extends CSMDataAbstractEntity {
     private String ingestedSnapshot;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "merge_status", length = 20, nullable = false)
-    private MergeStatus mergeStatus;
+    @Column(name = "change_set_status", length = 20, nullable = false)
+    private ChangeSetStatus changeSetStatus;
 
-    @Column(name = "merged_at")
-    private Instant mergedAt;
+    @Column(name = "status_recorded_at")
+    private Instant statusRecordedAt;
 
-    @Column(name = "merge_error", columnDefinition = "TEXT")
-    private String mergeError;
+    @Column(name = "status_reason", columnDefinition = "TEXT")
+    private String statusReason;
 
     @OneToMany(
             mappedBy = "legChange",
@@ -113,6 +114,7 @@ public class ScheduleLegChangeEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("boardPoint ASC, offPoint ASC")
+    @Builder.Default
     private List<ScheduleSegmentChangeEntity> segmentChanges = new ArrayList<>();
 
     @OneToMany(
@@ -122,6 +124,7 @@ public class ScheduleLegChangeEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("deiCode ASC, sequenceOrder ASC")
+    @Builder.Default
     private List<ScheduleDeiChangeEntity> legDeiChanges = new ArrayList<>();
 
     @OneToMany(
@@ -131,6 +134,7 @@ public class ScheduleLegChangeEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("sequenceOrder ASC, marketingAirlineCode ASC, marketingFlightNumber ASC")
+    @Builder.Default
     private List<ScheduleCodeshareChangeEntity> codeshareChanges = new ArrayList<>();
 
     public void addSegmentChange(ScheduleSegmentChangeEntity segmentChange) {
@@ -154,3 +158,4 @@ public class ScheduleLegChangeEntity extends CSMDataAbstractEntity {
         }
     }
 }
+

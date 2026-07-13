@@ -5,6 +5,7 @@ import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ScheduleProfile;
 import com.codeshare.airline.platform.core.enums.schedule.SourceType;
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
+import org.hibernate.annotations.BatchSize;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -113,6 +114,7 @@ public class ScheduleFileMetaDataEntity extends CSMDataAbstractEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @BatchSize(size = 100)
     private List<ScheduleMessageEntity> messageEnvelopes = new ArrayList<>();
 
     /* =======================================================

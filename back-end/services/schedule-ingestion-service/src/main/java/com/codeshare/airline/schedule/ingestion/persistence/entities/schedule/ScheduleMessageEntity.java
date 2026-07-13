@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class ScheduleMessageEntity extends CSMDataAbstractEntity {
 
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("messageSequenceNumber ASC")
+    @BatchSize(size = 100)
     private List<ScheduleSubMessageEntity> subMessages = new ArrayList<>();
 
 

@@ -1,5 +1,6 @@
 package com.codeshare.airline.schedule.ingestion.source.camel.mapper;
 
+import com.codeshare.airline.schedule.ingestion.application.ingest.ScheduleMessageTypeResolver;
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.platform.core.enums.schedule.SourceType;
@@ -21,21 +22,25 @@ import java.util.UUID;
 public class ScheduleSourceExchangeMapper {
 
     private static final String LOAD_ID = "LOAD_ID";
+    private final ScheduleMessageTypeResolver messageTypeResolver;
+
+    public ScheduleSourceExchangeMapper(ScheduleMessageTypeResolver messageTypeResolver) {
+        this.messageTypeResolver = messageTypeResolver;
+    }
 
     public ScheduleSourceFile map(Exchange exchange) {
 
         String airlineCode = optionalHeader(exchange, "AIRLINE_CODE", "UNK");
-        String messageTypeStr = optionalHeader(exchange, "MESSAGE_TYPE", "SSM");
+        String messageTypeStr = optionalHeader(exchange, "MESSAGE_TYPE", null);
         String sourceTypeStr = optionalHeader(exchange, "SOURCE_TYPE", "LOCAL");
 
         UUID loadId = resolveLoadId(exchange);
-        MessageType scheduleType = safeParseMessageType(messageTypeStr);
         SourceType sourceType = safeParseSourceType(sourceTypeStr);
 
         String fileName = firstNonNull(
                 exchange.getMessage().getHeader(Exchange.FILE_NAME, String.class),
                 exchange.getMessage().getHeader("CamelFileName", String.class),
-                scheduleType + "_" + Instant.now().toEpochMilli()
+                "schedule_" + Instant.now().toEpochMilli()
         );
 
         InputStream inputStream = exchange.getMessage().getBody(InputStream.class);
@@ -46,6 +51,7 @@ public class ScheduleSourceExchangeMapper {
         try (InputStream is = inputStream) {
             byte[] data = is.readAllBytes();
             String checksum = sha256(data);
+            MessageType scheduleType = resolveMessageType(messageTypeStr, fileName, data);
 
             exchange.setProperty(ExchangeConstants.CHECKSUM, checksum);
 
@@ -102,18 +108,24 @@ public class ScheduleSourceExchangeMapper {
     private String optionalHeader(Exchange exchange, String name, String defaultValue) {
         String value = exchange.getMessage().getHeader(name, String.class);
         if (value == null || value.isBlank()) {
-            log.warn("Missing header {}. Using default {}", name, defaultValue);
+            if (defaultValue != null) {
+                log.warn("Missing header {}. Using default {}", name, defaultValue);
+            }
             return defaultValue;
         }
         return value.trim().toUpperCase();
     }
 
-    private MessageType safeParseMessageType(String value) {
+    private MessageType resolveMessageType(String value, String fileName, byte[] data) {
+        if (value == null || value.isBlank()) {
+            return messageTypeResolver.resolve(null, fileName, data);
+        }
+
         try {
             return MessageType.valueOf(value.toUpperCase());
         } catch (Exception e) {
-            log.warn("Invalid MESSAGE_TYPE {}. Defaulting to SSM", value);
-            return MessageType.SSM;
+            log.warn("Invalid MESSAGE_TYPE {}. Inferring type from payload.", value);
+            return messageTypeResolver.resolve(null, fileName, data);
         }
     }
 

@@ -2,7 +2,7 @@ package com.codeshare.airline.schedule.processing.domain.repository;
 
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.schedule.processing.domain.entity.ScheduleFlightChangeEntity;
-import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
+import com.codeshare.airline.schedule.processing.domain.enums.ChangeSetStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,10 +12,10 @@ import java.util.UUID;
 @Repository
 public interface ScheduleFlightChangeRepository extends CSMDataBaseRepository<ScheduleFlightChangeEntity, UUID> {
 
-    List<ScheduleFlightChangeEntity> findByComparisonRunId(UUID comparisonRunId);
+    List<ScheduleFlightChangeEntity> findByChangeSetId(UUID changeSetId);
 
-    Optional<ScheduleFlightChangeEntity> findByComparisonRunIdAndAirlineCodeAndFlightNumberAndOperationalSuffixAndItineraryVariationId(
-            UUID comparisonRunId,
+    Optional<ScheduleFlightChangeEntity> findByChangeSetIdAndAirlineCodeAndFlightNumberAndOperationalSuffixAndItineraryVariationId(
+            UUID changeSetId,
             String airlineCode,
             String flightNumber,
             String operationalSuffix,
@@ -24,7 +24,8 @@ public interface ScheduleFlightChangeRepository extends CSMDataBaseRepository<Sc
 
     List<ScheduleFlightChangeEntity> findByAirlineCodeAndFlightNumber(String airlineCode, String flightNumber);
 
-    List<ScheduleFlightChangeEntity> findByAirlineCodeAndMergeStatus(String airlineCode, MergeStatus mergeStatus);
+    List<ScheduleFlightChangeEntity> findByAirlineCodeAndChangeSetStatus(String airlineCode, ChangeSetStatus changeSetStatus);
 
-    List<ScheduleFlightChangeEntity> findByMergeStatus(MergeStatus mergeStatus);
+    List<ScheduleFlightChangeEntity> findByChangeSetStatus(ChangeSetStatus changeSetStatus);
 }
+

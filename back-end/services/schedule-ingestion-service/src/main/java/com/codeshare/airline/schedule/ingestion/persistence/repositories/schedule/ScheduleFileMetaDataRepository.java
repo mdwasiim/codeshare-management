@@ -4,6 +4,7 @@ import com.codeshare.airline.schedule.ingestion.persistence.entities.schedule.Sc
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,5 +13,7 @@ public interface ScheduleFileMetaDataRepository
         JpaSpecificationExecutor<ScheduleFileMetaDataEntity> {
 
     Optional<ScheduleFileMetaDataEntity> findByFileId(UUID fileId);
+
+    List<ScheduleFileMetaDataEntity> findAllByLoadId(UUID loadId);
 
 }

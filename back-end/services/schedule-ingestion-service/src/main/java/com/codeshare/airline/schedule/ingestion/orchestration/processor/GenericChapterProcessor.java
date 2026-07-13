@@ -2,6 +2,7 @@ package com.codeshare.airline.schedule.ingestion.orchestration.processor;
 
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
+import com.codeshare.airline.schedule.ingestion.integration.kafka.ImportCompletedEventPublisher;
 import com.codeshare.airline.schedule.ingestion.orchestration.pipelines.GenericIngestionPipeline;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.services.common.ScheduleFileService;
@@ -13,11 +14,14 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
 
     private final GenericIngestionPipeline pipeline;
     private final ScheduleFileService scheduleService;
+    private final ImportCompletedEventPublisher importCompletedEventPublisher;
 
     protected GenericChapterProcessor(GenericIngestionPipeline pipeline,
-                                      ScheduleFileService scheduleService) {
+                                      ScheduleFileService scheduleService,
+                                      ImportCompletedEventPublisher importCompletedEventPublisher) {
         this.pipeline = pipeline;
         this.scheduleService = scheduleService;
+        this.importCompletedEventPublisher = importCompletedEventPublisher;
     }
 
     @Override
@@ -63,6 +67,10 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
                 throw new IllegalStateException("Ingestion failed for file=" + scheduleSourceFile.getFileName());
             }
 
+            if (shouldPublish(finalStatus)) {
+                importCompletedEventPublisher.publish(metadata);
+            }
+
             log.info("Ingestion completed | file={} type={} status={}",
                     scheduleSourceFile.getFileName(), type, finalStatus);
             return finalStatus;
@@ -78,5 +86,11 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
 
     private boolean isAlreadyProcessed(ProcessingStatus status) {
         return status == ProcessingStatus.COMPLETED || status == ProcessingStatus.SUCCESS;
+    }
+
+    private boolean shouldPublish(ProcessingStatus status) {
+        return status == ProcessingStatus.COMPLETED
+                || status == ProcessingStatus.SUCCESS
+                || status == ProcessingStatus.PARTIAL;
     }
 }

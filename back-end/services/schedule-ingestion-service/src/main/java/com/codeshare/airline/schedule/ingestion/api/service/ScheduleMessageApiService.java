@@ -3,20 +3,17 @@ package com.codeshare.airline.schedule.ingestion.api.service;
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleMessageIngestionResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.ScheduleMessageValidationResponse;
+import com.codeshare.airline.schedule.ingestion.application.workflow.ScheduleMessageWorkflowResult;
+import com.codeshare.airline.schedule.ingestion.application.workflow.ScheduleMessageWorkflowService;
 import com.codeshare.airline.schedule.ingestion.domain.context.AbstractIngestionContext;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.platform.core.enums.schedule.SourceType;
-import com.codeshare.airline.schedule.ingestion.orchestration.context.PreParseContextFactory;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleMessageDTO;
 import com.codeshare.airline.schedule.ingestion.orchestration.handler.StreamExtractorHandler;
-import com.codeshare.airline.schedule.ingestion.orchestration.parsers.MessageParser;
 import com.codeshare.airline.schedule.ingestion.orchestration.processor.ScheduleChapterProcessor;
 import com.codeshare.airline.schedule.ingestion.source.model.ScheduleSourceFile;
-import com.codeshare.airline.schedule.ingestion.validation.model.ValidationMessage;
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationResult;
-import com.codeshare.airline.schedule.ingestion.validation.orchestrator.BusinessValidationOrchestrator;
-import com.codeshare.airline.schedule.ingestion.validation.orchestrator.StructuralValidationOrchestrator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -35,25 +32,16 @@ import java.util.UUID;
 public class ScheduleMessageApiService {
 
     private final Map<MessageType, StreamExtractorHandler> extractorMap;
-    private final Map<MessageType, MessageParser<?>> parserMap;
-    private final Map<MessageType, PreParseContextFactory<?>> preParseContextFactoryMap;
-    private final StructuralValidationOrchestrator structuralValidationOrchestrator;
-    private final BusinessValidationOrchestrator businessValidationOrchestrator;
+    private final ScheduleMessageWorkflowService workflowService;
     private final ScheduleChapterProcessor scheduleChapterProcessor;
 
     public ScheduleMessageApiService(
             Map<MessageType, StreamExtractorHandler> extractorMap,
-            Map<MessageType, MessageParser<?>> parserMap,
-            Map<MessageType, PreParseContextFactory<?>> preParseContextFactoryMap,
-            StructuralValidationOrchestrator structuralValidationOrchestrator,
-            BusinessValidationOrchestrator businessValidationOrchestrator,
+            ScheduleMessageWorkflowService workflowService,
             @Qualifier("scheduleMessageChapterProcessor") ScheduleChapterProcessor scheduleChapterProcessor
     ) {
         this.extractorMap = extractorMap;
-        this.parserMap = parserMap;
-        this.preParseContextFactoryMap = preParseContextFactoryMap;
-        this.structuralValidationOrchestrator = structuralValidationOrchestrator;
-        this.businessValidationOrchestrator = businessValidationOrchestrator;
+        this.workflowService = workflowService;
         this.scheduleChapterProcessor = scheduleChapterProcessor;
     }
 
@@ -127,9 +115,8 @@ public class ScheduleMessageApiService {
         assertContent(content);
 
         StreamExtractorHandler extractor = extractorMap.get(type);
-        MessageParser<?> parser = parserMap.get(type);
-        if (extractor == null || parser == null) {
-            throw new IllegalStateException("No extractor/parser registered for type=" + type);
+        if (extractor == null) {
+            throw new IllegalStateException("No extractor registered for type=" + type);
         }
 
         ScheduleFileMetaDataDTO metadata = metadata(type, airlineCode, fileName, content);
@@ -140,27 +127,16 @@ public class ScheduleMessageApiService {
 
         extractor.extract(new ByteArrayInputStream(content), lines -> {
             blockCount[0]++;
-
-            ValidationResult structural = structuralValidationOrchestrator.validate(
-                    contextForStructural(type, metadata, lines)
-            );
-            aggregate.merge(structural);
-            if (structural.hasErrors()) {
+            ScheduleMessageWorkflowResult workflowResult = workflowService.process(type, metadata, lines);
+            workflowResult.getMessages().forEach(aggregate::add);
+            if (workflowResult.hasErrors()) {
                 return;
             }
 
-            AbstractIngestionContext<?, ?> parsedContext;
-            try {
-                parsedContext = parser.parse(lines, metadata);
-            } catch (Exception ex) {
-                aggregate.add(ValidationMessage.parsingError(ex.getMessage()));
-                return;
-            }
+            AbstractIngestionContext<?, ?> parsedContext = workflowResult.getParsedContext();
             parsedBlockCount[0]++;
 
-            ValidationResult business = businessValidationOrchestrator.validate(parsedContext);
-            aggregate.merge(business);
-            if (!business.hasErrors() && includeParsedMessages && parsedContext.getParsedData() instanceof ScheduleMessageDTO parsed) {
+            if (includeParsedMessages && parsedContext.getParsedData() instanceof ScheduleMessageDTO parsed) {
                 parsedMessages.add(parsed);
             }
         });
@@ -175,18 +151,6 @@ public class ScheduleMessageApiService {
                 .messages(aggregate.getMessages())
                 .parsedMessages(includeParsedMessages ? parsedMessages : List.of())
                 .build();
-    }
-
-    private AbstractIngestionContext<?, ?> contextForStructural(
-            MessageType type,
-            ScheduleFileMetaDataDTO metadata,
-            List<String> lines
-    ) {
-        PreParseContextFactory<?> factory = preParseContextFactoryMap.get(type);
-        if (factory == null) {
-            throw new IllegalStateException("No pre-parse context factory registered for type=" + type);
-        }
-        return factory.build(metadata, lines);
     }
 
     private ScheduleFileMetaDataDTO metadata(MessageType type, String airlineCode, String fileName, byte[] content) {

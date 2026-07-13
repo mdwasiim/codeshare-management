@@ -12,10 +12,10 @@ spring:
           issuer-uri: ${AUTH_IDENTITY_SERVICE_ISSUER_URI:http://localhost:8081}
 
   datasource:
-    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/csm?reWriteBatchedInserts=true}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    driver-class-name: ${SCHEDULE_INGESTION_DB_DRIVER:${DB_DRIVER:org.postgresql.Driver}}
+    url: ${SCHEDULE_INGESTION_DB_URL:${DB_URL:jdbc:postgresql://localhost:5432/csm?reWriteBatchedInserts=true}}
+    username: ${SCHEDULE_INGESTION_DB_USERNAME:${DB_USERNAME:postgres}}
+    password: ${SCHEDULE_INGESTION_DB_PASSWORD:${DB_PASSWORD:postgres}}
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
@@ -48,6 +48,12 @@ spring:
     password: ${ACTIVEMQ_PASSWORD:admin}
     packages:
       trust-all: true
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 server:
   port: ${SCHEDULE_INGESTION_SERVICE_PORT:8082}
@@ -91,3 +97,12 @@ app:
 tenant:
   service:
     url: ${TENANT_SERVICE_URL:http://localhost:8086}
+
+master-data:
+  service:
+    url: ${MASTER_DATA_SERVICE_URL:http://localhost:8089}
+
+schedule:
+  workflow:
+    topics:
+      import-completed: ${SCHEDULE_WORKFLOW_IMPORT_COMPLETED_TOPIC:schedule.workflow.import-completed}

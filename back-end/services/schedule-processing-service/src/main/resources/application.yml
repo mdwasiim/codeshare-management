@@ -12,10 +12,10 @@ spring:
           issuer-uri: ${AUTH_IDENTITY_SERVICE_ISSUER_URI:http://localhost:8081}
 
   datasource:
-    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/csm}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    driver-class-name: ${SCHEDULE_PROCESSING_DB_DRIVER:${DB_DRIVER:org.postgresql.Driver}}
+    url: ${SCHEDULE_PROCESSING_DB_URL:${DB_URL:jdbc:postgresql://localhost:5432/csm}}
+    username: ${SCHEDULE_PROCESSING_DB_USERNAME:${DB_USERNAME:postgres}}
+    password: ${SCHEDULE_PROCESSING_DB_PASSWORD:${DB_PASSWORD:postgres}}
 
   jpa:
     open-in-view: false
@@ -32,7 +32,7 @@ spring:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
     consumer:
-      group-id: ${KAFKA_CONSUMER_GROUP:ssim-processor}
+      group-id: ${KAFKA_CONSUMER_GROUP:schedule-processing}
       auto-offset-reset: earliest
       enable-auto-commit: false
 
@@ -41,25 +41,27 @@ spring:
 
       properties:
         spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 # ----------------------------------
 # KAFKA TOPICS
 # ----------------------------------
-ssim:
-  kafka:
+schedule:
+  workflow:
     topics:
-      file-flight: ${KAFKA_TOPIC_FILE_FLIGHT:ssim.flight.block}
-      processing-failed: ${KAFKA_TOPIC_FAILED:ssim.processing.failed}
-      schedule-ready: ${KAFKA_TOPIC_READY:ssim.schedule.ready}
+      import-completed: ${SCHEDULE_WORKFLOW_IMPORT_COMPLETED_TOPIC:schedule.workflow.import-completed}
+      change-set-created: ${SCHEDULE_WORKFLOW_CHANGE_SET_CREATED_TOPIC:schedule.workflow.change-set-created}
 
 # ----------------------------------
 # EXTERNAL SERVICE CALLS
 # ----------------------------------
 services:
+  ingestion:
+    url: ${SCHEDULE_INGESTION_SERVICE_URL:http://localhost:8082}
   schedule:
-    url: ${SCHEDULE_SERVICE_URL:http://localhost:8082}
-  codeshare:
-    url: ${CODESHARE_SERVICE_URL:http://localhost:8083}
+    url: ${SCHEDULE_SERVICE_URL:http://localhost:8087}
 
 # ----------------------------------
 # SERVER

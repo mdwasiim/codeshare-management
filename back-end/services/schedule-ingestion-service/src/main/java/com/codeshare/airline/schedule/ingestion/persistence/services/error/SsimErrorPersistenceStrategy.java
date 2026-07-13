@@ -46,7 +46,7 @@ public class SsimErrorPersistenceStrategy implements ErrorPersistenceStrategy {
                     e.setRuleCode(msg.getRuleCode());
                     e.setMessage(msg.getMessage());
 
-                    e.setValidationStage(stage);
+                    e.setValidationStage(msg.getStage() != null ? msg.getStage() : stage);
 
                     return e;
 

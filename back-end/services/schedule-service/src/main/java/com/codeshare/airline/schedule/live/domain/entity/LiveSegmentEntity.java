@@ -2,6 +2,7 @@ package com.codeshare.airline.schedule.live.domain.entity;
 
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -79,6 +80,7 @@ public class LiveSegmentEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("sequenceOrder ASC")
+    @Builder.Default
     private List<LiveSegmentDeiEntity> deis = new ArrayList<>();
 
     /* ==========================================================

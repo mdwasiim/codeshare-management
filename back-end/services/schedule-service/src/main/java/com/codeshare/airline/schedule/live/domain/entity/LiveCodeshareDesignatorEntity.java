@@ -2,6 +2,7 @@ package com.codeshare.airline.schedule.live.domain.entity;
 
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -109,6 +110,7 @@ public class LiveCodeshareDesignatorEntity extends CSMDataAbstractEntity {
     // true = this leg is operated under a codeshare agreement
     // false = plain interline / other marketing arrangement
     @Column(name = "is_codeshare", nullable = false)
+    @Builder.Default
     private boolean codeshare = true;
 
     // Source DEI code that produced this record ("010" or "011")

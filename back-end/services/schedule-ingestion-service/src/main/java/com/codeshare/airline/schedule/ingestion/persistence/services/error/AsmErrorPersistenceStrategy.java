@@ -32,14 +32,14 @@ public class AsmErrorPersistenceStrategy implements ErrorPersistenceStrategy {
                         List<ValidationMessage> messages) {
 
         if (!(context instanceof AsmIngestionContext ctx)) {
-            throw new IllegalArgumentException("Invalid context type for SSM error persistence");
+            throw new IllegalArgumentException("Invalid context type for ASM error persistence");
         }
 
         if (messages == null || messages.isEmpty()) {
             return;
         }
 
-        log.debug("Persisting {} SSM validation errors | fileId={}",
+        log.debug("Persisting {} ASM validation errors | fileId={}",
                 messages.size(),
                 ctx.getMetadata().getFileId());
 
@@ -62,14 +62,27 @@ public class AsmErrorPersistenceStrategy implements ErrorPersistenceStrategy {
         e.setFileId(ctx.getMetadata().getFileId());
         e.setLoadId(ctx.getMetadata().getLoadId());
         e.setMessageType(ctx.getMetadata().getMessageType());
+        e.setRecordType(truncate(msg.getRecordType(), 10));
+        e.setRecordKey(truncate(msg.getRecordKey(), 200));
 
         e.setRuleCode(msg.getRuleCode());
         e.setMessage(msg.getMessage());
         e.setSeverity(msg.getSeverity());
 
-        e.setValidationStage(stage);
+        e.setValidationStage(resolveStage(stage, msg));
         e.setValidatedAt(timestamp);
 
         return e;
+    }
+
+    private ValidationStage resolveStage(ValidationStage fallbackStage, ValidationMessage message) {
+        return message.getStage() != null ? message.getStage() : fallbackStage;
+    }
+
+    private String truncate(String value, int maxLength) {
+        if (value == null || value.length() <= maxLength) {
+            return value;
+        }
+        return value.substring(0, maxLength);
     }
 }

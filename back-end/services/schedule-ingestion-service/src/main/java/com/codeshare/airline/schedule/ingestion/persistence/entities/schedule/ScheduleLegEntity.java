@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class ScheduleLegEntity extends CSMDataAbstractEntity {
 
     @OneToMany(mappedBy = "leg", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("sequenceOrder ASC")
+    @BatchSize(size = 100)
     private List<ScheduleDataElementEntity> deis = new ArrayList<>();
 
     /* ================= SEQUENCE ================= */
@@ -83,7 +85,7 @@ public class ScheduleLegEntity extends CSMDataAbstractEntity {
     public void addDei(ScheduleDataElementEntity dei) {
         if (dei != null) {
             deis.add(dei);
-            dei.setLeg(this);
+            dei.attachToLeg(this);
         }
     }
 

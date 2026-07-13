@@ -1,6 +1,7 @@
 package com.codeshare.airline.schedule.ingestion.orchestration.processor;
 
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.schedule.ingestion.integration.kafka.ImportCompletedEventPublisher;
 import com.codeshare.airline.schedule.ingestion.orchestration.pipelines.ScheduleMessageIngestionPipeline;
 import com.codeshare.airline.schedule.ingestion.persistence.services.common.ScheduleFileService;
 import org.springframework.stereotype.Component;
@@ -9,8 +10,9 @@ import org.springframework.stereotype.Component;
 public class ScheduleMessageChapterProcessor extends GenericChapterProcessor {
 
     public ScheduleMessageChapterProcessor(ScheduleMessageIngestionPipeline pipeline,
-                                           ScheduleFileService scheduleService) {
-        super(pipeline, scheduleService);
+                                           ScheduleFileService scheduleService,
+                                           ImportCompletedEventPublisher importCompletedEventPublisher) {
+        super(pipeline, scheduleService, importCompletedEventPublisher);
     }
 
     @Override

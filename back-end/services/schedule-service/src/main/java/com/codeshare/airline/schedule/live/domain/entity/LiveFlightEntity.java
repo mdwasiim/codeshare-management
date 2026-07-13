@@ -3,6 +3,7 @@ package com.codeshare.airline.schedule.live.domain.entity;
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.live.domain.enums.LiveScheduleStatus;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,6 +51,16 @@ import java.util.List;
 @SuperBuilder
 public class LiveFlightEntity extends CSMDataAbstractEntity {
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "airline_code",
+            referencedColumnName = "airline_code",
+            insertable = false,
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
+    private ActiveScheduleEntity activeSchedule;
+
     /* ==========================================================
        FLIGHT IDENTITY
        ========================================================== */
@@ -88,6 +99,7 @@ public class LiveFlightEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("legSequenceNumber ASC")
+    @Builder.Default
     private List<LiveFlightLegEntity> legs = new ArrayList<>();
 
     /* ==========================================================
