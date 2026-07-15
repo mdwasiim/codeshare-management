@@ -6,18 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/csm-platform-security/src/main/java/com/codeshare/airline/platform/security/autoconfigure/InternalServiceFeignAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/csm-platform-security/src/main/java/com/codeshare/airline/platform/security/autoconfigure/InternalServiceFeignAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/controller/ScheduleUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/controller/ScheduleUploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/response/UploadResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/response/UploadResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/integration/tenant/TenantIngestionProfileClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/integration/tenant/TenantIngestionProfileClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/EmailChannelRouteBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/EmailChannelRouteBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/MqChannelRouteBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/MqChannelRouteBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/SftpChannelRouteBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/SftpChannelRouteBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/configuration/ScheduleIngestionCamelStartup.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/configuration/ScheduleIngestionCamelStartup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/route/ScheduleIngestionRouteBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/route/ScheduleIngestionRouteBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/bootstrap/TenantBootstrapLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/bootstrap/TenantBootstrapLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/config/TenantServiceSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/config/TenantServiceSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/controller/ingestion/ScheduleIngestionProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/controller/ingestion/ScheduleIngestionProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/bootstrap/TenantBootstrapLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +115,7 @@
       <workItem from="1783774213769" duration="5429000" />
       <workItem from="1783782250445" duration="5199000" />
       <workItem from="1783875911266" duration="15503000" />
-      <workItem from="1784128983022" duration="894000" />
+      <workItem from="1784128983022" duration="1594000" />
     </task>
     <servers />
   </component>
