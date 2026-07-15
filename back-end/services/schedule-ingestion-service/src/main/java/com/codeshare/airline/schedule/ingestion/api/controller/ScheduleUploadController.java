@@ -4,6 +4,7 @@ import com.codeshare.airline.schedule.ingestion.api.response.UploadResponse;
 import com.codeshare.airline.schedule.ingestion.application.ingest.ScheduleMessageTypeResolver;
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import lombok.RequiredArgsConstructor;
+import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,7 @@ public class ScheduleUploadController {
                         "AIRLINE_CODE", airlineCode,
                         "MESSAGE_TYPE", resolvedType.name(),
                         "SOURCE_TYPE", "REST",
+                        Exchange.FILE_NAME, file.getOriginalFilename(),
                         "FILE_NAME", file.getOriginalFilename(),
                         "RECEIVED_AT", Instant.now().toString()
                 )

@@ -20,7 +20,8 @@ public class InternalServiceFeignAutoConfiguration {
     private static final String[] INTERNAL_AUTH_OPTIONAL_PATH_PREFIXES = {
             "/internal/bootstrap/",
             "/internal/tenants",
-            "/internal/airline-carriers/"
+            "/internal/airline-carriers/",
+            "/tenant-ingestion-profiles/internal/"
     };
 
     @Bean

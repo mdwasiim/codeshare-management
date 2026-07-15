@@ -40,6 +40,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ public class TenantBootstrapLoader implements CommandLineRunner {
 
     private static final String BOOTSTRAP_USER = "BOOTSTRAP";
     private static final String TENANT_CODE = "QR";
+    private static final Path LOCAL_INGESTION_ROOT = Path.of("C:/Users/mdwas/Projects/messages");
     private static final LocalDate EFFECTIVE_FROM = LocalDate.of(2025, 1, 1);
     private static final LocalDate EFFECTIVE_TO = LocalDate.of(2035, 1, 1);
 
@@ -183,9 +185,27 @@ public class TenantBootstrapLoader implements CommandLineRunner {
         reconcileChannels(
                 profile,
                 List.of(
-                        buildSftpIngestionChannel(MessageType.SSIM, 1, "/inbound/ssim", "*.ssim"),
-                        buildMqIngestionChannel(MessageType.ASM, 2, "schedule.asm.inbound.qr"),
-                        buildMqIngestionChannel(MessageType.SSM, 3, "schedule.ssm.inbound.qr")
+                        buildLocalFileIngestionChannel(
+                                MessageType.SSIM,
+                                1,
+                                tenantLocalDirectory("ssim/inbound"),
+                                "(?i).*\\.(ssim|txt)"
+                        ),
+                        buildSftpIngestionChannel(MessageType.SSIM, 2, "/inbound/ssim", "*.ssim"),
+                        buildLocalFileIngestionChannel(
+                                MessageType.ASM,
+                                3,
+                                tenantLocalDirectory("asm/inbound"),
+                                "(?i).*\\.(asm|txt)"
+                        ),
+                        buildMqIngestionChannel(MessageType.ASM, 4, "schedule.asm.inbound.qr"),
+                        buildLocalFileIngestionChannel(
+                                MessageType.SSM,
+                                5,
+                                tenantLocalDirectory("ssm/inbound"),
+                                "(?i).*\\.(ssm|txt)"
+                        ),
+                        buildMqIngestionChannel(MessageType.SSM, 6, "schedule.ssm.inbound.qr")
                 )
         );
 
@@ -278,6 +298,12 @@ public class TenantBootstrapLoader implements CommandLineRunner {
 
     private String channelKey(MessageType messageType, SourceType sourceType) {
         return messageType.name() + ":" + sourceType.name();
+    }
+
+    private String tenantLocalDirectory(String relativePath) {
+        String sanitized = relativePath.startsWith("/") ? relativePath.substring(1) : relativePath;
+        Path tenantRoot = LOCAL_INGESTION_ROOT.resolve(TENANT_CODE.toLowerCase());
+        return tenantRoot.resolve(sanitized).toString();
     }
 
     private void syncPartnerMappings(Tenant tenant) {
@@ -417,6 +443,50 @@ public class TenantBootstrapLoader implements CommandLineRunner {
         distributionProfile.setCreatedBy(BOOTSTRAP_USER);
         distributionProfile.setUpdatedBy(BOOTSTRAP_USER);
         codesharePartnerDistributionProfileRepository.save(distributionProfile);
+    }
+
+    private ScheduleIngestionChannelEntity buildLocalFileIngestionChannel(
+            MessageType messageType,
+            int priority,
+            String directory,
+            String includePattern
+    ) {
+        ScheduleIngestionChannelEntity channel = new ScheduleIngestionChannelEntity();
+        channel.setMessageType(messageType);
+        channel.setSourceType(SourceType.LOCAL);
+        channel.setEnabled(Boolean.TRUE);
+        channel.setPriority(priority);
+        channel.setRemoteDirectory(directory);
+        channel.setFileNoop(Boolean.FALSE);
+        channel.setFileDelete(Boolean.FALSE);
+        channel.setFileIncludePattern(includePattern);
+        channel.setFileExcludePattern("*.tmp,*.bak");
+        channel.setFileReadLock("changed");
+        channel.setFileReadLockMinAge("2s");
+        channel.setFileReadLockTimeout(60000);
+        channel.setFileReadLockCheckInterval(1000);
+        channel.setFilePollDelayMs(60000);
+        channel.setFileInitialDelayMs(2000);
+        channel.setFileMove(".processed/${date:now:yyyyMMdd}/${file:name}");
+        channel.setFileMoveFailed(".error/${date:now:yyyyMMdd}/${file:name}");
+        channel.setFilePreMove(".inprogress/${file:name}");
+        channel.setFileIdempotent(Boolean.TRUE);
+        channel.setFileIdempotentKey("${file:absolute.path}-${file:modified}");
+        channel.setFileCharset("UTF-8");
+        channel.setMaxMessagesPerPoll(10);
+        channel.setRecursive(Boolean.FALSE);
+        channel.setBridgeErrorHandler(Boolean.TRUE);
+        channel.setDisconnect(Boolean.TRUE);
+        channel.setBinary(Boolean.FALSE);
+        channel.setPassiveMode(Boolean.FALSE);
+        channel.setReconnectDelayMs(5000);
+        channel.setMaximumReconnectAttempts(12);
+        channel.setSoTimeoutMs(30000);
+        channel.setRetryAttempts(5);
+        channel.setRetryDelayMs(10000);
+        channel.setCreatedBy(BOOTSTRAP_USER);
+        channel.setUpdatedBy(BOOTSTRAP_USER);
+        return channel;
     }
 
     private ScheduleIngestionChannelEntity buildSftpIngestionChannel(

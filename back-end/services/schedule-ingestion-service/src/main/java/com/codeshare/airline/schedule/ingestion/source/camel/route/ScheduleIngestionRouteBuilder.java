@@ -49,14 +49,8 @@ public class ScheduleIngestionRouteBuilder {
                 .filter(p -> Boolean.TRUE.equals(p.getEnabled()))
                 .forEach(this::buildRoutesForProfile);
 
-        try {
-            camelContext.getRouteController().startAllRoutes();
-            log.info("All routes started successfully");
-        } catch (Exception e) {
-            log.error("Failed to start routes", e);
-        }
-
         initialized = true;
+        log.info("Dynamic ingestion route initialization completed");
     }
 
     private void buildRoutesForProfile(AirlineIngestionProfileDTO profile) {

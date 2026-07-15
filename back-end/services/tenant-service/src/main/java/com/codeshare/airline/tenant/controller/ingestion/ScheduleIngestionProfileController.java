@@ -35,6 +35,11 @@ public class ScheduleIngestionProfileController {
         return service.getAll();
     }
 
+    @GetMapping("/internal/all")
+    public List<TenantIngestionProfileDTO> getAllInternal() {
+        return service.getAll();
+    }
+
     @PatchMapping("/{id}/enabled")
     public String enable(@PathVariable Long id, @RequestParam boolean enabled) {
         service.enable(id, enabled);

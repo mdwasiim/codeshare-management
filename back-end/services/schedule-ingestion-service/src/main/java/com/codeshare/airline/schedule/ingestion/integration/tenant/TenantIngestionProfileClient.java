@@ -12,6 +12,6 @@ import java.util.List;
 )
 public interface TenantIngestionProfileClient {
 
-    @GetMapping("/tenant-ingestion-profiles")
+    @GetMapping("/tenant-ingestion-profiles/internal/all")
     List<AirlineIngestionProfileDTO> getAllProfiles();
 }

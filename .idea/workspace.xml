@@ -6,50 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/csm-platform-core/src/main/java/com/codeshare/airline/platform/core/dto/tenant/TenantDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/csm-platform-core/src/main/java/com/codeshare/airline/platform/core/dto/tenant/TenantDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/csm-platform-security/src/main/java/com/codeshare/airline/platform/security/autoconfigure/InternalServiceFeignAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/csm-platform-security/src/main/java/com/codeshare/airline/platform/security/autoconfigure/InternalServiceFeignAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/authentication/core/config/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/data/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/access/data/DataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/integration/tenant/HostAirlineTenantClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/identity-service/src/main/java/com/codeshare/airline/identity/integration/tenant/HostAirlineTenantClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airlines/controller/InternalAirlineCarrierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/airlines/controller/InternalAirlineCarrierController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/config/MasterDataSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/master-data-service/src/main/java/com/codeshare/airline/master/config/MasterDataSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/controller/ScheduleUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/controller/ScheduleUploadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/response/UploadResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/api/response/UploadResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/integration/tenant/TenantIngestionProfileClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/integration/tenant/TenantIngestionProfileClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/EmailChannelRouteBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/EmailChannelRouteBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/MqChannelRouteBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/MqChannelRouteBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/SftpChannelRouteBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/channel/SftpChannelRouteBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/configuration/ScheduleIngestionCamelStartup.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/configuration/ScheduleIngestionCamelStartup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/route/ScheduleIngestionRouteBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/schedule-ingestion-service/src/main/java/com/codeshare/airline/schedule/ingestion/source/camel/route/ScheduleIngestionRouteBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/bootstrap/TenantBootstrapLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/bootstrap/TenantBootstrapLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/config/TenantServiceSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/config/TenantServiceSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/controller/TenantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/controller/TenantController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/integration/master/MasterDataAirlineClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/integration/master/MasterDataAirlineClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/mappers/TenantMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/mappers/TenantMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/repository/partner/CodesharePartnerCommunicationProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/repository/partner/CodesharePartnerCommunicationProfileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/repository/partner/CodesharePartnerDistributionProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/repository/partner/CodesharePartnerDistributionProfileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/repository/partner/CodesharePartnerProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/repository/partner/CodesharePartnerProfileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/repository/partner/CodesharePartnerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/repository/partner/CodesharePartnerRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/service/impl/TenantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/service/impl/TenantServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/service/partner/impl/CodesharePartnerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/service/partner/impl/CodesharePartnerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/models/tenant-ingestion-profile.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/models/tenant-ingestion-profile.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/models/tenant-partner-profile.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/models/tenant-partner-profile.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/models/tenant-partner.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/models/tenant-partner.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/models/tenant.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/models/tenant.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-list/tenant-list.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/services/tenant.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/services/tenant.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-identity/pages/tenant-identity-providers/tenant-identity-providers.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-identity/pages/tenant-identity-providers/tenant-identity-providers.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-identity/pages/tenant-identity-providers/tenant-identity-providers.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-identity/pages/tenant-identity-providers/tenant-identity-providers.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-identity/pages/tenant-oidc-config/tenant-oidc-config.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-identity/pages/tenant-oidc-config/tenant-oidc-config.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-identity/pages/tenant-oidc-config/tenant-oidc-config.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-identity/pages/tenant-oidc-config/tenant-oidc-config.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-channels/tenant-ingestion-channels.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/pages/tenant-ingestion-channels/tenant-ingestion-channels.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/services/tenant-ingestion-profile.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-ingestion/services/tenant-ingestion-profile.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-communication-profile-form/tenant-communication-profile-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-communication-profile-form/tenant-communication-profile-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-communication-profiles/tenant-communication-profiles.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-communication-profiles/tenant-communication-profiles.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-distribution-profile-form/tenant-distribution-profile-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-distribution-profile-form/tenant-distribution-profile-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-distribution-profiles/tenant-distribution-profiles.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-distribution-profiles/tenant-distribution-profiles.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-partner-profile-form/tenant-partner-profile-form.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-partner-profile-form/tenant-partner-profile-form.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-partner-profiles/tenant-partner-profiles.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/pages/tenant-partner-profiles/tenant-partner-profiles.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/services/tenant-partner-communication-profile.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/services/tenant-partner-communication-profile.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/services/tenant-partner-distribution-profile.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/services/tenant-partner-distribution-profile.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/services/tenant-partner-profile.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/services/tenant-partner-profile.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/shared/tenant-partner-profile.helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/administration/tenant-management/tenant-onboarding/tenant-partner-management/shared/tenant-partner-profile.helpers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/masters/shared/master-reference-lookup.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/masters/shared/master-reference-lookup.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/models/schedule-ingestion.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/features/schedule-ingestion/models/schedule-ingestion.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/app/shared/components/base/base-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/app/shared/components/base/base-form.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/controller/ingestion/ScheduleIngestionProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/services/tenant-service/src/main/java/com/codeshare/airline/tenant/controller/ingestion/ScheduleIngestionProfileController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +25,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="3346" />
+    <option name="cachedIndexableFilesCount" value="3582" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -70,8 +38,24 @@
     </option>
   </component>
   <component name="McpProjectServerCommands">
-    <commands />
-    <urls />
+    <McpServerCommand sourceId="UserConfigurationSource">
+      <option name="allowedToolsNames" />
+      <option name="enabled" value="true" />
+      <option name="name" value="" />
+      <option name="programPath" value="" />
+      <option name="arguments" value="" />
+      <option name="workingDirectory" value="" />
+      <envs />
+    </McpServerCommand>
+    <McpServerCommand sourceId="UserConfigurationSource">
+      <option name="allowedToolsNames" />
+      <option name="enabled" value="true" />
+      <option name="name" value="" />
+      <option name="programPath" value="" />
+      <option name="arguments" value="" />
+      <option name="workingDirectory" value="" />
+      <envs />
+    </McpServerCommand>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -115,13 +99,6 @@
       <recent name="C:\Users\mdwas\Projects\codeBase\codeshare-management\front-end\src\app\features\home\dashboard" />
     </key>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-js-predefined-d6986cc7102b-3bd3a6803838-JavaScript-WS-261.22158.274" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b3b3a194-1739-460e-a4f9-0e6ea3c15a3c" name="Changes" comment="" />
@@ -146,6 +123,7 @@
       <workItem from="1783774213769" duration="5429000" />
       <workItem from="1783782250445" duration="5199000" />
       <workItem from="1783875911266" duration="15503000" />
+      <workItem from="1784128983022" duration="894000" />
     </task>
     <servers />
   </component>

@@ -28,21 +28,25 @@ public class EmailChannelRouteBuilder extends AbstractChannelRouteBuilder {
 
         String password = resolvePassword(c);
 
-        return new StringBuilder()
+        StringBuilder uri = new StringBuilder()
                 .append(c.getProtocol())
                 .append("://")
                 .append(c.getHost())
                 .append("/")
                 .append(c.getMailbox())
                 .append("?username=").append(c.getUsername())
-                .append("&password=RAW(").append(password).append(")")
                 .append("&delay=").append(val(c.getMailDelayMs(), 60000))
                 .append("&unseen=").append(val(c.getMailUnseenOnly(), true))
                 .append("&delete=").append(val(c.getMailDelete(), false))
                 .append("&peek=").append(val(c.getMailPeek(), false))
                 .append("&moveTo=").append(val(c.getMailMoveTo(), "Processed"))
-                .append("&bridgeErrorHandler=").append(val(c.getBridgeErrorHandler(), true))
-                .toString();
+                .append("&bridgeErrorHandler=").append(val(c.getBridgeErrorHandler(), true));
+
+        if (password != null && !password.isBlank()) {
+            uri.append("&password=RAW(").append(password).append(")");
+        }
+
+        return uri.toString();
     }
 
     @Override
@@ -94,8 +98,19 @@ public class EmailChannelRouteBuilder extends AbstractChannelRouteBuilder {
     }
 
     private String resolvePassword(AirlineIngestionChannelDTO c) {
-        return c.getPasswordEncrypted() != null && !c.getPasswordEncrypted().isBlank()
-                ? resolver.decrypt(c.getPasswordEncrypted())
-                : "";
+        if (c.getPasswordEncrypted() == null || c.getPasswordEncrypted().isBlank()) {
+            return null;
+        }
+
+        try {
+            return resolver.decrypt(c.getPasswordEncrypted());
+        } catch (RuntimeException ex) {
+            log.warn(
+                    "Unable to resolve email credential for host={} username={}. Continuing without password.",
+                    c.getHost(),
+                    c.getUsername()
+            );
+            return null;
+        }
     }
 }

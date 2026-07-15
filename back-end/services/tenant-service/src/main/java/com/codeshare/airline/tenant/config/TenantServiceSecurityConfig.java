@@ -18,6 +18,7 @@ public class TenantServiceSecurityConfig {
                                 "/tenants/code/*/auth-context",
                                 "/internal/tenants",
                                 "/internal/tenants/**",
+                                "/tenant-ingestion-profiles/internal/**",
                                 "/actuator/health",
                                 "/actuator/info"
                         ).permitAll()

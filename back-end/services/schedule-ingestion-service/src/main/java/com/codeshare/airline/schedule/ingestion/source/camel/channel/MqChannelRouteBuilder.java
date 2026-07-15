@@ -23,7 +23,6 @@ public class MqChannelRouteBuilder extends AbstractChannelRouteBuilder {
                 .append("&asyncConsumer=").append(val(c.getAsyncConsumer(), true))
                 .append("&receiveTimeout=").append(val(c.getReceiveTimeoutMs(), 1000))
                 .append("&maxMessagesPerTask=").append(val(c.getMaxMessagesPerTask(), 10))
-                .append("&bridgeErrorHandler=").append(val(c.getBridgeErrorHandler(), true))
                 .toString();
     }
 
