@@ -13,10 +13,9 @@ import com.codeshare.airline.master.geography.repository.TimezoneRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class AirlineContactServiceImpl extends BaseServiceImpl<AirlineContact, AirlineContactDTO, UUID> implements AirlineContactService {
+public class AirlineContactServiceImpl extends BaseServiceImpl<AirlineContact, AirlineContactDTO, Long> implements AirlineContactService {
     private final AirlineCarrierRepository airlineCarrierRepository;
     private final TimezoneRepository timezoneRepository;
 
@@ -27,11 +26,11 @@ public class AirlineContactServiceImpl extends BaseServiceImpl<AirlineContact, A
         this.timezoneRepository = timezoneRepository;
     }
 
-    private AirlineCarrier airline(UUID id) {
+    private AirlineCarrier airline(Long id) {
         return id == null ? null : airlineCarrierRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 
-    private Timezone timezone(UUID id) {
+    private Timezone timezone(Long id) {
         return id == null ? null : timezoneRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Timezone not found"));
     }
 
@@ -48,7 +47,7 @@ public class AirlineContactServiceImpl extends BaseServiceImpl<AirlineContact, A
     }
 
     @Override
-    public AirlineContactDTO update(UUID id, AirlineContactDTO dto) {
+    public AirlineContactDTO update(Long id, AirlineContactDTO dto) {
         AirlineContact existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline contact not found"));
         mapper.updateEntityFromDto(dto, existing);
         applyRelations(dto, existing);

@@ -92,11 +92,17 @@
             </dependency>
 
             <!-- Flyway -->
-<!--            <dependency>
+            <dependency>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
                 <version>${org.flywaydb.version}</version>
-            </dependency>-->
+            </dependency>
+
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-database-postgresql</artifactId>
+                <version>${org.flywaydb.version}</version>
+            </dependency>
 
             <!-- SSH -->
             <dependency>

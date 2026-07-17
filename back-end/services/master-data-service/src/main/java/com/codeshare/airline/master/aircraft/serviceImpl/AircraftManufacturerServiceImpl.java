@@ -11,11 +11,10 @@ import com.codeshare.airline.master.geography.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class AircraftManufacturerServiceImpl
-        extends BaseServiceImpl<AircraftManufacturer, AircraftManufacturerDTO, UUID>
+        extends BaseServiceImpl<AircraftManufacturer, AircraftManufacturerDTO, Long>
         implements AircraftManufacturerService {
 
     private final AircraftManufacturerRepository repository;
@@ -39,7 +38,7 @@ public class AircraftManufacturerServiceImpl
     }
 
     @Override
-    public AircraftManufacturerDTO update(UUID id, AircraftManufacturerDTO dto) {
+    public AircraftManufacturerDTO update(Long id, AircraftManufacturerDTO dto) {
         AircraftManufacturer existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft manufacturer not found"));
 
@@ -48,7 +47,7 @@ public class AircraftManufacturerServiceImpl
         return mapper.toDTO(repository.save(existing));
     }
 
-    private Country getCountry(UUID id) {
+    private Country getCountry(Long id) {
         if (id == null) {
             return null;
         }

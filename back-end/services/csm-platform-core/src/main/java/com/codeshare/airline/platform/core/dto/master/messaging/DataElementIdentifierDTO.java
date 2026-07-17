@@ -5,18 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class DataElementIdentifierDTO {
 
-    private UUID id;
+    private Long id;
     private String deiCode;
     private String deiName;
     private String deiScope;
     private String description;
-    private UUID standardMessageIdentifierId;
+    private Long standardMessageIdentifierId;
     private RecordStatus recordStatus;
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;

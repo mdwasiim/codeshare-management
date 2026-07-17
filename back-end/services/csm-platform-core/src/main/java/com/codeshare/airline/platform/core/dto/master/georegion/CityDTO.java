@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,14 +17,14 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = false)
 public class CityDTO extends CSMAuditableDTO {
 
-    private UUID id;
+    private Long id;
     private String name;
     private String iataCode;
 
-    private UUID stateId;
+    private Long stateId;
     private StateDTO state;
 
-    private UUID countryId;
+    private Long countryId;
     private CountryDTO country;
 
     private RecordStatus recordStatus;

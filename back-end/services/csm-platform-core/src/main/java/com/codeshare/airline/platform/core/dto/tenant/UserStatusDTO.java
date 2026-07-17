@@ -3,7 +3,6 @@ package com.codeshare.airline.platform.core.dto.tenant;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import lombok.*;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class UserStatusDTO {
 
-    private UUID tenantId;
+    private Long tenantId;
     private String userId;
     private RecordStatus recordStatus;
 }

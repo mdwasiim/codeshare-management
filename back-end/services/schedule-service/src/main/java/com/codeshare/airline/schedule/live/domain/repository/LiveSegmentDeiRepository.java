@@ -5,17 +5,16 @@ import com.codeshare.airline.schedule.live.domain.entity.LiveSegmentDeiEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface LiveSegmentDeiRepository extends CSMDataBaseRepository<LiveSegmentDeiEntity, UUID> {
+public interface LiveSegmentDeiRepository extends CSMDataBaseRepository<LiveSegmentDeiEntity, Long> {
 
-    List<LiveSegmentDeiEntity> findBySegmentIdOrderBySequenceOrderAsc(UUID segmentId);
+    List<LiveSegmentDeiEntity> findBySegmentIdOrderBySequenceOrderAsc(Long segmentId);
 
     List<LiveSegmentDeiEntity> findBySegmentIdAndDataElementIdentifier(
-            UUID segmentId,
+            Long segmentId,
             String dataElementIdentifier
     );
 
-    void deleteBySegmentId(UUID segmentId);
+    void deleteBySegmentId(Long segmentId);
 }

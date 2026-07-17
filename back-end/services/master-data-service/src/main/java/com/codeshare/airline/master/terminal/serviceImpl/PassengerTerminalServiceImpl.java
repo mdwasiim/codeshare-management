@@ -12,11 +12,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PassengerTerminalServiceImpl
-        extends BaseServiceImpl<PassengerTerminal, PassengerTerminalDTO, UUID>
+        extends BaseServiceImpl<PassengerTerminal, PassengerTerminalDTO, Long>
         implements PassengerTerminalService {
 
     private final PassengerTerminalRepository repository;
@@ -62,7 +61,7 @@ public class PassengerTerminalServiceImpl
     }
 
     @Override
-    public PassengerTerminalDTO update(UUID id, PassengerTerminalDTO dto) {
+    public PassengerTerminalDTO update(Long id, PassengerTerminalDTO dto) {
 
         PassengerTerminal existing = repository.findById(id)
                 .orElseThrow(() ->
@@ -77,7 +76,7 @@ public class PassengerTerminalServiceImpl
     }
 
     @Override
-    public List<PassengerTerminalDTO> getByAirport(UUID airportId) {
+    public List<PassengerTerminalDTO> getByAirport(Long airportId) {
         return mapper.toDTOList(
                 repository.findByAirportId(airportId)
         );

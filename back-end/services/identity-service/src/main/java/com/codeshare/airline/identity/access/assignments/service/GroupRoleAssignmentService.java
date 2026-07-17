@@ -4,33 +4,32 @@ import com.codeshare.airline.platform.core.dto.tenant.GroupRoleDTO;
 import com.codeshare.airline.platform.core.dto.tenant.RoleDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface GroupRoleAssignmentService {
 
     GroupRoleDTO assignRoleToGroup(
-            UUID groupId,
-            UUID roleId
+            Long groupId,
+            Long roleId
     );
 
     void removeRoleFromGroup(
-            UUID groupId,
-            UUID roleId
+            Long groupId,
+            Long roleId
     );
 
     List<RoleDTO> getRolesByGroup(
-            UUID groupId
+            Long groupId
     );
 
     List<GroupRoleDTO> getGroupsByRole(
-            UUID roleId
+            Long roleId
     );
 
     // =====================================================
     // REPLACE GROUP ROLES
     // =====================================================
     List<GroupRoleDTO> replaceGroupRoles(
-            UUID groupId,
-            List<UUID> roleIds
+            Long groupId,
+            List<Long> roleIds
     );
 }

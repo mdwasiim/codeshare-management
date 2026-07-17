@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +52,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public TenantDTO update(UUID id, TenantDTO dto) {
+    public TenantDTO update(Long id, TenantDTO dto) {
         Tenant entity = repository.findById(id)
                 .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + id));
 
@@ -75,7 +74,7 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     @Transactional(readOnly = true)
-    public TenantDTO getById(UUID id) {
+    public TenantDTO getById(Long id) {
         return repository.findById(id)
                 .map(this::toTenantDto)
                 .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + id));
@@ -111,7 +110,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new CSMResourceNotFoundException("Tenant not found: " + id);
         }
@@ -170,14 +169,29 @@ public class TenantServiceImpl implements TenantService {
 
     private TenantDTO toTenantDto(Tenant tenant) {
         TenantDTO dto = mapper.toDTO(tenant);
-        tenant.getIdentityProviders().stream()
-                .filter(OidcIdentityProviderEntity::isEnabled)
+        List<OidcIdentityProviderEntity> providers = tenant.getIdentityProviders().stream()
                 .sorted(Comparator.comparingInt(OidcIdentityProviderEntity::getPriority))
+                .toList();
+
+        dto.setIdentityProviders(providers.stream()
+                .map(this::toIdentityProviderConfig)
+                .toList());
+
+        providers.stream()
+                .filter(OidcIdentityProviderEntity::isEnabled)
                 .findFirst()
-                .ifPresent(provider -> {
-                    dto.setAuthSource(provider.getAuthSource());
-                    dto.setOidcConfig(toOidcConfig(provider.getOidcConfig()));
-                });
+                .ifPresent(provider -> dto.setAuthSource(provider.getAuthSource()));
+
+        providers.stream()
+                .filter(provider -> provider.getOidcConfig() != null)
+                .findFirst()
+                .ifPresent(provider -> dto.setOidcConfig(toOidcConfig(provider.getOidcConfig())));
+
+        if (dto.getAuthSource() == null) {
+            providers.stream()
+                    .findFirst()
+                    .ifPresent(provider -> dto.setAuthSource(provider.getAuthSource()));
+        }
         return dto;
     }
 

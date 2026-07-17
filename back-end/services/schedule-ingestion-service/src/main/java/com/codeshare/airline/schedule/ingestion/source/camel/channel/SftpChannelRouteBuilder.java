@@ -75,9 +75,20 @@ public class SftpChannelRouteBuilder extends AbstractChannelRouteBuilder {
     }
 
     private String resolvePassword(AirlineIngestionChannelDTO c) {
-        return c.getPasswordEncrypted() != null && !c.getPasswordEncrypted().isBlank()
-                ? resolver.decrypt(c.getPasswordEncrypted())
-                : null;
+        if (c.getPasswordEncrypted() == null || c.getPasswordEncrypted().isBlank()) {
+            return null;
+        }
+
+        try {
+            return resolver.decrypt(c.getPasswordEncrypted());
+        } catch (RuntimeException ex) {
+            log.warn(
+                    "Unable to resolve SFTP credential for host={} username={}. Continuing without password.",
+                    c.getHost(),
+                    c.getUsername()
+            );
+            return null;
+        }
     }
 
     private String normalizeRemoteDirectory(String directory) {

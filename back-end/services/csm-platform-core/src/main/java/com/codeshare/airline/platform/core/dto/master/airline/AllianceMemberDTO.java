@@ -7,14 +7,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AllianceMemberDTO {
-    private UUID id;
-    private UUID allianceId;
-    private UUID airlineId;
+    private Long id;
+    private Long allianceId;
+    private Long airlineId;
     private AllianceMembershipType membershipType;
     private AllianceMembershipStatus membershipStatus;
     private LocalDate joinDate;

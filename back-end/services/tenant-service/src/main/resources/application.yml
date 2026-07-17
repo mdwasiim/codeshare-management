@@ -24,13 +24,19 @@ spring:
     open-in-view: false
     show-sql: ${SHOW_SQL:true}
     hibernate:
-      ddl-auto: ${HIBERNATE_DDL:update}
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: ${FORMAT_SQL:true}
         default_schema: tenant_core
         hbm2ddl:
           create_namespaces: true
+
+  flyway:
+    enabled: true
+    default-schema: tenant_core
+    locations: classpath:db/migration
+    placeholder-replacement: false
 
 server:
   port: ${TENANT_SERVICE_PORT:${HOST_AIRLINE_SERVICE_PORT:8086}}

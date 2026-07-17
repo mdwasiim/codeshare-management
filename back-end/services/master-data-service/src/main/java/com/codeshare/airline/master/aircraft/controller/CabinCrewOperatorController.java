@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/cabin-crew-operators")
 public class CabinCrewOperatorController
-        extends BaseController<CabinCrewOperatorDTO, UUID> {
+        extends BaseController<CabinCrewOperatorDTO, Long> {
 
     public CabinCrewOperatorController(CabinCrewOperatorService service) {
         super(service);

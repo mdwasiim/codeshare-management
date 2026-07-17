@@ -32,6 +32,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -79,9 +80,19 @@ public class SsimScheduleQueryService {
         return fileMapper.toDTO(findFile(fileId));
     }
 
+    public Optional<SsimMetaDataDTO> findFileByImportBatchId(UUID importBatchId) {
+        return findSingleFileByLoadId(importBatchId)
+                .map(fileMapper::toDTO);
+    }
+
     public SSIMMessageDTO getMessage(UUID fileId) {
         SsimFileMetaDataEntity file = findFile(fileId);
         return toMessage(file);
+    }
+
+    public Optional<SSIMMessageDTO> findMessageByImportBatchId(UUID importBatchId) {
+        return findSingleFileByLoadId(importBatchId)
+                .map(this::toMessage);
     }
 
     public SsimLoadedScheduleDetailResponse getLoadedSchedule(String tenantCode, UUID fileId) {
@@ -120,7 +131,7 @@ public class SsimScheduleQueryService {
         ).map(flightMapper::toDTO);
     }
 
-    public SsimFlightDTO getFlight(UUID flightId) {
+    public SsimFlightDTO getFlight(Long flightId) {
         SsimFlightEntity flight = flightRepository.findById(flightId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SSIM flight not found: " + flightId));
 
@@ -137,6 +148,20 @@ public class SsimScheduleQueryService {
         return fileRepository.findByFileId(fileId)
                 .filter(file -> normalizedTenantCode.equals(file.getAirlineCode()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SSIM file not found: " + fileId));
+    }
+
+    private Optional<SsimFileMetaDataEntity> findSingleFileByLoadId(UUID loadId) {
+        List<SsimFileMetaDataEntity> matches = fileRepository.findAllByLoadId(loadId);
+        if (matches.isEmpty()) {
+            return Optional.empty();
+        }
+        if (matches.size() > 1) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Multiple SSIM datasets found for loadId=" + loadId
+            );
+        }
+        return Optional.of(matches.getFirst());
     }
 
     private SSIMMessageDTO toMessage(SsimFileMetaDataEntity file) {

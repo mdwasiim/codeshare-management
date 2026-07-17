@@ -4,10 +4,9 @@ import com.codeshare.airline.master.messaging.entities.DeiRegistry;
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface DeiRepository
-        extends CSMDataBaseRepository<DeiRegistry, UUID> {
+        extends CSMDataBaseRepository<DeiRegistry, Long> {
 
     Optional<DeiRegistry> findByDeiNumber(String deiNumber);
 }

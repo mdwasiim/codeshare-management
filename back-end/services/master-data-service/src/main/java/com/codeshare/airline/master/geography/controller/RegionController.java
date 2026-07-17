@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/regions")
-public class RegionController extends BaseController<RegionDTO, UUID> {
+public class RegionController extends BaseController<RegionDTO, Long> {
 
-    protected RegionController(BaseService<RegionDTO, UUID> service) {
+    protected RegionController(BaseService<RegionDTO, Long> service) {
         super(service);
     }
 

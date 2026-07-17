@@ -16,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +62,6 @@ public class DefaultScheduleFileService implements ScheduleFileService {
        ========================================================= */
 
     public ScheduleFileMetaDataDTO createSsmInboundFileIfNotExists(ScheduleSourceFile sourceFile) {
-
         ScheduleFileMetaDataDTO dto = convertToSsmDTO(sourceFile); //  FIXED
 
         ScheduleFileMetaDataEntity entity =
@@ -79,7 +78,6 @@ public class DefaultScheduleFileService implements ScheduleFileService {
        ========================================================= */
 
     public SsimMetaDataDTO createSsimInboundFileIfNotExists(ScheduleSourceFile sourceFile) {
-
         SsimFileMetaDataEntity entity =
                 ssimFileRepository.findByFileId(sourceFile.getFileId())
                         .or(() -> findExistingSsimByChecksum(sourceFile))
@@ -179,12 +177,13 @@ public class DefaultScheduleFileService implements ScheduleFileService {
         updateEntity(metadata.getId(), status, metadata);
     }
 
-    private void updateEntity(UUID id, ProcessingStatus status, ScheduleFileMetaDataDTO metadata) {
+    private void updateEntity(Long id, ProcessingStatus status, ScheduleFileMetaDataDTO metadata) {
 
         if (metadata instanceof SsimMetaDataDTO) {
             ssimFileRepository.findById(id)
                     .ifPresent(entity -> {
                         entity.setProcessingStatus(status);
+                        applyTimestamps(entity, status);
                         ssimFileRepository.save(entity);
                     });
 
@@ -193,10 +192,12 @@ public class DefaultScheduleFileService implements ScheduleFileService {
             scheduleFileRepository.findById(id)
                     .ifPresent(entity -> {
                         entity.setProcessingStatus(status);
+                        applyTimestamps(entity, status);
                         scheduleFileRepository.save(entity);
                     });
         }
 
+        applyTimestamps(metadata, status);
         metadata.setProcessingStatus(status);
         /*if (metadata instanceof SsimMetaDataDTO ssim) {
             metadata = ssim.toBuilder()
@@ -229,5 +230,38 @@ public class DefaultScheduleFileService implements ScheduleFileService {
             case PARTIAL, FAILED -> newStatus == ProcessingStatus.VALIDATING;
             case REJECTED, COMPLETED, SUCCESS -> false;
         };
+    }
+
+    private void applyTimestamps(SsimFileMetaDataEntity entity, ProcessingStatus status) {
+        Instant now = Instant.now();
+        if (status == ProcessingStatus.FAILED) {
+            entity.setFailedTimestamp(now);
+            return;
+        }
+        if (status == ProcessingStatus.COMPLETED || status == ProcessingStatus.SUCCESS || status == ProcessingStatus.PARTIAL) {
+            entity.setStoredTimestamp(now);
+        }
+    }
+
+    private void applyTimestamps(ScheduleFileMetaDataEntity entity, ProcessingStatus status) {
+        Instant now = Instant.now();
+        if (status == ProcessingStatus.FAILED) {
+            entity.setFailedTimestamp(now);
+            return;
+        }
+        if (status == ProcessingStatus.COMPLETED || status == ProcessingStatus.SUCCESS || status == ProcessingStatus.PARTIAL) {
+            entity.setProcessedAt(now);
+        }
+    }
+
+    private void applyTimestamps(ScheduleFileMetaDataDTO metadata, ProcessingStatus status) {
+        Instant now = Instant.now();
+        if (status == ProcessingStatus.FAILED) {
+            metadata.setFailedTimestamp(now);
+            return;
+        }
+        if (status == ProcessingStatus.COMPLETED || status == ProcessingStatus.SUCCESS || status == ProcessingStatus.PARTIAL) {
+            metadata.setProcessedAt(now);
+        }
     }
 }

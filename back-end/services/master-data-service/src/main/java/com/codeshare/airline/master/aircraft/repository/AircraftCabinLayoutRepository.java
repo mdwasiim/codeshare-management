@@ -6,12 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AircraftCabinLayoutRepository
-        extends CSMDataBaseRepository<AircraftCabinLayout, UUID> {
+        extends CSMDataBaseRepository<AircraftCabinLayout, Long> {
 
-    List<AircraftCabinLayout> findByAircraftConfigurationId(UUID configId);
+    List<AircraftCabinLayout> findByAircraftConfigurationId(Long configId);
 
 
     @Query("""
@@ -19,6 +18,6 @@ public interface AircraftCabinLayoutRepository
     FROM AircraftCabinLayout c
     WHERE c.aircraftConfiguration.id = :configId
 """)
-    int sumSeatCount(@Param("configId") UUID configId);
+    int sumSeatCount(@Param("configId") Long configId);
 
 }

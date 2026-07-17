@@ -10,17 +10,16 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface LiveFlightLegRepository extends CSMDataBaseRepository<LiveFlightLegEntity, UUID> {
+public interface LiveFlightLegRepository extends CSMDataBaseRepository<LiveFlightLegEntity, Long> {
 
-    List<LiveFlightLegEntity> findByFlightIdOrderByLegSequenceNumberAsc(UUID flightId);
+    List<LiveFlightLegEntity> findByFlightIdOrderByLegSequenceNumberAsc(Long flightId);
 
-    List<LiveFlightLegEntity> findByFlightIdAndLegStatus(UUID flightId, LiveScheduleStatus legStatus);
+    List<LiveFlightLegEntity> findByFlightIdAndLegStatus(Long flightId, LiveScheduleStatus legStatus);
 
     Optional<LiveFlightLegEntity> findByFlightIdAndLegSequenceNumberAndPeriodStartAndPeriodEndAndDaysOfOperation(
-            UUID flightId,
+            Long flightId,
             Integer legSequenceNumber,
             LocalDate periodStart,
             LocalDate periodEnd,
@@ -42,7 +41,7 @@ public interface LiveFlightLegRepository extends CSMDataBaseRepository<LiveFligh
             ORDER BY l.legSequenceNumber ASC
             """)
     List<LiveFlightLegEntity> findActiveLegsForFlightOnDate(
-            @Param("flightId") UUID flightId,
+            @Param("flightId") Long flightId,
             @Param("date")     LocalDate date
     );
 

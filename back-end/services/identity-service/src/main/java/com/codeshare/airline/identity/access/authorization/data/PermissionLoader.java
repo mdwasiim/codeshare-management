@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -23,7 +22,7 @@ public class PermissionLoader {
     private final PermissionRepository permissionRepository;
     private final IdentityBootstrapData bootstrapData;
 
-    public void load(UUID tenantId) {
+    public void load(Long tenantId) {
         log.info("PermissionLoader: ensuring permissions for tenant {}", tenantId);
 
         Set<String> existingKeys = permissionRepository.findPermissionKeysByTenantId(tenantId).stream()
@@ -56,7 +55,7 @@ public class PermissionLoader {
         }
     }
 
-    public boolean isLoaded(UUID tenantId) {
+    public boolean isLoaded(Long tenantId) {
         long actual = permissionRepository.countByTenantId(tenantId);
         long expected = bootstrapData.permissions().size();
         return actual >= expected;

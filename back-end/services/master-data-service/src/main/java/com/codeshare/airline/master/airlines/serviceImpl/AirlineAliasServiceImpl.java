@@ -11,10 +11,9 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class AirlineAliasServiceImpl extends BaseServiceImpl<AirlineAlias, AirlineAliasDTO, UUID> implements AirlineAliasService {
+public class AirlineAliasServiceImpl extends BaseServiceImpl<AirlineAlias, AirlineAliasDTO, Long> implements AirlineAliasService {
     private final AirlineCarrierRepository airlineCarrierRepository;
 
     public AirlineAliasServiceImpl(AirlineAliasRepository repository, AirlineAliasMapper mapper, AirlineCarrierRepository airlineCarrierRepository) {
@@ -22,7 +21,7 @@ public class AirlineAliasServiceImpl extends BaseServiceImpl<AirlineAlias, Airli
         this.airlineCarrierRepository = airlineCarrierRepository;
     }
 
-    private AirlineCarrier airline(UUID id) {
+    private AirlineCarrier airline(Long id) {
         return id == null ? null : airlineCarrierRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 
@@ -34,7 +33,7 @@ public class AirlineAliasServiceImpl extends BaseServiceImpl<AirlineAlias, Airli
     }
 
     @Override
-    public AirlineAliasDTO update(UUID id, AirlineAliasDTO dto) {
+    public AirlineAliasDTO update(Long id, AirlineAliasDTO dto) {
         AirlineAlias existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Airline alias not found"));
         mapper.updateEntityFromDto(dto, existing);
         existing.setAirline(airline(dto.getAirlineId()));

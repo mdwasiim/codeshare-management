@@ -76,6 +76,11 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
         <!-- ===================================================== -->
         <!-- Apache Camel (Ingestion Backbone) -->
         <!-- ===================================================== -->
@@ -118,6 +123,11 @@
             <groupId>com.codeshare.airline</groupId>
             <artifactId>platform-kafka</artifactId>
         </dependency>-->
+
+        <dependency>
+            <groupId>com.codeshare.airline</groupId>
+            <artifactId>csm-platform-core</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.codeshare.airline</groupId>

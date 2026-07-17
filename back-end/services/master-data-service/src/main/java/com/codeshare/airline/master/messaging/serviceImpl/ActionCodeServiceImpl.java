@@ -11,11 +11,10 @@ import com.codeshare.airline.master.messaging.service.ActionCodeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class ActionCodeServiceImpl
-        extends BaseServiceImpl<ActionCode, ActionCodeDTO, UUID>
+        extends BaseServiceImpl<ActionCode, ActionCodeDTO, Long>
         implements ActionCodeService {
 
     private final ActionIdentifierRepository actionIdentifierRepository;
@@ -27,7 +26,7 @@ public class ActionCodeServiceImpl
         this.actionIdentifierRepository = actionIdentifierRepository;
     }
 
-    private ActionIdentifier getActionIdentifier(UUID id) {
+    private ActionIdentifier getActionIdentifier(Long id) {
         if (id == null) {
             return null;
         }
@@ -45,7 +44,7 @@ public class ActionCodeServiceImpl
     }
 
     @Override
-    public ActionCodeDTO update(UUID id, ActionCodeDTO dto) {
+    public ActionCodeDTO update(Long id, ActionCodeDTO dto) {
         ActionCode existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Action code not found"));
 

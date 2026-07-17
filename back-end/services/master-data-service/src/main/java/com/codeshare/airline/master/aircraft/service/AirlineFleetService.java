@@ -4,12 +4,11 @@ import com.codeshare.airline.platform.core.dto.master.aircraft.AirlineFleetDTO;
 import com.codeshare.airline.master.common.base.BaseService;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AirlineFleetService
-        extends BaseService<AirlineFleetDTO, UUID> {
+        extends BaseService<AirlineFleetDTO, Long> {
 
-    List<AirlineFleetDTO> getByAirline(UUID airlineId);
+    List<AirlineFleetDTO> getByAirline(Long airlineId);
 
-    List<AirlineFleetDTO> getByConfiguration(UUID configId);
+    List<AirlineFleetDTO> getByConfiguration(Long configId);
 }

@@ -6,13 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AirlineAliasDTO {
-    private UUID id;
-    private UUID airlineId;
+    private Long id;
+    private Long airlineId;
     private String aliasCode;
     private String aliasName;
     private AirlineAliasType aliasType;

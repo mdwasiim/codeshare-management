@@ -6,18 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AirportService
-        extends BaseService<AirportDTO, UUID> {
+        extends BaseService<AirportDTO, Long> {
 
     AirportDTO getByIata(String iata);
 
     AirportDTO getByIcao(String icao);
 
-    List<AirportDTO> getByCountry(UUID countryId);
+    List<AirportDTO> getByCountry(Long countryId);
 
-    List<AirportDTO> getByCity(UUID cityId);
+    List<AirportDTO> getByCity(Long cityId);
 
     List<AirportDTO> getHubAirports();
 

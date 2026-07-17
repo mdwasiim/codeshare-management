@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/reject-reasons")
-public class RejectReasonController extends BaseController<RejectReasonDTO, UUID> {
+public class RejectReasonController extends BaseController<RejectReasonDTO, Long> {
 
-    protected RejectReasonController(BaseService<RejectReasonDTO, UUID> service) {
+    protected RejectReasonController(BaseService<RejectReasonDTO, Long> service) {
         super(service);
     }
 }

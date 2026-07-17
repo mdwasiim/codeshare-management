@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.schedule.repository.FlightSuffixRepos
 import com.codeshare.airline.master.flight.schedule.service.FlightSuffixService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class FlightSuffixServiceImpl extends BaseServiceImpl<FlightSuffix, FlightSuffixDTO, UUID> implements FlightSuffixService {
+public class FlightSuffixServiceImpl extends BaseServiceImpl<FlightSuffix, FlightSuffixDTO, Long> implements FlightSuffixService {
     public FlightSuffixServiceImpl(FlightSuffixRepository repository, FlightSuffixMapper mapper) {
         super(repository, mapper);
     }

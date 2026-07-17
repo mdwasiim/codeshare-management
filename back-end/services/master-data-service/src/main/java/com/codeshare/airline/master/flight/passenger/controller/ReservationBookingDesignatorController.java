@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/reservation-booking-designators")
-public class ReservationBookingDesignatorController extends BaseController<ReservationBookingDesignatorDTO, UUID> {
-    protected ReservationBookingDesignatorController(BaseService<ReservationBookingDesignatorDTO, UUID> service) {
+public class ReservationBookingDesignatorController extends BaseController<ReservationBookingDesignatorDTO, Long> {
+    protected ReservationBookingDesignatorController(BaseService<ReservationBookingDesignatorDTO, Long> service) {
         super(service);
     }
 }

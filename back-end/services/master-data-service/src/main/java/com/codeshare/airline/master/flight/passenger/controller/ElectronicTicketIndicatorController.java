@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/electronic-ticket-indicators")
-public class ElectronicTicketIndicatorController extends BaseController<ElectronicTicketIndicatorDTO, UUID> {
-    protected ElectronicTicketIndicatorController(BaseService<ElectronicTicketIndicatorDTO, UUID> service) {
+public class ElectronicTicketIndicatorController extends BaseController<ElectronicTicketIndicatorDTO, Long> {
+    protected ElectronicTicketIndicatorController(BaseService<ElectronicTicketIndicatorDTO, Long> service) {
         super(service);
     }
 }

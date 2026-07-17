@@ -15,6 +15,7 @@ public class UploadResponse {
     public static UploadResponse accepted(String fileId) {
         return  UploadResponse.builder()
                 .fileId(fileId)
+                .status("ACCEPTED")
                 .build() ;
     }
 }

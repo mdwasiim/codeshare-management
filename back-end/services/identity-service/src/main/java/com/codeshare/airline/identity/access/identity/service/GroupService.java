@@ -4,20 +4,19 @@ package com.codeshare.airline.identity.access.identity.service;
 import com.codeshare.airline.platform.core.dto.tenant.GroupDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface GroupService {
 
     GroupDTO create(GroupDTO dto);
 
-    GroupDTO update(UUID id, GroupDTO dto);
+    GroupDTO update(Long id, GroupDTO dto);
 
-    GroupDTO getById(UUID id);
+    GroupDTO getById(Long id);
 
     List<GroupDTO> getAll();
 
-    void delete(UUID id);
+    void delete(Long id);
 
-    void deleteByTenantGroupId(UUID tenantGroupId);
+    void deleteByTenantGroupId(Long tenantGroupId);
 }
 

@@ -11,11 +11,10 @@ import com.codeshare.airline.master.messaging.service.DataElementIdentifierServi
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class DataElementIdentifierServiceImpl
-        extends BaseServiceImpl<DataElementIdentifier, DataElementIdentifierDTO, UUID>
+        extends BaseServiceImpl<DataElementIdentifier, DataElementIdentifierDTO, Long>
         implements DataElementIdentifierService {
 
     private final StandardMessageIdentifierRepository standardMessageIdentifierRepository;
@@ -27,7 +26,7 @@ public class DataElementIdentifierServiceImpl
         this.standardMessageIdentifierRepository = standardMessageIdentifierRepository;
     }
 
-    private StandardMessageIdentifier getStandardMessageIdentifier(UUID id) {
+    private StandardMessageIdentifier getStandardMessageIdentifier(Long id) {
         if (id == null) {
             return null;
         }
@@ -45,7 +44,7 @@ public class DataElementIdentifierServiceImpl
     }
 
     @Override
-    public DataElementIdentifierDTO update(UUID id, DataElementIdentifierDTO dto) {
+    public DataElementIdentifierDTO update(Long id, DataElementIdentifierDTO dto) {
         DataElementIdentifier existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Data element identifier not found"));
 

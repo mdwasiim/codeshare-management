@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/passenger-terminals")
 public class PassengerTerminalController
-        extends BaseController<PassengerTerminalDTO, UUID> {
+        extends BaseController<PassengerTerminalDTO, Long> {
 
     private final PassengerTerminalService service;
 
@@ -30,7 +29,7 @@ public class PassengerTerminalController
      */
     @GetMapping("/airport/{airportId}")
     public List<PassengerTerminalDTO> getByAirport(
-            @PathVariable UUID airportId) {
+            @PathVariable Long airportId) {
 
         return service.getByAirport(airportId);
     }

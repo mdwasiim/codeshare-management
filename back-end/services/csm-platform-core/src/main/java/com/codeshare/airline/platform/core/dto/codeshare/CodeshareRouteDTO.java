@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,12 +14,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CodeshareRouteDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID agreementId;
+    private Long agreementId;
 
-    private UUID originId;
-    private UUID destinationId;
+    private Long originId;
+    private Long destinationId;
 
     private Boolean bidirectional;
 

@@ -1,13 +1,18 @@
 package com.codeshare.airline.platform.data.jpa.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
-import java.util.UUID;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.id.OptimizableGenerator;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 @Getter
 @Setter
@@ -17,9 +22,18 @@ import java.util.UUID;
 public abstract class CSMDataAbstractEntity extends CSMDataAuditableEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "csm_entity_seq")
+    @GenericGenerator(
+            name = "csm_entity_seq",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = SequenceStyleGenerator.CONFIG_SEQUENCE_PER_ENTITY_SUFFIX, value = "_seq"),
+                    @Parameter(name = OptimizableGenerator.INCREMENT_PARAM, value = "50"),
+                    @Parameter(name = OptimizableGenerator.OPT_PARAM, value = "pooled-lo")
+            }
+    )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private Long id;
 
     @Override
     public boolean equals(Object o) {

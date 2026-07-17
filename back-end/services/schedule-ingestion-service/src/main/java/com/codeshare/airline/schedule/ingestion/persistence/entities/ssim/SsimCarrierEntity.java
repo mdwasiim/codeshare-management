@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class SsimCarrierEntity extends CSMDataAbstractEntity {
             orphanRemoval = true
     )
     @OrderBy("flightNumber ASC")
+    @BatchSize(size = 100)
     private List<SsimFlightEntity> flights = new ArrayList<>();
 
     /* =======================================================

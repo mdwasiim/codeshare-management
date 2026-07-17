@@ -1,10 +1,10 @@
 import { AuditableModel } from '@shared/models/auditable.model';
 
 export interface TenantPartner extends AuditableModel {
-    id?: string;
-    tenantId?: string;
-    homeAirlineId?: string;
-    partnerAirlineId?: string;
+    id?: number;
+    tenantId?: number;
+    homeAirlineId?: number;
+    partnerAirlineId?: number;
     homeAirlineCode?: string;
     homeAirlineName?: string;
     partnerAirlineCode?: string;

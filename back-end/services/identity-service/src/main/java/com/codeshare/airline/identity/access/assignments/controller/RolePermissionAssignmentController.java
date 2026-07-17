@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -22,7 +21,7 @@ public class RolePermissionAssignmentController {
     // ==============================================================
     @GetMapping("/{roleId}")
     public List<RolePermissionDTO> getPermissionsByRole(
-            @PathVariable UUID roleId
+            @PathVariable Long roleId
     ) {
 
         log.info(
@@ -38,8 +37,8 @@ public class RolePermissionAssignmentController {
     // ==============================================================
     @PutMapping("/{roleId}")
     public List<RolePermissionDTO>  replaceRolePermissions(
-            @PathVariable UUID roleId,
-            @RequestBody List<UUID> permissionIds
+            @PathVariable Long roleId,
+            @RequestBody List<Long> permissionIds
     ) {
 
         log.info(
@@ -60,7 +59,7 @@ public class RolePermissionAssignmentController {
     // ==============================================================
     @GetMapping("/permission/{permissionId}")
     public List<RolePermissionDTO>  getRolesByPermission(
-            @PathVariable UUID permissionId
+            @PathVariable Long permissionId
     ) {
 
         log.info(

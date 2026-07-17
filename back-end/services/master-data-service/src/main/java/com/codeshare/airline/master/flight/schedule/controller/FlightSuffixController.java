@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/flight-suffixes")
-public class FlightSuffixController extends BaseController<FlightSuffixDTO, UUID> {
-    protected FlightSuffixController(BaseService<FlightSuffixDTO, UUID> service) {
+public class FlightSuffixController extends BaseController<FlightSuffixDTO, Long> {
+    protected FlightSuffixController(BaseService<FlightSuffixDTO, Long> service) {
         super(service);
     }
 }

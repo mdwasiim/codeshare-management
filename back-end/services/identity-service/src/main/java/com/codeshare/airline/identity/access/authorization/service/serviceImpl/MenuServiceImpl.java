@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -79,7 +78,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuDTO update(UUID id, MenuDTO dto) {
+    public MenuDTO update(Long id, MenuDTO dto) {
         Menu entity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
 
@@ -123,7 +122,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional(readOnly = true)
-    public MenuDTO getById(UUID id) {
+    public MenuDTO getById(Long id) {
         return repository.findById(id)
                 .map(this::toDtoWithGroups)
                 .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
@@ -195,7 +194,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         Menu menu = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Menu not found: " + id));
 
@@ -244,7 +243,7 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
-    private void replaceMenuGroups(Menu menu, List<UUID> groupIds, UUID tenantId) {
+    private void replaceMenuGroups(Menu menu, List<Long> groupIds, Long tenantId) {
         groupMenuRepository.deleteByMenu_Id(menu.getId());
         groupMenuRepository.flush();
 

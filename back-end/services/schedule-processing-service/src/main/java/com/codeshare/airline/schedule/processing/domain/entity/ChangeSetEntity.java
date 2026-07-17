@@ -3,7 +3,19 @@ package com.codeshare.airline.schedule.processing.domain.entity;
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.ComparisonStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.Index;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,62 +26,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * One comparison run â€” triggered when schedule-ingestion-service finishes
- * loading a message (SSIM file, SSM, or ASM) and publishes to Kafka.
- *
- * Tracks:
- *  - what was compared (ingested message reference + airline + source type)
- *  - when the run happened
- *  - outcome (COMPLETED / FAILED / SKIPPED)
- *  - summary counts of detected changes
- *
- * Each run produces zero or more {@link ScheduleFlightChangeEntity} children,
- * one per affected flight identity.
- */
 @Entity
 @Table(
-        name = "schedule_comparison_run",
+        name = "schedule_change_set",
         schema = "schedule_processing",
         indexes = {
-                @Index(name = "idx_scr_airline",     columnList = "airline_code"),
-                @Index(name = "idx_scr_status",      columnList = "status"),
-                @Index(name = "idx_scr_source_type", columnList = "source_type"),
-                @Index(name = "idx_scr_ingested_ref",columnList = "ingested_message_id"),
-                @Index(name = "idx_scr_file_ref",    columnList = "source_file_id"),
-                @Index(name = "idx_scr_started_at",  columnList = "started_at")
+                @Index(name = "idx_scs_change_set_id", columnList = "change_set_id"),
+                @Index(name = "idx_scs_airline", columnList = "airline_code"),
+                @Index(name = "idx_scs_status", columnList = "status"),
+                @Index(name = "idx_scs_source_type", columnList = "source_type"),
+                @Index(name = "idx_scs_imported_schedule", columnList = "imported_schedule_id"),
+                @Index(name = "idx_scs_import_batch", columnList = "import_batch_id"),
+                @Index(name = "idx_scs_started_at", columnList = "started_at")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_scs_change_set_id", columnNames = "change_set_id"),
+                @UniqueConstraint(name = "uk_scs_import_batch_id", columnNames = "import_batch_id")
         }
 )
 @Getter
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-public class ScheduleComparisonRunEntity extends CSMDataAbstractEntity {
+public class ChangeSetEntity extends CSMDataAbstractEntity {
 
-    /* ==========================================================
-       SOURCE REFERENCE â€” the ingested message that triggered this run
-       ========================================================== */
+    @Column(name = "change_set_id", nullable = false, updatable = false)
+    private UUID changeSetId;
 
-    // ID of the ScheduleMessageEntity (or SsimFileMetaDataEntity) in ingestion DB
-    @Column(name = "ingested_message_id", nullable = false)
-    private UUID ingestedMessageId;
+    @Column(name = "imported_schedule_id", nullable = false, updatable = false)
+    private UUID importedScheduleId;
 
-    @Column(name = "source_file_id")
-    private UUID sourceFileId;
+    @Column(name = "import_batch_id", nullable = false, updatable = false)
+    private UUID importBatchId;
 
-    @Column(name = "source_load_id")
-    private UUID sourceLoadId;
-
-    // SSIM | SSM | ASM - which format triggered this run
     @Enumerated(EnumType.STRING)
     @Column(name = "source_type", length = 10, nullable = false)
     private MessageType sourceType;
 
-    // The airline this run covers
     @Column(name = "airline_code", length = 3, nullable = false)
     private String airlineCode;
 
-    // Human-readable reference from the message (e.g. SSM message reference)
     @Column(name = "message_reference", length = 50)
     private String messageReference;
 
@@ -94,19 +90,11 @@ public class ScheduleComparisonRunEntity extends CSMDataAbstractEntity {
     @Column(name = "source_received_at")
     private Instant sourceReceivedAt;
 
-    /* ==========================================================
-       RUN TIMING
-       ========================================================== */
-
     @Column(name = "started_at")
     private Instant startedAt;
 
     @Column(name = "completed_at")
     private Instant completedAt;
-
-    /* ==========================================================
-       OUTCOME
-       ========================================================== */
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20, nullable = false)
@@ -114,10 +102,6 @@ public class ScheduleComparisonRunEntity extends CSMDataAbstractEntity {
 
     @Column(name = "error_message", columnDefinition = "TEXT")
     private String errorMessage;
-
-    /* ==========================================================
-       SUMMARY COUNTS  (denormalised for dashboard/reporting)
-       ========================================================== */
 
     @Column(name = "total_legs_compared")
     private Integer totalLegsCompared;
@@ -140,27 +124,20 @@ public class ScheduleComparisonRunEntity extends CSMDataAbstractEntity {
     @Column(name = "no_change_count")
     private Integer noChangeCount;
 
-    /* ==========================================================
-       CHILDREN
-       ========================================================== */
-
     @OneToMany(
-            mappedBy = "comparisonRun",
+            mappedBy = "changeSet",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
     @OrderBy("airlineCode ASC, flightNumber ASC")
+    @Builder.Default
     private List<ScheduleFlightChangeEntity> flightChanges = new ArrayList<>();
-
-    /* ==========================================================
-       HELPERS
-       ========================================================== */
 
     public void addFlightChange(ScheduleFlightChangeEntity flightChange) {
         if (flightChange != null) {
             flightChanges.add(flightChange);
-            flightChange.setComparisonRun(this);
+            flightChange.setChangeSet(this);
         }
     }
 }

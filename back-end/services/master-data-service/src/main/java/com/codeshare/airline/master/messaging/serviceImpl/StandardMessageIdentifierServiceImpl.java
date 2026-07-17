@@ -8,11 +8,10 @@ import com.codeshare.airline.master.messaging.repository.StandardMessageIdentifi
 import com.codeshare.airline.master.messaging.service.StandardMessageIdentifierService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class StandardMessageIdentifierServiceImpl
-        extends BaseServiceImpl<StandardMessageIdentifier, StandardMessageIdentifierDTO, UUID>
+        extends BaseServiceImpl<StandardMessageIdentifier, StandardMessageIdentifierDTO, Long>
         implements StandardMessageIdentifierService {
 
     public StandardMessageIdentifierServiceImpl(StandardMessageIdentifierRepository repository,

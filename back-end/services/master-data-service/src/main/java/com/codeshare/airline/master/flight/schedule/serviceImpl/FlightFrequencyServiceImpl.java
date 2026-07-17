@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.schedule.repository.FlightFrequencyRe
 import com.codeshare.airline.master.flight.schedule.service.FlightFrequencyService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class FlightFrequencyServiceImpl extends BaseServiceImpl<FlightFrequency, FlightFrequencyDTO, UUID> implements FlightFrequencyService {
+public class FlightFrequencyServiceImpl extends BaseServiceImpl<FlightFrequency, FlightFrequencyDTO, Long> implements FlightFrequencyService {
     public FlightFrequencyServiceImpl(FlightFrequencyRepository repository, FlightFrequencyMapper mapper) {
         super(repository, mapper);
     }

@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.passenger.repository.ReservationBooki
 import com.codeshare.airline.master.flight.passenger.service.ReservationBookingDesignatorService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class ReservationBookingDesignatorServiceImpl extends BaseServiceImpl<ReservationBookingDesignator, ReservationBookingDesignatorDTO, UUID> implements ReservationBookingDesignatorService {
+public class ReservationBookingDesignatorServiceImpl extends BaseServiceImpl<ReservationBookingDesignator, ReservationBookingDesignatorDTO, Long> implements ReservationBookingDesignatorService {
     public ReservationBookingDesignatorServiceImpl(ReservationBookingDesignatorRepository repository, ReservationBookingDesignatorMapper mapper) {
         super(repository, mapper);
     }

@@ -4,10 +4,9 @@ import com.codeshare.airline.platform.core.dto.master.aircraft.AircraftConfigura
 import com.codeshare.airline.master.common.base.BaseService;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AircraftConfigurationRevisionService
-        extends BaseService<AircraftConfigurationRevisionDTO, UUID> {
+        extends BaseService<AircraftConfigurationRevisionDTO, Long> {
 
-    List<AircraftConfigurationRevisionDTO> getByAircraftConfiguration(UUID aircraftConfigurationId);
+    List<AircraftConfigurationRevisionDTO> getByAircraftConfiguration(Long aircraftConfigurationId);
 }

@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -31,12 +30,12 @@ public class RolePermissionLoader {
     private final IdentityBootstrapData bootstrapData;
     private final HostAirlineTenantClient tenantClient;
 
-    public void load(UUID tenantId) {
+    public void load(Long tenantId) {
         log.info("RolePermissionLoader: assigning permissions to roles for tenant {}", tenantId);
         assignTenantPermissions(tenantId);
     }
 
-    private void assignTenantPermissions(UUID tenantId) {
+    private void assignTenantPermissions(Long tenantId) {
         List<Permission> permissions = permRepo.findByTenantId(tenantId);
         List<Role> roles = roleRepo.findByTenantId(tenantId);
         String tenantCode = resolveTenantCode(tenantId);
@@ -86,7 +85,7 @@ public class RolePermissionLoader {
         }
     }
 
-    private void saveRolePermission(UUID tenantId,
+    private void saveRolePermission(Long tenantId,
                                     Role role,
                                     Permission permission,
                                     Set<String> existingMappings,
@@ -108,12 +107,12 @@ public class RolePermissionLoader {
         return value == null ? "" : value.trim().toUpperCase(Locale.ROOT);
     }
 
-    public boolean isLoaded(UUID tenantId) {
+    public boolean isLoaded(Long tenantId) {
         long actual = repo.countByTenantId(tenantId);
         return actual >= bootstrapData.rolePermissions().size();
     }
 
-    private String resolveTenantCode(UUID tenantId) {
+    private String resolveTenantCode(Long tenantId) {
         return tenantClient.getAll().stream()
                 .filter(tenant -> tenantId.equals(tenant.getId()))
                 .map(tenant -> tenant.getTenantCode())

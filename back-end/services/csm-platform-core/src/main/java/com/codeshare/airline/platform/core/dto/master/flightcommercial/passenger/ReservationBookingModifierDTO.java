@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class ReservationBookingModifierDTO {
-    private UUID id;
+    private Long id;
     private String modifierCode;
     private String modifierName;
     private String category;

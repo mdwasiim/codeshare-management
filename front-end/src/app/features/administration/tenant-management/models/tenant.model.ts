@@ -33,7 +33,7 @@ export interface IdentityProviderConfig {
 }
 
 export interface TenantAuthContext {
-    id?: string;
+    id?: number;
     name?: string;
     tenantCode?: string;
     status?: TenantStatus;
@@ -43,18 +43,18 @@ export interface TenantAuthContext {
 }
 
 export interface TenantLoginOption {
-    id?: string;
+    id?: number;
     name: string;
     tenantCode: string;
     logoUrl?: string;
 }
 
 export interface Tenant extends AuditableModel {
-    id?: string;
+    id?: number;
     name: string;
     tenantCode: string;
     description?: string;
-    databaseConfigId?: string;
+    databaseConfigId?: number;
     plan?: TenantPlan;
     subscriptionStart?: string;
     subscriptionEnd?: string;
@@ -66,4 +66,5 @@ export interface Tenant extends AuditableModel {
     status?: TenantStatus;
     authSource?: AuthSource;
     oidcConfig?: OidcConfig;
+    identityProviders?: IdentityProviderConfig[];
 }

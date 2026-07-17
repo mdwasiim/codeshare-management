@@ -13,4 +13,7 @@ public interface MasterDataAirlineClient {
 
     @GetMapping("/internal/airline-carriers/iata/{iataCode}")
     AirlineCarrierDTO getByIataCode(@PathVariable("iataCode") String iataCode);
+
+    @GetMapping("/internal/airline-carriers/{id}")
+    AirlineCarrierDTO getById(@PathVariable("id") Long id);
 }

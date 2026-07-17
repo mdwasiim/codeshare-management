@@ -16,11 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CityServiceImpl
-        extends BaseServiceImpl<City, CityDTO, UUID>
+        extends BaseServiceImpl<City, CityDTO, Long>
         implements CityService {
 
     private final CityRepository cityRepository;
@@ -35,12 +34,12 @@ public class CityServiceImpl
         this.countryRepository = countryRepository;
     }
 
-    private State getState(UUID stateId) {
+    private State getState(Long stateId) {
         return stateRepository.findById(stateId)
                 .orElseThrow(() -> new EntityNotFoundException("State not found"));
     }
 
-    private Country getCountry(UUID countryId) {
+    private Country getCountry(Long countryId) {
         return countryRepository.findById(countryId)
                 .orElseThrow(() -> new EntityNotFoundException("Country not found"));
     }
@@ -72,7 +71,7 @@ public class CityServiceImpl
     }
 
     @Override
-    public CityDTO update(UUID id, CityDTO dto) {
+    public CityDTO update(Long id, CityDTO dto) {
 
         City existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("City not found"));
 
@@ -90,12 +89,12 @@ public class CityServiceImpl
 
 
     @Override
-    public List<CityDTO> getByCountry(UUID countryId) {
+    public List<CityDTO> getByCountry(Long countryId) {
         return mapper.toDTOList(cityRepository.findByCountryId(countryId));
     }
 
     @Override
-    public List<CityDTO> getByState(UUID stateId) {
+    public List<CityDTO> getByState(Long stateId) {
         return mapper.toDTOList(cityRepository.findByStateId(stateId));
     }
 

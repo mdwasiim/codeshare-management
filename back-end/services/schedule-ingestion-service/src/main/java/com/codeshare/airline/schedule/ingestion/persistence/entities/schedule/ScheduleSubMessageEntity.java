@@ -7,6 +7,7 @@ import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class ScheduleSubMessageEntity extends CSMDataAbstractEntity {
 
     @OneToMany(mappedBy = "subMessage", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("flightSequenceNumber ASC")
+    @BatchSize(size = 100)
     private List<ScheduleFlightEntity> flights = new ArrayList<>();
 
     /* ================= HELPERS ================= */

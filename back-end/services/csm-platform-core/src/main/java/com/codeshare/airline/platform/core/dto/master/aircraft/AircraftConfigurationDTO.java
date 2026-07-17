@@ -4,7 +4,6 @@ import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,10 +11,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AircraftConfigurationDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID aircraftTypeId;
-    private UUID airlineId;
+    private Long aircraftTypeId;
+    private Long airlineId;
 
     private String configurationCode;
     private String configurationName;

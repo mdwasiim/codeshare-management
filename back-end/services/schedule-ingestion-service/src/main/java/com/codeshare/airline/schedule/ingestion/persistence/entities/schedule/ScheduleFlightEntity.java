@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,14 +76,17 @@ public class ScheduleFlightEntity extends CSMDataAbstractEntity {
 
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("legSequence ASC")
+    @BatchSize(size = 100)
     private List<ScheduleLegEntity> legs = new ArrayList<>();
 
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("sequenceOrder ASC")
+    @BatchSize(size = 100)
     private List<ScheduleDataElementEntity> deis = new ArrayList<>();
 
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("startDate ASC")
+    @BatchSize(size = 100)
     private List<SchedulePeriodEntity> periods = new ArrayList<>();
 
     @ElementCollection
@@ -101,8 +105,10 @@ public class ScheduleFlightEntity extends CSMDataAbstractEntity {
     }
 
     public void addDei(ScheduleDataElementEntity dei) {
-        deis.add(dei);
-        dei.setFlight(this);
+        if (dei != null) {
+            deis.add(dei);
+            dei.attachToFlight(this);
+        }
     }
 
     public void addPeriod(SchedulePeriodEntity period) {

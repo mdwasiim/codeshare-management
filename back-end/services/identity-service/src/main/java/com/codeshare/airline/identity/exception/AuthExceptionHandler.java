@@ -19,6 +19,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.util.UUID;
 
+
 @Slf4j
 @RestControllerAdvice
 public class AuthExceptionHandler {

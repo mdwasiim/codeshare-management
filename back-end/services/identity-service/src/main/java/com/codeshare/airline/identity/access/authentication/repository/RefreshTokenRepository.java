@@ -4,9 +4,8 @@ import com.codeshare.airline.identity.access.authentication.entities.RefreshToke
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface RefreshTokenRepository extends CSMDataBaseRepository<RefreshToken, UUID> {
+public interface RefreshTokenRepository extends CSMDataBaseRepository<RefreshToken, Long> {
 
     Optional<RefreshToken> findByTokenHash(String hashRefreshToken);
 }

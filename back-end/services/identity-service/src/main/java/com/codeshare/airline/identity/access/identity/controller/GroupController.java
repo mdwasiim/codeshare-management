@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -33,7 +32,7 @@ public class GroupController {
     // ---------------------------------------------------------
     @PutMapping("/{id}")
     public GroupDTO update(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @RequestBody GroupDTO dto
     ) {
         log.info("→ Updating group {} for ingestion {}", id, dto.getTenantId());
@@ -45,7 +44,7 @@ public class GroupController {
     // GET GROUP BY ID
     // ---------------------------------------------------------
     @GetMapping("/{id}")
-    public GroupDTO getById(@PathVariable UUID id) {
+    public GroupDTO getById(@PathVariable Long id) {
 
         log.debug("→ Fetching group {}", id);
 
@@ -64,7 +63,7 @@ public class GroupController {
     // DELETE GROUP
     // ---------------------------------------------------------
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
+    public void delete(@PathVariable Long id) {
 
         log.warn("→ Deleting group {}", id);
 

@@ -8,10 +8,9 @@ import com.codeshare.airline.master.schedule.mappers.SeasonMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class SeasonServiceImpl extends BaseServiceImpl<Season, SeasonDTO, UUID>
+public class SeasonServiceImpl extends BaseServiceImpl<Season, SeasonDTO, Long>
         implements SeasonService {
 
     public SeasonServiceImpl(SeasonRepository repository, SeasonMapper mapper) {

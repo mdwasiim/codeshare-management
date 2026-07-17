@@ -45,18 +45,33 @@ public class ScheduleIngestionRouteBuilder {
             return;
         }
 
+        // Diagnostic logging: show how many profiles and a summary of each (helps debug file consumer configuration)
+        log.info("Fetched {} ingestion profiles from tenant-service", profiles != null ? profiles.size() : 0);
+        if (profiles != null) {
+            profiles.forEach(p -> {
+                int channelCount = p.getChannels() == null ? 0 : p.getChannels().size();
+                log.info("Profile loaded -> airline={} enabled={} channels={}", p.getAirlineCode(), p.getEnabled(), channelCount);
+                if (p.getChannels() != null) {
+                    p.getChannels().forEach(ch -> log.debug(" Channel -> airline={} sourceType={} messageType={} remoteDir='{}' include='{}' preMove='{}' move='{}' moveFailed='{}' readLock='{}'",
+                            p.getAirlineCode(),
+                            ch.getSourceType(),
+                            ch.getMessageType(),
+                            ch.getRemoteDirectory(),
+                            ch.getFileIncludePattern(),
+                            ch.getFilePreMove(),
+                            ch.getFileMove(),
+                            ch.getFileMoveFailed(),
+                            ch.getFileReadLock()));
+                }
+            });
+        }
+
         profiles.stream()
                 .filter(p -> Boolean.TRUE.equals(p.getEnabled()))
                 .forEach(this::buildRoutesForProfile);
 
-        try {
-            camelContext.getRouteController().startAllRoutes();
-            log.info("All routes started successfully");
-        } catch (Exception e) {
-            log.error("Failed to start routes", e);
-        }
-
         initialized = true;
+        log.info("Dynamic ingestion route initialization completed");
     }
 
     private void buildRoutesForProfile(AirlineIngestionProfileDTO profile) {
@@ -111,7 +126,11 @@ public class ScheduleIngestionRouteBuilder {
             log.info("Route started: {}", routeId);
 
         } catch (Exception e) {
-            log.error("Failed to create route: {}", routeId, e);
+            log.error("Failed to create route: {} using builder={} | cause={}",
+                    routeId,
+                    builder.getClass().getSimpleName(),
+                    e.getMessage(),
+                    e);
         }
     }
 }

@@ -6,12 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class CabinConfigurationTemplateDTO {
-    private UUID id;
+    private Long id;
     private String configurationCode;
     private String configurationName;
     private CabinConfigurationType configurationType;

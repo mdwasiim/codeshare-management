@@ -61,14 +61,27 @@ public class SsmErrorPersistenceStrategy implements ErrorPersistenceStrategy {
         e.setFileId(ctx.getMetadata().getFileId());
         e.setLoadId(ctx.getMetadata().getLoadId());
         e.setMessageType(ctx.getMetadata().getMessageType());
+        e.setRecordType(truncate(msg.getRecordType(), 10));
+        e.setRecordKey(truncate(msg.getRecordKey(), 200));
 
         e.setRuleCode(msg.getRuleCode());
         e.setMessage(msg.getMessage());
         e.setSeverity(msg.getSeverity());
 
-        e.setValidationStage(stage);
+        e.setValidationStage(resolveStage(stage, msg));
         e.setValidatedAt(Instant.now());
 
         return e;
+    }
+
+    private ValidationStage resolveStage(ValidationStage fallbackStage, ValidationMessage message) {
+        return message.getStage() != null ? message.getStage() : fallbackStage;
+    }
+
+    private String truncate(String value, int maxLength) {
+        if (value == null || value.length() <= maxLength) {
+            return value;
+        }
+        return value.substring(0, maxLength);
     }
 }

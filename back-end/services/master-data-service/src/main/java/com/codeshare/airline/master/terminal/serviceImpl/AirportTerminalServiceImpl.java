@@ -11,11 +11,10 @@ import com.codeshare.airline.master.terminal.service.AirportTerminalService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class AirportTerminalServiceImpl
-        extends BaseServiceImpl<AirportTerminal, AirportTerminalDTO, UUID>
+        extends BaseServiceImpl<AirportTerminal, AirportTerminalDTO, Long>
         implements AirportTerminalService {
 
     private final AirportRepository airportRepository;
@@ -27,7 +26,7 @@ public class AirportTerminalServiceImpl
         this.airportRepository = airportRepository;
     }
 
-    private Airport getAirport(UUID airportId) {
+    private Airport getAirport(Long airportId) {
         if (airportId == null) {
             return null;
         }
@@ -45,7 +44,7 @@ public class AirportTerminalServiceImpl
     }
 
     @Override
-    public AirportTerminalDTO update(UUID id, AirportTerminalDTO dto) {
+    public AirportTerminalDTO update(Long id, AirportTerminalDTO dto) {
         AirportTerminal existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airport terminal not found"));
 

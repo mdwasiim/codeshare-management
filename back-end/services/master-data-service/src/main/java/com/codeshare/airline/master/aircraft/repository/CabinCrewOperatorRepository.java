@@ -4,10 +4,9 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.aircraft.entities.CabinCrewOperator;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CabinCrewOperatorRepository
-        extends CSMDataBaseRepository<CabinCrewOperator, UUID> {
+        extends CSMDataBaseRepository<CabinCrewOperator, Long> {
 
     Optional<CabinCrewOperator> findByEmployerCode(String employerCode);
 }

@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/aircraft-configuration-revisions")
 public class AircraftConfigurationRevisionController
-        extends BaseController<AircraftConfigurationRevisionDTO, UUID> {
+        extends BaseController<AircraftConfigurationRevisionDTO, Long> {
 
     private final AircraftConfigurationRevisionService service;
 
@@ -25,7 +24,7 @@ public class AircraftConfigurationRevisionController
 
     @GetMapping("/configuration/{aircraftConfigurationId}")
     public List<AircraftConfigurationRevisionDTO> getByAircraftConfiguration(
-            @PathVariable UUID aircraftConfigurationId) {
+            @PathVariable Long aircraftConfigurationId) {
         return service.getByAircraftConfiguration(aircraftConfigurationId);
     }
 }

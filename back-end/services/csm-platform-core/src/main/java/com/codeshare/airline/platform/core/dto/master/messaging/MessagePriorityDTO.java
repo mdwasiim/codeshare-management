@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class MessagePriorityDTO {
 
-    private UUID id;
+    private Long id;
     private String priorityCode;
     private String priorityName;
     private Integer priorityLevel;

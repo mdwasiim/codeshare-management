@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class ScheduleSourceDTO {
 
-    private UUID id;
+    private Long id;
     private String sourceCode;
     private String sourceName;
     private String description;

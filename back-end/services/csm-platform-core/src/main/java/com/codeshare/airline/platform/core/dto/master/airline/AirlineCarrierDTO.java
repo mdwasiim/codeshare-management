@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AirlineCarrierDTO {
-    private UUID id;
+    private Long id;
     private String iataCode;
     private String icaoCode;
     private String iataNumericCode;
@@ -18,10 +17,10 @@ public class AirlineCarrierDTO {
     private String commercialName;
     private String displayName;
     private String callsign;
-    private UUID countryId;
-    private UUID headquartersCityId;
-    private UUID homeAirportId;
-    private UUID allianceId;
+    private Long countryId;
+    private Long headquartersCityId;
+    private Long homeAirportId;
+    private Long allianceId;
     private String website;
     private String email;
     private String phone;

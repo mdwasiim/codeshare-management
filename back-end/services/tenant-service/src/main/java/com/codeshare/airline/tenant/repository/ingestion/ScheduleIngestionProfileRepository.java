@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface ScheduleIngestionProfileRepository extends CSMDataBaseRepository<ScheduleIngestionProfileEntity, UUID> {
+public interface ScheduleIngestionProfileRepository extends CSMDataBaseRepository<ScheduleIngestionProfileEntity, Long> {
 
     Optional<ScheduleIngestionProfileEntity> findByTenant_TenantCode(String tenantCode);
 

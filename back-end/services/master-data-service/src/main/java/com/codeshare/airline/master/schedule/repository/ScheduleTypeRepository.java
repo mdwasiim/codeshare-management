@@ -4,9 +4,8 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.schedule.entities.ScheduleType;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface ScheduleTypeRepository extends CSMDataBaseRepository<ScheduleType, UUID> {
+public interface ScheduleTypeRepository extends CSMDataBaseRepository<ScheduleType, Long> {
 
     boolean existsByScheduleTypeCode(String scheduleTypeCode);
 

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/tenant-partner-profiles")
@@ -20,14 +19,14 @@ public class CodesharePartnerProfileController {
     public CodesharePartnerProfileDTO create(@RequestBody CodesharePartnerProfileDTO dto) { return service.create(dto); }
 
     @PutMapping("/{id}")
-    public CodesharePartnerProfileDTO update(@PathVariable UUID id, @RequestBody CodesharePartnerProfileDTO dto) { return service.update(id, dto); }
+    public CodesharePartnerProfileDTO update(@PathVariable Long id, @RequestBody CodesharePartnerProfileDTO dto) { return service.update(id, dto); }
 
     @GetMapping("/{id}")
-    public CodesharePartnerProfileDTO getById(@PathVariable UUID id) { return service.getById(id); }
+    public CodesharePartnerProfileDTO getById(@PathVariable Long id) { return service.getById(id); }
 
     @GetMapping
     public List<CodesharePartnerProfileDTO> getAll() { return service.getAll(); }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable UUID id) { service.delete(id); return CSMConstants.NO_DATA; }
+    public String delete(@PathVariable Long id) { service.delete(id); return CSMConstants.NO_DATA; }
 }

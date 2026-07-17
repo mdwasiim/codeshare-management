@@ -5,17 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class ActionCodeDTO {
 
-    private UUID id;
+    private Long id;
     private String actionCode;
     private String actionName;
     private String description;
-    private UUID actionIdentifierId;
+    private Long actionIdentifierId;
     private RecordStatus recordStatus;
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;

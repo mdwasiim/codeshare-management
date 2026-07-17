@@ -7,15 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class CodesharePartnerDTO {
-    private UUID id;
-    private UUID tenantId;
-    private UUID homeAirlineId;
-    private UUID partnerAirlineId;
+    private Long id;
+    private Long tenantId;
+    private Long homeAirlineId;
+    private Long partnerAirlineId;
     private String homeAirlineCode;
     private String homeAirlineName;
     private String partnerAirlineCode;

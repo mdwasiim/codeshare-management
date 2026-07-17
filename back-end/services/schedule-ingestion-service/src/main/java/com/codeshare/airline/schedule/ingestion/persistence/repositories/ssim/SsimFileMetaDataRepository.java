@@ -10,19 +10,22 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface SsimFileMetaDataRepository
-        extends CSMDataBaseRepository<SsimFileMetaDataEntity, UUID>,
+        extends CSMDataBaseRepository<SsimFileMetaDataEntity, Long>,
         JpaSpecificationExecutor<SsimFileMetaDataEntity> {
 
 
     Optional<SsimFileMetaDataEntity> findByFileId(UUID fileId);
 
+    List<SsimFileMetaDataEntity> findAllByLoadId(UUID loadId);
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select f from SsimFileMetaDataEntity f where f.id = :id")
-    Optional<SsimFileMetaDataEntity> findByIdForUpdate(@Param("id") UUID id);
+    Optional<SsimFileMetaDataEntity> findByIdForUpdate(@Param("id") Long id);
 
     Optional<SsimFileMetaDataEntity> findFirstByLoadIdAndAirlineCodeAndChecksum(UUID loadId, String airlineCode, String checksum);
 
@@ -30,7 +33,7 @@ public interface SsimFileMetaDataRepository
 
     @Modifying
     @Query("update SsimFileMetaDataEntity f set f.processingStatus = :status where f.id = :id")
-    void updateStatus(@Param("id") UUID fileId,
+    void updateStatus(@Param("id") Long fileId,
                       @Param("status") ProcessingStatus status);
 
 }

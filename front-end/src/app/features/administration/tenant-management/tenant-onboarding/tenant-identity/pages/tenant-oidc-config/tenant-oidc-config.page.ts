@@ -11,7 +11,7 @@ import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-actio
 import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
-import { Tenant } from '@features/administration/tenant-management/models/tenant.model';
+import { IdentityProviderConfig, Tenant } from '@features/administration/tenant-management/models/tenant.model';
 import { TenantService } from '@features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/services/tenant.service';
 import { TenantFormPage } from '@features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page';
 
@@ -37,7 +37,7 @@ export class TenantOidcConfigPage extends BaseListComponent<Tenant> {
     private readonly service = inject(TenantService);
 
     dialogVisible = false;
-    selectedTenantId: string | null = null;
+    selectedTenantId: number | null = null;
 
     @ViewChild('dt') private dt?: Table;
 
@@ -64,12 +64,35 @@ export class TenantOidcConfigPage extends BaseListComponent<Tenant> {
     }
 
     authSourceLabel(tenant: Tenant): string {
-        return tenant.authSource
-            ? tenant.authSource
+        const provider = this.resolveOidcProvider(tenant);
+        return provider?.authSource
+            ? provider.authSource
                   .toLowerCase()
                   .split('_')
                   .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
                   .join(' ')
             : 'Internal';
+    }
+
+    resolveOidcConfig(tenant: Tenant) {
+        return this.resolveOidcProvider(tenant)?.oidcConfig ?? tenant.oidcConfig;
+    }
+
+    hasExternalProvider(tenant: Tenant): boolean {
+        const provider = this.resolveOidcProvider(tenant);
+        return !!provider?.authSource && provider.authSource !== 'INTERNAL';
+    }
+
+    private resolveOidcProvider(tenant: Tenant): IdentityProviderConfig | undefined {
+        return tenant.identityProviders?.find((provider) => !!provider.oidcConfig)
+            ?? (tenant.oidcConfig
+                ? {
+                      authSource: tenant.authSource,
+                      enabled: true,
+                      priority: 1,
+                      providerId: tenant.authSource?.toLowerCase(),
+                      oidcConfig: tenant.oidcConfig
+                  }
+                : undefined);
     }
 }

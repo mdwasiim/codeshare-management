@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,12 +22,12 @@ public class TenantController {
     }
 
     @PutMapping("/tenants/{id}")
-    public TenantDTO update(@PathVariable UUID id, @RequestBody TenantDTO dto) {
+    public TenantDTO update(@PathVariable Long id, @RequestBody TenantDTO dto) {
         return tenantService.update(id, dto);
     }
 
     @GetMapping("/tenants/{id}")
-    public TenantDTO getById(@PathVariable UUID id) {
+    public TenantDTO getById(@PathVariable Long id) {
         return tenantService.getById(id);
     }
 
@@ -47,13 +46,18 @@ public class TenantController {
         return tenantService.getAll();
     }
 
+    @GetMapping("/internal/tenants")
+    public List<TenantDTO> getAllInternal() {
+        return tenantService.getAll();
+    }
+
     @GetMapping("/tenants/login-options")
     public List<TenantLoginOptionDTO> getLoginOptions() {
         return tenantService.getLoginOptions();
     }
 
     @DeleteMapping("/tenants/{id}")
-    public String delete(@PathVariable UUID id) {
+    public String delete(@PathVariable Long id) {
         tenantService.delete(id);
         return CSMConstants.NO_DATA;
     }

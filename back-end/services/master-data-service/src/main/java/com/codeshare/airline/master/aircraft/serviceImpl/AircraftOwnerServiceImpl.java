@@ -11,11 +11,10 @@ import com.codeshare.airline.master.geography.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class AircraftOwnerServiceImpl
-        extends BaseServiceImpl<AircraftOwner, AircraftOwnerDTO, UUID>
+        extends BaseServiceImpl<AircraftOwner, AircraftOwnerDTO, Long>
         implements AircraftOwnerService {
 
     private final AircraftOwnerRepository repository;
@@ -39,7 +38,7 @@ public class AircraftOwnerServiceImpl
     }
 
     @Override
-    public AircraftOwnerDTO update(UUID id, AircraftOwnerDTO dto) {
+    public AircraftOwnerDTO update(Long id, AircraftOwnerDTO dto) {
         AircraftOwner existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft owner not found"));
 
@@ -48,7 +47,7 @@ public class AircraftOwnerServiceImpl
         return mapper.toDTO(repository.save(existing));
     }
 
-    private Country getCountry(UUID id) {
+    private Country getCountry(Long id) {
         if (id == null) {
             return null;
         }

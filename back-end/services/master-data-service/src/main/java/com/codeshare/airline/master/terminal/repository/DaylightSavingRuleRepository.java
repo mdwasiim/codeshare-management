@@ -4,9 +4,8 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.terminal.entities.DaylightSavingRule;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface DaylightSavingRuleRepository extends CSMDataBaseRepository<DaylightSavingRule, UUID> {
+public interface DaylightSavingRuleRepository extends CSMDataBaseRepository<DaylightSavingRule, Long> {
 
     Optional<DaylightSavingRule> findByRuleCode(String ruleCode);
 

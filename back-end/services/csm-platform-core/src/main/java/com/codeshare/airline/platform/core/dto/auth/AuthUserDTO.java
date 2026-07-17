@@ -8,7 +8,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,7 +18,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = false)
 public class AuthUserDTO extends CSMAuditableDTO {
 
-    private UUID id;
+    private Long id;
 
     private String username;
 

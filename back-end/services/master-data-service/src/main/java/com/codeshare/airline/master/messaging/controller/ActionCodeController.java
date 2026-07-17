@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/action-codes")
-public class ActionCodeController extends BaseController<ActionCodeDTO, UUID> {
+public class ActionCodeController extends BaseController<ActionCodeDTO, Long> {
 
-    protected ActionCodeController(BaseService<ActionCodeDTO, UUID> service) {
+    protected ActionCodeController(BaseService<ActionCodeDTO, Long> service) {
         super(service);
     }
 }

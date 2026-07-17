@@ -12,8 +12,8 @@ export type DistributionMode = 'REAL_TIME' | 'SCHEDULED' | 'MANUAL';
 export type DistributionMessageType = 'SSIM' | 'SSM' | 'ASM';
 
 export interface TenantPartnerProfile extends AuditableModel {
-    id?: string;
-    partnerId?: string;
+    id?: number;
+    partnerId?: number;
     profileCode?: string;
     profileName?: string;
     partnerType?: PartnerType;
@@ -33,8 +33,8 @@ export interface TenantPartnerProfile extends AuditableModel {
 }
 
 export interface TenantPartnerCommunicationProfile extends AuditableModel {
-    id?: string;
-    partnerId?: string;
+    id?: number;
+    partnerId?: number;
     profileCode?: string;
     profileName?: string;
     protocol?: CommunicationProtocol;
@@ -59,8 +59,8 @@ export interface TenantPartnerCommunicationProfile extends AuditableModel {
 }
 
 export interface TenantPartnerDistributionProfile extends AuditableModel {
-    id?: string;
-    partnerId?: string;
+    id?: number;
+    partnerId?: number;
     profileCode?: string;
     profileName?: string;
     distributionChannel?: CommunicationProtocol;

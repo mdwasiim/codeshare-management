@@ -5,23 +5,22 @@ import com.codeshare.airline.platform.core.dto.tenant.UserGroupDTO;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 public interface UserGroupAssignmentService {
 
-    Set<String> resolveGroupCodes(UUID userId);
+    Set<String> resolveGroupCodes(Long userId);
 
     // =============================================
     // GET GROUPS ASSIGNED TO USER
     // =============================================
     List<GroupDTO> getGroupsByUser(
-            UUID userId
+            Long userId
     );
 
     // =============================================
     // REPLACE USER GROUPS
     // =============================================
     List<UserGroupDTO> replaceUserGroups(
-            UUID userId,
-            List<UUID> groupIds);
+            Long userId,
+            List<Long> groupIds);
 }

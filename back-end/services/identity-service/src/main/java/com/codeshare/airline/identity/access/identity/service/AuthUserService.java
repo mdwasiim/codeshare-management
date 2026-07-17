@@ -7,17 +7,16 @@ import com.codeshare.airline.platform.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.platform.core.enums.auth.AuthSource;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AuthUserService {
 
     AuthUserDTO create(AuthUserDTO dto);
 
-    AuthUserDTO update(UUID id, AuthUserDTO dto);
+    AuthUserDTO update(Long id, AuthUserDTO dto);
 
-    AuthUserDTO getById(UUID id);
+    AuthUserDTO getById(Long id);
 
-    void delete(UUID id);
+    void delete(Long id);
 
     AuthUserDTO getByUsername(String name);
 

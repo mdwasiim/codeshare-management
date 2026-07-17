@@ -8,20 +8,19 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-public interface GroupRoleRepository extends CSMDataBaseRepository<GroupRole, UUID> {
+public interface GroupRoleRepository extends CSMDataBaseRepository<GroupRole, Long> {
 
-    List<GroupRole> findByGroup_Id(UUID groupId);
+    List<GroupRole> findByGroup_Id(Long groupId);
 
-    List<GroupRole> findByRole_Id(UUID groupId);
+    List<GroupRole> findByRole_Id(Long groupId);
 
-    boolean existsByGroup_IdAndRole_Id(UUID groupId, UUID roleId);
+    boolean existsByGroup_IdAndRole_Id(Long groupId, Long roleId);
 
     @Query("select concat(gr.group.code, concat(':', gr.role.code)) from GroupRole gr where gr.tenantId = :tenantId")
-    Set<String> findMappingsByTenantId(@Param("tenantId") UUID tenantId);
+    Set<String> findMappingsByTenantId(@Param("tenantId") Long tenantId);
 
-    long countByTenantId(UUID tenantId);
+    long countByTenantId(Long tenantId);
 
-    void deleteByGroup_Id(UUID groupId);
+    void deleteByGroup_Id(Long groupId);
 }

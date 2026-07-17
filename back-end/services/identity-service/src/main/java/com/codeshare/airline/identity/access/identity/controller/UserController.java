@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -29,7 +28,7 @@ public class UserController {
     // ---------------------------------------------------------------------
     @PutMapping("/{id}")
     public AuthUserDTO update(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody AuthUserDTO dto) {
         return authUserService.update(id, dto);
     }
@@ -38,7 +37,7 @@ public class UserController {
     // GET USER BY ID
     // ---------------------------------------------------------------------
     @GetMapping("/{id}")
-    public  AuthUserDTO getById(@PathVariable UUID id) {
+    public  AuthUserDTO getById(@PathVariable Long id) {
         return authUserService.getById(id);
     }
 
@@ -47,7 +46,7 @@ public class UserController {
     // (your service should implement soft delete using isDeleted flag)
     // ---------------------------------------------------------------------
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
+    public void delete(@PathVariable Long id) {
         authUserService.delete(id);
     }
 

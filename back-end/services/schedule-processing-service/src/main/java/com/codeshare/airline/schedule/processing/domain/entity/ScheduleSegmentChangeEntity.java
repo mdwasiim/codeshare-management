@@ -1,9 +1,10 @@
 package com.codeshare.airline.schedule.processing.domain.entity;
 
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
+import com.codeshare.airline.schedule.processing.domain.enums.ChangeSetStatus;
 import com.codeshare.airline.schedule.processing.domain.enums.SegmentChangeType;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Comparison result for one board/off-point segment on a flight leg.
@@ -27,7 +27,7 @@ import java.util.UUID;
  *
  * Cross-service UUIDs:
  *   - {@code liveSegmentId}     â€” LiveSegmentEntity.id in schedule-service (null if ADDED)
- *   - {@code ingestedSegmentId} â€” ScheduleDataElementEntity / segment ref in ingestion-service (null if REMOVED)
+ *   - {@code importedSegmentId} â€” imported schedule segment reference (null if REMOVED)
  *
  * DEI-level changes on this segment are stored in {@link ScheduleDeiChangeEntity} children.
  */
@@ -39,7 +39,7 @@ import java.util.UUID;
                 @Index(name = "idx_ssc_leg_change",   columnList = "leg_change_id"),
                 @Index(name = "idx_ssc_segment",      columnList = "board_point, off_point"),
                 @Index(name = "idx_ssc_change_type",  columnList = "segment_change_type"),
-                @Index(name = "idx_ssc_merge_status", columnList = "merge_status"),
+                @Index(name = "idx_ssc_change_set_status", columnList = "change_set_status"),
                 @Index(name = "idx_ssc_live_seg",     columnList = "live_segment_id")
         },
         uniqueConstraints = {
@@ -92,25 +92,25 @@ public class ScheduleSegmentChangeEntity extends CSMDataAbstractEntity {
 
     // LiveSegmentEntity.id in schedule-service â€” null if ADDED
     @Column(name = "live_segment_id")
-    private UUID liveSegmentId;
+    private Long liveSegmentId;
 
     // Reference to segment data in schedule-ingestion-service â€” null if REMOVED
     @Column(name = "ingested_segment_id")
-    private UUID ingestedSegmentId;
+    private Long importedSegmentId;
 
     /* ==========================================================
-       MERGE TRACKING
+       CHANGE-SET STATUS
        ========================================================== */
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "merge_status", length = 20, nullable = false)
-    private MergeStatus mergeStatus;
+    @Column(name = "change_set_status", length = 20, nullable = false)
+    private ChangeSetStatus changeSetStatus;
 
-    @Column(name = "merged_at")
-    private Instant mergedAt;
+    @Column(name = "status_recorded_at")
+    private Instant statusRecordedAt;
 
-    @Column(name = "merge_error", columnDefinition = "TEXT")
-    private String mergeError;
+    @Column(name = "status_reason", columnDefinition = "TEXT")
+    private String statusReason;
 
     /* ==========================================================
        CHILDREN â€” DEI changes on this segment
@@ -123,6 +123,7 @@ public class ScheduleSegmentChangeEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("deiCode ASC, sequenceOrder ASC")
+    @Builder.Default
     private List<ScheduleDeiChangeEntity> deiChanges = new ArrayList<>();
 
     /* ==========================================================
@@ -136,3 +137,4 @@ public class ScheduleSegmentChangeEntity extends CSMDataAbstractEntity {
         }
     }
 }
+

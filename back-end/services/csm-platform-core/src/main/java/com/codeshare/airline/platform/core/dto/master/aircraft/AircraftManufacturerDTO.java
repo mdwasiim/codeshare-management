@@ -5,16 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AircraftManufacturerDTO {
-    private UUID id;
+    private Long id;
     private String manufacturerCode;
     private String manufacturerName;
     private String shortName;
-    private UUID countryId;
+    private Long countryId;
     private String website;
     private Boolean active;
     private Integer displayOrder;

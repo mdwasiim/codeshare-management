@@ -8,10 +8,9 @@ import com.codeshare.airline.master.geography.mappers.RegionMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class RegionServiceImpl extends BaseServiceImpl<Region, RegionDTO, UUID>  implements RegionService {
+public class RegionServiceImpl extends BaseServiceImpl<Region, RegionDTO, Long>  implements RegionService {
 
     public RegionServiceImpl(RegionRepository repository, RegionMapper mapper) {
         super(repository, mapper);

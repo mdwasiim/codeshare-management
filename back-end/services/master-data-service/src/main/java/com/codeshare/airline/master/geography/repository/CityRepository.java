@@ -9,14 +9,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CityRepository
-        extends CSMDataBaseRepository<City, UUID> {
+        extends CSMDataBaseRepository<City, Long> {
 
-    List<City> findByCountryId(UUID countryId);
+    List<City> findByCountryId(Long countryId);
 
-    List<City> findByStateId(UUID stateId);
+    List<City> findByStateId(Long stateId);
 
     @Query("""
         SELECT c FROM City c

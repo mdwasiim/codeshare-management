@@ -4,6 +4,7 @@ import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.live.domain.enums.LiveScheduleSource;
 import com.codeshare.airline.schedule.live.domain.enums.LiveScheduleStatus;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -264,7 +265,18 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
+    @OrderBy("sequenceOrder ASC")
+    @Builder.Default
+    private List<LiveLegDataElementEntity> legDataElements = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "flightLeg",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
     @OrderBy("boardPoint ASC, offPoint ASC")
+    @Builder.Default
     private List<LiveSegmentEntity> segments = new ArrayList<>();
 
     @OneToMany(
@@ -274,6 +286,7 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("sequenceOrder ASC")
+    @Builder.Default
     private List<LiveCodeshareDesignatorEntity> codeshareDesignators = new ArrayList<>();
 
     @OneToMany(
@@ -283,6 +296,7 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("versionNumber DESC")
+    @Builder.Default
     private List<LiveScheduleVersionEntity> versions = new ArrayList<>();
 
     /* ==========================================================
@@ -293,6 +307,13 @@ public class LiveFlightLegEntity extends CSMDataAbstractEntity {
         if (segment != null) {
             segments.add(segment);
             segment.setFlightLeg(this);
+        }
+    }
+
+    public void addLegDataElement(LiveLegDataElementEntity dataElement) {
+        if (dataElement != null) {
+            legDataElements.add(dataElement);
+            dataElement.setFlightLeg(this);
         }
     }
 

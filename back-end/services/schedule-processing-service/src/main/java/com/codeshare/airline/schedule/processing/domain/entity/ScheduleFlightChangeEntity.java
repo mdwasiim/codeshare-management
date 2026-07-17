@@ -1,43 +1,45 @@
 package com.codeshare.airline.schedule.processing.domain.entity;
 
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
-import jakarta.persistence.*;
+import com.codeshare.airline.schedule.processing.domain.enums.ChangeSetStatus;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Groups all detected changes for a single flight identity within one
- * comparison run.
- *
- * A flight identity = airlineCode + flightNumber + operationalSuffix
- *                   + itineraryVariationId
- *
- * One flight may have changes on multiple legs (e.g. leg 1 TIM change,
- * leg 2 CNL). These are stored as {@link ScheduleLegChangeEntity} children.
- *
- * DEI-level changes on any leg are stored as {@link ScheduleDeiChangeEntity}
- * children alongside the leg change.
- */
 @Entity
 @Table(
         name = "schedule_flight_change",
         schema = "schedule_processing",
         indexes = {
-                @Index(name = "idx_sfc_run",         columnList = "comparison_run_id"),
-                @Index(name = "idx_sfc_airline_flt",  columnList = "airline_code, flight_number"),
-                @Index(name = "idx_sfc_merge_status", columnList = "merge_status")
+                @Index(name = "idx_sfc_change_set", columnList = "change_set_id"),
+                @Index(name = "idx_sfc_airline_flt", columnList = "airline_code, flight_number"),
+                @Index(name = "idx_sfc_change_set_status", columnList = "change_set_status")
         },
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_sfc_run_flight",
+                        name = "uk_sfc_change_set_flight",
                         columnNames = {
-                                "comparison_run_id",
+                                "change_set_id",
                                 "airline_code",
                                 "flight_number",
                                 "operational_suffix",
@@ -52,22 +54,14 @@ import java.util.List;
 @SuperBuilder
 public class ScheduleFlightChangeEntity extends CSMDataAbstractEntity {
 
-    /* ==========================================================
-       RELATIONSHIP TO RUN
-       ========================================================== */
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
-            name = "comparison_run_id",
+            name = "change_set_id",
             nullable = false,
             updatable = false,
-            foreignKey = @ForeignKey(name = "fk_sfc_run")
+            foreignKey = @ForeignKey(name = "fk_sfc_change_set")
     )
-    private ScheduleComparisonRunEntity comparisonRun;
-
-    /* ==========================================================
-       FLIGHT IDENTITY
-       ========================================================== */
+    private ChangeSetEntity changeSet;
 
     @Column(name = "airline_code", length = 3, nullable = false)
     private String airlineCode;
@@ -81,17 +75,15 @@ public class ScheduleFlightChangeEntity extends CSMDataAbstractEntity {
     @Column(name = "itinerary_variation_id", length = 2)
     private String itineraryVariationId;
 
-    /* ==========================================================
-       MERGE STATUS  (flight-level rollup)
-       ========================================================== */
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "merge_status", length = 20, nullable = false)
-    private MergeStatus mergeStatus;
+    @Column(name = "change_set_status", length = 20, nullable = false)
+    private ChangeSetStatus changeSetStatus;
 
-    /* ==========================================================
-       CHILDREN
-       ========================================================== */
+    @Column(name = "status_recorded_at")
+    private Instant statusRecordedAt;
+
+    @Column(name = "status_reason", columnDefinition = "TEXT")
+    private String statusReason;
 
     @OneToMany(
             mappedBy = "flightChange",
@@ -100,11 +92,8 @@ public class ScheduleFlightChangeEntity extends CSMDataAbstractEntity {
             fetch = FetchType.LAZY
     )
     @OrderBy("legSequenceNumber ASC")
+    @Builder.Default
     private List<ScheduleLegChangeEntity> legChanges = new ArrayList<>();
-
-    /* ==========================================================
-       HELPERS
-       ========================================================== */
 
     public void addLegChange(ScheduleLegChangeEntity legChange) {
         if (legChange != null) {

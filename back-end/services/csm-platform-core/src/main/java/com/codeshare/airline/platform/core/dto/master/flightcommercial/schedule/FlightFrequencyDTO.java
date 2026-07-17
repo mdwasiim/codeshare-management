@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class FlightFrequencyDTO {
-    private UUID id;
+    private Long id;
     private String frequencyCode;
     private String frequencyName;
     private Integer operatingDays;

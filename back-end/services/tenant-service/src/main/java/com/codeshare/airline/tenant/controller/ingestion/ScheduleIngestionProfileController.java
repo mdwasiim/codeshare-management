@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/tenant-ingestion-profiles")
@@ -22,7 +21,7 @@ public class ScheduleIngestionProfileController {
     }
 
     @PutMapping("/{id}")
-    public TenantIngestionProfileDTO update(@PathVariable UUID id, @RequestBody TenantIngestionProfileDTO dto) {
+    public TenantIngestionProfileDTO update(@PathVariable Long id, @RequestBody TenantIngestionProfileDTO dto) {
         return service.update(id, dto);
     }
 
@@ -36,14 +35,19 @@ public class ScheduleIngestionProfileController {
         return service.getAll();
     }
 
+    @GetMapping("/internal/all")
+    public List<TenantIngestionProfileDTO> getAllInternal() {
+        return service.getAll();
+    }
+
     @PatchMapping("/{id}/enabled")
-    public String enable(@PathVariable UUID id, @RequestParam boolean enabled) {
+    public String enable(@PathVariable Long id, @RequestParam boolean enabled) {
         service.enable(id, enabled);
         return CSMConstants.NO_DATA;
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable UUID id) {
+    public String delete(@PathVariable Long id) {
         service.delete(id);
         return CSMConstants.NO_DATA;
     }

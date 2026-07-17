@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -21,7 +20,7 @@ public class GroupLoader {
     private final GroupRepository groupRepository;
     private final IdentityBootstrapData bootstrapData;
 
-    public void load(UUID tenantId) {
+    public void load(Long tenantId) {
         log.info("GroupLoader: ensuring groups for tenant {}", tenantId);
 
         Set<String> existingCodes = groupRepository.findCodesByTenantId(tenantId);
@@ -49,7 +48,7 @@ public class GroupLoader {
         }
     }
 
-    public boolean isLoaded(UUID tenantId) {
+    public boolean isLoaded(Long tenantId) {
         long expected = bootstrapData.groups().size();
         long actual = groupRepository.countByTenantId(tenantId);
         return actual >= expected;

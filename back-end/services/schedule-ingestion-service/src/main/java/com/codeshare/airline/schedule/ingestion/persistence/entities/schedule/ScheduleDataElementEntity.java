@@ -63,4 +63,57 @@ public class ScheduleDataElementEntity extends CSMDataAbstractEntity {
     @Column(name = "off_point", length = 3)
     private String offPoint;
 
+    public void attachToFlight(ScheduleFlightEntity parentFlight) {
+        if (parentFlight == null) {
+            throw new IllegalArgumentException("Flight parent cannot be null");
+        }
+        this.flight = parentFlight;
+        this.leg = null;
+    }
+
+    public void attachToLeg(ScheduleLegEntity parentLeg) {
+        if (parentLeg == null) {
+            throw new IllegalArgumentException("Leg parent cannot be null");
+        }
+        this.leg = parentLeg;
+        this.flight = null;
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void validateOwnership() {
+        if (scope == null) {
+            throw new IllegalStateException("Schedule DEI scope is required");
+        }
+
+        switch (scope) {
+            case FLIGHT -> {
+                if (flight == null || leg != null) {
+                    throw new IllegalStateException("Flight-level DEI must reference exactly one flight");
+                }
+                boardPoint = null;
+                offPoint = null;
+            }
+            case LEG -> {
+                if (leg == null || flight != null) {
+                    throw new IllegalStateException("Leg-level DEI must reference exactly one leg");
+                }
+                boardPoint = null;
+                offPoint = null;
+            }
+            case SEGMENT -> {
+                if (leg == null || flight != null) {
+                    throw new IllegalStateException("Segment-level DEI must reference exactly one leg");
+                }
+                if (isBlank(boardPoint) || isBlank(offPoint)) {
+                    throw new IllegalStateException("Segment-level DEI requires board and off points");
+                }
+            }
+        }
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.isBlank();
+    }
+
 }

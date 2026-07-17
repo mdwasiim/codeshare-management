@@ -9,20 +9,19 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface LiveScheduleVersionRepository extends CSMDataBaseRepository<LiveScheduleVersionEntity, UUID> {
+public interface LiveScheduleVersionRepository extends CSMDataBaseRepository<LiveScheduleVersionEntity, Long> {
 
-    List<LiveScheduleVersionEntity> findByFlightLegIdOrderByVersionNumberDesc(UUID flightLegId);
+    List<LiveScheduleVersionEntity> findByFlightLegIdOrderByVersionNumberDesc(Long flightLegId);
 
-    Optional<LiveScheduleVersionEntity> findTopByFlightLegIdOrderByVersionNumberDesc(UUID flightLegId);
+    Optional<LiveScheduleVersionEntity> findTopByFlightLegIdOrderByVersionNumberDesc(Long flightLegId);
 
-    List<LiveScheduleVersionEntity> findByFlightLegIdAndChangeType(UUID flightLegId, ScheduleChangeType changeType);
+    List<LiveScheduleVersionEntity> findByFlightLegIdAndChangeType(Long flightLegId, ScheduleChangeType changeType);
 
     @Query("""
             SELECT MAX(v.versionNumber) FROM LiveScheduleVersionEntity v
             WHERE v.flightLeg.id = :legId
             """)
-    Optional<Long> findMaxVersionNumberByLegId(@Param("legId") UUID legId);
+    Optional<Long> findMaxVersionNumberByLegId(@Param("legId") Long legId);
 }

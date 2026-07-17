@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class TimeModeDTO {
-    private UUID id;
+    private Long id;
     private String timeModeCode;
     private String timeModeName;
     private Boolean active;

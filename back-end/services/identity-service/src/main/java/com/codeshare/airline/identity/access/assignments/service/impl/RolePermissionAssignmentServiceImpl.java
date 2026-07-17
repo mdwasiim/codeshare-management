@@ -48,7 +48,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     // -------------------------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
-    public List<RolePermissionDTO> getPermissionsByRole(UUID roleId) {
+    public List<RolePermissionDTO> getPermissionsByRole(Long roleId) {
         return mapper.toDTOList(rolePermissionRepository.findByRoleId(roleId));
     }
 
@@ -57,7 +57,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     // -------------------------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
-    public List<RolePermissionDTO> getRolesByPermission(UUID permissionId) {
+    public List<RolePermissionDTO> getRolesByPermission(Long permissionId) {
         return mapper.toDTOList(rolePermissionRepository.findByPermissionId(permissionId));
     }
 
@@ -67,7 +67,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     // Resolve all roles for a user (direct + group inherited)
     // -------------------------------------------------------------------------
     @Override
-    public Set<RoleDTO> resolveRoles(UUID userId) {
+    public Set<RoleDTO> resolveRoles(Long userId) {
 
         Set<Role> roles = new HashSet<>();
 
@@ -76,7 +76,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
         List<UserGroup> userGroups = userGroupRepository.findByUser_Id(userId);
 
         for (UserGroup ugr : userGroups) {
-            UUID groupId = ugr.getGroup().getId();
+            Long groupId = ugr.getGroup().getId();
 
             List<GroupRole> groupRoles =
                     groupRoleRepository.findByGroup_Id(groupId);
@@ -94,7 +94,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     // Resolve all permissions for a user
     // -------------------------------------------------------------------------
     @Override
-    public Set<PermissionDTO> resolvePermissions(UUID userId) {
+    public Set<PermissionDTO> resolvePermissions(Long userId) {
 
         // 1️⃣ Get roles for user
         Set<RoleDTO> roleDTOS = resolveRoles(userId);
@@ -103,7 +103,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
             return Collections.emptySet();
 
         // Extract role IDs
-        Set<UUID> roleIds = roleDTOS.stream()
+        Set<Long> roleIds = roleDTOS.stream()
                 .map(RoleDTO::getId)
                 .collect(Collectors.toSet());
 
@@ -119,7 +119,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     // Convenience: only return role names
     // -------------------------------------------------------------------------
     @Override
-    public Set<String> resolveRoleCodes(UUID userId) {
+    public Set<String> resolveRoleCodes(Long userId) {
 
         return resolveRoles(userId).stream()
                 .map(RoleDTO::getCode)   // ✅ better
@@ -131,7 +131,7 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     // Convenience: only return permission names
     // -------------------------------------------------------------------------
     @Override
-    public Set<String> resolvePermissionCodes(UUID userId) {
+    public Set<String> resolvePermissionCodes(Long userId) {
 
         return resolvePermissions(userId).stream()
                 .map(PermissionDTO::getCode)   // ✅ MUST
@@ -141,11 +141,11 @@ public class RolePermissionAssignmentServiceImpl implements RolePermissionAssign
     @Override
     @Transactional
     public List<RolePermissionDTO> replaceRolePermissions(
-            UUID roleId,
-            List<UUID> permissionIds
+            Long roleId,
+            List<Long> permissionIds
     ) {
 
-        UUID tenantId = TenantContextHolder.getTenant().getId();
+        Long tenantId = TenantContextHolder.getTenant().getId();
 
         Role role = roleRepository.findById(roleId).orElseThrow(() ->new RuntimeException("Role not found: " + roleId) );
 

@@ -9,11 +9,10 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class AircraftTypeServiceImpl
-        extends BaseServiceImpl<AircraftType, AircraftTypeDTO, UUID>
+        extends BaseServiceImpl<AircraftType, AircraftTypeDTO, Long>
         implements AircraftTypeService {
 
     private final AircraftTypeRepository repository;

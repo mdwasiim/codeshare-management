@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -102,7 +101,7 @@ public class MenuLoader {
         throw new IllegalStateException("Menu definitions must be a JSON array or object");
     }
 
-    public void load(UUID tenantId) {
+    public void load(Long tenantId) {
 
         log.info("MenuLoader: ensuring menus for tenant {}", tenantId);
 
@@ -287,7 +286,7 @@ public class MenuLoader {
         );
     }
 
-    public boolean isLoaded(UUID tenantId) {
+    public boolean isLoaded(Long tenantId) {
 
         long actual = menuRepository.countByTenantId(tenantId);
         long expected = loadMenuDefinitions().size();
@@ -295,7 +294,7 @@ public class MenuLoader {
         return actual >= expected;
     }
 
-    private String resolveTenantCode(UUID tenantId) {
+    private String resolveTenantCode(Long tenantId) {
         return tenantClient.getAll().stream()
                 .filter(tenant -> tenantId.equals(tenant.getId()))
                 .map(tenant -> tenant.getTenantCode())

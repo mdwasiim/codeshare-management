@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -23,7 +22,7 @@ public class UserGroupAssignmentController {
     // =====================================================
     @GetMapping("/group/{userId}")
     public List<GroupDTO> getGroupsByUser(
-            @PathVariable UUID userId
+            @PathVariable Long userId
     ) {
 
         log.info(
@@ -39,8 +38,8 @@ public class UserGroupAssignmentController {
     // =====================================================
     @PutMapping("/group/{userId}")
     public List<UserGroupDTO> replaceUserGroups(
-            @PathVariable UUID userId,
-            @RequestBody List<UUID> groupIds
+            @PathVariable Long userId,
+            @RequestBody List<Long> groupIds
     ) {
 
         log.info(

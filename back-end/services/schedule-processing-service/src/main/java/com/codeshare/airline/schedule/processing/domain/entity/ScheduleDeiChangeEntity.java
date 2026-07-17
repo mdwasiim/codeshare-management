@@ -3,7 +3,7 @@ package com.codeshare.airline.schedule.processing.domain.entity;
 import com.codeshare.airline.platform.core.enums.schedule.DeiScope;
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.DeiChangeType;
-import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
+import com.codeshare.airline.schedule.processing.domain.enums.ChangeSetStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.util.UUID;
 
 /**
  * A DEI-level change detected during comparison.
@@ -29,7 +28,7 @@ import java.util.UUID;
                 @Index(name = "idx_sdc_segment_change", columnList = "segment_change_id"),
                 @Index(name = "idx_sdc_dei_code", columnList = "dei_code"),
                 @Index(name = "idx_sdc_change_type", columnList = "dei_change_type"),
-                @Index(name = "idx_sdc_merge_status", columnList = "merge_status"),
+                @Index(name = "idx_sdc_change_set_status", columnList = "change_set_status"),
                 @Index(name = "idx_sdc_scope", columnList = "dei_scope")
         },
         uniqueConstraints = {
@@ -86,18 +85,19 @@ public class ScheduleDeiChangeEntity extends CSMDataAbstractEntity {
     private String ingestedValue;
 
     @Column(name = "live_dei_id")
-    private UUID liveDeiId;
+    private Long liveDeiId;
 
     @Column(name = "ingested_dei_id")
-    private UUID ingestedDeiId;
+    private Long importedDataElementId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "merge_status", length = 20, nullable = false)
-    private MergeStatus mergeStatus;
+    @Column(name = "change_set_status", length = 20, nullable = false)
+    private ChangeSetStatus changeSetStatus;
 
-    @Column(name = "merged_at")
-    private Instant mergedAt;
+    @Column(name = "status_recorded_at")
+    private Instant statusRecordedAt;
 
-    @Column(name = "merge_error", columnDefinition = "TEXT")
-    private String mergeError;
+    @Column(name = "status_reason", columnDefinition = "TEXT")
+    private String statusReason;
 }
+

@@ -2,15 +2,15 @@ package com.codeshare.airline.schedule.processing.domain.entity;
 
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.schedule.processing.domain.enums.CodeshareChangeType;
-import com.codeshare.airline.schedule.processing.domain.enums.MergeStatus;
+import com.codeshare.airline.schedule.processing.domain.enums.ChangeSetStatus;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.util.UUID;
 
 /**
  * Parsed codeshare delta for one marketing designator row.
@@ -25,7 +25,7 @@ import java.util.UUID;
         indexes = {
                 @Index(name = "idx_scc_leg_change", columnList = "leg_change_id"),
                 @Index(name = "idx_scc_change_type", columnList = "change_type"),
-                @Index(name = "idx_scc_merge_status", columnList = "merge_status"),
+                @Index(name = "idx_scc_change_set_status", columnList = "change_set_status"),
                 @Index(name = "idx_scc_live_codeshare", columnList = "live_codeshare_id"),
                 @Index(name = "idx_scc_marketing", columnList = "marketing_airline_code, marketing_flight_number")
         },
@@ -63,10 +63,10 @@ public class ScheduleCodeshareChangeEntity extends CSMDataAbstractEntity {
     private CodeshareChangeType changeType;
 
     @Column(name = "live_codeshare_id")
-    private UUID liveCodeshareId;
+    private Long liveCodeshareId;
 
     @Column(name = "ingested_source_id")
-    private UUID ingestedSourceId;
+    private Long importedCodeshareId;
 
     @Column(name = "marketing_airline_code", length = 3, nullable = false)
     private String marketingAirlineCode;
@@ -87,6 +87,7 @@ public class ScheduleCodeshareChangeEntity extends CSMDataAbstractEntity {
     private String marketingBookingDesignator;
 
     @Column(name = "is_codeshare", nullable = false)
+    @Builder.Default
     private boolean codeshare = true;
 
     @Column(name = "source_dei_code", length = 3)
@@ -102,12 +103,13 @@ public class ScheduleCodeshareChangeEntity extends CSMDataAbstractEntity {
     private String ingestedSnapshot;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "merge_status", length = 20, nullable = false)
-    private MergeStatus mergeStatus;
+    @Column(name = "change_set_status", length = 20, nullable = false)
+    private ChangeSetStatus changeSetStatus;
 
-    @Column(name = "merged_at")
-    private Instant mergedAt;
+    @Column(name = "status_recorded_at")
+    private Instant statusRecordedAt;
 
-    @Column(name = "merge_error", columnDefinition = "TEXT")
-    private String mergeError;
+    @Column(name = "status_reason", columnDefinition = "TEXT")
+    private String statusReason;
 }
+

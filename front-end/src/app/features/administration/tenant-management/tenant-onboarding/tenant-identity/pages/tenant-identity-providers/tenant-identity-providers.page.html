@@ -55,11 +55,11 @@
                 <td>{{ tenant.name }}</td>
                 <td>{{ tenant.tenantCode }}</td>
                 <td>
-                    <p-tag [value]="authSourceLabel(tenant)" [severity]="tenant.authSource && tenant.authSource !== 'INTERNAL' ? 'info' : 'success'"></p-tag>
+                    <p-tag [value]="authSourceLabel(tenant)" [severity]="hasExternalProvider(tenant) ? 'info' : 'success'"></p-tag>
                 </td>
-                <td>{{ tenant.oidcConfig?.issuerUri || '-' }}</td>
-                <td>{{ tenant.oidcConfig?.clientId || '-' }}</td>
-                <td>{{ tenant.oidcConfig?.redirectUri || '-' }}</td>
+                <td>{{ resolveOidcConfig(tenant)?.issuerUri || '-' }}</td>
+                <td>{{ resolveOidcConfig(tenant)?.clientId || '-' }}</td>
+                <td>{{ resolveOidcConfig(tenant)?.redirectUri || '-' }}</td>
                 <td>
                     <p-tag [value]="tenant.status || 'Unknown'" [severity]="statusSeverity(tenant.status)"></p-tag>
                 </td>

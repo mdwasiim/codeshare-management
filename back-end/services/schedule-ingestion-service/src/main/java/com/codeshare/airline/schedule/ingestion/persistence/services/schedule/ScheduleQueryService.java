@@ -33,6 +33,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -110,8 +111,22 @@ public class ScheduleQueryService {
         return fileMapper.toDto(findFile(messageType, fileId));
     }
 
+    public Optional<ScheduleFileMetaDataDTO> findFileByImportBatchId(UUID importBatchId) {
+        return findSingleFileByLoadId(importBatchId)
+                .map(fileMapper::toDto);
+    }
+
     public ScheduleFileMessageResponse getParsedSchedule(MessageType messageType, UUID fileId) {
         ScheduleFileMetaDataEntity file = findFile(messageType, fileId);
+        return toParsedScheduleResponse(file);
+    }
+
+    public Optional<ScheduleFileMessageResponse> findParsedScheduleByImportBatchId(UUID importBatchId) {
+        return findSingleFileByLoadId(importBatchId)
+                .map(this::toParsedScheduleResponse);
+    }
+
+    private ScheduleFileMessageResponse toParsedScheduleResponse(ScheduleFileMetaDataEntity file) {
         List<ScheduleMessageDTO> messages = file.getSafeEnvelopes()
                 .stream()
                 .map(messageMapper::toDTO)
@@ -156,7 +171,7 @@ public class ScheduleQueryService {
         ).map(flightMapper::toDTO);
     }
 
-    public ScheduleFlightDTO getFlight(MessageType messageType, UUID flightId) {
+    public ScheduleFlightDTO getFlight(MessageType messageType, Long flightId) {
         assertScheduleType(messageType);
         ScheduleFlightEntity flight = flightRepository.findById(flightId)
                 .filter(entity -> entity.getSubMessage() != null
@@ -195,6 +210,20 @@ public class ScheduleQueryService {
                         HttpStatus.NOT_FOUND,
                         (messageType == null ? "ASM/SSM" : messageType) + " file not found: " + fileId
                 ));
+    }
+
+    private Optional<ScheduleFileMetaDataEntity> findSingleFileByLoadId(UUID loadId) {
+        List<ScheduleFileMetaDataEntity> matches = fileRepository.findAllByLoadId(loadId);
+        if (matches.isEmpty()) {
+            return Optional.empty();
+        }
+        if (matches.size() > 1) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Multiple ASM/SSM files found for loadId=" + loadId
+            );
+        }
+        return Optional.of(matches.getFirst());
     }
 
     private Specification<ScheduleFileMetaDataEntity> fileSpec(

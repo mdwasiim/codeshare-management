@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/time-modes")
-public class TimeModeController extends BaseController<TimeModeDTO, UUID> {
-    protected TimeModeController(BaseService<TimeModeDTO, UUID> service) {
+public class TimeModeController extends BaseController<TimeModeDTO, Long> {
+    protected TimeModeController(BaseService<TimeModeDTO, Long> service) {
         super(service);
     }
 }

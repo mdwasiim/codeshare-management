@@ -39,7 +39,7 @@ export interface LoadedScheduleSummary {
 
 export interface LoadedScheduleMessageSummary {
     file: ScheduleFileMetaData;
-    messageId: string;
+    messageId: number;
     messageSequenceNumber: number;
     message: ScheduleParsedMessage;
     flightCount: number;
@@ -185,7 +185,7 @@ export interface ScheduleDataElement {
 }
 
 export interface SsimDataElement {
-    flightLegId?: string;
+    flightLegId?: number;
     recordType?: string;
     operationalSuffix?: string;
     airlineCode?: string;

@@ -6,14 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface CityService
-        extends BaseService<CityDTO, UUID> {
+        extends BaseService<CityDTO, Long> {
 
-    List<CityDTO> getByCountry(UUID countryId);
+    List<CityDTO> getByCountry(Long countryId);
 
-    List<CityDTO> getByState(UUID stateId);
+    List<CityDTO> getByState(Long stateId);
 
     Page<CityDTO> search(String keyword, Pageable pageable);
 

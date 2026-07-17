@@ -4,7 +4,6 @@ import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,9 +11,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DstRuleDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID timezoneId;
+    private Long timezoneId;
     private String timezoneIdentifier;
 
     private LocalDateTime dstStart;

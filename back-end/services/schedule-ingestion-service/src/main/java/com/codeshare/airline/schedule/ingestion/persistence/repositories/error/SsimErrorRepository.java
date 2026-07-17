@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SsimErrorRepository
-        extends JpaRepository<SsimErrorEntity, UUID> {
+        extends JpaRepository<SsimErrorEntity, Long> {
 
     List<SsimErrorEntity> findByFileId(UUID fileId);
 

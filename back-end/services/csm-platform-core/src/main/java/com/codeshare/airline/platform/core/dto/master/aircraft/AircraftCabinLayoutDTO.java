@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,9 +13,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AircraftCabinLayoutDTO {
 
-    private UUID id;
+    private Long id;
 
-    private UUID aircraftConfigurationId;
+    private Long aircraftConfigurationId;
 
     private CabinClass cabinClass;
 

@@ -17,11 +17,10 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class AircraftRegistrationServiceImpl
-        extends BaseServiceImpl<AircraftRegistration, AircraftRegistrationDTO, UUID>
+        extends BaseServiceImpl<AircraftRegistration, AircraftRegistrationDTO, Long>
         implements AircraftRegistrationService {
 
     private final AircraftRegistrationRepository repository;
@@ -54,7 +53,7 @@ public class AircraftRegistrationServiceImpl
     }
 
     @Override
-    public AircraftRegistrationDTO update(UUID id, AircraftRegistrationDTO dto) {
+    public AircraftRegistrationDTO update(Long id, AircraftRegistrationDTO dto) {
         AircraftRegistration existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft registration not found"));
 
@@ -70,7 +69,7 @@ public class AircraftRegistrationServiceImpl
         entity.setOperatorAirline(getAirlineCarrier(dto.getOperatorAirlineId()));
     }
 
-    private AircraftType getAircraftType(UUID id) {
+    private AircraftType getAircraftType(Long id) {
         if (id == null) {
             throw new EntityNotFoundException("Aircraft type is required");
         }
@@ -79,7 +78,7 @@ public class AircraftRegistrationServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft type not found"));
     }
 
-    private AircraftConfiguration getAircraftConfiguration(UUID id) {
+    private AircraftConfiguration getAircraftConfiguration(Long id) {
         if (id == null) {
             return null;
         }
@@ -88,7 +87,7 @@ public class AircraftRegistrationServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft configuration not found"));
     }
 
-    private AircraftOwner getAircraftOwner(UUID id) {
+    private AircraftOwner getAircraftOwner(Long id) {
         if (id == null) {
             return null;
         }
@@ -97,7 +96,7 @@ public class AircraftRegistrationServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft owner not found"));
     }
 
-    private AirlineCarrier getAirlineCarrier(UUID id) {
+    private AirlineCarrier getAirlineCarrier(Long id) {
         if (id == null) {
             return null;
         }

@@ -4,9 +4,8 @@ import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.master.messaging.entities.StandardMessageIdentifier;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface StandardMessageIdentifierRepository extends CSMDataBaseRepository<StandardMessageIdentifier, UUID> {
+public interface StandardMessageIdentifierRepository extends CSMDataBaseRepository<StandardMessageIdentifier, Long> {
 
     boolean existsByMessageIdentifier(String messageIdentifier);
 

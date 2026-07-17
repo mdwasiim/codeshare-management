@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -23,8 +22,8 @@ public class GroupRoleAssignmentController {
     // ---------------------------------------------------------
     @PostMapping("/{groupId}/{roleId}")
     public GroupRoleDTO assign(
-            @PathVariable UUID groupId,
-            @PathVariable UUID roleId
+            @PathVariable Long groupId,
+            @PathVariable Long roleId
     ) {
 
         log.info(
@@ -44,8 +43,8 @@ public class GroupRoleAssignmentController {
     // ---------------------------------------------------------
     @DeleteMapping("/{groupId}/{roleId}")
     public void remove(
-            @PathVariable UUID groupId,
-            @PathVariable UUID roleId
+            @PathVariable Long groupId,
+            @PathVariable Long roleId
     ) {
 
         log.info(
@@ -65,7 +64,7 @@ public class GroupRoleAssignmentController {
     // ---------------------------------------------------------
     @GetMapping("/role/{groupId}")
     public List<RoleDTO> getRolesByGroup(
-            @PathVariable UUID groupId
+            @PathVariable Long groupId
     ) {
 
         log.debug(
@@ -81,8 +80,8 @@ public class GroupRoleAssignmentController {
     // ---------------------------------------------------------
     @PutMapping("/role/{groupId}")
     public List<GroupRoleDTO> replaceGroupRoles(
-            @PathVariable UUID groupId,
-            @RequestBody List<UUID> roleIds
+            @PathVariable Long groupId,
+            @RequestBody List<Long> roleIds
     ) {
 
         log.info(
@@ -102,7 +101,7 @@ public class GroupRoleAssignmentController {
     // ---------------------------------------------------------
     @GetMapping("/group/{roleId}")
     public List<GroupRoleDTO> getGroupsByRole(
-            @PathVariable UUID roleId
+            @PathVariable Long roleId
     ) {
 
         log.debug(

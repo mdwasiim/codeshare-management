@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/traffic-conference-areas")
-public class TrafficConferenceAreaController extends BaseController<TrafficConferenceAreaDTO, UUID> {
+public class TrafficConferenceAreaController extends BaseController<TrafficConferenceAreaDTO, Long> {
 
-    protected TrafficConferenceAreaController(BaseService<TrafficConferenceAreaDTO, UUID> service) {
+    protected TrafficConferenceAreaController(BaseService<TrafficConferenceAreaDTO, Long> service) {
         super(service);
     }
 }

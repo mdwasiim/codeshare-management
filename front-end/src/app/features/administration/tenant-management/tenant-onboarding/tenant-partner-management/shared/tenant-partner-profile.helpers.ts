@@ -14,7 +14,7 @@ import {
 
 export interface TenantPartnerOption {
     label: string;
-    value: string;
+    value: number;
 }
 
 export interface SelectOption<T extends string = string> {
@@ -76,12 +76,12 @@ export function buildTenantPartnerLabel(partner: Partial<TenantPartner>): string
         return `${left} -> ${right}`;
     }
 
-    return left || right || partner.id || 'Unknown partner';
+    return left || right || (partner.id != null ? String(partner.id) : 'Unknown partner');
 }
 
 export function toTenantPartnerOptions(partners: TenantPartner[]): TenantPartnerOption[] {
     return partners
-        .filter((partner): partner is TenantPartner & { id: string } => !!partner.id)
+        .filter((partner): partner is TenantPartner & { id: number } => partner.id != null)
         .map((partner) => ({
             value: partner.id,
             label: buildTenantPartnerLabel(partner)

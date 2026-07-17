@@ -7,13 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class AirlineContactDTO {
-    private UUID id;
-    private UUID airlineId;
+    private Long id;
+    private Long airlineId;
     private String contactCode;
     private String contactName;
     private String designation;
@@ -24,7 +23,7 @@ public class AirlineContactDTO {
     private String mobile;
     private String fax;
     private CommunicationMethod preferredCommunication;
-    private UUID timeZoneId;
+    private Long timeZoneId;
     private Boolean available24x7;
     private Boolean emergencyContact;
     private Boolean active;

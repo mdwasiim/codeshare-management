@@ -1,6 +1,6 @@
 spring:
   application:
-    name: schedule-processor-service
+    name: schedule-service
 
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
@@ -12,10 +12,10 @@ spring:
           issuer-uri: ${AUTH_IDENTITY_SERVICE_ISSUER_URI:http://localhost:8081}
 
   datasource:
-    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/csm}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    driver-class-name: ${SCHEDULE_SERVICE_DB_DRIVER:${DB_DRIVER:org.postgresql.Driver}}
+    url: ${SCHEDULE_SERVICE_DB_URL:${DB_URL:jdbc:postgresql://localhost:5432/csm}}
+    username: ${SCHEDULE_SERVICE_DB_USERNAME:${DB_USERNAME:postgres}}
+    password: ${SCHEDULE_SERVICE_DB_PASSWORD:${DB_PASSWORD:postgres}}
 
   jpa:
     open-in-view: false
@@ -32,7 +32,7 @@ spring:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
     consumer:
-      group-id: ${KAFKA_CONSUMER_GROUP:ssim-processor}
+      group-id: ${KAFKA_CONSUMER_GROUP:schedule-service}
       auto-offset-reset: earliest
       enable-auto-commit: false
 
@@ -41,31 +41,33 @@ spring:
 
       properties:
         spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 # ----------------------------------
 # KAFKA TOPICS
 # ----------------------------------
-ssim:
-  kafka:
+schedule:
+  workflow:
+    approval:
+      policy: ${SCHEDULE_APPROVAL_POLICY:${SCHEDULE_APPROVAL_MODE:AUTO}}
     topics:
-      file-flight: ${KAFKA_TOPIC_FILE_FLIGHT:ssim.flight.block}
-      processing-failed: ${KAFKA_TOPIC_FAILED:ssim.processing.failed}
-      schedule-ready: ${KAFKA_TOPIC_READY:ssim.schedule.ready}
+      change-set-created: ${SCHEDULE_WORKFLOW_CHANGE_SET_CREATED_TOPIC:schedule.workflow.change-set-created}
+      schedule-updated: ${SCHEDULE_WORKFLOW_SCHEDULE_UPDATED_TOPIC:schedule.workflow.schedule-updated}
 
 # ----------------------------------
 # EXTERNAL SERVICE CALLS
 # ----------------------------------
 services:
-  schedule:
-    url: ${SCHEDULE_SERVICE_URL:http://localhost:8082}
-  codeshare:
-    url: ${CODESHARE_SERVICE_URL:http://localhost:8083}
+  processing:
+    url: ${SCHEDULE_PROCESSING_SERVICE_URL:http://localhost:8085}
 
 # ----------------------------------
 # SERVER
 # ----------------------------------
 server:
-  port: ${SCHEDULE_PROCESSOR_SERVICE_PORT:8085}
+  port: ${SCHEDULE_SERVICE_PORT:8087}
 
 # ----------------------------------
 # LOGGING

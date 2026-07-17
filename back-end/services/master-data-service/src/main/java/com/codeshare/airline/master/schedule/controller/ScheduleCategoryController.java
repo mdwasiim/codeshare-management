@@ -6,13 +6,12 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/schedule-categories")
-public class ScheduleCategoryController extends BaseController<ScheduleCategoryDTO, UUID> {
+public class ScheduleCategoryController extends BaseController<ScheduleCategoryDTO, Long> {
 
-    protected ScheduleCategoryController(BaseService<ScheduleCategoryDTO, UUID> service) {
+    protected ScheduleCategoryController(BaseService<ScheduleCategoryDTO, Long> service) {
         super(service);
     }
 }

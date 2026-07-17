@@ -3,12 +3,11 @@ package com.codeshare.airline.tenant.service.partner;
 import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerCommunicationProfileDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface CodesharePartnerCommunicationProfileService {
     CodesharePartnerCommunicationProfileDTO create(CodesharePartnerCommunicationProfileDTO dto);
-    CodesharePartnerCommunicationProfileDTO update(UUID id, CodesharePartnerCommunicationProfileDTO dto);
-    CodesharePartnerCommunicationProfileDTO getById(UUID id);
+    CodesharePartnerCommunicationProfileDTO update(Long id, CodesharePartnerCommunicationProfileDTO dto);
+    CodesharePartnerCommunicationProfileDTO getById(Long id);
     List<CodesharePartnerCommunicationProfileDTO> getAll();
-    void delete(UUID id);
+    void delete(Long id);
 }

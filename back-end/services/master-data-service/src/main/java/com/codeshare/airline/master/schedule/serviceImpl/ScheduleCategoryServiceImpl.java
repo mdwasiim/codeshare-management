@@ -8,11 +8,10 @@ import com.codeshare.airline.master.schedule.repository.ScheduleCategoryReposito
 import com.codeshare.airline.master.schedule.service.ScheduleCategoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class ScheduleCategoryServiceImpl
-        extends BaseServiceImpl<ScheduleCategory, ScheduleCategoryDTO, UUID>
+        extends BaseServiceImpl<ScheduleCategory, ScheduleCategoryDTO, Long>
         implements ScheduleCategoryService {
 
     public ScheduleCategoryServiceImpl(ScheduleCategoryRepository repository,

@@ -143,7 +143,7 @@ public class AsmSsmScheduleController {
     @GetMapping("/{type}/flights/{flightId}")
     public ScheduleFlightDTO getFlight(
             @PathVariable String type,
-            @PathVariable UUID flightId
+            @PathVariable Long flightId
     ) {
         return queryService.getFlight(messageType(type), flightId);
     }

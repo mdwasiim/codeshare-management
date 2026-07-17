@@ -6,9 +6,8 @@ import com.codeshare.airline.identity.access.identity.entities.User;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface UserRepository extends CSMDataBaseRepository<User, UUID> {
+public interface UserRepository extends CSMDataBaseRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
@@ -16,17 +15,17 @@ public interface UserRepository extends CSMDataBaseRepository<User, UUID> {
 
     boolean existsByEmail(String email);
 
-    boolean existsByUsernameAndTenantId(String username, UUID tenantId);
+    boolean existsByUsernameAndTenantId(String username, Long tenantId);
 
-    boolean existsByEmailAndTenantId(String email, UUID tenantId);
+    boolean existsByEmailAndTenantId(String email, Long tenantId);
 
-    Optional<User> findByUsernameAndTenantId(String username, UUID id);
+    Optional<User> findByUsernameAndTenantId(String username, Long id);
 
-    Optional<User> findByEmailAndTenantId(String email, UUID tenantId);
+    Optional<User> findByEmailAndTenantId(String email, Long tenantId);
 
-    Optional<User> findByExternalIdAndTenantIdAndAuthSource(String externalId, UUID tenantId, AuthSource authSource);
+    Optional<User> findByExternalIdAndTenantIdAndAuthSource(String externalId, Long tenantId, AuthSource authSource);
 
-    List<User> findAllByTenantId(UUID tenantId);
+    List<User> findAllByTenantId(Long tenantId);
 
-    List<User> findByTenantId(UUID tenantId);
+    List<User> findByTenantId(Long tenantId);
 }

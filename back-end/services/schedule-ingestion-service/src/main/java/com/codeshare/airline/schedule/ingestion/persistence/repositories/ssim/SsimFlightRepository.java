@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.UUID;
 
 public interface SsimFlightRepository
-        extends CSMDataBaseRepository<SsimFlightEntity, UUID>,
+        extends CSMDataBaseRepository<SsimFlightEntity, Long>,
         JpaSpecificationExecutor<SsimFlightEntity> {
 
     long countByCarrier_File_FileId(UUID fileId);

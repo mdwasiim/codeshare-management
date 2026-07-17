@@ -9,11 +9,10 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class TimezoneServiceImpl
-        extends BaseServiceImpl<Timezone, TimezoneDTO, UUID>
+        extends BaseServiceImpl<Timezone, TimezoneDTO, Long>
         implements TimezoneService {
 
     public TimezoneServiceImpl(TimezoneRepository repository,
@@ -30,7 +29,7 @@ public class TimezoneServiceImpl
     }
 
     @Override
-    public TimezoneDTO update(UUID id, TimezoneDTO dto) {
+    public TimezoneDTO update(Long id, TimezoneDTO dto) {
 
         Timezone existing = repository.findById(id)
                 .orElseThrow(() ->

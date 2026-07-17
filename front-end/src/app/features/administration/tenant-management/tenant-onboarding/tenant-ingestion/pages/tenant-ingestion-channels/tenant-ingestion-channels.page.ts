@@ -13,7 +13,7 @@ import { TenantIngestionChannel, TenantIngestionProfile } from '@features/admini
 import { TenantIngestionProfileService } from '../../services/tenant-ingestion-profile.service';
 
 interface TenantIngestionChannelRow {
-    id: string;
+    id: string | number;
     tenantCode?: string;
     airlineCode?: string;
     sourceSystem: string;

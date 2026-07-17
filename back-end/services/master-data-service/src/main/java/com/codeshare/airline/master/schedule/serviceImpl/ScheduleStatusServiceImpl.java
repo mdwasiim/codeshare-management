@@ -8,11 +8,10 @@ import com.codeshare.airline.master.schedule.repository.ScheduleStatusRepository
 import com.codeshare.airline.master.schedule.service.ScheduleStatusService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class ScheduleStatusServiceImpl
-        extends BaseServiceImpl<ScheduleStatus, ScheduleStatusDTO, UUID>
+        extends BaseServiceImpl<ScheduleStatus, ScheduleStatusDTO, Long>
         implements ScheduleStatusService {
 
     public ScheduleStatusServiceImpl(ScheduleStatusRepository repository,

@@ -6,12 +6,11 @@ import com.codeshare.airline.master.common.base.BaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/alliances")
-public class AllianceController extends BaseController<AllianceDTO, UUID> {
-    protected AllianceController(BaseService<AllianceDTO, UUID> service) {
+public class AllianceController extends BaseController<AllianceDTO, Long> {
+    protected AllianceController(BaseService<AllianceDTO, Long> service) {
         super(service);
     }
 }

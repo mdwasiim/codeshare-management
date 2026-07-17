@@ -36,6 +36,11 @@
             <artifactId>spring-data-jpa</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+
         <!-- Transaction -->
         <dependency>
             <groupId>org.springframework</groupId>

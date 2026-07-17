@@ -11,10 +11,9 @@ import com.codeshare.airline.master.geography.repository.CityRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class AllianceServiceImpl extends BaseServiceImpl<Alliance, AllianceDTO, UUID> implements AllianceService {
+public class AllianceServiceImpl extends BaseServiceImpl<Alliance, AllianceDTO, Long> implements AllianceService {
     private final CityRepository cityRepository;
 
     public AllianceServiceImpl(AllianceRepository repository, AllianceMapper mapper, CityRepository cityRepository) {
@@ -22,7 +21,7 @@ public class AllianceServiceImpl extends BaseServiceImpl<Alliance, AllianceDTO, 
         this.cityRepository = cityRepository;
     }
 
-    private City city(UUID id) {
+    private City city(Long id) {
         return id == null ? null : cityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Headquarters city not found"));
     }
 
@@ -34,7 +33,7 @@ public class AllianceServiceImpl extends BaseServiceImpl<Alliance, AllianceDTO, 
     }
 
     @Override
-    public AllianceDTO update(UUID id, AllianceDTO dto) {
+    public AllianceDTO update(Long id, AllianceDTO dto) {
         Alliance existing = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Alliance not found"));
         mapper.updateEntityFromDto(dto, existing);
         existing.setHeadquartersCity(city(dto.getHeadquartersCityId()));

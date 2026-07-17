@@ -32,7 +32,7 @@ public abstract class BaseScheduleFileMapper {
 
         //entity.setSequenceReference(dto.getSequenceReference());
         //entity.setCreatorReference(dto.getCreatorReference());
-        entity.setReceivedAt(Instant.now());
+        entity.setReceivedAt(dto.getReceivedAt() != null ? dto.getReceivedAt() : Instant.now());
         entity.setVersion(dto.getVersion());
     }
 

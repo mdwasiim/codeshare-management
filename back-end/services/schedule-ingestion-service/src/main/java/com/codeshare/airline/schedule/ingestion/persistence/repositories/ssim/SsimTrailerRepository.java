@@ -3,9 +3,8 @@ package com.codeshare.airline.schedule.ingestion.persistence.repositories.ssim;
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimTrailerEntity;
 
-import java.util.UUID;
 
 public interface SsimTrailerRepository
-        extends CSMDataBaseRepository<SsimTrailerEntity, UUID> {
+        extends CSMDataBaseRepository<SsimTrailerEntity, Long> {
 
 }

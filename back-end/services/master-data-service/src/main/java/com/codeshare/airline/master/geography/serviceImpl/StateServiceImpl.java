@@ -11,10 +11,9 @@ import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class StateServiceImpl extends BaseServiceImpl<State, StateDTO, UUID> implements StateService {
+public class StateServiceImpl extends BaseServiceImpl<State, StateDTO, Long> implements StateService {
 
     private final CountryRepository countryRepository;
 
@@ -36,7 +35,7 @@ public class StateServiceImpl extends BaseServiceImpl<State, StateDTO, UUID> imp
     }
 
     @Override
-    public StateDTO update(UUID id, StateDTO dto) {
+    public StateDTO update(Long id, StateDTO dto) {
 
         State existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("State not found"));

@@ -8,10 +8,9 @@ import com.codeshare.airline.master.flight.passenger.repository.ElectronicTicket
 import com.codeshare.airline.master.flight.passenger.service.ElectronicTicketIndicatorService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class ElectronicTicketIndicatorServiceImpl extends BaseServiceImpl<ElectronicTicketIndicator, ElectronicTicketIndicatorDTO, UUID> implements ElectronicTicketIndicatorService {
+public class ElectronicTicketIndicatorServiceImpl extends BaseServiceImpl<ElectronicTicketIndicator, ElectronicTicketIndicatorDTO, Long> implements ElectronicTicketIndicatorService {
     public ElectronicTicketIndicatorServiceImpl(ElectronicTicketIndicatorRepository repository, ElectronicTicketIndicatorMapper mapper) {
         super(repository, mapper);
     }

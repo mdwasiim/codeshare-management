@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,7 +20,7 @@ public class UserDeviceDTO extends CSMAuditableDTO {
 
     private String ipAddress;
 
-    private UUID tenantId;
+    private Long tenantId;
 
     private AuthUserDTO user;
 
