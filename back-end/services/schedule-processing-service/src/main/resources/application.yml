@@ -51,8 +51,8 @@ spring:
 schedule:
   workflow:
     topics:
-      import-completed: ${SCHEDULE_WORKFLOW_IMPORT_COMPLETED_TOPIC:schedule.workflow.import-completed}
-      change-set-created: ${SCHEDULE_WORKFLOW_CHANGE_SET_CREATED_TOPIC:schedule.workflow.change-set-created}
+      processing-requested: ${SCHEDULE_WORKFLOW_PROCESSING_REQUESTED_TOPIC:schedule.workflow.processing-requested}
+      compare-requested: ${SCHEDULE_WORKFLOW_COMPARE_REQUESTED_TOPIC:schedule.workflow.compare-requested}
 
 # ----------------------------------
 # EXTERNAL SERVICE CALLS
@@ -60,8 +60,13 @@ schedule:
 services:
   ingestion:
     url: ${SCHEDULE_INGESTION_SERVICE_URL:http://localhost:8082}
-  schedule:
-    url: ${SCHEDULE_SERVICE_URL:http://localhost:8087}
+
+app:
+  kafka:
+    retry:
+      interval-ms: ${KAFKA_RETRY_INTERVAL_MS:1000}
+      max-attempts: ${KAFKA_RETRY_MAX_ATTEMPTS:3}
+      dlt-suffix: ${KAFKA_DLT_SUFFIX:.DLT}
 
 # ----------------------------------
 # SERVER

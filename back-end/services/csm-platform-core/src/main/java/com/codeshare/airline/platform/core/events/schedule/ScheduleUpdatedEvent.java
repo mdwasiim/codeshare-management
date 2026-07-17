@@ -16,11 +16,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleUpdatedEvent {
+    private UUID correlationId;
+    private UUID causationId;
     private UUID changeSetId;
     private Long changeRequestId;
     private UUID importedScheduleId;
     private UUID importBatchId;
     private MessageType messageType;
     private String airlineCode;
+    private String partnerCode;
     private Instant updatedAt;
 }

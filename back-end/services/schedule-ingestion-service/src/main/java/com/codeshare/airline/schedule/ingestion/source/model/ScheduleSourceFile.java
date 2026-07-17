@@ -28,6 +28,7 @@ public class ScheduleSourceFile {
     /* ===================== OWNERSHIP ===================== */
 
     private final String airlineCode;
+    private final String partnerCode;
 
     /* ===================== ORIGIN ===================== */
 

@@ -83,6 +83,7 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
         ScheduleIngestionChannelEntity ch = new ScheduleIngestionChannelEntity();
         ch.setMessageType(dto.getMessageType());
         ch.setSourceType(dto.getSourceType());
+        ch.setPartnerCode(dto.getPartnerCode());
         ch.setEnabled(dto.getEnabled());
         ch.setPriority(dto.getPriority());
         ch.setHost(dto.getHost());
@@ -153,6 +154,7 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
         dto.setId(channel.getId());
         dto.setMessageType(channel.getMessageType());
         dto.setSourceType(channel.getSourceType());
+        dto.setPartnerCode(channel.getPartnerCode());
         dto.setEnabled(channel.getEnabled());
         dto.setPriority(channel.getPriority());
         dto.setHost(channel.getHost());

@@ -4,6 +4,10 @@ public enum CommunicationProtocol {
 
     API,
 
+    REST,
+
+    KAFKA,
+
     MQ,
 
     SFTP,

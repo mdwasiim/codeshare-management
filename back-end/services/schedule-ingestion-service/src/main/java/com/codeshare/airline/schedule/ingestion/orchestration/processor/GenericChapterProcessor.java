@@ -3,6 +3,7 @@ package com.codeshare.airline.schedule.ingestion.orchestration.processor;
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.integration.kafka.ImportCompletedEventPublisher;
+import com.codeshare.airline.schedule.ingestion.integration.kafka.ProcessingRequestedEventPublisher;
 import com.codeshare.airline.schedule.ingestion.orchestration.pipelines.GenericIngestionPipeline;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.services.common.ScheduleFileService;
@@ -15,13 +16,16 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
     private final GenericIngestionPipeline pipeline;
     private final ScheduleFileService scheduleService;
     private final ImportCompletedEventPublisher importCompletedEventPublisher;
+    private final ProcessingRequestedEventPublisher processingRequestedEventPublisher;
 
     protected GenericChapterProcessor(GenericIngestionPipeline pipeline,
                                       ScheduleFileService scheduleService,
-                                      ImportCompletedEventPublisher importCompletedEventPublisher) {
+                                      ImportCompletedEventPublisher importCompletedEventPublisher,
+                                      ProcessingRequestedEventPublisher processingRequestedEventPublisher) {
         this.pipeline = pipeline;
         this.scheduleService = scheduleService;
         this.importCompletedEventPublisher = importCompletedEventPublisher;
+        this.processingRequestedEventPublisher = processingRequestedEventPublisher;
     }
 
     @Override
@@ -68,6 +72,7 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
             }
 
             if (shouldPublish(finalStatus)) {
+                processingRequestedEventPublisher.publish(metadata);
                 importCompletedEventPublisher.publish(metadata);
             }
 

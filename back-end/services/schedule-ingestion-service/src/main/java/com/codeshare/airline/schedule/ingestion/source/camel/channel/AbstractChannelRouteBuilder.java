@@ -35,6 +35,7 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
                 .process(this::initializeContext)
                 .process(this::beforeProcessing)
                 .setHeader("AIRLINE_CODE", constant(profile.getAirlineCode()))
+                .setHeader("PARTNER_CODE", constant(channel.getPartnerCode()))
                 .setHeader("SOURCE_TYPE", constant(channel.getSourceType().name()))
                 .setHeader("MESSAGE_TYPE", constant(channel.getMessageType().name()))
                 .log("Forwarding to processing route file=${header.CamelFileName}")
@@ -55,10 +56,17 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
     }
 
     protected String buildRouteId(AirlineIngestionProfileDTO profile, AirlineIngestionChannelDTO c) {
-        return String.format("INGEST-%s-%s-%s",
+        return String.format("INGEST-%s-%s-%s%s",
                 profile.getAirlineCode(),
                 c.getSourceType(),
-                c.getMessageType());
+                c.getMessageType(),
+                partnerRouteSuffix(c.getPartnerCode()));
+    }
+
+    protected String partnerRouteSuffix(String partnerCode) {
+        return partnerCode == null || partnerCode.isBlank()
+                ? ""
+                : "-" + partnerCode.trim().toUpperCase();
     }
 
     protected <T> T val(T value, T def) {

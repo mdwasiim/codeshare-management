@@ -20,6 +20,7 @@ public abstract class BaseScheduleFileMapper {
         entity.setProcessingStatus(dto.getProcessingStatus());
 
         entity.setAirlineCode(dto.getAirlineCode());
+        entity.setPartnerCode(dto.getPartnerCode());
 
         entity.setFileSizeBytes(dto.getFileSizeBytes());
         entity.setChecksum(dto.getChecksum());
@@ -52,6 +53,7 @@ public abstract class BaseScheduleFileMapper {
                 //.timeMode(entity.getTimeMode())
 
                 .airlineCode(entity.getAirlineCode())
+                .partnerCode(entity.getPartnerCode())
 
                 .fileSizeBytes(entity.getFileSizeBytes())
                 .checksum(entity.getChecksum())

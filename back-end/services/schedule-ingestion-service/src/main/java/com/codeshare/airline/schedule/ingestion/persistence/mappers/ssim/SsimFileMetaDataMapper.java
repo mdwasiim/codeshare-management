@@ -62,6 +62,7 @@ public class SsimFileMetaDataMapper {
                 .fileId(entity.getFileId())
                 .loadId(entity.getLoadId())
                 .airlineCode(entity.getAirlineCode())
+                .partnerCode(entity.getPartnerCode())
 
                 .fileName(entity.getFileName())
                 .sourceType(entity.getSourceType())
@@ -97,6 +98,7 @@ public class SsimFileMetaDataMapper {
         entity.setLoadId(source.getLoadId());
 
         entity.setAirlineCode(source.getAirlineCode());
+        entity.setPartnerCode(source.getPartnerCode());
 
         entity.setFileName(source.getFileName());
         entity.setSourceType(source.getSourceType());
@@ -118,6 +120,7 @@ public class SsimFileMetaDataMapper {
         entity.setLoadId(dto.getLoadId());
 
         entity.setAirlineCode(dto.getAirlineCode());
+        entity.setPartnerCode(dto.getPartnerCode());
 
         entity.setFileName(dto.getFileName());
         entity.setSourceType(dto.getSourceType());

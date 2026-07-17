@@ -2,6 +2,7 @@ package com.codeshare.airline.schedule.ingestion.orchestration.processor;
 
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.integration.kafka.ImportCompletedEventPublisher;
+import com.codeshare.airline.schedule.ingestion.integration.kafka.ProcessingRequestedEventPublisher;
 import com.codeshare.airline.schedule.ingestion.orchestration.pipelines.SsimDatasetIngestionPipeline;
 import com.codeshare.airline.schedule.ingestion.persistence.services.common.ScheduleFileService;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,9 @@ public class SsimDatasetChapterProcessor extends GenericChapterProcessor {
 
     public SsimDatasetChapterProcessor(SsimDatasetIngestionPipeline pipeline,
                                        ScheduleFileService scheduleService,
-                                       ImportCompletedEventPublisher importCompletedEventPublisher) {
-        super(pipeline, scheduleService, importCompletedEventPublisher);
+                                       ImportCompletedEventPublisher importCompletedEventPublisher,
+                                       ProcessingRequestedEventPublisher processingRequestedEventPublisher) {
+        super(pipeline, scheduleService, importCompletedEventPublisher, processingRequestedEventPublisher);
     }
 
     @Override

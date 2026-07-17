@@ -1,0 +1,82 @@
+spring:
+  application:
+    name: schedule-compare-service
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_IDENTITY_SERVICE_ISSUER_URI:http://localhost:8081}
+
+  datasource:
+    driver-class-name: ${SCHEDULE_COMPARE_DB_DRIVER:${SCHEDULE_PROCESSING_DB_DRIVER:${DB_DRIVER:org.postgresql.Driver}}}
+    url: ${SCHEDULE_COMPARE_DB_URL:${SCHEDULE_PROCESSING_DB_URL:${DB_URL:jdbc:postgresql://localhost:5432/csm}}}
+    username: ${SCHEDULE_COMPARE_DB_USERNAME:${SCHEDULE_PROCESSING_DB_USERNAME:${DB_USERNAME:postgres}}}
+    password: ${SCHEDULE_COMPARE_DB_PASSWORD:${SCHEDULE_PROCESSING_DB_PASSWORD:${DB_PASSWORD:postgres}}}
+
+  jpa:
+    open-in-view: false
+    show-sql: ${SHOW_SQL:true}
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: ${FORMAT_SQL:true}
+        default_schema: schedule_compare
+        hbm2ddl:
+          create_namespaces: true
+
+  flyway:
+    enabled: true
+    default-schema: schedule_compare
+    locations: classpath:db/migration
+    placeholder-replacement: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_COMPARE_CONSUMER_GROUP:schedule-compare}
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+schedule:
+  workflow:
+    legacy:
+      import-completed-listener-enabled: ${SCHEDULE_COMPARE_LEGACY_IMPORT_COMPLETED_LISTENER_ENABLED:false}
+    topics:
+      import-completed: ${SCHEDULE_WORKFLOW_IMPORT_COMPLETED_TOPIC:schedule.workflow.import-completed}
+      compare-requested: ${SCHEDULE_WORKFLOW_COMPARE_REQUESTED_TOPIC:schedule.workflow.compare-requested}
+      change-set-created: ${SCHEDULE_WORKFLOW_CHANGE_SET_CREATED_TOPIC:schedule.workflow.change-set-created}
+
+services:
+  ingestion:
+    url: ${SCHEDULE_INGESTION_SERVICE_URL:http://localhost:8082}
+  schedule:
+    url: ${SCHEDULE_SERVICE_URL:http://localhost:8087}
+  tenant:
+    url: ${TENANT_SERVICE_URL:http://localhost:8086}
+
+app:
+  kafka:
+    retry:
+      interval-ms: ${KAFKA_RETRY_INTERVAL_MS:1000}
+      max-attempts: ${KAFKA_RETRY_MAX_ATTEMPTS:3}
+      dlt-suffix: ${KAFKA_DLT_SUFFIX:.DLT}
+
+server:
+  port: ${SCHEDULE_COMPARE_SERVICE_PORT:8089}
+
+logging:
+  level:
+    root: ${LOG_LEVEL_APP:DEBUG}
+    org.springframework.kafka: INFO

@@ -1,6 +1,7 @@
 package com.codeshare.airline.platform.core.dto.schedule.workflow;
 
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.ApprovalMode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class ChangeSetDTO {
     private UUID importBatchId;
     private MessageType messageType;
     private String airlineCode;
+    private String partnerCode;
+    private ApprovalMode acceptanceMode;
     private String messageReference;
     private String sourceName;
     private Instant createdAt;

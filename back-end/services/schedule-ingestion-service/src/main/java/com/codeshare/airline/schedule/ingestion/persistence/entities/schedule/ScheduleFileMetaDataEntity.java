@@ -63,6 +63,9 @@ public class ScheduleFileMetaDataEntity extends CSMDataAbstractEntity {
     @Column(name = "airline_code", length = 3)
     private String airlineCode;
 
+    @Column(name = "partner_code", length = 10)
+    private String partnerCode;
+
     /* =======================================================
        FILE DETAILS
        ======================================================= */

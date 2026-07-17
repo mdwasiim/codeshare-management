@@ -38,6 +38,7 @@ public class ScheduleFileMapper {
         entity.setSourceType(dto.getSourceType());
         entity.setScheduleProfile(dto.getScheduleProfile());
         entity.setAirlineCode(dto.getAirlineCode());
+        entity.setPartnerCode(dto.getPartnerCode());
 
         /* ================= FILE INFO ================= */
 

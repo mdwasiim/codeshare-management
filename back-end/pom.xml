@@ -64,7 +64,10 @@
         <module>services/identity-service</module>
         <module>services/schedule-ingestion-service</module>
         <module>services/schedule-processing-service</module>
+        <module>services/schedule-compare-service</module>
+        <module>services/schedule-message-service</module>
         <module>services/schedule-service</module>
+        <module>services/distribution-engine-service</module>
     </modules>
 
     <!-- ===================================================== -->

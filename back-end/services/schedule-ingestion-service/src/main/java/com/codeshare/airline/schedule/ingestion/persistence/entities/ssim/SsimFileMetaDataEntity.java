@@ -26,12 +26,12 @@ import java.util.UUID;
                 @Index(name = "idx_ssim_file_status", columnList = "processing_status"),
                 @Index(name = "idx_ssim_file_profile", columnList = "ssim_profile"),
                 @Index(name = "idx_ssim_file_load_id", columnList = "load_id"),
-                @Index(name = "idx_ssim_file_airline_checksum", columnList = "airline_code,checksum")
+                @Index(name = "idx_ssim_file_airline_partner_checksum", columnList = "airline_code,partner_code,checksum")
         },
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_ssim_file_airline_checksum",
-                        columnNames = {"airline_code", "checksum"}
+                        name = "uk_ssim_file_airline_partner_checksum",
+                        columnNames = {"airline_code", "partner_code", "checksum"}
                 )
         }
 )
@@ -71,6 +71,9 @@ public class SsimFileMetaDataEntity extends CSMDataAbstractEntity {
 
     @Column(name = "airline_code", length = 3)
     private String airlineCode;
+
+    @Column(name = "partner_code", length = 10)
+    private String partnerCode;
 
     /* =======================================================
        FILE ORIGIN

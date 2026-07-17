@@ -60,8 +60,17 @@ schedule:
 # EXTERNAL SERVICE CALLS
 # ----------------------------------
 services:
+  compare:
+    url: ${SCHEDULE_COMPARE_SERVICE_URL:${SCHEDULE_PROCESSING_SERVICE_URL:http://localhost:8089}}
   processing:
     url: ${SCHEDULE_PROCESSING_SERVICE_URL:http://localhost:8085}
+
+app:
+  kafka:
+    retry:
+      interval-ms: ${KAFKA_RETRY_INTERVAL_MS:1000}
+      max-attempts: ${KAFKA_RETRY_MAX_ATTEMPTS:3}
+      dlt-suffix: ${KAFKA_DLT_SUFFIX:.DLT}
 
 # ----------------------------------
 # SERVER

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @FeignClient(
         name = "processing-change-set-client",
-        url = "${services.processing.url:http://localhost:8085}"
+        url = "${services.compare.url:${services.processing.url:http://localhost:8089}}"
 )
 public interface ProcessingChangeSetClient {
 

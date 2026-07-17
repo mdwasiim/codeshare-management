@@ -70,6 +70,9 @@ logging:
 ingestion:
   local-root: ${INGESTION_LOCAL_ROOT:C:/Users/mdwas/Projects/messages}
 
+  validation:
+    business-enabled: ${SCHEDULE_INGESTION_BUSINESS_VALIDATION_ENABLED:true}
+
   ssim:
     flight-batch-size: ${SSIM_FLIGHT_BATCH_SIZE:5000}
     validation-mode: ${SSIM_VALIDATION_MODE:RELAXED}
@@ -107,3 +110,4 @@ schedule:
   workflow:
     topics:
       import-completed: ${SCHEDULE_WORKFLOW_IMPORT_COMPLETED_TOPIC:schedule.workflow.import-completed}
+      processing-requested: ${SCHEDULE_WORKFLOW_PROCESSING_REQUESTED_TOPIC:schedule.workflow.processing-requested}
