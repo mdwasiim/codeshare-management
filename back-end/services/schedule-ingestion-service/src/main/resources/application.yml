@@ -61,7 +61,8 @@ server:
 logging:
   level:
     org.springframework.web: DEBUG
-    org.apache.camel.component.file: DEBUG
+    org.apache.camel.component.file: TRACE
+    org.apache.camel.component.file.remote: TRACE
 
 # ----------------------------------
 # INGESTION CONFIG

@@ -105,7 +105,11 @@ public class ScheduleIngestionRouteBuilder {
             log.info("Route started: {}", routeId);
 
         } catch (Exception e) {
-            log.error("Failed to create route: {}", routeId, e);
+            log.error("Failed to create route: {} using builder={} | cause={}",
+                    routeId,
+                    builder.getClass().getSimpleName(),
+                    e.getMessage(),
+                    e);
         }
     }
 }
