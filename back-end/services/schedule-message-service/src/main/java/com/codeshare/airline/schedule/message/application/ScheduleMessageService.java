@@ -20,17 +20,20 @@ public class ScheduleMessageService {
 
     private final OutboundScheduleMessageRepository repository;
     private final CompareChangeSetClient compareChangeSetClient;
+    private final ScheduleCodeListValidator codeListValidator;
     private final OutboundScheduleMessageGenerator generator;
     private final DistributionRequestedEventPublisher distributionRequestedEventPublisher;
 
     public ScheduleMessageService(
             OutboundScheduleMessageRepository repository,
             CompareChangeSetClient compareChangeSetClient,
+            ScheduleCodeListValidator codeListValidator,
             OutboundScheduleMessageGenerator generator,
             DistributionRequestedEventPublisher distributionRequestedEventPublisher
     ) {
         this.repository = repository;
         this.compareChangeSetClient = compareChangeSetClient;
+        this.codeListValidator = codeListValidator;
         this.generator = generator;
         this.distributionRequestedEventPublisher = distributionRequestedEventPublisher;
     }
@@ -40,6 +43,10 @@ public class ScheduleMessageService {
                 .orElseGet(() -> createMessage(event));
 
         if (message.getStatus() == OutboundScheduleMessageStatus.DISTRIBUTION_REQUESTED) {
+            return message.getOutboundMessageId();
+        }
+
+        if (message.getStatus() == OutboundScheduleMessageStatus.FAILED) {
             return message.getOutboundMessageId();
         }
 
@@ -67,6 +74,7 @@ public class ScheduleMessageService {
     private OutboundScheduleMessageEntity createMessage(ScheduleUpdatedEvent event) {
         try {
             ChangeSetDTO changeSet = compareChangeSetClient.getChangeSet(event.getChangeSetId());
+            codeListValidator.validate(changeSet);
             OutboundScheduleMessageEntity message = OutboundScheduleMessageEntity.builder()
                     .outboundMessageId(UUID.randomUUID())
                     .changeSetId(event.getChangeSetId())
@@ -81,23 +89,30 @@ public class ScheduleMessageService {
                     .status(OutboundScheduleMessageStatus.GENERATED)
                     .build();
             return repository.save(message);
-        } catch (Exception ex) {
-            OutboundScheduleMessageEntity failed = OutboundScheduleMessageEntity.builder()
-                    .outboundMessageId(UUID.randomUUID())
-                    .changeSetId(event.getChangeSetId())
-                    .changeRequestId(event.getChangeRequestId())
-                    .importedScheduleId(event.getImportedScheduleId())
-                    .importBatchId(event.getImportBatchId())
-                    .messageType(event.getMessageType())
-                    .airlineCode(event.getAirlineCode())
-                    .partnerCode(event.getPartnerCode())
-                    .payload("GENERATION_FAILED")
-                    .generatedAt(Instant.now())
-                    .status(OutboundScheduleMessageStatus.FAILED)
-                    .errorMessage(ex.getMessage())
-                    .build();
+        } catch (OutboundScheduleMessageComplianceException ex) {
+            OutboundScheduleMessageEntity failed = failedMessage(event, ex.getMessage());
             repository.save(failed);
+            return failed;
+        } catch (Exception ex) {
+            repository.save(failedMessage(event, ex.getMessage()));
             throw ex;
         }
+    }
+
+    private OutboundScheduleMessageEntity failedMessage(ScheduleUpdatedEvent event, String errorMessage) {
+        return OutboundScheduleMessageEntity.builder()
+                .outboundMessageId(UUID.randomUUID())
+                .changeSetId(event.getChangeSetId())
+                .changeRequestId(event.getChangeRequestId())
+                .importedScheduleId(event.getImportedScheduleId())
+                .importBatchId(event.getImportBatchId())
+                .messageType(event.getMessageType())
+                .airlineCode(event.getAirlineCode())
+                .partnerCode(event.getPartnerCode())
+                .payload("GENERATION_FAILED")
+                .generatedAt(Instant.now())
+                .status(OutboundScheduleMessageStatus.FAILED)
+                .errorMessage(errorMessage)
+                .build();
     }
 }

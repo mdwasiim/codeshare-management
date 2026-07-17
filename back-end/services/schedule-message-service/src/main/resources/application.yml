@@ -52,8 +52,17 @@ schedule:
 services:
   compare:
     url: ${SCHEDULE_COMPARE_SERVICE_URL:http://localhost:8089}
+  master-data:
+    url: ${MASTER_DATA_SERVICE_URL:http://localhost:8084}
 
 app:
+  master-data-client:
+    connect-timeout-ms: ${MASTER_DATA_CLIENT_CONNECT_TIMEOUT_MS:1000}
+    read-timeout-ms: ${MASTER_DATA_CLIENT_READ_TIMEOUT_MS:3000}
+    retry:
+      period-ms: ${MASTER_DATA_CLIENT_RETRY_PERIOD_MS:200}
+      max-period-ms: ${MASTER_DATA_CLIENT_RETRY_MAX_PERIOD_MS:1000}
+      max-attempts: ${MASTER_DATA_CLIENT_RETRY_MAX_ATTEMPTS:2}
   kafka:
     retry:
       interval-ms: ${KAFKA_RETRY_INTERVAL_MS:1000}
