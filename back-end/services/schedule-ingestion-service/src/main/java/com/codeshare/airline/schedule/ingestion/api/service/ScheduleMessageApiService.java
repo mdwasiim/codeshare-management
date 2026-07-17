@@ -83,6 +83,7 @@ public class ScheduleMessageApiService {
                 .fileName(resolvedFileName)
                 .sourceType(SourceType.REST)
                 .messageType(type)
+                .processingStatus(ProcessingStatus.RECEIVED)
                 .fileSizeBytes((long) content.length)
                 .checksum(sha256(content))
                 .streamSupplier(() -> new ByteArrayInputStream(content))
