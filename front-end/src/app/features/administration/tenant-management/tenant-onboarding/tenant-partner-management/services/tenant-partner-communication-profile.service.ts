@@ -13,17 +13,17 @@ export class TenantPartnerCommunicationProfileService {
     private readonly toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<TenantPartnerCommunicationProfile[]>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.base);
+        return this.api.get<TenantPartnerCommunicationProfile[]>(API_ENDPOINTS.tenantService.tenantPartnerCommunicationProfiles.base);
     }
 
     getById(id: string | number) {
-        return this.api.get<TenantPartnerCommunicationProfile>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.byId, {
+        return this.api.get<TenantPartnerCommunicationProfile>(API_ENDPOINTS.tenantService.tenantPartnerCommunicationProfiles.byId, {
             pathParams: { id }
         });
     }
 
     create(payload: TenantPartnerCommunicationProfile) {
-        return this.api.post<TenantPartnerCommunicationProfile>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.base, payload).pipe(
+        return this.api.post<TenantPartnerCommunicationProfile>(API_ENDPOINTS.tenantService.tenantPartnerCommunicationProfiles.base, payload).pipe(
             tap(() => this.toast.success('Communication profile created successfully')),
             catchError((error) => {
                 this.toast.error(error?.message || 'Failed to create communication profile');
@@ -33,7 +33,7 @@ export class TenantPartnerCommunicationProfileService {
     }
 
     update(id: string | number, payload: TenantPartnerCommunicationProfile) {
-        return this.api.put<TenantPartnerCommunicationProfile>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.byId, payload, {
+        return this.api.put<TenantPartnerCommunicationProfile>(API_ENDPOINTS.tenantService.tenantPartnerCommunicationProfiles.byId, payload, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Communication profile updated successfully')),
@@ -45,7 +45,7 @@ export class TenantPartnerCommunicationProfileService {
     }
 
     delete(id: string | number) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenantPartnerCommunicationProfiles.byId, {
+        return this.api.delete<void>(API_ENDPOINTS.tenantService.tenantPartnerCommunicationProfiles.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Communication profile deleted successfully')),

@@ -9,6 +9,6 @@ export class TenantPartnerService {
     private readonly api = inject(AppApiService);
 
     getAll() {
-        return this.api.get<TenantPartner[]>(API_ENDPOINTS.accessManagement.tenantPartners.base);
+        return this.api.get<TenantPartner[]>(API_ENDPOINTS.tenantService.tenantPartners.base);
     }
 }

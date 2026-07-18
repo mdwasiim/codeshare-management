@@ -14,18 +14,18 @@ export class MenuManagementService {
     // GET ALL
     // -----------------------------
     getAll(params?: Record<string, string>) {
-        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.manage, { params });
+        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.identityService.menus.manage, { params });
     }
 
     getAuthorized(params?: Record<string, string>) {
-        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base, { params });
+        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.identityService.menus.base, { params });
     }
 
     // -----------------------------
     // GET BY ID
     // -----------------------------
     getById(id: string) {
-        return this.api.get<AppMenuModel>(API_ENDPOINTS.accessManagement.menu.byId, {
+        return this.api.get<AppMenuModel>(API_ENDPOINTS.identityService.menus.byId, {
             pathParams: { id }
         });
     }
@@ -34,7 +34,7 @@ export class MenuManagementService {
     // CREATE
     // -----------------------------
     create(menuModel: AppMenuModel) {
-        return this.api.post<AppMenuModel>(API_ENDPOINTS.accessManagement.menu.base, menuModel).pipe(
+        return this.api.post<AppMenuModel>(API_ENDPOINTS.identityService.menus.base, menuModel).pipe(
             tap(() => {
                 this.toast.success('Menu created successfully');
             })
@@ -46,7 +46,7 @@ export class MenuManagementService {
     // -----------------------------
     update(id: string, menuModel: AppMenuModel) {
         return this.api
-            .put<AppMenuModel>(API_ENDPOINTS.accessManagement.menu.byId, menuModel, {
+            .put<AppMenuModel>(API_ENDPOINTS.identityService.menus.byId, menuModel, {
                 pathParams: { id }
             })
             .pipe(
@@ -61,7 +61,7 @@ export class MenuManagementService {
     // -----------------------------
     delete(id: string) {
         return this.api
-            .delete<void>(API_ENDPOINTS.accessManagement.menu.byId, {
+            .delete<void>(API_ENDPOINTS.identityService.menus.byId, {
                 pathParams: { id }
             })
             .pipe(

@@ -13,17 +13,17 @@ export class TenantPartnerDistributionProfileService {
     private readonly toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<TenantPartnerDistributionProfile[]>(API_ENDPOINTS.accessManagement.tenantPartnerDistributionProfiles.base);
+        return this.api.get<TenantPartnerDistributionProfile[]>(API_ENDPOINTS.tenantService.tenantPartnerDistributionProfiles.base);
     }
 
     getById(id: string | number) {
-        return this.api.get<TenantPartnerDistributionProfile>(API_ENDPOINTS.accessManagement.tenantPartnerDistributionProfiles.byId, {
+        return this.api.get<TenantPartnerDistributionProfile>(API_ENDPOINTS.tenantService.tenantPartnerDistributionProfiles.byId, {
             pathParams: { id }
         });
     }
 
     create(payload: TenantPartnerDistributionProfile) {
-        return this.api.post<TenantPartnerDistributionProfile>(API_ENDPOINTS.accessManagement.tenantPartnerDistributionProfiles.base, payload).pipe(
+        return this.api.post<TenantPartnerDistributionProfile>(API_ENDPOINTS.tenantService.tenantPartnerDistributionProfiles.base, payload).pipe(
             tap(() => this.toast.success('Distribution profile created successfully')),
             catchError((error) => {
                 this.toast.error(error?.message || 'Failed to create distribution profile');
@@ -33,7 +33,7 @@ export class TenantPartnerDistributionProfileService {
     }
 
     update(id: string | number, payload: TenantPartnerDistributionProfile) {
-        return this.api.put<TenantPartnerDistributionProfile>(API_ENDPOINTS.accessManagement.tenantPartnerDistributionProfiles.byId, payload, {
+        return this.api.put<TenantPartnerDistributionProfile>(API_ENDPOINTS.tenantService.tenantPartnerDistributionProfiles.byId, payload, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Distribution profile updated successfully')),
@@ -45,7 +45,7 @@ export class TenantPartnerDistributionProfileService {
     }
 
     delete(id: string | number) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenantPartnerDistributionProfiles.byId, {
+        return this.api.delete<void>(API_ENDPOINTS.tenantService.tenantPartnerDistributionProfiles.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Distribution profile deleted successfully')),

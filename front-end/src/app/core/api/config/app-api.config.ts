@@ -45,28 +45,28 @@ const makeEndpoint = <TPath extends string>(path: TPath): ApiEndpointFactory<Par
 };
 
 export const API_ENDPOINTS = {
-    auth: {
-        login: makeEndpoint('/identity/auth/login'),
-        logout: makeEndpoint('/identity/auth/logout'),
-        refresh: makeEndpoint('/identity/auth/refresh'),
-        session: makeEndpoint('/identity/auth/session'),
-        oidcAuthorize: makeEndpoint('/identity/auth/oidc/authorize'),
-        oidcToken: makeEndpoint('/identity/auth/oidc/token')
-    },
-    dashboard: {
-        stats: makeEndpoint('/identity/dashboard/stats')
-    },
-    accessManagement: {
+    identityService: {
+        auth: {
+            login: makeEndpoint('/identity/auth/login'),
+            logout: makeEndpoint('/identity/auth/logout'),
+            refresh: makeEndpoint('/identity/auth/refresh'),
+            session: makeEndpoint('/identity/auth/session'),
+            oidcAuthorize: makeEndpoint('/identity/auth/oidc/authorize'),
+            oidcToken: makeEndpoint('/identity/auth/oidc/token')
+        },
+        dashboard: {
+            stats: makeEndpoint('/identity/dashboard/stats')
+        },
         userGroups: {
             byUserId: makeEndpoint('/identity/user-groups/group/{userId}')
         },
         rolePermissions: {
             byRoleId: makeEndpoint('/identity/role-permissions/{roleId}')
         },
-        groupRole: {
+        groupRoles: {
             byGroupId: makeEndpoint('/identity/group-role/role/{groupId}')
         },
-        groupMenu: {
+        groupMenus: {
             byGroupId: makeEndpoint('/identity/group-menus/{groupId}')
         },
         users: {
@@ -86,6 +86,13 @@ export const API_ENDPOINTS = {
             base: makeEndpoint('/identity/permissions'),
             byId: makeEndpoint('/identity/permissions/{id}')
         },
+        menus: {
+            base: makeEndpoint('/identity/menus'),
+            manage: makeEndpoint('/identity/menus/manage/all'),
+            byId: makeEndpoint('/identity/menus/{id}')
+        }
+    },
+    tenantService: {
         tenants: {
             base: makeEndpoint('/tenant/tenants'),
             byId: makeEndpoint('/tenant/tenants/{id}'),
@@ -93,11 +100,6 @@ export const API_ENDPOINTS = {
             oidcConfigs: makeEndpoint('/tenant/tenant-oidc-configs'),
             authContextByCode: makeEndpoint('/tenant/tenants/code/{code}/auth-context'),
             loginOptions: makeEndpoint('/tenant/tenants/login-options')
-        },
-        menu: {
-            base: makeEndpoint('/identity/menus'),
-            manage: makeEndpoint('/identity/menus/manage/all'),
-            byId: makeEndpoint('/identity/menus/{id}')
         },
         tenantPartners: {
             base: makeEndpoint('/tenant/tenant-partners'),
@@ -121,7 +123,7 @@ export const API_ENDPOINTS = {
             byTenantCode: makeEndpoint('/tenant/tenant-ingestion-profiles/tenant/{tenantCode}')
         }
     },
-    scheduleIngestion: {
+    scheduleIngestionService: {
         ssim: {
             files: makeEndpoint('/schedule/ssim/files'),
             loadedScheduleById: makeEndpoint('/schedule/ssim/loaded-schedules/{fileId}'),
@@ -137,10 +139,10 @@ export const API_ENDPOINTS = {
             scheduleByFileId: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/schedule'),
             fileFlights: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/flights'),
             loadedSchedules: makeEndpoint('/schedule/asm-ssm/loaded-schedules')
+        },
+        outboundMessages: {
+            byId: makeEndpoint('/schedule/internal/outbound-messages/{outboundMessageId}')
         }
-    },
-    scheduleMessages: {
-        outboundById: makeEndpoint('/schedule/internal/outbound-messages/{outboundMessageId}')
     }
 } as const;
 

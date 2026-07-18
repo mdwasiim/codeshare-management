@@ -11,24 +11,24 @@ export class CodesharePartnerService {
     private toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<CodesharePartner[]>(API_ENDPOINTS.accessManagement.tenantPartners.base);
+        return this.api.get<CodesharePartner[]>(API_ENDPOINTS.tenantService.tenantPartners.base);
     }
 
     getById(id: string) {
-        return this.api.get<CodesharePartner>(API_ENDPOINTS.accessManagement.tenantPartners.byId, {
+        return this.api.get<CodesharePartner>(API_ENDPOINTS.tenantService.tenantPartners.byId, {
             pathParams: { id }
         });
     }
 
     create(payload: CodesharePartner) {
-        return this.api.post<CodesharePartner>(API_ENDPOINTS.accessManagement.tenantPartners.base, payload).pipe(
+        return this.api.post<CodesharePartner>(API_ENDPOINTS.tenantService.tenantPartners.base, payload).pipe(
             tap(() => this.toast.success('Codeshare Partners created successfully')),
             catchError((err) => { this.toast.error(err.message || 'Failed to create Codeshare Partners'); return throwError(() => err); })
         );
     }
 
     update(id: string, payload: CodesharePartner) {
-        return this.api.put<CodesharePartner>(API_ENDPOINTS.accessManagement.tenantPartners.byId, payload, {
+        return this.api.put<CodesharePartner>(API_ENDPOINTS.tenantService.tenantPartners.byId, payload, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Codeshare Partners updated successfully')),
@@ -37,7 +37,7 @@ export class CodesharePartnerService {
     }
 
     delete(id: string) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenantPartners.byId, {
+        return this.api.delete<void>(API_ENDPOINTS.tenantService.tenantPartners.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Codeshare Partners deleted successfully')),

@@ -66,7 +66,7 @@ export class LayoutMenuService {
             return this.loadMenusRequest$;
         }
 
-        this.loadMenusRequest$ = this.apiService.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base).pipe(
+        this.loadMenusRequest$ = this.apiService.get<AppMenuModel[]>(API_ENDPOINTS.identityService.menus.base).pipe(
             map((res) => this.normalizeMenus(res)),
             map((flat) => this.buildTree(flat)),
             map((tree) => this.assignRouterLinks(tree)),

@@ -36,7 +36,7 @@ export class RolePermissionService {
     // ASSIGNED ROLE PERMISSIONS
     // =====================================================
     getPermissionsByRole(roleId: string) {
-        return this.api.get<RolePermissionModel[]>(API_ENDPOINTS.accessManagement.rolePermissions.byRoleId, {
+        return this.api.get<RolePermissionModel[]>(API_ENDPOINTS.identityService.rolePermissions.byRoleId, {
             pathParams: { roleId }
         });
     }
@@ -45,7 +45,7 @@ export class RolePermissionService {
     // REPLACE ROLE PERMISSIONS
     // =====================================================
     replaceRolePermissions(roleId: string, permissionIds: string[]) {
-        return this.api.put<RolePermissionModel[]>(API_ENDPOINTS.accessManagement.rolePermissions.byRoleId, permissionIds, {
+        return this.api.put<RolePermissionModel[]>(API_ENDPOINTS.identityService.rolePermissions.byRoleId, permissionIds, {
             pathParams: {
                 roleId
             }

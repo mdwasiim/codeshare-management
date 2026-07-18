@@ -39,7 +39,7 @@ export class UserGroupService {
     // GROUPS BY USER
     // =====================================================
     getGroupsByUser(userId: string) {
-        return this.api.get<Group[]>(API_ENDPOINTS.accessManagement.userGroups.byUserId, {
+        return this.api.get<Group[]>(API_ENDPOINTS.identityService.userGroups.byUserId, {
             pathParams: {
                 userId
             }
@@ -50,7 +50,7 @@ export class UserGroupService {
     // REPLACE USER GROUPS
     // =====================================================
     replaceUserGroups(userId: string, groupIds: string[]) {
-        return this.api.put<UserGroupModel[]>(API_ENDPOINTS.accessManagement.userGroups.byUserId, groupIds, {
+        return this.api.put<UserGroupModel[]>(API_ENDPOINTS.identityService.userGroups.byUserId, groupIds, {
             pathParams: {
                 userId
             }

@@ -14,14 +14,14 @@ export class GroupService {
     // GET ALL
     // -----------------------------
     getAll(params?: Record<string, string>) {
-        return this.api.get<Group[]>(API_ENDPOINTS.accessManagement.groups.base, { params });
+        return this.api.get<Group[]>(API_ENDPOINTS.identityService.groups.base, { params });
     }
 
     // -----------------------------
     // GET BY ID
     // -----------------------------
     getById(id: string) {
-        return this.api.get<Group>(API_ENDPOINTS.accessManagement.groups.byId, {
+        return this.api.get<Group>(API_ENDPOINTS.identityService.groups.byId, {
             pathParams: { id }
         });
     }
@@ -30,7 +30,7 @@ export class GroupService {
     // CREATE
     // -----------------------------
     create(group: Group) {
-        return this.api.post<Group>(API_ENDPOINTS.accessManagement.groups.base, group).pipe(
+        return this.api.post<Group>(API_ENDPOINTS.identityService.groups.base, group).pipe(
             tap(() => {
                 this.toast.success('Group created successfully');
             })
@@ -42,7 +42,7 @@ export class GroupService {
     // -----------------------------
     update(id: string, group: Group) {
         return this.api
-            .put<Group>(API_ENDPOINTS.accessManagement.groups.byId, group, {
+            .put<Group>(API_ENDPOINTS.identityService.groups.byId, group, {
                 pathParams: { id }
             })
             .pipe(
@@ -57,7 +57,7 @@ export class GroupService {
     // -----------------------------
     delete(id: string) {
         return this.api
-            .delete<void>(API_ENDPOINTS.accessManagement.groups.byId, {
+            .delete<void>(API_ENDPOINTS.identityService.groups.byId, {
                 pathParams: { id }
             })
             .pipe(

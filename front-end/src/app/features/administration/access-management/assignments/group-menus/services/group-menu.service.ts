@@ -34,7 +34,7 @@ export class GroupMenuService {
     // MENUS BY GROUP
     // =====================================================
     getMenusByGroup(groupId: string) {
-        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.groupMenu.byGroupId, {
+        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.identityService.groupMenus.byGroupId, {
             pathParams: {
                 groupId
             }
@@ -45,7 +45,7 @@ export class GroupMenuService {
     // REPLACE GROUP MENUS
     // =====================================================
     replaceGroupMenus(groupId: string, menuIds: string[]) {
-        return this.api.put<GroupMenuModel[]>(API_ENDPOINTS.accessManagement.groupMenu.byGroupId, menuIds, {
+        return this.api.put<GroupMenuModel[]>(API_ENDPOINTS.identityService.groupMenus.byGroupId, menuIds, {
             pathParams: {
                 groupId
             }

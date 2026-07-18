@@ -13,25 +13,25 @@ export class TenantService {
     private readonly toast = inject(AppToastService);
 
     getAll(params?: Record<string, string>) {
-        return this.api.get<Tenant[]>(API_ENDPOINTS.accessManagement.tenants.base, { params });
+        return this.api.get<Tenant[]>(API_ENDPOINTS.tenantService.tenants.base, { params });
     }
 
     getIdentityProviders(params?: Record<string, string>) {
-        return this.api.get<TenantIdentityProviderRow[]>(API_ENDPOINTS.accessManagement.tenants.identityProviders, { params });
+        return this.api.get<TenantIdentityProviderRow[]>(API_ENDPOINTS.tenantService.tenants.identityProviders, { params });
     }
 
     getOidcConfigs(params?: Record<string, string>) {
-        return this.api.get<TenantOidcConfigRow[]>(API_ENDPOINTS.accessManagement.tenants.oidcConfigs, { params });
+        return this.api.get<TenantOidcConfigRow[]>(API_ENDPOINTS.tenantService.tenants.oidcConfigs, { params });
     }
 
     getById(id: string | number) {
-        return this.api.get<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, {
+        return this.api.get<Tenant>(API_ENDPOINTS.tenantService.tenants.byId, {
             pathParams: { id }
         });
     }
 
     create(payload: Tenant) {
-        return this.api.post<Tenant>(API_ENDPOINTS.accessManagement.tenants.base, payload).pipe(
+        return this.api.post<Tenant>(API_ENDPOINTS.tenantService.tenants.base, payload).pipe(
             tap(() => this.toast.success('Tenant created successfully')),
             catchError((error) => {
                 this.toast.error(error?.message || 'Failed to create tenant');
@@ -41,7 +41,7 @@ export class TenantService {
     }
 
     update(id: string | number, payload: Tenant) {
-        return this.api.put<Tenant>(API_ENDPOINTS.accessManagement.tenants.byId, payload, {
+        return this.api.put<Tenant>(API_ENDPOINTS.tenantService.tenants.byId, payload, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Tenant updated successfully')),
@@ -53,7 +53,7 @@ export class TenantService {
     }
 
     delete(id: string | number) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenants.byId, {
+        return this.api.delete<void>(API_ENDPOINTS.tenantService.tenants.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Tenant deleted successfully')),
