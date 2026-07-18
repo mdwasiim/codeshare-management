@@ -15,6 +15,7 @@ CREATE SEQUENCE IF NOT EXISTS tenant_core.codeshare_partner_seq START WITH 1 INC
 CREATE SEQUENCE IF NOT EXISTS tenant_core.codeshare_partner_profile_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS tenant_core.codeshare_partner_communication_profile_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS tenant_core.codeshare_partner_distribution_profile_seq START WITH 1 INCREMENT BY 50;
+CREATE SEQUENCE IF NOT EXISTS tenant_core.codeshare_partner_acceptance_rule_seq START WITH 1 INCREMENT BY 50;
 
 -- --------------------
 -- Tenants
@@ -127,6 +128,7 @@ CREATE INDEX IF NOT EXISTS idx_ingestion_profile_enabled ON tenant_core.schedule
 CREATE TABLE IF NOT EXISTS tenant_core.schedule_ingestion_channel (
     id BIGINT PRIMARY KEY,
     profile_id BIGINT NOT NULL,
+    partner_code VARCHAR(10),
     message_type VARCHAR(20) NOT NULL,
     source_type VARCHAR(20) NOT NULL,
     host VARCHAR(255),
@@ -188,14 +190,16 @@ CREATE TABLE IF NOT EXISTS tenant_core.schedule_ingestion_channel (
     deleted_at TIMESTAMPTZ,
     deleted_by VARCHAR(100),
     transaction_id VARCHAR(50),
-    CONSTRAINT uk_tenant_profile_msg_source UNIQUE (profile_id, message_type, source_type),
     CONSTRAINT fk_ingestion_channel_profile FOREIGN KEY (profile_id)
         REFERENCES tenant_core.schedule_ingestion_profile (id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_ingestion_channel_profile ON tenant_core.schedule_ingestion_channel (profile_id);
+CREATE INDEX IF NOT EXISTS idx_ingestion_channel_partner_code ON tenant_core.schedule_ingestion_channel (partner_code);
 CREATE INDEX IF NOT EXISTS idx_ingestion_channel_host ON tenant_core.schedule_ingestion_channel (host);
 CREATE INDEX IF NOT EXISTS idx_ingestion_channel_queue ON tenant_core.schedule_ingestion_channel (queue_name);
 CREATE INDEX IF NOT EXISTS idx_ingestion_channel_topic ON tenant_core.schedule_ingestion_channel (topic_name);
+CREATE UNIQUE INDEX IF NOT EXISTS uk_tenant_profile_msg_source_partner
+    ON tenant_core.schedule_ingestion_channel (profile_id, message_type, source_type, COALESCE(partner_code, ''));
 
 -- --------------------
 -- Codeshare Partners
@@ -333,3 +337,34 @@ CREATE TABLE IF NOT EXISTS tenant_core.codeshare_partner_distribution_profile (
         REFERENCES tenant_core.codeshare_partner (id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_codeshare_dist_partner ON tenant_core.codeshare_partner_distribution_profile (partner_id);
+
+CREATE TABLE IF NOT EXISTS tenant_core.codeshare_partner_acceptance_rule (
+    id BIGINT PRIMARY KEY,
+    partner_id BIGINT NOT NULL,
+    message_type VARCHAR(30) NOT NULL,
+    approval_mode VARCHAR(20) NOT NULL DEFAULT 'MANUAL',
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    display_order INTEGER,
+    description VARCHAR(500),
+    remarks VARCHAR(1000),
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    effective_from DATE,
+    effective_to DATE,
+    created_at TIMESTAMPTZ NOT NULL,
+    created_by VARCHAR(100),
+    updated_at TIMESTAMPTZ,
+    updated_by VARCHAR(100),
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    deleted_at TIMESTAMPTZ,
+    deleted_by VARCHAR(100),
+    transaction_id VARCHAR(50),
+    CONSTRAINT uk_partner_acceptance_msg UNIQUE (partner_id, message_type),
+    CONSTRAINT fk_partner_acceptance_partner FOREIGN KEY (partner_id)
+        REFERENCES tenant_core.codeshare_partner (id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_partner_acceptance_partner
+    ON tenant_core.codeshare_partner_acceptance_rule (partner_id);
+CREATE INDEX IF NOT EXISTS idx_partner_acceptance_message
+    ON tenant_core.codeshare_partner_acceptance_rule (message_type);
+CREATE INDEX IF NOT EXISTS idx_partner_acceptance_active
+    ON tenant_core.codeshare_partner_acceptance_rule (active);

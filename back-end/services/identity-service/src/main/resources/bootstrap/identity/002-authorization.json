@@ -2330,6 +2330,11 @@
                                            "description":  "Allows export access for trafficconferencearea."
                                        },
                                        {
+                                           "domain":  "referencedatacompleteness",
+                                           "action":  "read",
+                                           "description":  "Allows read access for reference data completeness checks."
+                                       },
+                                       {
                                            "domain":  "group",
                                            "action":  "assign",
                                            "description":  "Allows assigning users and roles to groups."

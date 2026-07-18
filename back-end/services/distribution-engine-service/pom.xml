@@ -73,6 +73,10 @@
             <groupId>com.codeshare.airline</groupId>
             <artifactId>csm-platform-data-jpa</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.codeshare.airline</groupId>
+            <artifactId>csm-platform-security</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

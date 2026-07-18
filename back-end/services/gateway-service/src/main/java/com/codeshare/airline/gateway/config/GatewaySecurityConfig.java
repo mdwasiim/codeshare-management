@@ -29,12 +29,18 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Slf4j
 @Configuration
 @EnableWebFluxSecurity
 @EnableConfigurationProperties(GatewayJwtSecurityProperties.class)
 public class GatewaySecurityConfig {
+
+    private static final String[] PRE_LOGIN_PUBLIC_PATHS = {
+            "/tenant/tenants/login-options",
+            "/tenant/tenants/code/*/auth-context"
+    };
 
     /* ======================================================
      *  AUTH SERVICE PUBLIC ENDPOINTS
@@ -47,7 +53,11 @@ public class GatewaySecurityConfig {
     ) {
 
         List<ServerWebExchangeMatcher> matchers =
-                props.getAuth().getPublicPaths().stream()
+                Stream.concat(
+                                props.getAuth().getPublicPaths().stream(),
+                                Stream.of(PRE_LOGIN_PUBLIC_PATHS)
+                        )
+                        .distinct()
                         .map(PathPatternParserServerWebExchangeMatcher::new)
                         .map(ServerWebExchangeMatcher.class::cast)
                         .toList();
@@ -86,6 +96,8 @@ public class GatewaySecurityConfig {
                     ex.pathMatchers(
                             props.getApi().getPublicPaths().toArray(new String[0])
                     ).permitAll();
+
+                    ex.pathMatchers(PRE_LOGIN_PUBLIC_PATHS).permitAll();
 
                     ex.anyExchange().authenticated();
                 })

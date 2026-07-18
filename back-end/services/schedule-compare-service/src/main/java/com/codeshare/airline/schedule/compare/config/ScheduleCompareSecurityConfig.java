@@ -1,27 +1,23 @@
-package com.codeshare.airline.master.config;
+package com.codeshare.airline.schedule.compare.config;
 
-import com.codeshare.airline.platform.security.web.StatelessResourceServerSecuritySupport;
 import com.codeshare.airline.platform.security.web.InternalEndpointAuthorization;
+import com.codeshare.airline.platform.security.web.StatelessResourceServerSecuritySupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class MasterDataSecurityConfig {
+public class ScheduleCompareSecurityConfig {
 
     @Bean
-    public SecurityFilterChain masterDataSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain scheduleCompareSecurityFilterChain(HttpSecurity http) throws Exception {
         StatelessResourceServerSecuritySupport.apply(http)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                         .requestMatchers(
-                                "/actuator/health",
-                                "/actuator/info"
-                        ).permitAll()
-                        .requestMatchers(
-                                "/internal/airline-carriers/**",
-                                "/internal/schedule-code-lists/**",
-                                "/internal/schedule-time/**"
+                                "/schedule/internal/change-sets/**",
+                                "/internal/change-sets/**"
                         ).hasAuthority(InternalEndpointAuthorization.INTERNAL_SCOPE_AUTHORITY)
                         .anyRequest().authenticated()
                 );

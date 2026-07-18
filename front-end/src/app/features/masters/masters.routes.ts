@@ -49,6 +49,7 @@ export const MASTERS_ROUTES: Routes = [
     { path: 'messaging/message-priorities', loadChildren: () => import('@features/masters/messaging/message-priorities/message-priorities.routes').then((m) => m.MESSAGEPRIORITY_ROUTES) },
     { path: 'messaging/message-statuses', loadChildren: () => import('@features/masters/messaging/message-statuses/message-statuses.routes').then((m) => m.MESSAGESTATUS_ROUTES) },
     { path: 'messaging/standard-message-identifiers', loadChildren: () => import('@features/masters/messaging/standard-message-identifiers/standard-message-identifiers.routes').then((m) => m.STANDARDMESSAGEIDENTIFIER_ROUTES) },
+    { path: 'validation/reference-data-completeness', loadChildren: () => import('@features/masters/validation/reference-data-completeness/reference-data-completeness.routes').then((m) => m.REFERENCE_DATA_COMPLETENESS_ROUTES) },
     { path: 'terminal/airport-terminals', loadChildren: () => import('@features/masters/terminal/airport-terminals/airport-terminals.routes').then((m) => m.AIRPORTTERMINAL_ROUTES) },
     { path: 'terminal/passenger-terminals', loadChildren: () => import('@features/masters/terminal/passenger-terminals/passenger-terminals.routes').then((m) => m.PASSENGERTERMINAL_ROUTES) },
     { path: 'terminal/traffic-conference-areas', loadChildren: () => import('@features/masters/terminal/traffic-conference-areas/traffic-conference-areas.routes').then((m) => m.TRAFFICCONFERENCEAREA_ROUTES) },

@@ -17,13 +17,6 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(IdentityServiceSecurityProperties.class)
 public class InternalServiceFeignAutoConfiguration {
 
-    private static final String[] INTERNAL_AUTH_OPTIONAL_PATH_PREFIXES = {
-            "/internal/bootstrap/",
-            "/internal/tenants",
-            "/internal/airline-carriers/",
-            "/tenant-ingestion-profiles/internal/"
-    };
-
     @Bean
     @ConditionalOnMissingBean(InternalAccessTokenProvider.class)
     public InternalAccessTokenProvider internalAccessTokenProvider(
@@ -39,25 +32,11 @@ public class InternalServiceFeignAutoConfiguration {
     ) {
         return template -> {
             InternalAccessTokenProvider provider = tokenProvider.getIfAvailable();
-            if (provider == null || template.headers().containsKey("Authorization") || isInternalAuthOptional(template.path())) {
+            if (provider == null || template.headers().containsKey("Authorization")) {
                 return;
             }
 
             template.header("Authorization", "Bearer " + provider.getAccessToken());
         };
-    }
-
-    private boolean isInternalAuthOptional(String path) {
-        if (path == null || path.isBlank()) {
-            return false;
-        }
-
-        for (String prefix : INTERNAL_AUTH_OPTIONAL_PATH_PREFIXES) {
-            if (path.startsWith(prefix)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

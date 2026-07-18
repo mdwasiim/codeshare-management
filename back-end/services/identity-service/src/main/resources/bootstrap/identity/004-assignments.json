@@ -146,7 +146,8 @@
             "standardmessageidentifier:read",
             "airportterminal:read",
             "passengerterminal:read",
-            "trafficconferencearea:read"
+            "trafficconferencearea:read",
+            "referencedatacompleteness:read"
           ]
         }
       ]
@@ -276,6 +277,7 @@
             "M_SCHEDULE",
             "M_MESSAGING",
             "M_TERMINAL",
+            "M_VALIDATION",
             "M_GEO_REGIONS",
             "M_GEO_COUNTRIES",
             "M_GEO_STATES",
@@ -326,7 +328,8 @@
             "M_MSG_STANDARD_MESSAGE_IDENTIFIERS",
             "M_TERMINAL_AIRPORT_TERMINALS",
             "M_TERMINAL_PASSENGER_TERMINALS",
-            "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS"
+            "M_TERMINAL_TRAFFIC_CONFERENCE_AREAS",
+            "M_VALIDATION_REFERENCE_DATA_COMPLETENESS"
           ]
         }
       ]

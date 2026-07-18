@@ -58,6 +58,11 @@ schedule:
 # EXTERNAL SERVICE CALLS
 # ----------------------------------
 services:
+  identity:
+    url: ${AUTH_IDENTITY_SERVICE_URL:http://localhost:8081}
+    s2s:
+      client-id: ${INTERNAL_S2S_CLIENT_ID:internal-s2s-client}
+      client-secret: ${INTERNAL_S2S_CLIENT_SECRET:admin123}
   ingestion:
     url: ${SCHEDULE_INGESTION_SERVICE_URL:http://localhost:8082}
 
