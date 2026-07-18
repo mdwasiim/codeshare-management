@@ -10,18 +10,18 @@ export class RoleService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
-    getAll() {
-        return this.api.get<Role[]>(API_ENDPOINTS.accessManagement.roles.base);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<Role[]>(API_ENDPOINTS.identityService.roles.base, { params });
     }
 
     getById(id: string) {
-        return this.api.get<Role>(API_ENDPOINTS.accessManagement.roles.byId, {
+        return this.api.get<Role>(API_ENDPOINTS.identityService.roles.byId, {
             pathParams: { id }
         });
     }
 
     create(role: Role) {
-        return this.api.post<Role>(API_ENDPOINTS.accessManagement.roles.base, role).pipe(
+        return this.api.post<Role>(API_ENDPOINTS.identityService.roles.base, role).pipe(
             tap(() => {
                 this.toast.success('Role created successfully');
             })
@@ -30,7 +30,7 @@ export class RoleService {
 
     update(id: string, role: Role) {
         return this.api
-            .put<Role>(API_ENDPOINTS.accessManagement.roles.byId, role, {
+            .put<Role>(API_ENDPOINTS.identityService.roles.byId, role, {
                 pathParams: { id }
             })
             .pipe(
@@ -42,7 +42,7 @@ export class RoleService {
 
     delete(id: string) {
         return this.api
-            .delete<void>(API_ENDPOINTS.accessManagement.roles.byId, {
+            .delete<void>(API_ENDPOINTS.identityService.roles.byId, {
                 pathParams: { id }
             })
             .pipe(

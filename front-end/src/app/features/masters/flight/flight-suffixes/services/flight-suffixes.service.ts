@@ -10,7 +10,7 @@ export class FlightSuffixService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/flight-suffixes';
 
-    getAll() { return this.api.get<FlightSuffix[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<FlightSuffix[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<FlightSuffix>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: FlightSuffix) {
         return this.api.post<FlightSuffix>(this.baseUrl, payload).pipe(

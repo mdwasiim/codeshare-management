@@ -10,7 +10,7 @@ export class AirlineBusinessRoleService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/airline-business-roles';
 
-    getAll() { return this.api.get<AirlineBusinessRole[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AirlineBusinessRole[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AirlineBusinessRole>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AirlineBusinessRole) {
         return this.api.post<AirlineBusinessRole>(this.baseUrl, payload).pipe(

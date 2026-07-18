@@ -10,7 +10,7 @@ export class TrafficRestrictionService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/traffic-restriction-codes';
 
-    getAll() { return this.api.get<TrafficRestriction[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<TrafficRestriction[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<TrafficRestriction>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: TrafficRestriction) {
         return this.api.post<TrafficRestriction>(this.baseUrl, payload).pipe(

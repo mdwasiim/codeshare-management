@@ -131,6 +131,11 @@
 
         <dependency>
             <groupId>com.codeshare.airline</groupId>
+            <artifactId>csm-platform-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.codeshare.airline</groupId>
             <artifactId>csm-platform-data-jpa</artifactId>
         </dependency>
         <dependency>

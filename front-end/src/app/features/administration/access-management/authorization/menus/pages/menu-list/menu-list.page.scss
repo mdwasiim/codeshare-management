@@ -4,6 +4,17 @@
     gap: 1rem;
 }
 
+.menu-exact-filters {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(7rem, 1fr)) minmax(4.5rem, auto);
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid #d9e2ec;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
 .menu-split {
     display: grid;
     grid-template-columns: minmax(20rem, 28rem) minmax(0, 1fr);

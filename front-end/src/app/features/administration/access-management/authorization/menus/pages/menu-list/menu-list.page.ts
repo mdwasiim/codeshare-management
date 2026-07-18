@@ -50,7 +50,7 @@ export class MenuListPage extends BaseListComponent<MenuTreeNode> {
     searchText = '';
 
     fetch(): Observable<MenuTreeNode[]> {
-        return this.service.getAll().pipe(
+        return this.service.getAll(this.exactFilters).pipe(
             map((res) => {
                 const tree = this.buildTree(res);
                 this.originalTree = tree;
@@ -211,7 +211,15 @@ export class MenuListPage extends BaseListComponent<MenuTreeNode> {
     }
 
     getMenuSubtitle(menu: AppMenuModel): string {
-        return menu.route || this.formatCode(menu.code);
+        if (menu.navigationType === 'INTERNAL_LINK' && menu.frontendPath) {
+            return menu.frontendPath;
+        }
+
+        if (menu.navigationType === 'EXTERNAL_LINK' && menu.externalUrl) {
+            return menu.externalUrl;
+        }
+
+        return `${menu.navigationType || 'SECTION'} - ${this.formatCode(menu.code)}`;
     }
 
     getChildCountLabel(count: number): string {
@@ -253,8 +261,8 @@ export class MenuListPage extends BaseListComponent<MenuTreeNode> {
 
     exportCSV(): void {
         const rows = this.flattenMenus(this.originalTree);
-        const header = ['Label', 'Topbar Label', 'Sidebar Label', 'Code', 'Route', 'Icon', 'Parent Id', 'Order', 'Active'];
-        const csv = [header, ...rows.map((menu) => [menu.label, menu.topbarLabel, menu.sidebarLabel, menu.code, menu.route, menu.icon, menu.parentId, menu.displayOrder, menu.active])].map((row) => row.map((cell) => `"${this.displayValue(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+        const header = ['Label', 'Navigation Type', 'Topbar Label', 'Sidebar Label', 'Code', 'Frontend Path', 'External URL', 'Permission Code', 'Icon', 'Parent Id', 'Order', 'Active'];
+        const csv = [header, ...rows.map((menu) => [menu.label, menu.navigationType, menu.topbarLabel, menu.sidebarLabel, menu.code, menu.frontendPath, menu.externalUrl, menu.permissionCode, menu.icon, menu.parentId, menu.displayOrder, menu.active])].map((row) => row.map((cell) => `"${this.displayValue(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -314,7 +322,7 @@ export class MenuListPage extends BaseListComponent<MenuTreeNode> {
             .map((node) => {
                 const children = this.filterTree(node.children, query);
                 const menu = node.data;
-                const selfMatches = [menu.label, menu.topbarLabel, menu.sidebarLabel, menu.code, menu.route, menu.icon].some((value) => value?.toLowerCase().includes(query));
+                const selfMatches = [menu.label, menu.topbarLabel, menu.sidebarLabel, menu.code, menu.navigationType, menu.frontendPath, menu.externalUrl, menu.permissionCode, menu.icon].some((value) => value?.toLowerCase().includes(query));
 
                 if (!selfMatches && !children.length) {
                     return null;

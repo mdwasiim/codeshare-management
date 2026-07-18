@@ -7,7 +7,7 @@
             <th pSortableColumn="utcOffset">UTC Offset<p-sortIcon field="utcOffset"></p-sortIcon></th>
             <th pSortableColumn="isDstSupported">DST<p-sortIcon field="isDstSupported"></p-sortIcon></th>
             <th pSortableColumn="recordStatus">Record Status<p-sortIcon field="recordStatus"></p-sortIcon></th>
-            <th class="access-actions-col">Actions</th></tr></ng-template>
+            <th class="access-actions-col">Actions</th></tr><tr class="access-filter-row"><th></th><th><input type="text" class="access-column-filter" [value]="exactFilters['zoneId'] || ''" (input)="onExactFilterChange('zoneId', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th><th><input type="text" class="access-column-filter" [value]="exactFilters['utcOffset'] || ''" (input)="onExactFilterChange('utcOffset', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th><th><input type="text" class="access-column-filter" [value]="exactFilters['isDstSupported'] || ''" (input)="onExactFilterChange('isDstSupported', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th><th><input type="text" class="access-column-filter" [value]="exactFilters['recordStatus'] || ''" (input)="onExactFilterChange('recordStatus', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th><th><button type="button" class="access-filter-clear" [disabled]="!hasExactFilters" (click)="clearExactFilters()">Clear</button></th></tr></ng-template>
         <ng-template pTemplate="body" let-record><tr><td><p-tableCheckbox [value]="record"></p-tableCheckbox></td>
             <td>{{ record.zoneId || '-' }}</td>
             <td>{{ record.utcOffset || '-' }}</td>

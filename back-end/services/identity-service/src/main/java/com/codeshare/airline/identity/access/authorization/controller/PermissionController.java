@@ -1,11 +1,13 @@
 package com.codeshare.airline.identity.access.authorization.controller;
 
+import com.codeshare.airline.identity.access.common.ExactFilter;
 import com.codeshare.airline.platform.core.dto.tenant.PermissionDTO;
 import com.codeshare.airline.identity.access.authorization.service.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/permissions")
@@ -45,8 +47,8 @@ public class PermissionController {
     // GET PERMISSIONS BY TENANT
     // ---------------------------------------------------------
     @GetMapping
-    public List<PermissionDTO> getAllTenant() {
-        return service.getAllTenant();
+    public List<PermissionDTO> getAllTenant(@RequestParam Map<String, String> filters) {
+        return ExactFilter.apply(service.getAllTenant(), filters);
     }
 
     // ---------------------------------------------------------

@@ -41,7 +41,7 @@ export class PermissionListPage extends BaseListComponent<Permission> {
     @ViewChild('dt') dt!: Table;
 
     fetch() {
-        return this.service.getAll();
+        return this.service.getAll(this.exactFilters);
     }
 
     // =========================

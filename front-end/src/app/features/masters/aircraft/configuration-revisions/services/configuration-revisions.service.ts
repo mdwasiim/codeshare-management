@@ -10,7 +10,7 @@ export class AircraftConfigurationRevisionService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/aircraft-configuration-revisions';
 
-    getAll() { return this.api.get<AircraftConfigurationRevision[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AircraftConfigurationRevision[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AircraftConfigurationRevision>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AircraftConfigurationRevision) {
         return this.api.post<AircraftConfigurationRevision>(this.baseUrl, payload).pipe(

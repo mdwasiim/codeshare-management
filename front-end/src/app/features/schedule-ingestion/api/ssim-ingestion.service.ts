@@ -15,33 +15,33 @@ export class SsimIngestionService {
     private api = inject(AppApiService);
 
     searchFiles(params: Record<string, string | number | boolean> = {}) {
-        return this.api.get<PageResponse<ScheduleFileMetaData>>(API_ENDPOINTS.scheduleIngestion.ssim.files, { params });
+        return this.api.get<PageResponse<ScheduleFileMetaData>>(API_ENDPOINTS.scheduleIngestionService.ssim.files, { params });
     }
 
     searchLoadedSchedules(params: Record<string, string | number | boolean> = {}) {
-        return this.api.get<PageResponse<LoadedScheduleSummary>>(API_ENDPOINTS.scheduleIngestion.ssim.loadedSchedules, { params });
+        return this.api.get<PageResponse<LoadedScheduleSummary>>(API_ENDPOINTS.scheduleIngestionService.ssim.loadedSchedules, { params });
     }
 
     getLoadedScheduleDetail(fileId: string) {
-        return this.api.get<LoadedScheduleDetail>(API_ENDPOINTS.scheduleIngestion.ssim.loadedScheduleById, {
+        return this.api.get<LoadedScheduleDetail>(API_ENDPOINTS.scheduleIngestionService.ssim.loadedScheduleById, {
             pathParams: { fileId }
         });
     }
 
     getFileSchedule(fileId: string) {
-        return this.api.get<unknown>(API_ENDPOINTS.scheduleIngestion.ssim.messageByFileId, {
+        return this.api.get<unknown>(API_ENDPOINTS.scheduleIngestionService.ssim.messageByFileId, {
             pathParams: { fileId }
         });
     }
 
     getValidationReport(fileId: string) {
-        return this.api.get<SsimValidationReportRow[]>(API_ENDPOINTS.scheduleIngestion.ssim.validationReport, {
+        return this.api.get<SsimValidationReportRow[]>(API_ENDPOINTS.scheduleIngestionService.ssim.validationReport, {
             pathParams: { fileId }
         });
     }
 
     searchFlights(fileId: string, params: Record<string, string | number | boolean> = {}) {
-        return this.api.get<PageResponse<AnyScheduleFlight>>(API_ENDPOINTS.scheduleIngestion.ssim.fileFlights, {
+        return this.api.get<PageResponse<AnyScheduleFlight>>(API_ENDPOINTS.scheduleIngestionService.ssim.fileFlights, {
             pathParams: { fileId },
             params
         });

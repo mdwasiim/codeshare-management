@@ -66,6 +66,19 @@
             <th>Active</th>
             <th class="access-actions-col">Actions</th>
         </tr>
+        <tr class="access-filter-row">
+            <th></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['code'] || ''" (input)="onExactFilterChange('code', $any($event.target).value)" placeholder="Exact" /></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['name'] || ''" (input)="onExactFilterChange('name', $any($event.target).value)" placeholder="Exact" /></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['description'] || ''" (input)="onExactFilterChange('description', $any($event.target).value)" placeholder="Exact" /></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['tenantId'] || ''" (input)="onExactFilterChange('tenantId', $any($event.target).value)" placeholder="Exact" /></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['createdAt'] || ''" (input)="onExactFilterChange('createdAt', $any($event.target).value)" placeholder="Exact" /></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['createdBy'] || ''" (input)="onExactFilterChange('createdBy', $any($event.target).value)" placeholder="Exact" /></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['updatedAt'] || ''" (input)="onExactFilterChange('updatedAt', $any($event.target).value)" placeholder="Exact" /></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['updatedBy'] || ''" (input)="onExactFilterChange('updatedBy', $any($event.target).value)" placeholder="Exact" /></th>
+            <th><input type="text" class="access-column-filter" [value]="exactFilters['active'] || ''" (input)="onExactFilterChange('active', $any($event.target).value)" placeholder="true" /></th>
+            <th><button type="button" class="access-filter-clear" [disabled]="!hasExactFilters" (click)="clearExactFilters()">Clear</button></th>
+        </tr>
     </ng-template>
 
     <!-- Body -->

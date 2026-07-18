@@ -10,7 +10,7 @@ export class StateService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/states';
 
-    getAll() { return this.api.get<State[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<State[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<State>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: State) {
         return this.api.post<State>(this.baseUrl, payload).pipe(

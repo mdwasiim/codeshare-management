@@ -1,6 +1,7 @@
 package com.codeshare.airline.platform.core.dto.tenant;
 
 import com.codeshare.airline.platform.core.dto.audit.CSMAuditableDTO;
+import com.codeshare.airline.platform.core.enums.tenant.MenuNavigationType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -27,9 +28,24 @@ public class MenuDTO extends CSMAuditableDTO {
 
     private String icon;
 
-    private String route;
+    /**
+     * SECTION for grouping-only rows, INTERNAL_LINK for Angular routes,
+     * EXTERNAL_LINK for links outside the app.
+     */
+    private MenuNavigationType navigationType;
 
-    private String permission;
+    /**
+     * Angular route path. This is intentionally stored because the UI
+     * receives tenant/group-specific menus from identity-service.
+     */
+    private String frontendPath;
+
+    private String externalUrl;
+
+    /**
+     * Permission code required before identity-service returns this menu item.
+     */
+    private String permissionCode;
 
     private Integer displayOrder;
 

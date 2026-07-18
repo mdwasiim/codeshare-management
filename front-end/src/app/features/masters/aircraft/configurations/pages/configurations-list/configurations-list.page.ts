@@ -21,7 +21,7 @@ export class AircraftConfigurationListPage extends BaseListComponent<AircraftCon
     dialogVisible = false; selectedId: string | null = null; selectedRecords: AircraftConfiguration[] = [];
     private service = inject(AircraftConfigurationService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: AircraftConfiguration) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: AircraftConfiguration) {

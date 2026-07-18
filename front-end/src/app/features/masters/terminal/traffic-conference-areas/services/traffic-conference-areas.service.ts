@@ -10,7 +10,7 @@ export class TrafficConferenceAreaService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/traffic-conference-areas';
 
-    getAll() { return this.api.get<TrafficConferenceArea[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<TrafficConferenceArea[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<TrafficConferenceArea>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: TrafficConferenceArea) {
         return this.api.post<TrafficConferenceArea>(this.baseUrl, payload).pipe(

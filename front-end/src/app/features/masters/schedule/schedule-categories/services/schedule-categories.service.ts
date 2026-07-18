@@ -10,7 +10,7 @@ export class ScheduleCategoryService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/schedule-categories';
 
-    getAll() { return this.api.get<ScheduleCategory[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ScheduleCategory[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ScheduleCategory>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ScheduleCategory) {
         return this.api.post<ScheduleCategory>(this.baseUrl, payload).pipe(

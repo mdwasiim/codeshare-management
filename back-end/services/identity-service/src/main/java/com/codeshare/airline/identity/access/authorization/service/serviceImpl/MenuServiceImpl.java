@@ -2,6 +2,7 @@ package com.codeshare.airline.identity.access.authorization.service.serviceImpl;
 
 import com.codeshare.airline.platform.core.dto.tenant.MenuBackupDTO;
 import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.platform.core.enums.tenant.MenuNavigationType;
 import com.codeshare.airline.identity.access.assignments.entities.GroupMenu;
 import com.codeshare.airline.identity.access.assignments.entities.UserGroup;
 import com.codeshare.airline.identity.access.assignments.repository.GroupMenuRepository;
@@ -109,6 +110,30 @@ public class MenuServiceImpl implements MenuService {
         } else {
             entity.setTopbarLabel(null);
         }
+
+        entity.setNavigationType(resolveNavigationType(entity));
+        if (entity.getNavigationType() == MenuNavigationType.SECTION) {
+            entity.setFrontendPath(null);
+            entity.setExternalUrl(null);
+        } else if (entity.getNavigationType() == MenuNavigationType.INTERNAL_LINK) {
+            entity.setExternalUrl(null);
+        } else {
+            entity.setFrontendPath(null);
+        }
+    }
+
+    private MenuNavigationType resolveNavigationType(Menu entity) {
+        if (entity.getNavigationType() != null) {
+            return entity.getNavigationType();
+        }
+
+        if (entity.getExternalUrl() != null && !entity.getExternalUrl().isBlank()) {
+            return MenuNavigationType.EXTERNAL_LINK;
+        }
+
+        return entity.getFrontendPath() == null || entity.getFrontendPath().isBlank()
+                ? MenuNavigationType.SECTION
+                : MenuNavigationType.INTERNAL_LINK;
     }
 
     private String trimToNull(String value) {
@@ -168,7 +193,7 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> allowedMenus = groupMenuRepository.findMenusByGroupsAndTenant(groups, ctx.getId())
                 .stream()
                 .filter(this::isVisible)
-                .filter(menu -> hasPermission(permissionCodes, menu.getPermission()))
+                .filter(menu -> hasPermission(permissionCodes, menu.getPermissionCode()))
                 .toList();
 
         Set<Menu> allowedSet = new HashSet<>(allowedMenus);
@@ -184,7 +209,7 @@ public class MenuServiceImpl implements MenuService {
 
         Set<Menu> prunedMenus = allowedSet.stream()
                 .filter(this::isVisible)
-                .filter(menu -> menu.getRoute() != null || hasVisibleDescendant(menu, allowedSet))
+                .filter(menu -> isNavigable(menu) || hasVisibleDescendant(menu, allowedSet))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         return prunedMenus.stream()
@@ -214,8 +239,10 @@ public class MenuServiceImpl implements MenuService {
                         dto.setTopbarLabel(menu.getTopbarLabel());
                         dto.setSidebarLabel(menu.getSidebarLabel());
                         dto.setIcon(menu.getIcon());
-                        dto.setRoute(menu.getRoute());
-                        dto.setPermission(menu.getPermission());
+                        dto.setNavigationType(menu.getNavigationType());
+                        dto.setFrontendPath(menu.getFrontendPath());
+                        dto.setExternalUrl(menu.getExternalUrl());
+                        dto.setPermissionCode(menu.getPermissionCode());
                         dto.setDisplayOrder(menu.getDisplayOrder());
                         dto.setVisible(menu.getVisible());
                         return dto;
@@ -300,6 +327,13 @@ public class MenuServiceImpl implements MenuService {
 
     private boolean isVisible(Menu menu) {
         return menu != null && !Boolean.FALSE.equals(menu.getVisible());
+    }
+
+    private boolean isNavigable(Menu menu) {
+        return menu != null
+                && menu.getNavigationType() == MenuNavigationType.INTERNAL_LINK
+                && menu.getFrontendPath() != null
+                && !menu.getFrontendPath().isBlank();
     }
 
     private boolean hasPermission(Set<String> permissionCodes, String requiredPermission) {

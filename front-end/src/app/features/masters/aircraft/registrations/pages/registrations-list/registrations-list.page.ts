@@ -21,7 +21,7 @@ export class AircraftRegistrationListPage extends BaseListComponent<AircraftRegi
     dialogVisible = false; selectedId: string | null = null; selectedRecords: AircraftRegistration[] = [];
     private service = inject(AircraftRegistrationService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: AircraftRegistration) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: AircraftRegistration) {

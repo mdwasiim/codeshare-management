@@ -10,7 +10,7 @@ export class ScheduleChannelService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/schedule-channels';
 
-    getAll() { return this.api.get<ScheduleChannel[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ScheduleChannel[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ScheduleChannel>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ScheduleChannel) {
         return this.api.post<ScheduleChannel>(this.baseUrl, payload).pipe(

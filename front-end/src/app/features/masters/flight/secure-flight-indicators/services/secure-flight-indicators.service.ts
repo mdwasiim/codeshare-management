@@ -10,7 +10,7 @@ export class SecureFlightIndicatorService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/secure-flight-indicators';
 
-    getAll() { return this.api.get<SecureFlightIndicator[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<SecureFlightIndicator[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<SecureFlightIndicator>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: SecureFlightIndicator) {
         return this.api.post<SecureFlightIndicator>(this.baseUrl, payload).pipe(

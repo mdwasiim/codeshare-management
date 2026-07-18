@@ -13,17 +13,17 @@ export class TenantPartnerProfileService {
     private readonly toast = inject(AppToastService);
 
     getAll() {
-        return this.api.get<TenantPartnerProfile[]>(API_ENDPOINTS.accessManagement.tenantPartnerProfiles.base);
+        return this.api.get<TenantPartnerProfile[]>(API_ENDPOINTS.tenantService.tenantPartnerProfiles.base);
     }
 
     getById(id: string | number) {
-        return this.api.get<TenantPartnerProfile>(API_ENDPOINTS.accessManagement.tenantPartnerProfiles.byId, {
+        return this.api.get<TenantPartnerProfile>(API_ENDPOINTS.tenantService.tenantPartnerProfiles.byId, {
             pathParams: { id }
         });
     }
 
     create(payload: TenantPartnerProfile) {
-        return this.api.post<TenantPartnerProfile>(API_ENDPOINTS.accessManagement.tenantPartnerProfiles.base, payload).pipe(
+        return this.api.post<TenantPartnerProfile>(API_ENDPOINTS.tenantService.tenantPartnerProfiles.base, payload).pipe(
             tap(() => this.toast.success('Partner profile created successfully')),
             catchError((error) => {
                 this.toast.error(error?.message || 'Failed to create partner profile');
@@ -33,7 +33,7 @@ export class TenantPartnerProfileService {
     }
 
     update(id: string | number, payload: TenantPartnerProfile) {
-        return this.api.put<TenantPartnerProfile>(API_ENDPOINTS.accessManagement.tenantPartnerProfiles.byId, payload, {
+        return this.api.put<TenantPartnerProfile>(API_ENDPOINTS.tenantService.tenantPartnerProfiles.byId, payload, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Partner profile updated successfully')),
@@ -45,7 +45,7 @@ export class TenantPartnerProfileService {
     }
 
     delete(id: string | number) {
-        return this.api.delete<void>(API_ENDPOINTS.accessManagement.tenantPartnerProfiles.byId, {
+        return this.api.delete<void>(API_ENDPOINTS.tenantService.tenantPartnerProfiles.byId, {
             pathParams: { id }
         }).pipe(
             tap(() => this.toast.success('Partner profile deleted successfully')),

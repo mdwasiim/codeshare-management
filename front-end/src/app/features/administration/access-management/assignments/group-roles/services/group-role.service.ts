@@ -19,7 +19,7 @@ export class GroupRoleService {
     // ROLES By Group
     // =====================================================
     getRolesByGroup(groupId: string) {
-        return this.api.get<Role[]>(API_ENDPOINTS.accessManagement.groupRole.byGroupId, {
+        return this.api.get<Role[]>(API_ENDPOINTS.identityService.groupRoles.byGroupId, {
             pathParams: { groupId }
         });
     }
@@ -32,7 +32,7 @@ export class GroupRoleService {
         return this.roleService.getAll();
     }
     replaceGroupRoles(groupId: string, roleId: string[]) {
-        return this.api.put<GroupRoleModel[]>(API_ENDPOINTS.accessManagement.groupRole.byGroupId, roleId, {
+        return this.api.put<GroupRoleModel[]>(API_ENDPOINTS.identityService.groupRoles.byGroupId, roleId, {
             pathParams: {
                 groupId
             }

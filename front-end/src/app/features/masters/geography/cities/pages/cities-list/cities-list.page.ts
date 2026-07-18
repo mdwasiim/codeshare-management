@@ -21,7 +21,7 @@ export class CityListPage extends BaseListComponent<City> {
     dialogVisible = false; selectedId: string | null = null; selectedRecords: City[] = [];
     private service = inject(CityService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: City) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: City) {

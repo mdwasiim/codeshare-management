@@ -10,7 +10,7 @@ export class DataElementIdentifierService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/data-element-identifiers';
 
-    getAll() { return this.api.get<DataElementIdentifier[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<DataElementIdentifier[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<DataElementIdentifier>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: DataElementIdentifier) {
         return this.api.post<DataElementIdentifier>(this.baseUrl, payload).pipe(

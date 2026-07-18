@@ -13,15 +13,15 @@ export class PermissionApiService {
     // -----------------------------
     // GET ALL
     // -----------------------------
-    getAll() {
-        return this.api.get<Permission[]>(API_ENDPOINTS.accessManagement.permissions.base);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<Permission[]>(API_ENDPOINTS.identityService.permissions.base, { params });
     }
 
     // -----------------------------
     // GET BY ID
     // -----------------------------
     getById(id: string) {
-        return this.api.get<Permission>(API_ENDPOINTS.accessManagement.permissions.byId, {
+        return this.api.get<Permission>(API_ENDPOINTS.identityService.permissions.byId, {
             pathParams: { id }
         });
     }
@@ -30,7 +30,7 @@ export class PermissionApiService {
     // CREATE
     // -----------------------------
     create(permission: Permission) {
-        return this.api.post<Permission>(API_ENDPOINTS.accessManagement.permissions.base, permission).pipe(
+        return this.api.post<Permission>(API_ENDPOINTS.identityService.permissions.base, permission).pipe(
             tap(() => {
                 this.toast.success('Permission created successfully');
             })
@@ -42,7 +42,7 @@ export class PermissionApiService {
     // -----------------------------
     update(id: string, permission: Permission) {
         return this.api
-            .put<Permission>(API_ENDPOINTS.accessManagement.permissions.byId, permission, {
+            .put<Permission>(API_ENDPOINTS.identityService.permissions.byId, permission, {
                 pathParams: { id }
             })
             .pipe(
@@ -57,7 +57,7 @@ export class PermissionApiService {
     // -----------------------------
     delete(id: string) {
         return this.api
-            .delete<void>(API_ENDPOINTS.accessManagement.permissions.byId, {
+            .delete<void>(API_ENDPOINTS.identityService.permissions.byId, {
                 pathParams: { id }
             })
             .pipe(

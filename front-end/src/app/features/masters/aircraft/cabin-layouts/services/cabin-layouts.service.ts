@@ -10,7 +10,7 @@ export class AircraftCabinLayoutService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/aircraft-cabin-layouts';
 
-    getAll() { return this.api.get<AircraftCabinLayout[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AircraftCabinLayout[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AircraftCabinLayout>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AircraftCabinLayout) {
         return this.api.post<AircraftCabinLayout>(this.baseUrl, payload).pipe(

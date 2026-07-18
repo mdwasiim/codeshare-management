@@ -184,6 +184,47 @@ body {
     white-space: nowrap;
   }
 
+  .access-filter-row > th {
+    padding: 0.35rem 0.5rem;
+    background: #ffffff;
+  }
+
+  .access-column-filter {
+    width: 100%;
+    min-width: 5.5rem;
+    height: 1.9rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0 0.45rem;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 0.78rem;
+    outline: none;
+  }
+
+  .access-column-filter:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+  }
+
+  .access-filter-clear {
+    width: 100%;
+    min-width: 4.25rem;
+    height: 1.9rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .access-filter-clear:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
   .p-datatable-tbody > tr > td,
   .p-treetable-tbody > tr > td {
     border-bottom: 1px solid #e6edf5;

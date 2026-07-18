@@ -35,9 +35,9 @@ export class MenuRouteAccessService {
     findBestMatch(url: string, menus: AppMenuModel[]): AppMenuModel | null {
         const normalized = this.normalizeUrl(url);
         const candidates = this.flatten(menus)
-            .filter((menu) => !!menu.route)
-            .filter((menu) => this.matchesMenuRoute(normalized, menu.route!))
-            .sort((a, b) => this.getSpecificityScore(b.route!) - this.getSpecificityScore(a.route!));
+            .filter((menu) => menu.navigationType === 'INTERNAL_LINK' && !!menu.frontendPath)
+            .filter((menu) => this.matchesMenuRoute(normalized, menu.frontendPath!))
+            .sort((a, b) => this.getSpecificityScore(b.frontendPath!) - this.getSpecificityScore(a.frontendPath!));
 
         return candidates[0] ?? null;
     }

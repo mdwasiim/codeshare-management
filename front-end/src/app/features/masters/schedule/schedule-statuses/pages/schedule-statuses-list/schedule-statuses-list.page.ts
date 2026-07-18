@@ -21,7 +21,7 @@ export class ScheduleStatusListPage extends BaseListComponent<ScheduleStatus> {
     dialogVisible = false; selectedId: string | null = null; selectedRecords: ScheduleStatus[] = [];
     private service = inject(ScheduleStatusService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: ScheduleStatus) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: ScheduleStatus) {

@@ -1,50 +1,58 @@
-[
-  {
-    "code": "INGESTION",
-    "parentCode": null,
-    "label": "Operations",
-    "topbarLabel": "Operations",
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-upload",
-    "route": null,
-    "permission": null,
-    "displayOrder": 2,
-    "visible": true
-  },
-  {
-    "code": "SSIM_INBOUND",
-    "parentCode": "INGESTION",
-    "label": "Loaded Schedules",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-inbox",
-    "route": null,
-    "permission": null,
-    "displayOrder": 1,
-    "visible": true
-  },
-  {
-    "code": "INBOUND_SCHEDULES",
-    "parentCode": "SSIM_INBOUND",
-    "label": "SSIM Files",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-upload",
-    "route": "/ssim-ingestion",
-    "permission": "flight:read",
-    "displayOrder": 1,
-    "visible": true
-  },
-  {
-    "code": "INBOUND_ASM/SSM",
-    "parentCode": "SSIM_INBOUND",
-    "label": "ASM/SSM Files",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-sync",
-    "route": "/asm-ssm-ingestion",
-    "permission": "flight:read",
-    "displayOrder": 2,
-    "visible": true
-  }
+﻿[
+    {
+        "code":  "INGESTION",
+        "parentCode":  null,
+        "label":  "Operations",
+        "topbarLabel":  "Operations",
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-upload",
+        "navigationType":  "SECTION",
+        "frontendPath":  null,
+        "externalUrl":  null,
+        "displayOrder":  2,
+        "visible":  true,
+        "permissionCode":  null
+    },
+    {
+        "code":  "SSIM_INBOUND",
+        "parentCode":  "INGESTION",
+        "label":  "Loaded Schedules",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-inbox",
+        "navigationType":  "SECTION",
+        "frontendPath":  null,
+        "externalUrl":  null,
+        "displayOrder":  1,
+        "visible":  true,
+        "permissionCode":  null
+    },
+    {
+        "code":  "INBOUND_SCHEDULES",
+        "parentCode":  "SSIM_INBOUND",
+        "label":  "SSIM Files",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-upload",
+        "navigationType":  "INTERNAL_LINK",
+        "frontendPath":  "/ssim-ingestion",
+        "externalUrl":  null,
+        "displayOrder":  1,
+        "visible":  true,
+        "permissionCode":  "flight:read"
+    },
+    {
+        "code":  "INBOUND_ASM/SSM",
+        "parentCode":  "SSIM_INBOUND",
+        "label":  "ASM/SSM Files",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-sync",
+        "navigationType":  "INTERNAL_LINK",
+        "frontendPath":  "/asm-ssm-ingestion",
+        "externalUrl":  null,
+        "displayOrder":  2,
+        "visible":  true,
+        "permissionCode":  "flight:read"
+    }
 ]

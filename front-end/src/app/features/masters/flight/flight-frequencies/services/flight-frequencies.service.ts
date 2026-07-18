@@ -10,7 +10,7 @@ export class FlightFrequencyService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/flight-frequencies';
 
-    getAll() { return this.api.get<FlightFrequency[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<FlightFrequency[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<FlightFrequency>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: FlightFrequency) {
         return this.api.post<FlightFrequency>(this.baseUrl, payload).pipe(

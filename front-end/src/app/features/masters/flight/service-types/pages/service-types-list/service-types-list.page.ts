@@ -21,7 +21,7 @@ export class FlightServiceTypeListPage extends BaseListComponent<FlightServiceTy
     dialogVisible = false; selectedId: string | null = null; selectedRecords: FlightServiceType[] = [];
     private service = inject(FlightServiceTypeService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: FlightServiceType) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: FlightServiceType) {

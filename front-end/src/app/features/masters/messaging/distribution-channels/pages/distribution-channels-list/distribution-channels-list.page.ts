@@ -21,7 +21,7 @@ export class DistributionChannelListPage extends BaseListComponent<DistributionC
     dialogVisible = false; selectedId: string | null = null; selectedRecords: DistributionChannel[] = [];
     private service = inject(DistributionChannelService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: DistributionChannel) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: DistributionChannel) {

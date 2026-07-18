@@ -10,7 +10,7 @@ export class AirportTerminalService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/airport-terminals';
 
-    getAll() { return this.api.get<AirportTerminal[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AirportTerminal[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AirportTerminal>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AirportTerminal) {
         return this.api.post<AirportTerminal>(this.baseUrl, payload).pipe(

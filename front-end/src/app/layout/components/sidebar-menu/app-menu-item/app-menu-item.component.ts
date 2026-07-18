@@ -69,7 +69,7 @@ export class AppMenuItemComponent {
 
         item.expanded = true;
 
-        const link = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink ?? item.route];
+        const link = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink ?? item.frontendPath];
         const target = link[0];
 
         if (target) {
@@ -92,7 +92,7 @@ export class AppMenuItemComponent {
     }
 
     childTrackKey(child: AppMenuModel, index: number): string {
-        return child.id ?? child.code ?? child.route ?? `${child.label}-${index}`;
+        return child.id ?? child.code ?? child.frontendPath ?? child.externalUrl ?? `${child.label}-${index}`;
     }
 
     private hasActiveDescendant(item: AppMenuModel): boolean {
@@ -104,7 +104,7 @@ export class AppMenuItemComponent {
     private isRouteMatch(item: AppMenuModel | undefined): boolean {
         if (!item) return false;
 
-        const link = Array.isArray(item.routerLink) ? item.routerLink[0] : (item.routerLink ?? item.route);
+        const link = Array.isArray(item.routerLink) ? item.routerLink[0] : (item.routerLink ?? item.frontendPath);
 
         if (!link) return false;
 

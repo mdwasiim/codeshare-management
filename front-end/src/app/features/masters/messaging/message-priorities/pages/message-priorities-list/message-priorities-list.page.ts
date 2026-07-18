@@ -21,7 +21,7 @@ export class MessagePriorityListPage extends BaseListComponent<MessagePriority> 
     dialogVisible = false; selectedId: string | null = null; selectedRecords: MessagePriority[] = [];
     private service = inject(MessagePriorityService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: MessagePriority) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: MessagePriority) {

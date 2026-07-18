@@ -1,6 +1,7 @@
 package com.codeshare.airline.identity.access.authorization.data;
 
 import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
+import com.codeshare.airline.platform.core.enums.tenant.MenuNavigationType;
 import com.codeshare.airline.identity.access.authorization.entities.Menu;
 import com.codeshare.airline.identity.access.authorization.repository.MenuRepository;
 import com.codeshare.airline.identity.integration.tenant.HostAirlineTenantClient;
@@ -135,8 +136,10 @@ public class MenuLoader {
                     .topbarLabel(dto.getTopbarLabel())
                     .sidebarLabel(dto.getSidebarLabel())
                     .icon(dto.getIcon())
-                    .route(dto.getRoute())
-                    .permission(dto.getPermission())
+                    .navigationType(resolveNavigationType(dto))
+                    .frontendPath(dto.getFrontendPath())
+                    .externalUrl(dto.getExternalUrl())
+                    .permissionCode(dto.getPermissionCode())
                     .displayOrder(dto.getDisplayOrder())
                     .visible(dto.getVisible() == null ? Boolean.TRUE : dto.getVisible())
                     .tenantId(tenantId)
@@ -206,12 +209,21 @@ public class MenuLoader {
             menu.setIcon(dto.getIcon());
             changed = true;
         }
-        if (!Objects.equals(menu.getRoute(), dto.getRoute())) {
-            menu.setRoute(dto.getRoute());
+        MenuNavigationType navigationType = resolveNavigationType(dto);
+        if (!Objects.equals(menu.getNavigationType(), navigationType)) {
+            menu.setNavigationType(navigationType);
             changed = true;
         }
-        if (!Objects.equals(menu.getPermission(), dto.getPermission())) {
-            menu.setPermission(dto.getPermission());
+        if (!Objects.equals(menu.getFrontendPath(), dto.getFrontendPath())) {
+            menu.setFrontendPath(dto.getFrontendPath());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getExternalUrl(), dto.getExternalUrl())) {
+            menu.setExternalUrl(dto.getExternalUrl());
+            changed = true;
+        }
+        if (!Objects.equals(menu.getPermissionCode(), dto.getPermissionCode())) {
+            menu.setPermissionCode(dto.getPermissionCode());
             changed = true;
         }
         if (!Objects.equals(menu.getDisplayOrder(), dto.getDisplayOrder())) {
@@ -225,6 +237,20 @@ public class MenuLoader {
         }
 
         return changed;
+    }
+
+    private MenuNavigationType resolveNavigationType(MenuDTO dto) {
+        if (dto.getNavigationType() != null) {
+            return dto.getNavigationType();
+        }
+
+        if (dto.getExternalUrl() != null && !dto.getExternalUrl().isBlank()) {
+            return MenuNavigationType.EXTERNAL_LINK;
+        }
+
+        return dto.getFrontendPath() == null || dto.getFrontendPath().isBlank()
+                ? MenuNavigationType.SECTION
+                : MenuNavigationType.INTERNAL_LINK;
     }
 
     private boolean isBootstrapManagedMenu(String code) {
@@ -256,6 +282,7 @@ public class MenuLoader {
                         "ACCESS_ASSIGNMENT",
                         "USERS",
                         "GROUPS",
+                        "GROUP_OPERATIONS",
                         "ROLES",
                         "PERMISSIONS",
                         "MENUS",

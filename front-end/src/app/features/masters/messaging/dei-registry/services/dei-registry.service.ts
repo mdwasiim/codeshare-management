@@ -10,7 +10,7 @@ export class DeiRegistryService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/dei';
 
-    getAll() { return this.api.get<DeiRegistry[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<DeiRegistry[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<DeiRegistry>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: DeiRegistry) {
         return this.api.post<DeiRegistry>(this.baseUrl, payload).pipe(

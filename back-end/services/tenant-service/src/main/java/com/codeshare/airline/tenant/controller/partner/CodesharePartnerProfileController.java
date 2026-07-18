@@ -2,11 +2,13 @@ package com.codeshare.airline.tenant.controller.partner;
 
 import com.codeshare.airline.platform.core.constants.CSMConstants;
 import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerProfileDTO;
+import com.codeshare.airline.tenant.common.ExactFilter;
 import com.codeshare.airline.tenant.service.partner.CodesharePartnerProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/tenant-partner-profiles")
@@ -25,7 +27,7 @@ public class CodesharePartnerProfileController {
     public CodesharePartnerProfileDTO getById(@PathVariable Long id) { return service.getById(id); }
 
     @GetMapping
-    public List<CodesharePartnerProfileDTO> getAll() { return service.getAll(); }
+    public List<CodesharePartnerProfileDTO> getAll(@RequestParam Map<String, String> filters) { return ExactFilter.apply(service.getAll(), filters); }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) { service.delete(id); return CSMConstants.NO_DATA; }

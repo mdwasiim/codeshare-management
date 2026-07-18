@@ -10,7 +10,7 @@ export class SchedulePriorityService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/schedule-priorities';
 
-    getAll() { return this.api.get<SchedulePriority[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<SchedulePriority[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<SchedulePriority>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: SchedulePriority) {
         return this.api.post<SchedulePriority>(this.baseUrl, payload).pipe(

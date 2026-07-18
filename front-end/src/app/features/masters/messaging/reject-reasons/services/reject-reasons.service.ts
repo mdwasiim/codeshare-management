@@ -10,7 +10,7 @@ export class RejectReasonService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/reject-reasons';
 
-    getAll() { return this.api.get<RejectReason[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<RejectReason[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<RejectReason>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: RejectReason) {
         return this.api.post<RejectReason>(this.baseUrl, payload).pipe(

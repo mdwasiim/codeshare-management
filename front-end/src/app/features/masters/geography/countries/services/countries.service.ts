@@ -10,7 +10,7 @@ export class CountryService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/countries';
 
-    getAll() { return this.api.get<Country[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<Country[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<Country>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: Country) {
         return this.api.post<Country>(this.baseUrl, payload).pipe(

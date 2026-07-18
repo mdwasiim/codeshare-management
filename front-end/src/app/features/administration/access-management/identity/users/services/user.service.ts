@@ -10,18 +10,18 @@ export class UserService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
-    getAll() {
-        return this.api.get<User[]>(API_ENDPOINTS.accessManagement.users.base);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<User[]>(API_ENDPOINTS.identityService.users.base, { params });
     }
 
     getById(id: string) {
-        return this.api.get<User>(API_ENDPOINTS.accessManagement.users.byId, {
+        return this.api.get<User>(API_ENDPOINTS.identityService.users.byId, {
             pathParams: { id }
         });
     }
 
     create(user: User) {
-        return this.api.post<User>(API_ENDPOINTS.accessManagement.users.base, user).pipe(
+        return this.api.post<User>(API_ENDPOINTS.identityService.users.base, user).pipe(
             tap(() => {
                 this.toast.success('User created successfully');
             }),
@@ -34,7 +34,7 @@ export class UserService {
 
     update(id: string, user: User) {
         return this.api
-            .put<User>(API_ENDPOINTS.accessManagement.users.byId, user, {
+            .put<User>(API_ENDPOINTS.identityService.users.byId, user, {
                 pathParams: { id }
             })
             .pipe(
@@ -50,7 +50,7 @@ export class UserService {
 
     delete(id: string) {
         return this.api
-            .delete<void>(API_ENDPOINTS.accessManagement.users.byId, {
+            .delete<void>(API_ENDPOINTS.identityService.users.byId, {
                 pathParams: { id }
             })
             .pipe(

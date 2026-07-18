@@ -18,6 +18,15 @@
     >
     </app-crud-toolbar>
 
+    <div class="menu-exact-filters">
+        <input type="text" class="access-column-filter" [value]="exactFilters['label'] || ''" (input)="onExactFilterChange('label', $any($event.target).value)" placeholder="Label exact" />
+        <input type="text" class="access-column-filter" [value]="exactFilters['code'] || ''" (input)="onExactFilterChange('code', $any($event.target).value)" placeholder="Code exact" />
+        <input type="text" class="access-column-filter" [value]="exactFilters['frontendPath'] || ''" (input)="onExactFilterChange('frontendPath', $any($event.target).value)" placeholder="Path exact" />
+        <input type="text" class="access-column-filter" [value]="exactFilters['permissionCode'] || ''" (input)="onExactFilterChange('permissionCode', $any($event.target).value)" placeholder="Permission exact" />
+        <input type="text" class="access-column-filter" [value]="exactFilters['active'] || ''" (input)="onExactFilterChange('active', $any($event.target).value)" placeholder="Active true/false" />
+        <button type="button" class="access-filter-clear" [disabled]="!hasExactFilters" (click)="clearExactFilters()">Clear</button>
+    </div>
+
     <section class="menu-split">
         <aside class="menu-browser" aria-label="Menu hierarchy">
             <div class="menu-browser__header">
@@ -71,8 +80,16 @@
 
                 <div class="menu-detail__grid">
                     <div>
-                        <span>Route</span>
-                        <code>{{ displayValue(selectedMenu.route) }}</code>
+                        <span>Navigation type</span>
+                        <strong>{{ displayValue(selectedMenu.navigationType || (selectedMenu.frontendPath ? 'INTERNAL_LINK' : 'SECTION')) }}</strong>
+                    </div>
+                    <div>
+                        <span>Frontend path</span>
+                        <code>{{ displayValue(selectedMenu.frontendPath) }}</code>
+                    </div>
+                    <div>
+                        <span>External URL</span>
+                        <code>{{ displayValue(selectedMenu.externalUrl) }}</code>
                     </div>
                     <div *ngIf="!selectedMenu.parentId; else sidebarDisplayLabel">
                         <span>Topbar display</span>
@@ -94,7 +111,7 @@
                     </div>
                     <div>
                         <span>Permission</span>
-                        <strong>{{ displayValue(selectedMenu.permission) }}</strong>
+                        <strong>{{ displayValue(selectedMenu.permissionCode) }}</strong>
                     </div>
                     <div>
                         <span>Icon</span>

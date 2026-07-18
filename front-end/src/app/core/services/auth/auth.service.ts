@@ -29,7 +29,7 @@ export class AuthService {
     ) {}
 
     login(username: string, password: string, authSource: AuthSource = AuthSource.INTERNAL): Observable<LoginResponse> {
-        return this.apiService.post<LoginResponse>(API_ENDPOINTS.auth.login, { username, password, authSource }).pipe(
+        return this.apiService.post<LoginResponse>(API_ENDPOINTS.identityService.auth.login, { username, password, authSource }).pipe(
             tap((res) => {
                 this.tokenService.setSession(res.access_token, res.refresh_token, res.expires_in);
                 this.tokenService.setTenant(res.tenant_code);
@@ -41,13 +41,13 @@ export class AuthService {
     }
 
     getTenantAuthContext(tenantCode: string): Observable<TenantAuthContext> {
-        return this.apiService.get<TenantAuthContext>(API_ENDPOINTS.accessManagement.tenants.authContextByCode, {
+        return this.apiService.get<TenantAuthContext>(API_ENDPOINTS.tenantService.tenants.authContextByCode, {
             pathParams: { code: tenantCode.trim().toUpperCase() }
         });
     }
 
     getTenantLoginOptions(): Observable<TenantLoginOption[]> {
-        return this.apiService.get<TenantLoginOption[]>(API_ENDPOINTS.accessManagement.tenants.loginOptions);
+        return this.apiService.get<TenantLoginOption[]>(API_ENDPOINTS.tenantService.tenants.loginOptions);
     }
 
     startOidcLogin(tenantCode: string, authSource: AuthSource): void {
@@ -55,11 +55,11 @@ export class AuthService {
             tenantCode: tenantCode.trim().toUpperCase(),
             authSource
         });
-        window.location.assign(`${API_ENDPOINTS.auth.oidcAuthorize()}?${params.toString()}`);
+        window.location.assign(`${API_ENDPOINTS.identityService.auth.oidcAuthorize()}?${params.toString()}`);
     }
 
     exchangeOidcCode(code: string): Observable<LoginResponse> {
-        return this.apiService.post<LoginResponse>(API_ENDPOINTS.auth.oidcToken, { code }).pipe(
+        return this.apiService.post<LoginResponse>(API_ENDPOINTS.identityService.auth.oidcToken, { code }).pipe(
             tap((res) => {
                 this.tokenService.setSession(res.access_token, res.refresh_token, res.expires_in);
             }),
@@ -69,7 +69,7 @@ export class AuthService {
 
     refresh(): Observable<RefreshTokenResponse> {
         return this.apiService
-            .post<RefreshTokenResponse>(API_ENDPOINTS.auth.refresh, {}, {
+            .post<RefreshTokenResponse>(API_ENDPOINTS.identityService.auth.refresh, {}, {
                 headers: {
                     Authorization: `Bearer ${this.tokenService.refreshToken || ''}`
                 }
@@ -84,7 +84,7 @@ export class AuthService {
 
     logout(): Observable<unknown> {
         return this.apiService
-            .post<unknown>(API_ENDPOINTS.auth.logout, {}, {
+            .post<unknown>(API_ENDPOINTS.identityService.auth.logout, {}, {
                 headers: {
                     Authorization: `Bearer ${this.tokenService.refreshToken || ''}`
                 }
@@ -99,7 +99,7 @@ export class AuthService {
     }
 
     loadSession(): Observable<AuthSessionResponse> {
-        return this.apiService.get<AuthSessionResponse>(API_ENDPOINTS.auth.session).pipe(
+        return this.apiService.get<AuthSessionResponse>(API_ENDPOINTS.identityService.auth.session).pipe(
             tap((session) => {
                 if (session.tenant_code) {
                     this.tokenService.setTenant(session.tenant_code);

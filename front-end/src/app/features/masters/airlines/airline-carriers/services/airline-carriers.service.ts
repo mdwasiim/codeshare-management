@@ -10,7 +10,7 @@ export class AirlineCarrierService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/airline-carriers';
 
-    getAll() { return this.api.get<AirlineCarrier[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AirlineCarrier[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AirlineCarrier>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AirlineCarrier) {
         return this.api.post<AirlineCarrier>(this.baseUrl, payload).pipe(

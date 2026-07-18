@@ -9,7 +9,9 @@ export interface AppMenuModel extends AuditableModel {
     sidebarLabel?: string;
     icon?: string;
 
-    route?: string;
+    navigationType?: 'SECTION' | 'INTERNAL_LINK' | 'EXTERNAL_LINK' | string;
+    frontendPath?: string;
+    externalUrl?: string;
     parentCode?: string;
 
     routerLink?: string | string[];
@@ -18,7 +20,7 @@ export interface AppMenuModel extends AuditableModel {
     displayOrder?: number;
 
     groupIds?: string[];
-    permission?: string;
+    permissionCode?: string;
 
     items?: AppMenuModel[];
 

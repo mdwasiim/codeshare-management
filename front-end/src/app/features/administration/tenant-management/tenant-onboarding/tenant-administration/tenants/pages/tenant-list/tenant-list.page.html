@@ -67,6 +67,19 @@
                 <th>Updated At</th>
                 <th class="access-actions-col">Actions</th>
             </tr>
+            <tr class="access-filter-row">
+                <th></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['name'] || ''" (input)="onExactFilterChange('name', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['tenantCode'] || ''" (input)="onExactFilterChange('tenantCode', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['plan'] || ''" (input)="onExactFilterChange('plan', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['region'] || ''" (input)="onExactFilterChange('region', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['contactEmail'] || ''" (input)="onExactFilterChange('contactEmail', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['trial'] || ''" (input)="onExactFilterChange('trial', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['status'] || ''" (input)="onExactFilterChange('status', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['createdAt'] || ''" (input)="onExactFilterChange('createdAt', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['updatedAt'] || ''" (input)="onExactFilterChange('updatedAt', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><button type="button" class="access-filter-clear" [disabled]="!hasExactFilters" (click)="clearExactFilters()">Clear</button></th>
+            </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-tenant>

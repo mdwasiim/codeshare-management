@@ -11,7 +11,7 @@ import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-actio
 import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
-import { IdentityProviderConfig, Tenant, TenantStatus } from '@features/administration/tenant-management/models/tenant.model';
+import { TenantIdentityProviderRow, TenantStatus } from '@features/administration/tenant-management/models/tenant.model';
 import { TenantService } from '@features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/services/tenant.service';
 import { TenantFormPage } from '@features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page';
 
@@ -31,7 +31,7 @@ import { TenantFormPage } from '@features/administration/tenant-management/tenan
     ],
     templateUrl: './tenant-identity-providers.page.html'
 })
-export class TenantIdentityProvidersPage extends BaseListComponent<Tenant> {
+export class TenantIdentityProvidersPage extends BaseListComponent<TenantIdentityProviderRow> {
     protected override resourceName = 'TENANT';
 
     private readonly service = inject(TenantService);
@@ -42,10 +42,10 @@ export class TenantIdentityProvidersPage extends BaseListComponent<Tenant> {
     @ViewChild('dt') private dt?: Table;
 
     override fetch() {
-        return this.service.getAll();
+        return this.service.getIdentityProviders(this.exactFilters);
     }
 
-    openEdit(tenant: Tenant): void {
+    openEdit(tenant: TenantIdentityProviderRow): void {
         this.selectedTenantId = tenant.id ?? null;
         this.dialogVisible = true;
     }
@@ -63,23 +63,12 @@ export class TenantIdentityProvidersPage extends BaseListComponent<Tenant> {
         this.dt?.exportCSV();
     }
 
-    authSourceLabel(tenant: Tenant): string {
-        const providers = this.resolveProviders(tenant);
-        if (!providers.length) {
-            return 'Internal';
-        }
-        return providers
-            .map((provider) => this.formatAuthSource(provider.authSource))
-            .filter(Boolean)
-            .join(', ');
+    authSourceLabel(tenant: TenantIdentityProviderRow): string {
+        return this.formatAuthSource(tenant.authSource) || 'Internal';
     }
 
-    resolveOidcConfig(tenant: Tenant) {
-        return this.resolveProviders(tenant).find((provider) => !!provider.oidcConfig)?.oidcConfig ?? tenant.oidcConfig;
-    }
-
-    hasExternalProvider(tenant: Tenant): boolean {
-        return this.resolveProviders(tenant).some((provider) => provider.authSource && provider.authSource !== 'INTERNAL');
+    hasExternalProvider(tenant: TenantIdentityProviderRow): boolean {
+        return !!tenant.authSource && tenant.authSource !== 'INTERNAL';
     }
 
     statusSeverity(status?: TenantStatus): 'success' | 'warn' | 'danger' | 'secondary' {
@@ -94,21 +83,6 @@ export class TenantIdentityProvidersPage extends BaseListComponent<Tenant> {
             default:
                 return 'secondary';
         }
-    }
-
-    private resolveProviders(tenant: Tenant): IdentityProviderConfig[] {
-        if (tenant.identityProviders?.length) {
-            return tenant.identityProviders;
-        }
-        return tenant.authSource
-            ? [{
-                  authSource: tenant.authSource,
-                  enabled: true,
-                  priority: 1,
-                  providerId: tenant.authSource.toLowerCase(),
-                  oidcConfig: tenant.oidcConfig
-              }]
-            : [];
     }
 
     private formatAuthSource(authSource?: string): string {

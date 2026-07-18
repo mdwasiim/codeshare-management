@@ -10,7 +10,7 @@ export class ScheduleSourceService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/schedule-sources';
 
-    getAll() { return this.api.get<ScheduleSource[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ScheduleSource[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ScheduleSource>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ScheduleSource) {
         return this.api.post<ScheduleSource>(this.baseUrl, payload).pipe(

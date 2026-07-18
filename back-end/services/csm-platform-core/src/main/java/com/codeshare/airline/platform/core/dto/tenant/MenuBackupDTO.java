@@ -1,6 +1,7 @@
 package com.codeshare.airline.platform.core.dto.tenant;
 
 import lombok.Data;
+import com.codeshare.airline.platform.core.enums.tenant.MenuNavigationType;
 
 @Data
 public class MenuBackupDTO {
@@ -16,9 +17,13 @@ public class MenuBackupDTO {
 
     private String icon;
 
-    private String route;
+    private MenuNavigationType navigationType;
 
-    private String permission;
+    private String frontendPath;
+
+    private String externalUrl;
+
+    private String permissionCode;
 
     private Integer displayOrder;
 

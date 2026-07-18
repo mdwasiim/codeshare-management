@@ -21,7 +21,7 @@ export class CountryListPage extends BaseListComponent<Country> {
     dialogVisible = false; selectedId: string | null = null; selectedRecords: Country[] = [];
     private service = inject(CountryService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: Country) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: Country) {

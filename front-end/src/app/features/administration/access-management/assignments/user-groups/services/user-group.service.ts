@@ -8,6 +8,7 @@ import { UserService } from '@features/administration/access-management/identity
 import { GroupService } from '@features/administration/access-management/identity/groups/services/group.service';
 
 import { Group } from '@features/administration/access-management/models/group.model';
+import { User } from '@features/administration/access-management/models/user.model';
 
 import { UserGroupModel } from '../models/user-group.model';
 
@@ -39,9 +40,20 @@ export class UserGroupService {
     // GROUPS BY USER
     // =====================================================
     getGroupsByUser(userId: string) {
-        return this.api.get<Group[]>(API_ENDPOINTS.accessManagement.userGroups.byUserId, {
+        return this.api.get<Group[]>(API_ENDPOINTS.identityService.userGroups.byUserId, {
             pathParams: {
                 userId
+            }
+        });
+    }
+
+    // =====================================================
+    // USERS BY GROUP
+    // =====================================================
+    getUsersByGroup(groupId: string) {
+        return this.api.get<User[]>(API_ENDPOINTS.identityService.userGroups.byGroupId, {
+            pathParams: {
+                groupId
             }
         });
     }
@@ -50,9 +62,20 @@ export class UserGroupService {
     // REPLACE USER GROUPS
     // =====================================================
     replaceUserGroups(userId: string, groupIds: string[]) {
-        return this.api.put<UserGroupModel[]>(API_ENDPOINTS.accessManagement.userGroups.byUserId, groupIds, {
+        return this.api.put<UserGroupModel[]>(API_ENDPOINTS.identityService.userGroups.byUserId, groupIds, {
             pathParams: {
                 userId
+            }
+        });
+    }
+
+    // =====================================================
+    // REPLACE GROUP USERS
+    // =====================================================
+    replaceGroupUsers(groupId: string, userIds: string[]) {
+        return this.api.put<UserGroupModel[]>(API_ENDPOINTS.identityService.userGroups.byGroupId, userIds, {
+            pathParams: {
+                groupId
             }
         });
     }

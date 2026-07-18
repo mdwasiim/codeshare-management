@@ -10,7 +10,7 @@ export class ReservationBookingDesignatorService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/reservation-booking-designators';
 
-    getAll() { return this.api.get<ReservationBookingDesignator[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ReservationBookingDesignator[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ReservationBookingDesignator>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ReservationBookingDesignator) {
         return this.api.post<ReservationBookingDesignator>(this.baseUrl, payload).pipe(

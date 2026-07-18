@@ -10,7 +10,7 @@ export class AirlineAliasService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/airline-aliases';
 
-    getAll() { return this.api.get<AirlineAlias[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AirlineAlias[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AirlineAlias>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AirlineAlias) {
         return this.api.post<AirlineAlias>(this.baseUrl, payload).pipe(

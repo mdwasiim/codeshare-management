@@ -171,37 +171,6 @@
             </p-table>
         </div>
 
-        <aside class="ssim-panel ssim-panel--side">
-            <div class="ssim-panel__header">
-                <div>
-                    <h2>Selected File</h2>
-                    <p>Current inspection context.</p>
-                </div>
-            </div>
-
-            <div class="selected-file-card">
-                <span class="selected-file-card__icon"><i class="pi pi-file"></i></span>
-                <strong>{{ selectedFile?.fileName || 'No file selected' }}</strong>
-                <small>{{ selectedFile?.airlineCode || 'Select an inbound file' }}</small>
-                <p-tag [value]="selectedFile?.processingStatus || 'Waiting'" [severity]="statusSeverity(selectedFile?.processingStatus)"></p-tag>
-            </div>
-
-            <div class="event-list">
-                <h3>Recent Intake</h3>
-                @for (file of files.slice(0, 5); track file.fileId) {
-                    <button type="button" class="event-item" (click)="loadFlights(file)">
-                        <i class="pi pi-circle-fill"></i>
-                        <span>
-                            <strong>{{ file.fileName || file.fileId }}</strong>
-                            <small>{{ file.processingStatus || 'Unknown' }} - {{ (file.receivedAt | date: 'short') || '-' }}</small>
-                        </span>
-                    </button>
-                }
-                @if (!files.length) {
-                    <div class="event-empty">No recent intake available.</div>
-                }
-            </div>
-        </aside>
     </section>
 
     <section class="ssim-panel flights-panel">
@@ -210,7 +179,11 @@
                 <h2>Parsed Flights</h2>
                 <p>Select a flight row to inspect DEI information.</p>
             </div>
-            <span>{{ totalFlights }} flights</span>
+            <div class="flight-panel-actions">
+                <span>{{ totalFlights }} flights</span>
+                <p-button icon="pi pi-search" label="Apply" size="small" text styleClass="metadata-action-button" (click)="applyFlightFilters()" [disabled]="!selectedFile"></p-button>
+                <p-button icon="pi pi-filter-slash" label="Clear" size="small" text styleClass="metadata-action-button" (click)="clearFlightFilters()" [disabled]="!selectedFile"></p-button>
+            </div>
         </div>
 
         <div class="flight-table">
@@ -219,6 +192,15 @@
                     <tr>
                         @for (column of flightColumns; track column.field) {
                             <th>{{ column.header }}</th>
+                        }
+                    </tr>
+                    <tr class="flight-filter-row">
+                        @for (column of flightColumns; track column.field) {
+                            <th>
+                                @if (flightFilterFields[column.field]) {
+                                    <input pInputText type="text" [(ngModel)]="flightFilters[column.field]" [placeholder]="flightFilterFields[column.field]" (keydown.enter)="applyFlightFilters()" [disabled]="!selectedFile" />
+                                }
+                            </th>
                         }
                     </tr>
                 </ng-template>

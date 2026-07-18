@@ -10,7 +10,7 @@ export class FlightServiceTypeService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/flight-commercial-service-types';
 
-    getAll() { return this.api.get<FlightServiceType[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<FlightServiceType[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<FlightServiceType>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: FlightServiceType) {
         return this.api.post<FlightServiceType>(this.baseUrl, payload).pipe(

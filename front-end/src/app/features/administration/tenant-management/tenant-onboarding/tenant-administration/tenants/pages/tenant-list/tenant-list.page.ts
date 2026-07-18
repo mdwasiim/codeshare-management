@@ -50,7 +50,7 @@ export class TenantListPage extends BaseListComponent<Tenant> {
     @ViewChild('dt') private dt?: Table;
 
     override fetch() {
-        return this.service.getAll();
+        return this.service.getAll(this.exactFilters);
     }
 
     openCreate(): void {

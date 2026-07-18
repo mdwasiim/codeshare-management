@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.access.identity.controller;
 
+import com.codeshare.airline.identity.access.common.ExactFilter;
 import com.codeshare.airline.platform.core.dto.auth.AuthUserDTO;
 import com.codeshare.airline.identity.access.identity.service.AuthUserService;
 import jakarta.validation.Valid;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -51,8 +53,8 @@ public class UserController {
     }
 
     @GetMapping
-    public List<AuthUserDTO> getAllUsers() {
-        return authUserService.getAllUsers();
+    public List<AuthUserDTO> getAllUsers(@RequestParam Map<String, String> filters) {
+        return ExactFilter.apply(authUserService.getAllUsers(), filters);
     }
 
 }

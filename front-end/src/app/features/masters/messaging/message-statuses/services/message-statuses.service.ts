@@ -10,7 +10,7 @@ export class MessageStatusService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/message-statuses';
 
-    getAll() { return this.api.get<MessageStatus[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<MessageStatus[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<MessageStatus>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: MessageStatus) {
         return this.api.post<MessageStatus>(this.baseUrl, payload).pipe(

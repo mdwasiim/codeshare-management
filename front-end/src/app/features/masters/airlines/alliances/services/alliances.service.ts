@@ -10,7 +10,7 @@ export class AllianceService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/alliances';
 
-    getAll() { return this.api.get<Alliance[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<Alliance[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<Alliance>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: Alliance) {
         return this.api.post<Alliance>(this.baseUrl, payload).pipe(

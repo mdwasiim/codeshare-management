@@ -21,7 +21,7 @@ export class ElectronicTicketIndicatorListPage extends BaseListComponent<Electro
     dialogVisible = false; selectedId: string | null = null; selectedRecords: ElectronicTicketIndicator[] = [];
     private service = inject(ElectronicTicketIndicatorService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: ElectronicTicketIndicator) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: ElectronicTicketIndicator) {

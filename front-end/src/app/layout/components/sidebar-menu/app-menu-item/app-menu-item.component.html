@@ -23,6 +23,11 @@
         <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
         <span class="layout-menuitem-text">{{ item().sidebarLabel || item().label }}</span>
     </a>
+
+    <a *ngIf="!item().routerLink && item().externalUrl && !hasChildren()" [href]="item().externalUrl" [target]="item().target || '_blank'" rel="noopener" [ngClass]="item().styleClass" (click)="itemClick()" tabindex="0" pRipple>
+        <i [ngClass]="item().icon" class="layout-menuitem-icon"></i>
+        <span class="layout-menuitem-text">{{ item().sidebarLabel || item().label }}</span>
+    </a>
 }
 
 <!-- ========================= -->

@@ -10,7 +10,7 @@ export class ActionIdentifierService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/action-identifiers';
 
-    getAll() { return this.api.get<ActionIdentifier[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ActionIdentifier[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ActionIdentifier>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ActionIdentifier) {
         return this.api.post<ActionIdentifier>(this.baseUrl, payload).pipe(

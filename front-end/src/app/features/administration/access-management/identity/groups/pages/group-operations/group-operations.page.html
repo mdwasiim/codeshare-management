@@ -1,0 +1,234 @@
+<section class="group-ops">
+    <section class="group-ops__command">
+        <div class="group-ops__header">
+            <div>
+                <nav class="group-ops__breadcrumbs" aria-label="Breadcrumb">
+                    <span>Home</span>
+                    <i class="pi pi-angle-right"></i>
+                    <span>Administration</span>
+                    <i class="pi pi-angle-right"></i>
+                    <span>Groups</span>
+                    <i class="pi pi-angle-right"></i>
+                    <strong>Operations</strong>
+                </nav>
+                <div class="group-ops__title-line">
+                    <h1>Administration</h1>
+                    <p>Manage users, groups, roles, menus &amp; permissions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="group-ops__shell">
+        <aside class="group-ops__sidebar">
+            <div class="group-ops__side-head">
+                <h2>Groups</h2>
+                <button type="button" aria-label="New group" (click)="startCreateGroup()"><i class="pi pi-plus"></i></button>
+            </div>
+            <label class="group-ops__search">
+                <i class="pi pi-search"></i>
+                <input type="search" placeholder="Search groups" [(ngModel)]="groupSearch" (ngModelChange)="refreshComputed()" />
+            </label>
+            <div class="group-ops__group-list">
+                <button type="button" *ngFor="let group of filteredGroups()" [class.is-active]="group.id === selectedGroup?.id" (click)="selectGroup(group)">
+                    <span>
+                        <strong>{{ group.name }}</strong>
+                        <small>{{ group.description || group.code }}</small>
+                    </span>
+                    <em>{{ group.id ? groupUserCounts.get(group.id) || 0 : 0 }} users</em>
+                </button>
+            </div>
+        </aside>
+
+        <main class="group-ops__main" *ngIf="!loading && selectedGroup as currentGroup; else loadingState">
+            <section class="group-ops__profile">
+                <div>
+                    <span class="group-ops__avatar">{{ (currentGroup.name || currentGroup.code || 'G').slice(0, 2).toUpperCase() }}</span>
+                </div>
+                <div>
+                    <h2>{{ currentGroup.name }}</h2>
+                    <p>{{ currentGroup.description || currentGroup.code }}</p>
+                </div>
+            </section>
+
+            <div class="group-ops__tabs" role="tablist">
+                <button type="button" *ngFor="let tab of tabs" [class.is-active]="activeTab === tab.key" (click)="setActiveTab(tab.key)">
+                    {{ tab.label }}
+                </button>
+            </div>
+
+            <section class="group-ops__panel" [ngSwitch]="activeTab">
+                <div *ngSwitchCase="'general'" class="group-ops__general">
+                    <div class="group-ops__mini-stats">
+                        <article><span>Users</span><strong>{{ selectedUserIds.size }}</strong></article>
+                        <article><span>Roles</span><strong>{{ selectedRoleIds.size }}</strong></article>
+                        <article><span>Menus</span><strong>{{ selectedMenuIds.size }}</strong></article>
+                        <article><span>Permissions</span><strong>{{ effectivePermissionIds.size }}</strong></article>
+                    </div>
+                    <div class="group-ops__form-grid">
+                        <label>
+                            <span>Group name</span>
+                            <input type="text" [(ngModel)]="currentGroup.name" />
+                        </label>
+                        <label>
+                            <span>Code</span>
+                            <input type="text" [(ngModel)]="currentGroup.code" />
+                        </label>
+                        <label class="is-wide">
+                            <span>Description</span>
+                            <textarea rows="4" [(ngModel)]="currentGroup.description"></textarea>
+                        </label>
+                    </div>
+                    <button class="group-ops__save" type="button" [disabled]="saving || !currentGroup.code || !currentGroup.name || !currentGroup.tenantId" (click)="saveGeneral()">
+                        {{ currentGroup.id ? 'Save changes' : 'Create group' }}
+                    </button>
+                </div>
+
+                <div *ngSwitchCase="'users'">
+                    <div class="group-ops__toolbar">
+                        <label class="group-ops__search">
+                            <i class="pi pi-search"></i>
+                            <input type="search" placeholder="Search users" [(ngModel)]="userSearch" (ngModelChange)="refreshComputed()" />
+                        </label>
+                        <button type="button" [disabled]="saving" (click)="saveUsers()">Assign</button>
+                    </div>
+                    <div class="group-ops__table">
+                        <div class="group-ops__row group-ops__row--head">
+                            <span>User</span><span>Email</span><span>Status</span><span>Assigned</span>
+                        </div>
+                        <label class="group-ops__row" *ngFor="let user of filteredUsers()">
+                            <span>{{ userDisplayName(user) }}<small>{{ user.username }}</small></span>
+                            <span>{{ user.email }}</span>
+                            <span><em [class.is-on]="user.enabled">{{ user.enabled ? 'Active' : 'Inactive' }}</em></span>
+                            <span><input type="checkbox" [checked]="isUserSelected(user.id)" (change)="toggleUser(user.id)" /></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div *ngSwitchCase="'roles'">
+                    <div class="group-ops__toolbar">
+                        <label class="group-ops__search">
+                            <i class="pi pi-search"></i>
+                            <input type="search" placeholder="Search roles" [(ngModel)]="roleSearch" (ngModelChange)="refreshComputed()" />
+                        </label>
+                        <button type="button" [disabled]="saving" (click)="saveRoles()">Save roles</button>
+                    </div>
+                    <div class="group-ops__cards">
+                        <label class="group-ops__check-card" *ngFor="let role of filteredRoles()">
+                            <input type="checkbox" [checked]="isRoleSelected(role.id)" (change)="toggleRole(role.id)" />
+                            <span>
+                                <strong>{{ role.name }}</strong>
+                                <small>{{ role.description || role.code }}</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div *ngSwitchCase="'menus'">
+                    <div class="group-ops__toolbar">
+                        <label class="group-ops__search">
+                            <i class="pi pi-search"></i>
+                            <input type="search" placeholder="Search menus" [(ngModel)]="menuSearch" (ngModelChange)="refreshComputed()" />
+                        </label>
+                        <button type="button" [disabled]="saving" (click)="saveMenus()">Save menus</button>
+                    </div>
+                    <div class="group-ops__tree">
+                        <ng-container *ngTemplateOutlet="menuNodes; context: { nodes: menuTree() }"></ng-container>
+                    </div>
+                </div>
+
+                <div *ngSwitchCase="'permissions'">
+                    <div class="group-ops__toolbar">
+                        <select [(ngModel)]="selectedRoleForPermissions" (ngModelChange)="loadSelectedRolePermissions()">
+                            <option value="">Select role</option>
+                            <option *ngFor="let role of assignedRoles()" [value]="role.id">{{ role.name }}</option>
+                        </select>
+                        <label class="group-ops__search">
+                            <i class="pi pi-search"></i>
+                            <input type="search" placeholder="Search permissions" [(ngModel)]="permissionSearch" (ngModelChange)="refreshComputed()" />
+                        </label>
+                        <button type="button" (click)="clearPermissions()">Clear all</button>
+                        <button type="button" [disabled]="saving || !selectedRoleForPermissions" (click)="saveRolePermissions()">Save</button>
+                    </div>
+                    <div class="group-ops__permission-grid">
+                        <article *ngFor="let bucket of permissionBuckets()">
+                            <header>
+                                <strong>{{ bucket.domain }}</strong>
+                                <button type="button" (click)="selectAllPermissions(bucket)">Select all</button>
+                            </header>
+                            <label *ngFor="let permission of bucket.permissions">
+                                <input type="checkbox" [checked]="isPermissionSelected(permission.id)" (change)="togglePermission(permission.id)" />
+                                <span>{{ permission.action }}</span>
+                                <em *ngIf="hasEffectivePermission(permission.id)">Effective</em>
+                            </label>
+                        </article>
+                    </div>
+                </div>
+
+                <div *ngSwitchCase="'matrix'">
+                    <div class="group-ops__toolbar">
+                        <select [(ngModel)]="selectedRoleForPermissions" (ngModelChange)="loadSelectedRolePermissions()">
+                            <option value="">Select role</option>
+                            <option *ngFor="let role of assignedRoles()" [value]="role.id">{{ role.name }}</option>
+                        </select>
+                        <button type="button" [disabled]="saving || !selectedRoleForPermissions" (click)="saveRolePermissions()">Save matrix</button>
+                    </div>
+                    <div class="group-ops__matrix">
+                        <div class="group-ops__matrix-row group-ops__matrix-row--head">
+                            <span>Module</span>
+                            <span *ngFor="let action of matrixActions">{{ action }}</span>
+                        </div>
+                        <div class="group-ops__matrix-row" *ngFor="let domain of domains()">
+                            <strong>{{ domain }}</strong>
+                            <label *ngFor="let action of matrixActions">
+                                <input type="checkbox" [checked]="hasMatrixPermission(domain, action)" (change)="toggleMatrixPermission(domain, action)" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngSwitchCase="'audit'" class="group-ops__audit">
+                    <article>
+                        <i class="pi pi-history"></i>
+                        <span>
+                            <strong>Created</strong>
+                            <small>{{ currentGroup.createdBy || 'System' }} at {{ (currentGroup.createdAt | date: 'medium') || '-' }}</small>
+                        </span>
+                    </article>
+                    <article>
+                        <i class="pi pi-refresh"></i>
+                        <span>
+                            <strong>Last updated</strong>
+                            <small>{{ currentGroup.updatedBy || 'System' }} at {{ (currentGroup.updatedAt | date: 'medium') || '-' }}</small>
+                        </span>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+</section>
+
+<ng-template #menuNodes let-nodes="nodes">
+    <ul>
+        <li *ngFor="let node of nodes">
+            <label>
+                <input type="checkbox" [checked]="isMenuSelected(node.id)" (change)="toggleMenu(node.id)" />
+                <span>
+                    <i [class]="node.icon || (isMenuGroup(node) ? 'pi pi-folder' : 'pi pi-circle')"></i>
+                    {{ node.label }}
+                    <small *ngIf="isMenuGroup(node)">Group</small>
+                </span>
+            </label>
+            <ng-container *ngIf="node.children.length">
+                <ng-container *ngTemplateOutlet="menuNodes; context: { nodes: node.children }"></ng-container>
+            </ng-container>
+        </li>
+    </ul>
+</ng-template>
+
+<ng-template #loadingState>
+    <main class="group-ops__main group-ops__empty">
+        <i class="pi pi-spin pi-spinner"></i>
+        <span>Loading group operations</span>
+    </main>
+</ng-template>
