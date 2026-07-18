@@ -125,6 +125,7 @@
                         <th>Status</th>
                         <th>Source</th>
                         <th>Records</th>
+                        <th>Report</th>
                         <th>Received</th>
                         <th class="actions-col">Actions</th>
                     </tr>
@@ -141,6 +142,13 @@
                         <td><p-tag [value]="file.processingStatus || '-'" [severity]="statusSeverity(file.processingStatus)"></p-tag></td>
                         <td>{{ file.sourceType || '-' }}</td>
                         <td>{{ file.totalRecordCount || '-' }}</td>
+                        <td>
+                            @if (hasErrorReport(file)) {
+                                <p-button icon="pi pi-exclamation-triangle" [label]="file.errorCount + ''" size="small" severity="warn" text styleClass="metadata-action-button error-report-button" pTooltip="Open validation report" tooltipPosition="top" (click)="viewValidationReport(file); $event.stopPropagation()"></p-button>
+                            } @else {
+                                <span class="report-empty">-</span>
+                            }
+                        </td>
                         <td>{{ file.receivedAt | date: 'short' }}</td>
                         <td>
                             <div class="row-actions row-actions--right">
@@ -151,7 +159,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <div class="ssim-empty-state">
                                 <i class="pi pi-inbox"></i>
                                 <strong>No inbound SSIM files found</strong>
@@ -263,6 +271,45 @@
                 <ng-template pTemplate="emptymessage">
                     <tr>
                         <td [attr.colspan]="deiColumns.length">No DEI records for the selected flight.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-dialog>
+
+    <p-dialog [(visible)]="validationReportDialogVisible" [modal]="true" [draggable]="false" [resizable]="false" [style]="{ width: 'min(94vw, 78rem)' }" [contentStyle]="{ overflow: 'hidden' }">
+        <ng-template pTemplate="header">
+            <div class="dialog-title">
+                <span>Validation Report</span>
+                <small>{{ selectedFile?.fileName || 'Selected file' }}</small>
+            </div>
+        </ng-template>
+
+        <div class="validation-report-dialog-content">
+            <p-table [value]="validationReportRows" [loading]="loadingValidationReport" responsiveLayout="scroll" class="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        @for (column of validationReportColumns; track column.field) {
+                            <th>{{ column.header }}</th>
+                        }
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-row>
+                    <tr>
+                        @for (column of validationReportColumns; track column.field) {
+                            <td>
+                                @if (column.field === 'severity') {
+                                    <p-tag [value]="row.severity || '-'" [severity]="errorSeverity(row.severity)"></p-tag>
+                                } @else {
+                                    {{ reportValue(row, column.field) }}
+                                }
+                            </td>
+                        }
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="validationReportColumns.length">No validation report rows found.</td>
                     </tr>
                 </ng-template>
             </p-table>

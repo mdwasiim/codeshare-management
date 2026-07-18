@@ -9,7 +9,7 @@ import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { AnyScheduleFlight, LoadedScheduleSummary, ScheduleFileMetaData } from '@features/schedule-ingestion/models/schedule-ingestion.model';
+import { AnyScheduleFlight, LoadedScheduleSummary, ScheduleFileMetaData, SsimValidationReportRow } from '@features/schedule-ingestion/models/schedule-ingestion.model';
 import { SsimIngestionService } from '@features/schedule-ingestion/api/ssim-ingestion.service';
 import { MasterLookupOption, MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
@@ -53,11 +53,14 @@ export class SsimLoadedPage implements OnInit {
     selectedFile: ScheduleFileMetaData | null = null;
     selectedFlight: AnyScheduleFlight | null = null;
     selectedDeis: Record<string, unknown>[] = [];
+    validationReportRows: SsimValidationReportRow[] = [];
     deiDialogVisible = false;
+    validationReportDialogVisible = false;
 
     loadingSchedules = false;
     loadingFiles = false;
     loadingFlights = false;
+    loadingValidationReport = false;
     totalSchedules = 0;
     totalFiles = 0;
     totalFlights = 0;
@@ -99,6 +102,15 @@ export class SsimLoadedPage implements OnInit {
         { field: 'offPoint', header: 'Off Point' },
         { field: 'deiData', header: 'Data' },
         { field: 'recordSerialNumber', header: 'Serial' }
+    ];
+
+    readonly validationReportColumns: Column[] = [
+        { field: 'severity', header: 'Severity' },
+        { field: 'ruleCode', header: 'Rule' },
+        { field: 'recordType', header: 'Record' },
+        { field: 'recordKey', header: 'Key' },
+        { field: 'validationStage', header: 'Stage' },
+        { field: 'message', header: 'Message' }
     ];
 
     get loadedFileCount(): number {
@@ -209,6 +221,27 @@ export class SsimLoadedPage implements OnInit {
         });
     }
 
+    viewValidationReport(file: ScheduleFileMetaData) {
+        if (!this.hasErrorReport(file)) {
+            return;
+        }
+
+        this.selectedFile = file;
+        this.validationReportRows = [];
+        this.loadingValidationReport = true;
+        this.validationReportDialogVisible = true;
+        this.service.getValidationReport(file.fileId).subscribe({
+            next: (rows) => {
+                this.validationReportRows = rows ?? [];
+                this.loadingValidationReport = false;
+            },
+            error: () => {
+                this.validationReportRows = [];
+                this.loadingValidationReport = false;
+            }
+        });
+    }
+
     refreshAll() {
         this.loadSchedules();
         this.loadFiles();
@@ -239,6 +272,11 @@ export class SsimLoadedPage implements OnInit {
         return value === undefined || value === null || value === '' ? '-' : value;
     }
 
+    reportValue(row: SsimValidationReportRow, field: string) {
+        const value = (row as Record<string, unknown>)[field];
+        return value === undefined || value === null || value === '' ? '-' : value;
+    }
+
     statusSeverity(status?: string): 'success' | 'secondary' | 'danger' | 'info' | 'warn' {
         switch (status) {
             case 'LOADED':
@@ -256,11 +294,30 @@ export class SsimLoadedPage implements OnInit {
         }
     }
 
+    errorSeverity(severity?: string): 'success' | 'secondary' | 'danger' | 'info' | 'warn' {
+        switch (severity) {
+            case 'ERROR':
+                return 'danger';
+            case 'WARNING':
+                return 'warn';
+            case 'INFO':
+                return 'info';
+            default:
+                return 'secondary';
+        }
+    }
+
+    hasErrorReport(file: ScheduleFileMetaData): boolean {
+        return (file.errorCount ?? 0) > 0;
+    }
+
     private clearSelection() {
         this.selectedFile = null;
         this.flights = [];
         this.selectedFlight = null;
         this.selectedDeis = [];
+        this.validationReportRows = [];
+        this.validationReportDialogVisible = false;
         this.deiDialogVisible = false;
     }
 

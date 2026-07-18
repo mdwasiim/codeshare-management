@@ -483,6 +483,15 @@ label {
     min-width: 0;
 }
 
+.validation-report-dialog-content {
+    min-width: 0;
+}
+
+.report-empty {
+    color: #94a3b8;
+    font-weight: 700;
+}
+
 .selected-row {
     background: #eff6ff !important;
     box-shadow: inset 3px 0 0 #2563eb;
@@ -507,7 +516,8 @@ label {
 
     .ssim-jobs-table,
     .flight-data-table,
-    .dei-dialog-content {
+    .dei-dialog-content,
+    .validation-report-dialog-content {
         .p-datatable-wrapper {
             overflow: auto;
         }
@@ -571,14 +581,25 @@ label {
                 font-weight: 700;
             }
         }
+
+        .error-report-button.p-button.p-button-sm {
+            min-width: 3rem;
+            color: #b45309;
+            background: #fffbeb;
+
+            &:hover {
+                background: #fef3c7;
+            }
+        }
     }
 
     .ssim-jobs-table .p-datatable-table {
-        min-width: 68rem;
+        min-width: 72rem;
     }
 
     .flight-data-table .p-datatable-table,
-    .dei-dialog-content .p-datatable-table {
+    .dei-dialog-content .p-datatable-table,
+    .validation-report-dialog-content .p-datatable-table {
         min-width: max-content;
     }
 

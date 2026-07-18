@@ -25,9 +25,21 @@ export interface ScheduleFileMetaData {
     processedAt?: string;
     failedTimestamp?: string;
     errorCode?: string;
+    errorCount?: number;
     sequenceReference?: string;
     creatorReference?: string;
     totalRecordCount?: number;
+}
+
+export interface SsimValidationReportRow {
+    recordType?: string;
+    recordKey?: string;
+    ruleCode?: string;
+    message?: string;
+    severity?: 'ERROR' | 'WARNING' | 'INFO' | string;
+    validationStage?: string;
+    validatedAt?: string;
+    ruleVersion?: string;
 }
 
 export interface LoadedScheduleSummary {

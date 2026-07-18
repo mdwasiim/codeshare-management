@@ -124,6 +124,7 @@ export const API_ENDPOINTS = {
             files: makeEndpoint('/schedule/ssim/files'),
             loadedScheduleById: makeEndpoint('/schedule/ssim/loaded-schedules/{fileId}'),
             messageByFileId: makeEndpoint('/schedule/ssim/files/{fileId}/message'),
+            validationReport: makeEndpoint('/schedule/ssim/files/{fileId}/validation-report'),
             fileFlights: makeEndpoint('/schedule/ssim/files/{fileId}/flights'),
             loadedSchedules: makeEndpoint('/schedule/ssim/loaded-schedules')
         },

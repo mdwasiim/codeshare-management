@@ -1,0 +1,9 @@
+db.url=jdbc:postgresql://localhost:5432/csm
+db.user=postgres
+db.password=postgres
+
+import.schema=schedule_master_data
+import.audit-user=SSIM_IMPORTER
+import.dry-run=true
+
+ssim.file=C:\Users\mdwas\Projects\SSIM\SSIM_FULL.txt

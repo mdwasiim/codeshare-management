@@ -6,7 +6,8 @@ import {
     LoadedScheduleDetail,
     LoadedScheduleSummary,
     PageResponse,
-    ScheduleFileMetaData
+    ScheduleFileMetaData,
+    SsimValidationReportRow
 } from '@features/schedule-ingestion/models/schedule-ingestion.model';
 
 @Injectable({ providedIn: 'root' })
@@ -29,6 +30,12 @@ export class SsimIngestionService {
 
     getFileSchedule(fileId: string) {
         return this.api.get<unknown>(API_ENDPOINTS.scheduleIngestion.ssim.messageByFileId, {
+            pathParams: { fileId }
+        });
+    }
+
+    getValidationReport(fileId: string) {
+        return this.api.get<SsimValidationReportRow[]>(API_ENDPOINTS.scheduleIngestion.ssim.validationReport, {
             pathParams: { fileId }
         });
     }
