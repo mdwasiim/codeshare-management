@@ -2,6 +2,7 @@ package com.codeshare.airline.schedule.ingestion.source.camel.route;
 
 import com.codeshare.airline.schedule.ingestion.orchestration.ScheduleMessageIngestionProcessor;
 import com.codeshare.airline.schedule.ingestion.orchestration.SsimDatasetIngestionProcessor;
+import com.codeshare.airline.schedule.ingestion.shared.exceptions.BusinessValidationException;
 import com.codeshare.airline.schedule.ingestion.source.camel.mapper.ScheduleSourceExchangeMapper;
 import com.codeshare.airline.schedule.ingestion.source.model.ScheduleSourceFile;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,14 @@ public class CoreIngestionRouteBuilder extends RouteBuilder {
     @Override
     public void configure() {
 
+        onException(BusinessValidationException.class)
+                .routeId("INGESTION-BUSINESS-ERROR")
+                .maximumRedeliveries(0)
+                .process(e -> e.getMessage().setHeader("ERROR",
+                        e.getProperty(Exchange.EXCEPTION_CAUGHT)))
+                .log(" Ingestion validation error: ${exception.message}")
+                .handled(false);
+
         onException(Exception.class)
                 .routeId("INGESTION-GLOBAL-ERROR")
                 .maximumRedeliveries(3)
@@ -32,7 +41,6 @@ public class CoreIngestionRouteBuilder extends RouteBuilder {
                 .process(e -> e.getMessage().setHeader("ERROR",
                         e.getProperty(Exchange.EXCEPTION_CAUGHT)))
                 .log(" Ingestion error: ${exception.message}")
-                .to("seda:dead-letter")
                 .handled(false);
 
         from("seda:dead-letter")

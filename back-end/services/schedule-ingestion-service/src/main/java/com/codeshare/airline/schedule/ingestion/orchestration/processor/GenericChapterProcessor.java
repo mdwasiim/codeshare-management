@@ -7,6 +7,7 @@ import com.codeshare.airline.schedule.ingestion.integration.kafka.ProcessingRequ
 import com.codeshare.airline.schedule.ingestion.orchestration.pipelines.GenericIngestionPipeline;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.services.common.ScheduleFileService;
+import com.codeshare.airline.schedule.ingestion.shared.exceptions.BusinessValidationException;
 import com.codeshare.airline.schedule.ingestion.source.model.ScheduleSourceFile;
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,7 +69,7 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
             ProcessingStatus finalStatus = pipeline.execute(scheduleSourceFile, metadata, type);
 
             if (isFailedOrPartial(finalStatus)) {
-                throw new IllegalStateException(
+                throw new BusinessValidationException(
                         "Ingestion completed with errors for file="
                                 + scheduleSourceFile.getFileName()
                                 + " status="

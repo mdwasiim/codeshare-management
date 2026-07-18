@@ -108,7 +108,7 @@ tenant:
 
 master-data:
   service:
-    url: ${MASTER_DATA_SERVICE_URL:http://localhost:8089}
+    url: ${MASTER_DATA_SERVICE_URL:http://localhost:8084}
 
 services:
   identity:
