@@ -10,7 +10,7 @@ export class ReservationBookingModifierService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/reservation-booking-modifiers';
 
-    getAll() { return this.api.get<ReservationBookingModifier[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ReservationBookingModifier[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ReservationBookingModifier>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ReservationBookingModifier) {
         return this.api.post<ReservationBookingModifier>(this.baseUrl, payload).pipe(

@@ -10,7 +10,7 @@ export class ElectronicTicketIndicatorService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/electronic-ticket-indicators';
 
-    getAll() { return this.api.get<ElectronicTicketIndicator[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ElectronicTicketIndicator[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ElectronicTicketIndicator>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ElectronicTicketIndicator) {
         return this.api.post<ElectronicTicketIndicator>(this.baseUrl, payload).pipe(

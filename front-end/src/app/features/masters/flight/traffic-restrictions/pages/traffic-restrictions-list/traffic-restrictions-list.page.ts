@@ -21,7 +21,7 @@ export class TrafficRestrictionListPage extends BaseListComponent<TrafficRestric
     dialogVisible = false; selectedId: string | null = null; selectedRecords: TrafficRestriction[] = [];
     private service = inject(TrafficRestrictionService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: TrafficRestriction) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: TrafficRestriction) {

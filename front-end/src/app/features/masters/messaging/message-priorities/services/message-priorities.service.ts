@@ -10,7 +10,7 @@ export class MessagePriorityService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/message-priorities';
 
-    getAll() { return this.api.get<MessagePriority[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<MessagePriority[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<MessagePriority>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: MessagePriority) {
         return this.api.post<MessagePriority>(this.baseUrl, payload).pipe(

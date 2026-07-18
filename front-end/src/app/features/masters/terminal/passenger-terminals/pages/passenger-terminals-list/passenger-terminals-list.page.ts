@@ -21,7 +21,7 @@ export class PassengerTerminalListPage extends BaseListComponent<PassengerTermin
     dialogVisible = false; selectedId: string | null = null; selectedRecords: PassengerTerminal[] = [];
     private service = inject(PassengerTerminalService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: PassengerTerminal) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: PassengerTerminal) {

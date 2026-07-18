@@ -1,5 +1,6 @@
 package com.codeshare.airline.identity.access.identity.controller;
 
+import com.codeshare.airline.identity.access.common.ExactFilter;
 import com.codeshare.airline.platform.core.dto.tenant.GroupDTO;
 import com.codeshare.airline.identity.access.identity.service.GroupService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -55,8 +57,8 @@ public class GroupController {
     // GET GROUPS BY TENANT
     // ---------------------------------------------------------
     @GetMapping
-    public List<GroupDTO> getAll() {
-        return groupService.getAll();
+    public List<GroupDTO> getAll(@RequestParam Map<String, String> filters) {
+        return ExactFilter.apply(groupService.getAll(), filters);
     }
 
     // ---------------------------------------------------------

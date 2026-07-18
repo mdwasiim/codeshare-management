@@ -10,7 +10,7 @@ export class AircraftManufacturerService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/aircraft-manufacturers';
 
-    getAll() { return this.api.get<AircraftManufacturer[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AircraftManufacturer[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AircraftManufacturer>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AircraftManufacturer) {
         return this.api.post<AircraftManufacturer>(this.baseUrl, payload).pipe(

@@ -50,7 +50,7 @@ export class MenuListPage extends BaseListComponent<MenuTreeNode> {
     searchText = '';
 
     fetch(): Observable<MenuTreeNode[]> {
-        return this.service.getAll().pipe(
+        return this.service.getAll(this.exactFilters).pipe(
             map((res) => {
                 const tree = this.buildTree(res);
                 this.originalTree = tree;

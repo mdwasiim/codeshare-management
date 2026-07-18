@@ -1,11 +1,13 @@
 package com.codeshare.airline.identity.access.identity.controller;
 
+import com.codeshare.airline.identity.access.common.ExactFilter;
 import com.codeshare.airline.platform.core.dto.tenant.RoleDTO;
 import com.codeshare.airline.identity.access.identity.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/roles")
@@ -53,7 +55,7 @@ public class RoleController {
     // GET ROLES BY TENANT
     // ---------------------------------------------------------
     @GetMapping
-    public List<RoleDTO> getAllRoles() {
-        return service.getAllRoles();
+    public List<RoleDTO> getAllRoles(@RequestParam Map<String, String> filters) {
+        return ExactFilter.apply(service.getAllRoles(), filters);
     }
 }

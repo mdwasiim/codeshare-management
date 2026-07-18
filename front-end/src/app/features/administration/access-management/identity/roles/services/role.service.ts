@@ -10,8 +10,8 @@ export class RoleService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
-    getAll() {
-        return this.api.get<Role[]>(API_ENDPOINTS.accessManagement.roles.base);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<Role[]>(API_ENDPOINTS.accessManagement.roles.base, { params });
     }
 
     getById(id: string) {

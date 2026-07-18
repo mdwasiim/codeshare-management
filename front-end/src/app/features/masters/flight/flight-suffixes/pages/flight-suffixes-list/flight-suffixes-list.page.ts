@@ -21,7 +21,7 @@ export class FlightSuffixListPage extends BaseListComponent<FlightSuffix> {
     dialogVisible = false; selectedId: string | null = null; selectedRecords: FlightSuffix[] = [];
     private service = inject(FlightSuffixService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: FlightSuffix) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: FlightSuffix) {

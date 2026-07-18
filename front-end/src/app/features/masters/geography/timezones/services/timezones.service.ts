@@ -10,7 +10,7 @@ export class TimezoneService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/timezones';
 
-    getAll() { return this.api.get<Timezone[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<Timezone[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<Timezone>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: Timezone) {
         return this.api.post<Timezone>(this.baseUrl, payload).pipe(

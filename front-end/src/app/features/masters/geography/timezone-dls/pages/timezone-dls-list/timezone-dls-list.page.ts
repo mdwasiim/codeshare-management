@@ -21,7 +21,7 @@ export class TimezoneDlsListPage extends BaseListComponent<TimezoneDls> {
     dialogVisible = false; selectedId: string | null = null; selectedRecords: TimezoneDls[] = [];
     private service = inject(TimezoneDlsService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: TimezoneDls) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: TimezoneDls) {

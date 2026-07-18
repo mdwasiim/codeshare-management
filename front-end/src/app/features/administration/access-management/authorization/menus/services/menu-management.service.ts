@@ -13,12 +13,12 @@ export class MenuManagementService {
     // -----------------------------
     // GET ALL
     // -----------------------------
-    getAll() {
-        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.manage);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.manage, { params });
     }
 
-    getAuthorized() {
-        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base);
+    getAuthorized(params?: Record<string, string>) {
+        return this.api.get<AppMenuModel[]>(API_ENDPOINTS.accessManagement.menu.base, { params });
     }
 
     // -----------------------------

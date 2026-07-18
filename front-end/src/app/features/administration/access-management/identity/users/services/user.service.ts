@@ -10,8 +10,8 @@ export class UserService {
     private api = inject(AppApiService);
     private toast = inject(AppToastService);
 
-    getAll() {
-        return this.api.get<User[]>(API_ENDPOINTS.accessManagement.users.base);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<User[]>(API_ENDPOINTS.accessManagement.users.base, { params });
     }
 
     getById(id: string) {

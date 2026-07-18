@@ -10,7 +10,7 @@ export class CityService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/cities';
 
-    getAll() { return this.api.get<City[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<City[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<City>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: City) {
         return this.api.post<City>(this.baseUrl, payload).pipe(

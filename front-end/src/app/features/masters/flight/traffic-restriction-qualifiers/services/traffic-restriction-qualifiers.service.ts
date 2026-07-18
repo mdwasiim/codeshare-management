@@ -10,7 +10,7 @@ export class TrafficRestrictionQualifierService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/traffic-restriction-qualifiers';
 
-    getAll() { return this.api.get<TrafficRestrictionQualifier[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<TrafficRestrictionQualifier[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<TrafficRestrictionQualifier>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: TrafficRestrictionQualifier) {
         return this.api.post<TrafficRestrictionQualifier>(this.baseUrl, payload).pipe(

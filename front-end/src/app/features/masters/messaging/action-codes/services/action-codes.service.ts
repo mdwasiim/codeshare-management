@@ -10,7 +10,7 @@ export class ActionCodeService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/action-codes';
 
-    getAll() { return this.api.get<ActionCode[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ActionCode[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ActionCode>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ActionCode) {
         return this.api.post<ActionCode>(this.baseUrl, payload).pipe(

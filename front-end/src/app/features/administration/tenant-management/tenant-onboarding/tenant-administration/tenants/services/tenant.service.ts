@@ -5,15 +5,23 @@ import { AppApiService } from '@core/api/config/app-api.service';
 import { API_ENDPOINTS } from '@core/api/config/app-api.config';
 import { AppToastService } from '@services/toast/app-toast.service';
 
-import { Tenant } from '@features/administration/tenant-management/models/tenant.model';
+import { Tenant, TenantIdentityProviderRow, TenantOidcConfigRow } from '@features/administration/tenant-management/models/tenant.model';
 
 @Injectable({ providedIn: 'root' })
 export class TenantService {
     private readonly api = inject(AppApiService);
     private readonly toast = inject(AppToastService);
 
-    getAll() {
-        return this.api.get<Tenant[]>(API_ENDPOINTS.accessManagement.tenants.base);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<Tenant[]>(API_ENDPOINTS.accessManagement.tenants.base, { params });
+    }
+
+    getIdentityProviders(params?: Record<string, string>) {
+        return this.api.get<TenantIdentityProviderRow[]>(API_ENDPOINTS.accessManagement.tenants.identityProviders, { params });
+    }
+
+    getOidcConfigs(params?: Record<string, string>) {
+        return this.api.get<TenantOidcConfigRow[]>(API_ENDPOINTS.accessManagement.tenants.oidcConfigs, { params });
     }
 
     getById(id: string | number) {

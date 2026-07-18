@@ -89,6 +89,8 @@ export const API_ENDPOINTS = {
         tenants: {
             base: makeEndpoint('/tenant/tenants'),
             byId: makeEndpoint('/tenant/tenants/{id}'),
+            identityProviders: makeEndpoint('/tenant/tenant-identity-providers'),
+            oidcConfigs: makeEndpoint('/tenant/tenant-oidc-configs'),
             authContextByCode: makeEndpoint('/tenant/tenants/code/{code}/auth-context'),
             loginOptions: makeEndpoint('/tenant/tenants/login-options')
         },

@@ -68,3 +68,26 @@ export interface Tenant extends AuditableModel {
     oidcConfig?: OidcConfig;
     identityProviders?: IdentityProviderConfig[];
 }
+
+export interface TenantIdentityProviderRow {
+    id?: number;
+    name?: string;
+    tenantCode?: string;
+    authSource?: AuthSource;
+    issuerUri?: string;
+    clientId?: string;
+    redirectUri?: string;
+    status?: TenantStatus;
+}
+
+export interface TenantOidcConfigRow {
+    id?: number;
+    name?: string;
+    tenantCode?: string;
+    authSource?: AuthSource;
+    issuerUri?: string;
+    authorizationUri?: string;
+    tokenUri?: string;
+    jwkSetUri?: string;
+    scopes?: string;
+}

@@ -2,11 +2,13 @@ package com.codeshare.airline.tenant.controller.ingestion;
 
 import com.codeshare.airline.platform.core.constants.CSMConstants;
 import com.codeshare.airline.platform.core.dto.tenant.TenantIngestionProfileDTO;
+import com.codeshare.airline.tenant.common.ExactFilter;
 import com.codeshare.airline.tenant.service.ingestion.ScheduleIngestionProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/tenant-ingestion-profiles")
@@ -31,13 +33,13 @@ public class ScheduleIngestionProfileController {
     }
 
     @GetMapping
-    public List<TenantIngestionProfileDTO> getAll() {
-        return service.getAll();
+    public List<TenantIngestionProfileDTO> getAll(@RequestParam Map<String, String> filters) {
+        return ExactFilter.apply(service.getAll(), filters);
     }
 
     @GetMapping("/internal/all")
-    public List<TenantIngestionProfileDTO> getAllInternal() {
-        return service.getAll();
+    public List<TenantIngestionProfileDTO> getAllInternal(@RequestParam Map<String, String> filters) {
+        return ExactFilter.apply(service.getAll(), filters);
     }
 
     @PatchMapping("/{id}/enabled")

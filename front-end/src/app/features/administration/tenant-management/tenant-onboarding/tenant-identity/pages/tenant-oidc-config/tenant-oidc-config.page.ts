@@ -11,7 +11,7 @@ import { ToolbarActionComponent } from '@shared/components/toolbar/toolbar-actio
 import { AppDialogComponent } from '@shared/components/app-dialog/app-dialog.component';
 import { HasPermissionDirective } from '@shared/directives/permission/has-permission.directive';
 
-import { IdentityProviderConfig, Tenant } from '@features/administration/tenant-management/models/tenant.model';
+import { TenantOidcConfigRow } from '@features/administration/tenant-management/models/tenant.model';
 import { TenantService } from '@features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/services/tenant.service';
 import { TenantFormPage } from '@features/administration/tenant-management/tenant-onboarding/tenant-administration/tenants/pages/tenant-form/tenant-form.page';
 
@@ -31,7 +31,7 @@ import { TenantFormPage } from '@features/administration/tenant-management/tenan
     ],
     templateUrl: './tenant-oidc-config.page.html'
 })
-export class TenantOidcConfigPage extends BaseListComponent<Tenant> {
+export class TenantOidcConfigPage extends BaseListComponent<TenantOidcConfigRow> {
     protected override resourceName = 'TENANT';
 
     private readonly service = inject(TenantService);
@@ -42,10 +42,10 @@ export class TenantOidcConfigPage extends BaseListComponent<Tenant> {
     @ViewChild('dt') private dt?: Table;
 
     override fetch() {
-        return this.service.getAll();
+        return this.service.getOidcConfigs(this.exactFilters);
     }
 
-    openEdit(tenant: Tenant): void {
+    openEdit(tenant: TenantOidcConfigRow): void {
         this.selectedTenantId = tenant.id ?? null;
         this.dialogVisible = true;
     }
@@ -63,10 +63,9 @@ export class TenantOidcConfigPage extends BaseListComponent<Tenant> {
         this.dt?.exportCSV();
     }
 
-    authSourceLabel(tenant: Tenant): string {
-        const provider = this.resolveOidcProvider(tenant);
-        return provider?.authSource
-            ? provider.authSource
+    authSourceLabel(tenant: TenantOidcConfigRow): string {
+        return tenant.authSource
+            ? tenant.authSource
                   .toLowerCase()
                   .split('_')
                   .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -74,25 +73,7 @@ export class TenantOidcConfigPage extends BaseListComponent<Tenant> {
             : 'Internal';
     }
 
-    resolveOidcConfig(tenant: Tenant) {
-        return this.resolveOidcProvider(tenant)?.oidcConfig ?? tenant.oidcConfig;
-    }
-
-    hasExternalProvider(tenant: Tenant): boolean {
-        const provider = this.resolveOidcProvider(tenant);
-        return !!provider?.authSource && provider.authSource !== 'INTERNAL';
-    }
-
-    private resolveOidcProvider(tenant: Tenant): IdentityProviderConfig | undefined {
-        return tenant.identityProviders?.find((provider) => !!provider.oidcConfig)
-            ?? (tenant.oidcConfig
-                ? {
-                      authSource: tenant.authSource,
-                      enabled: true,
-                      priority: 1,
-                      providerId: tenant.authSource?.toLowerCase(),
-                      oidcConfig: tenant.oidcConfig
-                  }
-                : undefined);
+    hasExternalProvider(tenant: TenantOidcConfigRow): boolean {
+        return !!tenant.authSource && tenant.authSource !== 'INTERNAL';
     }
 }

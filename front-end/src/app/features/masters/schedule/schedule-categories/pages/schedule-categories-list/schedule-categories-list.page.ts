@@ -21,7 +21,7 @@ export class ScheduleCategoryListPage extends BaseListComponent<ScheduleCategory
     dialogVisible = false; selectedId: string | null = null; selectedRecords: ScheduleCategory[] = [];
     private service = inject(ScheduleCategoryService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: ScheduleCategory) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: ScheduleCategory) {

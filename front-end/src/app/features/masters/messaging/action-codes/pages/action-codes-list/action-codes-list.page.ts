@@ -21,7 +21,7 @@ export class ActionCodeListPage extends BaseListComponent<ActionCode> {
     dialogVisible = false; selectedId: string | null = null; selectedRecords: ActionCode[] = [];
     private service = inject(ActionCodeService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: ActionCode) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: ActionCode) {

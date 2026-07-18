@@ -15,6 +15,7 @@ export abstract class BaseListComponent<T> implements OnInit, OnDestroy {
     totalRecords = 0;
     page = 0;
     size = 10;
+    exactFilters: Record<string, string> = {};
 
     abstract fetch(): Observable<T[]>;
 
@@ -43,6 +44,35 @@ export abstract class BaseListComponent<T> implements OnInit, OnDestroy {
     }
 
     refresh(): void {
+        this.loadData();
+    }
+
+    get hasExactFilters(): boolean {
+        return Object.values(this.exactFilters).some((value) => !!value?.trim());
+    }
+
+    onExactFilterChange(field: string, value: string): void {
+        const trimmedValue = value.trim();
+
+        if (trimmedValue) {
+            this.exactFilters = {
+                ...this.exactFilters,
+                [field]: trimmedValue
+            };
+        } else {
+            const { [field]: removed, ...remainingFilters } = this.exactFilters;
+            this.exactFilters = remainingFilters;
+        }
+
+        this.loadData();
+    }
+
+    clearExactFilters(): void {
+        if (!this.hasExactFilters) {
+            return;
+        }
+
+        this.exactFilters = {};
         this.loadData();
     }
 

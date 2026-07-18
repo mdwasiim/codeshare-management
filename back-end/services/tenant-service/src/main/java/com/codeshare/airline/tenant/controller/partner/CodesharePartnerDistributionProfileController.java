@@ -3,11 +3,13 @@ package com.codeshare.airline.tenant.controller.partner;
 import com.codeshare.airline.platform.core.constants.CSMConstants;
 import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerDistributionProfileDTO;
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.tenant.common.ExactFilter;
 import com.codeshare.airline.tenant.service.partner.CodesharePartnerDistributionProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/tenant-partner-distribution-profiles")
@@ -26,7 +28,7 @@ public class CodesharePartnerDistributionProfileController {
     public CodesharePartnerDistributionProfileDTO getById(@PathVariable Long id) { return service.getById(id); }
 
     @GetMapping
-    public List<CodesharePartnerDistributionProfileDTO> getAll() { return service.getAll(); }
+    public List<CodesharePartnerDistributionProfileDTO> getAll(@RequestParam Map<String, String> filters) { return ExactFilter.apply(service.getAll(), filters); }
 
     @GetMapping("/internal/{tenantCode}/{partnerCode}")
     public List<CodesharePartnerDistributionProfileDTO> resolve(

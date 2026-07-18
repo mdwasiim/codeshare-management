@@ -264,18 +264,6 @@
         "visible": true
     },
     {
-        "code": "M_AIRLINE_CODESHARE_PARTNERS",
-        "parentCode": "M_AIRLINES",
-        "label": "Codeshare Partners",
-        "topbarLabel": null,
-        "sidebarLabel": null,
-        "icon": "pi pi-fw pi-share-alt",
-        "route": "/masters/airlines/codeshare-partners",
-        "permission": "codesharepartner:read",
-        "displayOrder": 7,
-        "visible": true
-    },
-    {
         "code": "M_AIRCRAFT_TYPES",
         "parentCode": "M_AIRCRAFT",
         "label": "Aircraft Types",

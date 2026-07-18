@@ -10,7 +10,7 @@ export class MealServiceService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/meal-services';
 
-    getAll() { return this.api.get<MealService[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<MealService[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<MealService>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: MealService) {
         return this.api.post<MealService>(this.baseUrl, payload).pipe(

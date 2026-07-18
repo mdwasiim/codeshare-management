@@ -10,7 +10,7 @@ export class DistributionChannelService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/distribution-channels';
 
-    getAll() { return this.api.get<DistributionChannel[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<DistributionChannel[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<DistributionChannel>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: DistributionChannel) {
         return this.api.post<DistributionChannel>(this.baseUrl, payload).pipe(

@@ -10,7 +10,7 @@ export class StandardMessageIdentifierService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/standard-message-identifiers';
 
-    getAll() { return this.api.get<StandardMessageIdentifier[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<StandardMessageIdentifier[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<StandardMessageIdentifier>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: StandardMessageIdentifier) {
         return this.api.post<StandardMessageIdentifier>(this.baseUrl, payload).pipe(

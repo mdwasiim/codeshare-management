@@ -13,8 +13,8 @@ export class PermissionApiService {
     // -----------------------------
     // GET ALL
     // -----------------------------
-    getAll() {
-        return this.api.get<Permission[]>(API_ENDPOINTS.accessManagement.permissions.base);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<Permission[]>(API_ENDPOINTS.accessManagement.permissions.base, { params });
     }
 
     // -----------------------------

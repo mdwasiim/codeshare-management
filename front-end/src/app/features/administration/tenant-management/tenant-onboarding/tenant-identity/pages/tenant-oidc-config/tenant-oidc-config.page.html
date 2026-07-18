@@ -49,6 +49,17 @@
                 <th>Scopes</th>
                 <th class="access-actions-col">Actions</th>
             </tr>
+            <tr class="access-filter-row">
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['name'] || ''" (input)="onExactFilterChange('name', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['tenantCode'] || ''" (input)="onExactFilterChange('tenantCode', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['authSource'] || ''" (input)="onExactFilterChange('authSource', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['issuerUri'] || ''" (input)="onExactFilterChange('issuerUri', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['authorizationUri'] || ''" (input)="onExactFilterChange('authorizationUri', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['tokenUri'] || ''" (input)="onExactFilterChange('tokenUri', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['jwkSetUri'] || ''" (input)="onExactFilterChange('jwkSetUri', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['scopes'] || ''" (input)="onExactFilterChange('scopes', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><button type="button" class="access-filter-clear" [disabled]="!hasExactFilters" (click)="clearExactFilters()">Clear</button></th>
+            </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-tenant>
@@ -58,11 +69,11 @@
                 <td>
                     <p-tag [value]="authSourceLabel(tenant)" [severity]="hasExternalProvider(tenant) ? 'info' : 'success'"></p-tag>
                 </td>
-                <td>{{ resolveOidcConfig(tenant)?.issuerUri || '-' }}</td>
-                <td>{{ resolveOidcConfig(tenant)?.authorizationUri || '-' }}</td>
-                <td>{{ resolveOidcConfig(tenant)?.tokenUri || '-' }}</td>
-                <td>{{ resolveOidcConfig(tenant)?.jwkSetUri || '-' }}</td>
-                <td>{{ resolveOidcConfig(tenant)?.scopes || '-' }}</td>
+                <td>{{ tenant.issuerUri || '-' }}</td>
+                <td>{{ tenant.authorizationUri || '-' }}</td>
+                <td>{{ tenant.tokenUri || '-' }}</td>
+                <td>{{ tenant.jwkSetUri || '-' }}</td>
+                <td>{{ tenant.scopes || '-' }}</td>
                 <td class="access-row-actions">
                     <div>
                         <ng-container *appHasPermission="'tenant:update'">

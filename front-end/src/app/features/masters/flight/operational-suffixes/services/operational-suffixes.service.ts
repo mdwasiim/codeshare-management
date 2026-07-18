@@ -10,7 +10,7 @@ export class OperationalSuffixService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/operational-suffixes';
 
-    getAll() { return this.api.get<OperationalSuffix[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<OperationalSuffix[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<OperationalSuffix>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: OperationalSuffix) {
         return this.api.post<OperationalSuffix>(this.baseUrl, payload).pipe(

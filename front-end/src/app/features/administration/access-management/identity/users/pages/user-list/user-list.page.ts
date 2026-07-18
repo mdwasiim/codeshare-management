@@ -54,7 +54,7 @@ export class UserListPage extends BaseListComponent<User> {
     // Data Fetch
     // =========================
     override fetch() {
-        return this.service.getAll();
+        return this.service.getAll(this.exactFilters);
     }
 
     // =========================

@@ -21,7 +21,7 @@ export class AirlineContactListPage extends BaseListComponent<AirlineContact> {
     dialogVisible = false; selectedId: string | null = null; selectedRecords: AirlineContact[] = [];
     private service = inject(AirlineContactService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: AirlineContact) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: AirlineContact) {

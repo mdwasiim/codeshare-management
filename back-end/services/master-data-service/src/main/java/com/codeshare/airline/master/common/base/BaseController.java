@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public abstract class BaseController<D, ID> {
@@ -26,8 +27,8 @@ public abstract class BaseController<D, ID> {
     }
 
     @GetMapping
-    public List<D> getAll() {
-        return service.getAll();
+    public List<D> getAll(@RequestParam Map<String, String> filters) {
+        return service.searchExact(filters);
     }
 
     @DeleteMapping("/{id}")

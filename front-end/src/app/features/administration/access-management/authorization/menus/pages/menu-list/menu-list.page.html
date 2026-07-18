@@ -18,6 +18,15 @@
     >
     </app-crud-toolbar>
 
+    <div class="menu-exact-filters">
+        <input type="text" class="access-column-filter" [value]="exactFilters['label'] || ''" (input)="onExactFilterChange('label', $any($event.target).value)" placeholder="Label exact" />
+        <input type="text" class="access-column-filter" [value]="exactFilters['code'] || ''" (input)="onExactFilterChange('code', $any($event.target).value)" placeholder="Code exact" />
+        <input type="text" class="access-column-filter" [value]="exactFilters['route'] || ''" (input)="onExactFilterChange('route', $any($event.target).value)" placeholder="Route exact" />
+        <input type="text" class="access-column-filter" [value]="exactFilters['permission'] || ''" (input)="onExactFilterChange('permission', $any($event.target).value)" placeholder="Permission exact" />
+        <input type="text" class="access-column-filter" [value]="exactFilters['active'] || ''" (input)="onExactFilterChange('active', $any($event.target).value)" placeholder="Active true/false" />
+        <button type="button" class="access-filter-clear" [disabled]="!hasExactFilters" (click)="clearExactFilters()">Clear</button>
+    </div>
+
     <section class="menu-split">
         <aside class="menu-browser" aria-label="Menu hierarchy">
             <div class="menu-browser__header">

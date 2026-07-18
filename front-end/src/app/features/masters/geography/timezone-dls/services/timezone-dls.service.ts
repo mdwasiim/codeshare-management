@@ -10,7 +10,7 @@ export class TimezoneDlsService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/dst-rules';
 
-    getAll() { return this.api.get<TimezoneDls[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<TimezoneDls[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<TimezoneDls>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: TimezoneDls) {
         return this.api.post<TimezoneDls>(this.baseUrl, payload).pipe(

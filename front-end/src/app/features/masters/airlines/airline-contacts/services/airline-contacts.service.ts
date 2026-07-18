@@ -10,7 +10,7 @@ export class AirlineContactService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/airline-contacts';
 
-    getAll() { return this.api.get<AirlineContact[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AirlineContact[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AirlineContact>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AirlineContact) {
         return this.api.post<AirlineContact>(this.baseUrl, payload).pipe(

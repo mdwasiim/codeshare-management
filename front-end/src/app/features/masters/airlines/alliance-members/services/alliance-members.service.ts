@@ -10,7 +10,7 @@ export class AllianceMemberService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/alliance-members';
 
-    getAll() { return this.api.get<AllianceMember[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<AllianceMember[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<AllianceMember>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: AllianceMember) {
         return this.api.post<AllianceMember>(this.baseUrl, payload).pipe(

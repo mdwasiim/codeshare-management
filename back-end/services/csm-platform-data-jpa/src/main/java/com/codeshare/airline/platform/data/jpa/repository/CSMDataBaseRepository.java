@@ -2,13 +2,15 @@ package com.codeshare.airline.platform.data.jpa.repository;
 
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 
 @NoRepositoryBean
-public interface CSMDataBaseRepository<T extends CSMDataAbstractEntity, ID> extends JpaRepository<T, ID> {
+public interface CSMDataBaseRepository<T extends CSMDataAbstractEntity, ID>
+        extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
     @Modifying
     @Query("UPDATE #{#entityName} e SET e.deleted = true, e.deletedAt = CURRENT_TIMESTAMP, e.deletedBy = :deletedBy WHERE e.id = :id")

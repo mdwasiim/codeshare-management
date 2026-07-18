@@ -10,7 +10,7 @@ export class ScheduleTypeService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/schedule-types';
 
-    getAll() { return this.api.get<ScheduleType[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<ScheduleType[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<ScheduleType>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: ScheduleType) {
         return this.api.post<ScheduleType>(this.baseUrl, payload).pipe(

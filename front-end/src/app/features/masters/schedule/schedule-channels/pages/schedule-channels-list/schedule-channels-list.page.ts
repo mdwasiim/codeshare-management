@@ -21,7 +21,7 @@ export class ScheduleChannelListPage extends BaseListComponent<ScheduleChannel> 
     dialogVisible = false; selectedId: string | null = null; selectedRecords: ScheduleChannel[] = [];
     private service = inject(ScheduleChannelService); private toast = inject(AppToastService); private confirm = inject(AppConfirmService);
     @ViewChild('dt') dt!: Table;
-    override fetch() { return this.service.getAll(); }
+    override fetch() { return this.service.getAll(this.exactFilters); }
     openCreate() { this.selectedId = null; this.dialogVisible = true; }
     openEdit(record: ScheduleChannel) { this.selectedId = record.id ?? null; this.dialogVisible = true; }
     deleteRecord(record: ScheduleChannel) {

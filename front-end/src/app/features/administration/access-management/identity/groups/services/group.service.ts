@@ -13,8 +13,8 @@ export class GroupService {
     // -----------------------------
     // GET ALL
     // -----------------------------
-    getAll() {
-        return this.api.get<Group[]>(API_ENDPOINTS.accessManagement.groups.base);
+    getAll(params?: Record<string, string>) {
+        return this.api.get<Group[]>(API_ENDPOINTS.accessManagement.groups.base, { params });
     }
 
     // -----------------------------

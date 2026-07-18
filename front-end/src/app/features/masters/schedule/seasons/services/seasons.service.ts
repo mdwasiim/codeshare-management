@@ -10,7 +10,7 @@ export class SeasonService {
     private toast = inject(AppToastService);
     private readonly baseUrl = '/master/seasons';
 
-    getAll() { return this.api.get<Season[]>(this.baseUrl); }
+    getAll(params?: Record<string, string>) { return this.api.get<Season[]>(this.baseUrl, { params }); }
     getById(id: string) { return this.api.get<Season>(this.baseUrl + '/' + encodeURIComponent(id)); }
     create(payload: Season) {
         return this.api.post<Season>(this.baseUrl, payload).pipe(
