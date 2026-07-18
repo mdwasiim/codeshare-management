@@ -50,6 +50,11 @@ schedule:
       distribution-requested: ${SCHEDULE_WORKFLOW_DISTRIBUTION_REQUESTED_TOPIC:schedule.workflow.distribution-requested}
 
 services:
+  identity:
+    url: ${AUTH_IDENTITY_SERVICE_URL:http://localhost:8081}
+    s2s:
+      client-id: ${INTERNAL_S2S_CLIENT_ID:internal-s2s-client}
+      client-secret: ${INTERNAL_S2S_CLIENT_SECRET:admin123}
   compare:
     url: ${SCHEDULE_COMPARE_SERVICE_URL:http://localhost:8089}
   master-data:

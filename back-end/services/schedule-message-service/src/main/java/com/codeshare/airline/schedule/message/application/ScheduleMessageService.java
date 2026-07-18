@@ -4,6 +4,7 @@ import com.codeshare.airline.platform.core.dto.schedule.workflow.ChangeSetDTO;
 import com.codeshare.airline.platform.core.events.schedule.DistributionRequestedEvent;
 import com.codeshare.airline.platform.core.events.schedule.ScheduleUpdatedEvent;
 import com.codeshare.airline.schedule.message.domain.entity.OutboundScheduleMessageEntity;
+import com.codeshare.airline.schedule.message.domain.enums.OutboundScheduleMessageAuditEventType;
 import com.codeshare.airline.schedule.message.domain.enums.OutboundScheduleMessageStatus;
 import com.codeshare.airline.schedule.message.domain.repository.OutboundScheduleMessageRepository;
 import com.codeshare.airline.schedule.message.feign.CompareChangeSetClient;
@@ -21,20 +22,26 @@ public class ScheduleMessageService {
     private final OutboundScheduleMessageRepository repository;
     private final CompareChangeSetClient compareChangeSetClient;
     private final ScheduleCodeListValidator codeListValidator;
+    private final ScheduleTimeValidator timeValidator;
     private final OutboundScheduleMessageGenerator generator;
+    private final OutboundScheduleMessageAuditService auditService;
     private final DistributionRequestedEventPublisher distributionRequestedEventPublisher;
 
     public ScheduleMessageService(
             OutboundScheduleMessageRepository repository,
             CompareChangeSetClient compareChangeSetClient,
             ScheduleCodeListValidator codeListValidator,
+            ScheduleTimeValidator timeValidator,
             OutboundScheduleMessageGenerator generator,
+            OutboundScheduleMessageAuditService auditService,
             DistributionRequestedEventPublisher distributionRequestedEventPublisher
     ) {
         this.repository = repository;
         this.compareChangeSetClient = compareChangeSetClient;
         this.codeListValidator = codeListValidator;
+        this.timeValidator = timeValidator;
         this.generator = generator;
+        this.auditService = auditService;
         this.distributionRequestedEventPublisher = distributionRequestedEventPublisher;
     }
 
@@ -50,10 +57,11 @@ public class ScheduleMessageService {
             return message.getOutboundMessageId();
         }
 
+        UUID distributionRequestId = UUID.randomUUID();
         distributionRequestedEventPublisher.publish(DistributionRequestedEvent.builder()
                 .correlationId(event.getCorrelationId() != null ? event.getCorrelationId() : event.getChangeSetId())
                 .causationId(event.getChangeSetId())
-                .distributionRequestId(UUID.randomUUID())
+                .distributionRequestId(distributionRequestId)
                 .outboundMessageId(message.getOutboundMessageId())
                 .changeSetId(message.getChangeSetId())
                 .changeRequestId(message.getChangeRequestId())
@@ -68,6 +76,8 @@ public class ScheduleMessageService {
         message.setStatus(OutboundScheduleMessageStatus.DISTRIBUTION_REQUESTED);
         message.setDistributionRequestedAt(Instant.now());
         repository.save(message);
+        auditService.record(message, event, OutboundScheduleMessageAuditEventType.DISTRIBUTION_REQUESTED,
+                "Distribution request published: " + distributionRequestId);
         return message.getOutboundMessageId();
     }
 
@@ -75,6 +85,7 @@ public class ScheduleMessageService {
         try {
             ChangeSetDTO changeSet = compareChangeSetClient.getChangeSet(event.getChangeSetId());
             codeListValidator.validate(changeSet);
+            timeValidator.validate(changeSet);
             OutboundScheduleMessageEntity message = OutboundScheduleMessageEntity.builder()
                     .outboundMessageId(UUID.randomUUID())
                     .changeSetId(event.getChangeSetId())
@@ -88,15 +99,27 @@ public class ScheduleMessageService {
                     .generatedAt(Instant.now())
                     .status(OutboundScheduleMessageStatus.GENERATED)
                     .build();
-            return repository.save(message);
+            OutboundScheduleMessageEntity saved = repository.save(message);
+            auditService.record(saved, event, OutboundScheduleMessageAuditEventType.PAYLOAD_GENERATED,
+                    "Outbound payload generated");
+            return saved;
         } catch (OutboundScheduleMessageComplianceException ex) {
             OutboundScheduleMessageEntity failed = failedMessage(event, ex.getMessage());
-            repository.save(failed);
-            return failed;
+            OutboundScheduleMessageEntity saved = repository.save(failed);
+            auditService.record(saved, event, failureEventType(ex.getMessage()), ex.getMessage());
+            return saved;
         } catch (Exception ex) {
-            repository.save(failedMessage(event, ex.getMessage()));
+            OutboundScheduleMessageEntity failed = repository.save(failedMessage(event, ex.getMessage()));
+            auditService.record(failed, event, OutboundScheduleMessageAuditEventType.GENERATION_FAILED, ex.getMessage());
             throw ex;
         }
+    }
+
+    private OutboundScheduleMessageAuditEventType failureEventType(String message) {
+        if (message != null && message.contains("validation failure")) {
+            return OutboundScheduleMessageAuditEventType.VALIDATION_FAILED;
+        }
+        return OutboundScheduleMessageAuditEventType.GENERATION_FAILED;
     }
 
     private OutboundScheduleMessageEntity failedMessage(ScheduleUpdatedEvent event, String errorMessage) {

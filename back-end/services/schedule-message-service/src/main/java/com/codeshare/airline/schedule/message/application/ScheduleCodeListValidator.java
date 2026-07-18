@@ -12,6 +12,7 @@ import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleFlightC
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleLegChangeDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleLegSnapshotDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleSegmentSnapshotDTO;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.message.feign.MasterDataScheduleCodeListClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -40,7 +41,7 @@ public class ScheduleCodeListValidator {
             return request;
         }
 
-        add(request.getMessageIdentifiers(), changeSet.getMessageType() != null ? changeSet.getMessageType().name() : null);
+        addMessageIdentifier(request, changeSet.getMessageType());
         request.setOperatingAirlineCode(normalize(changeSet.getAirlineCode()));
         add(request.getAirlineCodes(), changeSet.getAirlineCode());
         add(request.getAirlineCodes(), changeSet.getPartnerCode());
@@ -63,6 +64,12 @@ public class ScheduleCodeListValidator {
                 addSnapshot(request, legChange.getOldValue());
                 addSnapshot(request, legChange.getNewValue());
             }
+        }
+    }
+
+    private void addMessageIdentifier(ScheduleCodeListValidationRequestDTO request, MessageType messageType) {
+        if (messageType == MessageType.SSM || messageType == MessageType.ASM) {
+            add(request.getMessageIdentifiers(), messageType.name());
         }
     }
 
@@ -184,7 +191,7 @@ public class ScheduleCodeListValidator {
         return switch (legChange.getChangeType() == null ? "" : legChange.getChangeType().name()) {
             case "NEW", "CNL", "TIM", "EQT", "RIN" -> legChange.getChangeType().name();
             case "PER" -> "REV";
-            case "FLT", "COD" -> "FLT";
+            case "FLT", "COD" -> legChange.getChangeType().name();
             default -> null;
         };
     }

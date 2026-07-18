@@ -3,6 +3,9 @@ package com.codeshare.airline.schedule.message.application;
 import com.codeshare.airline.platform.core.dto.master.validation.ScheduleCodeListValidationErrorDTO;
 import com.codeshare.airline.platform.core.dto.master.validation.ScheduleCodeListValidationRequestDTO;
 import com.codeshare.airline.platform.core.dto.master.validation.ScheduleCodeListValidationResponseDTO;
+import com.codeshare.airline.platform.core.dto.master.validation.ScheduleTimeValidationErrorDTO;
+import com.codeshare.airline.platform.core.dto.master.validation.ScheduleTimeValidationRequestDTO;
+import com.codeshare.airline.platform.core.dto.master.validation.ScheduleTimeValidationResponseDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ChangeSetDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleCodeshareSnapshotDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleDataElementSnapshotDTO;
@@ -15,10 +18,12 @@ import com.codeshare.airline.platform.core.enums.schedule.ScheduleLegChangeType;
 import com.codeshare.airline.platform.core.events.schedule.DistributionRequestedEvent;
 import com.codeshare.airline.platform.core.events.schedule.ScheduleUpdatedEvent;
 import com.codeshare.airline.schedule.message.domain.entity.OutboundScheduleMessageEntity;
+import com.codeshare.airline.schedule.message.domain.enums.OutboundScheduleMessageAuditEventType;
 import com.codeshare.airline.schedule.message.domain.enums.OutboundScheduleMessageStatus;
 import com.codeshare.airline.schedule.message.domain.repository.OutboundScheduleMessageRepository;
 import com.codeshare.airline.schedule.message.feign.CompareChangeSetClient;
 import com.codeshare.airline.schedule.message.feign.MasterDataScheduleCodeListClient;
+import com.codeshare.airline.schedule.message.feign.MasterDataScheduleTimeClient;
 import com.codeshare.airline.schedule.message.integration.kafka.DistributionRequestedEventPublisher;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -44,12 +49,16 @@ class ScheduleMessageServiceTest {
         OutboundScheduleMessageRepository repository = mock(OutboundScheduleMessageRepository.class);
         CompareChangeSetClient compareChangeSetClient = mock(CompareChangeSetClient.class);
         ScheduleCodeListValidator codeListValidator = mock(ScheduleCodeListValidator.class);
+        ScheduleTimeValidator timeValidator = mock(ScheduleTimeValidator.class);
+        OutboundScheduleMessageAuditService auditService = mock(OutboundScheduleMessageAuditService.class);
         DistributionRequestedEventPublisher publisher = mock(DistributionRequestedEventPublisher.class);
         ScheduleMessageService service = new ScheduleMessageService(
                 repository,
                 compareChangeSetClient,
                 codeListValidator,
+                timeValidator,
                 new OutboundScheduleMessageGenerator(),
+                auditService,
                 publisher
         );
 
@@ -118,6 +127,9 @@ class ScheduleMessageServiceTest {
         assertThat(eventCaptor.getValue().getCorrelationId()).isEqualTo(correlationId);
         assertThat(eventCaptor.getValue().getCausationId()).isEqualTo(changeSetId);
         verify(codeListValidator).validate(changeSet);
+        verify(timeValidator).validate(changeSet);
+        verify(auditService).record(any(), any(), org.mockito.Mockito.eq(OutboundScheduleMessageAuditEventType.PAYLOAD_GENERATED), any());
+        verify(auditService).record(any(), any(), org.mockito.Mockito.eq(OutboundScheduleMessageAuditEventType.DISTRIBUTION_REQUESTED), any());
     }
 
     @Test
@@ -125,12 +137,16 @@ class ScheduleMessageServiceTest {
         OutboundScheduleMessageRepository repository = mock(OutboundScheduleMessageRepository.class);
         CompareChangeSetClient compareChangeSetClient = mock(CompareChangeSetClient.class);
         ScheduleCodeListValidator codeListValidator = mock(ScheduleCodeListValidator.class);
+        ScheduleTimeValidator timeValidator = mock(ScheduleTimeValidator.class);
+        OutboundScheduleMessageAuditService auditService = mock(OutboundScheduleMessageAuditService.class);
         DistributionRequestedEventPublisher publisher = mock(DistributionRequestedEventPublisher.class);
         ScheduleMessageService service = new ScheduleMessageService(
                 repository,
                 compareChangeSetClient,
                 codeListValidator,
+                timeValidator,
                 new OutboundScheduleMessageGenerator(),
+                auditService,
                 publisher
         );
 
@@ -173,6 +189,7 @@ class ScheduleMessageServiceTest {
         verify(repository).save(messageCaptor.capture());
         assertThat(messageCaptor.getValue().getStatus()).isEqualTo(OutboundScheduleMessageStatus.FAILED);
         assertThat(messageCaptor.getValue().getErrorMessage()).contains("Outbound IATA compliance failure");
+        verify(auditService).record(any(), any(), org.mockito.Mockito.eq(OutboundScheduleMessageAuditEventType.GENERATION_FAILED), any());
         verify(publisher, never()).publish(any());
     }
 
@@ -181,12 +198,16 @@ class ScheduleMessageServiceTest {
         OutboundScheduleMessageRepository repository = mock(OutboundScheduleMessageRepository.class);
         CompareChangeSetClient compareChangeSetClient = mock(CompareChangeSetClient.class);
         ScheduleCodeListValidator codeListValidator = mock(ScheduleCodeListValidator.class);
+        ScheduleTimeValidator timeValidator = mock(ScheduleTimeValidator.class);
+        OutboundScheduleMessageAuditService auditService = mock(OutboundScheduleMessageAuditService.class);
         DistributionRequestedEventPublisher publisher = mock(DistributionRequestedEventPublisher.class);
         ScheduleMessageService service = new ScheduleMessageService(
                 repository,
                 compareChangeSetClient,
                 codeListValidator,
+                timeValidator,
                 new OutboundScheduleMessageGenerator(),
+                auditService,
                 publisher
         );
 
@@ -215,6 +236,54 @@ class ScheduleMessageServiceTest {
         verify(repository).save(messageCaptor.capture());
         assertThat(messageCaptor.getValue().getStatus()).isEqualTo(OutboundScheduleMessageStatus.FAILED);
         assertThat(messageCaptor.getValue().getErrorMessage()).contains("Outbound master-data validation failure");
+        verify(auditService).record(any(), any(), org.mockito.Mockito.eq(OutboundScheduleMessageAuditEventType.VALIDATION_FAILED), any());
+        verify(publisher, never()).publish(any());
+    }
+
+    @Test
+    void generateMarksFailedAndDoesNotRequestDistributionWhenScheduleTimeValidationFails() {
+        OutboundScheduleMessageRepository repository = mock(OutboundScheduleMessageRepository.class);
+        CompareChangeSetClient compareChangeSetClient = mock(CompareChangeSetClient.class);
+        ScheduleCodeListValidator codeListValidator = mock(ScheduleCodeListValidator.class);
+        ScheduleTimeValidator timeValidator = mock(ScheduleTimeValidator.class);
+        OutboundScheduleMessageAuditService auditService = mock(OutboundScheduleMessageAuditService.class);
+        DistributionRequestedEventPublisher publisher = mock(DistributionRequestedEventPublisher.class);
+        ScheduleMessageService service = new ScheduleMessageService(
+                repository,
+                compareChangeSetClient,
+                codeListValidator,
+                timeValidator,
+                new OutboundScheduleMessageGenerator(),
+                auditService,
+                publisher
+        );
+
+        UUID changeSetId = UUID.randomUUID();
+        ScheduleUpdatedEvent event = ScheduleUpdatedEvent.builder()
+                .changeSetId(changeSetId)
+                .changeRequestId(10L)
+                .messageType(MessageType.SSIM)
+                .airlineCode("QR")
+                .partnerCode("BA")
+                .updatedAt(Instant.now())
+                .build();
+        ChangeSetDTO changeSet = changeSet(MessageType.SSIM, ScheduleLegChangeType.NEW);
+
+        when(repository.findByChangeSetId(changeSetId)).thenReturn(Optional.empty());
+        when(repository.save(any(OutboundScheduleMessageEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(compareChangeSetClient.getChangeSet(changeSetId)).thenReturn(changeSet);
+        org.mockito.Mockito.doThrow(new OutboundScheduleMessageComplianceException(
+                        "Outbound schedule time validation failure: legs[0].arrivalUtcOffset"))
+                .when(timeValidator).validate(changeSet);
+
+        UUID outboundMessageId = service.generate(event);
+
+        assertThat(outboundMessageId).isNotNull();
+        ArgumentCaptor<OutboundScheduleMessageEntity> messageCaptor = ArgumentCaptor.forClass(OutboundScheduleMessageEntity.class);
+        verify(repository).save(messageCaptor.capture());
+        assertThat(messageCaptor.getValue().getStatus()).isEqualTo(OutboundScheduleMessageStatus.FAILED);
+        assertThat(messageCaptor.getValue().getErrorMessage()).contains("Outbound schedule time validation failure");
+        verify(auditService).record(any(), any(), org.mockito.Mockito.eq(OutboundScheduleMessageAuditEventType.VALIDATION_FAILED), any());
         verify(publisher, never()).publish(any());
     }
 
@@ -239,7 +308,7 @@ class ScheduleMessageServiceTest {
         ScheduleCodeListValidator validator = new ScheduleCodeListValidator(client);
         when(client.validate(any())).thenReturn(new ScheduleCodeListValidationResponseDTO(true, List.of()));
 
-        ChangeSetDTO changeSet = changeSet(MessageType.SSIM, ScheduleLegChangeType.NEW);
+        ChangeSetDTO changeSet = changeSet(MessageType.SSIM, ScheduleLegChangeType.COD);
         ScheduleLegSnapshotDTO snapshot = changeSet.getFlightChanges().getFirst()
                 .getLegChanges().getFirst()
                 .getNewValue();
@@ -266,6 +335,7 @@ class ScheduleMessageServiceTest {
         });
         assertThat(request.getMealServiceCodes()).contains("B", "L");
         assertThat(request.getSecureFlightIndicatorCodes()).contains("Y");
+        assertThat(request.getActionCodes()).contains("COD");
         assertThat(request.getOperationalSuffixCodes()).contains("A");
         assertThat(request.getFlightSuffixCodes()).contains("A");
         assertThat(request.getTrafficRestrictionCodes()).contains("T");
@@ -273,6 +343,27 @@ class ScheduleMessageServiceTest {
             assertThat(qualifier.getRestrictionCode()).isEqualTo("T");
             assertThat(qualifier.getQualifierCode()).isEqualTo("NT");
         });
+    }
+
+    @Test
+    void timeValidatorSendsLegTimesAndRaisesComplianceFailure() {
+        MasterDataScheduleTimeClient client = mock(MasterDataScheduleTimeClient.class);
+        ScheduleTimeValidator validator = new ScheduleTimeValidator(client);
+        when(client.validate(any())).thenReturn(new ScheduleTimeValidationResponseDTO(
+                false,
+                List.of(new ScheduleTimeValidationErrorDTO("legs[0].arrivalUtcOffset", "Expected +0100 for LHR"))
+        ));
+
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> validator.validate(changeSet(MessageType.SSIM, ScheduleLegChangeType.NEW)))
+                .isInstanceOf(OutboundScheduleMessageComplianceException.class)
+                .hasMessageContaining("legs[0].arrivalUtcOffset");
+
+        ArgumentCaptor<ScheduleTimeValidationRequestDTO> requestCaptor =
+                ArgumentCaptor.forClass(ScheduleTimeValidationRequestDTO.class);
+        verify(client).validate(requestCaptor.capture());
+        assertThat(requestCaptor.getValue().getLegs()).hasSize(1);
+        assertThat(requestCaptor.getValue().getLegs().getFirst().getDepartureAirport()).isEqualTo("DOH");
+        assertThat(requestCaptor.getValue().getLegs().getFirst().getArrivalAirport()).isEqualTo("LHR");
     }
 
     @Test
@@ -303,6 +394,16 @@ class ScheduleMessageServiceTest {
         assertThat(payload).contains("QR0701/01MAR26");
         assertThat(payload).contains("J 77W JY.CY");
         assertThat(payload.lines()).allMatch(line -> line.length() <= 69);
+    }
+
+    @Test
+    void generatorPreservesCodeshareChangeAction() {
+        OutboundScheduleMessageGenerator generator = new OutboundScheduleMessageGenerator();
+
+        String payload = generator.generate(changeSet(MessageType.SSM, ScheduleLegChangeType.COD));
+
+        assertThat(payload).contains(System.lineSeparator() + "COD" + System.lineSeparator());
+        assertThat(payload).contains("DOHLHR 10/BA1701");
     }
 
     @Test

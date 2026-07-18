@@ -55,9 +55,13 @@ public class EmailDistributionAdapter implements DistributionAdapter {
         if (communicationProfile == null || communicationProfile.getEndpointUrl() == null || communicationProfile.getEndpointUrl().isBlank()) {
             throw new IllegalStateException("EMAIL communication profile endpointUrl recipient list is required");
         }
-        return Arrays.stream(communicationProfile.getEndpointUrl().split(","))
+        String[] recipients = Arrays.stream(communicationProfile.getEndpointUrl().split(","))
                 .map(String::trim)
                 .filter(value -> !value.isBlank())
                 .toArray(String[]::new);
+        if (recipients.length == 0) {
+            throw new IllegalStateException("EMAIL communication profile endpointUrl must contain at least one recipient");
+        }
+        return recipients;
     }
 }

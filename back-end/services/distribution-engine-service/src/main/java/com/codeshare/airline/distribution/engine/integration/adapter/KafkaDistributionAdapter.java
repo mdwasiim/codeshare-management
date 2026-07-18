@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 @Slf4j
 @Component
 public class KafkaDistributionAdapter implements DistributionAdapter {
@@ -32,7 +34,12 @@ public class KafkaDistributionAdapter implements DistributionAdapter {
             OutboundScheduleMessageDTO outboundMessage
     ) {
         String topic = requireEndpoint(communicationProfile);
-        kafkaTemplate.send(topic, outboundMessage.getOutboundMessageId().toString(), outboundMessage.getPayload());
+        try {
+            kafkaTemplate.send(topic, outboundMessage.getOutboundMessageId().toString(), outboundMessage.getPayload())
+                    .get(30, TimeUnit.SECONDS);
+        } catch (Exception ex) {
+            throw new IllegalStateException("KAFKA distribution dispatch failed for topic=" + topic, ex);
+        }
         log.info(
                 "Distribution adapter KAFKA dispatched topic={} changeSetId={} outboundMessageId={} partner={} profile={} payloadLength={}",
                 topic,

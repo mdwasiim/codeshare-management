@@ -141,7 +141,8 @@ public class OutboundScheduleMessageGenerator {
             case TIM -> "TIM";
             case EQT -> "EQT";
             case PER -> "REV";
-            case FLT, COD -> "FLT";
+            case COD -> "COD";
+            case FLT -> "FLT";
         };
     }
 
@@ -153,7 +154,8 @@ public class OutboundScheduleMessageGenerator {
             case TIM -> "TIM SCHG";
             case EQT -> "EQT SCHG";
             case PER -> "RPL SCHG";
-            case FLT, COD -> "FLT SCHG";
+            case COD -> "COD SCHG";
+            case FLT -> "FLT SCHG";
         };
     }
 

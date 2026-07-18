@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
 
 @Slf4j
@@ -64,9 +65,13 @@ public class RestDistributionAdapter implements DistributionAdapter {
         headers.add("X-Outbound-Message-Id", outboundMessage.getOutboundMessageId().toString());
         headers.add("X-Message-Type", outboundMessage.getMessageType().name());
         if (communicationProfile.getAuthenticationType() == AuthenticationType.API_KEY
-                && communicationProfile.getCredentialAlias() != null
-                && !communicationProfile.getCredentialAlias().isBlank()) {
+                && StringUtils.hasText(communicationProfile.getCredentialAlias())) {
             headers.add("X-API-Key", communicationProfile.getCredentialAlias());
+        }
+        if (communicationProfile.getAuthenticationType() == AuthenticationType.BASIC
+                && StringUtils.hasText(communicationProfile.getUsername())
+                && StringUtils.hasText(communicationProfile.getCredentialAlias())) {
+            headers.setBasicAuth(communicationProfile.getUsername(), communicationProfile.getCredentialAlias());
         }
     }
 

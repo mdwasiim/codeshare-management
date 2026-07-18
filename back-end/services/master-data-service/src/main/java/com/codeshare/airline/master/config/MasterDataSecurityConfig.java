@@ -15,7 +15,6 @@ public class MasterDataSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/internal/airline-carriers/**",
-                                "/internal/schedule-code-lists/**",
                                 "/actuator/health",
                                 "/actuator/info"
                         ).permitAll()
