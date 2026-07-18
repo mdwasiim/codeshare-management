@@ -10,6 +10,7 @@ import com.codeshare.airline.schedule.ingestion.validation.model.ValidationMessa
 import com.codeshare.airline.schedule.ingestion.validation.model.ValidationResult;
 import com.codeshare.airline.schedule.ingestion.validation.orchestrator.BusinessValidationOrchestrator;
 import com.codeshare.airline.schedule.ingestion.validation.orchestrator.StructuralValidationOrchestrator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,17 +24,20 @@ public class ScheduleMessageWorkflowService {
     private final Map<MessageType, PreParseContextFactory<?>> contextFactoryMap;
     private final StructuralValidationOrchestrator structuralValidationOrchestrator;
     private final BusinessValidationOrchestrator businessValidationOrchestrator;
+    private final boolean businessValidationEnabled;
 
     public ScheduleMessageWorkflowService(
             Map<MessageType, MessageParser<?>> parserMap,
             Map<MessageType, PreParseContextFactory<?>> contextFactoryMap,
             StructuralValidationOrchestrator structuralValidationOrchestrator,
-            BusinessValidationOrchestrator businessValidationOrchestrator
+            BusinessValidationOrchestrator businessValidationOrchestrator,
+            @Value("${ingestion.validation.business-enabled:true}") boolean businessValidationEnabled
     ) {
         this.parserMap = parserMap;
         this.contextFactoryMap = contextFactoryMap;
         this.structuralValidationOrchestrator = structuralValidationOrchestrator;
         this.businessValidationOrchestrator = businessValidationOrchestrator;
+        this.businessValidationEnabled = businessValidationEnabled;
     }
 
     public ScheduleMessageWorkflowResult process(
@@ -67,15 +71,17 @@ public class ScheduleMessageWorkflowService {
                     .build();
         }
 
-        ValidationResult business = businessValidationOrchestrator.validate(parsedContext);
-        messages.addAll(business.getMessages());
-        if (business.hasErrors()) {
-            return ScheduleMessageWorkflowResult.builder()
-                    .errorContext(parsedContext)
-                    .parsedContext(parsedContext)
-                    .failureStage(ValidationStage.VALIDATION)
-                    .messages(List.copyOf(messages))
-                    .build();
+        if (businessValidationEnabled) {
+            ValidationResult business = businessValidationOrchestrator.validate(parsedContext);
+            messages.addAll(business.getMessages());
+            if (business.hasErrors()) {
+                return ScheduleMessageWorkflowResult.builder()
+                        .errorContext(parsedContext)
+                        .parsedContext(parsedContext)
+                        .failureStage(ValidationStage.VALIDATION)
+                        .messages(List.copyOf(messages))
+                        .build();
+            }
         }
 
         return ScheduleMessageWorkflowResult.builder()

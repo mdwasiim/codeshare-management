@@ -1,0 +1,43 @@
+.reference-readiness-page {
+    .readiness-summary {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .readiness-metric {
+        min-height: 6rem;
+        border: 1px solid var(--surface-border);
+        border-radius: 8px;
+        padding: 1rem;
+        background: var(--surface-card);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        justify-content: center;
+    }
+
+    .readiness-metric span {
+        color: var(--text-color-secondary);
+        font-size: 0.875rem;
+    }
+
+    .readiness-metric strong {
+        color: var(--text-color);
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+}
+
+@media (max-width: 960px) {
+    .reference-readiness-page .readiness-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .reference-readiness-page .readiness-summary {
+        grid-template-columns: 1fr;
+    }
+}

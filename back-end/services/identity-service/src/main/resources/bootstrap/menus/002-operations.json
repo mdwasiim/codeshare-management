@@ -24,42 +24,6 @@
     "visible": true
   },
   {
-    "code": "SCHEDULE_MANAGER",
-    "parentCode": "INGESTION",
-    "label": "Ingestion Actions",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-list",
-    "route": null,
-    "permission": null,
-    "displayOrder": 2,
-    "visible": true
-  },
-  {
-    "code": "LIVE_SCHEDULE",
-    "parentCode": "INGESTION",
-    "label": "Action Queues",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-bolt",
-    "route": null,
-    "permission": null,
-    "displayOrder": 3,
-    "visible": true
-  },
-  {
-    "code": "SCENARIO_MANGER",
-    "parentCode": "INGESTION",
-    "label": "Processing",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-cog",
-    "route": null,
-    "permission": null,
-    "displayOrder": 4,
-    "visible": true
-  },
-  {
     "code": "INBOUND_SCHEDULES",
     "parentCode": "SSIM_INBOUND",
     "label": "SSIM Files",
@@ -81,54 +45,6 @@
     "route": "/asm-ssm-ingestion",
     "permission": "flight:read",
     "displayOrder": 2,
-    "visible": true
-  },
-  {
-    "code": "CODESHARE_SCHEDULES",
-    "parentCode": "SCHEDULE_MANAGER",
-    "label": "SSIM Actions",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-play-circle",
-    "route": "/ssim-ingestion/actions",
-    "permission": "flight:update",
-    "displayOrder": 1,
-    "visible": true
-  },
-  {
-    "code": "OPERATING_SCHEDULES",
-    "parentCode": "SCHEDULE_MANAGER",
-    "label": "ASM/SSM Actions",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-sliders-h",
-    "route": "/asm-ssm-ingestion/actions",
-    "permission": "flight:update",
-    "displayOrder": 2,
-    "visible": true
-  },
-  {
-    "code": "LIVE_SCHEDULES",
-    "parentCode": "LIVE_SCHEDULE",
-    "label": "SSIM Action Queue",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-clock",
-    "route": "/ssim-ingestion/actions",
-    "permission": "flight:update",
-    "displayOrder": 1,
-    "visible": true
-  },
-  {
-    "code": "SCHEDULE_UPDATE",
-    "parentCode": "SCENARIO_MANGER",
-    "label": "ASM/SSM Action Queue",
-    "topbarLabel": null,
-    "sidebarLabel": null,
-    "icon": "pi pi-fw pi-history",
-    "route": "/asm-ssm-ingestion/actions",
-    "permission": "flight:update",
-    "displayOrder": 1,
     "visible": true
   }
 ]

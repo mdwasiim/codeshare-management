@@ -20,6 +20,10 @@ spring:
       maximum-pool-size: 10
       minimum-idle: 2
 
+  sql:
+    init:
+      mode: always
+
   jpa:
     open-in-view: false
     show-sql: ${SHOW_SQL:true}

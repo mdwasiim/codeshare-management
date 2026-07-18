@@ -49,7 +49,7 @@ public class SftpChannelRouteBuilder extends AbstractChannelRouteBuilder {
                 .append("&preMove=").append(val(c.getFilePreMove(), ".inprogress/${file:name}"))
                 .append("&move=").append(val(c.getFileMove(), ".processed/${file:name}"))
                 .append("&moveFailed=").append(val(c.getFileMoveFailed(), ".error/${file:name}"))
-                .append("&include=").append(val(c.getFileIncludePattern(), "(?i).*\\.(txt|ssm|asm|ssim)"))
+                .append("&include=").append(val(c.getFileIncludePattern(), "(?i).*[.](txt|ssm|asm|ssim)"))
                 .append("&idempotent=").append(val(c.getFileIdempotent(), true))
                 .append("&idempotentKey=").append(val(c.getFileIdempotentKey(),
                         "${file:absolute.path}-${file:modified}"))
@@ -91,8 +91,17 @@ public class SftpChannelRouteBuilder extends AbstractChannelRouteBuilder {
         }
     }
 
-    private String normalizeRemoteDirectory(String directory) {
-        String normalized = directory.replace("\\", "/");
-        return normalized.startsWith("/") ? normalized : "/" + normalized;
+    String normalizeRemoteDirectory(String directory) {
+        String normalized = directory.trim().replace("\\", "/");
+        if (normalized.startsWith("/")) {
+            return normalized;
+        }
+        if (normalized.startsWith("~/") || normalized.startsWith("~\\")) {
+            normalized = normalized.substring(2);
+        }
+        if (normalized.startsWith("./")) {
+            normalized = normalized.substring(2);
+        }
+        return "/" + normalized;
     }
 }

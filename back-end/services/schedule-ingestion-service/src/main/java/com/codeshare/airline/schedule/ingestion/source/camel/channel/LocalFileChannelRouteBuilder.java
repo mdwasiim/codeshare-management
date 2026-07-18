@@ -23,7 +23,7 @@ public class LocalFileChannelRouteBuilder extends AbstractChannelRouteBuilder {
                 .append("?noop=false")
 
                 // 🔥 FILE FILTER
-                .append("&include=").append(val(c.getFileIncludePattern(), "(?i).*\\.(txt|ssm|asm|ssim)"))
+                .append("&include=").append(val(c.getFileIncludePattern(), "(?i).*[.](txt|ssm|asm|ssim)"))
 
                 // 🔥 SAFE PROCESSING (IMPORTANT)
                 .append("&preMove=").append(val(c.getFilePreMove(), ".inprogress/${file:name}"))

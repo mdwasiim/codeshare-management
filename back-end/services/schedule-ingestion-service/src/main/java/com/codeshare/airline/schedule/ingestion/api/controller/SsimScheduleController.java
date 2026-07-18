@@ -4,6 +4,7 @@ import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.platform.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleDetailResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleSummaryResponse;
+import com.codeshare.airline.schedule.ingestion.api.response.SsimValidationReportRowResponse;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SsimMetaDataDTO;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -74,6 +76,11 @@ public class SsimScheduleController {
     @GetMapping("/files/{fileId}/message")
     public SSIMMessageDTO getMessage(@PathVariable UUID fileId) {
         return queryService.getMessage(fileId);
+    }
+
+    @GetMapping("/files/{fileId}/validation-report")
+    public List<SsimValidationReportRowResponse> getValidationReport(@PathVariable UUID fileId) {
+        return queryService.getValidationReport(fileId);
     }
 
     @GetMapping("/files/{fileId}/flights")

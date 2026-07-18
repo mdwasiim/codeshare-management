@@ -1,0 +1,85 @@
+<div class="access-page reference-readiness-page">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Masters / Validation</span>
+            <h1>Outbound Schedule Readiness</h1>
+            <p>Reference-data completeness for SSIM, SSM, ASM generation and distribution.</p>
+        </div>
+        <p-button icon="pi pi-refresh" label="Refresh" size="small" [loading]="loading" (click)="refresh()"></p-button>
+    </div>
+
+    <div class="readiness-summary">
+        <div class="readiness-metric">
+            <span>Status</span>
+            <strong>{{ isComplete ? 'Complete' : 'Action Required' }}</strong>
+            <p-tag [value]="isComplete ? 'Ready' : 'Incomplete'" [severity]="isComplete ? 'success' : 'danger'"></p-tag>
+        </div>
+        <div class="readiness-metric">
+            <span>Total Issues</span>
+            <strong>{{ issueCount }}</strong>
+        </div>
+        <div class="readiness-metric">
+            <span>Missing Codes</span>
+            <strong>{{ missingCodeCount }}</strong>
+        </div>
+        <div class="readiness-metric">
+            <span>Empty Categories</span>
+            <strong>{{ emptyCategoryCount }}</strong>
+        </div>
+    </div>
+
+    <p-table
+        [value]="issues"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        [rowHover]="true"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '64rem' }"
+        [globalFilterFields]="['category', 'code', 'message']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Readiness Issues</h2>
+                    <p>{{ issueCount }} records loaded</p>
+                </div>
+                <span class="access-count">{{ isComplete ? 'Ready for outbound generation' : 'Reference data needs attention' }}</span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
+                <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
+                <th pSortableColumn="message">Message <p-sortIcon field="message"></p-sortIcon></th>
+                <th>Type</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-issue>
+            <tr>
+                <td>{{ issue.category || '-' }}</td>
+                <td>{{ issue.code || '-' }}</td>
+                <td>{{ issue.message || '-' }}</td>
+                <td>
+                    <p-tag
+                        [value]="issue.code ? 'Missing Code' : 'Empty Category'"
+                        [severity]="issue.code ? 'warn' : 'danger'"
+                    ></p-tag>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-check-circle text-2xl mb-2"></i>
+                    <div>No reference-data gaps found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -4,10 +4,12 @@ import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.platform.core.enums.schedule.SourceType;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleDetailResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleSummaryResponse;
+import com.codeshare.airline.schedule.ingestion.api.response.SsimValidationReportRowResponse;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimDataElementDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.record.SsimFlightDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SSIMMessageDTO;
 import com.codeshare.airline.schedule.ingestion.dto.ssim.SsimMetaDataDTO;
+import com.codeshare.airline.schedule.ingestion.persistence.entities.error.SsimErrorEntity;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimFileMetaDataEntity;
 import com.codeshare.airline.schedule.ingestion.persistence.entities.ssim.SsimFlightEntity;
 import com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim.SsimCarrierMapper;
@@ -16,6 +18,7 @@ import com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim.SsimFil
 import com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim.SsimFlightMapper;
 import com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim.SsimHeaderMapper;
 import com.codeshare.airline.schedule.ingestion.persistence.mappers.ssim.SsimTrailerMapper;
+import com.codeshare.airline.schedule.ingestion.persistence.repositories.error.SsimErrorRepository;
 import com.codeshare.airline.schedule.ingestion.persistence.repositories.ssim.SsimFileMetaDataRepository;
 import com.codeshare.airline.schedule.ingestion.persistence.repositories.ssim.SsimFlightRepository;
 import jakarta.persistence.criteria.Join;
@@ -47,6 +50,7 @@ public class SsimScheduleQueryService {
     private final SsimCarrierMapper carrierMapper;
     private final SsimFlightMapper flightMapper;
     private final SsimDataElementMapper deiMapper;
+    private final SsimErrorRepository errorRepository;
 
     public Page<SsimMetaDataDTO> searchFiles(
             String airlineCode,
@@ -60,7 +64,7 @@ public class SsimScheduleQueryService {
         return fileRepository.findAll(
                 fileSpec(airlineCode, processingStatus, receivedFrom, receivedTo, fileName, sourceType),
                 pageable
-        ).map(fileMapper::toDTO);
+        ).map(this::toFileDtoWithErrorCount);
     }
 
     public Page<SsimLoadedScheduleSummaryResponse> searchLoadedSchedules(
@@ -71,13 +75,13 @@ public class SsimScheduleQueryService {
                 fileSpec(normalizeTenantCode(tenantCode), null, null, null, null, null),
                 pageable
         ).map(file -> SsimLoadedScheduleSummaryResponse.builder()
-                .file(fileMapper.toDTO(file))
+                .file(toFileDtoWithErrorCount(file))
                 .flightCount(flightRepository.countByCarrier_File_FileId(file.getFileId()))
                 .build());
     }
 
     public SsimMetaDataDTO getFile(UUID fileId) {
-        return fileMapper.toDTO(findFile(fileId));
+        return toFileDtoWithErrorCount(findFile(fileId));
     }
 
     public Optional<SsimMetaDataDTO> findFileByImportBatchId(UUID importBatchId) {
@@ -99,10 +103,18 @@ public class SsimScheduleQueryService {
         SsimFileMetaDataEntity file = findFile(tenantCode, fileId);
 
         return SsimLoadedScheduleDetailResponse.builder()
-                .file(fileMapper.toDTO(file))
+                .file(toFileDtoWithErrorCount(file))
                 .schedule(toMessage(file))
                 .flightCount(flightRepository.countByCarrier_File_FileId(fileId))
                 .build();
+    }
+
+    public List<SsimValidationReportRowResponse> getValidationReport(UUID fileId) {
+        findFile(fileId);
+        return errorRepository.findByFileId(fileId)
+                .stream()
+                .map(this::toValidationReportRow)
+                .toList();
     }
 
     public Page<SsimFlightDTO> searchFlights(
@@ -148,6 +160,26 @@ public class SsimScheduleQueryService {
         return fileRepository.findByFileId(fileId)
                 .filter(file -> normalizedTenantCode.equals(file.getAirlineCode()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SSIM file not found: " + fileId));
+    }
+
+    private SsimMetaDataDTO toFileDtoWithErrorCount(SsimFileMetaDataEntity file) {
+        SsimMetaDataDTO dto = fileMapper.toDTO(file);
+        return dto.toBuilder()
+                .errorCount(errorRepository.countByFileId(file.getFileId()))
+                .build();
+    }
+
+    private SsimValidationReportRowResponse toValidationReportRow(SsimErrorEntity entity) {
+        return SsimValidationReportRowResponse.builder()
+                .recordType(entity.getRecordType())
+                .recordKey(entity.getRecordKey())
+                .ruleCode(entity.getRuleCode())
+                .message(entity.getMessage())
+                .severity(entity.getSeverity())
+                .validationStage(entity.getValidationStage())
+                .validatedAt(entity.getValidatedAt())
+                .ruleVersion(entity.getRuleVersion())
+                .build();
     }
 
     private Optional<SsimFileMetaDataEntity> findSingleFileByLoadId(UUID loadId) {

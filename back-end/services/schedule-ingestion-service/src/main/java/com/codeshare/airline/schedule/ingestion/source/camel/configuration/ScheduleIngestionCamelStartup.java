@@ -30,6 +30,7 @@ public class ScheduleIngestionCamelStartup {
                 log.info("Starting Camel context manually because auto-startup is disabled");
                 camelContext.start();
             }
+            startLoadedRoutes();
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to start Camel context", ex);
         }
@@ -43,5 +44,16 @@ public class ScheduleIngestionCamelStartup {
         );
 
         log.info(" Camel is fully initialized and running");
+    }
+
+    private void startLoadedRoutes() throws Exception {
+        for (org.apache.camel.Route route : camelContext.getRoutes()) {
+            String routeId = route.getId();
+            ServiceStatus routeStatus = camelContext.getRouteController().getRouteStatus(routeId);
+            if (routeStatus != ServiceStatus.Started) {
+                log.info("Starting Camel route [{}] because auto-startup is disabled", routeId);
+                camelContext.getRouteController().startRoute(routeId);
+            }
+        }
     }
 }

@@ -52,3 +52,27 @@ On Windows PowerShell:
 .\mvnw.cmd test
 .\mvnw.cmd package
 ```
+
+## Schedule Workflow Smoke Check
+
+The current Chapter 4/5/7 implementation scope is tracked in
+[IATA_CHAPTER_4_5_7_COMPLIANCE_MATRIX.md](docs/IATA_CHAPTER_4_5_7_COMPLIANCE_MATRIX.md).
+
+After the services and infrastructure are running, use the workflow verifier to check service health,
+internal S2S authentication, outbound schedule master-data validation, time-validation wiring, and
+required schedule workflow topic names:
+
+```powershell
+.\scripts\verify-schedule-workflow.ps1
+```
+
+The script defaults to the local service ports from each service `application.yml`. Override URLs or
+S2S credentials with environment variables such as `IDENTITY_SERVICE_URL`, `MASTER_DATA_SERVICE_URL`,
+`INTERNAL_S2S_CLIENT_ID`, and `INTERNAL_S2S_CLIENT_SECRET`.
+
+To trigger an end-to-end sample ingestion after the health and master-data checks, provide a real
+schedule message file:
+
+```powershell
+.\scripts\verify-schedule-workflow.ps1 -SampleFile .\samples\partner-ssm.txt -SampleType SSM -SampleAirlineCode QR
+```

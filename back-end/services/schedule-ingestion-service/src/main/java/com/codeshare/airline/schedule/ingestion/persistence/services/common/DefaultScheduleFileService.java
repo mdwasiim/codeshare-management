@@ -93,14 +93,16 @@ public class DefaultScheduleFileService implements ScheduleFileService {
             return Optional.empty();
         }
 
-        Optional<SsimFileMetaDataEntity> existing = ssimFileRepository.findByAirlineCodeAndChecksum(
+        Optional<SsimFileMetaDataEntity> existing = ssimFileRepository.findByAirlineCodeAndPartnerCodeAndChecksum(
                 sourceFile.getAirlineCode(),
+                sourceFile.getPartnerCode(),
                 sourceFile.getChecksum()
         );
 
         existing.ifPresent(entity -> log.info(
-                "SSIM file already exists for airline={} checksum={} existingFileId={} incomingFileId={} status={}",
+                "SSIM file already exists for airline={} partner={} checksum={} existingFileId={} incomingFileId={} status={}",
                 sourceFile.getAirlineCode(),
+                sourceFile.getPartnerCode(),
                 sourceFile.getChecksum(),
                 entity.getFileId(),
                 sourceFile.getFileId(),
@@ -128,6 +130,7 @@ public class DefaultScheduleFileService implements ScheduleFileService {
                 .messageType(source.getMessageType())
                 .sourceType(source.getSourceType())
                 .airlineCode(source.getAirlineCode())
+                .partnerCode(source.getPartnerCode())
 
                 .scheduleProfile(source.getScheduleProfile()) // 
                 .timeMode(source.getTimeMode())               // 
@@ -148,6 +151,7 @@ public class DefaultScheduleFileService implements ScheduleFileService {
                 .messageType(source.getMessageType())
                 .sourceType(source.getSourceType())
                 .airlineCode(source.getAirlineCode())
+                .partnerCode(source.getPartnerCode())
 
                 .scheduleProfile(source.getScheduleProfile())
                 .timeMode(source.getTimeMode())

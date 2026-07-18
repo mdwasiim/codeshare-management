@@ -87,7 +87,12 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
             return root;
         }
 
-        return fileRepository.findFirstByLoadIdAndAirlineCodeAndChecksum(metadata.getLoadId(), airlineCode, checksum)
+        return fileRepository.findFirstByLoadIdAndAirlineCodeAndPartnerCodeAndChecksum(
+                        metadata.getLoadId(),
+                        airlineCode,
+                        metadata.getPartnerCode(),
+                        checksum
+                )
                 .orElseGet(() -> fileRepository.save(newLogicalFile(metadata, airlineCode, checksum)));
     }
 
@@ -107,6 +112,7 @@ public class DefaultSsimPersistenceService implements SsimPersistenceService {
         target.setFileId(fileId);
         target.setLoadId(source.getLoadId());
         target.setAirlineCode(airlineCode);
+        target.setPartnerCode(source.getPartnerCode());
         target.setFileName(source.getFileName());
         target.setSourceType(source.getSourceType());
         target.setMessageType(source.getMessageType());

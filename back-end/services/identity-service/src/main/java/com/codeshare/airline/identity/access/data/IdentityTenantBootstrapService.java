@@ -34,7 +34,13 @@ public class IdentityTenantBootstrapService {
     private final UserGroupLoader userGroupLoader;
 
     public synchronized void bootstrapAllTenants() {
-        List<Long> tenantIds = tenantClient.getAll().stream()
+        List<TenantDTO> tenants = tenantClient.getAll();
+        if (tenants.isEmpty()) {
+            log.warn("No tenants returned from tenant-service. Identity bootstrap will retry.");
+            return;
+        }
+
+        List<Long> tenantIds = tenants.stream()
                 .map(TenantDTO::getId)
                 .toList();
         for (Long tenantId : tenantIds) {
@@ -52,7 +58,13 @@ public class IdentityTenantBootstrapService {
     }
 
     public boolean isInitialized() {
-        return tenantClient.getAll().stream()
+        List<TenantDTO> tenants = tenantClient.getAll();
+        if (tenants.isEmpty()) {
+            log.warn("No tenants returned from tenant-service. Identity bootstrap is not initialized.");
+            return false;
+        }
+
+        return tenants.stream()
                 .map(TenantDTO::getId)
                 .allMatch(this::isTenantInitialized);
     }

@@ -3,9 +3,11 @@ package com.codeshare.airline.schedule.ingestion.orchestration.processor;
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.schedule.ingestion.integration.kafka.ImportCompletedEventPublisher;
+import com.codeshare.airline.schedule.ingestion.integration.kafka.ProcessingRequestedEventPublisher;
 import com.codeshare.airline.schedule.ingestion.orchestration.pipelines.GenericIngestionPipeline;
 import com.codeshare.airline.schedule.ingestion.dto.schedule.ScheduleFileMetaDataDTO;
 import com.codeshare.airline.schedule.ingestion.persistence.services.common.ScheduleFileService;
+import com.codeshare.airline.schedule.ingestion.shared.exceptions.BusinessValidationException;
 import com.codeshare.airline.schedule.ingestion.source.model.ScheduleSourceFile;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,13 +17,16 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
     private final GenericIngestionPipeline pipeline;
     private final ScheduleFileService scheduleService;
     private final ImportCompletedEventPublisher importCompletedEventPublisher;
+    private final ProcessingRequestedEventPublisher processingRequestedEventPublisher;
 
     protected GenericChapterProcessor(GenericIngestionPipeline pipeline,
                                       ScheduleFileService scheduleService,
-                                      ImportCompletedEventPublisher importCompletedEventPublisher) {
+                                      ImportCompletedEventPublisher importCompletedEventPublisher,
+                                      ProcessingRequestedEventPublisher processingRequestedEventPublisher) {
         this.pipeline = pipeline;
         this.scheduleService = scheduleService;
         this.importCompletedEventPublisher = importCompletedEventPublisher;
+        this.processingRequestedEventPublisher = processingRequestedEventPublisher;
     }
 
     @Override
@@ -63,11 +68,17 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
 
             ProcessingStatus finalStatus = pipeline.execute(scheduleSourceFile, metadata, type);
 
-            if (finalStatus == ProcessingStatus.FAILED) {
-                throw new IllegalStateException("Ingestion failed for file=" + scheduleSourceFile.getFileName());
+            if (isFailedOrPartial(finalStatus)) {
+                throw new BusinessValidationException(
+                        "Ingestion completed with errors for file="
+                                + scheduleSourceFile.getFileName()
+                                + " status="
+                                + finalStatus
+                );
             }
 
             if (shouldPublish(finalStatus)) {
+                processingRequestedEventPublisher.publish(metadata);
                 importCompletedEventPublisher.publish(metadata);
             }
 
@@ -90,7 +101,10 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
 
     private boolean shouldPublish(ProcessingStatus status) {
         return status == ProcessingStatus.COMPLETED
-                || status == ProcessingStatus.SUCCESS
-                || status == ProcessingStatus.PARTIAL;
+                || status == ProcessingStatus.SUCCESS;
+    }
+
+    private boolean isFailedOrPartial(ProcessingStatus status) {
+        return status == ProcessingStatus.FAILED || status == ProcessingStatus.PARTIAL;
     }
 }

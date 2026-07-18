@@ -54,6 +54,9 @@ public class ScheduleChangeRequestEntity extends CSMDataAbstractEntity {
     @Column(name = "airline_code", length = 3, nullable = false)
     private String airlineCode;
 
+    @Column(name = "partner_code", length = 10)
+    private String partnerCode;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "approval_mode", length = 20, nullable = false)
     private ApprovalMode approvalMode;

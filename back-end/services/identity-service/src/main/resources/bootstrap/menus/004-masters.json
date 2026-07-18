@@ -95,6 +95,18 @@
         "displayOrder": 7,
         "visible": true
     },
+    {
+        "code": "M_VALIDATION",
+        "parentCode": "MASTERS",
+        "label": "Validation",
+        "topbarLabel": null,
+        "sidebarLabel": null,
+        "icon": "pi pi-fw pi-verified",
+        "route": null,
+        "permission": null,
+        "displayOrder": 8,
+        "visible": true
+    },
   {
     "code": "M_GEO_REGIONS",
     "parentCode": "M_GEOGRAPHY",
@@ -705,6 +717,18 @@
         "route": "/masters/terminal/traffic-conference-areas",
         "permission": "trafficconferencearea:read",
         "displayOrder": 3,
+        "visible": true
+    },
+    {
+        "code": "M_VALIDATION_REFERENCE_DATA_COMPLETENESS",
+        "parentCode": "M_VALIDATION",
+        "label": "Outbound Schedule Readiness",
+        "topbarLabel": null,
+        "sidebarLabel": null,
+        "icon": "pi pi-fw pi-check-square",
+        "route": "/masters/validation/reference-data-completeness",
+        "permission": "referencedatacompleteness:read",
+        "displayOrder": 1,
         "visible": true
     }
 ]

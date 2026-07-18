@@ -60,8 +60,22 @@ schedule:
 # EXTERNAL SERVICE CALLS
 # ----------------------------------
 services:
+  identity:
+    url: ${AUTH_IDENTITY_SERVICE_URL:http://localhost:8081}
+    s2s:
+      client-id: ${INTERNAL_S2S_CLIENT_ID:internal-s2s-client}
+      client-secret: ${INTERNAL_S2S_CLIENT_SECRET:admin123}
+  compare:
+    url: ${SCHEDULE_COMPARE_SERVICE_URL:${SCHEDULE_PROCESSING_SERVICE_URL:http://localhost:8089}}
   processing:
     url: ${SCHEDULE_PROCESSING_SERVICE_URL:http://localhost:8085}
+
+app:
+  kafka:
+    retry:
+      interval-ms: ${KAFKA_RETRY_INTERVAL_MS:1000}
+      max-attempts: ${KAFKA_RETRY_MAX_ATTEMPTS:3}
+      dlt-suffix: ${KAFKA_DLT_SUFFIX:.DLT}
 
 # ----------------------------------
 # SERVER

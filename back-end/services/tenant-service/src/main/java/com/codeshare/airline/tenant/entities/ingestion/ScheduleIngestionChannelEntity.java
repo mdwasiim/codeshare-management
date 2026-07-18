@@ -13,10 +13,11 @@ import lombok.Setter;
 @Table(
         name = "schedule_ingestion_channel",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_tenant_profile_msg_source", columnNames = {"profile_id", "message_type", "source_type"})
+                @UniqueConstraint(name = "uk_tenant_profile_msg_source_partner", columnNames = {"profile_id", "message_type", "source_type", "partner_code"})
         },
         indexes = {
                 @Index(name = "idx_ingestion_channel_profile", columnList = "profile_id"),
+                @Index(name = "idx_ingestion_channel_partner_code", columnList = "partner_code"),
                 @Index(name = "idx_ingestion_channel_host", columnList = "host"),
                 @Index(name = "idx_ingestion_channel_queue", columnList = "queue_name"),
                 @Index(name = "idx_ingestion_channel_topic", columnList = "topic_name")
@@ -41,6 +42,9 @@ public class ScheduleIngestionChannelEntity extends CSMDataAbstractEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "source_type", length = 20, nullable = false)
     private SourceType sourceType;
+
+    @Column(name = "partner_code", length = 10)
+    private String partnerCode;
 
     @Column(name = "host")
     private String host;

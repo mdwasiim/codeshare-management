@@ -1,8 +1,14 @@
 package com.codeshare.airline.tenant.service.partner.impl;
 
 import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerDistributionProfileDTO;
+import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
+import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.tenant.entities.Tenant;
+import com.codeshare.airline.tenant.entities.partner.CodesharePartner;
 import com.codeshare.airline.tenant.entities.partner.CodesharePartnerDistributionProfile;
+import com.codeshare.airline.tenant.integration.master.MasterDataAirlineClient;
 import com.codeshare.airline.tenant.mappers.partner.CodesharePartnerDistributionProfileMapper;
+import com.codeshare.airline.tenant.repository.TenantRepository;
 import com.codeshare.airline.tenant.repository.partner.CodesharePartnerDistributionProfileRepository;
 import com.codeshare.airline.tenant.repository.partner.CodesharePartnerRepository;
 import com.codeshare.airline.tenant.service.partner.CodesharePartnerDistributionProfileService;
@@ -11,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,6 +28,8 @@ public class CodesharePartnerDistributionProfileServiceImpl implements Codeshare
     private final CodesharePartnerDistributionProfileRepository repository;
     private final CodesharePartnerDistributionProfileMapper mapper;
     private final CodesharePartnerRepository partnerRepository;
+    private final TenantRepository tenantRepository;
+    private final MasterDataAirlineClient masterDataAirlineClient;
 
     @Override
     public CodesharePartnerDistributionProfileDTO create(CodesharePartnerDistributionProfileDTO dto) {
@@ -50,7 +59,27 @@ public class CodesharePartnerDistributionProfileServiceImpl implements Codeshare
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<CodesharePartnerDistributionProfileDTO> resolve(String tenantCode, String partnerCode, MessageType messageType) {
+        CodesharePartner partner = resolvePartner(tenantCode, partnerCode);
+        return mapper.toDTOList(repository.findEffectiveProfiles(partner.getId(), messageType, LocalDate.now()));
+    }
+
+    @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    private CodesharePartner resolvePartner(String tenantCode, String partnerCode) {
+        Tenant tenant = tenantRepository.findByTenantCode(tenantCode)
+                .orElseThrow(() -> new EntityNotFoundException("Tenant not found"));
+        AirlineCarrierDTO homeAirline = masterDataAirlineClient.getByIataCode(tenant.getTenantCode());
+        AirlineCarrierDTO partnerAirline = masterDataAirlineClient.getByIataCode(partnerCode);
+        return partnerRepository.findByTenantIdAndHomeAirlineIdAndPartnerAirlineId(
+                        tenant.getId(),
+                        homeAirline.getId(),
+                        partnerAirline.getId()
+                )
+                .orElseThrow(() -> new EntityNotFoundException("Codeshare partner not found"));
     }
 }

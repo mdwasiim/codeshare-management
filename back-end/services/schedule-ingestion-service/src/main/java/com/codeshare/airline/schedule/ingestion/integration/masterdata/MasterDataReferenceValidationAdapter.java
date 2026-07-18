@@ -1,15 +1,13 @@
 package com.codeshare.airline.schedule.ingestion.integration.masterdata;
 
-import com.codeshare.airline.platform.core.dto.master.aircraft.AircraftTypeDTO;
-import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
-import com.codeshare.airline.platform.core.dto.master.flightcommercial.passenger.ServiceTypeDTO;
-import com.codeshare.airline.platform.core.dto.master.flightcommercial.schedule.TrafficRestrictionCodeDTO;
+import com.codeshare.airline.platform.core.dto.master.validation.ScheduleCodeListValidationRequestDTO;
+import com.codeshare.airline.platform.core.dto.master.validation.ScheduleCodeListValidationResponseDTO;
 import com.codeshare.airline.schedule.ingestion.application.validation.MasterDataReferenceValidationPort;
-import feign.FeignException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -35,9 +33,7 @@ public class MasterDataReferenceValidationAdapter implements MasterDataReference
         }
 
         return airlineCache.computeIfAbsent(normalized, key ->
-                safeList(client.getAirlineCarriers()).stream()
-                        .anyMatch(carrier -> key.equals(normalize(carrier.getIataCode()))
-                                || key.equals(normalize(carrier.getIcaoCode()))));
+                validateSingleCode(request -> request.setAirlineCodes(List.of(key))));
     }
 
     @Override
@@ -47,13 +43,8 @@ public class MasterDataReferenceValidationAdapter implements MasterDataReference
             return false;
         }
 
-        return airportCache.computeIfAbsent(normalized, key -> {
-            try {
-                return client.getAirportByIata(key) != null;
-            } catch (FeignException.NotFound ex) {
-                return false;
-            }
-        });
+        return airportCache.computeIfAbsent(normalized, key ->
+                validateSingleCode(request -> request.setAirportCodes(List.of(key))));
     }
 
     @Override
@@ -64,10 +55,7 @@ public class MasterDataReferenceValidationAdapter implements MasterDataReference
         }
 
         return aircraftCache.computeIfAbsent(normalized, key ->
-                safeList(client.getAircraftTypes()).stream()
-                        .anyMatch(type -> key.equals(normalize(type.getIataCode()))
-                                || key.equals(normalize(type.getIcaoCode()))
-                                || key.equals(normalize(type.getModelCode()))));
+                validateSingleCode(request -> request.setAircraftTypeCodes(List.of(key))));
     }
 
     @Override
@@ -78,8 +66,7 @@ public class MasterDataReferenceValidationAdapter implements MasterDataReference
         }
 
         return serviceTypeCache.computeIfAbsent(normalized, key ->
-                safeList(client.getServiceTypes()).stream()
-                        .anyMatch(type -> key.equals(normalize(type.getServiceTypeCode()))));
+                validateSingleCode(request -> request.setServiceTypeCodes(List.of(key))));
     }
 
     @Override
@@ -90,12 +77,14 @@ public class MasterDataReferenceValidationAdapter implements MasterDataReference
         }
 
         return trafficRestrictionCache.computeIfAbsent(normalized, key ->
-                safeList(client.getTrafficRestrictionCodes()).stream()
-                        .anyMatch(code -> key.equals(normalize(code.getRestrictionCode()))));
+                validateSingleCode(request -> request.setTrafficRestrictionCodes(List.of(key))));
     }
 
-    private <T> List<T> safeList(List<T> values) {
-        return values == null ? List.of() : values;
+    private boolean validateSingleCode(Consumer<ScheduleCodeListValidationRequestDTO> requestConfigurer) {
+        ScheduleCodeListValidationRequestDTO request = new ScheduleCodeListValidationRequestDTO();
+        requestConfigurer.accept(request);
+        ScheduleCodeListValidationResponseDTO response = client.validateScheduleCodeLists(request);
+        return response != null && response.isValid();
     }
 
     private String normalize(String value) {

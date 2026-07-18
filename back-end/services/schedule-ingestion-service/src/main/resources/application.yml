@@ -54,6 +54,10 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        max.block.ms: ${KAFKA_PRODUCER_MAX_BLOCK_MS:5000}
+        delivery.timeout.ms: ${KAFKA_PRODUCER_DELIVERY_TIMEOUT_MS:10000}
+        request.timeout.ms: ${KAFKA_PRODUCER_REQUEST_TIMEOUT_MS:5000}
 
 server:
   port: ${SCHEDULE_INGESTION_SERVICE_PORT:8082}
@@ -69,6 +73,9 @@ logging:
 # ----------------------------------
 ingestion:
   local-root: ${INGESTION_LOCAL_ROOT:C:/Users/mdwas/Projects/messages}
+
+  validation:
+    business-enabled: ${SCHEDULE_INGESTION_BUSINESS_VALIDATION_ENABLED:true}
 
   ssim:
     flight-batch-size: ${SSIM_FLIGHT_BATCH_SIZE:5000}
@@ -101,9 +108,17 @@ tenant:
 
 master-data:
   service:
-    url: ${MASTER_DATA_SERVICE_URL:http://localhost:8089}
+    url: ${MASTER_DATA_SERVICE_URL:http://localhost:8084}
+
+services:
+  identity:
+    url: ${AUTH_IDENTITY_SERVICE_URL:http://localhost:8081}
+    s2s:
+      client-id: ${INTERNAL_S2S_CLIENT_ID:internal-s2s-client}
+      client-secret: ${INTERNAL_S2S_CLIENT_SECRET:admin123}
 
 schedule:
   workflow:
     topics:
       import-completed: ${SCHEDULE_WORKFLOW_IMPORT_COMPLETED_TOPIC:schedule.workflow.import-completed}
+      processing-requested: ${SCHEDULE_WORKFLOW_PROCESSING_REQUESTED_TOPIC:schedule.workflow.processing-requested}

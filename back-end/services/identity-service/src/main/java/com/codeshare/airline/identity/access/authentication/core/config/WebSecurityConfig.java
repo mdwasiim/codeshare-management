@@ -20,6 +20,7 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Slf4j
 @Configuration
@@ -69,7 +70,10 @@ public class WebSecurityConfig {
                         log.info("Public actuator endpoints: {}", securityProperties.getPublicEndpoints().getActuator());
                     }
 
-                    auth.requestMatchers("/internal/bootstrap/**").permitAll();
+                    auth.requestMatchers(
+                            "/internal/bootstrap/**",
+                            "/internal/users/**"
+                    ).hasAuthority("SCOPE_internal");
 
                     auth.anyRequest().authenticated();
                     log.warn("All other endpoints are denied by default");
@@ -123,14 +127,24 @@ public class WebSecurityConfig {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
 
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
-            List<String> roles = jwt.getClaim("roles");
+            List<String> roles = jwt.getClaimAsStringList("roles");
+            String scope = jwt.getClaimAsString("scope");
 
-            if (roles == null) {
-                return List.of();
-            }
+            Stream<String> roleAuthorities = roles == null
+                    ? Stream.empty()
+                    : roles.stream()
+                            .filter(role -> role != null && !role.isBlank())
+                            .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role);
 
-            return roles.stream()
-                    .map(role -> (GrantedAuthority) new SimpleGrantedAuthority("ROLE_" + role))
+            Stream<String> scopeAuthorities = scope == null || scope.isBlank()
+                    ? Stream.empty()
+                    : Stream.of(scope.split("\\s+"))
+                            .filter(item -> !item.isBlank())
+                            .map(item -> item.startsWith("SCOPE_") ? item : "SCOPE_" + item);
+
+            return Stream.concat(roleAuthorities, scopeAuthorities)
+                    .distinct()
+                    .map(authority -> (GrantedAuthority) new SimpleGrantedAuthority(authority))
                     .toList();
         });
 

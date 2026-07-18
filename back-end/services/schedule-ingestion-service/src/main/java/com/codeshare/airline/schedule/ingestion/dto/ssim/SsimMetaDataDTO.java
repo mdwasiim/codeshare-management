@@ -22,6 +22,8 @@ public class SsimMetaDataDTO extends ScheduleFileMetaDataDTO {
 
     private Integer totalRecordCount;
 
+    private Long errorCount;
+
     private Supplier<InputStream> streamSupplier;
 
     // =========================

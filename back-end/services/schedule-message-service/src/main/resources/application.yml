@@ -1,0 +1,89 @@
+spring:
+  application:
+    name: schedule-message-service
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_IDENTITY_SERVICE_ISSUER_URI:http://localhost:8081}
+
+  datasource:
+    driver-class-name: ${SCHEDULE_MESSAGE_DB_DRIVER:${DB_DRIVER:org.postgresql.Driver}}
+    url: ${SCHEDULE_MESSAGE_DB_URL:${DB_URL:jdbc:postgresql://localhost:5432/csm}}
+    username: ${SCHEDULE_MESSAGE_DB_USERNAME:${DB_USERNAME:postgres}}
+    password: ${SCHEDULE_MESSAGE_DB_PASSWORD:${DB_PASSWORD:postgres}}
+
+  jpa:
+    open-in-view: false
+    show-sql: ${SHOW_SQL:true}
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: ${FORMAT_SQL:true}
+        default_schema: schedule_message
+        hbm2ddl:
+          create_namespaces: true
+
+  flyway:
+    enabled: true
+    default-schema: schedule_message
+    locations: classpath:db/migration
+    placeholder-replacement: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_MESSAGE_CONSUMER_GROUP:schedule-message}
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+schedule:
+  workflow:
+    topics:
+      schedule-updated: ${SCHEDULE_WORKFLOW_SCHEDULE_UPDATED_TOPIC:schedule.workflow.schedule-updated}
+      distribution-requested: ${SCHEDULE_WORKFLOW_DISTRIBUTION_REQUESTED_TOPIC:schedule.workflow.distribution-requested}
+
+services:
+  identity:
+    url: ${AUTH_IDENTITY_SERVICE_URL:http://localhost:8081}
+    s2s:
+      client-id: ${INTERNAL_S2S_CLIENT_ID:internal-s2s-client}
+      client-secret: ${INTERNAL_S2S_CLIENT_SECRET:admin123}
+  compare:
+    url: ${SCHEDULE_COMPARE_SERVICE_URL:http://localhost:8089}
+  master-data:
+    url: ${MASTER_DATA_SERVICE_URL:http://localhost:8084}
+
+app:
+  master-data-client:
+    connect-timeout-ms: ${MASTER_DATA_CLIENT_CONNECT_TIMEOUT_MS:1000}
+    read-timeout-ms: ${MASTER_DATA_CLIENT_READ_TIMEOUT_MS:3000}
+    retry:
+      period-ms: ${MASTER_DATA_CLIENT_RETRY_PERIOD_MS:200}
+      max-period-ms: ${MASTER_DATA_CLIENT_RETRY_MAX_PERIOD_MS:1000}
+      max-attempts: ${MASTER_DATA_CLIENT_RETRY_MAX_ATTEMPTS:2}
+  kafka:
+    retry:
+      interval-ms: ${KAFKA_RETRY_INTERVAL_MS:1000}
+      max-attempts: ${KAFKA_RETRY_MAX_ATTEMPTS:3}
+      dlt-suffix: ${KAFKA_DLT_SUFFIX:.DLT}
+
+server:
+  port: ${SCHEDULE_MESSAGE_SERVICE_PORT:8090}
+
+logging:
+  level:
+    root: ${LOG_LEVEL_APP:INFO}
+    org.springframework.kafka: INFO

@@ -35,6 +35,7 @@ public class ScheduleFileMetaDataDTO extends CSMAuditableDTO {
     private TimeMode timeMode;
 
     private String airlineCode;
+    private String partnerCode;
 
     private Long fileSizeBytes;
     private String checksum;

@@ -17,7 +17,11 @@
         { "code": "CNL", "name": "Cancel Operation", "description": "Cancel an existing flight operation." },
         { "code": "REV", "name": "Revise Operation", "description": "Revise selected schedule fields." },
         { "code": "RPL", "name": "Replace Operation", "description": "Replace the existing schedule record." },
-        { "code": "TIM", "name": "Time Change", "description": "Update departure or arrival timing." }
+        { "code": "TIM", "name": "Time Change", "description": "Update departure or arrival timing." },
+        { "code": "EQT", "name": "Equipment Change", "description": "Update aircraft type or configuration." },
+        { "code": "RIN", "name": "Reinstatement", "description": "Reinstate a previously cancelled operation." },
+        { "code": "COD", "name": "Codeshare Change", "description": "Update codeshare disclosure or marketing flight details." },
+        { "code": "FLT", "name": "Flight Detail Change", "description": "General or combined flight detail change." }
       ]
     },
     {

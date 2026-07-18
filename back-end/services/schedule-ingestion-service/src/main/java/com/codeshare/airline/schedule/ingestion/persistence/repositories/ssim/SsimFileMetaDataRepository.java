@@ -27,9 +27,9 @@ public interface SsimFileMetaDataRepository
     @Query("select f from SsimFileMetaDataEntity f where f.id = :id")
     Optional<SsimFileMetaDataEntity> findByIdForUpdate(@Param("id") Long id);
 
-    Optional<SsimFileMetaDataEntity> findFirstByLoadIdAndAirlineCodeAndChecksum(UUID loadId, String airlineCode, String checksum);
+    Optional<SsimFileMetaDataEntity> findFirstByLoadIdAndAirlineCodeAndPartnerCodeAndChecksum(UUID loadId, String airlineCode, String partnerCode, String checksum);
 
-    Optional<SsimFileMetaDataEntity> findByAirlineCodeAndChecksum(String airlineCode, String checksum);
+    Optional<SsimFileMetaDataEntity> findByAirlineCodeAndPartnerCodeAndChecksum(String airlineCode, String partnerCode, String checksum);
 
     @Modifying
     @Query("update SsimFileMetaDataEntity f set f.processingStatus = :status where f.id = :id")

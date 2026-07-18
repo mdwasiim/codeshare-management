@@ -16,10 +16,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImportCompletedEvent {
+    private UUID correlationId;
+    private UUID causationId;
     private UUID importedScheduleId;
     private UUID importBatchId;
     private MessageType messageType;
     private String airlineCode;
+    private String partnerCode;
     private String sourceName;
     private Instant completedAt;
 }

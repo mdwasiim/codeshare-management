@@ -1,6 +1,7 @@
 package com.codeshare.airline.platform.core.events.schedule;
 
 import com.codeshare.airline.platform.core.enums.schedule.MessageType;
+import com.codeshare.airline.platform.core.enums.schedule.ApprovalMode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,10 +17,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChangeSetCreatedEvent {
+    private UUID correlationId;
+    private UUID causationId;
     private UUID changeSetId;
     private UUID importedScheduleId;
     private UUID importBatchId;
     private MessageType messageType;
     private String airlineCode;
+    private String partnerCode;
+    private ApprovalMode acceptanceMode;
     private Instant createdAt;
 }

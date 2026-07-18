@@ -31,6 +31,7 @@ public class ScheduleSourceExchangeMapper {
     public ScheduleSourceFile map(Exchange exchange) {
 
         String airlineCode = optionalHeader(exchange, "AIRLINE_CODE", "UNK");
+        String partnerCode = optionalHeader(exchange, "PARTNER_CODE", null);
         String messageTypeStr = optionalHeader(exchange, "MESSAGE_TYPE", null);
         String sourceTypeStr = optionalHeader(exchange, "SOURCE_TYPE", "LOCAL");
 
@@ -64,6 +65,7 @@ public class ScheduleSourceExchangeMapper {
                     .loadId(loadId)
                     .fileName(fileName)
                     .airlineCode(airlineCode)
+                    .partnerCode(partnerCode)
                     .messageType(scheduleType)
                     .sourceType(sourceType)
                     .processingStatus(ProcessingStatus.RECEIVED)

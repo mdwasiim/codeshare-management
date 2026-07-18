@@ -7,6 +7,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Component
 public class ImportCompletedEventPublisher {
@@ -27,11 +28,15 @@ public class ImportCompletedEventPublisher {
             return;
         }
 
+        UUID correlationId = metadata.getLoadId() != null ? metadata.getLoadId() : UUID.randomUUID();
         ImportCompletedEvent event = ImportCompletedEvent.builder()
+                .correlationId(correlationId)
+                .causationId(metadata.getLoadId())
                 .importedScheduleId(metadata.getFileId())
                 .importBatchId(metadata.getLoadId())
                 .messageType(metadata.getMessageType())
                 .airlineCode(metadata.getAirlineCode())
+                .partnerCode(metadata.getPartnerCode())
                 .sourceName(metadata.getFileName())
                 .completedAt(metadata.getProcessedAt() != null ? metadata.getProcessedAt() : Instant.now())
                 .build();

@@ -2,6 +2,7 @@ package com.codeshare.airline.tenant.controller.partner;
 
 import com.codeshare.airline.platform.core.constants.CSMConstants;
 import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerCommunicationProfileDTO;
+import com.codeshare.airline.platform.core.enums.master.codesharepartner.CommunicationProtocol;
 import com.codeshare.airline.tenant.service.partner.CodesharePartnerCommunicationProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,15 @@ public class CodesharePartnerCommunicationProfileController {
 
     @GetMapping
     public List<CodesharePartnerCommunicationProfileDTO> getAll() { return service.getAll(); }
+
+    @GetMapping("/internal/{tenantCode}/{partnerCode}")
+    public List<CodesharePartnerCommunicationProfileDTO> resolve(
+            @PathVariable String tenantCode,
+            @PathVariable String partnerCode,
+            @RequestParam CommunicationProtocol protocol
+    ) {
+        return service.resolve(tenantCode, partnerCode, protocol);
+    }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) { service.delete(id); return CSMConstants.NO_DATA; }

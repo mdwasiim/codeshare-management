@@ -1,6 +1,7 @@
 package com.codeshare.airline.schedule.live.application;
 
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ChangeSetDTO;
+import com.codeshare.airline.platform.core.enums.schedule.ApprovalMode;
 import com.codeshare.airline.platform.core.enums.schedule.ApprovalStatus;
 import com.codeshare.airline.platform.core.events.schedule.ChangeSetCreatedEvent;
 import com.codeshare.airline.platform.core.events.schedule.ScheduleUpdatedEvent;
@@ -52,21 +53,23 @@ public class ScheduleChangeRequestService {
         }
 
         ChangeSetDTO changeSet = processingChangeSetClient.getChangeSet(event.getChangeSetId());
+        ApprovalMode approvalMode = resolveApprovalMode(changeSet, event);
         ScheduleChangeRequestEntity request = ScheduleChangeRequestEntity.builder()
                 .changeSetId(changeSet.getChangeSetId())
                 .sourceFileId(changeSet.getImportedScheduleId())
                 .sourceLoadId(changeSet.getImportBatchId())
                 .messageType(changeSet.getMessageType())
                 .airlineCode(changeSet.getAirlineCode())
-                .approvalMode(scheduleApprovalPolicy.approvalMode())
-                .approvalStatus(scheduleApprovalPolicy.initialStatus())
+                .partnerCode(changeSet.getPartnerCode() != null ? changeSet.getPartnerCode() : event.getPartnerCode())
+                .approvalMode(approvalMode)
+                .approvalStatus(initialStatus(approvalMode))
                 .changeSetPayload(writeJson(changeSet))
                 .build();
 
         changeRequestRepository.save(request);
 
-        if (scheduleApprovalPolicy.isAutoApproval()) {
-            apply(request, changeSet, "system:auto");
+        if (approvalMode == ApprovalMode.AUTO) {
+            apply(request, changeSet, event.getCorrelationId(), event.getChangeSetId(), "system:auto");
         }
     }
 
@@ -77,7 +80,7 @@ public class ScheduleChangeRequestService {
         request.setApprovedAt(Instant.now());
         request.setApprovedBy(approvedBy == null || approvedBy.isBlank() ? "manual" : approvedBy.trim());
         changeRequestRepository.save(request);
-        apply(request, changeSet, request.getApprovedBy());
+        apply(request, changeSet, changeSet.getChangeSetId(), changeSet.getChangeSetId(), request.getApprovedBy());
         return request;
     }
 
@@ -86,7 +89,13 @@ public class ScheduleChangeRequestService {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Change request not found: " + changeSetId));
     }
 
-    private void apply(ScheduleChangeRequestEntity request, ChangeSetDTO changeSet, String appliedBy) {
+    private void apply(
+            ScheduleChangeRequestEntity request,
+            ChangeSetDTO changeSet,
+            UUID correlationId,
+            UUID causationId,
+            String appliedBy
+    ) {
         try {
             changeApplicationService.apply(changeSet);
             request.setApprovalStatus(ApprovalStatus.APPLIED);
@@ -94,12 +103,15 @@ public class ScheduleChangeRequestService {
             request.setApprovedBy(appliedBy);
             changeRequestRepository.save(request);
             scheduleUpdatedEventPublisher.publish(ScheduleUpdatedEvent.builder()
+                    .correlationId(correlationId != null ? correlationId : changeSet.getChangeSetId())
+                    .causationId(causationId)
                     .changeSetId(changeSet.getChangeSetId())
                     .changeRequestId(request.getId())
                     .importedScheduleId(changeSet.getImportedScheduleId())
                     .importBatchId(changeSet.getImportBatchId())
                     .messageType(changeSet.getMessageType())
                     .airlineCode(changeSet.getAirlineCode())
+                    .partnerCode(request.getPartnerCode())
                     .updatedAt(request.getAppliedAt())
                     .build());
         } catch (Exception ex) {
@@ -108,6 +120,20 @@ public class ScheduleChangeRequestService {
             changeRequestRepository.save(request);
             throw ex;
         }
+    }
+
+    private ApprovalMode resolveApprovalMode(ChangeSetDTO changeSet, ChangeSetCreatedEvent event) {
+        if (changeSet.getAcceptanceMode() != null) {
+            return changeSet.getAcceptanceMode();
+        }
+        if (event.getAcceptanceMode() != null) {
+            return event.getAcceptanceMode();
+        }
+        return scheduleApprovalPolicy.approvalMode();
+    }
+
+    private ApprovalStatus initialStatus(ApprovalMode approvalMode) {
+        return approvalMode == ApprovalMode.AUTO ? ApprovalStatus.APPROVED : ApprovalStatus.PENDING_APPROVAL;
     }
 
     private String writeJson(ChangeSetDTO changeSet) {

@@ -16,6 +16,7 @@ public class AirlineIngestionChannelDTO extends CSMAuditableDTO {
 
     private MessageType messageType;
     private SourceType sourceType;
+    private String partnerCode;
 
     private Boolean enabled;
     private Integer priority;

@@ -52,8 +52,9 @@ public class ScheduleIngestionRouteBuilder {
                 int channelCount = p.getChannels() == null ? 0 : p.getChannels().size();
                 log.info("Profile loaded -> airline={} enabled={} channels={}", p.getAirlineCode(), p.getEnabled(), channelCount);
                 if (p.getChannels() != null) {
-                    p.getChannels().forEach(ch -> log.debug(" Channel -> airline={} sourceType={} messageType={} remoteDir='{}' include='{}' preMove='{}' move='{}' moveFailed='{}' readLock='{}'",
+                    p.getChannels().forEach(ch -> log.debug(" Channel -> airline={} partner={} sourceType={} messageType={} remoteDir='{}' include='{}' preMove='{}' move='{}' moveFailed='{}' readLock='{}'",
                             p.getAirlineCode(),
+                            ch.getPartnerCode(),
                             ch.getSourceType(),
                             ch.getMessageType(),
                             ch.getRemoteDirectory(),
@@ -106,6 +107,9 @@ public class ScheduleIngestionRouteBuilder {
                 profile.getAirlineCode(),
                 channel.getSourceType(),
                 channel.getMessageType());
+        if (channel.getPartnerCode() != null && !channel.getPartnerCode().isBlank()) {
+            routeId = routeId + "-" + channel.getPartnerCode().trim().toUpperCase();
+        }
 
         if (camelContext.getRoute(routeId) != null) {
             log.warn("Route already exists: {}", routeId);

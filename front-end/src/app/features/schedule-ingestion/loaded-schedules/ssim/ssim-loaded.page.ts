@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,7 +9,7 @@ import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { AnyScheduleFlight, LoadedScheduleSummary, ScheduleFileMetaData } from '@features/schedule-ingestion/models/schedule-ingestion.model';
+import { AnyScheduleFlight, LoadedScheduleSummary, ScheduleFileMetaData, SsimValidationReportRow } from '@features/schedule-ingestion/models/schedule-ingestion.model';
 import { SsimIngestionService } from '@features/schedule-ingestion/api/ssim-ingestion.service';
 import { MasterLookupOption, MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
@@ -18,10 +18,17 @@ interface Column {
     header: string;
 }
 
+interface PipelineStage {
+    label: string;
+    icon: string;
+    status: 'done' | 'active' | 'waiting';
+    count: number | null;
+}
+
 @Component({
     selector: 'ssim-loaded',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterLink, ButtonModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TooltipModule],
+    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TooltipModule],
     templateUrl: './ssim-loaded.page.html',
     styleUrls: ['./ssim-loaded.page.scss']
 })
@@ -46,11 +53,14 @@ export class SsimLoadedPage implements OnInit {
     selectedFile: ScheduleFileMetaData | null = null;
     selectedFlight: AnyScheduleFlight | null = null;
     selectedDeis: Record<string, unknown>[] = [];
+    validationReportRows: SsimValidationReportRow[] = [];
     deiDialogVisible = false;
+    validationReportDialogVisible = false;
 
     loadingSchedules = false;
     loadingFiles = false;
     loadingFlights = false;
+    loadingValidationReport = false;
     totalSchedules = 0;
     totalFiles = 0;
     totalFlights = 0;
@@ -93,6 +103,46 @@ export class SsimLoadedPage implements OnInit {
         { field: 'deiData', header: 'Data' },
         { field: 'recordSerialNumber', header: 'Serial' }
     ];
+
+    readonly validationReportColumns: Column[] = [
+        { field: 'severity', header: 'Severity' },
+        { field: 'ruleCode', header: 'Rule' },
+        { field: 'recordType', header: 'Record' },
+        { field: 'recordKey', header: 'Key' },
+        { field: 'validationStage', header: 'Stage' },
+        { field: 'message', header: 'Message' }
+    ];
+
+    get loadedFileCount(): number {
+        return this.files.filter((file) => file.processingStatus === 'LOADED').length;
+    }
+
+    get failedFileCount(): number {
+        return this.files.filter((file) => file.processingStatus === 'FAILED').length;
+    }
+
+    get partialFileCount(): number {
+        return this.files.filter((file) => file.processingStatus === 'PARTIALLY_LOADED').length;
+    }
+
+    get validationReadyCount(): number {
+        return this.files.filter((file) => ['VALIDATED', 'PARSED', 'LOADED', 'PARTIALLY_LOADED'].includes(file.processingStatus || '')).length;
+    }
+
+    get pipelineStages(): PipelineStage[] {
+        const received = this.totalFiles || this.files.length;
+        const imported = this.loadedFileCount + this.partialFileCount;
+        return [
+            { label: 'Receive', icon: 'pi pi-inbox', status: received ? 'done' : 'waiting', count: received },
+            { label: 'Store', icon: 'pi pi-database', status: imported ? 'done' : received ? 'active' : 'waiting', count: imported },
+            { label: 'Validate', icon: 'pi pi-shield', status: this.validationReadyCount ? 'done' : received ? 'active' : 'waiting', count: this.validationReadyCount },
+            { label: 'Parse', icon: 'pi pi-sitemap', status: this.totalSchedules ? 'done' : this.validationReadyCount ? 'active' : 'waiting', count: this.totalSchedules || null },
+            { label: 'Business', icon: 'pi pi-check-square', status: this.selectedFile ? 'active' : 'waiting', count: null },
+            { label: 'Compare', icon: 'pi pi-code-branch', status: this.selectedFile ? 'active' : 'waiting', count: null },
+            { label: 'Approve', icon: 'pi pi-verified', status: 'waiting', count: null },
+            { label: 'Distribute', icon: 'pi pi-send', status: 'waiting', count: null }
+        ];
+    }
 
     ngOnInit(): void {
         this.lookupService.getOptions('airlineCode').subscribe((options) => {
@@ -171,6 +221,27 @@ export class SsimLoadedPage implements OnInit {
         });
     }
 
+    viewValidationReport(file: ScheduleFileMetaData) {
+        if (!this.hasErrorReport(file)) {
+            return;
+        }
+
+        this.selectedFile = file;
+        this.validationReportRows = [];
+        this.loadingValidationReport = true;
+        this.validationReportDialogVisible = true;
+        this.service.getValidationReport(file.fileId).subscribe({
+            next: (rows) => {
+                this.validationReportRows = rows ?? [];
+                this.loadingValidationReport = false;
+            },
+            error: () => {
+                this.validationReportRows = [];
+                this.loadingValidationReport = false;
+            }
+        });
+    }
+
     refreshAll() {
         this.loadSchedules();
         this.loadFiles();
@@ -201,6 +272,11 @@ export class SsimLoadedPage implements OnInit {
         return value === undefined || value === null || value === '' ? '-' : value;
     }
 
+    reportValue(row: SsimValidationReportRow, field: string) {
+        const value = (row as Record<string, unknown>)[field];
+        return value === undefined || value === null || value === '' ? '-' : value;
+    }
+
     statusSeverity(status?: string): 'success' | 'secondary' | 'danger' | 'info' | 'warn' {
         switch (status) {
             case 'LOADED':
@@ -218,11 +294,30 @@ export class SsimLoadedPage implements OnInit {
         }
     }
 
+    errorSeverity(severity?: string): 'success' | 'secondary' | 'danger' | 'info' | 'warn' {
+        switch (severity) {
+            case 'ERROR':
+                return 'danger';
+            case 'WARNING':
+                return 'warn';
+            case 'INFO':
+                return 'info';
+            default:
+                return 'secondary';
+        }
+    }
+
+    hasErrorReport(file: ScheduleFileMetaData): boolean {
+        return (file.errorCount ?? 0) > 0;
+    }
+
     private clearSelection() {
         this.selectedFile = null;
         this.flights = [];
         this.selectedFlight = null;
         this.selectedDeis = [];
+        this.validationReportRows = [];
+        this.validationReportDialogVisible = false;
         this.deiDialogVisible = false;
     }
 
