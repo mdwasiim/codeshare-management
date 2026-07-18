@@ -2,6 +2,7 @@ package com.codeshare.airline.schedule.ingestion.api.controller;
 
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.platform.core.enums.schedule.SourceType;
+import com.codeshare.airline.schedule.ingestion.api.request.SsimFlightSearchCriteria;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleDetailResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleSummaryResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimValidationReportRowResponse;
@@ -86,26 +87,11 @@ public class SsimScheduleController {
     @GetMapping("/files/{fileId}/flights")
     public Page<SsimFlightDTO> searchFlights(
             @PathVariable UUID fileId,
-            @RequestParam(required = false) String airlineCode,
-            @RequestParam(required = false) String flightNumber,
-            @RequestParam(required = false) String departureStation,
-            @RequestParam(required = false) String arrivalStation,
-            @RequestParam(required = false) String aircraftType,
-            @RequestParam(required = false) String serviceType,
-            @RequestParam(required = false) String operatingDays,
+            SsimFlightSearchCriteria criteria,
             Pageable pageable
     ) {
-        return queryService.searchFlights(
-                fileId,
-                airlineCode,
-                flightNumber,
-                departureStation,
-                arrivalStation,
-                aircraftType,
-                serviceType,
-                operatingDays,
-                pageable
-        );
+        criteria.setFileId(fileId);
+        return queryService.searchFlights(criteria, pageable);
     }
 
     @GetMapping("/flights/{flightId}")

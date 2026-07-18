@@ -50,6 +50,7 @@ export class SsimLoadedPage implements OnInit {
     schedules: LoadedScheduleSummary[] = [];
     files: ScheduleFileMetaData[] = [];
     flights: AnyScheduleFlight[] = [];
+    flightFilters: Record<string, string> = {};
     selectedFile: ScheduleFileMetaData | null = null;
     selectedFlight: AnyScheduleFlight | null = null;
     selectedDeis: Record<string, unknown>[] = [];
@@ -103,6 +104,29 @@ export class SsimLoadedPage implements OnInit {
         { field: 'deiData', header: 'Data' },
         { field: 'recordSerialNumber', header: 'Serial' }
     ];
+    readonly flightFilterFields: Record<string, string> = {
+        recordType: 'Record Type',
+        operationalSuffix: 'Suffix',
+        airlineCode: 'Airline',
+        flightNumber: 'Flight',
+        itineraryVariationIdentifier: 'Itin Var',
+        legSequenceNumber: 'Leg Seq',
+        serviceType: 'Service',
+        operatingPeriodStartRaw: 'Period Start',
+        operatingPeriodEndRaw: 'Period End',
+        operatingDays: 'Days',
+        frequencyRate: 'Freq',
+        departureStation: 'Departure',
+        passengerStd: 'Pax STD',
+        aircraftStd: 'Aircraft STD',
+        arrivalStation: 'Arrival',
+        aircraftSta: 'Aircraft STA',
+        passengerSta: 'Pax STA',
+        arrivalTerminal: 'Arr Terminal',
+        aircraftType: 'Aircraft',
+        passengerReservationBookingDesignator: 'Booking',
+        recordSerialNumber: 'Serial'
+    };
 
     readonly validationReportColumns: Column[] = [
         { field: 'severity', header: 'Severity' },
@@ -198,7 +222,8 @@ export class SsimLoadedPage implements OnInit {
     loadFlights(file: ScheduleFileMetaData, event?: TableLazyLoadEvent) {
         this.selectedFile = file;
         this.loadingFlights = true;
-        this.service.searchFlights(file.fileId, this.pageParams(event)).subscribe({
+        const filters = this.cleanParams(this.flightFilters);
+        this.service.searchFlights(file.fileId, { ...filters, ...this.pageParams(event) }).subscribe({
             next: (page) => {
                 this.flights = page.content ?? [];
                 this.selectedFlight = null;
@@ -219,6 +244,19 @@ export class SsimLoadedPage implements OnInit {
         this.router.navigate(['/schedule-comparison', file.messageType || 'SSIM', file.fileId], {
             queryParams: { fileName: file.fileName || '', airlineCode: file.airlineCode || '' }
         });
+    }
+
+    applyFlightFilters() {
+        if (this.selectedFile) {
+            this.loadFlights(this.selectedFile);
+        }
+    }
+
+    clearFlightFilters() {
+        this.flightFilters = {};
+        if (this.selectedFile) {
+            this.loadFlights(this.selectedFile);
+        }
     }
 
     viewValidationReport(file: ScheduleFileMetaData) {
@@ -314,6 +352,7 @@ export class SsimLoadedPage implements OnInit {
     private clearSelection() {
         this.selectedFile = null;
         this.flights = [];
+        this.flightFilters = {};
         this.selectedFlight = null;
         this.selectedDeis = [];
         this.validationReportRows = [];

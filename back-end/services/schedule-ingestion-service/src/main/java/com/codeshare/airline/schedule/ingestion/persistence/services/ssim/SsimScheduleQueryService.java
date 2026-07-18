@@ -2,6 +2,7 @@ package com.codeshare.airline.schedule.ingestion.persistence.services.ssim;
 
 import com.codeshare.airline.schedule.ingestion.domain.enums.ProcessingStatus;
 import com.codeshare.airline.platform.core.enums.schedule.SourceType;
+import com.codeshare.airline.schedule.ingestion.api.request.SsimFlightSearchCriteria;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleDetailResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimLoadedScheduleSummaryResponse;
 import com.codeshare.airline.schedule.ingestion.api.response.SsimValidationReportRowResponse;
@@ -118,27 +119,11 @@ public class SsimScheduleQueryService {
     }
 
     public Page<SsimFlightDTO> searchFlights(
-            UUID fileId,
-            String airlineCode,
-            String flightNumber,
-            String departureStation,
-            String arrivalStation,
-            String aircraftType,
-            String serviceType,
-            String operatingDays,
+            SsimFlightSearchCriteria criteria,
             Pageable pageable
     ) {
         return flightRepository.findAll(
-                flightSpec(
-                        fileId,
-                        airlineCode,
-                        flightNumber,
-                        departureStation,
-                        arrivalStation,
-                        aircraftType,
-                        serviceType,
-                        operatingDays
-                ),
+                flightSpec(criteria),
                 pageable
         ).map(flightMapper::toDTO);
     }
@@ -264,47 +249,60 @@ public class SsimScheduleQueryService {
         };
     }
 
-    private Specification<SsimFlightEntity> flightSpec(
-            UUID fileId,
-            String airlineCode,
-            String flightNumber,
-            String departureStation,
-            String arrivalStation,
-            String aircraftType,
-            String serviceType,
-            String operatingDays
-    ) {
+    private Specification<SsimFlightEntity> flightSpec(SsimFlightSearchCriteria criteria) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             Join<Object, Object> carrier = root.join("carrier");
             Join<Object, Object> file = carrier.join("file");
 
-            predicates.add(cb.equal(file.get("fileId"), fileId));
+            predicates.add(cb.equal(file.get("fileId"), criteria.getFileId()));
 
-            if (hasText(airlineCode)) {
-                predicates.add(cb.equal(root.get("airlineCode"), airlineCode.trim()));
+            addTextPredicate(predicates, cb, root.get("recordType"), normalizeRecordType(criteria.getRecordType()));
+            addTextPredicate(predicates, cb, root.get("operationalSuffix"), criteria.getOperationalSuffix());
+            addTextPredicate(predicates, cb, root.get("airlineCode"), criteria.getAirlineCode());
+            addTextPredicate(predicates, cb, root.get("flightNumber"), criteria.getFlightNumber());
+            addTextPredicate(predicates, cb, root.get("itineraryVariationIdentifier"), criteria.getItineraryVariationIdentifier());
+            if (criteria.getLegSequenceNumber() != null) {
+                predicates.add(cb.equal(root.get("legSequenceNumber"), criteria.getLegSequenceNumber()));
             }
-            if (hasText(flightNumber)) {
-                predicates.add(cb.equal(root.get("flightNumber"), flightNumber.trim()));
-            }
-            if (hasText(departureStation)) {
-                predicates.add(cb.equal(root.get("departureStation"), departureStation.trim()));
-            }
-            if (hasText(arrivalStation)) {
-                predicates.add(cb.equal(root.get("arrivalStation"), arrivalStation.trim()));
-            }
-            if (hasText(aircraftType)) {
-                predicates.add(cb.equal(root.get("aircraftType"), aircraftType.trim()));
-            }
-            if (hasText(serviceType)) {
-                predicates.add(cb.equal(root.get("serviceType"), serviceType.trim()));
-            }
-            if (hasText(operatingDays)) {
-                predicates.add(cb.like(root.get("operatingDays"), "%" + operatingDays.trim() + "%"));
-            }
+            addTextPredicate(predicates, cb, root.get("serviceType"), criteria.getServiceType());
+            addTextPredicate(predicates, cb, root.get("operatingPeriodStartRaw"), criteria.getOperatingPeriodStartRaw());
+            addTextPredicate(predicates, cb, root.get("operatingPeriodEndRaw"), criteria.getOperatingPeriodEndRaw());
+            addTextPredicate(predicates, cb, root.get("operatingDays"), criteria.getOperatingDays());
+            addTextPredicate(predicates, cb, root.get("frequencyRate"), criteria.getFrequencyRate());
+            addTextPredicate(predicates, cb, root.get("departureStation"), criteria.getDepartureStation());
+            addTextPredicate(predicates, cb, root.get("passengerStd"), criteria.getPassengerStd());
+            addTextPredicate(predicates, cb, root.get("aircraftStd"), criteria.getAircraftStd());
+            addTextPredicate(predicates, cb, root.get("arrivalStation"), criteria.getArrivalStation());
+            addTextPredicate(predicates, cb, root.get("aircraftSta"), criteria.getAircraftSta());
+            addTextPredicate(predicates, cb, root.get("passengerSta"), criteria.getPassengerSta());
+            addTextPredicate(predicates, cb, root.get("arrivalTerminal"), criteria.getArrivalTerminal());
+            addTextPredicate(predicates, cb, root.get("aircraftType"), criteria.getAircraftType());
+            addTextPredicate(predicates, cb, root.get("passengerReservationBookingDesignator"), criteria.getPassengerReservationBookingDesignator());
+            addTextPredicate(predicates, cb, root.get("recordSerialNumber"), criteria.getRecordSerialNumber());
 
             return cb.and(predicates.toArray(Predicate[]::new));
         };
+    }
+
+    private void addTextPredicate(List<Predicate> predicates, jakarta.persistence.criteria.CriteriaBuilder cb, jakarta.persistence.criteria.Expression<String> path, String value) {
+        if (hasText(value)) {
+            predicates.add(cb.equal(cb.lower(cb.trim(path)), value.trim().toLowerCase()));
+        }
+    }
+
+    private String normalizeRecordType(String value) {
+        if (!hasText(value)) {
+            return value;
+        }
+        String normalized = value.trim().toUpperCase();
+        if ("LEG".equals(normalized)) {
+            return "3";
+        }
+        if (normalized.length() == 2 && normalized.charAt(0) == 'T') {
+            return normalized.substring(1);
+        }
+        return value;
     }
 
     private boolean hasText(String value) {

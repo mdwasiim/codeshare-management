@@ -239,7 +239,7 @@ label {
 
 .ssim-workspace-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(18rem, 0.55fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.6rem;
     align-items: start;
 }
@@ -302,107 +302,6 @@ label {
     }
 }
 
-.selected-file-card {
-    display: grid;
-    gap: 0.45rem;
-    padding: 1rem;
-    border-bottom: 1px solid #dbe3ec;
-    background: #fbfdff;
-
-    strong {
-        overflow: hidden;
-        color: #0f172a;
-        font-size: 0.9rem;
-        font-weight: 760;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    small {
-        color: #64748b;
-        font-size: 0.78rem;
-    }
-}
-
-.selected-file-card__icon {
-    display: inline-flex;
-    width: 2.25rem;
-    height: 2.25rem;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    background: #eff6ff;
-    color: #2563eb;
-}
-
-.event-list {
-    display: grid;
-    gap: 0.35rem;
-    padding: 0.9rem 1rem 1rem;
-
-    h3 {
-        margin: 0 0 0.25rem;
-        color: #334155;
-        font-size: 0.78rem;
-        font-weight: 780;
-        text-transform: uppercase;
-    }
-}
-
-.event-item {
-    display: flex;
-    width: 100%;
-    align-items: flex-start;
-    gap: 0.55rem;
-    border: 0;
-    border-radius: 8px;
-    padding: 0.55rem;
-    background: transparent;
-    color: inherit;
-    text-align: left;
-    cursor: pointer;
-
-    &:hover {
-        background: #f8fafc;
-    }
-
-    > i {
-        margin-top: 0.28rem;
-        color: #2563eb;
-        font-size: 0.45rem;
-    }
-
-    span {
-        display: grid;
-        min-width: 0;
-        gap: 0.12rem;
-    }
-
-    strong {
-        overflow: hidden;
-        color: #0f172a;
-        font-size: 0.8rem;
-        font-weight: 720;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    small {
-        color: #64748b;
-        font-size: 0.72rem;
-    }
-}
-
-.event-empty {
-    padding: 0.65rem;
-    border: 1px dashed #cbd5e1;
-    border-radius: 8px;
-    color: #64748b;
-    font-size: 0.8rem;
-    text-align: center;
-}
-
 .flights-panel {
     min-height: 20rem;
 }
@@ -410,6 +309,23 @@ label {
 .flight-table {
     min-width: 0;
     width: 100%;
+}
+
+.flight-panel-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.35rem;
+
+    > span {
+        padding: 0.18rem 0.45rem;
+        border: 1px solid #dbe3ec;
+        border-radius: 999px;
+        background: #f8fafc;
+        color: #475569;
+        font-size: 0.68rem;
+        font-weight: 760;
+    }
 }
 
 .row-actions {
@@ -534,6 +450,21 @@ label {
             font-weight: 780;
             text-transform: uppercase;
             white-space: nowrap;
+        }
+
+        .flight-filter-row > th {
+            top: 2.15rem;
+            padding: 0.35rem 0.45rem;
+            background: #ffffff;
+
+            .p-inputtext {
+                width: 100%;
+                min-width: 5rem;
+                height: 1.75rem;
+                border-color: #cbd5e1;
+                border-radius: 6px;
+                font-size: 0.72rem;
+            }
         }
 
         .p-datatable-tbody > tr {
