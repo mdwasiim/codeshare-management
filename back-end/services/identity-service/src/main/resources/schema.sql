@@ -14,3 +14,15 @@ CREATE SEQUENCE IF NOT EXISTS auth_identity.roles_seq START WITH 1 INCREMENT BY 
 CREATE SEQUENCE IF NOT EXISTS auth_identity.user_devices_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS auth_identity.user_groups_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS auth_identity.users_seq START WITH 1 INCREMENT BY 50;
+
+ALTER TABLE IF EXISTS auth_identity.menus
+    ADD COLUMN IF NOT EXISTS navigation_type varchar(30) NOT NULL DEFAULT 'SECTION';
+
+ALTER TABLE IF EXISTS auth_identity.menus
+    ADD COLUMN IF NOT EXISTS frontend_path varchar(1000);
+
+ALTER TABLE IF EXISTS auth_identity.menus
+    ADD COLUMN IF NOT EXISTS external_url varchar(1000);
+
+ALTER TABLE IF EXISTS auth_identity.menus
+    ADD COLUMN IF NOT EXISTS permission_code varchar(150);

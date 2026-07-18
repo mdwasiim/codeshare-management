@@ -32,6 +32,11 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
     private groupService = inject(GroupService);
 
     groups: { label: string; value: string }[] = [];
+    navigationTypes = [
+        { label: 'Section', value: 'SECTION' },
+        { label: 'Internal Link', value: 'INTERNAL_LINK' },
+        { label: 'External Link', value: 'EXTERNAL_LINK' }
+    ];
 
     override ngOnInit(): void {
         super.ngOnInit();
@@ -63,10 +68,22 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
             topbarLabel: [''],
             sidebarLabel: [''],
             icon: [''],
-            route: [''],
+            navigationType: ['SECTION', Validators.required],
+            frontendPath: [''],
+            externalUrl: [''],
+            permissionCode: [''],
             displayOrder: [0],
             parentId: [null],
             groupIds: [[]]
+        });
+
+        this.form.get('navigationType')?.valueChanges.subscribe((value) => {
+            if (value !== 'INTERNAL_LINK') {
+                this.form.get('frontendPath')?.setValue('', { emitEvent: false });
+            }
+            if (value !== 'EXTERNAL_LINK') {
+                this.form.get('externalUrl')?.setValue('', { emitEvent: false });
+            }
         });
     }
 
@@ -74,10 +91,20 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
         return !this.form?.get('parentId')?.value;
     }
 
+    get isInternalLinkMenu(): boolean {
+        return this.form?.get('navigationType')?.value === 'INTERNAL_LINK';
+    }
+
+    get isExternalLinkMenu(): boolean {
+        return this.form?.get('navigationType')?.value === 'EXTERNAL_LINK';
+    }
+
     override patchForm(data: AppMenuModel): void {
         this.form.patchValue({
             ...data,
-            route: data.route || '',
+            navigationType: data.navigationType || (data.externalUrl ? 'EXTERNAL_LINK' : data.frontendPath ? 'INTERNAL_LINK' : 'SECTION'),
+            frontendPath: data.frontendPath || '',
+            externalUrl: data.externalUrl || '',
             groupIds: data.groupIds || []
         });
     }
@@ -128,7 +155,10 @@ export class MenuFormPage extends BaseCrudForm<AppMenuModel> {
             topbarLabel: isRootMenu ? formValue.topbarLabel?.trim() || undefined : undefined,
             sidebarLabel: !isRootMenu ? formValue.sidebarLabel?.trim() || undefined : undefined,
             icon: formValue.icon || undefined,
-            route: formValue.route?.trim() || undefined,
+            navigationType: formValue.navigationType || 'SECTION',
+            frontendPath: formValue.navigationType === 'INTERNAL_LINK' ? formValue.frontendPath?.trim() || undefined : undefined,
+            externalUrl: formValue.navigationType === 'EXTERNAL_LINK' ? formValue.externalUrl?.trim() || undefined : undefined,
+            permissionCode: formValue.permissionCode?.trim() || undefined,
             displayOrder: formValue.displayOrder ?? 0,
             parentId: formValue.parentId ?? undefined,
             groupIds: formValue.groupIds || []

@@ -169,7 +169,7 @@ export class TopbarComponent implements OnInit {
             }
         }
 
-        return menu.route ?? null;
+        return menu.navigationType === 'INTERNAL_LINK' ? menu.frontendPath ?? null : null;
     }
 }
 

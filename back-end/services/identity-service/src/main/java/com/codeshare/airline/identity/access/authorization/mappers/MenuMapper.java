@@ -1,9 +1,9 @@
 package com.codeshare.airline.identity.access.authorization.mappers;
 
+import com.codeshare.airline.identity.access.authorization.entities.Menu;
 import com.codeshare.airline.platform.core.dto.tenant.MenuDTO;
 import com.codeshare.airline.platform.core.mapper.CSMGenericMapper;
 import com.codeshare.airline.platform.core.mapper.CSMMapperConfig;
-import com.codeshare.airline.identity.access.authorization.entities.Menu;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +15,6 @@ public interface MenuMapper extends CSMGenericMapper<Menu, MenuDTO> {
     @Override
     MenuDTO toDTO(Menu menu);
 
-    // 🔥 ADD THIS
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "tenantId", ignore = true)
     @Mapping(target = "parentMenu", ignore = true)
@@ -23,7 +22,9 @@ public interface MenuMapper extends CSMGenericMapper<Menu, MenuDTO> {
 
     @AfterMapping
     default void enrich(Menu menu, @MappingTarget MenuDTO.MenuDTOBuilder<?, ?> dto) {
-        if (menu == null || dto == null) return;
+        if (menu == null || dto == null) {
+            return;
+        }
 
         if (menu.getParentMenu() != null) {
             dto.parentId(menu.getParentMenu().getId());

@@ -39,15 +39,7 @@ export class LayoutMenuService {
         private menuRouteAccessService: MenuRouteAccessService
     ) {
         this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-            const menu = this.menuSubject.value;
-            if (!menu.length) {
-                return;
-            }
-
-            const root = this.findRootByUrl(menu, this.router.url);
-            if (root) {
-                this.setSelectedRoot(root);
-            }
+            this.syncSelectedRootWithCurrentUrl();
         });
     }
 
@@ -55,6 +47,31 @@ export class LayoutMenuService {
         this.prepareSidebarExpansion(menu, this.router.url);
         this.selectedRootMenuSubject.next(menu);
         this.sidebarMenuSubject.next(menu.items || []);
+    }
+
+    getSelectedRootSnapshot(): AppMenuModel | null {
+        return this.selectedRootMenuSubject.value;
+    }
+
+    syncSelectedRootWithCurrentUrl(): boolean {
+        const menu = this.menuSubject.value;
+        if (!menu.length) {
+            return false;
+        }
+
+        const root = this.findRootByUrl(menu, this.router.url);
+        if (!root) {
+            return false;
+        }
+
+        if (this.isSameRoot(this.selectedRootMenuSubject.value, root)) {
+            this.prepareSidebarExpansion(root, this.router.url);
+            this.sidebarMenuSubject.next(root.items || []);
+            return true;
+        }
+
+        this.setSelectedRoot(root);
+        return true;
     }
 
     loadMenus(): Observable<AppMenuModel[]> {
@@ -71,14 +88,14 @@ export class LayoutMenuService {
             map((flat) => this.buildTree(flat)),
             map((tree) => this.assignRouterLinks(tree)),
             tap((menu) => {
-                this.menuSubject.next(menu);
-
                 const root = this.findRootByUrl(menu, this.router.url);
                 if (root) {
                     this.setSelectedRoot(root);
                 } else if (menu.length) {
                     this.setSelectedRoot(menu[0]);
                 }
+
+                this.menuSubject.next(menu);
             }),
             tap(() => {
                 this.loadMenusRequest$ = undefined;
@@ -167,12 +184,14 @@ export class LayoutMenuService {
             topbarLabel: this.normalizeOptionalLabel(item.topbarLabel),
             sidebarLabel: this.normalizeOptionalLabel(item.sidebarLabel),
             icon: item.icon,
-            route: item.route,
+            navigationType: item.navigationType || (item.externalUrl ? 'EXTERNAL_LINK' : item.frontendPath ? 'INTERNAL_LINK' : 'SECTION'),
+            frontendPath: item.frontendPath,
+            externalUrl: item.externalUrl,
             parentCode: item.parentCode ?? undefined,
             parentId: item.parentId ?? undefined,
             displayOrder: item.displayOrder,
             visible: item.visible !== false,
-            permission: item.permission
+            permissionCode: item.permissionCode
         }));
     }
 
@@ -192,7 +211,9 @@ export class LayoutMenuService {
     private assignRouterLinks(nodes: AppMenuModel[]): AppMenuModel[] {
         return nodes.map((node) => ({
             ...node,
-            routerLink: node.route ? [node.route] : undefined,
+            routerLink: node.navigationType === 'INTERNAL_LINK' && node.frontendPath ? [node.frontendPath] : undefined,
+            url: node.navigationType === 'EXTERNAL_LINK' ? node.externalUrl : undefined,
+            target: node.navigationType === 'EXTERNAL_LINK' ? '_blank' : undefined,
             items: node.items?.length ? this.assignRouterLinks(node.items) : []
         }));
     }
@@ -208,7 +229,7 @@ export class LayoutMenuService {
     }
 
     private containsRoute(node: AppMenuModel, url: string): boolean {
-        if (node.route && this.menuRouteAccessService.matchesMenuRoute(url, node.route)) {
+        if (node.navigationType === 'INTERNAL_LINK' && node.frontendPath && this.menuRouteAccessService.matchesMenuRoute(url, node.frontendPath)) {
             return true;
         }
 
@@ -251,6 +272,18 @@ export class LayoutMenuService {
         return null;
     }
 
+    private isSameRoot(left: AppMenuModel | null, right: AppMenuModel | null): boolean {
+        if (!left || !right) {
+            return false;
+        }
+
+        if (left.id && right.id) {
+            return left.id === right.id;
+        }
+
+        return !!left.code && left.code === right.code;
+    }
+
     private prepareSidebarExpansion(menu: AppMenuModel, currentUrl: string) {
         const sidebarItems = menu.items ?? [];
         if (!sidebarItems.length) {
@@ -270,7 +303,7 @@ export class LayoutMenuService {
     }
 
     private expandActivePath(node: AppMenuModel, url: string): boolean {
-        const selfMatches = !!node.route && this.menuRouteAccessService.matchesMenuRoute(url, node.route);
+        const selfMatches = node.navigationType === 'INTERNAL_LINK' && !!node.frontendPath && this.menuRouteAccessService.matchesMenuRoute(url, node.frontendPath);
         const childMatches = (node.items ?? []).some((child) => this.expandActivePath(child, url));
 
         node.expanded = selfMatches || childMatches;

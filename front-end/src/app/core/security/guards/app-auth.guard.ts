@@ -72,7 +72,7 @@ export class AppAuthGuard implements CanActivate, CanActivateChild {
             return this.buildUnauthorizedTree(state.url);
         }
 
-        if (matchedMenu.permission && !this.permissionService.hasRawPermission(matchedMenu.permission)) {
+        if (matchedMenu.permissionCode && !this.permissionService.hasRawPermission(matchedMenu.permissionCode)) {
             return this.buildUnauthorizedTree(state.url);
         }
 

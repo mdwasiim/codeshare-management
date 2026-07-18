@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { forkJoin, of, switchMap } from 'rxjs';
 
 import { AppMenuModel } from '@features/administration/access-management/models/app-menu.model';
@@ -34,7 +33,7 @@ interface PermissionBucket {
 @Component({
     selector: 'app-group-operations',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterLink],
+    imports: [CommonModule, FormsModule],
     templateUrl: './group-operations.page.html',
     styleUrl: './group-operations.page.scss'
 })
@@ -169,6 +168,24 @@ export class GroupOperationsPage {
         this.loadSelectedGroupAssignments();
     }
 
+    startCreateGroup(): void {
+        const tenantId = this.selectedGroup?.tenantId || this.groups.find((group) => !!group.tenantId)?.tenantId || '';
+        this.selectedGroup = {
+            code: '',
+            name: '',
+            description: '',
+            tenantId
+        };
+        this.selectedUserIds = new Set();
+        this.selectedRoleIds = new Set();
+        this.selectedMenuIds = new Set();
+        this.selectedPermissionIds = new Set();
+        this.effectivePermissionIds = new Set();
+        this.selectedRoleForPermissions = '';
+        this.activeTab = 'general';
+        this.refreshComputed();
+    }
+
     loadGroupUserCounts(): void {
         const groupsWithIds = this.groups.filter((group) => !!group.id);
         if (!groupsWithIds.length) return;
@@ -232,14 +249,25 @@ export class GroupOperationsPage {
     }
 
     saveGeneral(): void {
-        if (!this.selectedGroup?.id) return;
+        if (!this.selectedGroup) return;
         this.saving = true;
-        this.groupService.update(this.selectedGroup.id, this.selectedGroup).subscribe({
+
+        const isCreate = !this.selectedGroup.id;
+        const request = isCreate
+            ? this.groupService.create(this.selectedGroup)
+            : this.groupService.update(this.selectedGroup.id!, this.selectedGroup);
+
+        request.subscribe({
             next: (updated) => {
-                this.groups = this.groups.map((group) => (group.id === updated.id ? updated : group));
+                this.groups = this.groups.some((group) => group.id === updated.id)
+                    ? this.groups.map((group) => (group.id === updated.id ? updated : group))
+                    : [...this.groups, updated];
                 this.selectedGroup = updated;
                 this.saving = false;
-                this.toast.success('Group saved');
+                this.toast.success(isCreate ? 'Group created' : 'Group saved');
+                if (updated.id) {
+                    this.groupUserCounts.set(updated.id, this.groupUserCounts.get(updated.id) || 0);
+                }
                 this.refreshComputed();
             },
             error: () => {
@@ -364,6 +392,10 @@ export class GroupOperationsPage {
         return !!menuId && this.selectedMenuIds.has(menuId);
     }
 
+    isMenuGroup(menu: MenuNode): boolean {
+        return menu.navigationType === 'SECTION' || menu.children.length > 0;
+    }
+
     isPermissionSelected(permissionId?: string): boolean {
         return !!permissionId && this.selectedPermissionIds.has(permissionId);
     }
@@ -418,7 +450,7 @@ export class GroupOperationsPage {
                 .map((menu) => ({ ...menu, children: build(menu.code) }))
                 .filter((node) => {
                     if (!term) return true;
-                    const ownMatch = [node.code, node.label, node.route].some((value) => (value || '').toLowerCase().includes(term));
+                    const ownMatch = [node.code, node.label, node.frontendPath, node.externalUrl].some((value) => (value || '').toLowerCase().includes(term));
                     return ownMatch || node.children.length > 0;
                 });
 

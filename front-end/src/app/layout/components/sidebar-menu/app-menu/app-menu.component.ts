@@ -25,7 +25,7 @@ export class AppMenuComponent implements OnInit {
     constructor(private menuService: LayoutMenuService) {}
 
     rootTrackKey(item: AppMenuModel, index: number): string {
-        return item.id ?? item.code ?? item.route ?? `${item.label}-${index}`;
+        return item.id ?? item.code ?? item.frontendPath ?? item.externalUrl ?? `${item.label}-${index}`;
     }
 
     ngOnInit(): void {
@@ -41,7 +41,8 @@ export class AppMenuComponent implements OnInit {
                     return;
                 }
 
-                const root = selectedRoot ?? menu[0];
+                const synced = this.menuService.syncSelectedRootWithCurrentUrl();
+                const root = synced ? this.menuService.getSelectedRootSnapshot() ?? menu[0] : selectedRoot ?? menu[0];
                 if (!selectedRoot) {
                     this.menuService.setSelectedRoot(root);
                 }

@@ -1,53 +1,29 @@
 <section class="group-ops">
-    <nav class="group-ops__breadcrumbs" aria-label="Breadcrumb">
-        <span>Home</span>
-        <i class="pi pi-chevron-right"></i>
-        <span>Administration</span>
-        <i class="pi pi-chevron-right"></i>
-        <span>Groups</span>
-        <i class="pi pi-chevron-right"></i>
-        <strong>Operations</strong>
-    </nav>
-
-    <header class="group-ops__header">
-        <div>
-            <h1>Administration</h1>
-            <p>Manage users, groups, roles, menus &amp; permissions</p>
+    <section class="group-ops__command">
+        <div class="group-ops__header">
+            <div>
+                <nav class="group-ops__breadcrumbs" aria-label="Breadcrumb">
+                    <span>Home</span>
+                    <i class="pi pi-angle-right"></i>
+                    <span>Administration</span>
+                    <i class="pi pi-angle-right"></i>
+                    <span>Groups</span>
+                    <i class="pi pi-angle-right"></i>
+                    <strong>Operations</strong>
+                </nav>
+                <div class="group-ops__title-line">
+                    <h1>Administration</h1>
+                    <p>Manage users, groups, roles, menus &amp; permissions</p>
+                </div>
+            </div>
         </div>
-        <a class="group-ops__primary" routerLink="/groups/create">
-            <i class="pi pi-plus"></i>
-            <span>Create</span>
-        </a>
-    </header>
-
-    <div class="group-ops__stats">
-        <article>
-            <span>Users</span>
-            <strong>{{ users.length }}</strong>
-        </article>
-        <article>
-            <span>Groups</span>
-            <strong>{{ groups.length }}</strong>
-        </article>
-        <article>
-            <span>Roles</span>
-            <strong>{{ roles.length }}</strong>
-        </article>
-        <article>
-            <span>Menus</span>
-            <strong>{{ menus.length }}</strong>
-        </article>
-        <article>
-            <span>Permissions</span>
-            <strong>{{ permissions.length }}</strong>
-        </article>
-    </div>
+    </section>
 
     <div class="group-ops__shell">
         <aside class="group-ops__sidebar">
             <div class="group-ops__side-head">
                 <h2>Groups</h2>
-                <a routerLink="/groups/create" aria-label="New group"><i class="pi pi-plus"></i></a>
+                <button type="button" aria-label="New group" (click)="startCreateGroup()"><i class="pi pi-plus"></i></button>
             </div>
             <label class="group-ops__search">
                 <i class="pi pi-search"></i>
@@ -103,7 +79,9 @@
                             <textarea rows="4" [(ngModel)]="currentGroup.description"></textarea>
                         </label>
                     </div>
-                    <button class="group-ops__save" type="button" [disabled]="saving" (click)="saveGeneral()">Save changes</button>
+                    <button class="group-ops__save" type="button" [disabled]="saving || !currentGroup.code || !currentGroup.name || !currentGroup.tenantId" (click)="saveGeneral()">
+                        {{ currentGroup.id ? 'Save changes' : 'Create group' }}
+                    </button>
                 </div>
 
                 <div *ngSwitchCase="'users'">
@@ -235,8 +213,11 @@
         <li *ngFor="let node of nodes">
             <label>
                 <input type="checkbox" [checked]="isMenuSelected(node.id)" (change)="toggleMenu(node.id)" />
-                <span><i [class]="node.icon || 'pi pi-circle'"></i>{{ node.label }}</span>
-                <small>{{ node.route || node.code }}</small>
+                <span>
+                    <i [class]="node.icon || (isMenuGroup(node) ? 'pi pi-folder' : 'pi pi-circle')"></i>
+                    {{ node.label }}
+                    <small *ngIf="isMenuGroup(node)">Group</small>
+                </span>
             </label>
             <ng-container *ngIf="node.children.length">
                 <ng-container *ngTemplateOutlet="menuNodes; context: { nodes: node.children }"></ng-container>

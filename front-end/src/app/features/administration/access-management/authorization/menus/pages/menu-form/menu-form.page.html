@@ -25,6 +25,13 @@
                     <p-select inputId="parentId" appendTo="body" [options]="menuOptions" optionLabel="label" optionValue="value" formControlName="parentId" placeholder="Root menu" [showClear]="true" styleClass="w-full"> </p-select>
                 </div>
 
+                <!-- NAVIGATION TYPE -->
+                <div class="field col-12 md:col-6">
+                    <label for="navigationType" class="required">Navigation Type</label>
+
+                    <p-select inputId="navigationType" appendTo="body" [options]="navigationTypes" optionLabel="label" optionValue="value" formControlName="navigationType" styleClass="w-full"> </p-select>
+                </div>
+
                 <!-- TOPBAR LABEL -->
                 <div class="field col-12 md:col-6" *ngIf="isRootMenu">
                     <label for="topbarLabel">Topbar Label Override</label>
@@ -39,11 +46,25 @@
                     <input id="sidebarLabel" pInputText formControlName="sidebarLabel" placeholder="Defaults to label" class="w-full" />
                 </div>
 
-                <!-- ROUTE -->
-                <div class="field col-12 md:col-6">
-                    <label for="route">Route</label>
+                <!-- FRONTEND PATH -->
+                <div class="field col-12 md:col-6" *ngIf="isInternalLinkMenu">
+                    <label for="frontendPath">Frontend Path</label>
 
-                    <input id="route" pInputText formControlName="route" placeholder="/dashboard" class="w-full" />
+                    <input id="frontendPath" pInputText formControlName="frontendPath" placeholder="/dashboard" class="w-full" />
+                </div>
+
+                <!-- EXTERNAL URL -->
+                <div class="field col-12 md:col-6" *ngIf="isExternalLinkMenu">
+                    <label for="externalUrl">External URL</label>
+
+                    <input id="externalUrl" pInputText formControlName="externalUrl" placeholder="https://example.com" class="w-full" />
+                </div>
+
+                <!-- PERMISSION -->
+                <div class="field col-12 md:col-6">
+                    <label for="permissionCode">Permission Code</label>
+
+                    <input id="permissionCode" pInputText formControlName="permissionCode" placeholder="group:assign" class="w-full" />
                 </div>
 
                 <!-- DISPLAY ORDER -->

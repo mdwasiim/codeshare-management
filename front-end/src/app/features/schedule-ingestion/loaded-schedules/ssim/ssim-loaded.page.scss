@@ -207,16 +207,15 @@
 }
 
 .ssim-filter-panel {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.85fr) minmax(18rem, 1.6fr) minmax(9rem, 0.85fr) minmax(10rem, 0.9fr) minmax(9rem, 0.85fr) auto;
     align-items: end;
-    flex-wrap: wrap;
-    gap: 0.45rem;
+    gap: 0.55rem;
     padding: 0.5rem 0.65rem;
 }
 
-label {
+.ssim-filter-panel label {
     display: flex;
-    flex: 0 0 8rem;
     min-width: 0;
     flex-direction: column;
     gap: 0.18rem;
@@ -226,15 +225,18 @@ label {
 }
 
 .wide-field {
-    flex-basis: 14rem;
+    min-width: 0;
 }
 
 .date-field {
-    flex-basis: 9rem;
+    min-width: 0;
 }
 
 .filter-button-row {
-    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    min-width: max-content;
 }
 
 .ssim-workspace-grid {
@@ -542,6 +544,15 @@ label {
 }
 
 @media (max-width: 1350px) {
+    .ssim-filter-panel {
+        grid-template-columns: minmax(10rem, 1fr) minmax(16rem, 1.5fr) minmax(10rem, 1fr);
+    }
+
+    .filter-button-row {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+
     .ssim-kpi-grid {
         grid-template-columns: repeat(6, minmax(0, 1fr));
     }
@@ -562,6 +573,10 @@ label {
         flex-wrap: wrap;
     }
 
+    .ssim-filter-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .ssim-kpi-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -572,9 +587,15 @@ label {
         grid-template-columns: 1fr;
     }
 
-    label,
-    .wide-field,
-    .date-field {
-        flex-basis: 100%;
+    .ssim-filter-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-button-row {
+        justify-content: stretch;
+    }
+
+    :host ::ng-deep .filter-button-row .p-button {
+        flex: 1;
     }
 }
