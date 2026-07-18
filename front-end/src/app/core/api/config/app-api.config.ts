@@ -58,7 +58,8 @@ export const API_ENDPOINTS = {
             stats: makeEndpoint('/identity/dashboard/stats')
         },
         userGroups: {
-            byUserId: makeEndpoint('/identity/user-groups/group/{userId}')
+            byUserId: makeEndpoint('/identity/user-groups/group/{userId}'),
+            byGroupId: makeEndpoint('/identity/user-groups/user/{groupId}')
         },
         rolePermissions: {
             byRoleId: makeEndpoint('/identity/role-permissions/{roleId}')

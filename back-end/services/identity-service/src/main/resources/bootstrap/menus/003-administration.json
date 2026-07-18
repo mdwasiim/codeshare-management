@@ -288,6 +288,18 @@
     "visible": true
   },
   {
+    "code": "GROUP_OPERATIONS",
+    "parentCode": "ACCESS_ASSIGNMENT",
+    "label": "Group Operations",
+    "topbarLabel": null,
+    "sidebarLabel": null,
+    "icon": "pi pi-sitemap",
+    "route": "/groups/operations",
+    "permission": "group:assign",
+    "displayOrder": 1,
+    "visible": true
+  },
+  {
     "code": "USER_GROUPS",
     "parentCode": "ACCESS_ASSIGNMENT",
     "label": "User Groups",
@@ -296,7 +308,7 @@
     "icon": "pi pi-users",
     "route": "/user-groups",
     "permission": "group:read",
-    "displayOrder": 1,
+    "displayOrder": 2,
     "visible": true
   },
   {
@@ -308,7 +320,7 @@
     "icon": "pi pi-link",
     "route": "/group-roles",
     "permission": "role:assign",
-    "displayOrder": 2,
+    "displayOrder": 3,
     "visible": true
   },
   {
@@ -320,7 +332,7 @@
     "icon": "pi pi-shield",
     "route": "/role-permissions",
     "permission": "permission:assign",
-    "displayOrder": 3,
+    "displayOrder": 4,
     "visible": true
   },
   {
@@ -332,7 +344,7 @@
     "icon": "pi pi-share-alt",
     "route": "/group-menus",
     "permission": "group:assign",
-    "displayOrder": 4,
+    "displayOrder": 5,
     "visible": true
   },
   {

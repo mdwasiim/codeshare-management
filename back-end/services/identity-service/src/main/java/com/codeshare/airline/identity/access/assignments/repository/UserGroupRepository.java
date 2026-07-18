@@ -14,6 +14,9 @@ public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, Lo
     // Find all groups of a user
     List<UserGroup> findByUser_Id(Long userId);
 
+    // Find all users of a group
+    List<UserGroup> findByGroup_Id(Long groupId);
+
     boolean existsByTenantIdAndUser_IdAndGroup_Id(
             Long tenantId,
             Long userId,
@@ -38,4 +41,6 @@ public interface UserGroupRepository extends CSMDataBaseRepository<UserGroup, Lo
     long countByTenantId(Long tenantId);
 
     void deleteByUser_Id(Long userId);
+
+    void deleteByGroup_Id(Long groupId);
 }
