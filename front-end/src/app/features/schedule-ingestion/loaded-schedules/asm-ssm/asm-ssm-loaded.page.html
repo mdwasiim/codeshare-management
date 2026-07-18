@@ -1,50 +1,58 @@
-<div class="loaded-schedules-page">
-    <section class="page-header">
-        <div>
-            <h1>Schedule (ASM/SSM)</h1>
-            <p>List schedule metadata and inspect loaded ASM or SSM messages.</p>
-        </div>
-        <div class="page-actions">
-            <p-button icon="pi pi-play" label="Actions" routerLink="/asm-ssm-ingestion/actions"></p-button>
-            <p-button icon="pi pi-refresh" label="Refresh" severity="secondary" (click)="refreshAll()"></p-button>
+<div class="asm-cockpit-page">
+    <section class="asm-command">
+        <div class="asm-command__header">
+            <div>
+                <div class="asm-breadcrumb">
+                    <span>Operations</span>
+                    <i class="pi pi-angle-right"></i>
+                    <span>Inbound / Outbound Messages</span>
+                </div>
+                <h1>Schedule (ASM/SSM)</h1>
+                <p>Review inbound raw ASM/SSM messages alongside generated outbound messages for the selected row.</p>
+            </div>
+
+            <div class="asm-command__actions">
+                <p-select [options]="messageTypes" [(ngModel)]="type" appendTo="body" (onChange)="onTypeChange()" ariaLabel="Message type"></p-select>
+                <p-button icon="pi pi-refresh" label="Refresh" severity="secondary" (click)="refreshAll()"></p-button>
+            </div>
         </div>
     </section>
 
-    <section class="summary-strip">
+    <section class="message-flow-strip">
         <div>
-            <span>Message Type</span>
-            <strong>{{ type }}</strong>
-        </div>
-        <div>
-            <span>Loaded Messages</span>
+            <span>Inbound {{ type }}</span>
             <strong>{{ totalMessages }}</strong>
         </div>
         <div>
-            <span>Selected Message</span>
+            <span>Current Message</span>
             <strong>{{ selectedMessageRow ? '#' + selectedMessageRow.messageSequenceNumber : '-' }}</strong>
         </div>
         <div>
-            <span>Parsed Flights</span>
-            <strong>{{ totalFlights }}</strong>
+            <span>Change Set</span>
+            <strong>{{ selectedChangeSetId() || '-' }}</strong>
+        </div>
+        <div>
+            <span>Outbound</span>
+            <strong>{{ outboundMessage?.status || (selectedOutboundMessageId() ? 'Pending' : '-') }}</strong>
+        </div>
+        <div>
+            <span>Outbound Id</span>
+            <strong>{{ outboundMessage?.outboundMessageId || selectedOutboundMessageId() || '-' }}</strong>
         </div>
     </section>
 
-    <section class="filter-bar">
-        <label class="type-field">
-            Type
-            <p-select [options]="messageTypes" [(ngModel)]="type" appendTo="body" (onChange)="onTypeChange()"></p-select>
-        </label>
+    <section class="asm-filter-panel">
         <label>
             Carrier
             <p-select [options]="airlineOptions" optionLabel="label" optionValue="value" [(ngModel)]="airlineCode" [filter]="true" filterBy="label" [showClear]="true" appendTo="body" placeholder="Select airline"></p-select>
         </label>
         <label class="wide-field">
             File
-            <input pInputText [(ngModel)]="fileName" placeholder="contains" />
+            <input pInputText [(ngModel)]="fileName" placeholder="Search file name" />
         </label>
         <label>
             Status
-            <p-select [options]="statuses" [(ngModel)]="processingStatus" [showClear]="true" appendTo="body"></p-select>
+            <p-select [options]="statuses" [(ngModel)]="processingStatus" [showClear]="true" appendTo="body" placeholder="Any status"></p-select>
         </label>
         <label class="date-field">
             Received
@@ -52,42 +60,44 @@
         </label>
         <label>
             Source
-            <p-select [options]="sourceTypes" [(ngModel)]="sourceType" [showClear]="true" appendTo="body"></p-select>
+            <p-select [options]="sourceTypes" [(ngModel)]="sourceType" [showClear]="true" appendTo="body" placeholder="Any source"></p-select>
         </label>
-        <div class="filter-actions">
-            <span class="filter-actions-label">Actions</span>
-            <div class="filter-button-row">
-                <p-button icon="pi pi-search" label="Apply" (click)="loadFiles()"></p-button>
-                <p-button icon="pi pi-filter-slash" severity="secondary" label="Clear" (click)="clearFilters()"></p-button>
-            </div>
+        <div class="filter-button-row">
+            <p-button icon="pi pi-search" label="Apply" (click)="loadFiles()"></p-button>
+            <p-button icon="pi pi-filter-slash" severity="secondary" label="Clear" (click)="clearFilters()"></p-button>
         </div>
     </section>
 
-    <section class="metadata-detail-layout">
-        <div class="panel metadata-panel">
-            <div class="panel-header">
+    <section class="message-review-grid">
+        <div class="asm-panel asm-panel--messages">
+            <div class="asm-panel__header">
                 <div>
-                    <h2>Loaded Metadata</h2>
-                    <p>One row per parsed inbound message.</p>
+                    <h2>Inbound {{ type }} Messages</h2>
+                    <p>Select a row to review inbound and outbound message payloads on the right.</p>
                 </div>
                 <span>{{ totalMessages }} messages</span>
             </div>
 
-            <p-table [value]="messageRows" [loading]="loadingFiles" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalMessages" responsiveLayout="scroll" styleClass="metadata-table p-datatable-sm" dataKey="messageId" (onLazyLoad)="loadFiles($event)">
+            <p-table [value]="messageRows" [loading]="loadingFiles" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalMessages" responsiveLayout="scroll" styleClass="asm-message-table p-datatable-sm" dataKey="messageId" (onLazyLoad)="loadFiles($event)">
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="file-col">File</th>
                         <th class="message-col">Msg</th>
-                        <th class="code-col">Airline</th>
-                        <th class="code-col">Type</th>
+                        <th>Airline</th>
+                        <th>Type</th>
                         <th class="reference-col">Reference</th>
-                        <th class="status-col">Status</th>
-                        <th class="date-col">Received</th>
+                        <th>Status</th>
+                        <th>Received</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-row>
-                    <tr [class.selected-row]="selectedMessageRow?.messageId === row.messageId" (click)="loadParsedMessage(row)">
-                        <td class="truncate-cell" [pTooltip]="row.file?.fileName || '-'" tooltipPosition="top">{{ row.file?.fileName || '-' }}</td>
+                    <tr [class.selected-row]="selectedMessageRow?.messageId === row.messageId" (click)="selectMessage(row)">
+                        <td>
+                            <div class="file-cell">
+                                <strong [pTooltip]="row.file?.fileName || '-'" tooltipPosition="top">{{ row.file?.fileName || '-' }}</strong>
+                                <small>{{ row.file?.fileId || '-' }}</small>
+                            </div>
+                        </td>
                         <td>#{{ row.messageSequenceNumber || '-' }}</td>
                         <td>{{ row.file?.airlineCode || '-' }}</td>
                         <td>{{ row.file?.messageType || type }}</td>
@@ -98,21 +108,26 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="7">No metadata loaded.</td>
+                        <td colspan="7">
+                            <div class="asm-empty-state">
+                                <i class="pi pi-inbox"></i>
+                                <strong>No inbound {{ type }} messages found</strong>
+                                <span>Messages appear here after configured ingestion channels receive ASM or SSM traffic.</span>
+                            </div>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
 
-        <aside class="panel parsed-panel">
-            <div class="panel-header">
+        <aside class="asm-panel asm-panel--payloads">
+            <div class="asm-panel__header">
                 <div>
-                    <h2>Inbound Source Message</h2>
-                    <p>{{ selectedMessageRow?.file?.fileName || 'No message selected' }}</p>
+                    <h2>Message Payloads</h2>
+                    <p>{{ selectedMessageRow?.file?.fileName || 'Select an inbound row' }}</p>
                 </div>
-                <div class="source-header-actions">
+                <div class="payload-header-actions">
                     <span>{{ selectedMessageRow?.file?.messageType || type }}</span>
-                    <p-button icon="pi pi-list" label="Parsed" size="small" severity="secondary" [disabled]="!selectedMessageRow" (click)="selectedMessageRow && showParsedMessage(selectedMessageRow)"></p-button>
                     <p-button icon="pi pi-eye" label="Compare" size="small" [disabled]="!selectedMessageRow" (click)="selectedMessageRow && viewDetail(selectedMessageRow)"></p-button>
                 </div>
             </div>
@@ -137,148 +152,33 @@
                     </div>
                 </div>
 
-                <div class="source-message">
-                    @if (selectedMessageRow.message.rawHeader) {
-                        <div class="raw-block">
-                            <span><i class="pi pi-inbox"></i> Header</span>
-                            <pre>{{ selectedMessageRow.message.rawHeader }}</pre>
-                        </div>
-                    }
+                <div class="payload-compare">
+                    <div class="raw-block raw-block--compare">
+                        <span><i class="pi pi-inbox"></i> Inbound Raw Message</span>
+                        <pre>{{ inboundRawPayload(selectedMessageRow) || '-' }}</pre>
+                    </div>
 
-                    @for (message of rawMessageBlocks(selectedMessageRow); track message.messageSequenceNumber) {
-                        <div class="raw-block">
-                            <span><i class="pi pi-file"></i> {{ message.actionType || 'Message' }} #{{ message.messageSequenceNumber || '-' }}</span>
-                            <pre>{{ message.rawMessage || '-' }}</pre>
-                        </div>
-                    }
+                    <div class="raw-block raw-block--compare">
+                        <span><i class="pi pi-send"></i> Generated Outbound Message</span>
+                        @if (loadingOutboundMessage) {
+                            <div class="payload-empty">Loading outbound message...</div>
+                        } @else if (outboundMessage?.payload) {
+                            <pre>{{ outboundMessage?.payload }}</pre>
+                        } @else {
+                            <div class="payload-empty">
+                                <strong>No outbound message linked</strong>
+                                <small>{{ outboundMessageError || 'Generated outbound ASM/SSM will appear here when the workflow links an outbound message id to this inbound record.' }}</small>
+                            </div>
+                        }
+                    </div>
                 </div>
             } @else {
-                <p class="empty-state">Select a metadata row to view the inbound source message.</p>
+                <div class="asm-empty-state asm-empty-state--compact">
+                    <i class="pi pi-file"></i>
+                    <strong>Select a message</strong>
+                    <span>The inbound and outbound payloads will appear here.</span>
+                </div>
             }
         </aside>
     </section>
-
-    <p-dialog [(visible)]="deiDialogVisible" [modal]="true" [draggable]="false" [resizable]="false" [style]="{ width: 'min(92vw, 72rem)' }" [contentStyle]="{ overflow: 'hidden' }">
-        <ng-template pTemplate="header">
-            <div class="dialog-title">
-                <span>DEI Information</span>
-                <small>{{ selectedFlight?.flightNumber || 'Selected flight' }}</small>
-            </div>
-        </ng-template>
-
-        <div class="dei-dialog-content">
-            <p-table [value]="selectedDeis" responsiveLayout="scroll" class="p-datatable-sm">
-                <ng-template pTemplate="header">
-                    <tr>
-                        @for (column of deiColumns; track column.field) {
-                            <th>{{ column.header }}</th>
-                        }
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-dei>
-                    <tr>
-                        @for (column of deiColumns; track column.field) {
-                            <td>{{ deiValue(dei, column.field) }}</td>
-                        }
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td [attr.colspan]="deiColumns.length">No DEI records for the selected flight.</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-    </p-dialog>
-
-    <p-dialog [(visible)]="parsedDialogVisible" [modal]="true" [draggable]="false" [resizable]="false" styleClass="parsed-message-dialog" [style]="{ width: 'min(94vw, 76rem)' }" [contentStyle]="{ overflow: 'auto', maxHeight: '78vh' }">
-        <ng-template pTemplate="header">
-            <div class="dialog-title">
-                <span>Parsed Message Details</span>
-                <small>{{ selectedMessageRow?.file?.fileName || 'Selected message' }}</small>
-            </div>
-        </ng-template>
-
-        @if (selectedMessageRow && firstFlight(); as flight) {
-            <div class="parsed-dialog-content">
-                <div class="parsed-summary">
-                    <div class="summary-card summary-card--primary">
-                        <span>Flight</span>
-                        <strong>{{ flight.airlineDesignator || '-' }} {{ flight.flightNumber || '-' }}{{ flight.operationalSuffix || '' }}</strong>
-                    </div>
-                    <div class="summary-card">
-                        <span>Route</span>
-                        <strong>{{ flight.boardPoint || '-' }} - {{ flight.offPoint || '-' }}</strong>
-                    </div>
-                    <div class="summary-card">
-                        <span>Operation Date</span>
-                        <strong>{{ flight.operationDate || '-' }}</strong>
-                    </div>
-                    <div class="summary-card">
-                        <span>Equipment</span>
-                        <strong>{{ flight.aircraftType || '-' }} / {{ flight.serviceType || '-' }}</strong>
-                    </div>
-                </div>
-
-                <div class="parsed-detail-grid parsed-detail-grid--dialog">
-                    <div class="detail-section">
-                        <h3>Periods</h3>
-                        @if (flight.periods?.length) {
-                            @for (period of flight.periods; track period.startDate + '-' + period.endDate) {
-                                <div class="detail-row">
-                                    <span>{{ period.startDate || '-' }} to {{ period.endDate || '-' }}</span>
-                                    <strong>{{ period.daysOfOperation || '-' }}</strong>
-                                </div>
-                            }
-                        } @else {
-                            <p class="empty-state">No period data.</p>
-                        }
-                    </div>
-
-                    <div class="detail-section">
-                        <h3>Legs</h3>
-                        @if (flight.legs?.length) {
-                            @for (leg of flight.legs; track leg.legSequenceNumber) {
-                                <div class="detail-row">
-                                    <span>{{ leg.legSequenceNumber || '-' }}: {{ leg.boardPoint || '-' }} - {{ leg.offPoint || '-' }}</span>
-                                    <strong>{{ leg.departureTime || '-' }} / {{ leg.arrivalTime || '-' }}</strong>
-                                </div>
-                            }
-                        } @else {
-                            <p class="empty-state">No leg data.</p>
-                        }
-                    </div>
-
-                    <div class="detail-section">
-                        <h3>Supplementary</h3>
-                        @if (flight.supplementaryInfo?.length) {
-                            @for (info of flight.supplementaryInfo; track info) {
-                                <div class="detail-row detail-row--wide">
-                                    <span>{{ info }}</span>
-                                </div>
-                            }
-                        } @else {
-                            <p class="empty-state">No supplementary information.</p>
-                        }
-                    </div>
-
-                    <div class="detail-section">
-                        <h3>DEI Information</h3>
-                        @if (selectedFlightDeis().length) {
-                            @for (dei of selectedFlightDeis(); track dei['sequenceOrder'] || dei['deiCode']) {
-                                <div class="detail-row">
-                                    <span>{{ dei['scope'] || '-' }} / {{ dei['deiCode'] || '-' }}</span>
-                                    <strong>{{ dei['value'] || '-' }}</strong>
-                                </div>
-                            }
-                        } @else {
-                            <p class="empty-state">No DEI information.</p>
-                        }
-                    </div>
-                </div>
-            </div>
-        } @else {
-            <p class="empty-state">No parsed details available.</p>
-        }
-    </p-dialog>
 </div>

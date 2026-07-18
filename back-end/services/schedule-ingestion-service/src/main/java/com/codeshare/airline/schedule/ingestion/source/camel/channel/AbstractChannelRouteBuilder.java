@@ -23,6 +23,14 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
         String routeId = buildRouteId(profile, channel);
 
         log.info("Creating route [{}] -> {}", routeId, uri);
+        log.info(
+                "Route [{}] file lifecycle remoteDirectory={} preMove={} move={} moveFailed={}",
+                routeId,
+                channel.getRemoteDirectory(),
+                channel.getFilePreMove(),
+                channel.getFileMove(),
+                channel.getFileMoveFailed()
+        );
 
         rb.from(uri)
                 .routeId(routeId)
@@ -75,10 +83,10 @@ public abstract class AbstractChannelRouteBuilder implements ChannelRouteBuilder
 
     private String resolveProcessingEndpoint(MessageType messageType) {
         if (messageType == MessageType.SSIM) {
-            return "seda:ssim-dataset-processing";
+            return "direct:ssim-dataset-processing";
         }
         if (messageType == MessageType.SSM || messageType == MessageType.ASM) {
-            return "seda:schedule-message-processing";
+            return "direct:schedule-message-processing";
         }
         throw new IllegalStateException("Unsupported message type: " + messageType);
     }

@@ -6,16 +6,8 @@ export const SCHEDULE_INGESTION_ROUTES: Routes = [
         loadComponent: () => import('./loaded-schedules/ssim/ssim-loaded.page').then((m) => m.SsimLoadedPage)
     },
     {
-        path: 'ssim-ingestion/actions',
-        loadComponent: () => import('./actions/ssim/ssim-actions.page').then((m) => m.SsimActionsPage)
-    },
-    {
         path: 'asm-ssm-ingestion',
         loadComponent: () => import('./loaded-schedules/asm-ssm/asm-ssm-loaded.page').then((m) => m.AsmSsmLoadedPage)
-    },
-    {
-        path: 'asm-ssm-ingestion/actions',
-        loadComponent: () => import('./actions/asm-ssm/asm-ssm-actions.page').then((m) => m.AsmSsmActionsPage)
     },
     {
         path: 'schedule-comparison/:type/:fileId',

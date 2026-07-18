@@ -224,15 +224,8 @@
             "DASHBOARD_OVERVIEW",
             "INGESTION",
             "SSIM_INBOUND",
-            "SCHEDULE_MANAGER",
-            "LIVE_SCHEDULE",
-            "SCENARIO_MANGER",
             "INBOUND_SCHEDULES",
-            "INBOUND_ASM/SSM",
-            "CODESHARE_SCHEDULES",
-            "OPERATING_SCHEDULES",
-            "LIVE_SCHEDULES",
-            "SCHEDULE_UPDATE"
+            "INBOUND_ASM/SSM"
           ]
         },
         {

@@ -67,8 +67,13 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
 
             ProcessingStatus finalStatus = pipeline.execute(scheduleSourceFile, metadata, type);
 
-            if (finalStatus == ProcessingStatus.FAILED) {
-                throw new IllegalStateException("Ingestion failed for file=" + scheduleSourceFile.getFileName());
+            if (isFailedOrPartial(finalStatus)) {
+                throw new IllegalStateException(
+                        "Ingestion completed with errors for file="
+                                + scheduleSourceFile.getFileName()
+                                + " status="
+                                + finalStatus
+                );
             }
 
             if (shouldPublish(finalStatus)) {
@@ -95,7 +100,10 @@ public abstract class GenericChapterProcessor implements ScheduleChapterProcesso
 
     private boolean shouldPublish(ProcessingStatus status) {
         return status == ProcessingStatus.COMPLETED
-                || status == ProcessingStatus.SUCCESS
-                || status == ProcessingStatus.PARTIAL;
+                || status == ProcessingStatus.SUCCESS;
+    }
+
+    private boolean isFailedOrPartial(ProcessingStatus status) {
+        return status == ProcessingStatus.FAILED || status == ProcessingStatus.PARTIAL;
     }
 }

@@ -171,22 +171,7 @@ function Invoke-SampleIngestion {
         Write-Host "[SKIP] sample ingestion; set SCHEDULE_WORKFLOW_SAMPLE_FILE or pass -SampleFile"
         return
     }
-    if (!(Test-Path -LiteralPath $SampleFile)) {
-        throw "Sample file not found: $SampleFile"
-    }
-
-    $content = Get-Content -LiteralPath $SampleFile -Raw
-    $body = @{
-        airlineCode = $SampleAirlineCode
-        fileName = [System.IO.Path]::GetFileName($SampleFile)
-        content = $content
-    }
-    $response = Invoke-Json -Method "POST" -Uri "$IngestionUrl/schedule/messages/$($SampleType.ToUpperInvariant())/ingest" -Headers @{
-        Authorization = "Bearer $Token"
-    } -Body $body
-
-    Write-Host "[OK] sample ingestion accepted"
-    Write-Host "     response: $($response | ConvertTo-Json -Compress -Depth 20)"
+    Write-Host "[SKIP] sample ingestion HTTP API removed; submit files through configured ingestion channels"
 }
 
 function Show-WorkflowTopics {

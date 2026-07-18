@@ -120,12 +120,6 @@ export const API_ENDPOINTS = {
         }
     },
     scheduleIngestion: {
-        upload: makeEndpoint('/schedule/upload'),
-        messages: {
-            validate: makeEndpoint('/schedule/messages/{type}/validate'),
-            parse: makeEndpoint('/schedule/messages/{type}/parse'),
-            ingest: makeEndpoint('/schedule/messages/{type}/ingest')
-        },
         ssim: {
             files: makeEndpoint('/schedule/ssim/files'),
             loadedScheduleById: makeEndpoint('/schedule/ssim/loaded-schedules/{fileId}'),
@@ -141,6 +135,9 @@ export const API_ENDPOINTS = {
             fileFlights: makeEndpoint('/schedule/asm-ssm/{type}/files/{fileId}/flights'),
             loadedSchedules: makeEndpoint('/schedule/asm-ssm/loaded-schedules')
         }
+    },
+    scheduleMessages: {
+        outboundById: makeEndpoint('/schedule/internal/outbound-messages/{outboundMessageId}')
     }
 } as const;
 

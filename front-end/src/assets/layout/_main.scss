@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding: 5rem 1.5rem 1rem 1.5rem;
-    margin-left: 19rem;
+    padding: 5rem 1rem 1rem 1rem;
+    margin-left: 18rem;
     transition: margin-left var(--layout-section-transition-duration);
 }
 
@@ -12,8 +12,8 @@
     min-height: calc(100vh - 6.25rem);
     padding-bottom: 1rem;
     width: 100%;
-    max-width: 1620px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
 }
 
 .layout-main-container > app-footer {
@@ -29,7 +29,7 @@ img {
 
 .layout-wrapper.layout-sidebar-collapsed {
     .layout-main-container {
-        margin-left: 7rem;
+        margin-left: 6rem;
     }
 
 }

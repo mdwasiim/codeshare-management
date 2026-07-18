@@ -1,5 +1,4 @@
 export type ScheduleMessageType = 'SSIM' | 'ASM' | 'SSM';
-export type ScheduleAction = 'validate' | 'parse' | 'ingest';
 export type ProcessingStatus = 'RECEIVED' | 'VALIDATED' | 'PARSED' | 'LOADED' | 'FAILED' | 'PARTIALLY_LOADED' | string;
 
 export interface PageResponse<T> {
@@ -51,41 +50,6 @@ export interface LoadedScheduleDetail {
     messages?: unknown[];
     messageCount?: number;
     flightCount?: number;
-}
-
-export interface ScheduleValidationMessage {
-    code?: string;
-    message?: string;
-    severity?: string;
-    lineNumber?: number;
-    field?: string;
-    [key: string]: unknown;
-}
-
-export interface ScheduleValidationResponse {
-    messageType: ScheduleMessageType;
-    fileName?: string;
-    airlineCode?: string;
-    blockCount: number;
-    parsedBlockCount: number;
-    valid: boolean;
-    messages?: ScheduleValidationMessage[];
-    parsedMessages?: unknown[];
-}
-
-export interface ScheduleIngestionResponse {
-    fileId: string;
-    loadId?: string;
-    fileName?: string;
-    airlineCode?: string;
-    messageType?: ScheduleMessageType;
-    status?: ProcessingStatus;
-}
-
-export interface UploadResponse {
-    fileId?: string;
-    loadId?: string;
-    status?: string;
 }
 
 export interface SsimFlight {
@@ -182,6 +146,20 @@ export interface ScheduleDataElement {
     offPoint?: string;
     rawLine?: string;
     [key: string]: unknown;
+}
+
+export interface OutboundScheduleMessage {
+    outboundMessageId?: string;
+    changeSetId?: string;
+    changeRequestId?: string;
+    importedScheduleId?: string;
+    importBatchId?: string;
+    messageType?: ScheduleMessageType;
+    airlineCode?: string;
+    partnerCode?: string;
+    payload?: string;
+    status?: string;
+    generatedAt?: string;
 }
 
 export interface SsimDataElement {

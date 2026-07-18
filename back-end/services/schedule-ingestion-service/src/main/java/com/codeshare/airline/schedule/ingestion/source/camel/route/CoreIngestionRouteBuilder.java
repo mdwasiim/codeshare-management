@@ -33,16 +33,16 @@ public class CoreIngestionRouteBuilder extends RouteBuilder {
                         e.getProperty(Exchange.EXCEPTION_CAUGHT)))
                 .log(" Ingestion error: ${exception.message}")
                 .to("seda:dead-letter")
-                .handled(true);
+                .handled(false);
 
         from("seda:dead-letter")
                 .routeId("DLQ-CORE")
                 .log(" Dead-letter triggered airline=${header.AIRLINE_CODE}");
 
-        buildRoute("seda:schedule-message-processing?concurrentConsumers=5&size=1000",
+        buildRoute("direct:schedule-message-processing",
                 "PROCESS-SCHEDULE-MESSAGE-CORE", "SCHEDULE_MESSAGE", scheduleMessageIngestionProcessor);
 
-        buildRoute("seda:ssim-dataset-processing?concurrentConsumers=2&size=1000",
+        buildRoute("direct:ssim-dataset-processing",
                 "PROCESS-SSIM-DATASET-CORE", "SSIM_DATASET", ssimDatasetIngestionProcessor);
     }
 
