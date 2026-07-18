@@ -23,7 +23,7 @@ public class DataLoader {
         init();
     }
 
-    @Scheduled(fixedDelay = 30000, initialDelay = 60000)
+    @Scheduled(fixedDelay = 10000, initialDelay = 10000)
     public void retryIfNeeded() {
         try {
             if (!bootstrapService.isInitialized()) {
