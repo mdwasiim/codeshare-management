@@ -1,0 +1,280 @@
+.ingestion-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.ingestion-header__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.ingestion-setup {
+    display: grid;
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.ingestion-summary {
+    position: sticky;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.ingestion-summary__card,
+.ingestion-panel,
+.ingestion-channel-card {
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    background: var(--surface-card);
+}
+
+.ingestion-summary__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding: 1rem;
+}
+
+.ingestion-summary__card h2 {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.25rem;
+}
+
+.ingestion-summary__metric {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.ingestion-summary__metric span {
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.8rem;
+}
+
+.ingestion-summary__metric label,
+.ingestion-muted {
+    color: var(--text-color-secondary);
+    font-size: 0.8125rem;
+}
+
+.ingestion-source-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.ingestion-source {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: start;
+}
+
+.ingestion-source i {
+    margin-top: 0.125rem;
+    color: var(--primary-color);
+}
+
+.ingestion-source strong,
+.ingestion-source span {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ingestion-source strong {
+    font-size: 0.8125rem;
+}
+
+.ingestion-source span {
+    color: var(--text-color-secondary);
+    font-size: 0.75rem;
+}
+
+.ingestion-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.ingestion-panel {
+    padding: 1rem;
+}
+
+.ingestion-panel__header,
+.ingestion-channel-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.ingestion-panel__header h2,
+.ingestion-channel-card__header h3,
+.ingestion-empty h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.3rem;
+}
+
+.ingestion-panel__header p,
+.ingestion-channel-card__header p,
+.ingestion-empty p {
+    margin: 0.25rem 0 0;
+    color: var(--text-color-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.2rem;
+}
+
+.ingestion-channel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ingestion-channel-card {
+    padding: 1rem;
+}
+
+.ingestion-channel-card__header span {
+    color: var(--text-color-secondary);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.ingestion-channel-card__actions,
+.ingestion-inline-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ingestion-channel-card__actions label,
+.ingestion-inline-check label {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 650;
+}
+
+.ingestion-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem 1rem;
+    border: 1px dashed var(--surface-border);
+    border-radius: 8px;
+    background: var(--surface-ground);
+    text-align: center;
+}
+
+.ingestion-empty i {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+}
+
+:host ::ng-deep .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+}
+
+:host ::ng-deep .field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+:host ::ng-deep .col-12 {
+    grid-column: span 12;
+}
+
+:host ::ng-deep .md\:col-2 {
+    grid-column: span 2;
+}
+
+:host ::ng-deep .md\:col-3 {
+    grid-column: span 3;
+}
+
+:host ::ng-deep .md\:col-4 {
+    grid-column: span 4;
+}
+
+:host ::ng-deep .md\:col-6 {
+    grid-column: span 6;
+}
+
+:host ::ng-deep label {
+    margin-bottom: 0.375rem;
+    color: var(--text-color);
+    font-size: 0.8125rem;
+    font-weight: 650;
+}
+
+:host ::ng-deep label.required::after {
+    color: var(--red-500);
+    content: '*';
+    font-weight: 800;
+}
+
+:host ::ng-deep .p-inputtext,
+:host ::ng-deep input[pInputText],
+:host ::ng-deep .p-select {
+    width: 100%;
+}
+
+:host ::ng-deep .p-error {
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+}
+
+@media (max-width: 960px) {
+    .ingestion-header,
+    .ingestion-panel__header,
+    .ingestion-channel-card__header {
+        flex-direction: column;
+    }
+
+    .ingestion-header__actions {
+        justify-content: flex-start;
+    }
+
+    .ingestion-setup {
+        grid-template-columns: 1fr;
+    }
+
+    .ingestion-summary {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    :host ::ng-deep .md\:col-2,
+    :host ::ng-deep .md\:col-3,
+    :host ::ng-deep .md\:col-4,
+    :host ::ng-deep .md\:col-6 {
+        grid-column: span 12;
+    }
+}

@@ -9,5 +9,9 @@ public interface CodesharePartnerService {
     CodesharePartnerDTO update(Long id, CodesharePartnerDTO dto);
     CodesharePartnerDTO getById(Long id);
     List<CodesharePartnerDTO> getAll();
+    List<CodesharePartnerDTO> getCurrent(String tenantCode);
+    CodesharePartnerDTO createCurrent(String tenantCode, CodesharePartnerDTO dto);
+    CodesharePartnerDTO updateCurrent(String tenantCode, Long id, CodesharePartnerDTO dto);
+    void deleteCurrent(String tenantCode, Long id);
     void delete(Long id);
 }

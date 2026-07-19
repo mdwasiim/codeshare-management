@@ -16,6 +16,8 @@ public interface CodesharePartnerCommunicationProfileRepository extends CSMDataB
 
     Optional<CodesharePartnerCommunicationProfile> findByPartner_IdAndProfileCode(Long partnerId, String profileCode);
 
+    List<CodesharePartnerCommunicationProfile> findByPartner_TenantIdOrderByPartner_IdAscDisplayOrderAscIdAsc(Long tenantId);
+
     @Query("""
             select p from CodesharePartnerCommunicationProfile p
             where p.partner.id = :partnerId

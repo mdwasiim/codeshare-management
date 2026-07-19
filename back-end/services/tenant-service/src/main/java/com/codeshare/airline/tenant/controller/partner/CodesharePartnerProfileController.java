@@ -29,6 +29,11 @@ public class CodesharePartnerProfileController {
     @GetMapping
     public List<CodesharePartnerProfileDTO> getAll(@RequestParam Map<String, String> filters) { return ExactFilter.apply(service.getAll(), filters); }
 
+    @GetMapping("/current")
+    public List<CodesharePartnerProfileDTO> getCurrent(@RequestHeader("X-Tenant-Id") String tenantCode) {
+        return service.getCurrent(tenantCode);
+    }
+
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) { service.delete(id); return CSMConstants.NO_DATA; }
 }

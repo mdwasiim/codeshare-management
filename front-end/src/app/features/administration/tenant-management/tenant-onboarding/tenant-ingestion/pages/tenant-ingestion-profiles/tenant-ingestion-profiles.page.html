@@ -1,75 +1,200 @@
-<div class="access-page access-page--list">
-    <div class="access-page-header">
+<div class="access-page ingestion-setup-page">
+    <div class="access-page-header ingestion-header">
         <div>
-            <span class="access-eyebrow">Ingestion</span>
-            <h1>Ingestion Profiles</h1>
-            <p>Manage schedule ingestion profiles and channels per tenant.</p>
+            <span class="access-eyebrow">Tenant Ingestion</span>
+            <h1>Ingestion Setup</h1>
+            <p>Configure how {{ tenantCode }} receives schedule messages. The profile and channels are saved together.</p>
+        </div>
+        <div class="ingestion-header__actions">
+            <p-button icon="pi pi-refresh" label="Refresh" severity="secondary" [loading]="loading" (click)="load()"></p-button>
+            <p-button icon="pi pi-save" label="Save setup" [loading]="saving" [disabled]="loading" (click)="save()"></p-button>
         </div>
     </div>
 
-    <app-crud-toolbar [actions]="['refresh']" [resource]="'TENANT'" (refresh)="refresh()"></app-crud-toolbar>
-
-    <p-table
-        [value]="data"
-        [loading]="loading"
-        [paginator]="true"
-        [rows]="10"
-        [rowsPerPageOptions]="[10, 20, 50]"
-        [rowHover]="true"
-        responsiveLayout="scroll"
-        styleClass="access-table p-datatable-sm"
-        [tableStyle]="{ 'min-width': '60rem' }"
-    >
-        <ng-template pTemplate="caption">
-            <div class="access-table-caption">
-                <div>
-                    <h2>Manage Ingestion Profiles</h2>
-                    <p>{{ data.length || 0 }} profiles loaded</p>
+    <form [formGroup]="form" class="ingestion-setup">
+        <aside class="ingestion-summary" aria-label="Ingestion setup summary">
+            <section class="ingestion-summary__card">
+                <div class="ingestion-summary__metric">
+                    <span>{{ channels.length }}</span>
+                    <label>Total channels</label>
                 </div>
-            </div>
-        </ng-template>
+                <div class="ingestion-summary__metric">
+                    <span>{{ enabledChannelsCount }}</span>
+                    <label>Enabled</label>
+                </div>
+                <p-tag [value]="form.get('enabled')?.value ? 'Profile enabled' : 'Profile disabled'" [severity]="form.get('enabled')?.value ? 'success' : 'secondary'"></p-tag>
+            </section>
 
-        <ng-template pTemplate="header">
-            <tr>
-                <th pSortableColumn="tenantCode">Tenant <p-sortIcon field="tenantCode"></p-sortIcon></th>
-                <th pSortableColumn="airlineCode">Airline <p-sortIcon field="airlineCode"></p-sortIcon></th>
-                <th pSortableColumn="sourceSystem">Source System <p-sortIcon field="sourceSystem"></p-sortIcon></th>
-                <th>Poll Interval (ms)</th>
-                <th>Channels</th>
-                <th pSortableColumn="enabled">Enabled <p-sortIcon field="enabled"></p-sortIcon></th>
-                <th class="access-actions-col">Actions</th>
-            </tr>
-        </ng-template>
-
-        <ng-template pTemplate="body" let-profile>
-            <tr>
-                <td>{{ profile.tenantCode || '-' }}</td>
-                <td>{{ profile.airlineCode || '-' }}</td>
-                <td>{{ profile.sourceSystem }}</td>
-                <td>{{ profile.pollIntervalMs ?? '-' }}</td>
-                <td>{{ profile.channels?.length ?? 0 }}</td>
-                <td>
-                    <p-tag [value]="profile.enabled ? 'Enabled' : 'Disabled'" [severity]="profile.enabled ? 'success' : 'danger'"></p-tag>
-                </td>
-                <td class="access-row-actions">
-                    <div>
-                        <p-button icon="pi pi-power-off" size="small" text [pTooltip]="profile.enabled ? 'Disable' : 'Enable'" tooltipPosition="top" (click)="toggleEnable(profile)"></p-button>
-
-                        <ng-container *appHasPermission="'tenant:delete'">
-                            <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteProfile(profile)"></p-button>
-                        </ng-container>
+            <section class="ingestion-summary__card">
+                <h2>Channel mix</h2>
+                <div class="ingestion-source-list" *ngIf="channels.length; else noChannelsSummary">
+                    <div class="ingestion-source" *ngFor="let channel of channels.controls; let index = index">
+                        <i class="pi pi-arrow-right-arrow-left"></i>
+                        <div>
+                            <strong>{{ sourceLabel(channel.get('sourceType')?.value) }}</strong>
+                            <span>{{ endpointSummary(channel) }}</span>
+                        </div>
                     </div>
-                </td>
-            </tr>
-        </ng-template>
+                </div>
+                <ng-template #noChannelsSummary>
+                    <p class="ingestion-muted">No channels configured yet.</p>
+                </ng-template>
+            </section>
+        </aside>
 
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="7" class="text-center py-6 text-gray-500">
-                    <i class="pi pi-upload text-2xl mb-2"></i>
-                    <div>No ingestion profiles found</div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+        <main class="ingestion-editor">
+            <section class="ingestion-panel">
+                <div class="ingestion-panel__header">
+                    <div>
+                        <h2>Profile</h2>
+                        <p>One profile is maintained for the current tenant.</p>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="field col-12 md:col-4">
+                        <label for="tenantCode">Tenant</label>
+                        <input id="tenantCode" pInputText formControlName="tenantCode" class="w-full" readonly />
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="sourceSystem" class="required">Source System</label>
+                        <input id="sourceSystem" pInputText formControlName="sourceSystem" class="w-full" maxlength="50" placeholder="OAG" />
+                        <small class="p-error" *ngIf="form.controls['sourceSystem'].hasError('required') && form.controls['sourceSystem'].touched">Source system is required.</small>
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="pollIntervalMs">Poll Interval (ms)</label>
+                        <input id="pollIntervalMs" pInputText type="number" min="0" formControlName="pollIntervalMs" class="w-full" />
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="enabled">Profile Status</label>
+                        <div class="ingestion-inline-check">
+                            <p-checkbox inputId="enabled" formControlName="enabled" binary="true"></p-checkbox>
+                            <label for="enabled">Enable ingestion</label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ingestion-panel">
+                <div class="ingestion-panel__header">
+                    <div>
+                        <h2>Channels</h2>
+                        <p>Add the inbound transports this tenant can receive schedule messages from.</p>
+                    </div>
+                    <p-button icon="pi pi-plus" label="Add channel" severity="secondary" (click)="addChannel()"></p-button>
+                </div>
+
+                <div formArrayName="channels" class="ingestion-channel-list" *ngIf="channels.length; else emptyChannels">
+                    <section class="ingestion-channel-card" *ngFor="let channel of channels.controls; let index = index" [formGroupName]="index">
+                        <header class="ingestion-channel-card__header">
+                            <div>
+                                <span>Channel {{ index + 1 }}</span>
+                                <h3>{{ sourceLabel(channel.get('sourceType')?.value) }} / {{ channel.get('messageType')?.value || 'Message' }}</h3>
+                                <p>{{ endpointSummary(channel) }}</p>
+                            </div>
+                            <div class="ingestion-channel-card__actions">
+                                <p-checkbox inputId="channelEnabled{{ index }}" formControlName="enabled" binary="true"></p-checkbox>
+                                <label for="channelEnabled{{ index }}">Enabled</label>
+                                <p-button icon="pi pi-trash" severity="danger" text pTooltip="Remove channel" tooltipPosition="top" (click)="removeChannel(index)"></p-button>
+                            </div>
+                        </header>
+
+                        <div class="grid">
+                            <div class="field col-12 md:col-3">
+                                <label for="messageType{{ index }}" class="required">Message Type</label>
+                                <p-select inputId="messageType{{ index }}" appendTo="body" [options]="messageTypeOptions" optionLabel="label" optionValue="value" formControlName="messageType" styleClass="w-full"></p-select>
+                            </div>
+
+                            <div class="field col-12 md:col-3">
+                                <label for="sourceType{{ index }}" class="required">Source Type</label>
+                                <p-select inputId="sourceType{{ index }}" appendTo="body" [options]="sourceTypeOptions" optionLabel="label" optionValue="value" formControlName="sourceType" styleClass="w-full"></p-select>
+                            </div>
+
+                            <div class="field col-12 md:col-3">
+                                <label for="partnerCode{{ index }}">Partner Code</label>
+                                <input id="partnerCode{{ index }}" pInputText formControlName="partnerCode" maxlength="10" class="w-full" placeholder="BA" />
+                            </div>
+
+                            <div class="field col-12 md:col-3">
+                                <label for="priority{{ index }}">Priority</label>
+                                <input id="priority{{ index }}" pInputText type="number" min="0" formControlName="priority" class="w-full" />
+                            </div>
+                        </div>
+
+                        <div class="grid" *ngIf="channelSourceType(index) === 'SFTP' || channelSourceType(index) === 'REST'">
+                            <div class="field col-12 md:col-4">
+                                <label for="host{{ index }}">Host</label>
+                                <input id="host{{ index }}" pInputText formControlName="host" class="w-full" placeholder="sftp.partner.com" />
+                            </div>
+                            <div class="field col-12 md:col-2">
+                                <label for="port{{ index }}">Port</label>
+                                <input id="port{{ index }}" pInputText type="number" min="0" formControlName="port" class="w-full" />
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <label for="username{{ index }}">Username</label>
+                                <input id="username{{ index }}" pInputText formControlName="username" class="w-full" />
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <label for="remoteDirectory{{ index }}">Directory</label>
+                                <input id="remoteDirectory{{ index }}" pInputText formControlName="remoteDirectory" class="w-full" placeholder="/inbound" />
+                            </div>
+                        </div>
+
+                        <div class="grid" *ngIf="channelSourceType(index) === 'MQ'">
+                            <div class="field col-12 md:col-6">
+                                <label for="brokerUrl{{ index }}">Broker URL</label>
+                                <input id="brokerUrl{{ index }}" pInputText formControlName="brokerUrl" class="w-full" placeholder="tcp://mq:61616" />
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <label for="queueName{{ index }}">Queue</label>
+                                <input id="queueName{{ index }}" pInputText formControlName="queueName" class="w-full" />
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <label for="topicName{{ index }}">Topic</label>
+                                <input id="topicName{{ index }}" pInputText formControlName="topicName" class="w-full" />
+                            </div>
+                        </div>
+
+                        <div class="grid" *ngIf="channelSourceType(index) === 'EMAIL'">
+                            <div class="field col-12 md:col-4">
+                                <label for="protocol{{ index }}">Protocol</label>
+                                <input id="protocol{{ index }}" pInputText formControlName="protocol" class="w-full" placeholder="IMAPS" />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label for="mailbox{{ index }}">Mailbox</label>
+                                <input id="mailbox{{ index }}" pInputText formControlName="mailbox" class="w-full" placeholder="schedules@example.com" />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label for="usernameEmail{{ index }}">Username</label>
+                                <input id="usernameEmail{{ index }}" pInputText formControlName="username" class="w-full" />
+                            </div>
+                        </div>
+
+                        <div class="grid" *ngIf="channelSourceType(index) === 'LOCAL' || channelSourceType(index) === 'CLOUD'">
+                            <div class="field col-12 md:col-6">
+                                <label for="location{{ index }}">Location</label>
+                                <input id="location{{ index }}" pInputText formControlName="remoteDirectory" class="w-full" placeholder="/data/inbound" />
+                            </div>
+                            <div class="field col-12 md:col-6">
+                                <label for="include{{ index }}">Include Pattern</label>
+                                <input id="include{{ index }}" pInputText formControlName="fileIncludePattern" class="w-full" placeholder="*.ssim" />
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <ng-template #emptyChannels>
+                    <div class="ingestion-empty">
+                        <i class="pi pi-inbox"></i>
+                        <h3>No channels configured</h3>
+                        <p>Add the first inbound channel for this tenant.</p>
+                        <p-button icon="pi pi-plus" label="Add channel" (click)="addChannel()"></p-button>
+                    </div>
+                </ng-template>
+            </section>
+        </main>
+    </form>
 </div>

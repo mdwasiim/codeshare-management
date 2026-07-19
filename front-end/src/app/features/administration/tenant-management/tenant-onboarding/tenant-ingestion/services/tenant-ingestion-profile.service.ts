@@ -12,6 +12,24 @@ export class TenantIngestionProfileService {
         return this.api.get<TenantIngestionProfile[]>(API_ENDPOINTS.tenantService.tenantIngestionProfiles.base);
     }
 
+    getCurrent() {
+        return this.api.get<TenantIngestionProfile>(API_ENDPOINTS.tenantService.tenantIngestionProfiles.current);
+    }
+
+    saveCurrent(payload: TenantIngestionProfile) {
+        return this.api.put<TenantIngestionProfile>(API_ENDPOINTS.tenantService.tenantIngestionProfiles.current, payload);
+    }
+
+    create(payload: TenantIngestionProfile) {
+        return this.api.post<TenantIngestionProfile>(API_ENDPOINTS.tenantService.tenantIngestionProfiles.base, payload);
+    }
+
+    update(id: string | number, payload: TenantIngestionProfile) {
+        return this.api.put<TenantIngestionProfile>(API_ENDPOINTS.tenantService.tenantIngestionProfiles.byId, payload, {
+            pathParams: { id }
+        });
+    }
+
     getByTenantCode(tenantCode: string) {
         return this.api.get<TenantIngestionProfile>(API_ENDPOINTS.tenantService.tenantIngestionProfiles.byTenantCode, {
             pathParams: { tenantCode }

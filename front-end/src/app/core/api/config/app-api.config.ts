@@ -96,6 +96,7 @@ export const API_ENDPOINTS = {
     tenantService: {
         tenants: {
             base: makeEndpoint('/tenant/tenants'),
+            current: makeEndpoint('/tenant/tenants/current'),
             byId: makeEndpoint('/tenant/tenants/{id}'),
             identityProviders: makeEndpoint('/tenant/tenant-identity-providers'),
             oidcConfigs: makeEndpoint('/tenant/tenant-oidc-configs'),
@@ -104,22 +105,28 @@ export const API_ENDPOINTS = {
         },
         tenantPartners: {
             base: makeEndpoint('/tenant/tenant-partners'),
+            current: makeEndpoint('/tenant/tenant-partners/current'),
+            currentById: makeEndpoint('/tenant/tenant-partners/current/{id}'),
             byId: makeEndpoint('/tenant/tenant-partners/{id}')
         },
         tenantPartnerProfiles: {
             base: makeEndpoint('/tenant/tenant-partner-profiles'),
+            current: makeEndpoint('/tenant/tenant-partner-profiles/current'),
             byId: makeEndpoint('/tenant/tenant-partner-profiles/{id}')
         },
         tenantPartnerCommunicationProfiles: {
             base: makeEndpoint('/tenant/tenant-partner-communication-profiles'),
+            current: makeEndpoint('/tenant/tenant-partner-communication-profiles/current'),
             byId: makeEndpoint('/tenant/tenant-partner-communication-profiles/{id}')
         },
         tenantPartnerDistributionProfiles: {
             base: makeEndpoint('/tenant/tenant-partner-distribution-profiles'),
+            current: makeEndpoint('/tenant/tenant-partner-distribution-profiles/current'),
             byId: makeEndpoint('/tenant/tenant-partner-distribution-profiles/{id}')
         },
         tenantIngestionProfiles: {
             base: makeEndpoint('/tenant/tenant-ingestion-profiles'),
+            current: makeEndpoint('/tenant/tenant-ingestion-profiles/current'),
             byId: makeEndpoint('/tenant/tenant-ingestion-profiles/{id}'),
             byTenantCode: makeEndpoint('/tenant/tenant-ingestion-profiles/tenant/{tenantCode}')
         }

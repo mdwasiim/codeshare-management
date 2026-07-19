@@ -16,6 +16,10 @@ export class TenantPartnerDistributionProfileService {
         return this.api.get<TenantPartnerDistributionProfile[]>(API_ENDPOINTS.tenantService.tenantPartnerDistributionProfiles.base);
     }
 
+    getCurrent() {
+        return this.api.get<TenantPartnerDistributionProfile[]>(API_ENDPOINTS.tenantService.tenantPartnerDistributionProfiles.current);
+    }
+
     getById(id: string | number) {
         return this.api.get<TenantPartnerDistributionProfile>(API_ENDPOINTS.tenantService.tenantPartnerDistributionProfiles.byId, {
             pathParams: { id }

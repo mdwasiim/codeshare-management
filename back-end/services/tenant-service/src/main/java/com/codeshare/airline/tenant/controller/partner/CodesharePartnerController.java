@@ -29,6 +29,34 @@ public class CodesharePartnerController {
     @GetMapping
     public List<CodesharePartnerDTO> getAll(@RequestParam Map<String, String> filters) { return ExactFilter.apply(service.getAll(), filters); }
 
+    @GetMapping("/current")
+    public List<CodesharePartnerDTO> getCurrent(@RequestHeader("X-Tenant-Id") String tenantCode) {
+        return service.getCurrent(tenantCode);
+    }
+
+    @PostMapping("/current")
+    public CodesharePartnerDTO createCurrent(
+            @RequestHeader("X-Tenant-Id") String tenantCode,
+            @RequestBody CodesharePartnerDTO dto
+    ) {
+        return service.createCurrent(tenantCode, dto);
+    }
+
+    @PutMapping("/current/{id}")
+    public CodesharePartnerDTO updateCurrent(
+            @RequestHeader("X-Tenant-Id") String tenantCode,
+            @PathVariable Long id,
+            @RequestBody CodesharePartnerDTO dto
+    ) {
+        return service.updateCurrent(tenantCode, id, dto);
+    }
+
+    @DeleteMapping("/current/{id}")
+    public String deleteCurrent(@RequestHeader("X-Tenant-Id") String tenantCode, @PathVariable Long id) {
+        service.deleteCurrent(tenantCode, id);
+        return CSMConstants.NO_DATA;
+    }
+
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) { service.delete(id); return CSMConstants.NO_DATA; }
 }

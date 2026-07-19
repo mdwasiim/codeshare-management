@@ -9,18 +9,11 @@ export class MenuRouteAccessService {
     private readonly publicPrefixes = ['/unauthorized', '/access-denied', '/error', '/notfound'];
 
     private readonly routeAliases: Record<string, string[]> = {
-        '/tenants': [
-            '/tenants/:id',
-            '/tenants/:id/edit',
-            '/tenants/:id/overview',
-            '/tenants/:id/identity',
-            '/tenants/:id/ingestion',
-            '/tenants/:id/partners'
-        ],
+        '/tenant-setup': ['/tenants', '/tenants/:id', '/tenants/:id/edit', '/tenants/:id/overview', '/tenants/:id/identity', '/tenants/:id/ingestion', '/tenants/:id/partners', '/tenant-identity-providers', '/tenant-oidc-config', '/tenant-ingestion-profiles', '/tenant-codeshare-partners'],
+        '/tenants': ['/tenant-setup', '/tenants/:id', '/tenants/:id/edit', '/tenants/:id/overview', '/tenants/:id/identity', '/tenants/:id/ingestion', '/tenants/:id/partners'],
         '/tenant-identity-providers': ['/tenant-identity-providers/:id', '/tenants/:id/identity'],
         '/tenant-oidc-config': ['/tenant-oidc-config/:id'],
-        '/tenant-ingestion-profiles': ['/tenant-ingestion-profiles/:id', '/tenants/:id/ingestion'],
-        '/tenant-ingestion-channels': ['/tenant-ingestion-channels/:id'],
+        '/tenant-ingestion-profiles': ['/tenant-ingestion-profiles/:id', '/tenants/:id/ingestion', '/tenant-ingestion-channels', '/tenant-ingestion-channels/:id'],
         '/tenant-codeshare-partners': ['/tenant-codeshare-partners/:id', '/tenants/:id/partners', '/tenant-partners', '/tenant-partners/create', '/tenant-partners/:id'],
         '/tenant-partner-profiles': ['/tenant-partner-profiles/:id'],
         '/tenant-communication-profiles': ['/tenant-communication-profiles/:id'],
@@ -83,4 +76,3 @@ export class MenuRouteAccessService {
         return route.split('/').filter(Boolean).length * 100 + route.length;
     }
 }
-

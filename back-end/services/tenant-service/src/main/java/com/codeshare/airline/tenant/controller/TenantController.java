@@ -52,6 +52,16 @@ public class TenantController {
         return ExactFilter.apply(tenantService.getAll(), filters);
     }
 
+    @GetMapping("/tenants/current")
+    public TenantDTO getCurrent(@RequestHeader("X-Tenant-Id") String tenantCode) {
+        return tenantService.getCurrent(tenantCode);
+    }
+
+    @PutMapping("/tenants/current")
+    public TenantDTO updateCurrent(@RequestHeader("X-Tenant-Id") String tenantCode, @RequestBody TenantDTO dto) {
+        return tenantService.updateCurrent(tenantCode, dto);
+    }
+
     @GetMapping("/internal/tenants")
     public List<TenantDTO> getAllInternal(@RequestParam Map<String, String> filters) {
         return ExactFilter.apply(tenantService.getAll(), filters);
