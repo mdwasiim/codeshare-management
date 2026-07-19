@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,7 +16,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -31,6 +31,23 @@ public class WebSecurityConfig {
     private final SecurityProperties securityProperties;
 
     @Bean
+    @Order(1)
+    public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
+        RequestMatcher publicMatcher = publicRequestMatcher();
+
+        return http
+                .securityMatcher(publicMatcher)
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .anyRequest().permitAll()
+                )
+                .build();
+    }
+
+    @Bean
+    @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         log.info("Initializing WebSecurityConfig");
@@ -85,16 +102,6 @@ public class WebSecurityConfig {
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 )
-                .securityMatcher(new NegatedRequestMatcher(
-                        new OrRequestMatcher(
-                                new AntPathRequestMatcher("/actuator/**"),
-                                new AntPathRequestMatcher("/auth/login"),
-                                new AntPathRequestMatcher("/auth/refresh"),
-                                new AntPathRequestMatcher("/auth/logout"),
-                                new AntPathRequestMatcher("/auth/oidc/**"),
-                                new AntPathRequestMatcher("/.well-known/**")
-                        )
-                ))
 
                 // ----------------------------------
                 // Tenant filter only
@@ -119,6 +126,19 @@ public class WebSecurityConfig {
         log.info("Spring Security filter chain successfully built");
 
         return http.build();
+    }
+
+    private RequestMatcher publicRequestMatcher() {
+        return new OrRequestMatcher(
+                new AntPathRequestMatcher("/actuator/**"),
+                new AntPathRequestMatcher("/auth/login"),
+                new AntPathRequestMatcher("/auth/refresh"),
+                new AntPathRequestMatcher("/auth/logout"),
+                new AntPathRequestMatcher("/auth/service-token"),
+                new AntPathRequestMatcher("/auth/oidc/**"),
+                new AntPathRequestMatcher("/.well-known/**"),
+                new AntPathRequestMatcher("/error")
+        );
     }
 
 
