@@ -209,9 +209,7 @@
             "USER_GROUPS",
             "GROUP_ROLES",
             "ROLE_PERMISSIONS",
-            "GROUP_MENUS",
-            "SYSTEM_CONFIG",
-            "DASHBOARD_PRODUCT"
+            "GROUP_MENUS"
           ]
         },
         {
@@ -252,8 +250,6 @@
             "ROLES",
             "PERMISSIONS",
             "MENUS",
-            "SYSTEM_CONFIG",
-            "DASHBOARD_PRODUCT",
             "MASTERS",
             "M_GEOGRAPHY",
             "M_AIRLINES",

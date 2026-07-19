@@ -320,33 +320,5 @@
         "displayOrder":  10,
         "visible":  true,
         "permissionCode":  "group:assign"
-    },
-    {
-        "code":  "SYSTEM_CONFIG",
-        "parentCode":  "ADMINISTRATION",
-        "label":  "System Settings",
-        "topbarLabel":  null,
-        "sidebarLabel":  null,
-        "icon":  "pi pi-fw pi-cog",
-        "navigationType":  "SECTION",
-        "frontendPath":  null,
-        "externalUrl":  null,
-        "displayOrder":  3,
-        "visible":  true,
-        "permissionCode":  null
-    },
-    {
-        "code":  "DASHBOARD_PRODUCT",
-        "parentCode":  "SYSTEM_CONFIG",
-        "label":  "Product Settings",
-        "topbarLabel":  null,
-        "sidebarLabel":  null,
-        "icon":  "pi pi-fw pi-box",
-        "navigationType":  "INTERNAL_LINK",
-        "frontendPath":  "/settings/products",
-        "externalUrl":  null,
-        "displayOrder":  1,
-        "visible":  true,
-        "permissionCode":  "settings:read"
     }
 ]
