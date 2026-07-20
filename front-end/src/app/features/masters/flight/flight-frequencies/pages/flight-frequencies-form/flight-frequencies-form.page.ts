@@ -16,12 +16,6 @@ import { FlightFrequencyService } from '@features/masters/flight/flight-frequenc
 export class FlightFrequencyFormPage extends BaseCrudForm<FlightFrequency> {
     private fb = inject(FormBuilder);
     private service = inject(FlightFrequencyService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

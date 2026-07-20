@@ -69,6 +69,26 @@ export class MasterReferenceLookupService {
         return request;
     }
 
+    getReferenceOptions<T extends LookupValue = string>(categoryCode: string): Observable<Array<MasterLookupOption & { value: T }>> {
+        const cacheKey = `reference:${categoryCode}`;
+        const cached = this.cache.get(cacheKey);
+        if (cached) {
+            return cached as Observable<Array<MasterLookupOption & { value: T }>>;
+        }
+
+        const request = this.api.get<unknown>(`/master/common/reference-options/${encodeURIComponent(categoryCode)}/options`).pipe(
+            map((payload) => this.extractItems(payload)
+                .map((item) => this.toReferenceOption<T>(item))
+                .filter((option): option is MasterLookupOption & { value: T } => !!option)
+            ),
+            catchError(() => of([])),
+            shareReplay(1)
+        );
+
+        this.cache.set(cacheKey, request);
+        return request;
+    }
+
     private toOption(item: Record<string, unknown>, config: MasterLookupConfig): MasterLookupOption | null {
         const value = this.optionValue(item[config.valueField ?? 'id']);
         if (value === undefined) {
@@ -92,6 +112,19 @@ export class MasterReferenceLookupService {
         }
 
         return [];
+    }
+
+    private toReferenceOption<T extends LookupValue>(item: Record<string, unknown>): (MasterLookupOption & { value: T }) | null {
+        const value = this.optionValue(item['value']);
+        const label = this.displayValue(item['label']);
+        if (value === undefined || !label) {
+            return null;
+        }
+
+        return {
+            value: value as T,
+            label
+        };
     }
 
     private optionValue(value: unknown): LookupValue | undefined {

@@ -16,12 +16,6 @@ import { MessagePriorityService } from '@features/masters/messaging/message-prio
 export class MessagePriorityFormPage extends BaseCrudForm<MessagePriority> {
     private fb = inject(FormBuilder);
     private service = inject(MessagePriorityService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

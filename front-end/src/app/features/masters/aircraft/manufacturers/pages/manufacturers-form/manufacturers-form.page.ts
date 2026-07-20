@@ -16,12 +16,6 @@ import { AircraftManufacturerService } from '@features/masters/aircraft/manufact
 export class AircraftManufacturerFormPage extends BaseCrudForm<AircraftManufacturer> {
     private fb = inject(FormBuilder);
     private service = inject(AircraftManufacturerService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

@@ -14,6 +14,7 @@ import { AuthTenantService } from '@services/auth/auth-tenant.service';
 import { AppToastService } from '@services/toast/app-toast.service';
 import { TenantIngestionChannel, TenantIngestionProfile } from '@features/administration/tenant-management/models/tenant-ingestion-profile.model';
 import { TenantIngestionProfileService } from '../../services/tenant-ingestion-profile.service';
+import { MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 type ChannelForm = FormGroup;
 
@@ -29,6 +30,7 @@ export class TenantIngestionProfilesPage implements OnChanges, OnInit {
     private readonly service = inject(TenantIngestionProfileService);
     private readonly toast = inject(AppToastService);
     private readonly authTenant = inject(AuthTenantService);
+    private readonly masterLookup = inject(MasterReferenceLookupService);
 
     loading = false;
     saving = false;
@@ -36,20 +38,8 @@ export class TenantIngestionProfilesPage implements OnChanges, OnInit {
     @Input() adminMode = false;
     @Input() tenantContext: { id?: number; tenantCode?: string } | null = null;
 
-    readonly sourceTypeOptions = [
-        { label: 'SFTP', value: 'SFTP' },
-        { label: 'Message Queue', value: 'MQ' },
-        { label: 'Email', value: 'EMAIL' },
-        { label: 'Local Folder', value: 'LOCAL' },
-        { label: 'REST Upload', value: 'REST' },
-        { label: 'Cloud Storage', value: 'CLOUD' }
-    ];
-
-    readonly messageTypeOptions = [
-        { label: 'SSIM', value: 'SSIM' },
-        { label: 'ASM', value: 'ASM' },
-        { label: 'SSM', value: 'SSM' }
-    ];
+    sourceTypeOptions: Array<{ label: string; value: string }> = [];
+    messageTypeOptions: Array<{ label: string; value: string }> = [];
 
     form = this.fb.group({
         id: [null as number | null],
@@ -75,7 +65,17 @@ export class TenantIngestionProfilesPage implements OnChanges, OnInit {
     }
 
     ngOnInit(): void {
+        this.loadReferenceOptions();
         this.load();
+    }
+
+    private loadReferenceOptions(): void {
+        this.masterLookup.getReferenceOptions('INGESTION_SOURCE_TYPE').subscribe((options) => {
+            this.sourceTypeOptions = options;
+        });
+        this.masterLookup.getReferenceOptions('INGESTION_MESSAGE_TYPE').subscribe((options) => {
+            this.messageTypeOptions = options;
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {

@@ -16,12 +16,6 @@ import { AirlineAliasService } from '@features/masters/airlines/airline-aliases/
 export class AirlineAliasFormPage extends BaseCrudForm<AirlineAlias> {
     private fb = inject(FormBuilder);
     private service = inject(AirlineAliasService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

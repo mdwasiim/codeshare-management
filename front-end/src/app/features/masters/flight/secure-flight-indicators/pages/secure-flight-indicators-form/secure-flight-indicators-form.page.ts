@@ -16,12 +16,6 @@ import { SecureFlightIndicatorService } from '@features/masters/flight/secure-fl
 export class SecureFlightIndicatorFormPage extends BaseCrudForm<SecureFlightIndicator> {
     private fb = inject(FormBuilder);
     private service = inject(SecureFlightIndicatorService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

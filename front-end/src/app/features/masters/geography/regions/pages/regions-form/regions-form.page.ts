@@ -16,12 +16,6 @@ import { RegionService } from '@features/masters/geography/regions/services/regi
 export class RegionFormPage extends BaseCrudForm<Region> {
     private fb = inject(FormBuilder);
     private service = inject(RegionService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

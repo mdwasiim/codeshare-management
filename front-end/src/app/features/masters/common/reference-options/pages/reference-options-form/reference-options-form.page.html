@@ -1,0 +1,46 @@
+<form [formGroup]="form" class="p-fluid w-full block app-form">
+    <app-form-section title="Common Reference Option">
+        <div class="grid">
+            <div class="field col-12 md:col-6">
+                <label for="categoryCode" class="required">Category Code</label>
+                <input id="categoryCode" pInputText formControlName="categoryCode" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['categoryCode'].hasError('required') && form.controls['categoryCode'].touched">Category code is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="value" class="required">Option Code</label>
+                <input id="value" pInputText formControlName="value" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['value'].hasError('required') && form.controls['value'].touched">Option code is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="label" class="required">Label</label>
+                <input id="label" pInputText formControlName="label" class="w-full" />
+                <small class="p-error" *ngIf="form.controls['label'].hasError('required') && form.controls['label'].touched">Label is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="displayOrder">Display Order</label>
+                <p-inputnumber inputId="displayOrder" formControlName="displayOrder" [min]="0" styleClass="w-full"></p-inputnumber>
+            </div>
+
+            <div class="field col-12">
+                <label for="description">Description</label>
+                <textarea id="description" pTextarea rows="3" formControlName="description" class="w-full"></textarea>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="recordStatus">Record Status</label>
+                <p-select inputId="recordStatus" appendTo="body" [options]="recordStatusOptions" formControlName="recordStatus" styleClass="w-full"></p-select>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="active">Active</label>
+                <div class="flex align-items-center gap-2">
+                    <p-checkbox inputId="active" formControlName="active" binary="true"></p-checkbox>
+                    <label for="active" class="mb-0">Enabled</label>
+                </div>
+            </div>
+        </div>
+    </app-form-section>
+</form>

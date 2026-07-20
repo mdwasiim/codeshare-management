@@ -16,12 +16,6 @@ import { ElectronicTicketIndicatorService } from '@features/masters/flight/elect
 export class ElectronicTicketIndicatorFormPage extends BaseCrudForm<ElectronicTicketIndicator> {
     private fb = inject(FormBuilder);
     private service = inject(ElectronicTicketIndicatorService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

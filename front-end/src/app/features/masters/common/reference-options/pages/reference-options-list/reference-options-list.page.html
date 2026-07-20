@@ -1,0 +1,113 @@
+<div class="access-page access-page--list">
+    <div class="access-page-header">
+        <div>
+            <span class="access-eyebrow">Masters / Common</span>
+            <h1>Common Reference Options</h1>
+            <p>Manage shared dropdown values used across tenant, partner, ingestion, and master screens.</p>
+        </div>
+    </div>
+
+    <app-crud-toolbar
+        [actions]="['create','delete','export','search']"
+        [resource]="resourceName"
+        [hasSelection]="selectedRecords.length > 0"
+        (create)="openCreate()"
+        (delete)="deleteSelectedRecords()"
+        (export)="exportCSV()"
+        (search)="onSearch($event)"
+    ></app-crud-toolbar>
+
+    <p-table
+        #dt
+        [value]="data"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10,20,50]"
+        [(selection)]="selectedRecords"
+        dataKey="id"
+        [rowHover]="true"
+        responsiveLayout="scroll"
+        styleClass="access-table p-datatable-sm"
+        [tableStyle]="{ 'min-width': '76rem' }"
+        [globalFilterFields]="['categoryCode','value','label','description','recordStatus','active']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="access-table-caption">
+                <div>
+                    <h2>Manage Common References</h2>
+                    <p>{{ data.length || 0 }} records loaded</p>
+                </div>
+                <span class="access-count">{{ selectedRecords.length || 0 }} selected</span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                <th pSortableColumn="categoryCode">Category<p-sortIcon field="categoryCode"></p-sortIcon></th>
+                <th pSortableColumn="value">Code<p-sortIcon field="value"></p-sortIcon></th>
+                <th pSortableColumn="label">Label<p-sortIcon field="label"></p-sortIcon></th>
+                <th pSortableColumn="description">Description<p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="displayOrder">Order<p-sortIcon field="displayOrder"></p-sortIcon></th>
+                <th pSortableColumn="recordStatus">Status<p-sortIcon field="recordStatus"></p-sortIcon></th>
+                <th pSortableColumn="active">Active<p-sortIcon field="active"></p-sortIcon></th>
+                <th class="access-actions-col">Actions</th>
+            </tr>
+            <tr class="access-filter-row">
+                <th></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['categoryCode'] || ''" (input)="onExactFilterChange('categoryCode', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['value'] || ''" (input)="onExactFilterChange('value', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['label'] || ''" (input)="onExactFilterChange('label', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['description'] || ''" (input)="onExactFilterChange('description', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['displayOrder'] || ''" (input)="onExactFilterChange('displayOrder', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['recordStatus'] || ''" (input)="onExactFilterChange('recordStatus', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><input type="text" class="access-column-filter" [value]="exactFilters['active'] || ''" (input)="onExactFilterChange('active', $any($event.target).value)" (click)="$event.stopPropagation()" placeholder="Exact" /></th>
+                <th><button type="button" class="access-filter-clear" [disabled]="!hasExactFilters" (click)="clearExactFilters()">Clear</button></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-record>
+            <tr>
+                <td><p-tableCheckbox [value]="record"></p-tableCheckbox></td>
+                <td>{{ record.categoryCode || '-' }}</td>
+                <td>{{ record.value || '-' }}</td>
+                <td>{{ record.label || '-' }}</td>
+                <td>{{ record.description || '-' }}</td>
+                <td>{{ record.displayOrder ?? '-' }}</td>
+                <td><p-tag [value]="record.recordStatus || '-'" [severity]="statusSeverity(record.recordStatus)"></p-tag></td>
+                <td><p-tag [value]="record.active ? 'Yes' : 'No'" [severity]="record.active ? 'success' : 'secondary'"></p-tag></td>
+                <td class="access-row-actions">
+                    <div>
+                        <ng-container *appHasPermission="resourceName.toLowerCase() + ':update'">
+                            <p-button icon="pi pi-pencil" size="small" text pTooltip="Edit" tooltipPosition="top" (click)="openEdit(record)"></p-button>
+                        </ng-container>
+                        <ng-container *appHasPermission="resourceName.toLowerCase() + ':delete'">
+                            <p-button icon="pi pi-trash" size="small" text severity="danger" pTooltip="Delete" tooltipPosition="top" (click)="deleteRecord(record)"></p-button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="9" class="text-center py-6 text-gray-500">
+                    <i class="pi pi-list text-2xl mb-2"></i>
+                    <div>No common reference options found</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <app-dialog
+        [(visible)]="dialogVisible"
+        [title]="selectedId ? 'Edit Common Reference Option' : 'Create Common Reference Option'"
+        width="min(92vw, 760px)"
+        [loading]="!!commonReferenceOptionForm?.loading"
+        [disableSave]="!!commonReferenceOptionForm?.form?.invalid || !!commonReferenceOptionForm?.loading"
+        (save)="commonReferenceOptionForm.submit()"
+    >
+        <common-reference-option-form #commonReferenceOptionForm [id]="selectedId" (saved)="onSaved()"></common-reference-option-form>
+    </app-dialog>
+</div>

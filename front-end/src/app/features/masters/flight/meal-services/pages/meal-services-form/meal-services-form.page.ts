@@ -16,12 +16,6 @@ import { MealServiceService } from '@features/masters/flight/meal-services/servi
 export class MealServiceFormPage extends BaseCrudForm<MealService> {
     private fb = inject(FormBuilder);
     private service = inject(MealServiceService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

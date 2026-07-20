@@ -16,12 +16,6 @@ import { FlightServiceTypeService } from '@features/masters/flight/service-types
 export class FlightServiceTypeFormPage extends BaseCrudForm<FlightServiceType> {
     private fb = inject(FormBuilder);
     private service = inject(FlightServiceTypeService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

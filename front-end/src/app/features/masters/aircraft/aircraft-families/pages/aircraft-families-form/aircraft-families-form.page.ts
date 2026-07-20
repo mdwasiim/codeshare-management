@@ -16,12 +16,6 @@ import { AircraftFamilyService } from '@features/masters/aircraft/aircraft-famil
 export class AircraftFamilyFormPage extends BaseCrudForm<AircraftFamily> {
     private fb = inject(FormBuilder);
     private service = inject(AircraftFamilyService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
+import { MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 import {
     AuthenticationType,
@@ -22,15 +23,11 @@ import {
 import { TenantPartnerService } from '../../services/tenant-partner.service';
 import { TenantPartnerCommunicationProfileService } from '../../services/tenant-partner-communication-profile.service';
 import {
-    AUTHENTICATION_TYPE_OPTIONS,
-    COMMUNICATION_PROTOCOL_OPTIONS,
-    MESSAGE_FORMAT_OPTIONS,
-    RECORD_STATUS_OPTIONS,
+    SelectOption,
     TenantPartnerOption,
     normalizeOptionalText,
     toDateInputValue,
     toTenantPartnerOptions,
-    TRANSPORT_TYPE_OPTIONS
 } from '../../shared/tenant-partner-profile.helpers';
 
 @Component({
@@ -53,18 +50,20 @@ export class TenantCommunicationProfileFormPage extends BaseCrudForm<TenantPartn
     private readonly fb = inject(FormBuilder);
     private readonly service = inject(TenantPartnerCommunicationProfileService);
     private readonly tenantPartnerService = inject(TenantPartnerService);
+    private readonly masterLookup = inject(MasterReferenceLookupService);
 
-    readonly recordStatusOptions = [...RECORD_STATUS_OPTIONS];
-    readonly protocolOptions = [...COMMUNICATION_PROTOCOL_OPTIONS];
-    readonly transportOptions = [...TRANSPORT_TYPE_OPTIONS];
-    readonly messageFormatOptions = [...MESSAGE_FORMAT_OPTIONS];
-    readonly authenticationTypeOptions = [...AUTHENTICATION_TYPE_OPTIONS];
+    override recordStatusOptions: SelectOption[] = [];
+    protocolOptions: SelectOption<CommunicationProtocol>[] = [];
+    transportOptions: SelectOption<TransportType>[] = [];
+    messageFormatOptions: SelectOption<MessageFormat>[] = [];
+    authenticationTypeOptions: SelectOption<AuthenticationType>[] = [];
 
     partnerOptions: TenantPartnerOption[] = [];
 
     override ngOnInit(): void {
         super.ngOnInit();
         this.loadPartnerOptions();
+        this.loadProfileReferenceOptions();
     }
 
     override buildForm(): void {
@@ -118,6 +117,24 @@ export class TenantCommunicationProfileFormPage extends BaseCrudForm<TenantPartn
     private loadPartnerOptions(): void {
         this.tenantPartnerService.getAll().subscribe((partners) => {
             this.partnerOptions = toTenantPartnerOptions(partners ?? []);
+        });
+    }
+
+    private loadProfileReferenceOptions(): void {
+        this.masterLookup.getReferenceOptions('PARTNER_PROFILE_STATUS').subscribe((options) => {
+            this.recordStatusOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<CommunicationProtocol>('COMMUNICATION_PROTOCOL').subscribe((options) => {
+            this.protocolOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<TransportType>('TRANSPORT_TYPE').subscribe((options) => {
+            this.transportOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<MessageFormat>('MESSAGE_FORMAT').subscribe((options) => {
+            this.messageFormatOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<AuthenticationType>('AUTHENTICATION_TYPE').subscribe((options) => {
+            this.authenticationTypeOptions = options;
         });
     }
 

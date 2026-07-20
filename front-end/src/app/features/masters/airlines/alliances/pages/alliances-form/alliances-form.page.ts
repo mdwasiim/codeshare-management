@@ -16,12 +16,6 @@ import { AllianceService } from '@features/masters/airlines/alliances/services/a
 export class AllianceFormPage extends BaseCrudForm<Alliance> {
     private fb = inject(FormBuilder);
     private service = inject(AllianceService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

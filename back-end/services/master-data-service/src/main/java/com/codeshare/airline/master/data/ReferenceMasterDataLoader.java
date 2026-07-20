@@ -10,6 +10,8 @@ import com.codeshare.airline.platform.core.enums.master.airline.AllianceMembersh
 import com.codeshare.airline.platform.core.enums.master.airline.AllianceMembershipType;
 import com.codeshare.airline.platform.core.enums.master.airline.CommunicationMethod;
 import com.codeshare.airline.platform.core.enums.schedule.SeasonType;
+import com.codeshare.airline.master.common.entities.CommonReferenceOption;
+import com.codeshare.airline.master.common.repository.CommonReferenceOptionRepository;
 import com.codeshare.airline.master.airlines.entities.AirlineAlias;
 import com.codeshare.airline.master.airlines.entities.AirlineBusinessRole;
 import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
@@ -109,6 +111,7 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
 
     private static final LocalDate EFFECTIVE_FROM = LocalDate.of(2025, 1, 1);
 
+    private final CommonReferenceOptionRepository commonReferenceOptionRepository;
     private final ScheduleSourceRepository scheduleSourceRepository;
     private final ScheduleChannelRepository scheduleChannelRepository;
     private final ScheduleStatusRepository scheduleStatusRepository;
@@ -188,6 +191,7 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
 
     private void loadItem(String type, JsonNode item) {
         switch (type) {
+            case "reference-options" -> referenceOption(text(item, "category"), text(item, "code"), text(item, "label"), text(item, "description"), integer(item, "displayOrder"));
             case "schedule-sources" -> scheduleSource(text(item, "code"), text(item, "name"), text(item, "description"));
             case "schedule-channels" -> scheduleChannel(text(item, "code"), text(item, "name"), text(item, "description"));
             case "schedule-statuses" -> scheduleStatus(text(item, "code"), text(item, "name"), text(item, "description"));
@@ -255,6 +259,24 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
         if (alliance.isPresent() && airline.isPresent()) {
             allianceMember(alliance.get(), airline.get(), membershipType, joinDate, primary, order);
         }
+    }
+
+    private void referenceOption(String category, String code, String label, String description, int order) {
+        if (category == null || code == null || label == null) {
+            return;
+        }
+        if (commonReferenceOptionRepository.existsByCategoryCodeAndOptionCode(category.trim().toUpperCase(), code.trim().toUpperCase())) {
+            return;
+        }
+
+        CommonReferenceOption item = new CommonReferenceOption();
+        item.setCategoryCode(category);
+        item.setOptionCode(code);
+        item.setOptionLabel(label);
+        item.setDescription(description);
+        item.setDisplayOrder(order);
+        item.setRecordStatus(RecordStatus.ACTIVE);
+        commonReferenceOptionRepository.save(item);
     }
 
     private String text(JsonNode node, String field) {

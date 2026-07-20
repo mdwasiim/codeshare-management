@@ -64,6 +64,7 @@
             "permission:read",
             "permission:assign",
             "menu:read",
+            "commonreferenceoption:read",
             "codesharepartner:create",
             "codesharepartner:read",
             "codesharepartner:update",
@@ -98,6 +99,7 @@
             "role:read",
             "permission:read",
             "menu:read",
+            "commonreferenceoption:read",
             "flight:read",
             "codesharepartner:read",
             "region:read",
@@ -209,7 +211,10 @@
             "USER_GROUPS",
             "GROUP_ROLES",
             "ROLE_PERMISSIONS",
-            "GROUP_MENUS"
+            "GROUP_MENUS",
+            "MASTERS",
+            "M_COMMON",
+            "M_COMMON_REFERENCE_OPTIONS"
           ]
         },
         {
@@ -251,6 +256,8 @@
             "PERMISSIONS",
             "MENUS",
             "MASTERS",
+            "M_COMMON",
+            "M_COMMON_REFERENCE_OPTIONS",
             "M_GEOGRAPHY",
             "M_AIRLINES",
             "M_AIRCRAFT",

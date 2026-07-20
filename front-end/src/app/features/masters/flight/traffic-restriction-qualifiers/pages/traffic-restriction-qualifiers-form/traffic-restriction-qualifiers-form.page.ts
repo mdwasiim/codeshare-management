@@ -16,12 +16,6 @@ import { TrafficRestrictionQualifierService } from '@features/masters/flight/tra
 export class TrafficRestrictionQualifierFormPage extends BaseCrudForm<TrafficRestrictionQualifier> {
     private fb = inject(FormBuilder);
     private service = inject(TrafficRestrictionQualifierService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

@@ -16,12 +16,6 @@ import { MessageStatusService } from '@features/masters/messaging/message-status
 export class MessageStatusFormPage extends BaseCrudForm<MessageStatus> {
     private fb = inject(FormBuilder);
     private service = inject(MessageStatusService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

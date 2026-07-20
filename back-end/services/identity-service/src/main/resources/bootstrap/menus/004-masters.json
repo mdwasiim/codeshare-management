@@ -14,6 +14,20 @@
         "permissionCode":  null
     },
     {
+        "code":  "M_COMMON",
+        "parentCode":  "MASTERS",
+        "label":  "Common",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-list",
+        "navigationType":  "SECTION",
+        "frontendPath":  null,
+        "externalUrl":  null,
+        "displayOrder":  1,
+        "visible":  true,
+        "permissionCode":  null
+    },
+    {
         "code":  "M_GEOGRAPHY",
         "parentCode":  "MASTERS",
         "label":  "Geography",
@@ -23,7 +37,7 @@
         "navigationType":  "SECTION",
         "frontendPath":  null,
         "externalUrl":  null,
-        "displayOrder":  1,
+        "displayOrder":  2,
         "visible":  true,
         "permissionCode":  null
     },
@@ -37,7 +51,7 @@
         "navigationType":  "SECTION",
         "frontendPath":  null,
         "externalUrl":  null,
-        "displayOrder":  2,
+        "displayOrder":  3,
         "visible":  true,
         "permissionCode":  null
     },
@@ -51,7 +65,7 @@
         "navigationType":  "SECTION",
         "frontendPath":  null,
         "externalUrl":  null,
-        "displayOrder":  3,
+        "displayOrder":  4,
         "visible":  true,
         "permissionCode":  null
     },
@@ -65,7 +79,7 @@
         "navigationType":  "SECTION",
         "frontendPath":  null,
         "externalUrl":  null,
-        "displayOrder":  4,
+        "displayOrder":  5,
         "visible":  true,
         "permissionCode":  null
     },
@@ -79,7 +93,7 @@
         "navigationType":  "SECTION",
         "frontendPath":  null,
         "externalUrl":  null,
-        "displayOrder":  5,
+        "displayOrder":  6,
         "visible":  true,
         "permissionCode":  null
     },
@@ -93,7 +107,7 @@
         "navigationType":  "SECTION",
         "frontendPath":  null,
         "externalUrl":  null,
-        "displayOrder":  6,
+        "displayOrder":  7,
         "visible":  true,
         "permissionCode":  null
     },
@@ -107,7 +121,7 @@
         "navigationType":  "SECTION",
         "frontendPath":  null,
         "externalUrl":  null,
-        "displayOrder":  7,
+        "displayOrder":  8,
         "visible":  true,
         "permissionCode":  null
     },
@@ -121,9 +135,23 @@
         "navigationType":  "SECTION",
         "frontendPath":  null,
         "externalUrl":  null,
-        "displayOrder":  8,
+        "displayOrder":  9,
         "visible":  true,
         "permissionCode":  null
+    },
+    {
+        "code":  "M_COMMON_REFERENCE_OPTIONS",
+        "parentCode":  "M_COMMON",
+        "label":  "Common Reference Options",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-fw pi-list-check",
+        "navigationType":  "INTERNAL_LINK",
+        "frontendPath":  "/masters/common/reference-options",
+        "externalUrl":  null,
+        "displayOrder":  1,
+        "visible":  true,
+        "permissionCode":  "commonreferenceoption:read"
     },
     {
         "code":  "M_GEO_REGIONS",

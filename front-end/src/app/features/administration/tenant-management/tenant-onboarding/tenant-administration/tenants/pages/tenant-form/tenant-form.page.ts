@@ -31,27 +31,9 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
     private readonly fb = inject(FormBuilder);
     private readonly service = inject(TenantService);
 
-    statusOptions: { label: string; value: TenantStatus }[] = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Suspended', value: 'SUSPENDED' },
-        { label: 'Expired', value: 'EXPIRED' },
-        { label: 'Deleted', value: 'DELETED' }
-    ];
-
-    planOptions: { label: string; value: TenantPlan }[] = [
-        { label: 'Free', value: 'FREE' },
-        { label: 'Pro', value: 'PRO' },
-        { label: 'Enterprise', value: 'ENTERPRISE' }
-    ];
-
-    authSourceOptions: { label: string; value: AuthSource }[] = [
-        { label: 'Internal', value: AuthSource.INTERNAL },
-        { label: 'LDAP', value: AuthSource.LDAP },
-        { label: 'Azure AD', value: AuthSource.AZURE },
-        { label: 'Keycloak', value: AuthSource.KEYCLOAK },
-        { label: 'Okta', value: AuthSource.OKTA },
-        { label: 'OIDC Generic', value: AuthSource.OIDC_GENERIC }
-    ];
+    statusOptions: { label: string; value: TenantStatus }[] = [];
+    planOptions: { label: string; value: TenantPlan }[] = [];
+    authSourceOptions: { label: string; value: AuthSource }[] = [];
 
     get oidcRequired(): boolean {
         const authSource = this.form?.get('authSource')?.value as AuthSource;
@@ -86,6 +68,8 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
                 enforceRedirectUri: [false]
             })
         });
+
+        this.loadTenantReferenceOptions();
     }
 
     override patchForm(data: Tenant): void {
@@ -143,6 +127,18 @@ export class TenantFormPage extends BaseCrudForm<Tenant> {
 
     override update(id: string | number, payload: Tenant) {
         return this.service.update(id, this.mapToModel(payload));
+    }
+
+    private loadTenantReferenceOptions(): void {
+        this.loadReferenceOptions<TenantStatus>('TENANT_STATUS', (options) => {
+            this.statusOptions = options;
+        });
+        this.loadReferenceOptions<TenantPlan>('TENANT_PLAN', (options) => {
+            this.planOptions = options;
+        });
+        this.loadReferenceOptions<AuthSource>('AUTH_SOURCE', (options) => {
+            this.authSourceOptions = options;
+        });
     }
 
     private mapToModel(formValue: Tenant): Tenant {

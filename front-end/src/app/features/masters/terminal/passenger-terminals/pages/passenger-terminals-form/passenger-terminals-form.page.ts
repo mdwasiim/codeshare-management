@@ -16,12 +16,6 @@ import { PassengerTerminalService } from '@features/masters/terminal/passenger-t
 export class PassengerTerminalFormPage extends BaseCrudForm<PassengerTerminal> {
     private fb = inject(FormBuilder);
     private service = inject(PassengerTerminalService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

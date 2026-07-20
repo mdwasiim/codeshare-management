@@ -31,9 +31,9 @@ export class AsmSsmLoadedPage implements OnInit {
     private router = inject(Router);
     private lookupService = inject(MasterReferenceLookupService);
 
-    readonly messageTypes: ScheduleMessageType[] = ['ASM', 'SSM'];
-    readonly statuses = ['RECEIVED', 'VALIDATED', 'PARSED', 'LOADED', 'PARTIALLY_LOADED', 'FAILED'];
-    readonly sourceTypes = ['LOCAL', 'SFTP', 'EMAIL', 'MQ', 'REST', 'CLOUD'];
+    messageTypes: MasterLookupOption[] = [];
+    statuses: MasterLookupOption[] = [];
+    sourceTypes: MasterLookupOption[] = [];
     airlineOptions: MasterLookupOption[] = [];
 
     type: ScheduleMessageType = 'ASM';
@@ -59,6 +59,15 @@ export class AsmSsmLoadedPage implements OnInit {
     ngOnInit(): void {
         this.lookupService.getOptions('airlineCode').subscribe((options) => {
             this.airlineOptions = options;
+        });
+        this.lookupService.getReferenceOptions<ScheduleMessageType>('INGESTION_MESSAGE_TYPE').subscribe((options) => {
+            this.messageTypes = options.filter((option) => option.value === 'ASM' || option.value === 'SSM');
+        });
+        this.lookupService.getReferenceOptions('SCHEDULE_FILE_PROCESSING_STATUS').subscribe((options) => {
+            this.statuses = options;
+        });
+        this.lookupService.getReferenceOptions('INGESTION_SOURCE_TYPE').subscribe((options) => {
+            this.sourceTypes = options;
         });
         this.loadFiles();
     }

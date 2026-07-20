@@ -25,6 +25,7 @@ import { TenantPartnerService } from '@features/administration/tenant-management
 import { AppToastService } from '@services/toast/app-toast.service';
 import { PermissionService } from '@core/security/permission.service';
 import { AppConfirmService } from '@core/services/app-confirm.service';
+import { MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 type SetupSection = 'tenant' | 'identity' | 'partners' | 'ingestion';
 
@@ -46,6 +47,7 @@ export class TenantSetupPage implements OnInit {
     private readonly toast = inject(AppToastService);
     private readonly permissionService = inject(PermissionService);
     private readonly confirm = inject(AppConfirmService);
+    private readonly masterLookup = inject(MasterReferenceLookupService);
 
     activeSection: SetupSection = 'tenant';
     loading = false;
@@ -72,41 +74,11 @@ export class TenantSetupPage implements OnInit {
         { key: 'ingestion', label: 'Ingestion', icon: 'pi pi-upload' }
     ];
 
-    readonly statusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Suspended', value: 'SUSPENDED' },
-        { label: 'Expired', value: 'EXPIRED' },
-        { label: 'Deleted', value: 'DELETED' }
-    ];
-
-    readonly planOptions = [
-        { label: 'Free', value: 'FREE' },
-        { label: 'Pro', value: 'PRO' },
-        { label: 'Enterprise', value: 'ENTERPRISE' }
-    ];
-
-    readonly authSourceOptions = [
-        { label: 'Internal users', value: AuthSource.INTERNAL },
-        { label: 'LDAP', value: AuthSource.LDAP },
-        { label: 'Azure AD', value: AuthSource.AZURE },
-        { label: 'Keycloak', value: AuthSource.KEYCLOAK },
-        { label: 'Okta', value: AuthSource.OKTA },
-        { label: 'Generic OIDC', value: AuthSource.OIDC_GENERIC }
-    ];
-
-    readonly agreementTypeOptions = [
-        { label: 'Free Sale', value: 'FREE_SALE' },
-        { label: 'Block Space', value: 'BLOCK_SPACE' },
-        { label: 'Segmented', value: 'SEGMENTED' },
-        { label: 'Wet Lease', value: 'WET_LEASE' }
-    ];
-
-    readonly agreementStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Suspended', value: 'SUSPENDED' },
-        { label: 'Expired', value: 'EXPIRED' }
-    ];
+    statusOptions: Array<{ label: string; value: string }> = [];
+    planOptions: Array<{ label: string; value: string }> = [];
+    authSourceOptions: Array<{ label: string; value: AuthSource }> = [];
+    agreementTypeOptions: Array<{ label: string; value: string }> = [];
+    agreementStatusOptions: Array<{ label: string; value: string }> = [];
 
     tenantForm = this.fb.group({
         name: ['', Validators.required],
@@ -204,7 +176,24 @@ export class TenantSetupPage implements OnInit {
     }
 
     ngOnInit(): void {
+        this.loadReferenceOptions();
         this.load();
+    }
+
+    private loadReferenceOptions(): void {
+        forkJoin({
+            tenantStatus: this.masterLookup.getReferenceOptions('TENANT_STATUS'),
+            tenantPlan: this.masterLookup.getReferenceOptions('TENANT_PLAN'),
+            authSource: this.masterLookup.getReferenceOptions<AuthSource>('AUTH_SOURCE'),
+            agreementType: this.masterLookup.getReferenceOptions('CODESHARE_AGREEMENT_TYPE'),
+            agreementStatus: this.masterLookup.getReferenceOptions('CODESHARE_AGREEMENT_STATUS')
+        }).subscribe(({ tenantStatus, tenantPlan, authSource, agreementType, agreementStatus }) => {
+            this.statusOptions = tenantStatus;
+            this.planOptions = tenantPlan;
+            this.authSourceOptions = authSource;
+            this.agreementTypeOptions = agreementType;
+            this.agreementStatusOptions = agreementStatus;
+        });
     }
 
     load(): void {

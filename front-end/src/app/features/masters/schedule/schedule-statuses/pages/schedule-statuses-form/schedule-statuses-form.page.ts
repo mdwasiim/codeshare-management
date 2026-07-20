@@ -16,12 +16,6 @@ import { ScheduleStatusService } from '@features/masters/schedule/schedule-statu
 export class ScheduleStatusFormPage extends BaseCrudForm<ScheduleStatus> {
     private fb = inject(FormBuilder);
     private service = inject(ScheduleStatusService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

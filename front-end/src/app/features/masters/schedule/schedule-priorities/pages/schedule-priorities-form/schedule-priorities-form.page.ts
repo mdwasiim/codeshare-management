@@ -16,12 +16,6 @@ import { SchedulePriorityService } from '@features/masters/schedule/schedule-pri
 export class SchedulePriorityFormPage extends BaseCrudForm<SchedulePriority> {
     private fb = inject(FormBuilder);
     private service = inject(SchedulePriorityService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],
