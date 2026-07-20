@@ -53,6 +53,8 @@ export class TenantSetupPage implements OnInit {
     savingPartner = false;
     editingPartnerId: number | null = null;
     selectedTenantId: number | null = null;
+    selectedTenantIds = new Set<number>();
+    tenantSearch = '';
     creatingTenant = false;
 
     tenant: Tenant | null = null;
@@ -171,6 +173,23 @@ export class TenantSetupPage implements OnInit {
         return this.tenant?.name || 'Tenant Setup';
     }
 
+    get filteredTenants(): Tenant[] {
+        const search = this.tenantSearch.trim().toLowerCase();
+        if (!search) {
+            return this.tenants;
+        }
+
+        return this.tenants.filter((tenant) =>
+            [tenant.name, tenant.tenantCode, tenant.status, tenant.plan, tenant.region, tenant.contactEmail]
+                .filter((value): value is string => typeof value === 'string')
+                .some((value) => value.toLowerCase().includes(search))
+        );
+    }
+
+    get selectedTenantsCount(): number {
+        return this.selectedTenantIds.size;
+    }
+
     get completedCount(): number {
         return [
             this.tenant?.name,
@@ -198,6 +217,7 @@ export class TenantSetupPage implements OnInit {
             }).subscribe({
                 next: ({ tenants, airlines }) => {
                     this.tenants = tenants;
+                    this.selectedTenantIds = new Set(Array.from(this.selectedTenantIds).filter((id) => tenants.some((tenant) => tenant.id === id)));
                     this.airlines = airlines;
                     const selected = this.resolveSelectedTenant(tenants);
                     if (!selected?.id) {
@@ -353,6 +373,70 @@ export class TenantSetupPage implements OnInit {
                 }
             });
         });
+    }
+
+    deleteSelectedTenant(): void {
+        const tenant = this.tenants.find((item) => item.id === this.selectedTenantId) ?? this.tenant;
+        if (tenant) {
+            this.deleteTenant(tenant);
+        }
+    }
+
+    toggleTenantSelection(tenant: Tenant, selected: boolean): void {
+        if (!tenant.id) {
+            return;
+        }
+
+        const next = new Set(this.selectedTenantIds);
+        if (selected) {
+            next.add(tenant.id);
+        } else {
+            next.delete(tenant.id);
+        }
+        this.selectedTenantIds = next;
+    }
+
+    deleteSelectedTenants(): void {
+        const ids = Array.from(this.selectedTenantIds);
+        if (!this.tenantAdminMode || !ids.length || this.savingTenant) {
+            return;
+        }
+
+        this.confirm.delete(`Delete ${ids.length} selected tenant(s)?`, () => {
+            this.savingTenant = true;
+            forkJoin(ids.map((id) => this.tenantService.delete(id))).subscribe({
+                next: () => {
+                    this.savingTenant = false;
+                    this.selectedTenantIds = new Set();
+                    if (this.selectedTenantId && ids.includes(this.selectedTenantId)) {
+                        this.selectedTenantId = null;
+                    }
+                    this.load();
+                },
+                error: () => {
+                    this.savingTenant = false;
+                }
+            });
+        });
+    }
+
+    exportTenantsCsv(): void {
+        const headers = ['Tenant Code', 'Name', 'Status', 'Plan', 'Region', 'Contact Email'];
+        const rows = this.filteredTenants.map((tenant) => [
+            tenant.tenantCode,
+            tenant.name,
+            tenant.status,
+            tenant.plan,
+            tenant.region,
+            tenant.contactEmail
+        ]);
+        const csv = [headers, ...rows].map((row) => row.map((value) => this.csvCell(value)).join(',')).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'tenants.csv';
+        link.click();
+        URL.revokeObjectURL(link.href);
     }
 
     editPartner(partner: TenantPartner): void {
@@ -526,7 +610,15 @@ export class TenantSetupPage implements OnInit {
             return;
         }
 
-        this.tenants = this.tenants.map((item) => item.id === tenant.id ? tenant : item);
+        const exists = this.tenants.some((item) => item.id === tenant.id);
+        this.tenants = exists
+            ? this.tenants.map((item) => item.id === tenant.id ? tenant : item)
+            : [tenant, ...this.tenants];
+    }
+
+    private csvCell(value: unknown): string {
+        const text = value === undefined || value === null ? '' : String(value);
+        return `"${text.replace(/"/g, '""')}"`;
     }
 
     private countByPartner<T extends { partnerId?: number }>(items: T[], partner: TenantPartner): number {
