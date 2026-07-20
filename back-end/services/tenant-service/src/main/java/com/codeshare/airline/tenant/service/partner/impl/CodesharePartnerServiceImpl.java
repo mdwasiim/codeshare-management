@@ -2,9 +2,11 @@ package com.codeshare.airline.tenant.service.partner.impl;
 
 import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
 import com.codeshare.airline.platform.core.dto.master.airline.CodesharePartnerDTO;
+import com.codeshare.airline.platform.core.exceptions.CSMResourceNotFoundException;
 import com.codeshare.airline.tenant.entities.partner.CodesharePartner;
 import com.codeshare.airline.tenant.integration.master.MasterDataAirlineClient;
 import com.codeshare.airline.tenant.mappers.partner.CodesharePartnerMapper;
+import com.codeshare.airline.tenant.repository.TenantRepository;
 import com.codeshare.airline.tenant.repository.partner.CodesharePartnerRepository;
 import com.codeshare.airline.tenant.service.partner.CodesharePartnerService;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +26,7 @@ import java.util.Map;
 public class CodesharePartnerServiceImpl implements CodesharePartnerService {
 
     private final CodesharePartnerRepository repository;
+    private final TenantRepository tenantRepository;
     private final CodesharePartnerMapper mapper;
     private final MasterDataAirlineClient masterDataAirlineClient;
 
@@ -59,8 +62,66 @@ public class CodesharePartnerServiceImpl implements CodesharePartnerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<CodesharePartnerDTO> getCurrent(String tenantCode) {
+        Long tenantId = resolveTenantId(tenantCode);
+        Map<Long, AirlineCarrierDTO> airlineCache = new HashMap<>();
+        return mapper.toDTOList(repository.findByTenantIdOrderByDisplayOrderAscPartnerAirlineIdAsc(tenantId)).stream()
+                .map(dto -> enrich(dto, airlineCache))
+                .toList();
+    }
+
+    @Override
+    public CodesharePartnerDTO createCurrent(String tenantCode, CodesharePartnerDTO dto) {
+        Long tenantId = resolveTenantId(tenantCode);
+        dto.setTenantId(tenantId);
+        applyDefaults(dto);
+        return create(dto);
+    }
+
+    @Override
+    public CodesharePartnerDTO updateCurrent(String tenantCode, Long id, CodesharePartnerDTO dto) {
+        Long tenantId = resolveTenantId(tenantCode);
+        CodesharePartner existing = repository.findById(id)
+                .filter(partner -> tenantId.equals(partner.getTenantId()))
+                .orElseThrow(() -> new EntityNotFoundException("Codeshare partner not found for tenant"));
+
+        dto.setTenantId(tenantId);
+        mapper.updateEntityFromDto(dto, existing);
+        return enrich(mapper.toDTO(repository.save(existing)), new HashMap<>());
+    }
+
+    @Override
+    public void deleteCurrent(String tenantCode, Long id) {
+        Long tenantId = resolveTenantId(tenantCode);
+        CodesharePartner existing = repository.findById(id)
+                .filter(partner -> tenantId.equals(partner.getTenantId()))
+                .orElseThrow(() -> new EntityNotFoundException("Codeshare partner not found for tenant"));
+        repository.delete(existing);
+    }
+
+    @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    private Long resolveTenantId(String tenantCode) {
+        if (tenantCode == null || tenantCode.isBlank()) {
+            throw new IllegalArgumentException("Tenant header is required");
+        }
+
+        return tenantRepository.findByTenantCode(tenantCode.trim().toUpperCase())
+                .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + tenantCode))
+                .getId();
+    }
+
+    private void applyDefaults(CodesharePartnerDTO dto) {
+        if (dto.getActive() == null) {
+            dto.setActive(Boolean.TRUE);
+        }
+        if (dto.getDisplayOrder() == null) {
+            dto.setDisplayOrder(1);
+        }
     }
 
     private CodesharePartnerDTO enrich(CodesharePartnerDTO dto, Map<Long, AirlineCarrierDTO> airlineCache) {

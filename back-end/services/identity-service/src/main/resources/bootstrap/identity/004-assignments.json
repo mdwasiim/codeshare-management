@@ -6,19 +6,27 @@
       "items": [
         {
           "group": "SYSTEM_ADMINISTRATORS",
-          "roles": ["SYSTEM_ADMIN"]
+          "roles": [
+            "SYSTEM_ADMIN"
+          ]
         },
         {
           "group": "TENANT_ADMINISTRATORS",
-          "roles": ["TENANT_ADMIN"]
+          "roles": [
+            "TENANT_ADMIN"
+          ]
         },
         {
           "group": "SCHEDULE_OPERATORS",
-          "roles": ["OPERATOR"]
+          "roles": [
+            "OPERATOR"
+          ]
         },
         {
           "group": "READ_ONLY_USERS",
-          "roles": ["READ_ONLY"]
+          "roles": [
+            "READ_ONLY"
+          ]
         }
       ]
     },
@@ -27,7 +35,9 @@
       "items": [
         {
           "role": "SYSTEM_ADMIN",
-          "permissions": ["*"]
+          "permissions": [
+            "*"
+          ]
         },
         {
           "role": "TENANT_ADMIN",
@@ -35,8 +45,10 @@
             "dashboard:read",
             "settings:read",
             "settings:update",
+            "tenant:create",
             "tenant:read",
             "tenant:update",
+            "tenant:delete",
             "tenant:publish",
             "tenant:approve",
             "user:create",
@@ -62,6 +74,7 @@
             "permission:read",
             "permission:assign",
             "menu:read",
+            "commonreferenceoption:read",
             "codesharepartner:create",
             "codesharepartner:read",
             "codesharepartner:update",
@@ -96,6 +109,7 @@
             "role:read",
             "permission:read",
             "menu:read",
+            "commonreferenceoption:read",
             "flight:read",
             "codesharepartner:read",
             "region:read",
@@ -157,19 +171,27 @@
       "items": [
         {
           "username": "admin",
-          "groups": ["SYSTEM_ADMINISTRATORS"]
+          "groups": [
+            "SYSTEM_ADMINISTRATORS"
+          ]
         },
         {
           "username": "tenantadmin",
-          "groups": ["TENANT_ADMINISTRATORS"]
+          "groups": [
+            "TENANT_ADMINISTRATORS"
+          ]
         },
         {
           "username": "operator",
-          "groups": ["SCHEDULE_OPERATORS"]
+          "groups": [
+            "SCHEDULE_OPERATORS"
+          ]
         },
         {
           "username": "readonly",
-          "groups": ["READ_ONLY_USERS"]
+          "groups": [
+            "READ_ONLY_USERS"
+          ]
         }
       ]
     },
@@ -178,7 +200,9 @@
       "items": [
         {
           "group": "SYSTEM_ADMINISTRATORS",
-          "menus": ["*"]
+          "menus": [
+            "*"
+          ]
         },
         {
           "group": "TENANT_ADMINISTRATORS",
@@ -188,6 +212,7 @@
             "ADMINISTRATION",
             "TENANT_ONBOARDING",
             "TENANTS",
+            "TENANT_SETUP",
             "TENANT_IDENTITY_PROVIDERS",
             "TENANT_OIDC_CONFIG",
             "TENANT_INGESTION_PROFILES",
@@ -207,8 +232,9 @@
             "GROUP_ROLES",
             "ROLE_PERMISSIONS",
             "GROUP_MENUS",
-            "SYSTEM_CONFIG",
-            "DASHBOARD_PRODUCT"
+            "MASTERS",
+            "M_COMMON",
+            "M_COMMON_REFERENCE_OPTIONS"
           ]
         },
         {
@@ -234,6 +260,7 @@
             "ADMINISTRATION",
             "TENANT_ONBOARDING",
             "TENANTS",
+            "TENANT_SETUP",
             "TENANT_IDENTITY_PROVIDERS",
             "TENANT_OIDC_CONFIG",
             "TENANT_INGESTION_PROFILES",
@@ -248,9 +275,9 @@
             "ROLES",
             "PERMISSIONS",
             "MENUS",
-            "SYSTEM_CONFIG",
-            "DASHBOARD_PRODUCT",
             "MASTERS",
+            "M_COMMON",
+            "M_COMMON_REFERENCE_OPTIONS",
             "M_GEOGRAPHY",
             "M_AIRLINES",
             "M_AIRCRAFT",

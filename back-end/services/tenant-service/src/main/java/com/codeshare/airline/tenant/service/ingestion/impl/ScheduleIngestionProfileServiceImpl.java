@@ -42,8 +42,34 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
 
     @Override
     @Transactional(readOnly = true)
+    public TenantIngestionProfileDTO getCurrent(String tenantCode) {
+        String normalizedTenantCode = normalizeTenantCode(tenantCode);
+        return repository.findWithChannelsByTenantCode(normalizedTenantCode)
+                .map(this::toDto)
+                .orElseGet(() -> toDraftDto(resolveTenant(normalizedTenantCode)));
+    }
+
+    @Override
+    public TenantIngestionProfileDTO saveCurrent(String tenantCode, TenantIngestionProfileDTO dto) {
+        String normalizedTenantCode = normalizeTenantCode(tenantCode);
+        Tenant tenant = resolveTenant(normalizedTenantCode);
+
+        dto.setTenantId(tenant.getId());
+        dto.setTenantCode(tenant.getTenantCode());
+        dto.setAirlineCode(tenant.getTenantCode());
+        validateBusinessRules(dto);
+
+        ScheduleIngestionProfileEntity entity = repository.findWithChannelsByTenantCode(normalizedTenantCode)
+                .orElseGet(ScheduleIngestionProfileEntity::new);
+        entity.getChannels().clear();
+        toEntity(dto, entity);
+        return toDto(repository.save(entity));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public TenantIngestionProfileDTO getByTenantCode(String tenantCode) {
-        return repository.findWithChannelsByTenantCode(tenantCode)
+        return repository.findWithChannelsByTenantCode(normalizeTenantCode(tenantCode))
                 .map(this::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Ingestion profile not found"));
     }
@@ -70,8 +96,8 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
         Tenant tenant = tenantRepository.findById(dto.getTenantId())
                 .orElseThrow(() -> new EntityNotFoundException("Tenant not found"));
         entity.setTenant(tenant);
-        entity.setSourceSystem(dto.getSourceSystem());
-        entity.setEnabled(dto.getEnabled());
+        entity.setSourceSystem(normalizeRequired(dto.getSourceSystem(), "Source system is required"));
+        entity.setEnabled(dto.getEnabled() != null ? dto.getEnabled() : Boolean.FALSE);
         entity.setPollIntervalMs(dto.getPollIntervalMs());
         if (dto.getChannels() != null) {
             dto.getChannels().forEach(channelDto -> entity.addChannel(toChannelEntity(channelDto)));
@@ -149,6 +175,18 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
         return dto;
     }
 
+    private TenantIngestionProfileDTO toDraftDto(Tenant tenant) {
+        TenantIngestionProfileDTO dto = new TenantIngestionProfileDTO();
+        dto.setTenantId(tenant.getId());
+        dto.setTenantCode(tenant.getTenantCode());
+        dto.setAirlineCode(tenant.getTenantCode());
+        dto.setSourceSystem("OAG");
+        dto.setEnabled(Boolean.FALSE);
+        dto.setPollIntervalMs(300000L);
+        dto.setChannels(List.of());
+        return dto;
+    }
+
     private TenantIngestionChannelDTO toDto(ScheduleIngestionChannelEntity channel) {
         TenantIngestionChannelDTO dto = new TenantIngestionChannelDTO();
         dto.setId(channel.getId());
@@ -211,10 +249,13 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
         if (dto.getTenantId() == null) {
             throw new IllegalArgumentException("Tenant is required");
         }
+        normalizeRequired(dto.getSourceSystem(), "Source system is required");
         if (dto.getChannels() == null || dto.getChannels().isEmpty()) {
-            throw new IllegalArgumentException("At least one channel required");
+            return;
         }
         dto.getChannels().forEach(channel -> {
+            require(channel.getMessageType(), "Channel message type is required");
+            require(channel.getSourceType(), "Channel source type is required");
             switch (channel.getSourceType()) {
                 case SFTP -> {
                     require(channel.getHost(), "SFTP host required");
@@ -232,5 +273,21 @@ public class ScheduleIngestionProfileServiceImpl implements ScheduleIngestionPro
         if (value == null || (value instanceof String s && s.isBlank())) {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    private Tenant resolveTenant(String tenantCode) {
+        return tenantRepository.findByTenantCode(normalizeTenantCode(tenantCode))
+                .orElseThrow(() -> new EntityNotFoundException("Tenant not found"));
+    }
+
+    private String normalizeTenantCode(String tenantCode) {
+        return normalizeRequired(tenantCode, "Tenant header X-Tenant-Id is required").toUpperCase();
+    }
+
+    private String normalizeRequired(String value, String message) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(message);
+        }
+        return value.trim();
     }
 }

@@ -1,0 +1,312 @@
+<div class="tenant-setup-page">
+    <header class="setup-header">
+        <div>
+            <span class="access-eyebrow">Tenant Onboarding</span>
+            <h1>{{ selectedTenantLabel }}</h1>
+            <p>{{ tenantAdminMode ? 'Manage every tenant from one workspace: tenant profile, identity, partners, and ingestion.' : (tenant?.tenantCode || '-') + ' is configured from one workspace: tenant profile, identity, partners, and ingestion.' }}</p>
+        </div>
+        <div class="setup-header__actions">
+            <p-tag [value]="creatingTenant ? 'Draft' : (tenant?.status || 'Loading')" [severity]="tenant?.status === 'ACTIVE' && !creatingTenant ? 'success' : 'warn'"></p-tag>
+            <p-button *ngIf="tenantAdminMode" icon="pi pi-plus" label="New tenant" severity="secondary" (click)="startCreateTenant()"></p-button>
+            <p-button icon="pi pi-refresh" label="Refresh" severity="secondary" [loading]="loading" (click)="load()"></p-button>
+        </div>
+    </header>
+
+    <section class="setup-overview">
+        <div class="setup-metric">
+            <span>{{ completedCount }}/4</span>
+            <label>Core setup</label>
+        </div>
+        <div class="setup-metric">
+            <span>{{ identityForm.controls.authSource.value }}</span>
+            <label>Identity</label>
+        </div>
+        <div class="setup-metric">
+            <span>{{ partners.length }}</span>
+            <label>Codeshare partners</label>
+        </div>
+        <div class="setup-metric">
+            <span>{{ partnerSetupCount }}</span>
+            <label>Partner profiles</label>
+        </div>
+    </section>
+
+    <nav class="setup-nav" aria-label="Tenant setup sections">
+        <button type="button" *ngFor="let section of sections" [class.active]="activeSection === section.key" (click)="show(section.key)">
+            <i [class]="section.icon"></i>
+            <span>{{ section.label }}</span>
+        </button>
+    </nav>
+
+    <section class="setup-section" *ngIf="activeSection === 'tenant'">
+        <div class="section-heading">
+            <div>
+                <h2>Tenant Profile</h2>
+                <p>Keep the logged-in tenant’s business identity and lifecycle settings in one place.</p>
+            </div>
+        </div>
+
+        <div class="tenant-layout">
+            <div class="tenant-side">
+                <div class="tenant-directory" *ngIf="tenantAdminMode">
+                    <div class="tenant-directory__heading">
+                        <h3>Tenants</h3>
+                        <p>{{ filteredTenants.length }} of {{ tenants.length }}</p>
+                    </div>
+                    <div class="tenant-directory__tools">
+                        <input pInputText type="search" placeholder="Search tenants" [value]="tenantSearch" (input)="tenantSearch = $any($event.target).value" />
+                        <p-button icon="pi pi-download" text pTooltip="Export tenants" (click)="exportTenantsCsv()"></p-button>
+                        <p-button icon="pi pi-trash" text severity="danger" pTooltip="Delete selected" [disabled]="!selectedTenantsCount" (click)="deleteSelectedTenants()"></p-button>
+                    </div>
+                    <div class="tenant-directory__selection" *ngIf="selectedTenantsCount">
+                        {{ selectedTenantsCount }} selected
+                    </div>
+                    <button type="button" *ngFor="let item of filteredTenants" [class.active]="item.id === selectedTenantId" (click)="selectTenant(item)">
+                        <input type="checkbox" [checked]="item.id ? selectedTenantIds.has(item.id) : false" (click)="$event.stopPropagation()" (change)="toggleTenantSelection(item, $any($event.target).checked)" />
+                        <span>{{ item.tenantCode || '-' }}</span>
+                        <strong>{{ item.name || 'Unnamed tenant' }}</strong>
+                        <p-tag [value]="item.status || 'Draft'" [severity]="item.status === 'ACTIVE' ? 'success' : 'warn'"></p-tag>
+                    </button>
+                    <button type="button" class="tenant-directory__create" [class.active]="creatingTenant" (click)="startCreateTenant()">
+                        <i class="pi pi-plus"></i>
+                        <strong>Create tenant</strong>
+                    </button>
+                </div>
+
+            </div>
+
+            <form [formGroup]="tenantForm" class="tenant-editor">
+                <div class="tenant-editor__heading">
+                    <div>
+                        <span>{{ creatingTenant ? 'Draft tenant' : (tenantAdminMode ? 'Selected tenant' : 'Current tenant') }}</span>
+                        <h3>{{ creatingTenant ? 'Create tenant' : 'Edit tenant' }}</h3>
+                    </div>
+                    <p-tag [value]="creatingTenant ? 'Draft' : (tenant?.status || 'Draft')" [severity]="tenant?.status === 'ACTIVE' && !creatingTenant ? 'success' : 'warn'"></p-tag>
+                </div>
+                <div class="field">
+                    <label for="tenantName" class="required">Tenant Name</label>
+                    <input id="tenantName" pInputText formControlName="name" />
+                </div>
+                <div class="field">
+                    <label for="tenantCode">Tenant Code</label>
+                    <input id="tenantCode" pInputText formControlName="tenantCode" />
+                </div>
+                <div class="field">
+                    <label for="tenantStatus">Status</label>
+                    <p-select inputId="tenantStatus" [options]="statusOptions" formControlName="status" appendTo="body" styleClass="w-full"></p-select>
+                </div>
+                <div class="field">
+                    <label for="tenantPlan">Plan</label>
+                    <p-select inputId="tenantPlan" [options]="planOptions" formControlName="plan" appendTo="body" styleClass="w-full"></p-select>
+                </div>
+                <div class="field">
+                    <label for="subscriptionStart">Subscription Start</label>
+                    <input id="subscriptionStart" pInputText type="datetime-local" formControlName="subscriptionStart" />
+                </div>
+                <div class="field">
+                    <label for="subscriptionEnd">Subscription End</label>
+                    <input id="subscriptionEnd" pInputText type="datetime-local" formControlName="subscriptionEnd" />
+                </div>
+                <div class="field">
+                    <label for="region">Region</label>
+                    <input id="region" pInputText formControlName="region" />
+                </div>
+                <div class="field">
+                    <label for="contactEmail">Contact Email</label>
+                    <input id="contactEmail" pInputText formControlName="contactEmail" />
+                </div>
+                <div class="field">
+                    <label for="contactPhone">Contact Phone</label>
+                    <input id="contactPhone" pInputText formControlName="contactPhone" />
+                </div>
+                <div class="field">
+                    <label for="logoUrl">Logo URL</label>
+                    <input id="logoUrl" pInputText formControlName="logoUrl" />
+                </div>
+                <div class="field tenant-editor__wide">
+                    <label for="description">Description</label>
+                    <textarea id="description" pTextarea rows="3" formControlName="description"></textarea>
+                </div>
+                <div class="field setup-check">
+                    <p-checkbox inputId="trial" formControlName="trial" binary="true"></p-checkbox>
+                    <label for="trial">Trial tenant</label>
+                </div>
+                <div class="tenant-editor__actions">
+                    <p-button *ngIf="tenantAdminMode && !creatingTenant" icon="pi pi-trash" label="Delete tenant" severity="danger" text [loading]="savingTenant" [disabled]="loading || !selectedTenantId" (click)="deleteSelectedTenant()"></p-button>
+                    <p-button icon="pi pi-save" [label]="creatingTenant ? 'Create tenant' : 'Save tenant'" [loading]="savingTenant" [disabled]="loading" (click)="saveTenant()"></p-button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="setup-section" *ngIf="activeSection === 'identity'">
+        <div class="section-heading">
+            <div>
+                <h2>Identity</h2>
+                <p>Choose the login provider for this tenant and keep OIDC settings beside the tenant profile.</p>
+            </div>
+            <p-button icon="pi pi-save" label="Save identity" [loading]="savingTenant" [disabled]="loading" (click)="saveTenant()"></p-button>
+        </div>
+
+        <form [formGroup]="identityForm" class="setup-form">
+            <div class="field setup-form__wide">
+                <label for="authSource" class="required">Authentication Source</label>
+                <p-select inputId="authSource" [options]="authSourceOptions" formControlName="authSource" appendTo="body" styleClass="w-full"></p-select>
+            </div>
+            <div class="field">
+                <label for="issuerUri">Issuer URI</label>
+                <input id="issuerUri" pInputText formControlName="issuerUri" [class.required-input]="oidcRequired" />
+            </div>
+            <div class="field">
+                <label for="clientId">Client ID</label>
+                <input id="clientId" pInputText formControlName="clientId" />
+            </div>
+            <div class="field">
+                <label for="clientSecretRef">Client Secret Ref</label>
+                <input id="clientSecretRef" pInputText formControlName="clientSecretRef" />
+            </div>
+            <div class="field">
+                <label for="redirectUri">Redirect URI</label>
+                <input id="redirectUri" pInputText formControlName="redirectUri" />
+            </div>
+            <div class="field">
+                <label for="authorizationUri">Authorization URI</label>
+                <input id="authorizationUri" pInputText formControlName="authorizationUri" />
+            </div>
+            <div class="field">
+                <label for="tokenUri">Token URI</label>
+                <input id="tokenUri" pInputText formControlName="tokenUri" />
+            </div>
+            <div class="field">
+                <label for="jwkSetUri">JWK Set URI</label>
+                <input id="jwkSetUri" pInputText formControlName="jwkSetUri" />
+            </div>
+            <div class="field">
+                <label for="scopes">Scopes</label>
+                <input id="scopes" pInputText formControlName="scopes" />
+            </div>
+            <div class="field setup-check">
+                <p-checkbox inputId="enforceRedirectUri" formControlName="enforceRedirectUri" binary="true"></p-checkbox>
+                <label for="enforceRedirectUri">Enforce redirect URI</label>
+            </div>
+        </form>
+    </section>
+
+    <section class="setup-section" *ngIf="activeSection === 'partners'">
+        <div class="section-heading">
+            <div>
+                <h2>Codeshare Partners</h2>
+                <p>Manage only this tenant’s agreements. These partners drive ingestion routing and schedule comparison context.</p>
+            </div>
+            <p-button icon="pi pi-plus" label="New partner" severity="secondary" [disabled]="creatingTenant || !tenant" (click)="resetPartnerForm()"></p-button>
+        </div>
+
+        <div class="setup-empty setup-empty--compact" *ngIf="creatingTenant || !tenant">
+            <i class="pi pi-building"></i>
+            <h3>Create the tenant first</h3>
+            <p>Partners can be configured after the tenant profile is saved.</p>
+        </div>
+
+        <div class="partner-layout" *ngIf="!creatingTenant && tenant">
+            <div class="partner-table" *ngIf="partners.length; else noPartners">
+                <div class="partner-table__header">
+                    <span>Home</span>
+                    <span>Partner</span>
+                    <span>Agreement</span>
+                    <span>Status</span>
+                    <span>Setup</span>
+                    <span></span>
+                </div>
+                <div class="partner-table__row" *ngFor="let partner of partners">
+                    <strong>{{ partner.homeAirlineCode || partner.homeAirlineId || '-' }}</strong>
+                    <div>
+                        <strong>{{ partnerLabel(partner) }}</strong>
+                        <span>{{ partner.partnerAirlineCode || partner.partnerAirlineId || '-' }}</span>
+                    </div>
+                    <div>
+                        <strong>{{ partner.agreementNumber || '-' }}</strong>
+                        <span>{{ partner.agreementType || '-' }}</span>
+                    </div>
+                    <p-tag [value]="partner.agreementStatus || 'ACTIVE'" [severity]="partner.active ? 'success' : 'secondary'"></p-tag>
+                    <div class="partner-table__coverage">
+                        <span [class.complete]="businessProfileCount(partner) > 0">Business {{ businessProfileCount(partner) }}</span>
+                        <span [class.complete]="communicationProfileCount(partner) > 0">Transport {{ communicationProfileCount(partner) }}</span>
+                        <span [class.complete]="distributionProfileCount(partner) > 0">Distribution {{ distributionProfileCount(partner) }}</span>
+                    </div>
+                    <div class="partner-table__actions">
+                        <p-button icon="pi pi-pencil" text pTooltip="Edit partner" (click)="editPartner(partner)"></p-button>
+                        <p-button icon="pi pi-trash" text severity="danger" pTooltip="Remove partner" (click)="removePartner(partner)"></p-button>
+                    </div>
+                </div>
+            </div>
+
+            <ng-template #noPartners>
+                <div class="setup-empty">
+                    <i class="pi pi-share-alt"></i>
+                    <h3>No partners configured</h3>
+                    <p>Add the operating or marketing airlines this tenant exchanges schedules with.</p>
+                </div>
+            </ng-template>
+
+            <form [formGroup]="partnerForm" class="partner-editor">
+                <h3>{{ editingPartnerId ? 'Edit partner' : 'Add partner' }}</h3>
+                <div class="field">
+                    <label for="homeAirlineId" class="required">Home Airline</label>
+                    <p-select inputId="homeAirlineId" [options]="airlineOptions" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" formControlName="homeAirlineId" appendTo="body" styleClass="w-full"></p-select>
+                </div>
+                <div class="field">
+                    <label for="partnerAirlineId" class="required">Partner Airline</label>
+                    <p-select inputId="partnerAirlineId" [options]="airlineOptions" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" formControlName="partnerAirlineId" appendTo="body" styleClass="w-full"></p-select>
+                </div>
+                <div class="field">
+                    <label for="agreementNumber">Agreement Number</label>
+                    <input id="agreementNumber" pInputText formControlName="agreementNumber" />
+                </div>
+                <div class="field">
+                    <label for="agreementType">Agreement Type</label>
+                    <p-select inputId="agreementType" [options]="agreementTypeOptions" formControlName="agreementType" appendTo="body" styleClass="w-full"></p-select>
+                </div>
+                <div class="field">
+                    <label for="agreementStatus">Agreement Status</label>
+                    <p-select inputId="agreementStatus" [options]="agreementStatusOptions" formControlName="agreementStatus" appendTo="body" styleClass="w-full"></p-select>
+                </div>
+                <div class="field">
+                    <label for="displayOrder">Display Order</label>
+                    <input id="displayOrder" pInputText type="number" min="1" formControlName="displayOrder" />
+                </div>
+                <div class="field">
+                    <label for="effectiveFrom">Effective From</label>
+                    <input id="effectiveFrom" pInputText type="date" formControlName="effectiveFrom" />
+                </div>
+                <div class="field">
+                    <label for="effectiveTo">Effective To</label>
+                    <input id="effectiveTo" pInputText type="date" formControlName="effectiveTo" />
+                </div>
+                <div class="field partner-editor__wide">
+                    <label for="partnerDescription">Description</label>
+                    <textarea id="partnerDescription" pTextarea rows="3" formControlName="description"></textarea>
+                </div>
+                <div class="field setup-check">
+                    <p-checkbox inputId="partnerActive" formControlName="active" binary="true"></p-checkbox>
+                    <label for="partnerActive">Active agreement</label>
+                </div>
+                <div class="partner-editor__actions">
+                    <p-button icon="pi pi-times" label="Clear" text severity="secondary" (click)="resetPartnerForm()"></p-button>
+                    <p-button icon="pi pi-save" label="Save partner" [loading]="savingPartner" [disabled]="!tenant" (click)="savePartner()"></p-button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="setup-section" *ngIf="activeSection === 'ingestion' && (creatingTenant || !tenant)">
+        <div class="setup-empty setup-empty--compact">
+            <i class="pi pi-upload"></i>
+            <h3>Create the tenant first</h3>
+            <p>Ingestion settings can be configured after the tenant profile is saved.</p>
+        </div>
+    </section>
+
+    <section class="setup-section setup-section--flush" *ngIf="activeSection === 'ingestion' && !creatingTenant && tenant">
+        <tenant-ingestion-profiles [adminMode]="tenantAdminMode" [tenantContext]="tenant"></tenant-ingestion-profiles>
+    </section>
+</div>

@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
+import { MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 import {
     CommunicationProtocol,
@@ -21,10 +22,7 @@ import {
 import { TenantPartnerService } from '../../services/tenant-partner.service';
 import { TenantPartnerDistributionProfileService } from '../../services/tenant-partner-distribution-profile.service';
 import {
-    COMMUNICATION_PROTOCOL_OPTIONS,
-    DISTRIBUTION_MESSAGE_TYPE_OPTIONS,
-    DISTRIBUTION_MODE_OPTIONS,
-    RECORD_STATUS_OPTIONS,
+    SelectOption,
     TenantPartnerOption,
     normalizeOptionalText,
     toDateInputValue,
@@ -51,17 +49,19 @@ export class TenantDistributionProfileFormPage extends BaseCrudForm<TenantPartne
     private readonly fb = inject(FormBuilder);
     private readonly service = inject(TenantPartnerDistributionProfileService);
     private readonly tenantPartnerService = inject(TenantPartnerService);
+    private readonly masterLookup = inject(MasterReferenceLookupService);
 
-    readonly recordStatusOptions = [...RECORD_STATUS_OPTIONS];
-    readonly channelOptions = [...COMMUNICATION_PROTOCOL_OPTIONS];
-    readonly distributionModeOptions = [...DISTRIBUTION_MODE_OPTIONS];
-    readonly messageTypeOptions = [...DISTRIBUTION_MESSAGE_TYPE_OPTIONS];
+    override recordStatusOptions: SelectOption[] = [];
+    channelOptions: SelectOption<CommunicationProtocol>[] = [];
+    distributionModeOptions: SelectOption<DistributionMode>[] = [];
+    messageTypeOptions: SelectOption<DistributionMessageType>[] = [];
 
     partnerOptions: TenantPartnerOption[] = [];
 
     override ngOnInit(): void {
         super.ngOnInit();
         this.loadPartnerOptions();
+        this.loadProfileReferenceOptions();
     }
 
     override buildForm(): void {
@@ -110,6 +110,21 @@ export class TenantDistributionProfileFormPage extends BaseCrudForm<TenantPartne
     private loadPartnerOptions(): void {
         this.tenantPartnerService.getAll().subscribe((partners) => {
             this.partnerOptions = toTenantPartnerOptions(partners ?? []);
+        });
+    }
+
+    private loadProfileReferenceOptions(): void {
+        this.masterLookup.getReferenceOptions('PARTNER_PROFILE_STATUS').subscribe((options) => {
+            this.recordStatusOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<CommunicationProtocol>('COMMUNICATION_PROTOCOL').subscribe((options) => {
+            this.channelOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<DistributionMode>('DISTRIBUTION_MODE').subscribe((options) => {
+            this.distributionModeOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<DistributionMessageType>('DISTRIBUTION_MESSAGE_TYPE').subscribe((options) => {
+            this.messageTypeOptions = options;
         });
     }
 

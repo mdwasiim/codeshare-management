@@ -10,6 +10,7 @@ public interface CodesharePartnerDistributionProfileService {
     CodesharePartnerDistributionProfileDTO update(Long id, CodesharePartnerDistributionProfileDTO dto);
     CodesharePartnerDistributionProfileDTO getById(Long id);
     List<CodesharePartnerDistributionProfileDTO> getAll();
+    List<CodesharePartnerDistributionProfileDTO> getCurrent(String tenantCode);
     List<CodesharePartnerDistributionProfileDTO> resolve(String tenantCode, String partnerCode, MessageType messageType);
     void delete(Long id);
 }

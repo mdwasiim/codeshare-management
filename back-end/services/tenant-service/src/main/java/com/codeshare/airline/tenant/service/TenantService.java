@@ -16,6 +16,10 @@ public interface TenantService {
 
     TenantDTO getByCode(String code);
 
+    TenantDTO getCurrent(String tenantCode);
+
+    TenantDTO updateCurrent(String tenantCode, TenantDTO dto);
+
     List<TenantDTO> getAll();
 
     List<TenantLoginOptionDTO> getLoginOptions();

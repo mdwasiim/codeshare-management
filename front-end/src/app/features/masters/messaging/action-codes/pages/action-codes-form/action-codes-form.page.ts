@@ -16,12 +16,6 @@ import { ActionCodeService } from '@features/masters/messaging/action-codes/serv
 export class ActionCodeFormPage extends BaseCrudForm<ActionCode> {
     private fb = inject(FormBuilder);
     private service = inject(ActionCodeService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

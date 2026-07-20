@@ -91,7 +91,7 @@
         </label>
         <label>
             Status
-            <p-select [options]="statuses" [(ngModel)]="processingStatus" [showClear]="true" appendTo="body" placeholder="Any status"></p-select>
+            <p-select [options]="statuses" optionLabel="label" optionValue="value" [(ngModel)]="processingStatus" [showClear]="true" appendTo="body" placeholder="Any status"></p-select>
         </label>
         <label class="date-field">
             Received
@@ -99,7 +99,7 @@
         </label>
         <label>
             Source
-            <p-select [options]="sourceTypes" [(ngModel)]="sourceType" [showClear]="true" appendTo="body" placeholder="Any source"></p-select>
+            <p-select [options]="sourceTypes" optionLabel="label" optionValue="value" [(ngModel)]="sourceType" [showClear]="true" appendTo="body" placeholder="Any source"></p-select>
         </label>
         <div class="filter-button-row">
             <p-button icon="pi pi-search" label="Apply" (click)="loadFiles()"></p-button>

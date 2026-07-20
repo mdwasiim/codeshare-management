@@ -3,6 +3,7 @@ package com.codeshare.airline.tenant.service.partner.impl;
 import com.codeshare.airline.platform.core.dto.master.codesharepartner.CodesharePartnerCommunicationProfileDTO;
 import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
 import com.codeshare.airline.platform.core.enums.master.codesharepartner.CommunicationProtocol;
+import com.codeshare.airline.platform.core.exceptions.CSMResourceNotFoundException;
 import com.codeshare.airline.tenant.entities.Tenant;
 import com.codeshare.airline.tenant.entities.partner.CodesharePartner;
 import com.codeshare.airline.tenant.entities.partner.CodesharePartnerCommunicationProfile;
@@ -60,6 +61,13 @@ public class CodesharePartnerCommunicationProfileServiceImpl implements Codeshar
 
     @Override
     @Transactional(readOnly = true)
+    public List<CodesharePartnerCommunicationProfileDTO> getCurrent(String tenantCode) {
+        Long tenantId = resolveTenantId(tenantCode);
+        return mapper.toDTOList(repository.findByPartner_TenantIdOrderByPartner_IdAscDisplayOrderAscIdAsc(tenantId));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<CodesharePartnerCommunicationProfileDTO> resolve(
             String tenantCode,
             String partnerCode,
@@ -85,5 +93,15 @@ public class CodesharePartnerCommunicationProfileServiceImpl implements Codeshar
                         partnerAirline.getId()
                 )
                 .orElseThrow(() -> new EntityNotFoundException("Codeshare partner not found"));
+    }
+
+    private Long resolveTenantId(String tenantCode) {
+        if (tenantCode == null || tenantCode.isBlank()) {
+            throw new IllegalArgumentException("Tenant header is required");
+        }
+
+        return tenantRepository.findByTenantCode(tenantCode.trim().toUpperCase())
+                .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + tenantCode))
+                .getId();
     }
 }

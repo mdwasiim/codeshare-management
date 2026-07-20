@@ -16,7 +16,7 @@
     {
         "code":  "TENANT_ONBOARDING",
         "parentCode":  "ADMINISTRATION",
-        "label":  "Tenant Onboarding",
+        "label":  "Tenant Setup",
         "topbarLabel":  null,
         "sidebarLabel":  null,
         "icon":  "pi pi-fw pi-sitemap",
@@ -42,6 +42,20 @@
         "permissionCode":  "tenant:read"
     },
     {
+        "code":  "TENANT_SETUP",
+        "parentCode":  "TENANT_ONBOARDING",
+        "label":  "Tenant Setup",
+        "topbarLabel":  null,
+        "sidebarLabel":  null,
+        "icon":  "pi pi-sliders-h",
+        "navigationType":  "INTERNAL_LINK",
+        "frontendPath":  "/tenant-setup",
+        "externalUrl":  null,
+        "displayOrder":  2,
+        "visible":  true,
+        "permissionCode":  "tenant:read"
+    },
+    {
         "code":  "TENANT_IDENTITY_PROVIDERS",
         "parentCode":  "TENANT_ONBOARDING",
         "label":  "Identity Providers",
@@ -51,7 +65,7 @@
         "navigationType":  "INTERNAL_LINK",
         "frontendPath":  "/tenant-identity-providers",
         "externalUrl":  null,
-        "displayOrder":  2,
+        "displayOrder":  3,
         "visible":  true,
         "permissionCode":  "tenant:read"
     },
@@ -65,21 +79,21 @@
         "navigationType":  "INTERNAL_LINK",
         "frontendPath":  "/tenant-oidc-config",
         "externalUrl":  null,
-        "displayOrder":  3,
+        "displayOrder":  4,
         "visible":  true,
         "permissionCode":  "tenant:read"
     },
     {
         "code":  "TENANT_INGESTION_PROFILES",
         "parentCode":  "TENANT_ONBOARDING",
-        "label":  "Ingestion Profiles",
+        "label":  "Ingestion Setup",
         "topbarLabel":  null,
         "sidebarLabel":  null,
-        "icon":  "pi pi-list",
+        "icon":  "pi pi-upload",
         "navigationType":  "INTERNAL_LINK",
         "frontendPath":  "/tenant-ingestion-profiles",
         "externalUrl":  null,
-        "displayOrder":  4,
+        "displayOrder":  5,
         "visible":  true,
         "permissionCode":  "tenant:read"
     },
@@ -93,8 +107,8 @@
         "navigationType":  "INTERNAL_LINK",
         "frontendPath":  "/tenant-ingestion-channels",
         "externalUrl":  null,
-        "displayOrder":  5,
-        "visible":  true,
+        "displayOrder":  6,
+        "visible":  false,
         "permissionCode":  "tenant:read"
     },
     {
@@ -107,7 +121,7 @@
         "navigationType":  "INTERNAL_LINK",
         "frontendPath":  "/tenant-codeshare-partners",
         "externalUrl":  null,
-        "displayOrder":  6,
+        "displayOrder":  7,
         "visible":  true,
         "permissionCode":  "codesharepartner:read"
     },
@@ -121,7 +135,7 @@
         "navigationType":  "INTERNAL_LINK",
         "frontendPath":  "/tenant-partner-profiles",
         "externalUrl":  null,
-        "displayOrder":  7,
+        "displayOrder":  8,
         "visible":  true,
         "permissionCode":  "codesharepartner:read"
     },
@@ -135,7 +149,7 @@
         "navigationType":  "INTERNAL_LINK",
         "frontendPath":  "/tenant-communication-profiles",
         "externalUrl":  null,
-        "displayOrder":  8,
+        "displayOrder":  9,
         "visible":  true,
         "permissionCode":  "codesharepartner:read"
     },
@@ -149,7 +163,7 @@
         "navigationType":  "INTERNAL_LINK",
         "frontendPath":  "/tenant-distribution-profiles",
         "externalUrl":  null,
-        "displayOrder":  9,
+        "displayOrder":  10,
         "visible":  true,
         "permissionCode":  "codesharepartner:read"
     },
@@ -306,33 +320,5 @@
         "displayOrder":  10,
         "visible":  true,
         "permissionCode":  "group:assign"
-    },
-    {
-        "code":  "SYSTEM_CONFIG",
-        "parentCode":  "ADMINISTRATION",
-        "label":  "System Settings",
-        "topbarLabel":  null,
-        "sidebarLabel":  null,
-        "icon":  "pi pi-fw pi-cog",
-        "navigationType":  "SECTION",
-        "frontendPath":  null,
-        "externalUrl":  null,
-        "displayOrder":  3,
-        "visible":  true,
-        "permissionCode":  null
-    },
-    {
-        "code":  "DASHBOARD_PRODUCT",
-        "parentCode":  "SYSTEM_CONFIG",
-        "label":  "Product Settings",
-        "topbarLabel":  null,
-        "sidebarLabel":  null,
-        "icon":  "pi pi-fw pi-box",
-        "navigationType":  "INTERNAL_LINK",
-        "frontendPath":  "/settings/products",
-        "externalUrl":  null,
-        "displayOrder":  1,
-        "visible":  true,
-        "permissionCode":  "settings:read"
     }
 ]

@@ -1,0 +1,113 @@
+{
+  "group": "common",
+  "sections": [
+    {
+      "type": "reference-options",
+      "items": [
+        { "category": "TENANT_STATUS", "code": "ACTIVE", "label": "Active", "displayOrder": 1 },
+        { "category": "TENANT_STATUS", "code": "SUSPENDED", "label": "Suspended", "displayOrder": 2 },
+        { "category": "TENANT_STATUS", "code": "EXPIRED", "label": "Expired", "displayOrder": 3 },
+        { "category": "TENANT_STATUS", "code": "DELETED", "label": "Deleted", "displayOrder": 4 },
+
+        { "category": "TENANT_PLAN", "code": "FREE", "label": "Free", "displayOrder": 1 },
+        { "category": "TENANT_PLAN", "code": "PRO", "label": "Pro", "displayOrder": 2 },
+        { "category": "TENANT_PLAN", "code": "ENTERPRISE", "label": "Enterprise", "displayOrder": 3 },
+
+        { "category": "AUTH_SOURCE", "code": "INTERNAL", "label": "Internal users", "displayOrder": 1 },
+        { "category": "AUTH_SOURCE", "code": "LDAP", "label": "LDAP", "displayOrder": 2 },
+        { "category": "AUTH_SOURCE", "code": "AZURE", "label": "Azure AD", "displayOrder": 3 },
+        { "category": "AUTH_SOURCE", "code": "KEYCLOAK", "label": "Keycloak", "displayOrder": 4 },
+        { "category": "AUTH_SOURCE", "code": "OKTA", "label": "Okta", "displayOrder": 5 },
+        { "category": "AUTH_SOURCE", "code": "OIDC_GENERIC", "label": "Generic OIDC", "displayOrder": 6 },
+
+        { "category": "CODESHARE_AGREEMENT_TYPE", "code": "FREE_SALE", "label": "Free Sale", "displayOrder": 1 },
+        { "category": "CODESHARE_AGREEMENT_TYPE", "code": "BLOCK_SPACE", "label": "Block Space", "displayOrder": 2 },
+        { "category": "CODESHARE_AGREEMENT_TYPE", "code": "SEGMENTED", "label": "Segmented", "displayOrder": 3 },
+        { "category": "CODESHARE_AGREEMENT_TYPE", "code": "WET_LEASE", "label": "Wet Lease", "displayOrder": 4 },
+
+        { "category": "CODESHARE_AGREEMENT_STATUS", "code": "ACTIVE", "label": "Active", "displayOrder": 1 },
+        { "category": "CODESHARE_AGREEMENT_STATUS", "code": "DRAFT", "label": "Draft", "displayOrder": 2 },
+        { "category": "CODESHARE_AGREEMENT_STATUS", "code": "SUSPENDED", "label": "Suspended", "displayOrder": 3 },
+        { "category": "CODESHARE_AGREEMENT_STATUS", "code": "EXPIRED", "label": "Expired", "displayOrder": 4 },
+
+        { "category": "RECORD_STATUS", "code": "ACTIVE", "label": "Active", "displayOrder": 1 },
+        { "category": "RECORD_STATUS", "code": "INACTIVE", "label": "Inactive", "displayOrder": 2 },
+        { "category": "RECORD_STATUS", "code": "DRAFT", "label": "Draft", "displayOrder": 3 },
+        { "category": "RECORD_STATUS", "code": "ARCHIVED", "label": "Archived", "displayOrder": 4 },
+
+        { "category": "PARTNER_PROFILE_STATUS", "code": "ACTIVE", "label": "Active", "displayOrder": 1 },
+        { "category": "PARTNER_PROFILE_STATUS", "code": "INACTIVE", "label": "Inactive", "displayOrder": 2 },
+        { "category": "PARTNER_PROFILE_STATUS", "code": "SUSPENDED", "label": "Suspended", "displayOrder": 3 },
+        { "category": "PARTNER_PROFILE_STATUS", "code": "TERMINATED", "label": "Terminated", "displayOrder": 4 },
+        { "category": "PARTNER_PROFILE_STATUS", "code": "EXPIRED", "label": "Expired", "displayOrder": 5 },
+
+        { "category": "PARTNER_TYPE", "code": "OPERATING", "label": "Operating", "displayOrder": 1 },
+        { "category": "PARTNER_TYPE", "code": "MARKETING", "label": "Marketing", "displayOrder": 2 },
+        { "category": "PARTNER_TYPE", "code": "RECIPROCAL", "label": "Reciprocal", "displayOrder": 3 },
+
+        { "category": "AGREEMENT_CATEGORY", "code": "BILATERAL", "label": "Bilateral", "displayOrder": 1 },
+        { "category": "AGREEMENT_CATEGORY", "code": "ALLIANCE", "label": "Alliance", "displayOrder": 2 },
+        { "category": "AGREEMENT_CATEGORY", "code": "INTERLINE", "label": "Interline", "displayOrder": 3 },
+
+        { "category": "INVENTORY_SHARING", "code": "FREE_SALE", "label": "Free Sale", "displayOrder": 1 },
+        { "category": "INVENTORY_SHARING", "code": "BLOCK_SPACE", "label": "Block Space", "displayOrder": 2 },
+        { "category": "INVENTORY_SHARING", "code": "SOFT_BLOCK", "label": "Soft Block", "displayOrder": 3 },
+        { "category": "INVENTORY_SHARING", "code": "HARD_BLOCK", "label": "Hard Block", "displayOrder": 4 },
+
+        { "category": "COMMUNICATION_PROTOCOL", "code": "API", "label": "API", "displayOrder": 1 },
+        { "category": "COMMUNICATION_PROTOCOL", "code": "MQ", "label": "MQ", "displayOrder": 2 },
+        { "category": "COMMUNICATION_PROTOCOL", "code": "SFTP", "label": "SFTP", "displayOrder": 3 },
+        { "category": "COMMUNICATION_PROTOCOL", "code": "EMAIL", "label": "Email", "displayOrder": 4 },
+        { "category": "COMMUNICATION_PROTOCOL", "code": "AS2", "label": "AS2", "displayOrder": 5 },
+
+        { "category": "TRANSPORT_TYPE", "code": "REST", "label": "REST", "displayOrder": 1 },
+        { "category": "TRANSPORT_TYPE", "code": "SOAP", "label": "SOAP", "displayOrder": 2 },
+        { "category": "TRANSPORT_TYPE", "code": "JMS", "label": "JMS", "displayOrder": 3 },
+        { "category": "TRANSPORT_TYPE", "code": "FTP", "label": "FTP", "displayOrder": 4 },
+        { "category": "TRANSPORT_TYPE", "code": "SFTP", "label": "SFTP", "displayOrder": 5 },
+        { "category": "TRANSPORT_TYPE", "code": "HTTPS", "label": "HTTPS", "displayOrder": 6 },
+
+        { "category": "MESSAGE_FORMAT", "code": "SSIM", "label": "SSIM", "displayOrder": 1 },
+        { "category": "MESSAGE_FORMAT", "code": "ASM", "label": "ASM", "displayOrder": 2 },
+        { "category": "MESSAGE_FORMAT", "code": "SSM", "label": "SSM", "displayOrder": 3 },
+        { "category": "MESSAGE_FORMAT", "code": "XML", "label": "XML", "displayOrder": 4 },
+        { "category": "MESSAGE_FORMAT", "code": "JSON", "label": "JSON", "displayOrder": 5 },
+        { "category": "MESSAGE_FORMAT", "code": "EDIFACT", "label": "EDIFACT", "displayOrder": 6 },
+
+        { "category": "AUTHENTICATION_TYPE", "code": "NONE", "label": "None", "displayOrder": 1 },
+        { "category": "AUTHENTICATION_TYPE", "code": "BASIC", "label": "Basic", "displayOrder": 2 },
+        { "category": "AUTHENTICATION_TYPE", "code": "API_KEY", "label": "API Key", "displayOrder": 3 },
+        { "category": "AUTHENTICATION_TYPE", "code": "OAUTH2", "label": "OAuth2", "displayOrder": 4 },
+        { "category": "AUTHENTICATION_TYPE", "code": "JWT", "label": "JWT", "displayOrder": 5 },
+        { "category": "AUTHENTICATION_TYPE", "code": "CERTIFICATE", "label": "Certificate", "displayOrder": 6 },
+        { "category": "AUTHENTICATION_TYPE", "code": "SSH_KEY", "label": "SSH Key", "displayOrder": 7 },
+
+        { "category": "DISTRIBUTION_MODE", "code": "REAL_TIME", "label": "Real Time", "displayOrder": 1 },
+        { "category": "DISTRIBUTION_MODE", "code": "SCHEDULED", "label": "Scheduled", "displayOrder": 2 },
+        { "category": "DISTRIBUTION_MODE", "code": "MANUAL", "label": "Manual", "displayOrder": 3 },
+
+        { "category": "DISTRIBUTION_MESSAGE_TYPE", "code": "SSIM", "label": "SSIM", "displayOrder": 1 },
+        { "category": "DISTRIBUTION_MESSAGE_TYPE", "code": "SSM", "label": "SSM", "displayOrder": 2 },
+        { "category": "DISTRIBUTION_MESSAGE_TYPE", "code": "ASM", "label": "ASM", "displayOrder": 3 },
+
+        { "category": "INGESTION_SOURCE_TYPE", "code": "SFTP", "label": "SFTP", "displayOrder": 1 },
+        { "category": "INGESTION_SOURCE_TYPE", "code": "MQ", "label": "Message Queue", "displayOrder": 2 },
+        { "category": "INGESTION_SOURCE_TYPE", "code": "EMAIL", "label": "Email", "displayOrder": 3 },
+        { "category": "INGESTION_SOURCE_TYPE", "code": "LOCAL", "label": "Local Folder", "displayOrder": 4 },
+        { "category": "INGESTION_SOURCE_TYPE", "code": "REST", "label": "REST Upload", "displayOrder": 5 },
+        { "category": "INGESTION_SOURCE_TYPE", "code": "CLOUD", "label": "Cloud Storage", "displayOrder": 6 },
+
+        { "category": "INGESTION_MESSAGE_TYPE", "code": "SSIM", "label": "SSIM", "displayOrder": 1 },
+        { "category": "INGESTION_MESSAGE_TYPE", "code": "ASM", "label": "ASM", "displayOrder": 2 },
+        { "category": "INGESTION_MESSAGE_TYPE", "code": "SSM", "label": "SSM", "displayOrder": 3 },
+
+        { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "RECEIVED", "label": "Received", "displayOrder": 1 },
+        { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "VALIDATED", "label": "Validated", "displayOrder": 2 },
+        { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "PARSED", "label": "Parsed", "displayOrder": 3 },
+        { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "LOADED", "label": "Loaded", "displayOrder": 4 },
+        { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "PARTIALLY_LOADED", "label": "Partially Loaded", "displayOrder": 5 },
+        { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "FAILED", "label": "Failed", "displayOrder": 6 }
+      ]
+    }
+  ]
+}

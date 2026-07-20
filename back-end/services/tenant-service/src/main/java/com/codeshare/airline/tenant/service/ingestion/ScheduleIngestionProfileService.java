@@ -11,6 +11,10 @@ public interface ScheduleIngestionProfileService {
 
     TenantIngestionProfileDTO update(Long id, TenantIngestionProfileDTO dto);
 
+    TenantIngestionProfileDTO getCurrent(String tenantCode);
+
+    TenantIngestionProfileDTO saveCurrent(String tenantCode, TenantIngestionProfileDTO dto);
+
     TenantIngestionProfileDTO getByTenantCode(String tenantCode);
 
     List<TenantIngestionProfileDTO> getAll();

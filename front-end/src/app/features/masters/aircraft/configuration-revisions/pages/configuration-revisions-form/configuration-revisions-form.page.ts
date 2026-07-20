@@ -16,12 +16,6 @@ import { AircraftConfigurationRevisionService } from '@features/masters/aircraft
 export class AircraftConfigurationRevisionFormPage extends BaseCrudForm<AircraftConfigurationRevision> {
     private fb = inject(FormBuilder);
     private service = inject(AircraftConfigurationRevisionService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

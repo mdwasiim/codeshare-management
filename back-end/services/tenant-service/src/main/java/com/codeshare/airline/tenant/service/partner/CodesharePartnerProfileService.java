@@ -9,5 +9,6 @@ public interface CodesharePartnerProfileService {
     CodesharePartnerProfileDTO update(Long id, CodesharePartnerProfileDTO dto);
     CodesharePartnerProfileDTO getById(Long id);
     List<CodesharePartnerProfileDTO> getAll();
+    List<CodesharePartnerProfileDTO> getCurrent(String tenantCode);
     void delete(Long id);
 }

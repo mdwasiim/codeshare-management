@@ -16,12 +16,6 @@ import { AirportTerminalService } from '@features/masters/terminal/airport-termi
 export class AirportTerminalFormPage extends BaseCrudForm<AirportTerminal> {
     private fb = inject(FormBuilder);
     private service = inject(AirportTerminalService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

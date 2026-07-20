@@ -16,12 +16,6 @@ import { SeasonService } from '@features/masters/schedule/seasons/services/seaso
 export class SeasonFormPage extends BaseCrudForm<Season> {
     private fb = inject(FormBuilder);
     private service = inject(SeasonService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

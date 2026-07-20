@@ -3,6 +3,7 @@ package com.codeshare.airline.tenant.repository.partner;
 import com.codeshare.airline.platform.data.jpa.repository.CSMDataBaseRepository;
 import com.codeshare.airline.tenant.entities.partner.CodesharePartner;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CodesharePartnerRepository extends CSMDataBaseRepository<CodesharePartner, Long> {
@@ -10,4 +11,6 @@ public interface CodesharePartnerRepository extends CSMDataBaseRepository<Codesh
     boolean existsByTenantIdAndHomeAirlineIdAndPartnerAirlineId(Long tenantId, Long homeAirlineId, Long partnerAirlineId);
 
     Optional<CodesharePartner> findByTenantIdAndHomeAirlineIdAndPartnerAirlineId(Long tenantId, Long homeAirlineId, Long partnerAirlineId);
+
+    List<CodesharePartner> findByTenantIdOrderByDisplayOrderAscPartnerAirlineIdAsc(Long tenantId);
 }

@@ -16,12 +16,6 @@ import { AirportService } from '@features/masters/geography/airports/services/ai
 export class AirportFormPage extends BaseCrudForm<Airport> {
     private fb = inject(FormBuilder);
     private service = inject(AirportService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

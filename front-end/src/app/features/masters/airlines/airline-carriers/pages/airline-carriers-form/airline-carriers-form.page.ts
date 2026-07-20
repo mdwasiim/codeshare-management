@@ -16,12 +16,6 @@ import { AirlineCarrierService } from '@features/masters/airlines/airline-carrie
 export class AirlineCarrierFormPage extends BaseCrudForm<AirlineCarrier> {
     private fb = inject(FormBuilder);
     private service = inject(AirlineCarrierService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

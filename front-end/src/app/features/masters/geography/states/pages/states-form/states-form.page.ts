@@ -16,12 +16,6 @@ import { StateService } from '@features/masters/geography/states/services/states
 export class StateFormPage extends BaseCrudForm<State> {
     private fb = inject(FormBuilder);
     private service = inject(StateService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

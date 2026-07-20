@@ -16,12 +16,6 @@ import { AircraftCabinLayoutService } from '@features/masters/aircraft/cabin-lay
 export class AircraftCabinLayoutFormPage extends BaseCrudForm<AircraftCabinLayout> {
     private fb = inject(FormBuilder);
     private service = inject(AircraftCabinLayoutService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

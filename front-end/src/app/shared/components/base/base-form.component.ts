@@ -16,11 +16,12 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
     isEdit = false;
     loading = false;
     lookupOptions: Record<string, MasterLookupOption[]> = {};
+    recordStatusOptions: MasterLookupOption[] = [];
 
     private initialized = false;
     private lookupsLoaded = false;
     private readonly destroy$ = new Subject<void>();
-    private readonly masterLookup = inject(MasterReferenceLookupService);
+    private readonly masterReferenceLookup = inject(MasterReferenceLookupService);
 
     abstract buildForm(): void;
     abstract patchForm(data: T): void;
@@ -48,6 +49,9 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
             this.buildForm();
             this.initialized = true;
             this.loadLookupOptions();
+            this.loadReferenceOptions('RECORD_STATUS', (options) => {
+                this.recordStatusOptions = options;
+            });
         }
 
         this.loading = false;
@@ -116,6 +120,13 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
         console.error(err);
     }
 
+    protected loadReferenceOptions<TValue extends string | number = string>(categoryCode: string, onLoad: (options: Array<MasterLookupOption & { value: TValue }>) => void): void {
+        this.masterReferenceLookup
+            .getReferenceOptions<TValue>(categoryCode)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(onLoad);
+    }
+
     private loadLookupOptions(): void {
         if (this.lookupsLoaded || !this.form) {
             return;
@@ -123,7 +134,7 @@ export abstract class BaseCrudForm<T> implements OnInit, OnChanges, OnDestroy {
 
         this.lookupsLoaded = true;
         Object.keys(this.form.controls).forEach((fieldName) => {
-            this.masterLookup
+            this.masterReferenceLookup
                 .getOptions(fieldName)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe((options) => {

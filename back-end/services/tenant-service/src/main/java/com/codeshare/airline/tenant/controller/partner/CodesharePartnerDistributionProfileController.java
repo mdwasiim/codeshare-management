@@ -30,6 +30,11 @@ public class CodesharePartnerDistributionProfileController {
     @GetMapping
     public List<CodesharePartnerDistributionProfileDTO> getAll(@RequestParam Map<String, String> filters) { return ExactFilter.apply(service.getAll(), filters); }
 
+    @GetMapping("/current")
+    public List<CodesharePartnerDistributionProfileDTO> getCurrent(@RequestHeader("X-Tenant-Id") String tenantCode) {
+        return service.getCurrent(tenantCode);
+    }
+
     @GetMapping("/internal/{tenantCode}/{partnerCode}")
     public List<CodesharePartnerDistributionProfileDTO> resolve(
             @PathVariable String tenantCode,

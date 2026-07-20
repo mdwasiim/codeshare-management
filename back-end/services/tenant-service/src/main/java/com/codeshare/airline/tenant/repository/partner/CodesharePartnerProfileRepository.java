@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface CodesharePartnerProfileRepository extends CSMDataBaseRepository<CodesharePartnerProfile, Long> {
@@ -13,6 +14,8 @@ public interface CodesharePartnerProfileRepository extends CSMDataBaseRepository
     boolean existsByPartner_IdAndProfileCode(Long partnerId, String profileCode);
 
     Optional<CodesharePartnerProfile> findByPartner_IdAndProfileCode(Long partnerId, String profileCode);
+
+    List<CodesharePartnerProfile> findByPartner_TenantIdOrderByPartner_IdAscPriorityAscDisplayOrderAscIdAsc(Long tenantId);
 
     @Query("""
             select p from CodesharePartnerProfile p

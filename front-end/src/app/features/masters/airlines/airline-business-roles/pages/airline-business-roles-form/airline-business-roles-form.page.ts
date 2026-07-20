@@ -16,12 +16,6 @@ import { AirlineBusinessRoleService } from '@features/masters/airlines/airline-b
 export class AirlineBusinessRoleFormPage extends BaseCrudForm<AirlineBusinessRole> {
     private fb = inject(FormBuilder);
     private service = inject(AirlineBusinessRoleService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

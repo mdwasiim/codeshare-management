@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { BaseCrudForm } from '@shared/components/base/base-form.component';
 import { AppFormSectionComponent } from '@shared/components/form-section/app-form-section.component';
+import { MasterReferenceLookupService } from '@features/masters/shared/master-reference-lookup.service';
 
 import {
     AgreementCategory,
@@ -21,10 +22,7 @@ import {
 import { TenantPartnerService } from '../../services/tenant-partner.service';
 import { TenantPartnerProfileService } from '../../services/tenant-partner-profile.service';
 import {
-    AGREEMENT_CATEGORY_OPTIONS,
-    INVENTORY_SHARING_OPTIONS,
-    PARTNER_TYPE_OPTIONS,
-    RECORD_STATUS_OPTIONS,
+    SelectOption,
     TenantPartnerOption,
     normalizeOptionalText,
     toDateInputValue,
@@ -51,17 +49,19 @@ export class TenantPartnerProfileFormPage extends BaseCrudForm<TenantPartnerProf
     private readonly fb = inject(FormBuilder);
     private readonly service = inject(TenantPartnerProfileService);
     private readonly tenantPartnerService = inject(TenantPartnerService);
+    private readonly masterLookup = inject(MasterReferenceLookupService);
 
-    readonly recordStatusOptions = [...RECORD_STATUS_OPTIONS];
-    readonly partnerTypeOptions = [...PARTNER_TYPE_OPTIONS];
-    readonly agreementCategoryOptions = [...AGREEMENT_CATEGORY_OPTIONS];
-    readonly inventorySharingOptions = [...INVENTORY_SHARING_OPTIONS];
+    override recordStatusOptions: SelectOption[] = [];
+    partnerTypeOptions: SelectOption<PartnerType>[] = [];
+    agreementCategoryOptions: SelectOption<AgreementCategory>[] = [];
+    inventorySharingOptions: SelectOption<InventorySharingType>[] = [];
 
     partnerOptions: TenantPartnerOption[] = [];
 
     override ngOnInit(): void {
         super.ngOnInit();
         this.loadPartnerOptions();
+        this.loadProfileReferenceOptions();
     }
 
     override buildForm(): void {
@@ -110,6 +110,21 @@ export class TenantPartnerProfileFormPage extends BaseCrudForm<TenantPartnerProf
     private loadPartnerOptions(): void {
         this.tenantPartnerService.getAll().subscribe((partners) => {
             this.partnerOptions = toTenantPartnerOptions(partners ?? []);
+        });
+    }
+
+    private loadProfileReferenceOptions(): void {
+        this.masterLookup.getReferenceOptions('PARTNER_PROFILE_STATUS').subscribe((options) => {
+            this.recordStatusOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<PartnerType>('PARTNER_TYPE').subscribe((options) => {
+            this.partnerTypeOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<AgreementCategory>('AGREEMENT_CATEGORY').subscribe((options) => {
+            this.agreementCategoryOptions = options;
+        });
+        this.masterLookup.getReferenceOptions<InventorySharingType>('INVENTORY_SHARING').subscribe((options) => {
+            this.inventorySharingOptions = options;
         });
     }
 

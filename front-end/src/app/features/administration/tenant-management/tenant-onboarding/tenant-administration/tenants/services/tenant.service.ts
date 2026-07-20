@@ -30,6 +30,10 @@ export class TenantService {
         });
     }
 
+    getCurrent() {
+        return this.api.get<Tenant>(API_ENDPOINTS.tenantService.tenants.current);
+    }
+
     create(payload: Tenant) {
         return this.api.post<Tenant>(API_ENDPOINTS.tenantService.tenants.base, payload).pipe(
             tap(() => this.toast.success('Tenant created successfully')),
@@ -47,6 +51,16 @@ export class TenantService {
             tap(() => this.toast.success('Tenant updated successfully')),
             catchError((error) => {
                 this.toast.error(error?.message || 'Failed to update tenant');
+                return throwError(() => error);
+            })
+        );
+    }
+
+    updateCurrent(payload: Partial<Tenant>) {
+        return this.api.put<Tenant>(API_ENDPOINTS.tenantService.tenants.current, payload).pipe(
+            tap(() => this.toast.success('Tenant setup saved successfully')),
+            catchError((error) => {
+                this.toast.error(error?.message || 'Failed to save tenant setup');
                 return throwError(() => error);
             })
         );

@@ -7,6 +7,7 @@ export const TENANT_INGESTION_ROUTES: Routes = [
     },
     {
         path: 'tenant-ingestion-channels',
-        loadComponent: () => import('./pages/tenant-ingestion-channels/tenant-ingestion-channels.page').then((m) => m.TenantIngestionChannelsPage)
+        redirectTo: 'tenant-ingestion-profiles',
+        pathMatch: 'full'
     }
 ];

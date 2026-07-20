@@ -27,6 +27,18 @@ public class ScheduleIngestionProfileController {
         return service.update(id, dto);
     }
 
+    @GetMapping("/current")
+    public TenantIngestionProfileDTO getCurrent(@RequestHeader("X-Tenant-Id") String tenantCode) {
+        return service.getCurrent(tenantCode);
+    }
+
+    @PutMapping("/current")
+    public TenantIngestionProfileDTO saveCurrent(
+            @RequestHeader("X-Tenant-Id") String tenantCode,
+            @RequestBody TenantIngestionProfileDTO dto) {
+        return service.saveCurrent(tenantCode, dto);
+    }
+
     @GetMapping("/tenant/{tenantCode}")
     public TenantIngestionProfileDTO getByTenantCode(@PathVariable String tenantCode) {
         return service.getByTenantCode(tenantCode);

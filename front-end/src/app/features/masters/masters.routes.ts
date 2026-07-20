@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const MASTERS_ROUTES: Routes = [
+    { path: 'common/reference-options', loadChildren: () => import('@features/masters/common/reference-options/reference-options.routes').then((m) => m.COMMON_REFERENCE_OPTION_ROUTES) },
     { path: 'geography/countries', loadChildren: () => import('@features/masters/geography/countries/countries.routes').then((m) => m.COUNTRY_ROUTES) },
     { path: 'geography/regions', loadChildren: () => import('@features/masters/geography/regions/regions.routes').then((m) => m.REGION_ROUTES) },
     { path: 'geography/states', loadChildren: () => import('@features/masters/geography/states/states.routes').then((m) => m.STATE_ROUTES) },

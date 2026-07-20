@@ -16,12 +16,6 @@ import { DataElementIdentifierService } from '@features/masters/messaging/data-e
 export class DataElementIdentifierFormPage extends BaseCrudForm<DataElementIdentifier> {
     private fb = inject(FormBuilder);
     private service = inject(DataElementIdentifierService);
-    readonly recordStatusOptions = [
-        { label: 'Active', value: 'ACTIVE' },
-        { label: 'Inactive', value: 'INACTIVE' },
-        { label: 'Draft', value: 'DRAFT' },
-        { label: 'Archived', value: 'ARCHIVED' }
-    ];
     buildForm(): void {
         this.form = this.fb.group({
             id: [null as string | null],

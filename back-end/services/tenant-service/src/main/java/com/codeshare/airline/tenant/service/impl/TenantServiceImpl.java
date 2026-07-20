@@ -90,6 +90,19 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     @Transactional(readOnly = true)
+    public TenantDTO getCurrent(String tenantCode) {
+        return getByCode(tenantCode);
+    }
+
+    @Override
+    public TenantDTO updateCurrent(String tenantCode, TenantDTO dto) {
+        Tenant tenant = repository.findByTenantCode(normalizeTenantCode(tenantCode))
+                .orElseThrow(() -> new CSMResourceNotFoundException("Tenant not found: " + tenantCode));
+        return update(tenant.getId(), dto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<TenantDTO> getAll() {
         return repository.findAll().stream().map(this::toTenantDto).toList();
     }

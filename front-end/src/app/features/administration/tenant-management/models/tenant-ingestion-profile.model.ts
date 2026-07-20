@@ -4,6 +4,7 @@ export interface TenantIngestionChannel extends AuditableModel {
     id?: number;
     messageType?: string;
     sourceType?: string;
+    partnerCode?: string;
     enabled?: boolean;
     priority?: number;
     host?: string;
@@ -11,10 +12,12 @@ export interface TenantIngestionChannel extends AuditableModel {
     username?: string;
     remoteDirectory?: string;
     protocol?: string;
+    mailbox?: string;
     brokerUrl?: string;
     queueName?: string;
     topicName?: string;
     fileIncludePattern?: string;
+    fileExcludePattern?: string;
 }
 
 export interface TenantIngestionProfile extends AuditableModel {

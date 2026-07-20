@@ -1,5 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS schedule_master_data;
 
+CREATE SEQUENCE IF NOT EXISTS schedule_master_data.common_reference_option_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS schedule_master_data.action_code_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS schedule_master_data.action_identifier_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS schedule_master_data.aircraft_cabin_layout_seq START WITH 1 INCREMENT BY 50;
@@ -59,3 +60,29 @@ CREATE SEQUENCE IF NOT EXISTS schedule_master_data.traffic_conference_area_seq S
 CREATE SEQUENCE IF NOT EXISTS schedule_master_data.traffic_restriction_code_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS schedule_master_data.traffic_restriction_qualifier_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS schedule_master_data.utc_offset_seq START WITH 1 INCREMENT BY 50;
+
+CREATE TABLE IF NOT EXISTS schedule_master_data.common_reference_option (
+    id BIGINT PRIMARY KEY,
+    category_code VARCHAR(100) NOT NULL,
+    option_code VARCHAR(100) NOT NULL,
+    option_label VARCHAR(200) NOT NULL,
+    description VARCHAR(500),
+    display_order INTEGER,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    created_by VARCHAR(100),
+    updated_at TIMESTAMP,
+    updated_by VARCHAR(100),
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    deleted_at TIMESTAMP,
+    deleted_by VARCHAR(100),
+    transaction_id VARCHAR(50),
+    CONSTRAINT uk_common_reference_option UNIQUE (category_code, option_code)
+);
+
+CREATE INDEX IF NOT EXISTS idx_common_reference_option_category
+    ON schedule_master_data.common_reference_option (category_code);
+
+CREATE INDEX IF NOT EXISTS idx_common_reference_option_status
+    ON schedule_master_data.common_reference_option (status);
