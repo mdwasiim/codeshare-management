@@ -6,19 +6,27 @@
       "items": [
         {
           "group": "SYSTEM_ADMINISTRATORS",
-          "roles": ["SYSTEM_ADMIN"]
+          "roles": [
+            "SYSTEM_ADMIN"
+          ]
         },
         {
           "group": "TENANT_ADMINISTRATORS",
-          "roles": ["TENANT_ADMIN"]
+          "roles": [
+            "TENANT_ADMIN"
+          ]
         },
         {
           "group": "SCHEDULE_OPERATORS",
-          "roles": ["OPERATOR"]
+          "roles": [
+            "OPERATOR"
+          ]
         },
         {
           "group": "READ_ONLY_USERS",
-          "roles": ["READ_ONLY"]
+          "roles": [
+            "READ_ONLY"
+          ]
         }
       ]
     },
@@ -27,7 +35,9 @@
       "items": [
         {
           "role": "SYSTEM_ADMIN",
-          "permissions": ["*"]
+          "permissions": [
+            "*"
+          ]
         },
         {
           "role": "TENANT_ADMIN",
@@ -161,19 +171,27 @@
       "items": [
         {
           "username": "admin",
-          "groups": ["SYSTEM_ADMINISTRATORS"]
+          "groups": [
+            "SYSTEM_ADMINISTRATORS"
+          ]
         },
         {
           "username": "tenantadmin",
-          "groups": ["TENANT_ADMINISTRATORS"]
+          "groups": [
+            "TENANT_ADMINISTRATORS"
+          ]
         },
         {
           "username": "operator",
-          "groups": ["SCHEDULE_OPERATORS"]
+          "groups": [
+            "SCHEDULE_OPERATORS"
+          ]
         },
         {
           "username": "readonly",
-          "groups": ["READ_ONLY_USERS"]
+          "groups": [
+            "READ_ONLY_USERS"
+          ]
         }
       ]
     },
@@ -182,7 +200,9 @@
       "items": [
         {
           "group": "SYSTEM_ADMINISTRATORS",
-          "menus": ["*"]
+          "menus": [
+            "*"
+          ]
         },
         {
           "group": "TENANT_ADMINISTRATORS",

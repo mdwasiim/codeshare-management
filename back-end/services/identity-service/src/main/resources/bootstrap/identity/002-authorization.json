@@ -2348,6 +2348,46 @@
                                            "domain":  "permission",
                                            "action":  "assign",
                                            "description":  "Allows assigning permissions."
+                                       },
+                                       {
+                                         "domain": "commonreferenceoption",
+                                         "action": "create",
+                                         "description": "Allows create access for common reference options."
+                                       },
+                                       {
+                                         "domain": "commonreferenceoption",
+                                         "action": "read",
+                                         "description": "Allows read access for common reference options."
+                                       },
+                                       {
+                                         "domain": "commonreferenceoption",
+                                         "action": "update",
+                                         "description": "Allows update access for common reference options."
+                                       },
+                                       {
+                                         "domain": "commonreferenceoption",
+                                         "action": "delete",
+                                         "description": "Allows delete access for common reference options."
+                                       },
+                                       {
+                                         "domain": "commonreferenceoption",
+                                         "action": "publish",
+                                         "description": "Allows publish access for common reference options."
+                                       },
+                                       {
+                                         "domain": "commonreferenceoption",
+                                         "action": "approve",
+                                         "description": "Allows approve access for common reference options."
+                                       },
+                                       {
+                                         "domain": "commonreferenceoption",
+                                         "action": "import",
+                                         "description": "Allows import access for common reference options."
+                                       },
+                                       {
+                                         "domain": "commonreferenceoption",
+                                         "action": "export",
+                                         "description": "Allows export access for common reference options."
                                        }
                                    ]
                      }
