@@ -1,5 +1,6 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.dto.master.aircraft.AircraftConfigurationDTO;
 import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.entities.AircraftType;
@@ -7,8 +8,7 @@ import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRep
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
 import com.codeshare.airline.master.aircraft.service.AircraftConfigurationService;
 import com.codeshare.airline.master.aircraft.mappers.AircraftConfigurationMapper;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -21,18 +21,18 @@ public class AircraftConfigurationServiceImpl
 
     private final AircraftConfigurationRepository repository;
     private final AircraftTypeRepository aircraftTypeRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
 
     public AircraftConfigurationServiceImpl(
             AircraftConfigurationRepository repository,
             AircraftConfigurationMapper mapper,
             AircraftTypeRepository aircraftTypeRepository,
-            AirlineCarrierRepository airlineCarrierRepository) {
+            AirlineRepository airlineRepository) {
 
         super(repository, mapper);
         this.repository = repository;
         this.aircraftTypeRepository = aircraftTypeRepository;
-        this.airlineCarrierRepository = airlineCarrierRepository;
+        this.airlineRepository = airlineRepository;
     }
 
     private AircraftType getAircraftType(Long id) {
@@ -40,8 +40,8 @@ public class AircraftConfigurationServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft type not found"));
     }
 
-    private AirlineCarrier getAirline(Long id) {
-        return airlineCarrierRepository.findById(id)
+    private Airline getAirline(Long id) {
+        return airlineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 
@@ -49,7 +49,7 @@ public class AircraftConfigurationServiceImpl
     public AircraftConfigurationDTO create(AircraftConfigurationDTO dto) {
 
         AircraftType type = getAircraftType(dto.getAircraftTypeId());
-        AirlineCarrier airline = getAirline(dto.getAirlineId());
+        Airline airline = getAirline(dto.getAirlineId());
 
         AircraftConfiguration config = mapper.toEntity(dto);
 
@@ -92,7 +92,7 @@ public class AircraftConfigurationServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Configuration not found"));
 
         AircraftType type = getAircraftType(dto.getAircraftTypeId());
-        AirlineCarrier airline = getAirline(dto.getAirlineId());
+        Airline airline = getAirline(dto.getAirlineId());
 
         mapper.updateEntityFromDto(dto, existing);
 

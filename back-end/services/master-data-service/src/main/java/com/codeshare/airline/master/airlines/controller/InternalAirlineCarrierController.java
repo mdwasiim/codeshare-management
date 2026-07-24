@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.airlines.controller;
 
 import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
-import com.codeshare.airline.master.airlines.mappers.AirlineCarrierMapper;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.mappers.AirlineMapper;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class InternalAirlineCarrierController {
 
-    private final AirlineCarrierRepository repository;
-    private final AirlineCarrierMapper mapper;
+    private final AirlineRepository repository;
+    private final AirlineMapper mapper;
 
     @GetMapping("/iata/{iataCode}")
     public AirlineCarrierDTO getByIataCode(@PathVariable String iataCode) {

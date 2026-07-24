@@ -1,5 +1,6 @@
 package com.codeshare.airline.master.data;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.enums.common.CabinClass;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.platform.core.enums.master.airline.AirlineAliasType;
@@ -13,17 +14,8 @@ import com.codeshare.airline.platform.core.enums.schedule.SeasonType;
 import com.codeshare.airline.master.common.entities.CommonReferenceOption;
 import com.codeshare.airline.master.common.repository.CommonReferenceOptionRepository;
 import com.codeshare.airline.master.airlines.entities.AirlineAlias;
-import com.codeshare.airline.master.airlines.entities.AirlineBusinessRole;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.entities.AirlineContact;
-import com.codeshare.airline.master.airlines.entities.Alliance;
-import com.codeshare.airline.master.airlines.entities.AllianceMember;
 import com.codeshare.airline.master.airlines.repository.AirlineAliasRepository;
-import com.codeshare.airline.master.airlines.repository.AirlineBusinessRoleRepository;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
-import com.codeshare.airline.master.airlines.repository.AirlineContactRepository;
-import com.codeshare.airline.master.airlines.repository.AllianceMemberRepository;
-import com.codeshare.airline.master.airlines.repository.AllianceRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.flight.passenger.entities.ElectronicTicketIndicator;
 import com.codeshare.airline.master.flight.passenger.entities.MealService;
 import com.codeshare.airline.master.flight.passenger.entities.ReservationBookingDesignator;
@@ -145,7 +137,7 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
     private final DstRuleRepository dstRuleRepository;
     private final AirportTerminalRepository airportTerminalRepository;
     private final PassengerTerminalRepository passengerTerminalRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
     private final AirlineAliasRepository airlineAliasRepository;
     private final AirlineBusinessRoleRepository airlineBusinessRoleRepository;
     private final AirlineContactRepository airlineContactRepository;
@@ -239,23 +231,23 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
     }
 
     private void airlineAlias(String airlineCode, String code, String name, AirlineAliasType type, int order) {
-        airlineCarrierRepository.findByIataCode(airlineCode)
+        airlineRepository.findByIataCode(airlineCode)
                 .ifPresent(airline -> airlineAlias(airline, code, name, type, order));
     }
 
     private void airlineRole(String airlineCode, String code, String name, AirlineRoleScope scope, AirlineRoleCategory category, int order) {
-        airlineCarrierRepository.findByIataCode(airlineCode)
+        airlineRepository.findByIataCode(airlineCode)
                 .ifPresent(airline -> airlineRole(airline, code, name, scope, category, order));
     }
 
     private void airlineContact(String airlineCode, String code, String name, String department, AirlineContactType type, String email, String phone, boolean available24x7, int order) {
-        airlineCarrierRepository.findByIataCode(airlineCode)
+        airlineRepository.findByIataCode(airlineCode)
                 .ifPresent(airline -> airlineContact(airline, code, name, department, type, email, phone, available24x7, order));
     }
 
     private void allianceMember(String allianceCode, String airlineCode, AllianceMembershipType membershipType, LocalDate joinDate, boolean primary, int order) {
         var alliance = allianceRepository.findByAllianceCode(allianceCode);
-        var airline = airlineCarrierRepository.findByIataCode(airlineCode);
+        var airline = airlineRepository.findByIataCode(airlineCode);
         if (alliance.isPresent() && airline.isPresent()) {
             allianceMember(alliance.get(), airline.get(), membershipType, joinDate, primary, order);
         }
@@ -663,7 +655,7 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
         });
     }
 
-    private void airlineAlias(AirlineCarrier airline, String code, String name, AirlineAliasType type, int order) {
+    private void airlineAlias(Airline airline, String code, String name, AirlineAliasType type, int order) {
         if (airlineAliasRepository.existsByAirline_IataCodeAndAliasCode(airline.getIataCode(), code)) return;
         AirlineAlias item = new AirlineAlias();
         item.setAirline(airline);
@@ -674,7 +666,7 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
         airlineAliasRepository.save(item);
     }
 
-    private void airlineRole(AirlineCarrier airline,
+    private void airlineRole(Airline airline,
                              String code,
                              String name,
                              AirlineRoleScope scope,
@@ -691,7 +683,7 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
         airlineBusinessRoleRepository.save(item);
     }
 
-    private void airlineContact(AirlineCarrier airline,
+    private void airlineContact(Airline airline,
                                 String code,
                                 String name,
                                 String department,
@@ -718,7 +710,7 @@ public class ReferenceMasterDataLoader implements CommandLineRunner {
     }
 
     private void allianceMember(Alliance alliance,
-                                AirlineCarrier airline,
+                                Airline airline,
                                 AllianceMembershipType membershipType,
                                 LocalDate joinDate,
                                 boolean primary,

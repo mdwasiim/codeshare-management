@@ -4,7 +4,7 @@ import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.CockpitCrewOperator;
 import com.codeshare.airline.platform.core.enums.master.aircraft.CrewEmployerType;
 import com.codeshare.airline.master.aircraft.repository.CockpitCrewOperatorRepository;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.geography.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CockpitCrewOperatorDataLoader implements CommandLineRunner {
 
     private final CockpitCrewOperatorRepository repository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
     private final CountryRepository countryRepository;
 
     @Override
@@ -53,7 +53,7 @@ public class CockpitCrewOperatorDataLoader implements CommandLineRunner {
         operator.setIataCode(iataCode);
         operator.setIcaoCode(icaoCode);
         operator.setCountry(iso2CountryCode == null ? null : countryRepository.findByIso2Code(iso2CountryCode).orElse(null));
-        operator.setAirline(airlineIataCode == null ? null : airlineCarrierRepository.findByIataCode(airlineIataCode).orElse(null));
+        operator.setAirline(airlineIataCode == null ? null : airlineRepository.findByIataCode(airlineIataCode).orElse(null));
         operator.setActive(Boolean.TRUE);
         operator.setDisplayOrder(displayOrder);
         operator.setRecordStatus(RecordStatus.ACTIVE);

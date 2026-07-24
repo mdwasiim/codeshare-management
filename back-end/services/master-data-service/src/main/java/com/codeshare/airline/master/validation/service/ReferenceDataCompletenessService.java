@@ -2,7 +2,7 @@ package com.codeshare.airline.master.validation.service;
 
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.flight.passenger.repository.MealServiceRepository;
 import com.codeshare.airline.master.flight.passenger.repository.ReservationBookingDesignatorRepository;
 import com.codeshare.airline.master.flight.passenger.repository.ReservationBookingModifierRepository;
@@ -39,7 +39,7 @@ public class ReferenceDataCompletenessService {
     private final StandardMessageIdentifierRepository standardMessageIdentifierRepository;
     private final ActionIdentifierRepository actionIdentifierRepository;
     private final DeiRepository deiRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
     private final AirportRepository airportRepository;
     private final TimezoneRepository timezoneRepository;
     private final DstRuleRepository dstRuleRepository;
@@ -73,7 +73,7 @@ public class ReferenceDataCompletenessService {
                     () -> deiRepository.findByDeiNumber(code).isPresent());
         }
 
-        requiredCategory(response, "airline-carriers", airlineCarrierRepository.count());
+        requiredCategory(response, "airline-carriers", airlineRepository.count());
         requiredCategory(response, "airports", airportRepository.count());
         requiredCategory(response, "timezones", timezoneRepository.count());
         requiredCategory(response, "timezone-dst-periods", dstRuleRepository.count());

@@ -1,8 +1,8 @@
 package com.codeshare.airline.master.airlines.loader;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.geography.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class AirlineCarrierDataLoader implements CommandLineRunner {
 
-    private final AirlineCarrierRepository repository;
+    private final AirlineRepository repository;
     private final CountryRepository countryRepository;
 
     @Override
@@ -48,7 +48,7 @@ public class AirlineCarrierDataLoader implements CommandLineRunner {
                         String iso2CountryCode,
                         String website,
                         int displayOrder) {
-        AirlineCarrier carrier = repository.findByIataCode(iataCode).orElseGet(AirlineCarrier::new);
+        Airline carrier = repository.findByIataCode(iataCode).orElseGet(Airline::new);
         carrier.setIataCode(iataCode);
         carrier.setIcaoCode(icaoCode);
         carrier.setIataNumericCode(numericCode);

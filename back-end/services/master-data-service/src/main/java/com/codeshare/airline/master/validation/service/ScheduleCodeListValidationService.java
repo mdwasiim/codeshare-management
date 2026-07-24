@@ -2,8 +2,8 @@ package com.codeshare.airline.master.validation.service;
 
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.entities.Airline;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.flight.passenger.repository.ReservationBookingDesignatorRepository;
 import com.codeshare.airline.master.flight.passenger.repository.ReservationBookingModifierRepository;
 import com.codeshare.airline.master.flight.passenger.repository.MealServiceRepository;
@@ -39,7 +39,7 @@ public class ScheduleCodeListValidationService {
 
     private final StandardMessageIdentifierRepository standardMessageIdentifierRepository;
     private final ActionIdentifierRepository actionIdentifierRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
     private final AirportRepository airportRepository;
     private final AircraftTypeRepository aircraftTypeRepository;
     private final AircraftConfigurationRepository aircraftConfigurationRepository;
@@ -70,7 +70,7 @@ public class ScheduleCodeListValidationService {
         validateCodes(response, "actionCodes", request.getActionCodes(), "Unknown action identifier",
                 code -> actionIdentifierRepository.existsByActionCode(normalize(code)));
         validateCodes(response, "airlineCodes", request.getAirlineCodes(), "Unknown airline designator",
-                code -> airlineCarrierRepository.findByIataCode(normalize(code)).isPresent());
+                code -> airlineRepository.findByIataCode(normalize(code)).isPresent());
         validateCodes(response, "airportCodes", request.getAirportCodes(), "Unknown airport IATA code",
                 code -> airportRepository.findByIataCode(normalize(code)).isPresent());
         validateCodes(response, "aircraftTypeCodes", request.getAircraftTypeCodes(), "Unknown IATA aircraft type",
@@ -133,7 +133,7 @@ public class ScheduleCodeListValidationService {
                                                 String operatingAirlineCode,
                                                 List<String> configurationCodes) {
 
-        Optional<AirlineCarrier> operatingAirline = airline(operatingAirlineCode);
+        Optional<Airline> operatingAirline = airline(operatingAirlineCode);
 
         validateCodes(response, "aircraftConfigurationCodes", configurationCodes, "Unknown aircraft configuration",
                 code -> {
@@ -168,11 +168,11 @@ public class ScheduleCodeListValidationService {
         }
     }
 
-    private Optional<AirlineCarrier> airline(String airlineCode) {
+    private Optional<Airline> airline(String airlineCode) {
         if (isBlank(airlineCode)) {
             return Optional.empty();
         }
-        return airlineCarrierRepository.findByIataCode(normalize(airlineCode));
+        return airlineRepository.findByIataCode(normalize(airlineCode));
     }
 
     private void validateCodes(ScheduleCodeListValidationResponseDTO response,

@@ -3,7 +3,7 @@ package com.codeshare.airline.master.aircraft.entities;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.platform.core.enums.master.aircraft.FleetStatus;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
+import com.codeshare.airline.master.airlines.entities.Airline;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +42,7 @@ public class AirlineFleetProfile extends CSMDataAbstractEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_FLEET_AIRLINE")
     )
-    private AirlineCarrier airline;
+    private Airline airline;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(

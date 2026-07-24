@@ -1,12 +1,12 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.dto.master.aircraft.CockpitCrewOperatorDTO;
 import com.codeshare.airline.master.aircraft.entities.CockpitCrewOperator;
 import com.codeshare.airline.master.aircraft.mappers.CockpitCrewOperatorMapper;
 import com.codeshare.airline.master.aircraft.repository.CockpitCrewOperatorRepository;
 import com.codeshare.airline.master.aircraft.service.CockpitCrewOperatorService;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.geography.entities.Country;
 import com.codeshare.airline.master.geography.repository.CountryRepository;
@@ -21,18 +21,18 @@ public class CockpitCrewOperatorServiceImpl
 
     private final CockpitCrewOperatorRepository repository;
     private final CountryRepository countryRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
 
     public CockpitCrewOperatorServiceImpl(
             CockpitCrewOperatorRepository repository,
             CockpitCrewOperatorMapper mapper,
             CountryRepository countryRepository,
-            AirlineCarrierRepository airlineCarrierRepository) {
+            AirlineRepository airlineRepository) {
 
         super(repository, mapper);
         this.repository = repository;
         this.countryRepository = countryRepository;
-        this.airlineCarrierRepository = airlineCarrierRepository;
+        this.airlineRepository = airlineRepository;
     }
 
     @Override
@@ -66,12 +66,12 @@ public class CockpitCrewOperatorServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Country not found"));
     }
 
-    private AirlineCarrier getAirlineCarrier(Long id) {
+    private Airline getAirlineCarrier(Long id) {
         if (id == null) {
             return null;
         }
 
-        return airlineCarrierRepository.findById(id)
+        return airlineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline carrier not found"));
     }
 }

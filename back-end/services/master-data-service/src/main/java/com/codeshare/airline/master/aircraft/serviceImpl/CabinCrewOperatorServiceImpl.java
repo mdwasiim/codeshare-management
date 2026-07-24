@@ -5,8 +5,8 @@ import com.codeshare.airline.master.aircraft.entities.CabinCrewOperator;
 import com.codeshare.airline.master.aircraft.mappers.CabinCrewOperatorMapper;
 import com.codeshare.airline.master.aircraft.repository.CabinCrewOperatorRepository;
 import com.codeshare.airline.master.aircraft.service.CabinCrewOperatorService;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.entities.Airline;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import com.codeshare.airline.master.geography.entities.Country;
 import com.codeshare.airline.master.geography.repository.CountryRepository;
@@ -21,18 +21,18 @@ public class CabinCrewOperatorServiceImpl
 
     private final CabinCrewOperatorRepository repository;
     private final CountryRepository countryRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
 
     public CabinCrewOperatorServiceImpl(
             CabinCrewOperatorRepository repository,
             CabinCrewOperatorMapper mapper,
             CountryRepository countryRepository,
-            AirlineCarrierRepository airlineCarrierRepository) {
+            AirlineRepository airlineRepository) {
 
         super(repository, mapper);
         this.repository = repository;
         this.countryRepository = countryRepository;
-        this.airlineCarrierRepository = airlineCarrierRepository;
+        this.airlineRepository = airlineRepository;
     }
 
     @Override
@@ -66,12 +66,12 @@ public class CabinCrewOperatorServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Country not found"));
     }
 
-    private AirlineCarrier getAirlineCarrier(Long id) {
+    private Airline getAirlineCarrier(Long id) {
         if (id == null) {
             return null;
         }
 
-        return airlineCarrierRepository.findById(id)
+        return airlineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline carrier not found"));
     }
 }

@@ -1,5 +1,6 @@
 package com.codeshare.airline.master.aircraft.entities;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.platform.core.enums.master.aircraft.AircraftRegistrationStatus;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
 
 @Entity
 @Table(
@@ -73,7 +73,7 @@ public class AircraftRegistration extends CSMDataAbstractEntity {
             name = "OPERATOR_AIRLINE_ID",
             foreignKey = @ForeignKey(name = "FK_REGISTRATION_OPERATOR")
     )
-    private AirlineCarrier operatorAirline;
+    private Airline operatorAirline;
 
     @Column(name = "MANUFACTURER_SERIAL_NUMBER", length = 50)
     private String manufacturerSerialNumber;

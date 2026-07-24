@@ -4,5 +4,5 @@ import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
 import com.codeshare.airline.master.common.base.BaseService;
 
 
-public interface AirlineCarrierService extends BaseService<AirlineCarrierDTO, Long> {
+public interface AirlineService extends BaseService<AirlineCarrierDTO, Long> {
 }

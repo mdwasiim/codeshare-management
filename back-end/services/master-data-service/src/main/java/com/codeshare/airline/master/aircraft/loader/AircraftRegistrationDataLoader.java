@@ -1,5 +1,6 @@
 package com.codeshare.airline.master.aircraft.loader;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.entities.AircraftOwner;
@@ -10,8 +11,7 @@ import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRep
 import com.codeshare.airline.master.aircraft.repository.AircraftOwnerRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftRegistrationRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -29,15 +29,15 @@ public class AircraftRegistrationDataLoader implements CommandLineRunner {
     private final AircraftTypeRepository aircraftTypeRepository;
     private final AircraftConfigurationRepository configurationRepository;
     private final AircraftOwnerRepository ownerRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
 
     @Override
     public void run(String... args) {
 
         if (repository.count() > 0) return;
 
-        AirlineCarrier qr = airlineCarrierRepository.findByIataCode("QR").orElseThrow();
-        AirlineCarrier ba = airlineCarrierRepository.findByIataCode("BA").orElseThrow();
+        Airline qr = airlineRepository.findByIataCode("QR").orElseThrow();
+        Airline ba = airlineRepository.findByIataCode("BA").orElseThrow();
         AircraftOwner qrOwner = ownerRepository.findByOwnerCode("QR").orElseThrow();
         AircraftOwner baOwner = ownerRepository.findByOwnerCode("BA").orElseThrow();
 
@@ -72,7 +72,7 @@ public class AircraftRegistrationDataLoader implements CommandLineRunner {
                                        AircraftType aircraftType,
                                        AircraftConfiguration configuration,
                                        AircraftOwner owner,
-                                       AirlineCarrier operator,
+                                       Airline operator,
                                        String manufacturerSerialNumber,
                                        String lineNumber,
                                        LocalDate manufactureDate,

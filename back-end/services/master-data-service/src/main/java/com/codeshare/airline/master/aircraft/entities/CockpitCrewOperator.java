@@ -3,7 +3,7 @@ package com.codeshare.airline.master.aircraft.entities;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.platform.core.enums.master.aircraft.CrewEmployerType;
 import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.master.geography.entities.Country;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -72,7 +72,7 @@ public class CockpitCrewOperator extends CSMDataAbstractEntity {
             name = "AIRLINE_ID",
             foreignKey = @ForeignKey(name = "FK_COCKPIT_CREW_EMPLOYER_AIRLINE")
     )
-    private AirlineCarrier airline;
+    private Airline airline;
 
     @Column(name = "ACTIVE", nullable = false)
     private Boolean active = Boolean.TRUE;

@@ -1,5 +1,6 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.dto.master.aircraft.AircraftRegistrationDTO;
 import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.entities.AircraftOwner;
@@ -11,8 +12,7 @@ import com.codeshare.airline.master.aircraft.repository.AircraftOwnerRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftRegistrationRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
 import com.codeshare.airline.master.aircraft.service.AircraftRegistrationService;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class AircraftRegistrationServiceImpl
     private final AircraftTypeRepository aircraftTypeRepository;
     private final AircraftConfigurationRepository aircraftConfigurationRepository;
     private final AircraftOwnerRepository aircraftOwnerRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
 
     public AircraftRegistrationServiceImpl(
             AircraftRegistrationRepository repository,
@@ -35,14 +35,14 @@ public class AircraftRegistrationServiceImpl
             AircraftTypeRepository aircraftTypeRepository,
             AircraftConfigurationRepository aircraftConfigurationRepository,
             AircraftOwnerRepository aircraftOwnerRepository,
-            AirlineCarrierRepository airlineCarrierRepository) {
+            AirlineRepository airlineRepository) {
 
         super(repository, mapper);
         this.repository = repository;
         this.aircraftTypeRepository = aircraftTypeRepository;
         this.aircraftConfigurationRepository = aircraftConfigurationRepository;
         this.aircraftOwnerRepository = aircraftOwnerRepository;
-        this.airlineCarrierRepository = airlineCarrierRepository;
+        this.airlineRepository = airlineRepository;
     }
 
     @Override
@@ -96,12 +96,12 @@ public class AircraftRegistrationServiceImpl
                 .orElseThrow(() -> new EntityNotFoundException("Aircraft owner not found"));
     }
 
-    private AirlineCarrier getAirlineCarrier(Long id) {
+    private Airline getAirlineCarrier(Long id) {
         if (id == null) {
             return null;
         }
 
-        return airlineCarrierRepository.findById(id)
+        return airlineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline carrier not found"));
     }
 }

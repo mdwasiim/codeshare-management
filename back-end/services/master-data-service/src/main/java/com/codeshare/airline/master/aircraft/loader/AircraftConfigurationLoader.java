@@ -1,5 +1,6 @@
 package com.codeshare.airline.master.aircraft.loader;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.entities.AircraftOwner;
@@ -12,8 +13,7 @@ import com.codeshare.airline.master.aircraft.repository.AircraftOwnerRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftTypeRepository;
 import com.codeshare.airline.master.aircraft.repository.CabinCrewOperatorRepository;
 import com.codeshare.airline.master.aircraft.repository.CockpitCrewOperatorRepository;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -29,7 +29,7 @@ public class AircraftConfigurationLoader implements CommandLineRunner {
 
     private final AircraftConfigurationRepository repository;
     private final AircraftTypeRepository typeRepository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
     private final AircraftOwnerRepository ownerRepository;
     private final CabinCrewOperatorRepository cabinCrewOperatorRepository;
     private final CockpitCrewOperatorRepository cockpitCrewOperatorRepository;
@@ -44,8 +44,8 @@ public class AircraftConfigurationLoader implements CommandLineRunner {
         AircraftType a320 = typeRepository.findByIataCode("320").orElseThrow();
         AircraftType a359 = typeRepository.findByIataCode("359").orElseThrow();
 
-        AirlineCarrier qr = airlineCarrierRepository.findByIataCode("QR").orElseThrow();
-        AirlineCarrier ba = airlineCarrierRepository.findByIataCode("BA").orElseThrow();
+        Airline qr = airlineRepository.findByIataCode("QR").orElseThrow();
+        Airline ba = airlineRepository.findByIataCode("BA").orElseThrow();
 
         AircraftOwner qrOwner = ownerRepository.findByOwnerCode("QR").orElse(null);
         AircraftOwner baOwner = ownerRepository.findByOwnerCode("BA").orElse(null);
@@ -76,7 +76,7 @@ public class AircraftConfigurationLoader implements CommandLineRunner {
     private AircraftConfiguration build(String code,
                                         String name,
                                         AircraftType type,
-                                        AirlineCarrier airline,
+                                        Airline airline,
                                         AircraftOwner owner,
                                         CabinCrewOperator cabinCrewOperator,
                                         CockpitCrewOperator cockpitCrewOperator,

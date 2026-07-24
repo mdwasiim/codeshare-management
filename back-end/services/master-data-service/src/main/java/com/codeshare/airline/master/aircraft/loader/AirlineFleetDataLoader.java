@@ -1,13 +1,13 @@
 package com.codeshare.airline.master.aircraft.loader;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
 import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.entities.AirlineFleetProfile;
 import com.codeshare.airline.platform.core.enums.master.aircraft.FleetStatus;
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.master.aircraft.repository.AirlineFleetRepository;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -22,7 +22,7 @@ import java.util.List;
 public class AirlineFleetDataLoader implements CommandLineRunner {
 
     private final AirlineFleetRepository repository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
     private final AircraftConfigurationRepository configurationRepository;
 
     @Override
@@ -30,8 +30,8 @@ public class AirlineFleetDataLoader implements CommandLineRunner {
 
         if (repository.count() > 0) return;
 
-        AirlineCarrier qr = airlineCarrierRepository.findByIataCode("QR").orElseThrow();
-        AirlineCarrier ba = airlineCarrierRepository.findByIataCode("BA").orElseThrow();
+        Airline qr = airlineRepository.findByIataCode("QR").orElseThrow();
+        Airline ba = airlineRepository.findByIataCode("BA").orElseThrow();
 
         AircraftConfiguration qr77w = configurationRepository.findByConfigurationCode("QR77W-QSUITE").orElseThrow();
         AircraftConfiguration qr359 = configurationRepository.findByConfigurationCode("QR359-283").orElseThrow();
@@ -48,7 +48,7 @@ public class AirlineFleetDataLoader implements CommandLineRunner {
         repository.saveAll(fleet);
     }
 
-    private AirlineFleetProfile build(AirlineCarrier airline,
+    private AirlineFleetProfile build(Airline airline,
                                       AircraftConfiguration config,
                                       int plannedCount,
                                       int activeCount,

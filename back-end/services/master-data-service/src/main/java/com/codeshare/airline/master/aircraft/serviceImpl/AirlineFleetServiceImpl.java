@@ -1,5 +1,6 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
+import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.dto.master.aircraft.AirlineFleetDTO;
 import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
 import com.codeshare.airline.master.aircraft.entities.AirlineFleetProfile;
@@ -7,8 +8,7 @@ import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRep
 import com.codeshare.airline.master.aircraft.repository.AirlineFleetRepository;
 import com.codeshare.airline.master.aircraft.service.AirlineFleetService;
 import com.codeshare.airline.master.aircraft.mappers.AirlineFleetMapper;
-import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
+import com.codeshare.airline.master.airlines.repository.AirlineRepository;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -21,23 +21,23 @@ public class AirlineFleetServiceImpl
         implements AirlineFleetService {
 
     private final AirlineFleetRepository repository;
-    private final AirlineCarrierRepository airlineCarrierRepository;
+    private final AirlineRepository airlineRepository;
     private final AircraftConfigurationRepository configRepository;
 
     public AirlineFleetServiceImpl(
             AirlineFleetRepository repository,
             AirlineFleetMapper mapper,
-            AirlineCarrierRepository airlineCarrierRepository,
+            AirlineRepository airlineRepository,
             AircraftConfigurationRepository configRepository) {
 
         super(repository, mapper);
         this.repository = repository;
-        this.airlineCarrierRepository = airlineCarrierRepository;
+        this.airlineRepository = airlineRepository;
         this.configRepository = configRepository;
     }
 
-    private AirlineCarrier getAirline(Long id) {
-        return airlineCarrierRepository.findById(id)
+    private Airline getAirline(Long id) {
+        return airlineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Airline not found"));
     }
 
@@ -49,7 +49,7 @@ public class AirlineFleetServiceImpl
     @Override
     public AirlineFleetDTO create(AirlineFleetDTO dto) {
 
-        AirlineCarrier airline = getAirline(dto.getAirlineId());
+        Airline airline = getAirline(dto.getAirlineId());
         AircraftConfiguration config = getConfig(dto.getAircraftConfigurationId());
 
         // 🔥 Critical Validation
@@ -72,7 +72,7 @@ public class AirlineFleetServiceImpl
         AirlineFleetProfile existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Fleet record not found"));
 
-        AirlineCarrier airline = getAirline(dto.getAirlineId());
+        Airline airline = getAirline(dto.getAirlineId());
         AircraftConfiguration config = getConfig(dto.getAircraftConfigurationId());
 
         if (!config.getAirline().getId().equals(airline.getId())) {
