@@ -1,15 +1,14 @@
 package com.codeshare.airline.master.aircraft.entities;
 
-import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.platform.core.enums.master.aircraft.AircraftOwnerType;
-import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.geography.entities.Country;
+import com.codeshare.airline.platform.core.enums.master.aircraft.AircraftOwnerType;
+import com.codeshare.airline.platform.data.jpa.entity.CSMMasterDataEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(
@@ -18,43 +17,48 @@ import java.time.LocalDate;
                 @UniqueConstraint(
                         name = "UK_AIRCRAFT_OWNER_CODE",
                         columnNames = "OWNER_CODE"
+                ),
+                @UniqueConstraint(
+                        name = "UK_AIRCRAFT_OWNER_NAME",
+                        columnNames = "OWNER_NAME"
                 )
         },
         indexes = {
                 @Index(
-                        name = "IDX_AIRCRAFT_OWNER_STATUS",
-                        columnList = "STATUS"
+                        name = "IDX_AIRCRAFT_OWNER_CODE",
+                        columnList = "OWNER_CODE"
+                ),
+                @Index(
+                        name = "IDX_AIRCRAFT_OWNER_NAME",
+                        columnList = "OWNER_NAME"
                 ),
                 @Index(
                         name = "IDX_AIRCRAFT_OWNER_TYPE",
                         columnList = "OWNER_TYPE"
                 ),
                 @Index(
-                        name = "IDX_AIRCRAFT_OWNER_ACTIVE",
-                        columnList = "ACTIVE"
+                        name = "IDX_AIRCRAFT_OWNER_COUNTRY",
+                        columnList = "COUNTRY_ID"
                 )
         }
 )
 @Getter
 @Setter
 @NoArgsConstructor
-public class AircraftOwner extends CSMDataAbstractEntity {
+public class AircraftOwner extends CSMMasterDataEntity {
 
+    @NotBlank
     @Column(name = "OWNER_CODE", nullable = false, length = 20)
     private String ownerCode;
 
+    @NotBlank
     @Column(name = "OWNER_NAME", nullable = false, length = 150)
     private String ownerName;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "OWNER_TYPE", nullable = false, length = 30)
     private AircraftOwnerType ownerType;
-
-    @Column(name = "IATA_CODE", length = 3)
-    private String iataCode;
-
-    @Column(name = "ICAO_CODE", length = 3)
-    private String icaoCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -63,61 +67,14 @@ public class AircraftOwner extends CSMDataAbstractEntity {
     )
     private Country country;
 
-    @Column(name = "ACTIVE", nullable = false)
-    private Boolean active = Boolean.TRUE;
-
     @Column(name = "DISPLAY_ORDER")
     private Integer displayOrder = 1;
 
-    @Column(name = "DESCRIPTION", length = 500)
-    private String description;
-
-    @Column(name = "REMARKS", length = 1000)
-    private String remarks;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS", nullable = false, length = 20)
-    private RecordStatus recordStatus = RecordStatus.ACTIVE;
-
-    @Column(name = "EFFECTIVE_FROM")
-    private LocalDate effectiveFrom;
-
-    @Column(name = "EFFECTIVE_TO")
-    private LocalDate effectiveTo;
-
     @PrePersist
     @PreUpdate
-    private void normalizeAndValidate() {
-
-        if (ownerCode == null || ownerCode.isBlank()) {
-            throw new IllegalStateException("Owner Code is mandatory.");
-        }
-
-        if (ownerName == null || ownerName.isBlank()) {
-            throw new IllegalStateException("Owner Name is mandatory.");
-        }
-
-        if (ownerType == null) {
-            throw new IllegalStateException("Owner Type is mandatory.");
-        }
+    private void normalize() {
 
         ownerCode = ownerCode.trim().toUpperCase();
         ownerName = ownerName.trim();
-
-        if (iataCode != null) {
-            iataCode = iataCode.trim().toUpperCase();
-        }
-
-        if (icaoCode != null) {
-            icaoCode = icaoCode.trim().toUpperCase();
-        }
-
-        if (effectiveFrom != null &&
-                effectiveTo != null &&
-                effectiveFrom.isAfter(effectiveTo)) {
-            throw new IllegalStateException(
-                    "Effective From cannot be after Effective To."
-            );
-        }
     }
 }

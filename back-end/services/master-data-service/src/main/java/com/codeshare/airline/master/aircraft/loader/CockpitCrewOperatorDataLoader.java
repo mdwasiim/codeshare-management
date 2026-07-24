@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.aircraft.loader;
 
+import com.codeshare.airline.master.aircraft.entities.CockpitCrewEmployer;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.aircraft.entities.CockpitCrewOperator;
 import com.codeshare.airline.platform.core.enums.master.aircraft.CrewEmployerType;
 import com.codeshare.airline.master.aircraft.repository.CockpitCrewOperatorRepository;
 import com.codeshare.airline.master.airlines.repository.AirlineRepository;
@@ -28,7 +28,7 @@ public class CockpitCrewOperatorDataLoader implements CommandLineRunner {
 
         if (repository.count() > 0) return;
 
-        List<CockpitCrewOperator> operators = List.of(
+        List<CockpitCrewEmployer> operators = List.of(
                 build("QR-FLIGHTDECK", "Qatar Airways Flight Deck Crew", CrewEmployerType.AIRLINE, "QR", "QTR", "QA", "QR", 1),
                 build("BA-FLIGHTDECK", "British Airways Flight Deck Crew", CrewEmployerType.AIRLINE, "BA", "BAW", "GB", "BA", 2),
                 build("WETLEASE-FLIGHTDECK", "Wet Lease Flight Deck Crew Provider", CrewEmployerType.WET_LEASE_OPERATOR, null, null, null, null, 3)
@@ -37,7 +37,7 @@ public class CockpitCrewOperatorDataLoader implements CommandLineRunner {
         repository.saveAll(operators);
     }
 
-    private CockpitCrewOperator build(String code,
+    private CockpitCrewEmployer build(String code,
                                       String name,
                                       CrewEmployerType type,
                                       String iataCode,
@@ -46,7 +46,7 @@ public class CockpitCrewOperatorDataLoader implements CommandLineRunner {
                                       String airlineIataCode,
                                       int displayOrder) {
 
-        CockpitCrewOperator operator = new CockpitCrewOperator();
+        CockpitCrewEmployer operator = new CockpitCrewEmployer();
         operator.setEmployerCode(code);
         operator.setEmployerName(name);
         operator.setEmployerType(type);

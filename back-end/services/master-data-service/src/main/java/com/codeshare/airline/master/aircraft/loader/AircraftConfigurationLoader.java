@@ -1,12 +1,9 @@
 package com.codeshare.airline.master.aircraft.loader;
 
+import com.codeshare.airline.master.aircraft.entities.*;
 import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.aircraft.entities.AircraftConfiguration;
-import com.codeshare.airline.master.aircraft.entities.AircraftOwner;
-import com.codeshare.airline.master.aircraft.entities.AircraftType;
-import com.codeshare.airline.master.aircraft.entities.CabinCrewOperator;
-import com.codeshare.airline.master.aircraft.entities.CockpitCrewOperator;
+import com.codeshare.airline.master.aircraft.entities.CockpitCrewEmployer;
 import com.codeshare.airline.platform.core.enums.master.aircraft.ConfigurationSource;
 import com.codeshare.airline.master.aircraft.repository.AircraftConfigurationRepository;
 import com.codeshare.airline.master.aircraft.repository.AircraftOwnerRepository;
@@ -50,10 +47,10 @@ public class AircraftConfigurationLoader implements CommandLineRunner {
         AircraftOwner qrOwner = ownerRepository.findByOwnerCode("QR").orElse(null);
         AircraftOwner baOwner = ownerRepository.findByOwnerCode("BA").orElse(null);
 
-        CabinCrewOperator qrCabin = cabinCrewOperatorRepository.findByEmployerCode("QR-CABIN").orElse(null);
-        CabinCrewOperator baCabin = cabinCrewOperatorRepository.findByEmployerCode("BA-CABIN").orElse(null);
-        CockpitCrewOperator qrCockpit = cockpitCrewOperatorRepository.findByEmployerCode("QR-FLIGHTDECK").orElse(null);
-        CockpitCrewOperator baCockpit = cockpitCrewOperatorRepository.findByEmployerCode("BA-FLIGHTDECK").orElse(null);
+        CabinCrewEmployer qrCabin = cabinCrewOperatorRepository.findByEmployerCode("QR-CABIN").orElse(null);
+        CabinCrewEmployer baCabin = cabinCrewOperatorRepository.findByEmployerCode("BA-CABIN").orElse(null);
+        CockpitCrewEmployer qrCockpit = cockpitCrewOperatorRepository.findByEmployerCode("QR-FLIGHTDECK").orElse(null);
+        CockpitCrewEmployer baCockpit = cockpitCrewOperatorRepository.findByEmployerCode("BA-FLIGHTDECK").orElse(null);
 
         List<AircraftConfiguration> configs = List.of(
                 build("QR77W-QSUITE", "Qatar Airways 777-300ER Qsuite", b77w, qr, qrOwner,
@@ -78,8 +75,8 @@ public class AircraftConfigurationLoader implements CommandLineRunner {
                                         AircraftType type,
                                         Airline airline,
                                         AircraftOwner owner,
-                                        CabinCrewOperator cabinCrewOperator,
-                                        CockpitCrewOperator cockpitCrewOperator,
+                                        CabinCrewEmployer cabinCrewEmployer,
+                                        CockpitCrewEmployer cockpitCrewEmployer,
                                         int totalSeats,
                                         int cargoCapacityKg,
                                         int displayOrder,
@@ -91,8 +88,8 @@ public class AircraftConfigurationLoader implements CommandLineRunner {
         config.setAircraftType(type);
         config.setAirline(airline);
         config.setAircraftOwner(owner);
-        config.setCabinCrewEmployer(cabinCrewOperator);
-        config.setCockpitCrewEmployer(cockpitCrewOperator);
+        config.setCabinCrewEmployer(cabinCrewEmployer);
+        config.setCockpitCrewEmployer(cockpitCrewEmployer);
         config.setConfigurationSource(ConfigurationSource.MANUAL);
         config.setTotalSeats(totalSeats);
         config.setCargoCapacityKg(cargoCapacityKg);

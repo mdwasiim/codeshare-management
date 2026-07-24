@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.aircraft.loader;
 
 import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.master.aircraft.entities.CabinCrewOperator;
+import com.codeshare.airline.master.aircraft.entities.CabinCrewEmployer;
 import com.codeshare.airline.platform.core.enums.master.aircraft.CrewEmployerType;
 import com.codeshare.airline.master.aircraft.repository.CabinCrewOperatorRepository;
 import com.codeshare.airline.master.airlines.repository.AirlineRepository;
@@ -28,7 +28,7 @@ public class CabinCrewOperatorDataLoader implements CommandLineRunner {
 
         if (repository.count() > 0) return;
 
-        List<CabinCrewOperator> operators = List.of(
+        List<CabinCrewEmployer> operators = List.of(
                 build("QR-CABIN", "Qatar Airways Cabin Crew", CrewEmployerType.AIRLINE, "QR", "QTR", "QA", "QR", 1),
                 build("BA-CABIN", "British Airways Cabin Crew", CrewEmployerType.AIRLINE, "BA", "BAW", "GB", "BA", 2),
                 build("WETLEASE-CABIN", "Wet Lease Cabin Crew Provider", CrewEmployerType.WET_LEASE_OPERATOR, null, null, null, null, 3)
@@ -37,7 +37,7 @@ public class CabinCrewOperatorDataLoader implements CommandLineRunner {
         repository.saveAll(operators);
     }
 
-    private CabinCrewOperator build(String code,
+    private CabinCrewEmployer build(String code,
                                     String name,
                                     CrewEmployerType type,
                                     String iataCode,
@@ -46,7 +46,7 @@ public class CabinCrewOperatorDataLoader implements CommandLineRunner {
                                     String airlineIataCode,
                                     int displayOrder) {
 
-        CabinCrewOperator operator = new CabinCrewOperator();
+        CabinCrewEmployer operator = new CabinCrewEmployer();
         operator.setEmployerCode(code);
         operator.setEmployerName(name);
         operator.setEmployerType(type);

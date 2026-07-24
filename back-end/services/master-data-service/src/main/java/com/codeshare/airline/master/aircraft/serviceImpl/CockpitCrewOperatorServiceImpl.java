@@ -2,7 +2,7 @@ package com.codeshare.airline.master.aircraft.serviceImpl;
 
 import com.codeshare.airline.master.airlines.entities.Airline;
 import com.codeshare.airline.platform.core.dto.master.aircraft.CockpitCrewOperatorDTO;
-import com.codeshare.airline.master.aircraft.entities.CockpitCrewOperator;
+import com.codeshare.airline.master.aircraft.entities.CockpitCrewEmployer;
 import com.codeshare.airline.master.aircraft.mappers.CockpitCrewOperatorMapper;
 import com.codeshare.airline.master.aircraft.repository.CockpitCrewOperatorRepository;
 import com.codeshare.airline.master.aircraft.service.CockpitCrewOperatorService;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CockpitCrewOperatorServiceImpl
-        extends BaseServiceImpl<CockpitCrewOperator, CockpitCrewOperatorDTO, Long>
+        extends BaseServiceImpl<CockpitCrewEmployer, CockpitCrewOperatorDTO, Long>
         implements CockpitCrewOperatorService {
 
     private final CockpitCrewOperatorRepository repository;
@@ -37,14 +37,14 @@ public class CockpitCrewOperatorServiceImpl
 
     @Override
     public CockpitCrewOperatorDTO create(CockpitCrewOperatorDTO dto) {
-        CockpitCrewOperator entity = mapper.toEntity(dto);
+        CockpitCrewEmployer entity = mapper.toEntity(dto);
         setRelationships(entity, dto);
         return mapper.toDTO(repository.save(entity));
     }
 
     @Override
     public CockpitCrewOperatorDTO update(Long id, CockpitCrewOperatorDTO dto) {
-        CockpitCrewOperator existing = repository.findById(id)
+        CockpitCrewEmployer existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cockpit crew operator not found"));
 
         mapper.updateEntityFromDto(dto, existing);
@@ -52,7 +52,7 @@ public class CockpitCrewOperatorServiceImpl
         return mapper.toDTO(repository.save(existing));
     }
 
-    private void setRelationships(CockpitCrewOperator entity, CockpitCrewOperatorDTO dto) {
+    private void setRelationships(CockpitCrewEmployer entity, CockpitCrewOperatorDTO dto) {
         entity.setCountry(getCountry(dto.getCountryId()));
         entity.setAirline(getAirlineCarrier(dto.getAirlineId()));
     }

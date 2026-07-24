@@ -1,13 +1,12 @@
 package com.codeshare.airline.master.aircraft.entities;
 
-import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMMasterDataEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(
@@ -24,26 +23,25 @@ import java.time.LocalDate;
         },
         indexes = {
                 @Index(
-                        name = "IDX_AIRCRAFT_FAMILY_STATUS",
-                        columnList = "STATUS"
+                        name = "IDX_AIRCRAFT_FAMILY_CODE",
+                        columnList = "FAMILY_CODE"
                 ),
                 @Index(
-                        name = "IDX_AIRCRAFT_FAMILY_MANUFACTURER_ID",
+                        name = "IDX_AIRCRAFT_FAMILY_NAME",
+                        columnList = "FAMILY_NAME"
+                ),
+                @Index(
+                        name = "IDX_AIRCRAFT_FAMILY_MANUFACTURER",
                         columnList = "MANUFACTURER_ID"
-                ),
-                @Index(
-                        name = "IDX_AIRCRAFT_FAMILY_ACTIVE",
-                        columnList = "ACTIVE"
                 )
         }
 )
 @Getter
 @Setter
 @NoArgsConstructor
-public class AircraftFamily extends CSMDataAbstractEntity {
+public class AircraftFamily extends CSMMasterDataEntity {
 
     /**
-     * Business key.
      * Examples:
      * A320
      * A330
@@ -52,21 +50,21 @@ public class AircraftFamily extends CSMDataAbstractEntity {
      * B777
      * B787
      */
+    @NotBlank
     @Column(name = "FAMILY_CODE", nullable = false, length = 20)
     private String familyCode;
 
     /**
-     * Display Name
+     * Display Name.
      */
+    @NotBlank
     @Column(name = "FAMILY_NAME", nullable = false, length = 150)
     private String familyName;
 
     /**
-     * Airbus
-     * Boeing
-     * Embraer
-     * ATR
+     * Manufacturer.
      */
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "MANUFACTURER_ID",
@@ -75,54 +73,17 @@ public class AircraftFamily extends CSMDataAbstractEntity {
     )
     private AircraftManufacturer manufacturer;
 
-    @Column(name = "DESCRIPTION", length = 500)
-    private String description;
-
+    /**
+     * Display order for UI.
+     */
     @Column(name = "DISPLAY_ORDER")
     private Integer displayOrder = 1;
 
-    @Column(name = "ACTIVE", nullable = false)
-    private Boolean active = Boolean.TRUE;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS", nullable = false, length = 20)
-    private RecordStatus recordStatus = RecordStatus.ACTIVE;
-
-    @Column(name = "REMARKS", length = 1000)
-    private String remarks;
-
-    @Column(name = "EFFECTIVE_FROM")
-    private LocalDate effectiveFrom;
-
-    @Column(name = "EFFECTIVE_TO")
-    private LocalDate effectiveTo;
-
     @PrePersist
     @PreUpdate
-    private void validate() {
-
-        if (familyCode == null || familyCode.isBlank()) {
-            throw new IllegalStateException("Family Code is mandatory.");
-        }
-
-        if (familyName == null || familyName.isBlank()) {
-            throw new IllegalStateException("Family Name is mandatory.");
-        }
-
-        if (manufacturer == null) {
-            throw new IllegalStateException("Manufacturer is mandatory.");
-        }
+    private void normalize() {
 
         familyCode = familyCode.trim().toUpperCase();
         familyName = familyName.trim();
-
-        if (effectiveFrom != null &&
-                effectiveTo != null &&
-                effectiveFrom.isAfter(effectiveTo)) {
-
-            throw new IllegalStateException(
-                    "Effective From cannot be after Effective To."
-            );
-        }
     }
 }

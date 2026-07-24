@@ -1,7 +1,7 @@
 package com.codeshare.airline.master.aircraft.serviceImpl;
 
 import com.codeshare.airline.platform.core.dto.master.aircraft.CabinCrewOperatorDTO;
-import com.codeshare.airline.master.aircraft.entities.CabinCrewOperator;
+import com.codeshare.airline.master.aircraft.entities.CabinCrewEmployer;
 import com.codeshare.airline.master.aircraft.mappers.CabinCrewOperatorMapper;
 import com.codeshare.airline.master.aircraft.repository.CabinCrewOperatorRepository;
 import com.codeshare.airline.master.aircraft.service.CabinCrewOperatorService;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CabinCrewOperatorServiceImpl
-        extends BaseServiceImpl<CabinCrewOperator, CabinCrewOperatorDTO, Long>
+        extends BaseServiceImpl<CabinCrewEmployer, CabinCrewOperatorDTO, Long>
         implements CabinCrewOperatorService {
 
     private final CabinCrewOperatorRepository repository;
@@ -37,14 +37,14 @@ public class CabinCrewOperatorServiceImpl
 
     @Override
     public CabinCrewOperatorDTO create(CabinCrewOperatorDTO dto) {
-        CabinCrewOperator entity = mapper.toEntity(dto);
+        CabinCrewEmployer entity = mapper.toEntity(dto);
         setRelationships(entity, dto);
         return mapper.toDTO(repository.save(entity));
     }
 
     @Override
     public CabinCrewOperatorDTO update(Long id, CabinCrewOperatorDTO dto) {
-        CabinCrewOperator existing = repository.findById(id)
+        CabinCrewEmployer existing = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cabin crew operator not found"));
 
         mapper.updateEntityFromDto(dto, existing);
@@ -52,7 +52,7 @@ public class CabinCrewOperatorServiceImpl
         return mapper.toDTO(repository.save(existing));
     }
 
-    private void setRelationships(CabinCrewOperator entity, CabinCrewOperatorDTO dto) {
+    private void setRelationships(CabinCrewEmployer entity, CabinCrewOperatorDTO dto) {
         entity.setCountry(getCountry(dto.getCountryId()));
         entity.setAirline(getAirlineCarrier(dto.getAirlineId()));
     }

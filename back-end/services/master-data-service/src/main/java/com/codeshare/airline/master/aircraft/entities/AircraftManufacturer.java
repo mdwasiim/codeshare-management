@@ -1,14 +1,12 @@
 package com.codeshare.airline.master.aircraft.entities;
 
-import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
 import com.codeshare.airline.master.geography.entities.Country;
+import com.codeshare.airline.platform.data.jpa.entity.CSMMasterDataEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(
@@ -25,23 +23,29 @@ import java.time.LocalDate;
         },
         indexes = {
                 @Index(
-                        name = "IDX_AIRCRAFT_MANUFACTURER_STATUS",
-                        columnList = "STATUS"
+                        name = "IDX_AIRCRAFT_MANUFACTURER_CODE",
+                        columnList = "MANUFACTURER_CODE"
                 ),
                 @Index(
-                        name = "IDX_AIRCRAFT_MANUFACTURER_ACTIVE",
-                        columnList = "ACTIVE"
+                        name = "IDX_AIRCRAFT_MANUFACTURER_NAME",
+                        columnList = "MANUFACTURER_NAME"
+                ),
+                @Index(
+                        name = "IDX_AIRCRAFT_MANUFACTURER_COUNTRY",
+                        columnList = "COUNTRY_ID"
                 )
         }
 )
 @Getter
 @Setter
 @NoArgsConstructor
-public class AircraftManufacturer extends CSMDataAbstractEntity {
+public class AircraftManufacturer extends CSMMasterDataEntity {
 
+    @NotBlank
     @Column(name = "MANUFACTURER_CODE", nullable = false, length = 20)
     private String manufacturerCode;
 
+    @NotBlank
     @Column(name = "MANUFACTURER_NAME", nullable = false, length = 150)
     private String manufacturerName;
 
@@ -55,42 +59,15 @@ public class AircraftManufacturer extends CSMDataAbstractEntity {
     )
     private Country country;
 
-    @Column(name = "WEBSITE", length = 250)
+    @Column(name = "WEBSITE", length = 255)
     private String website;
-
-    @Column(name = "ACTIVE", nullable = false)
-    private Boolean active = Boolean.TRUE;
 
     @Column(name = "DISPLAY_ORDER")
     private Integer displayOrder = 1;
 
-    @Column(name = "DESCRIPTION", length = 500)
-    private String description;
-
-    @Column(name = "REMARKS", length = 1000)
-    private String remarks;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS", nullable = false, length = 20)
-    private RecordStatus recordStatus = RecordStatus.ACTIVE;
-
-    @Column(name = "EFFECTIVE_FROM")
-    private LocalDate effectiveFrom;
-
-    @Column(name = "EFFECTIVE_TO")
-    private LocalDate effectiveTo;
-
     @PrePersist
     @PreUpdate
-    private void normalizeAndValidate() {
-
-        if (manufacturerCode == null || manufacturerCode.isBlank()) {
-            throw new IllegalStateException("Manufacturer Code is mandatory.");
-        }
-
-        if (manufacturerName == null || manufacturerName.isBlank()) {
-            throw new IllegalStateException("Manufacturer Name is mandatory.");
-        }
+    private void normalize() {
 
         manufacturerCode = manufacturerCode.trim().toUpperCase();
         manufacturerName = manufacturerName.trim();
@@ -101,12 +78,6 @@ public class AircraftManufacturer extends CSMDataAbstractEntity {
 
         if (website != null) {
             website = website.trim();
-        }
-
-        if (effectiveFrom != null &&
-                effectiveTo != null &&
-                effectiveFrom.isAfter(effectiveTo)) {
-            throw new IllegalStateException("Effective From cannot be after Effective To.");
         }
     }
 }
