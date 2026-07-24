@@ -6,7 +6,6 @@ import com.codeshare.airline.master.geography.entities.Country;
 import com.codeshare.airline.master.geography.entities.State;
 import com.codeshare.airline.master.geography.repository.CityRepository;
 import com.codeshare.airline.master.geography.repository.CountryRepository;
-import com.codeshare.airline.master.geography.repository.StateRepository;
 import com.codeshare.airline.master.geography.service.CityService;
 import com.codeshare.airline.master.geography.mappers.CityMapper;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;

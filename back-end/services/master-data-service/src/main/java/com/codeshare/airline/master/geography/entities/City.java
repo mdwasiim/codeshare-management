@@ -1,39 +1,48 @@
 package com.codeshare.airline.master.geography.entities;
 
-import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMMasterDataEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(
         name = "CITY",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "UK_CITY_NAME_COUNTRY",
-                        columnNames = {"CITY_NAME", "COUNTRY_ID"}
+                        name = "UK_CITY_COUNTRY_NAME",
+                        columnNames = {"COUNTRY_ID", "CITY_NAME"}
+                ),
+                @UniqueConstraint(
+                        name = "UK_CITY_IATA",
+                        columnNames = "IATA_CITY_CODE"
                 )
         },
         indexes = {
                 @Index(name = "IDX_CITY_COUNTRY", columnList = "COUNTRY_ID"),
-                @Index(name = "IDX_CITY_STATE", columnList = "STATE_ID"),
+                @Index(name = "IDX_CITY_REGION", columnList = "REGION_ID"),
+                @Index(name = "IDX_CITY_IATA", columnList = "IATA_CITY_CODE"),
+                @Index(name = "IDX_CITY_NAME", columnList = "CITY_NAME"),
                 @Index(name = "IDX_CITY_STATUS", columnList = "STATUS")
         }
 )
 @Getter
 @Setter
 @NoArgsConstructor
-public class City extends CSMDataAbstractEntity {
+public class City extends CSMMasterDataEntity {
+
+    @Column(name = "CITY_CODE", length = 20)
+    private String cityCode;
 
     @Column(name = "CITY_NAME", nullable = false, length = 150)
     private String cityName;
 
     @Column(name = "IATA_CITY_CODE", length = 3)
     private String iataCityCode;
+
+    @Column(name = "MUNICIPALITY", length = 150)
+    private String municipality;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
@@ -43,26 +52,40 @@ public class City extends CSMDataAbstractEntity {
     )
     private Country country;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "REGION_ID",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "FK_CITY_REGION")
+    )
+    private Region region;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "STATE_ID", nullable = true,
-            foreignKey = @ForeignKey(name = "FK_CITY_STATE"))
-    private State state;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS", nullable = false, length = 20)
-    private RecordStatus recordStatus;
-
-    @Column(name = "EFFECTIVE_FROM")
-    private LocalDate effectiveFrom;
-
-    @Column(name = "EFFECTIVE_TO")
-    private LocalDate effectiveTo;
+    @JoinColumn(
+            name = "TIMEZONE_ID",
+            foreignKey = @ForeignKey(name = "FK_CITY_TIMEZONE")
+    )
+    private Timezone timezone;
 
     @PrePersist
     @PreUpdate
     private void normalize() {
-        if (iataCityCode != null) {
-            iataCityCode = iataCityCode.toUpperCase();
+
+        if (cityCode != null) {
+            cityCode = cityCode.trim().toUpperCase();
         }
+
+        if (cityName != null) {
+            cityName = cityName.trim();
+        }
+
+        if (iataCityCode != null) {
+            iataCityCode = iataCityCode.trim().toUpperCase();
+        }
+
+        if (municipality != null) {
+            municipality = municipality.trim();
+        }
+
     }
 }

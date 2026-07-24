@@ -53,10 +53,10 @@
     <!-- MODULES -->
     <!-- ===================================================== -->
     <modules>
-        <module>services/csm-platform-core</module>
-        <module>services/csm-platform-data-jpa</module>
-        <module>services/csm-platform-web</module>
-        <module>services/csm-platform-security</module>
+        <module>services/app-platform/csm-platform-core</module>
+        <module>services/app-platform/csm-platform-data-jpa</module>
+        <module>services/app-platform/csm-platform-web</module>
+        <module>services/app-platform/csm-platform-security</module>
 
         <module>services/gateway-service</module>
         <module>services/master-data-service</module>

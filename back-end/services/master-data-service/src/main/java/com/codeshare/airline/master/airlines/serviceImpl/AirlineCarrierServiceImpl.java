@@ -2,15 +2,11 @@ package com.codeshare.airline.master.airlines.serviceImpl;
 
 import com.codeshare.airline.platform.core.dto.master.airline.AirlineCarrierDTO;
 import com.codeshare.airline.master.airlines.entities.AirlineCarrier;
-import com.codeshare.airline.master.airlines.entities.Alliance;
 import com.codeshare.airline.master.airlines.mappers.AirlineCarrierMapper;
 import com.codeshare.airline.master.airlines.repository.AirlineCarrierRepository;
 import com.codeshare.airline.master.airlines.repository.AllianceRepository;
 import com.codeshare.airline.master.airlines.service.AirlineCarrierService;
 import com.codeshare.airline.master.common.base.BaseServiceImpl;
-import com.codeshare.airline.master.geography.entities.Airport;
-import com.codeshare.airline.master.geography.entities.City;
-import com.codeshare.airline.master.geography.entities.Country;
 import com.codeshare.airline.master.geography.repository.AirportRepository;
 import com.codeshare.airline.master.geography.repository.CityRepository;
 import com.codeshare.airline.master.geography.repository.CountryRepository;

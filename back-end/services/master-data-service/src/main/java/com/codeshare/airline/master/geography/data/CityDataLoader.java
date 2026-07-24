@@ -6,14 +6,12 @@ import com.codeshare.airline.master.geography.entities.Country;
 import com.codeshare.airline.master.geography.entities.State;
 import com.codeshare.airline.master.geography.repository.CityRepository;
 import com.codeshare.airline.master.geography.repository.CountryRepository;
-import com.codeshare.airline.master.geography.repository.StateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Component
 @Order(130)
@@ -48,7 +46,6 @@ public class CityDataLoader implements CommandLineRunner {
         city.setCityName(name);
         city.setIataCityCode(iataCode);
         city.setCountry(country);
-        city.setState(state);
         city.setRecordStatus(RecordStatus.ACTIVE);
         city.setEffectiveFrom(LocalDate.of(2000, 1, 1));
         repository.save(city);

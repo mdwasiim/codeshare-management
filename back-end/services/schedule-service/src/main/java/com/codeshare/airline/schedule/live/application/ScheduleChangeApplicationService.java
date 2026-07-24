@@ -4,7 +4,6 @@ import com.codeshare.airline.platform.core.dto.schedule.workflow.ChangeSetDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleCodeshareSnapshotDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleDataElementSnapshotDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleFlightChangeDTO;
-import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleFlightSnapshotDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleLegChangeDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleLegSnapshotDTO;
 import com.codeshare.airline.platform.core.dto.schedule.workflow.ScheduleSegmentSnapshotDTO;

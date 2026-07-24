@@ -1,14 +1,12 @@
 package com.codeshare.airline.master.geography.entities;
 
-import com.codeshare.airline.platform.core.enums.common.RecordStatus;
-import com.codeshare.airline.platform.data.jpa.entity.CSMDataAbstractEntity;
+import com.codeshare.airline.platform.data.jpa.entity.CSMMasterDataEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Table(
@@ -20,6 +18,7 @@ import java.time.LocalDate;
         indexes = {
                 @Index(name = "IDX_AIRPORT_CITY", columnList = "CITY_ID"),
                 @Index(name = "IDX_AIRPORT_COUNTRY", columnList = "COUNTRY_ID"),
+                @Index(name = "IDX_AIRPORT_REGION", columnList = "REGION_ID"),
                 @Index(name = "IDX_AIRPORT_TIMEZONE", columnList = "TIMEZONE_ID"),
                 @Index(name = "IDX_AIRPORT_STATUS", columnList = "STATUS")
         }
@@ -27,7 +26,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Airport extends CSMDataAbstractEntity {
+public class Airport extends CSMMasterDataEntity {
 
     @Column(name = "IATA_CODE", nullable = false, length = 3)
     private String iataCode;
@@ -35,18 +34,12 @@ public class Airport extends CSMDataAbstractEntity {
     @Column(name = "ICAO_CODE", nullable = false, length = 4)
     private String icaoCode;
 
+    @Column(name = "IDENT", length = 20)
+    private String ident;
+
     @Column(name = "AIRPORT_NAME", nullable = false, length = 200)
     private String airportName;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "CITY_ID",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "FK_AIRPORT_CITY")
-    )
-    private City city;
-
-    // Keep for performance (denormalized reference)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "COUNTRY_ID",
@@ -57,11 +50,48 @@ public class Airport extends CSMDataAbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
+            name = "REGION_ID",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "FK_AIRPORT_REGION")
+    )
+    private Region region;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "CITY_ID",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "FK_AIRPORT_CITY")
+    )
+    private City city;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
             name = "TIMEZONE_ID",
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_AIRPORT_TIMEZONE")
     )
     private Timezone timezone;
+
+    @Column(name = "AIRPORT_TYPE", length = 50)
+    private String airportType;
+
+    @Column(name = "LOCATION_TYPE", length = 50)
+    private String locationType;
+
+    @Column(name = "OPERATION_STATUS", length = 50)
+    private String operationStatus;
+
+    @Column(name = "OWNERSHIP_TYPE", length = 50)
+    private String ownershipType;
+
+    @Column(name = "SCHEDULED_SERVICE", length = 20)
+    private String scheduledService;
+
+    @Column(name = "GPS_CODE", length = 10)
+    private String gpsCode;
+
+    @Column(name = "LOCAL_CODE", length = 20)
+    private String localCode;
 
     @Column(name = "LATITUDE", precision = 10, scale = 7, nullable = false)
     private BigDecimal latitude;
@@ -78,19 +108,9 @@ public class Airport extends CSMDataAbstractEntity {
     @Column(name = "IS_HUB", nullable = false)
     private Boolean hub = Boolean.FALSE;
 
-    @Column(name = "EFFECTIVE_FROM")
-    private LocalDate effectiveFrom;
-
-    @Column(name = "EFFECTIVE_TO")
-    private LocalDate effectiveTo;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS", nullable = false, length = 20)
-    private RecordStatus recordStatus;
-
     @PrePersist
     @PreUpdate
-    private void normalizeAndValidate() {
+    private void normalize() {
 
         if (iataCode != null) {
             iataCode = iataCode.trim().toUpperCase();
@@ -98,6 +118,42 @@ public class Airport extends CSMDataAbstractEntity {
 
         if (icaoCode != null) {
             icaoCode = icaoCode.trim().toUpperCase();
+        }
+
+        if (ident != null) {
+            ident = ident.trim().toUpperCase();
+        }
+
+        if (airportName != null) {
+            airportName = airportName.trim();
+        }
+
+        if (airportType != null) {
+            airportType = airportType.trim().toUpperCase();
+        }
+
+        if (locationType != null) {
+            locationType = locationType.trim().toUpperCase();
+        }
+
+        if (operationStatus != null) {
+            operationStatus = operationStatus.trim().toUpperCase();
+        }
+
+        if (ownershipType != null) {
+            ownershipType = ownershipType.trim().toUpperCase();
+        }
+
+        if (scheduledService != null) {
+            scheduledService = scheduledService.trim().toUpperCase();
+        }
+
+        if (gpsCode != null) {
+            gpsCode = gpsCode.trim().toUpperCase();
+        }
+
+        if (localCode != null) {
+            localCode = localCode.trim().toUpperCase();
         }
 
         if (latitude != null &&
@@ -112,17 +168,14 @@ public class Airport extends CSMDataAbstractEntity {
             throw new IllegalArgumentException("Longitude must be between -180 and 180.");
         }
 
-        if (effectiveFrom != null && effectiveTo != null &&
-                effectiveFrom.isAfter(effectiveTo)) {
-            throw new IllegalStateException("EffectiveFrom must be before EffectiveTo.");
-        }
-
-        // Data consistency check
         if (city != null && country != null &&
                 !city.getCountry().getId().equals(country.getId())) {
-            throw new IllegalStateException(
-                    "Airport country must match city's country."
-            );
+            throw new IllegalStateException("Airport country must match city's country.");
+        }
+
+        if (city != null && region != null &&
+                !city.getRegion().getId().equals(region.getId())) {
+            throw new IllegalStateException("Airport region must match city's region.");
         }
     }
 }

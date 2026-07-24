@@ -106,7 +106,52 @@
         { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "PARSED", "label": "Parsed", "displayOrder": 3 },
         { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "LOADED", "label": "Loaded", "displayOrder": 4 },
         { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "PARTIALLY_LOADED", "label": "Partially Loaded", "displayOrder": 5 },
-        { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "FAILED", "label": "Failed", "displayOrder": 6 }
+        { "category": "SCHEDULE_FILE_PROCESSING_STATUS", "code": "FAILED", "label": "Failed", "displayOrder": 6 },
+        { "category": "CONTINENT", "code": "AF", "label": "Africa", "displayOrder": 1 },
+        { "category": "CONTINENT", "code": "AN", "label": "Antarctica", "displayOrder": 2 },
+        { "category": "CONTINENT", "code": "AS", "label": "Asia", "displayOrder": 3 },
+        { "category": "CONTINENT", "code": "EU", "label": "Europe", "displayOrder": 4 },
+        { "category": "CONTINENT", "code": "NA", "label": "North America", "displayOrder": 5 },
+        { "category": "CONTINENT", "code": "OC", "label": "Oceania", "displayOrder": 6 },
+        { "category": "CONTINENT", "code": "SA", "label": "South America", "displayOrder": 7 },
+
+        { "category": "AIRPORT_TYPE", "code": "LARGE_AIRPORT", "label": "Large Airport", "displayOrder": 1 },
+        { "category": "AIRPORT_TYPE", "code": "MEDIUM_AIRPORT", "label": "Medium Airport", "displayOrder": 2 },
+        { "category": "AIRPORT_TYPE", "code": "SMALL_AIRPORT", "label": "Small Airport", "displayOrder": 3 },
+        { "category": "AIRPORT_TYPE", "code": "HELIPORT", "label": "Heliport", "displayOrder": 4 },
+        { "category": "AIRPORT_TYPE", "code": "SEAPLANE_BASE", "label": "Seaplane Base", "displayOrder": 5 },
+        { "category": "AIRPORT_TYPE", "code": "BALLOONPORT", "label": "Balloonport", "displayOrder": 6 },
+        { "category": "AIRPORT_TYPE", "code": "GLIDERPORT", "label": "Gliderport", "displayOrder": 7 },
+        { "category": "AIRPORT_TYPE", "code": "ULTRALIGHT", "label": "Ultralight", "displayOrder": 8 },
+        { "category": "AIRPORT_TYPE", "code": "CLOSED", "label": "Closed", "displayOrder": 9 },
+
+        { "category": "LOCATION_TYPE", "code": "AIRPORT", "label": "Airport", "displayOrder": 1 },
+        { "category": "LOCATION_TYPE", "code": "CITY", "label": "City", "displayOrder": 2 },
+        { "category": "LOCATION_TYPE", "code": "METROPOLITAN_AREA", "label": "Metropolitan Area", "displayOrder": 3 },
+        { "category": "LOCATION_TYPE", "code": "RAIL_STATION", "label": "Rail Station", "displayOrder": 4 },
+        { "category": "LOCATION_TYPE", "code": "BUS_TERMINAL", "label": "Bus Terminal", "displayOrder": 5 },
+        { "category": "LOCATION_TYPE", "code": "SEAPORT", "label": "Seaport", "displayOrder": 6 },
+        { "category": "LOCATION_TYPE", "code": "HELIPORT", "label": "Heliport", "displayOrder": 7 },
+        { "category": "LOCATION_TYPE", "code": "MILITARY_BASE", "label": "Military Base", "displayOrder": 8 },
+        { "category": "LOCATION_TYPE", "code": "BORDER_CROSSING", "label": "Border Crossing", "displayOrder": 9 },
+        { "category": "LOCATION_TYPE", "code": "CUSTOMS_POINT", "label": "Customs Point", "displayOrder": 10 },
+        { "category": "LOCATION_TYPE", "code": "OTHER", "label": "Other", "displayOrder": 11 },
+
+        { "category": "AIRPORT_OPERATION_STATUS", "code": "ACTIVE", "label": "Active", "displayOrder": 1 },
+        { "category": "AIRPORT_OPERATION_STATUS", "code": "INACTIVE", "label": "Inactive", "displayOrder": 2 },
+        { "category": "AIRPORT_OPERATION_STATUS", "code": "UNDER_CONSTRUCTION", "label": "Under Construction", "displayOrder": 3 },
+        { "category": "AIRPORT_OPERATION_STATUS", "code": "CLOSED", "label": "Closed", "displayOrder": 4 },
+
+        { "category": "SCHEDULED_SERVICE", "code": "YES", "label": "Scheduled Service", "displayOrder": 1 },
+        { "category": "SCHEDULED_SERVICE", "code": "NO", "label": "No Scheduled Service", "displayOrder": 2 },
+
+        { "category": "DAYLIGHT_SAVING", "code": "YES", "label": "Observed", "displayOrder": 1 },
+        { "category": "DAYLIGHT_SAVING", "code": "NO", "label": "Not Observed", "displayOrder": 2 },
+
+        { "category": "AIRPORT_OWNERSHIP", "code": "PUBLIC", "label": "Public", "displayOrder": 1 },
+        { "category": "AIRPORT_OWNERSHIP", "code": "PRIVATE", "label": "Private", "displayOrder": 2 },
+        { "category": "AIRPORT_OWNERSHIP", "code": "MILITARY", "label": "Military", "displayOrder": 3 },
+        { "category": "AIRPORT_OWNERSHIP", "code": "JOINT_USE", "label": "Joint Civil/Military", "displayOrder": 4 }
       ]
     }
   ]
